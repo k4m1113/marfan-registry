@@ -13,9 +13,25 @@
         1,
         null
       ],
+      "/Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/app/controllers/visits_controller.rb": [
+        1,
+        1,
+        null,
+        null
+      ],
       "/Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/app/controllers/application_controller.rb": [
+        1,
+        null,
+        null,
+        1,
+        null
+      ],
+      "/Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/app/controllers/clinicians_controller.rb": [
         0,
         0,
+        0
+      ],
+      "/Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/app/controllers/patients_controller.rb": [
         0,
         0,
         0
@@ -29,6 +45,6 @@
         0
       ]
     },
-    "timestamp": 1471123794
+    "timestamp": 1471127424
   }
 }
