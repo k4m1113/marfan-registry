@@ -8,13 +8,7 @@ feature 'clinician can initiate appointment' do
 
     expect(page).to have_content "New or Existing Patient?"
 
-    click_button "Existing Patient"
-
-    expect(page).to have_content "Patient ID"
-
-    fill_in "Patient ID", with: "1"
-
-    click_button "New Visit"
+    click_link "Existing Patient"
 
     expect(page).to have_content "Reason for appointment"
   end
