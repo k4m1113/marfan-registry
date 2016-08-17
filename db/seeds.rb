@@ -2,7 +2,9 @@ SeededSymptom.create(
   name: "spontaneous pneumothorax",
   common_name: "collapsed lung",
   systemic_category: "Respiratory",
-  description: "Pneumothorax, which is also known as collapsed lung, involves lung collapse or lung detachment from the chest wall. It can happen spontaneously, meaning there is a lung collapse without any cause. When a lung collapse occurs, air escapes from the lungs and fills up the space outside of the lung, inside the chest. In the Marfan lung, pneumothorax can be recurrent, present in both lungs, and associated with emphysema. A person with pneumothorax may experience shortness of breath, dry cough, an acute onset of pleuritic chest pain (chest pain that gets worse when you take a deep breath), or chest pain that gets worse when coughing.",
+  description: "One possible effect of Marfan syndrome is lung collapse (pneumothorax). While this condition is usually not life-threatening, it is an emergency.
+  Lung collapse happens when air escapes the lung into the space between the lung and the inner lining of the chest. When there is too much air inside the chest cavity, pressure builds up on the lungs, which can cause the lung to collapse. Typically, spontaneous pneumothorax is caused by the bursting of over-expanded lung air sacs call apical blebs or bulia. These blebs are weakened areas of the lungs. If the bleb breaks open (ruptures), it can send air into the space around the lung, causing the lung to collapse. In the Marfan lung, sudden lung collapse can be recurrent, present in both lungs, and/or associated with emphysema.
+  The symptoms of lung collapse are shortness of breath, a dry cough, and often sudden onset of pleuritic chest pain (pain that gets worse when you take a deep breath). The pain may be confused with an aortic dissection or heart attack, and requires evaluation in an emergency room. In a large pneumothorax, a person may have a bluish skin color due to the lack of oxygen, chest tightness, easy fatigue, and rapid heart rate.",
   plural: "collapsed lungs",
   unit_of_measurement: "presence")
 
@@ -179,7 +181,7 @@ SeededSymptom.create(
 SeededSymptom.create(
   name: "high-arched palate",
   common_name: "high-arched palate",
-  systemic_category: "Musculoskeletal",
+  systemic_category: "Dental",
   description: "Your teeth may be crooked and crowded because the roof of your mouth (palate) is high and arched.",
   plural: "high-arched palates",
   unit_of_measurement: "presence")
@@ -193,137 +195,390 @@ SeededSymptom.create(
   unit_of_measurement: "joints" )
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "lens dislocation",
+  common_name: "dislocated lens",
+  systemic_category: "Ocular",
+  description: "About 6 in 10 people with Marfan syndrome have dislocated lenses in one or both eyes. This means the lens, located at the front of the eye, has slipped out of place because the connective tissue that holds the lens in place (called zonules) is weak. When this happens, the lens can slip in any direction—up, down, to the side, or back. It can slip a little or completely out of place, and anywhere in between. With the lens out of place, the eye can’t focus properly and vision is blurry.
+  Symptoms of lens dislocation depend on severity and may include mild to severe nearsightedness, blurred vision, and fluctuating vision. Lens dislocation can only be confirmed by an ophthalmologist using a slit-lamp eye examination after fully dilating the pupil.
+  For most people, dislocated lenses occur before age 20, although lenses can dislocate at any age. Babies and children can have dislocated lenses. Dislocated lenses are rare in the general population, so people with dislocated lenses should be tested for Marfan syndrome if there is not another known cause.",
+  plural: "dislocated lenses",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "retinal detachment",
+  common_name: "detached retina",
+  systemic_category: "Ocular",
+  description: "Retinal detachment is a separation of the light-sensitive membrane in the back of the eye (the retina) from its supporting layers. Symptoms that may indicate a retinal detachment include:
+  • Flashing lights
+  • New floaters
+  • A gray curtain moving across your field of vision
+  These symptoms do not always mean a retinal detachment is present, but you should see your eye doctor immediately if any of these signs occur.
+  Head trauma can cause retinal detachment in anyone, and those who are highly myopic (nearsighted) are always at risk for retinal detachment. For people with Marfan syndrome, however, retinal detachment can happen spontaneously. See your doctor immediately if you see flashing lights, new floaters or a gray curtain moving across your field of vision.",
+  plural: "detached retinas",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "severe myopia",
+  common_name: "nearsightedness",
+  systemic_category: "Ocular",
+  description: "Myopia is nearsightedness. Objects in the distance are blurred and only objects close to the eye are in focus",
+  plural: "myopias",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "astigmatism",
+  common_name: "astigmatism",
+  systemic_category: "Ocular",
+  description: "Astigmatism is blurred vision caused by an irregular curve of either the lens or the cornea. The cornea is the layer of tissue covering of the very front of the eye.",
+  plural: "astigmatisms",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "amblyopia",
+  common_name: "lazy eye",
+  systemic_category: "Ocular",
+  description: "Amblyopia is when the vision in one of the eyes is reduced because the eye and the brain are not working together properly. The eye looks normal, but it is not being used normally because the brain is favoring the other eye. This condition is also sometimes called 'lazy eye.'",
+  plural: "lazy eyes",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "strabismus",
+  common_name: "cross-eye",
+  systemic_category: "Ocular",
+  description: "Strabismus is when the two eyes do not focus on the same object simultaneously. One eye may drift in or out compared to the other eye. The eyes may alternate fixating on an object or one eye may fixate more. It occurs in people with Marfan syndrome at a higher rate than in the general population. In the general population, the deviating eye more commonly turns inward, toward the nose. In people with Marfan syndrome, the deviating eye usually turns outward. The eyes may also deviate vertically. Strabismus can cause loss of depth perception, double vision, and amblyopia. However, amblyopia is often present first and leads to strabismus, but once amblyopia is successfully treated, the strabismus may correct itself.",
+  plural: "cross-eyes",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "glaucoma",
+  common_name: "glaucoma",
+  systemic_category: "Ocular",
+  description: "A disease of the eye caused by increased pressure inside the eye. Glaucoma develops in about 35 percent of people with Marfan syndrome, often at an earlier age than the general population. Untreated glaucoma can cause blindness.",
+  plural: "glaucomas",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "cataract",
+  common_name: "cataract",
+  systemic_category: "Ocular",
+  description: "This is a clouding of the eye lens before age 60. Cataracts are common in older people who do not have Marfan syndrome, but people with Marfan syndrome can get cataracts at younger ages—even before age 40.",
+  plural: "cataracts",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "restrictive lung disease",
+  common_name: "restrictive lung disease",
+  systemic_category: "Respiratory",
+  description: "About 70 percent of people with Marfan syndrome also have restrictive lung disease. Restrictive lung disease makes it difficult for the chest to expand and for you to take full breaths. That, in turn, makes it difficult for your body to take in the amount of oxygen it needs. If you have Marfan syndrome, restrictive lung disease can be a result of muscle weakness or a result of structural issues such as scoliosis, kyphosis, or severely indented chest bone that can reduce the space available for the lungs and interfere with their ability to expand. Restrictive lung disease makes breathing more difficult, and may cause shortness of breath during mild activity, coughing, wheezing, or chest pain.",
+  plural: "restrictive lung diseases",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "emphysema",
+  common_name: "emphysema",
+  systemic_category: "Respiratory",
+  description: "Emphysema is a condition in which the walls of the tiny air sacs in the lungs are damaged so they cannot push all the used air out of the lungs. Approximately 10–15 percent of people with Marfan syndrome have emphysema, but it may be under-diagnosed. Symptoms include shortness of breath during activity, frequent bronchitis (often as a result of common colds or viruses settling in the chest), and low blood oxygen. The diagnosis can be confirmed by a chest x-ray, CT scan, pulmonary function test, or arterial blood test.",
+  plural: "emphysema",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "asthma",
+  common_name: "asthma",
+  systemic_category: "Respiratory",
+  description: "Asthma is a chronic (long-term) lung disease that inflames and narrows the body’s airways. A correct diagnosis of asthma is important for a person with Marfan syndrome because many of the drugs that are used to treat asthma (beta-agonists) can counteract the effects of other drugs that people with Marfan syndrome need to use, such as beta-blockers, to control and slow aortic growth. If you suspect you may have asthma, it is important for you to see a respiratory specialist who can coordinate treatment with your other doctors.",
+  plural: "asthma",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "sleep apnea",
+  common_name: "sleep apnea",
+  systemic_category: "Respiratory",
+  description: "Some people with Marfan syndrome have sleep-disordered breathing (sleep apnea), which can have a number of causes. One seems to be laxity of the connective tissue of the airways, which then further relax during sleep and cause partial obstruction to air flow.
+  Among people who are the same age, weight, and height, sleep apnea is more prevalent in people who have Marfan syndrome than in those who don’t. Unfortunately, sleep apnea is often underdiagnosed in the Marfan community. In the general population, the majority of people who are diagnosed with sleep apnea are overweight. People with Marfan syndrome usually aren’t overweight, so sleep apnea is frequently overlooked or not suspected as a diagnosis.
+  Sleep apnea is thought to be more common in the Marfan community because of head and facial abnormalities, such as floppy airway tissue, high arched palate, and retrognathia (a deformity of the jaw where the jaw is small, or recessed, which can cause the airway to be obstructed).
+  Studies have shown that untreated sleep apnea can cause aortic wall stress, a particular concern in Marfan syndrome. This makes it extremely important to diagnose and treat sleep apnea if it is suspected. If you suspect you have sleep apnea it is important to see a pulmonologist (lung doctor) to receive the correct diagnosis.
+  The symptoms of sleep apnea are chronic (ongoing) and loud snoring, pauses in snoring that are followed by choking or gasping, and snoring that worsens when sleeping on your back and lessens when sleeping on your side. Often, family members or a bed partner will notice these symptoms before you do. Other symptoms of sleep apnea are sleepiness during the day, at work, or when driving, morning headaches, and dry mouth or sore throat when you wake up. Sleepiness occurs in a person with sleep apnea because when breathing pauses, or when there are shallow breaths during sleep, a person goes from a deep sleep to a lighter sleep causing a poorer quality of sleep.",
+  plural: "sleep apnea",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "teeth overcrowding",
+  common_name: "teeth overcrowding",
+  systemic_category: "Dental",
+  description: "In Marfan syndrome, the major bone in the upper jaw (the maxilla) is often quite narrow, which can lead to considerable crowding of the teeth.",
+  plural: "overcrowded teeth",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "posterior crossbite",
+  common_name: "posterior crossbite",
+  systemic_category: "Dental",
+  description: "The narrow high shape of the palate may also cause posterior crossbite— when the upper teeth align inside the lower teeth when you bite down.",
+  plural: "posterior crossbites",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "malocclusion",
+  common_name: "malocclusion",
+  systemic_category: "Dental",
+  description: "Having a long, narrow face is characteristic of Marfan syndrome. Sometimes this interferes with 'facial harmony' and the proper relationship between the upper and lower jaw and teeth (malocclusion)",
+  plural: "malocclusions",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
-  unit_of_measurement: )
+  name: "tempromandibular joint syndrome",
+  common_name: "TMJ",
+  systemic_category: "Dental",
+  description: "The tempromandibular joint (TMJ) is the hinge that links the jaw to the skull. A misshapen joint or laxity of the ligaments that hold this joint in place can cause a variety of problems that are known as “TMJ syndrome.” In all likelihood, people with Marfan syndrome are more prone to TMJ problems, but this has not been studied rigorously.
+  With TMJ syndrome, you may experience locking of the jaw when it is opened widely, pain when chewing, “popping” or clicking of one or both joints when the mouth is opened, and a persistent ache that can become a headache. A prosthodontist (a dental specialist who replaces missing teeth and restores natural teeth) should be consulted for tempromandibular joint syndrome and jaw problems.",
+  plural: "TMJs",
+  unit_of_measurement: "presence")
 
 SeededSymptom.create(
-  name: ,
-  common_name: ,
-  systemic_category: ,
-  description: ,
-  plural: ,
+  name: "endocarditis",
+  common_name: "inflammation of the lining of the heart cavity",
+  systemic_category: "Dental",
+  description: "Endocarditis is the inflammation of the lining of the heart cavity and valves. People with mitral valve prolapse or an artificial heart valve (both are likely in Marfan syndrome and some related disorders) can develop endocarditis during dental procedures and other medical situations where there is an increased likelihood that bacteria can enter the blood stream.
+  Precautions must be taken prior to any procedure that may introduce bacteria into the bloodstream, including routine dental work. Many dental procedures go below the gum line and provide an opportunity for bacteria to enter the bloodstream. You should advise your dentist of any heart problems so that your dentist can consult with your cardiologist about the need for antibiotics prior to beginning the dental work." ,
+  plural: "inflammations of the linings of the heart cavity",
+  unit_of_measurement: "presence")
+
+SeededSymptom.create(
+  name: "stria atrophica",
+  common_name: "stretch mark",
+  systemic_category: "Integumentary",
+  description: "Stretch marks on the skin (striae atrophicae) may occur in anyone, particularly as a result of rapid growth during adolescence, pregnancy or marked weight gain or loss. People with Marfan syndrome are prone to develop stretch marks, often at an early age and without weight change. The marks tend to appear in body parts subject to stress, such as the shoulders, hips, and lower back.",
+  plural: "stretch marks",
   unit_of_measurement: )
+
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
+#
+# SeededSymptom.create(
+#   name: ,
+#   common_name: ,
+#   systemic_category: ,
+#   description: ,
+#   plural: ,
+#   unit_of_measurement: )
