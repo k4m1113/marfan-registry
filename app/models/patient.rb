@@ -3,9 +3,15 @@ class Patient < ActiveRecord::Base
 
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :date_of_birth, presence: true, numericality: {
-    only_integer: true,
-    less_than_or_equal_to: Time.new }
+  validates :month_of_birth, presence: true, numericality: {
+    only_integer: true
+  }
+  validates :day_of_birth, presence: true, numericality: {
+    only_integer: true
+  }
+  validates :year_of_birth, presence: true, numericality: {
+    only_integer: true
+  }
   validates :sex, presence: true, inclusion: {
     in: ['F', 'M', 'N'] }
 

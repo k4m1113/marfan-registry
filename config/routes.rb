@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   resources :visits
 
-  root "visits#new"
+  resources :patients
+
+  root "patients#new"
 end
