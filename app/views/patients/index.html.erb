@@ -1,3 +1,16 @@
-<% @patients.each do |p| %>
-  <%= link_to p.first_name, patient_path(p) %> <br />
-<% end %>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Last Name</th>
+    <th>First Name</th>
+    <th>Start Visit</th>
+  </tr>
+  <% @patients.each do |p| %>
+    <tr>
+      <td><%= link_to p.id, patient_path(p) %></td>
+      <td><%= p.last_name %></td>
+      <td><%= p.first_name %></td>
+      <td><%= link_to "New visit", new_visit_path %></td>
+    </tr>
+  <% end %>
+</table>

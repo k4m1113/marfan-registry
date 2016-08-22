@@ -11,23 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160822190139) do
+ActiveRecord::Schema.define(version: 20160822202406) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "clinicians", force: :cascade do |t|
-    t.string "first_name", null: false
-    t.string "last_name",  null: false
+    t.string   "first_name", null: false
+    t.string   "last_name",  null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "patients", force: :cascade do |t|
-    t.string  "first_name",     null: false
-    t.string  "last_name",      null: false
-    t.string  "sex",            null: false
-    t.integer "month_of_birth", null: false
-    t.integer "day_of_birth",   null: false
-    t.integer "year_of_birth",  null: false
+    t.string   "first_name",     null: false
+    t.string   "last_name",      null: false
+    t.string   "sex",            null: false
+    t.integer  "month_of_birth", null: false
+    t.integer  "day_of_birth",   null: false
+    t.integer  "year_of_birth",  null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "seeded_symptoms", force: :cascade do |t|
@@ -36,6 +40,18 @@ ActiveRecord::Schema.define(version: 20160822190139) do
     t.integer "ghent_value"
     t.integer "beighton_value"
     t.string  "systemic_category"
+  end
+
+  create_table "visits", force: :cascade do |t|
+    t.integer  "patient_id",    null: false
+    t.float    "height",        null: false
+    t.float    "weight",        null: false
+    t.float    "z_score",       null: false
+    t.float    "upper_segment"
+    t.float    "lower_segment"
+    t.float    "arm_span"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
 end

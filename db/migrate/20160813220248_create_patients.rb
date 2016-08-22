@@ -7,6 +7,8 @@ class CreatePatients < ActiveRecord::Migration
       t.integer :month_of_birth, null: false
       t.integer :day_of_birth, null: false
       t.integer :year_of_birth, null: false
+
+      t.timestamps null: false
     end
   end
 end

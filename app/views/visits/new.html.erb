@@ -1,13 +1,38 @@
-<h1>New Patient Visit</h1>
-<%= form_for @patient, url: {action: "create"}, html: {class: "patient_form"} do |f| %>
+<h1>New Visit</h1>
+<%= form_for @visit, url: {action: "create"}, html: {class: "visit_form"} do |f| %>
   <div class="field">
-    <%= f.label "First Name" %>
-    <%= f.text_field :first_name, autofocus: true %>
+    <%= f.label "Patient ID: " %>
+    <%= f.number_field :patient_id, autofocus: true, in: 1..99999999, step: 1 %>
   </div>
 
   <div class="field">
-    <%= f.label "Last Name" %>
-    <%= f.text_field :last_name, autofocus: true %>
+    <%= f.label "Height (cm): " %>
+    <%= f.number_field :height, autofocus: true, in: 1.00..300.00, step: 0.01 %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Weight (kg): " %>
+    <%= f.number_field :weight, autofocus: true, in: 1.00..999.00, step: 0.01 %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Z-score: " %>
+    <%= f.number_field :z_score, autofocus: true, in: 1.00..99.00, step: 0.01 %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Upper segment (cm): " %>
+    <%= f.number_field :upper_segment, autofocus: true, in: 1.00..200.00, step: 0.01 %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Lower segment (cm): " %>
+    <%= f.number_field :lower_segment, autofocus: true, in: 1.00..200.00, step: 0.01 %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Arm span (cm): " %>
+    <%= f.number_field :arm_span, autofocus: true, in: 1.00..300.00, step: 0.01 %>
   </div>
 
   <%= f.submit "Create" %>
