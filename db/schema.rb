@@ -22,8 +22,12 @@ ActiveRecord::Schema.define(version: 20160822190139) do
   end
 
   create_table "patients", force: :cascade do |t|
-    t.string "first_name", null: false
-    t.string "last_name",  null: false
+    t.string  "first_name",     null: false
+    t.string  "last_name",      null: false
+    t.string  "sex",            null: false
+    t.integer "month_of_birth", null: false
+    t.integer "day_of_birth",   null: false
+    t.integer "year_of_birth",  null: false
   end
 
   create_table "seeded_symptoms", force: :cascade do |t|
