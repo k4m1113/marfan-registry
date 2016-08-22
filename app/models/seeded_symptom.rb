@@ -1,7 +1,7 @@
 class SeededSymptom < ActiveRecord::Base
   ## 'Seeded Symptoms' refer to hard-coded data in db/seeds.rb
   ## DO NOT MODIFY DATA OR RELATED CODE
-  SYSTEMIC_CATEGORIES = ["Cardiovascular", "Musculoskeletal", "Nervous", "Ocular", "Respiratory", "Dental", "Integumentary"].freeze
+  SYSTEMIC_CATEGORIES = ["Cardiovascular", "Dura", "Aural", "Ocular", "Pulmonary", "Integumentary", "Skeletal (Cranium)", "Skeletal (Feet & Legs)", "Skeletal (General)", "Skeletal (Hands & Arms)"].freeze
 
   validates :name, presence: true
   validates :common_name, presence: true
