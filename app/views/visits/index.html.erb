@@ -8,7 +8,7 @@
   <% @visits.each do |visit| %>
   <tr>
     <td><%= visit.id %></td>
-    <td><%= visit.timestamp %></td>
+    <td><%= visit.created_at %></td>
     <td><%= visit.patient_id %></td>
     <td><%= link_to "Edit Visit", edit_visit_path(visit.id) %></td>
   </tr>

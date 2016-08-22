@@ -30,6 +30,13 @@ class VisitsController < ApplicationController
     @visits = Visit.all
   end
 
+  def edit
+    @visit = Visit.find(params[:id])
+  end
+
+  def update
+  end
+
   private
 
   def visit_params
