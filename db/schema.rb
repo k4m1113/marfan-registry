@@ -17,15 +17,30 @@ ActiveRecord::Schema.define(version: 20160822202406) do
   enable_extension "plpgsql"
 
   create_table "clinicians", force: :cascade do |t|
-    t.string   "first_name", null: false
-    t.string   "last_name",  null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "first_name",     null: false
+    t.string   "last_name",      null: false
+    t.string   "practice_name",  null: false
+    t.string   "address_line_1", null: false
+    t.string   "address_line_2"
+    t.string   "address_line_3"
+    t.string   "city",           null: false
+    t.string   "state",          null: false
+    t.string   "country",        null: false
+    t.integer  "postal_code",    null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "patients", force: :cascade do |t|
     t.string   "first_name",     null: false
     t.string   "last_name",      null: false
+    t.string   "address_line_1", null: false
+    t.string   "address_line_2"
+    t.string   "address_line_3"
+    t.string   "city",           null: false
+    t.string   "state",          null: false
+    t.string   "country",        null: false
+    t.integer  "postal_code",    null: false
     t.string   "sex",            null: false
     t.integer  "month_of_birth", null: false
     t.integer  "day_of_birth",   null: false
@@ -44,6 +59,7 @@ ActiveRecord::Schema.define(version: 20160822202406) do
 
   create_table "visits", force: :cascade do |t|
     t.integer  "patient_id",       null: false
+    t.integer  "clinician_id",     null: false
     t.float    "height",           null: false
     t.float    "weight",           null: false
     t.float    "z_score",          null: false

@@ -1,17 +1,8 @@
 class Visit < ActiveRecord::Base
-  belongs_to :patient
+  include Report
 
-  def generate_report(visit)
-    @sentence_1 = "I had the pleasure of seeing #{visit.patient.first_name} #{visit.patient.last_name} on #{visit.created_at.strftime("%A, %d %B %Y")} at Stanford Hospital."
-    @sentence_2 = "#{visit.patient.first_name} came to us primarily #{visit.primary_reason}"
-    if visit.secondary_reason
-      @sentence_2 += ", but also #{visit.secondary_reason}. "
-    else
-      @sentence_2 += ". "
-    end
-    @report = @sentence_1 + " " + @sentence_2
-    puts @report
-  end
+  belongs_to :patient
+  belongs_to :visit
 
   @all_symptoms = SeededSymptom.all
   @cardiovascular_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
@@ -24,11 +15,37 @@ class Visit < ActiveRecord::Base
   @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
   @hand_and_arm_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
 
-  validates :height, presence: true, numericality: true
-  validates :weight, presence: true, numericality: true
-  validates :patient, presence: true
-  validates :z_score, presence: true, numericality: true
-  validates :upper_segment, numericality: true
-  validates :lower_segment, numericality: true
-  validates :arm_span, numericality: true
+  validates :height,
+    presence: true,
+    numericality: {
+      greater_than: 0
+    }
+  validates :weight,
+    presence: true,
+    numericality: {
+      greater_than: 0
+    }
+  validates :patient_id,
+    presence: true,
+    numericality: {
+      greater_than: 0,
+      only_integer: true
+    }
+  validates :z_score,
+    presence: true,
+    numericality: {
+      greater_than: 0
+    }
+  validates :upper_segment,
+    numericality: {
+      greater_than: 0
+    }
+  validates :lower_segment,
+    numericality: {
+      greater_than: 0
+    }
+  validates :arm_span,
+    numericality: {
+      greater_than: 0
+    }
 end

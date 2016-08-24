@@ -1,0 +1,16 @@
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Last Name</th>
+    <th>First Name</th>
+    <th>Location</th>
+  </tr>
+  <% @clinicians.each do |c| %>
+    <tr>
+      <td><%= link_to c.id, clinician_path(c) %></td>
+      <td><%= c.last_name %></td>
+      <td><%= c.first_name %></td>
+      <td><%= "#{c.city}, #{c.state} #{c.country}" %></td>
+    </tr>
+  <% end %>
+</table>

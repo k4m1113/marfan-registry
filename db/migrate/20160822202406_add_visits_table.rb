@@ -2,6 +2,7 @@ class AddVisitsTable < ActiveRecord::Migration
   def change
     create_table :visits do |t|
       t.belongs_to :patient, null: false
+      t.belongs_to :clinician, null: false
 
       t.float :height, null: false
       t.float :weight, null: false
