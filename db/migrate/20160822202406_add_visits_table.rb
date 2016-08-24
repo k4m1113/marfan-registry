@@ -6,10 +6,13 @@ class AddVisitsTable < ActiveRecord::Migration
       t.float :height, null: false
       t.float :weight, null: false
       t.float :z_score, null: false
+      t.string :primary_reason, null: false
+      t.string :secondary_reason
       t.float :upper_segment
       t.float :lower_segment
       t.float :arm_span
-      
+      t.json :symptoms, array: true
+
       t.timestamps null: false
     end
   end

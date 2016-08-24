@@ -43,15 +43,18 @@ ActiveRecord::Schema.define(version: 20160822202406) do
   end
 
   create_table "visits", force: :cascade do |t|
-    t.integer  "patient_id",    null: false
-    t.float    "height",        null: false
-    t.float    "weight",        null: false
-    t.float    "z_score",       null: false
+    t.integer  "patient_id",       null: false
+    t.float    "height",           null: false
+    t.float    "weight",           null: false
+    t.float    "z_score",          null: false
+    t.string   "primary_reason",   null: false
+    t.string   "secondary_reason"
     t.float    "upper_segment"
     t.float    "lower_segment"
     t.float    "arm_span"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.json     "symptoms",                      array: true
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
 end

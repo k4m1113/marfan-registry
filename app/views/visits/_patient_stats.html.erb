@@ -35,5 +35,36 @@
     <%= f.number_field :arm_span, autofocus: true, in: 1.00..300.00, step: 0.01 %>
   </div>
 
+  <br />
+
+  <div class="field">
+    <%= f.label "Primary reason for visit: " %> <br />
+    <%= f.label :primary_reason, "Family History" %>
+    <%= f.radio_button :primary_reason, "due to family history" %> <br />
+    <%= f.label :primary_reason, "Hospitalization" %>
+    <%= f.radio_button :primary_reason, "because of a hospitalization" %> <br />
+    <%= f.label :primary_reason, "Genetic Testing" %>
+    <%= f.radio_button :primary_reason, "for genetic testing" %> <br />
+    <%= f.label :primary_reason, "Chest Pain" %>
+    <%= f.radio_button :primary_reason, "on account of chest pain" %> <br />
+    <%= f.label :primary_reason, "Checkup" %>
+    <%= f.radio_button :primary_reason, "for a checkup" %> <br />
+  </div>
+  <br />
+
+  <div class="field">
+    <%= f.label "Secondary reason for visit (optional): " %> <br />
+    <%= f.label :secondary_reason, "Family History" %>
+    <%= f.radio_button :secondary_reason, "due to family history" %> <br />
+    <%= f.label :secondary_reason, "Hospitalization" %>
+    <%= f.radio_button :secondary_reason, "because of a hospitalization" %> <br />
+    <%= f.label :secondary_reason, "Genetic Testing" %>
+    <%= f.radio_button :secondary_reason, "for genetic testing" %> <br />
+    <%= f.label :secondary_reason, "Chest Pain" %>
+    <%= f.radio_button :secondary_reason, "on account of chest pain" %> <br />
+    <%= f.label :secondary_reason, "Checkup" %>
+    <%= f.radio_button :secondary_reason, "for a checkup" %> <br />
+  </div>
+
 <%= f.submit @form_action %>
 <% end %>

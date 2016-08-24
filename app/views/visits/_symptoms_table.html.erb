@@ -1,0 +1,16 @@
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Category</th>
+    <th>Presence</th>
+    <th>Measurement</th>
+  </tr>
+  <% @all_symptoms.each do |symptom| %>
+  <tr>
+    <td><%= symptom.name %></td>
+    <td><%= symptom.systemic_category %></td>
+    <td></td>
+    <td><%= link_to "Edit Visit", edit_visit_path(visit.id) %></td>
+  </tr>
+  <% end %>
+</table>
