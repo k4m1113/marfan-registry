@@ -18,6 +18,7 @@ class PatientsController < ApplicationController
 
   def show
     @patient = Patient.find(params[:id])
+    @visits = Visit.where(patient_id: @patient.id)
   end
 
   private

@@ -9,7 +9,7 @@
   <tr>
     <td><%= visit.id %></td>
     <td><%= visit.created_at %></td>
-    <td><%= visit.patient_id %></td>
+    <td><%= link_to visit.patient_id, patient_path(visit) %></td>
     <td><%= link_to "Edit Visit", edit_visit_path(visit.id) %></td>
   </tr>
   <% end %>

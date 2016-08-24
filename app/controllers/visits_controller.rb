@@ -1,24 +1,15 @@
 class VisitsController < ApplicationController
   def new
     @visit = Visit.new
-    @all_symptoms = SeededSymptom.all
-    # @cardiovascular_symptoms = SeededSymptom.find(params[systemic_category: "Cardiovascular"])
-    # @dural_symptoms =
-    # @aural_symptoms =
-    # @ocular_symptoms =
-    # @pulmonary_symptoms =
-    # @cranial_symptoms =
-    # @feet_and_leg_symptoms =
-    # @general_skeletal_symptoms =
-    # @hand_and_arm_symptoms =
   end
 
   def create
     @visit = Visit.new(visit_params)
+    @form_action = "Create"
     if @visit.save
       redirect_to :action => :index
     else
-      render 'new'
+      render :new
     end
   end
 
@@ -35,6 +26,15 @@ class VisitsController < ApplicationController
   end
 
   def update
+    @visit = Visit.find(params[:id])
+    @form_action = "Update"
+    if @visit.update(visit_params)
+      flash[:notice] = "Successfully updated visit"
+      redirect_to visit_path(@visit)
+    else
+      flash[:alert] = "You are not allowed to edit this visit"
+      render :edit
+    end
   end
 
   private

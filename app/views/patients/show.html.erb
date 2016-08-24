@@ -1,0 +1,15 @@
+<h1><%= @patient.first_name%> <%= @patient.last_name %></h1>
+<table>
+  <tr>
+    <th>Visit ID</th>
+    <th>Timestamp</th>
+    <th>Actions</th>
+  </tr>
+  <% @visits.each do |visit| %>
+  <tr>
+    <td><%= visit.id %></td>
+    <td><%= visit.created_at %></td>
+    <td><%= link_to "Edit Visit", edit_visit_path(visit.id) %></td>
+  </tr>
+  <% end %>
+</table>
