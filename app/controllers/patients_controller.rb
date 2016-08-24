@@ -16,6 +16,19 @@ class PatientsController < ApplicationController
     end
   end
 
+  def edit
+    @patient = Patient.find(params[:id])
+  end
+
+  def update
+    @patient = Patient.find(params[:id])
+    if @patient.save
+      redirect_to :action => :index
+    else
+      render 'edit'
+    end
+  end
+
   def show
     @patient = Patient.find(params[:id])
     @visits = Visit.where(patient_id: @patient.id)

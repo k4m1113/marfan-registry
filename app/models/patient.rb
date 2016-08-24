@@ -1,5 +1,4 @@
 class Patient < ActiveRecord::Base
-  # belongs_to :clinician
   has_many :visits
 
   validates :first_name,

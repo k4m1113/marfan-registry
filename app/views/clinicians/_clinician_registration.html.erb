@@ -1,0 +1,46 @@
+<%= form_for @clinician, html: {class: "clinician_form"} do |f| %>
+
+  <div class="field">
+    <%= f.label "First Name: " %>
+    <%= f.text_field :first_name, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Last Name: " %>
+    <%= f.text_field :last_name, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Practice Name: " %>
+    <%= f.text_field :practice_name, autofocus: true %>
+  </div><br />
+
+  <div class="field">
+    <%= f.label "Address Line 1: " %>
+    <%= f.text_field :address_line_1, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Address Line 2: " %>
+    <%= f.text_field :address_line_2, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Address Line 3: " %>
+    <%= f.text_field :address_line_3, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label "City, State, Country: " %>
+    <%= f.text_field :city, autofocus: true %>
+    <%= f.text_field :state, autofocus: true %>
+    <%= f.text_field :country, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label "Postal Code: " %>
+    <%= f.text_field :postal_code, autofocus: true %>
+  </div>
+
+  <%= f.submit @form_action %>
+<% end %>

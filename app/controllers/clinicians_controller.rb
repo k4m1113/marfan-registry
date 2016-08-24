@@ -16,6 +16,19 @@ class CliniciansController < ApplicationController
     end
   end
 
+  def edit
+    @clinician = Clinician.find(params[:id])
+  end
+
+  def update
+    @clinician = Clinician.find(params[:id])
+    if @clinician.save
+      redirect_to :action => :index
+    else
+      render 'edit'
+    end
+  end
+
   def show
     @clinician = Clinician.find(params[:id])
     @visits = Visit.where(clinician_id: @clinician.id)
