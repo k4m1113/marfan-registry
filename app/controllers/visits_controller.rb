@@ -40,7 +40,17 @@ class VisitsController < ApplicationController
   private
 
   def visit_params
-    params.require(:visit).permit(:height, :weight, :z_score,
-    :arm_span, :upper_segment, :lower_segment, :patient_id, :clinician_id, :primary_reason, :secondary_reason, :symptoms)
+    params.require(:visit).permit(
+      :height,
+      :weight,
+      :z_score,
+      :arm_span,
+      :upper_segment,
+      :lower_segment,
+      :patient_id,
+      :clinician_id,
+      :primary_reason,
+      :secondary_reason,
+      :symptoms)
   end
 end

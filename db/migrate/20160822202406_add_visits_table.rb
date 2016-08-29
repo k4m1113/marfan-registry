@@ -12,7 +12,7 @@ class AddVisitsTable < ActiveRecord::Migration
       t.float :upper_segment
       t.float :lower_segment
       t.float :arm_span
-      t.json :symptoms, array: true
+      t.json :symptoms, array: true, default: []
 
       t.timestamps null: false
     end

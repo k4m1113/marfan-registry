@@ -38,12 +38,17 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.4.0)
     arel (6.0.3)
+    autoprefixer-rails (6.3.6)
+      execjs
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-sass (3.3.6)
+      autoprefixer-rails (>= 5.2.1)
+      sass (>= 3.3.4)
     builder (3.2.2)
     byebug (9.0.5)
     capybara (2.6.2)
@@ -220,6 +225,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap-sass
   byebug
   capybara
   coffee-rails (~> 4.1.0)
@@ -233,7 +239,7 @@ DEPENDENCIES
   rails (= 4.2.6)
   react-rails
   rspec-rails
-  sass-rails (~> 5.0)
+  sass-rails
   sdoc (~> 0.4.0)
   shoulda
   spring

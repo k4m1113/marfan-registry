@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160822202406) do
+ActiveRecord::Schema.define(version: 20160829205055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,20 +57,29 @@ ActiveRecord::Schema.define(version: 20160822202406) do
     t.string  "systemic_category"
   end
 
+  create_table "symptoms", force: :cascade do |t|
+    t.integer  "seeded_symptom_id"
+    t.boolean  "presence"
+    t.float    "measurement"
+    t.datetime "start_date"
+    t.string   "frequency"
+    t.text     "note"
+  end
+
   create_table "visits", force: :cascade do |t|
-    t.integer  "patient_id",       null: false
-    t.integer  "clinician_id",     null: false
-    t.float    "height",           null: false
-    t.float    "weight",           null: false
-    t.float    "z_score",          null: false
-    t.string   "primary_reason",   null: false
+    t.integer  "patient_id",                    null: false
+    t.integer  "clinician_id",                  null: false
+    t.float    "height",                        null: false
+    t.float    "weight",                        null: false
+    t.float    "z_score",                       null: false
+    t.string   "primary_reason",                null: false
     t.string   "secondary_reason"
     t.float    "upper_segment"
     t.float    "lower_segment"
     t.float    "arm_span"
-    t.json     "symptoms",                      array: true
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.json     "symptoms",         default: [],              array: true
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
 end
