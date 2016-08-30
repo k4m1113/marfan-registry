@@ -18,9 +18,25 @@ module Report
       @sentence_2 += "."
     end
 
+    @paragraph_2 = ""
+    visit.symptoms.each do |s|
+      @seeded_info = SeededSymptom.where(id: s.seeded_symptom_id)[0]
+      if s.presence == false
+        @paragraph_2 += "I noted an absence of #{@seeded_info.common_name}. "
+      elsif s.presence == true
+        @paragraph_2 += "I noted a presence of #{@seeded_info.common_name}"
+        if !s.measurement
+          @paragraph_2 += ". "
+        else
+          @paragraph_2 += "with a measurement of #{s.measurement}."
+        end
+      end
+    end
+
+
     @paragraph_1 = "#{@sentence_1} #{@sentence_2}"
 
-    @report = "#{@current_date}\n" + "#{@address}\n\n #{@greeting}\n\n#{@paragraph_1}"
+    @report = "#{@current_date}\n" + "#{@address}\n\n #{@greeting}\n\n#{@paragraph_1}\n\n#{@paragraph_2}"
     return @report
   end
 end

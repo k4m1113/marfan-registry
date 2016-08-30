@@ -71,5 +71,20 @@
     <%= f.radio_button :secondary_reason, "for a checkup" %> <br />
   </div>
 
+  <div class="field">
+    <%= f.fields_for :symptoms do |s| %>
+      <div class="field">
+        <%= s.label :presence, "True", :value => true %>
+        <%= s.radio_button :presence, "True" %>
+        <%= s.label :presence, "False", :value => false %>
+        <%= s.radio_button :presence, "False" %></td>
+      </div>
+      <div class="field">
+        <%= s.label "Seeded Symptom ID: " %>
+        <%= s.number_field :seeded_symptom_id, autofocus: true, in: 1..300, step: 1 %>
+      </div>
+    <% end %>
+  </div>
+
 <%= f.submit @form_action %>
 <% end %>

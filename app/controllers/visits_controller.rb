@@ -1,6 +1,7 @@
 class VisitsController < ApplicationController
   def new
     @visit = Visit.new
+    @visit.symptoms.build
   end
 
   def create
@@ -51,6 +52,7 @@ class VisitsController < ApplicationController
       :clinician_id,
       :primary_reason,
       :secondary_reason,
-      :symptoms)
+      symptoms_attributes:
+        [:symptoms, :seeded_symptom_id, :visit_id, :presence, :measurement, :start_date, :frequency, :note])
   end
 end

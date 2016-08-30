@@ -3,6 +3,11 @@ class SymptomsController < ApplicationController
     @symptoms = SeededSymptom.all
   end
 
+  def new
+    @visit = Visit.find(params[:id])
+    @symptoms = SeededSymptom.all
+  end
+
   def create
     @symptom = Symptom.new(symptom_params)
 
