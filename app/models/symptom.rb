@@ -6,6 +6,4 @@ class Symptom < ActiveRecord::Base
   validates :presence,
     presence: true,
     inclusion: {in: [true, false]}
-  validates :measurement,
-    numericality: true
 end

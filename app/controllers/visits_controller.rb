@@ -1,6 +1,7 @@
 class VisitsController < ApplicationController
   def new
     @visit = Visit.new
+    @all_symptoms = SeededSymptom.all
     @visit.symptoms.build
   end
 
@@ -10,6 +11,7 @@ class VisitsController < ApplicationController
     if @visit.save
       redirect_to :action => :index
     else
+      Rails.logger.info(@visit.errors.inspect) 
       render :new
     end
   end

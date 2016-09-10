@@ -1,0 +1,48 @@
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Presence</th>
+    <th>Measurement</th>
+    <th>Start Date</th>
+    <th>Frequency</th>
+    <th>Note</th>
+  </tr>
+
+</table>
+
+<% @all_symptoms.each do |s| %>
+
+  <tr>
+    <td>
+      <%= s.name %>
+    </td>
+    <td>
+      <div class="field">
+        <%= ff.label :presence, "True" %>
+        <%= ff.radio_button :presence, "True" %>
+        <%= ff.label :presence, "False" %>
+        <%= ff.radio_button :presence, "False" %>
+      </div>
+    </td>
+    <td>
+      <div class="field">
+        <%= ff.number_field :measurement, autofocus: true %>
+      </div>
+    </td>
+    <td>
+      <div class="field">
+        <%= ff.date_field :start_date, autofocus: true %>
+      </div>
+    </td>
+    <td>
+      <div class="field">
+        <%= ff.text_field :frequency, autofocus: true %>
+      </div>
+    </td>
+    <td>
+      <div class="field">
+        <%= ff.text_area :note, autofocus: true %>
+      </div>
+    </td>
+  </tr>
+  <% end %>
