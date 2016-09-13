@@ -8,10 +8,11 @@ class VisitsController < ApplicationController
   def create
     @visit = Visit.new(visit_params)
     @form_action = "Create"
+    @all_symptoms = SeededSymptom.all
     if @visit.save
       redirect_to :action => :index
     else
-      Rails.logger.info(@visit.errors.inspect) 
+      Rails.logger.info(@visit.errors.inspect)
       render :new
     end
   end

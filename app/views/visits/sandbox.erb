@@ -46,3 +46,32 @@
     </td>
   </tr>
   <% end %>
+
+
+  <!-- <div class="field">
+    <%= f.fields_for :symptoms do |ff| %>
+      <div class="field">
+        <%= ff.label :presence, "True", :value => true %>
+        <%= f.radio_button_tag :presence, true, @presence = presence %>
+        <%= ff.label :presence, "False", :value => false %>
+        <%= f.radio_button_tag :presence, false, @presence = presence %>
+      </div>
+
+      <div class="field">
+        <%= ff.label "Seeded Symptom ID: " %>
+        <%= ff.number_field :seeded_symptom_id, autofocus: true, in: 1..300, step: 1 %>
+      </div>
+
+      <div class="field">
+        <%= ff.label :presence, "True", :value => true %>
+        <%= ff.radio_button :presence, true %>
+        <%= ff.label :presence, "False", :value => false %>
+        <%= ff.radio_button :presence, true %>
+      </div>
+
+      <div class="field">
+        <%= ff.label "Seeded Symptom ID: " %>
+        <%= ff.number_field :seeded_symptom_id, autofocus: true, in: 1..300, step: 1 %>
+      </div>
+    <% end %>
+  </div> -->
