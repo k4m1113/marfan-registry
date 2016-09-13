@@ -7,10 +7,10 @@
   </td>
   <td>
     <div class="field">
-      <%= ff.label :presence, "True", :value => true %>
-      <%= ff.radio_button :presence, true, :value => true, name: "visit[symptoms_attributes][#{s.id}][presence]" %>
-      <%= ff.label :presence, "False", :value => false %>
-      <%= ff.radio_button :presence, false, :value => false, name: "visit[symptoms_attributes][#{s.id}][presence]" %>
+      <%= ff.label :presence, "True" %>
+      <%= ff.radio_button :presence, true, :value => true, name: "optradio visit[symptoms_attributes][#{s.id}][presence]" %>
+      <%= ff.label :presence, "False" %>
+      <%= ff.radio_button :presence, false, :value => false, name: "optradio visit[symptoms_attributes][#{s.id}][presence]" %>
     </div>
   </td>
   <td>
