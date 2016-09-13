@@ -10,11 +10,6 @@ class VisitsController < ApplicationController
     @form_action = "Create"
     @all_symptoms = SeededSymptom.all
     if @visit.save
-      @visit.symptoms.all do |s|
-        if s.presence == nil
-          Symptom.destroy(s.id)
-        end
-      end
       redirect_to :action => :index
     else
       Rails.logger.info(@visit.errors.inspect)
