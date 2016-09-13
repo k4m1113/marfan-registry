@@ -2,6 +2,16 @@ class VisitsController < ApplicationController
   def new
     @visit = Visit.new
     @all_symptoms = SeededSymptom.all
+    @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
+    @dural_symptoms = SeededSymptom.where(systemic_category: "Dural")
+    @aural_symptoms = SeededSymptom.where(systemic_category: "Aural")
+    @ocular_symptoms = SeededSymptom.where(systemic_category: "Ocular")
+    @pulmonary_symptoms = SeededSymptom.where(systemic_category: "Pulmonary")
+    @integumentary_symptoms = SeededSymptom.where(systemic_category: "Integumentary")
+    @cranial_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Cranium)")
+    @feet_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Feet & Legs)")
+    @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
+    @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
     @visit.symptoms.build
   end
 
@@ -9,6 +19,17 @@ class VisitsController < ApplicationController
     @visit = Visit.new(visit_params)
     @form_action = "Create"
     @all_symptoms = SeededSymptom.all
+    @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
+    @dural_symptoms = SeededSymptom.where(systemic_category: "Dural")
+    @aural_symptoms = SeededSymptom.where(systemic_category: "Aural")
+    @ocular_symptoms = SeededSymptom.where(systemic_category: "Ocular")
+    @pulmonary_symptoms = SeededSymptom.where(systemic_category: "Pulmonary")
+    @integumentary_symptoms = SeededSymptom.where(systemic_category: "Integumentary")
+    @cranial_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Cranium)")
+    @feet_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Feet & Legs)")
+    @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
+    @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
+
     if @visit.save
       redirect_to :action => :index
     else
