@@ -75,7 +75,6 @@
     <%= f.fields_for :symptoms do |ff| %>
       <table>
         <tr>
-          <th>ID</th>
           <th>Name</th>
           <th>Presence</th>
           <th>Measurement</th>
@@ -87,7 +86,7 @@
       <% @all_symptoms.each do |s| %>
         <tr>
           <td>
-            <%= ff.hidden_field :seeded_symptom_id, name: "visit[symptoms_attributes][#{s.id}][seeded_symptom_id]" %>
+            <%= ff.hidden_field :seeded_symptom_id, value: s.id, name: "visit[symptoms_attributes][#{s.id}][seeded_symptom_id]" %>
           </td>
           <td>
             <%= s.name %>
