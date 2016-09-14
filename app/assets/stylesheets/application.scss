@@ -1,2 +1,13 @@
  @import "bootstrap-sprockets";
  @import "bootstrap";
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
