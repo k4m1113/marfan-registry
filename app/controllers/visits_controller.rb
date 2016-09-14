@@ -18,18 +18,6 @@ class VisitsController < ApplicationController
   def create
     @visit = Visit.new(visit_params)
     @form_action = "Create"
-    @all_symptoms = SeededSymptom.all
-    @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
-    @dural_symptoms = SeededSymptom.where(systemic_category: "Dural")
-    @aural_symptoms = SeededSymptom.where(systemic_category: "Aural")
-    @ocular_symptoms = SeededSymptom.where(systemic_category: "Ocular")
-    @pulmonary_symptoms = SeededSymptom.where(systemic_category: "Pulmonary")
-    @integumentary_symptoms = SeededSymptom.where(systemic_category: "Integumentary")
-    @cranial_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Cranium)")
-    @feet_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Feet & Legs)")
-    @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
-    @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
-
     if @visit.save
       redirect_to :action => :index
     else
@@ -48,6 +36,19 @@ class VisitsController < ApplicationController
 
   def edit
     @visit = Visit.find(params[:id])
+    @all_symptoms = SeededSymptom.all
+    @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
+    @dural_symptoms = SeededSymptom.where(systemic_category: "Dural")
+    @aural_symptoms = SeededSymptom.where(systemic_category: "Aural")
+    @ocular_symptoms = SeededSymptom.where(systemic_category: "Ocular")
+    @pulmonary_symptoms = SeededSymptom.where(systemic_category: "Pulmonary")
+    @integumentary_symptoms = SeededSymptom.where(systemic_category: "Integumentary")
+    @cranial_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Cranium)")
+    @feet_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Feet & Legs)")
+    @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
+    @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
+    @visit.symptoms.build
+    @form_action = "Update"
   end
 
   def update
@@ -55,11 +56,16 @@ class VisitsController < ApplicationController
     @form_action = "Update"
     if @visit.update(visit_params)
       flash[:notice] = "Successfully updated visit"
-      redirect_to visit_path(@visit)
+      redirect_to visits_path
     else
-      flash[:alert] = "You are not allowed to edit this visit"
+      Rails.logger.info(@visit.errors.inspect)
       render :edit
     end
+  end
+
+  def destroy
+    Visit.find(params[:id]).destroy
+    redirect_to visits_path
   end
 
   private

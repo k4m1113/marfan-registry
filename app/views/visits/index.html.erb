@@ -9,7 +9,8 @@
   <tr>
     <td><%= visit.created_at.strftime("%d %B %Y") %></td>
     <td><%= link_to "#{visit.patient.last_name}, #{visit.patient.first_name}", patient_path(visit.patient_id) %></td>
-    <td><%= link_to "Edit Visit", edit_visit_path(visit.id) %></td>
+    <td><%= link_to "Edit Visit", edit_visit_path(visit.id) %> / 
+    <%= link_to "Delete Visit", visit, method: :delete, data: { confirm: "Are you sure?" } %></td>
     <td><%= link_to "Generate Report", visit_path(visit.id) %></td>
   </tr>
   <% end %>

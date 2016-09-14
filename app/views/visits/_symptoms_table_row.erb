@@ -8,10 +8,10 @@
     </td>
     <td>
       <div class="field">
-        <%= ff.label :presence, "True", class: "radio-inline" %>
-        <%= ff.radio_button :presence, true, :value => true, name: "optradio visit[symptoms_attributes][#{s.id}][presence]" %>
-        <%= ff.label :presence, "False", class: "radio-inline" %>
-        <%= ff.radio_button :presence, false, :value => false, name: "optradio visit[symptoms_attributes][#{s.id}][presence]" %>
+        <%= ff.label :presence, "True", :value => true, class: "radio-inline" %>
+        <%= ff.radio_button :presence, true, :value => true, name: "visit[symptoms_attributes][#{s.id}][presence]" %>
+        <%= ff.label :presence, "False", :value => false, class: "radio-inline" %>
+        <%= ff.radio_button :presence, false, :value => false, name: "visit[symptoms_attributes][#{s.id}][presence]" %>
       </div>
     </td>
     <td>
