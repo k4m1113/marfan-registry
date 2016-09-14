@@ -1,19 +1,53 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>NMFTool</title>
-  <%= stylesheet_link_tag    'application', media: 'all' %>
-  <%= javascript_include_tag 'application' %>
-  <%= csrf_meta_tags %>
-</head>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+    <title>NMF Tool</title>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <%= csrf_meta_tags %>
+
+    <link rel="icon" href="https://s-media-cache-ak0.pinimg.com/236x/21/81/31/21813173e73abfbd07a0f83419a7093c.jpg" />
+  </head>
 <body>
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">NMF Tool</a>
+      </div>
 
-  <%= link_to "New Patient", new_patient_path %>
-  <%= link_to "New Visit", new_visit_path %>
-  <%= link_to "All Visits", visits_path %>
-  <%= link_to "New Clinician", new_clinician_path %>
-
-  <br />
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/patients/new">New Patient <span class="sr-only">(current)</span></a></li>
+          <li><a href="/clinicians/new">New Clinician</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Visits <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/visits/new">New Visit</a></li>
+              <li><a href="/visits">All Visits</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
 
 <%= yield %>
 
