@@ -1,8 +1,7 @@
 <h1>New Visit</h1>
 
-<%= form_for @visit, html: {class: "visit_form"} do |f| %>
+<%= form_for @visit, class: "visit_form" do |f| %>
   <%= render "patient_stats", f: f %>
-
   <%= f.fields_for :symptoms do |ff| %>
     <div class="panel-group" id="accordion">
       <div class="panel panel-default">
@@ -207,5 +206,5 @@
     </div>
   <% end %>
 
-  <%= f.submit @form_action %>
+  <%= f.submit @form_action, class: "btn btn-primary" %>
 <% end %>

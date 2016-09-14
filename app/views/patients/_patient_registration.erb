@@ -1,49 +1,67 @@
-<%= form_for @clinician, action: "create", class: "form-horizontal" do |f| %>
+<%= form_for @patient, action: "create", class: "form-horizontal" do |f| %>
 
   <div class="form-group">
-    <div class="col-xs-4">
+    <div class="col-xs-3">
       <%= f.text_field :first_name, autofocus: true, placeholder: "First Name", class: "form-control" %>
     </div>
   </div>
   <br /><br />
 
   <div class="form-group">
-    <div class="col-xs-4">
+    <div class="col-xs-3">
       <%= f.text_field :last_name, autofocus: true, placeholder: "Last Name", class: "form-control" %>
     </div>
   </div>
   <br /><br />
 
   <div class="form-group">
-    <div class="col-xs-4">
-      <%= f.text_field :practice_name, autofocus: true, placeholder: "Practice Name", class: "form-control" %>
+    <div class="col-xs-1">
+      <%= f.number_field :month_of_birth, autofocus: true, in: 1...12, placeholder: "Birth Day", class: "form-control" %>
+    </div>
+    <div class="col-xs-1">
+      <%= f.number_field :day_of_birth, autofocus: true, in: 1...31, placeholder: "Birth Month", class: "form-control" %>
+    </div>
+    <div class="col-xs-1">
+      <%= f.number_field :year_of_birth, autofocus: true, in: 1900...9999, placeholder: "Birth Year", class: "form-control" %>
+    </div>
+  </div>
+  <br /><br /><br />
+
+  <div class="form-group">
+    <div class="col-xs-1">
+      <%= f.label :sex, "Female", :value => "F" %>
+      <%= f.radio_button :sex, "F", name: "optradio" %>
+    </div>
+    <div class="col-xs-1">
+      <%= f.label :sex, "Male", :value => "M" %>
+      <%= f.radio_button :sex, "M", name: "optradio" %>
     </div>
   </div>
   <br /><br />
 
   <div class="form-group">
-    <div class="col-xs-4">
+    <div class="col-xs-3">
       <%= f.text_field :address_line_1, autofocus: true, placeholder: "Address Line 1", class: "form-control" %>
     </div>
   </div>
   <br /><br />
 
   <div class="form-group">
-    <div class="col-xs-4">
+    <div class="col-xs-3">
       <%= f.text_field :address_line_2, autofocus: true, placeholder: "Address Line 2", class: "form-control" %>
     </div>
   </div>
   <br /><br />
 
   <div class="form-group">
-    <div class="col-xs-4">
+    <div class="col-xs-3">
       <%= f.text_field :address_line_3, autofocus: true, placeholder: "Address Line 3", class: "form-control" %>
     </div>
   </div>
   <br /><br />
 
   <div class="form-group">
-    <div class="col-xs-1">
+    <div class="col-xs-2">
       <%= f.text_field :city, autofocus: true, placeholder: "City", class: "form-control" %>
     </div>
     <div class="col-xs-1">
@@ -58,5 +76,5 @@
   </div>
   <br /><br />
 
-  <%= f.submit "Add New Clinician", class: "btn btn-primary" %>
+  <%= f.submit "Add New Patient", class: "btn btn-primary" %>
 <% end %>
