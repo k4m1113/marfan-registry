@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(version: 20160829205055) do
   create_table "seeded_symptoms", force: :cascade do |t|
     t.string  "name"
     t.string  "common_name"
+    t.string  "article"
+    t.string  "plural"
     t.integer "ghent_value"
     t.integer "beighton_value"
     t.string  "systemic_category"

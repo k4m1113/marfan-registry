@@ -20,11 +20,11 @@ module Report
 
     @paragraph_2 = ""
     visit.symptoms.each do |s|
-      @seeded_info = SeededSymptom.where(id: s.id)
+      @seeded_info = SeededSymptom.where(id: s.seeded_symptom_id)
       if s.presence == false
-        @paragraph_2 += "I noted an absence of #{@seeded_info.common_name}. "
+        @paragraph_2 += "I noted an absence of #{@seeded_info[0].common_name}. "
       elsif s.presence == true
-        @paragraph_2 += "I noted a presence of #{@seeded_info.common_name}"
+        @paragraph_2 += "I noted a presence of #{@seeded_info[0].common_name}"
         if !s.measurement
           @paragraph_2 += ". "
         else

@@ -3,5 +3,5 @@ class Symptom < ActiveRecord::Base
   belongs_to :visit, inverse_of: :symptoms
   validates_presence_of :visit
 
-  after_save { |s| s.destroy if s.presence.blank? }
+  after_save { |s| s.destroy if s.presence.nil? }
 end
