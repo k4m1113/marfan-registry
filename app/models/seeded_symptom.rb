@@ -12,7 +12,7 @@ class SeededSymptom < ActiveRecord::Base
   validates :plural,
     presence: true
   validates :article,
-    presence: true
+    presence: true, allow_nil: true, allow_blank: true
   validates :systemic_category,
     presence: true,
     inclusion: { in: SYSTEMIC_CATEGORIES }

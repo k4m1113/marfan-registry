@@ -118,7 +118,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "Lumbosacral dural ectasia",
   common_name: "dural ectasia",
-  article: nil,
+  article: "",
   plural: "dural ectasia",
   ghent_value: 2,
   beighton_value: 0,
@@ -217,7 +217,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "(myopia) increased axial length globe (>3 diopters)",
   common_name: "nearsightedness",
-  article: nil,
+  article: "",
   plural: "myopias",
   ghent_value: 0,
   beighton_value: 0,
@@ -226,7 +226,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "glaucoma",
   common_name: "glaucoma",
-  article: nil,
+  article: "",
   plural: "glaucomas",
   ghent_value: 0,
   beighton_value: 0,
@@ -253,17 +253,17 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "apical blebs (chest radiography)",
   common_name: "apical blebs",
-  article: nil,
+  article: "",
   plural: "apical blebs",
   ghent_value: 0,
   beighton_value: 0,
   systemic_category: "Pulmonary")
 
 SeededSymptom.create!(
-  name: "unilateral recurrent or incisional hernia",
-  common_name: "unilateral hernia",
+  name: "u""ateral recurrent or incisional hernia",
+  common_name: "u""ateral hernia",
   article: "a",
-  plural: "unilateral hernias",
+  plural: "u""ateral hernias",
   ghent_value: 0,
   beighton_value: 0,
   systemic_category: "Integumentary")
@@ -280,7 +280,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "striae atrophicae without cause",
   common_name: "stretch marks",
-  article: nil,
+  article: "",
   plural: "stretch marks",
   ghent_value: 0,
   beighton_value: 0,
@@ -298,7 +298,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "hyperextensible skin",
   common_name: "hyperextensible skin",
-  article: nil,
+  article: "",
   plural: "hyperextensible skin",
   ghent_value: 0,
   beighton_value: 0,
@@ -316,7 +316,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "hypertrophic scar",
   common_name: "raised scarring",
-  article: nil,
+  article: "",
   plural: "raised scars",
   ghent_value: 0,
   beighton_value: 0,
@@ -325,7 +325,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "hypotrophic scar",
   common_name: "sunken scarring",
-  article: nil,
+  article: "",
   plural: "sunken scars",
   ghent_value: 0,
   beighton_value: 0,
@@ -334,7 +334,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "easy bruisability",
   common_name: "easy bruisability",
-  article: nil,
+  article: "",
   plural: "easy bruisings",
   ghent_value: 0,
   beighton_value: 0,
@@ -343,7 +343,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "decreased subcutaneous fat",
   common_name: "decreased fat",
-  article: nil,
+  article: "",
   plural: "decreased fat",
   ghent_value: 0,
   beighton_value: 0,
@@ -370,7 +370,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "down/slanting palpebral fissure",
   common_name: "downward-slanting eyes",
-  article: nil,
+  article: "",
   plural: "downward-slanting eyes",
   ghent_value: 1,
   beighton_value: 0,
@@ -397,7 +397,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "malar hypoplasia",
   common_name: "small cheek bones",
-  article: nil,
+  article: "",
   plural: "small cheek bones",
   ghent_value: 0,
   beighton_value: 0,
@@ -415,7 +415,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "migraines",
   common_name: "migraines",
-  article: nil,
+  article: "",
   plural: "migraines",
   ghent_value: 0,
   beighton_value: 0,
@@ -460,7 +460,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "dental crowding",
   common_name: "crowded teeth",
-  article: nil,
+  article: "",
   plural: "crowded teeth",
   ghent_value: 0,
   beighton_value: 0,
@@ -478,7 +478,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "orthodontia",
   common_name: "orthodontia",
-  article: nil,
+  article: "",
   plural: "orthodontics",
   ghent_value: 0,
   beighton_value: 0,
@@ -514,7 +514,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "bilateral pes planus",
   common_name: "flat feet",
-  article: nil,
+  article: "",
   plural: "flat feet",
   ghent_value: 1,
   beighton_value: 0,
@@ -541,7 +541,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "bilateral pes cavus",
   common_name: "high insteps",
-  article: nil,
+  article: "",
   plural: "high insteps",
   ghent_value: 0,
   beighton_value: 0,
@@ -568,7 +568,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "bilateral pronated arches",
   common_name: "pronated arches",
-  article: nil,
+  article: "",
   plural: "pronated arches",
   ghent_value: 0,
   beighton_value: 0,
@@ -622,7 +622,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "bilateral long halluces",
   common_name: "long big toes",
-  article: nil,
+  article: "",
   plural: "long big toes",
   ghent_value: 0,
   beighton_value: 0,
@@ -766,7 +766,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "arachnodactyly",
   common_name: "long fingers and toes",
-  article: nil,
+  article: "",
   plural: "long fingers and toes",
   ghent_value: 0,
   beighton_value: 0,
@@ -820,7 +820,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "f-distal hypermobile joints",
   common_name: "f-distal hypermobile joints",
-  article: nil,
+  article: "",
   plural: "f-distal hypermobile joints",
   ghent_value: 0,
   beighton_value: 0,
@@ -829,7 +829,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "f-proximal hypermobile joints",
   common_name: "f-proximal hypermobile joints",
-  article: nil,
+  article: "",
   plural: "f-proximal hypermobile joints",
   ghent_value: 0,
   beighton_value: 0,
@@ -838,7 +838,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "f-distal joint contracture",
   common_name: "f-distal joint contracture",
-  article: nil,
+  article: "",
   plural: "f-distal joint contractures",
   ghent_value: 0,
   beighton_value: 0,
@@ -847,7 +847,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "f-proximal joint contracture",
   common_name: "f-proximal joint contracture",
-  article: nil,
+  article: "",
   plural: "f-proximal joint contractures",
   ghent_value: 0,
   beighton_value: 0,
@@ -883,7 +883,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "reduced elbow extension",
   common_name: "reduced elbow extension",
-  article: nil,
+  article: "",
   plural: "reduced elbow extensions",
   ghent_value: 1,
   beighton_value: 0,
@@ -910,7 +910,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "joint dislocation",
   common_name: "joint dislocation",
-  article: nil,
+  article: "",
   plural: "joint dislocations",
   ghent_value: 0,
   beighton_value: 0,
@@ -919,7 +919,7 @@ SeededSymptom.create!(
 SeededSymptom.create!(
   name: "joint pain",
   common_name: "joint pain",
-  article: nil,
+  article: "",
   plural: "joint pains",
   ghent_value: 0,
   beighton_value: 0,
