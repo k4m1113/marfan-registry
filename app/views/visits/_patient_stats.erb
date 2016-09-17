@@ -1,87 +1,87 @@
 <div class="form-group">
-  <%= f.label "Patient ID: ", class: "col-sm-2 control-label" %>
-  <div class="col-sm-1">
+  <%= f.label "Patient ID: ", class: "col-xs-2 control-label" %>
+  <div class="col-xs-1">
     <%= f.number_field :patient_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
   </div>
 </div>
 
 <div class="form-group">
-  <%= f.label "Clinician ID: ", class: "col-sm-2 control-label" %>
-  <div class="col-sm-1">
+  <%= f.label "Clinician ID: ", class: "col-xs-2 control-label" %>
+  <div class="col-xs-1">
     <%= f.number_field :clinician_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
   </div>
 </div>
 
 <div class="form-group">
-  <%= f.label "Height (cm): ", class: "col-sm-2 control-label" %>
-  <div class="col-sm-1">
+  <%= f.label "Height (cm): ", class: "col-xs-2 control-label" %>
+  <div class="col-xs-1">
     <%= f.number_field :height, autofocus: true, in: 1.00..300.00, step: 0.01, class: "form-control" %>
   </div>
 </div>
 
 <div class="form-group">
-  <%= f.label "Weight (kg): ", class: "col-sm-2 control-label" %>
-  <div class="col-sm-1">
+  <%= f.label "Weight (kg): ", class: "col-xs-2 control-label" %>
+  <div class="col-xs-1">
     <%= f.number_field :weight, autofocus: true, in: 1.00..999.00, step: 0.01, class: "form-control" %>
   </div>
 </div>
 
 <div class="form-group">
-  <%= f.label "Z-score: ", class: "col-sm-2 control-label" %>
-  <div class="col-sm-1">
+  <%= f.label "Z-score: ", class: "col-xs-2 control-label" %>
+  <div class="col-xs-1">
     <%= f.number_field :z_score, autofocus: true, in: 1.00..99.00, step: 0.01, class: "form-control" %>
   </div>
 </div>
 
 <div class="form-group">
-  <%= f.label "Upper segment (cm): ", class: "col-sm-2 control-label" %>
-  <div class="col-sm-1">
+  <%= f.label "Upper segment (cm): ", class: "col-xs-2 control-label" %>
+  <div class="col-xs-1">
     <%= f.number_field :upper_segment, autofocus: true, in: 1.00..200.00, step: 0.01, class: "form-control" %>
   </div>
 </div>
 
 <div class="form-group">
-  <%= f.label "Lower segment (cm): ", class: "col-sm-2 control-label" %>
-  <div class="col-sm-1">
+  <%= f.label "Lower segment (cm): ", class: "col-xs-2 control-label" %>
+  <div class="col-xs-1">
     <%= f.number_field :lower_segment, autofocus: true, in: 1.00..200.00, step: 0.01, class: "form-control" %>
   </div>
 </div>
 
 <div class="form-group">
-  <%= f.label "Arm span (cm): ", class: "col-sm-2 control-label" %>
-  <div class="col-sm-1">
+  <%= f.label "Arm span (cm): ", class: "col-xs-2 control-label" %>
+  <div class="col-xs-1">
     <%= f.number_field :arm_span, autofocus: true, in: 1.00..300.00, step: 0.01, class: "form-control" %>
   </div>
 </div>
 
-<br />
+<br /><br />
 
-<div class="form-group col-sm-6 control-label">
-  <%= f.label "Primary reason for visit: ", class: "col-sm-6 control-label" %><br /><br />
-  <%= f.label :primary_reason, "Family History", class: "radio-inline col-sm-2 control-label" %>
+<div class="form-group col-xs-6 control-label">
+  <%= f.label "Primary reason for visit: ", class: "col-xs-6 control-label" %><br /><br />
+  <%= f.label :primary_reason, "Family History", class: "radio-inline col-xs-2 control-label" %>
   <%= f.radio_button :primary_reason, "due to family history" %> <br />
-  <%= f.label :primary_reason, "Hospitalization", class: "radio-inline col-sm-2 control-label" %>
+  <%= f.label :primary_reason, "Hospitalization", class: "radio-inline col-xs-2 control-label" %>
   <%= f.radio_button :primary_reason, "because of a hospitalization" %> <br />
-  <%= f.label :primary_reason, "Genetic Testing", class: "radio-inline col-sm-2 control-label" %>
+  <%= f.label :primary_reason, "Genetic Testing", class: "radio-inline col-xs-2 control-label" %>
   <%= f.radio_button :primary_reason, "for genetic testing" %> <br />
-  <%= f.label :primary_reason, "Chest Pain", class: "radio-inline col-sm-2 control-label" %>
+  <%= f.label :primary_reason, "Chest Pain", class: "radio-inline col-xs-2 control-label" %>
   <%= f.radio_button :primary_reason, "on account of chest pain" %> <br />
-  <%= f.label :primary_reason, "Checkup", class: "radio-inline col-sm-2 control-label" %>
+  <%= f.label :primary_reason, "Checkup", class: "radio-inline col-xs-2 control-label" %>
   <%= f.radio_button :primary_reason, "for a checkup" %> <br />
 </div>
 <br />
 
-<div class="form-group col-sm-6 control-label">
-  <%= f.label "Secondary reason for visit: (optional)", class: "col-sm-6 control-label" %><br /><br />
-  <%= f.label :secondary_reason, "Family History", class: "radio-inline col-sm-2 control-label" %>
+<div class="form-group col-xs-6 control-label">
+  <%= f.label "Secondary reason for visit: (optional)", class: "col-xs-6 control-label" %><br /><br />
+  <%= f.label :secondary_reason, "Family History", class: "radio-inline col-xs-2 control-label" %>
   <%= f.radio_button :secondary_reason, "due to family history" %> <br />
-  <%= f.label :secondary_reason, "Hospitalization", class: "radio-inline col-sm-2 control-label" %>
+  <%= f.label :secondary_reason, "Hospitalization", class: "radio-inline col-xs-2 control-label" %>
   <%= f.radio_button :secondary_reason, "because of a hospitalization" %> <br />
-  <%= f.label :secondary_reason, "Genetic Testing", class: "radio-inline col-sm-2 control-label" %>
+  <%= f.label :secondary_reason, "Genetic Testing", class: "radio-inline col-xs-2 control-label" %>
   <%= f.radio_button :secondary_reason, "for genetic testing" %> <br />
-  <%= f.label :secondary_reason, "Chest Pain", class: "radio-inline col-sm-2 control-label" %>
+  <%= f.label :secondary_reason, "Chest Pain", class: "radio-inline col-xs-2 control-label" %>
   <%= f.radio_button :secondary_reason, "on account of chest pain" %> <br />
-  <%= f.label :secondary_reason, "Checkup", class: "radio-inline col-sm-2 control-label" %>
+  <%= f.label :secondary_reason, "Checkup", class: "radio-inline col-xs-2 control-label" %>
   <%= f.radio_button :secondary_reason, "for a checkup" %> <br />
 </div>
 <br />
