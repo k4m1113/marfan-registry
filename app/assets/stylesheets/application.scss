@@ -1,5 +1,7 @@
- @import "bootstrap-sprockets";
- @import "bootstrap";
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "bootstrap-table";
+
 
 .center-block {
   display: block;
@@ -13,5 +15,5 @@
 }
 
 body {
-  padding-top: 50px; 
+  padding-top: 50px;
 }

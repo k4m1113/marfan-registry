@@ -10,7 +10,7 @@ gem 'react-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
-gem 'byebug'
+gem 'bootstrap-table-rails'
 
 group :development, :test do
   gem 'byebug'
