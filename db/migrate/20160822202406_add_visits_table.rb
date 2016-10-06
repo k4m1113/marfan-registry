@@ -4,10 +4,11 @@ class AddVisitsTable < ActiveRecord::Migration
       t.belongs_to :patient,    null: false
       t.belongs_to :clinician,  null: false
 
-      t.float :height,          null: false
-      t.float :weight,          null: false
-      t.float :z_score,         null: false
-      t.string :primary_reason, null: false
+      t.string :general_health
+      t.float :height
+      t.float :weight
+      t.float :z_score
+      t.string :primary_reason
       t.string :secondary_reason
       t.float :upper_segment
       t.float :lower_segment

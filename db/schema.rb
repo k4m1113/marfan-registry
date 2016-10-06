@@ -74,10 +74,11 @@ ActiveRecord::Schema.define(version: 20160829205055) do
   create_table "visits", force: :cascade do |t|
     t.integer  "patient_id",       null: false
     t.integer  "clinician_id",     null: false
-    t.float    "height",           null: false
-    t.float    "weight",           null: false
-    t.float    "z_score",          null: false
-    t.string   "primary_reason",   null: false
+    t.string   "general_health"
+    t.float    "height"
+    t.float    "weight"
+    t.float    "z_score"
+    t.string   "primary_reason"
     t.string   "secondary_reason"
     t.float    "upper_segment"
     t.float    "lower_segment"

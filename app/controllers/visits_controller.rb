@@ -1,4 +1,6 @@
 class VisitsController < ApplicationController
+  respond_to :html, :js
+  
   def new
     @visit = Visit.new
     @all_symptoms = SeededSymptom.all
@@ -20,6 +22,18 @@ class VisitsController < ApplicationController
     @form_action = "Create"
     if @visit.save
       redirect_to :action => :index
+      session[:current_visit] = @visit
+      case @visit.general_health
+      when "Poor"
+        redirect_to "visits/general_health/poor"
+      when "Fair"
+
+      when "Good"
+
+      when "Excellent"
+
+      end
+
     else
       Rails.logger.info(@visit.errors.inspect)
       render :new
@@ -27,7 +41,6 @@ class VisitsController < ApplicationController
   end
 
   def show
-    @visit = Visit.find(params[:id])
   end
 
   def index
@@ -72,6 +85,7 @@ class VisitsController < ApplicationController
 
   def visit_params
     params.require(:visit).permit(
+      :general_health,
       :height,
       :weight,
       :z_score,

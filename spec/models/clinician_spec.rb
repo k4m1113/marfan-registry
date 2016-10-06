@@ -19,6 +19,6 @@ describe Clinician do
   it { should have_valid(:state).when("CA", "ME") }
   it { should_not have_valid(:state).when(nil, 222) }
 
-  it { should have_valid(:state).when("USA", "United States of America") }
-  it { should_not have_valid(:state).when(nil, 222) }
+  it { should have_valid(:country).when("USA", "United States of America") }
+  it { should_not have_valid(:country).when(nil, 222) }
 end

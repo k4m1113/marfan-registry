@@ -21,4 +21,6 @@ describe Visit do
 
   it { should have_valid(:arm_span).when(1, 182.3, 180.09) }
   it { should_not have_valid(:arm_span).when(nil, "", 0, -1, "One") }
+
+  it { should have_valid(:general_health).when("Poor", "Fair", "Good", "Excellent")}
 end

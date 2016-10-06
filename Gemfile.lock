@@ -156,6 +156,8 @@ GEM
       execjs
       railties (>= 3.2)
       tilt
+    responders (2.1.2)
+      railties (>= 4.2.0, < 5.1)
     rspec-core (3.4.4)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
@@ -240,6 +242,7 @@ DEPENDENCIES
   pry-rails
   rails (= 4.2.6)
   react-rails
+  responders
   rspec-rails
   sass-rails
   sdoc (~> 0.4.0)
@@ -250,4 +253,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.12.3
+   1.13.1
