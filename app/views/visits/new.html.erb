@@ -1,7 +1,12 @@
 <h1>New Visit</h1>
 
 <%= form_for @visit, class: "visit_form" do |f| %>
-  <!-- <%= render "page_one", f: f %> -->
+  <script>
+    function render_partial() {
+      $('#general-health-response').html('<%=j render partial: "general_health", :locals => { f: f } %>')
+    }
+  </script>
+
   <div class="form-group">
     <%= f.label "Patient ID: ", class: "col-xs-2 control-label" %>
     <div class="col-xs-1">
@@ -15,19 +20,22 @@
       <%= f.number_field :clinician_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
     </div>
   </div>
+  <br /><br /><br />
 
-  <div class="form-group col-xs-6 control-label">
+  <div class="form-group col-xs-8 control-label">
     <%= f.label "How are you feeling today?", class: "col-xs-6 control-label" %><br /><br />
     <%= f.label :general_health, "Poor", class: "radio-inline col-xs-2 control-label" %>
-    <%= f.radio_button :general_health, "Poor" %> <br />
+    <%= f.radio_button :general_health, "Poor", :onclick => "render_partial();" %> <br />
     <%= f.label :general_health, "Fair", class: "radio-inline col-xs-2 control-label" %>
-    <%= f.radio_button :general_health, "Fair" %> <br />
+    <%= f.radio_button :general_health, "Fair", :onclick => "render_partial();" %> <br />
     <%= f.label :general_health, "Good", class: "radio-inline col-xs-2 control-label" %>
-    <%= f.radio_button :general_health, "Good" %> <br />
+    <%= f.radio_button :general_health, "Good", :onclick => "render_partial();" %> <br />
     <%= f.label :general_health, "Excellent", class: "radio-inline col-xs-2 control-label" %>
-    <%= f.radio_button :general_health, "Excellent" %> <br />
+    <%= f.radio_button :general_health, "Excellent", :onclick => "render_partial();" %> <br />
   </div>
   <br />
+
+  <div id="general-health-response"></div><br />
 
   <%= f.submit @form_action, class: "btn btn-primary" %>
 <% end %>

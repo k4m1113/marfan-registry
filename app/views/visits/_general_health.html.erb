@@ -1,0 +1,14 @@
+<div class="form-group col-xs-8 control-label">
+  <%= f.label "What brings you in to the clinic?", class: "col-xs-6 control-label" %><br /><br />
+  <%= f.label :primary_reason, "Family History", class: "radio-inline col-xs-2 control-label" %>
+  <%= f.radio_button :primary_reason, "due to family history" %> <br />
+  <%= f.label :primary_reason, "Hospitalization", class: "radio-inline col-xs-2 control-label" %>
+  <%= f.radio_button :primary_reason, "because of a hospitalization" %> <br />
+  <%= f.label :primary_reason, "Genetic Testing", class: "radio-inline col-xs-2 control-label" %>
+  <%= f.radio_button :primary_reason, "for genetic testing" %> <br />
+  <%= f.label :primary_reason, "Chest Pain", class: "radio-inline col-xs-2 control-label" %>
+  <%= f.radio_button :primary_reason, "on account of chest pain" %> <br />
+  <%= f.label :primary_reason, "Checkup", class: "radio-inline col-xs-2 control-label" %>
+  <%= f.radio_button :primary_reason, "for a checkup" %> <br />
+</div>
+<br />

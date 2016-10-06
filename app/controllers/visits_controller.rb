@@ -1,6 +1,6 @@
 class VisitsController < ApplicationController
   respond_to :html, :js
-  
+
   def new
     @visit = Visit.new
     @all_symptoms = SeededSymptom.all
@@ -25,7 +25,6 @@ class VisitsController < ApplicationController
       session[:current_visit] = @visit
       case @visit.general_health
       when "Poor"
-        redirect_to "visits/general_health/poor"
       when "Fair"
 
       when "Good"
@@ -41,6 +40,7 @@ class VisitsController < ApplicationController
   end
 
   def show
+    @visit = Visit.find(params[:id])
   end
 
   def index
