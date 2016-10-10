@@ -96,6 +96,8 @@ class VisitsController < ApplicationController
       :clinician_id,
       :primary_reason,
       :secondary_reason,
+      hospitalizations_attributes:
+        [:admission_date, :length_of_stay, :type, :description, :location],
       symptoms_attributes:
         [:symptoms, :seeded_symptom_id, :visit_id, :presence, :measurement, :start_date, :frequency, :note])
   end

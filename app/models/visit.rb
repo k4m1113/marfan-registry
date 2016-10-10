@@ -5,4 +5,8 @@ class Visit < ActiveRecord::Base
   belongs_to :visit
   has_many :symptoms, inverse_of: :visit, dependent: :destroy
   accepts_nested_attributes_for :symptoms
+
+  has_many :hospitalizations, dependent: :destroy
+  accepts_nested_attributes_for :hospitalizations
+
 end

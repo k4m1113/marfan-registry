@@ -2,7 +2,7 @@
 
 <%= form_for @visit, class: "visit_form" do |f| %>
   <script>
-    function render_partial() {
+    function renderPartialOne() {
       $('#general-health-response').html('<%=j render partial: "general_health", :locals => { f: f } %>')
     }
   </script>
@@ -25,13 +25,13 @@
   <div class="form-group col-xs-8 control-label">
     <%= f.label "How are you feeling today?", class: "col-xs-6 control-label" %><br /><br />
     <%= f.label :general_health, "Poor", class: "radio-inline col-xs-2 control-label" %>
-    <%= f.radio_button :general_health, "Poor", :onclick => "render_partial();" %> <br />
+    <%= f.radio_button :general_health, "Poor", :onclick => "renderPartialOne();" %> <br />
     <%= f.label :general_health, "Fair", class: "radio-inline col-xs-2 control-label" %>
-    <%= f.radio_button :general_health, "Fair", :onclick => "render_partial();" %> <br />
+    <%= f.radio_button :general_health, "Fair", :onclick => "renderPartialOne();" %> <br />
     <%= f.label :general_health, "Good", class: "radio-inline col-xs-2 control-label" %>
-    <%= f.radio_button :general_health, "Good", :onclick => "render_partial();" %> <br />
+    <%= f.radio_button :general_health, "Good", :onclick => "renderPartialOne();" %> <br />
     <%= f.label :general_health, "Excellent", class: "radio-inline col-xs-2 control-label" %>
-    <%= f.radio_button :general_health, "Excellent", :onclick => "render_partial();" %> <br />
+    <%= f.radio_button :general_health, "Excellent", :onclick => "renderPartialOne();" %> <br />
   </div>
   <br />
 
