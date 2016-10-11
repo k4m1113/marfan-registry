@@ -5,6 +5,12 @@
     function renderPartialOne() {
       $('#general-health-response').html('<%=j render partial: "general_health", :locals => { f: f } %>')
     }
+    function renderPartialTwo() {
+      $('#reason-for-visit-response').html('<%=j render partial: "hospitalization_form", :locals => { f: f } %>')
+    }
+    function renderPartialThree() {
+      $('#reason-for-visit-response').html('<%=j render partial: "family_member", :locals => { f: f } %>')
+    }
   </script>
 
   <div class="form-group">
@@ -36,6 +42,7 @@
   <br />
 
   <div id="general-health-response"></div><br />
+  <div id="reason-for-visit-response"></div><br />
 
   <%= f.submit @form_action, class: "btn btn-primary" %>
 <% end %>

@@ -1,5 +1,6 @@
 class Patient < ActiveRecord::Base
   has_many :visits
+  has_many :family_members
 
   validates :first_name,
     presence: true,
