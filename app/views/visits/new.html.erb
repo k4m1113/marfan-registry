@@ -3,13 +3,7 @@
 <%= form_for @visit, class: "visit_form" do |f| %>
   <script>
     function renderPartialOne() {
-      $('#general-health-response').html('<%=j render partial: "general_health", :locals => { f: f } %>')
-    }
-    function renderPartialTwo() {
-      $('#reason-for-visit-response').html('<%=j render partial: "hospitalization_form", :locals => { f: f } %>')
-    }
-    function renderPartialThree() {
-      $('#reason-for-visit-response').html('<%=j render partial: "family_member", :locals => { f: f } %>')
+      $('#general-health-response').html('<%=j render partial: "reason_for_visit", :locals => { f: f } %>')
     }
   </script>
 
@@ -42,7 +36,6 @@
   <br />
 
   <div id="general-health-response"></div><br />
-  <div id="reason-for-visit-response"></div><br />
 
   <%= f.submit @form_action, class: "btn btn-primary" %>
 <% end %>

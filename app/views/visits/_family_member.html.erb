@@ -1,22 +1,20 @@
 <div class="form-group col-xs-8 control-label">
-  <%= f.fields_for :family_members do |ff| %>
-    <%= ff.label "What is your relationship to the person?", class: "col-xs-6 control-label" %><br />
-    <%= ff.select :relationship, RELATIONSHIP_TYPES, autofocus: true, class: "form-control", prompt: "Select One" %><br />
+    <%= f.label "What is your relationship to the person?", class: "col-xs-6 control-label" %><br />
+    <%= f.select :relationship, RELATIONSHIP_TYPES, autofocus: true, class: "form-control", prompt: "Select One" %><br />
 
-    <%= ff.label "What is your family member's name?", class: "col-xs-6 control-label" %><br />
-    <%= ff.text_field :name, autofocus: true, class: "form-control" %><br />
+    <%= f.label "What is your family member's name?", class: "col-xs-6 control-label" %><br />
+    <%= f.text_field :name, autofocus: true, class: "form-control" %><br />
 
-    <%= ff.label "How old is your family member?", class: "col-xs-6 control-label" %><br />
-    <%= ff.number_field :age, autofocus: true, class: "form-control" %><br />
+    <%= f.label "How old is your family member?", class: "col-xs-6 control-label" %><br />
+    <%= f.number_field :age, autofocus: true, class: "form-control" %><br />
 
-    <%= ff.label "Is the family member still living?", class: "col-xs-6 control-label" %><br />
-    <%= ff.check_box :living, autofocus: true, class: "form-control" %><br />
+    <%= f.label "Is the family member still living?", class: "col-xs-6 control-label" %><br />
+    <%= f.check_box :living, autofocus: true, class: "form-control" %><br />
 
-    <%= ff.label "What was their cause of death?", class: "col-xs-6 control-label" %><br />
-    <%= ff.text_field :cause_of_death, autofocus: true, class: "form-control" %><br />
+    <%= f.label "What was their cause of death?", class: "col-xs-6 control-label" %><br />
+    <%= f.text_field :cause_of_death, autofocus: true, class: "form-control" %><br />
 
-    <%= ff.label "Anything else to add?", class: "col-xs-6 control-label" %><br />
-    <%= ff.text_area :note, autofocus: true, class: "form-control" %><br />
-  <% end %>
+    <%= f.label "Anything else to add?", class: "col-xs-6 control-label" %><br />
+    <%= f.text_area :note, autofocus: true, class: "form-control" %><br />
 </div>
 <br />

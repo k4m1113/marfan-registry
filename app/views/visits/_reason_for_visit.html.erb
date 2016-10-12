@@ -1,8 +1,21 @@
 <div class="form-group col-xs-8 control-label">
 
+  <script>
+    function renderPartialTwo() {
+      '<%= f.fields_for :hospitalizations do |ff| %>'
+      $('#reason-for-visit-response').html("<%= j render partial: 'hospitalization_form', :locals => { f: ff } %>");
+      '<% end %>'
+    }
+    function renderPartialThree() {
+      '<%= f.fields_for :family_members do |fm| %>'
+      $('#reason-for-visit-response').html("<%= j render partial: 'family_member', :locals => { f: fm } %>");
+      '<% end %>'
+    }
+  </script>
+
   <%= f.label "What brings you in to the clinic?", class: "col-xs-6 control-label" %><br /><br />
   <%= f.label :primary_reason, "Family History", class: "radio-inline col-xs-2 control-label" %>
-  <%= f.radio_button :primary_reason, "due to family history", :onclick => "renderPartialThree" %> <br />
+  <%= f.radio_button :primary_reason, "due to family history", :onclick => "renderPartialThree();" %> <br />
   <%= f.label :primary_reason, "Hospitalization", class: "radio-inline col-xs-2 control-label" %>
   <%= f.radio_button :primary_reason, "because of a hospitalization", :onclick => "renderPartialTwo();" %> <br />
   <%= f.label :primary_reason, "Genetic Testing", class: "radio-inline col-xs-2 control-label" %>
@@ -12,4 +25,7 @@
   <%= f.label :primary_reason, "Checkup", class: "radio-inline col-xs-2 control-label" %>
   <%= f.radio_button :primary_reason, "for a checkup" %> <br />
 </div>
+
+<div id="reason-for-visit-response"></div><br />
+
 <br />
