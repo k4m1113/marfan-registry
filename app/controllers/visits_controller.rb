@@ -31,6 +31,7 @@ class VisitsController < ApplicationController
 
   def show
     @visit = Visit.find(params[:id])
+    @patient = Patient.where(id:  @visit.patient_id)[0]
   end
 
   def index
@@ -87,9 +88,9 @@ class VisitsController < ApplicationController
       :primary_reason,
       :secondary_reason,
       hospitalizations_attributes:
-        [:hospitalizations, :visit_id, :admission_date, :length_of_stay, :type, :description, :location],
+        [:hospitalization, :visit_id, :admission_date, :length_of_stay, :type, :description, :location],
       family_members_attributes:
-        [:family_members, :patient_id, :relationship, :name, :age, :living, :cause_of_death],
+        [:family_member, :patient_id, :relationship, :name, :age, :living, :cause_of_death],
       symptoms_attributes:
         [:symptoms, :seeded_symptom_id, :visit_id, :presence, :measurement, :start_date, :frequency, :note])
   end

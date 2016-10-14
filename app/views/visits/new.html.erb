@@ -8,14 +8,14 @@
   </script>
 
   <div class="form-group">
-    <%= f.label "Patient ID: ", class: "col-xs-2 control-label" %>
+    <%= f.label "Patient ID: ", class: "col-xs-1 control-label" %>
     <div class="col-xs-1">
       <%= f.number_field :patient_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
     </div>
   </div>
 
   <div class="form-group">
-    <%= f.label "Clinician ID: ", class: "col-xs-2 control-label" %>
+    <%= f.label "Clinician ID: ", class: "col-xs-1 control-label" %>
     <div class="col-xs-1">
       <%= f.number_field :clinician_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
     </div>
@@ -33,9 +33,9 @@
     <%= f.label :general_health, "Excellent", class: "radio-inline col-xs-2 control-label" %>
     <%= f.radio_button :general_health, "Excellent", :onclick => "renderPartialOne();" %> <br />
   </div>
-  <br />
+  <br /><br /><br /><br /><br /><br />
 
   <div id="general-health-response"></div><br />
 
-  <%= f.submit "Start New Visit", class: "btn btn-primary" %>
+  <%= f.submit "Start New Visit", class: "form-group col-xs-4 control-label btn btn-primary" %>
 <% end %>

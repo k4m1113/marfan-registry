@@ -1,1 +1,68 @@
-<h1></h1>
+<div class="col-xs-8 center-block">
+  <h1>Visit <%= @visit.id %></h1>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Patient</h3>
+    </div>
+    <div class="panel-body">
+      <h5><%= link_to "#{@patient.last_name}, #{@patient.first_name}", patient_path(@patient.id)  %></h5>
+    </div>
+    <ul class="list-group">
+      <li class="list-group-item"><h5>Date of Birth: <%= "#{@patient.month_of_birth}/#{@patient.day_of_birth}/#{@patient.year_of_birth}" %></h5> </li>
+      <li class="list-group-item"><h5>Sex: <%= @patient.sex %></h5></li>
+    </ul>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Hospitalizations</h3>
+    </div>
+    <% if @visit.hospitalizations.length != 0 %>
+      <table class="table">
+        <tr>
+          <th>Date</th>
+          <th>Length of Stay</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+        <% @visit.hospitalizations.each do |h| %>
+          <tr>
+            <td><%= h.admission_date %></td>
+            <td><%= h.length_of_stay %></td>
+            <td><%= h.type %></td>
+            <td><%= h.description %></td>
+          </tr>
+        <% end %>
+      </table>
+    <% else %>
+      <div class="panel-body">
+        <h5>Patient did not report any hospitalizations during this visit.</h5>
+      </div>
+    <% end %>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Hospitalizations</h3>
+    </div>
+    <% if @visit.family_members.length != 0 %>
+      <table class="table">
+        <% @visit.family_members.each do |fm| %>
+          <tr>
+            <th>Name</th>
+            <th>Relationship</th>
+            <th>Note</th>
+          </tr>
+          <tr>
+            <td><%= fm.name %></td>
+            <td><%= fm.relationship %></td>
+            <td><%= fm.note %></td>
+          </tr>
+        <% end %>
+      </table>
+    <% else %>
+      <div class="panel-body">
+        <h5>Patient did not discuss any family members during this visit.</h5>
+      </div>
+    <% end %>
+  </div>
+
+</div>
