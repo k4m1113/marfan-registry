@@ -1,4 +1,6 @@
 class FamilyMembersController < ApplicationController
+  respond_to :html, :js
+
   def index
     @family_members = FamilyMember.all
   end

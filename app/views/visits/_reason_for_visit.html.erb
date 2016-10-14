@@ -1,15 +1,12 @@
 <div class="form-group col-xs-8 control-label">
-
   <script>
     function renderPartialTwo() {
-      '<%= f.fields_for :hospitalizations do |ff| %>'
-      $('#reason-for-visit-response').html("<%= j render partial: 'hospitalization_form', :locals => { f: ff } %>");
-      '<% end %>'
+      console.log("Partial Two Called")
+      $('#reason-for-visit-response').html("<%= j render partial: 'hospitalization_form', :locals => { f: f } %>");
     }
     function renderPartialThree() {
-      '<%= f.fields_for :family_members do |fm| %>'
-      $('#reason-for-visit-response').html("<%= j render partial: 'family_member', :locals => { f: fm } %>");
-      '<% end %>'
+      console.log("Partial Three Called")
+      $('#reason-for-visit-response').html("<%= j render partial: 'family_member', :locals => { f: f } %>");
     }
   </script>
 
@@ -27,5 +24,7 @@
 </div>
 
 <div id="reason-for-visit-response"></div><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
 
 <br />

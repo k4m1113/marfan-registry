@@ -23,16 +23,6 @@ class VisitsController < ApplicationController
     if @visit.save
       redirect_to :action => :index
       session[:current_visit] = @visit
-      case @visit.general_health
-      when "Poor"
-      when "Fair"
-
-      when "Good"
-
-      when "Excellent"
-
-      end
-
     else
       Rails.logger.info(@visit.errors.inspect)
       render :new

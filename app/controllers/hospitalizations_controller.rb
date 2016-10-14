@@ -1,17 +1,19 @@
 class HospitalizationsController < ApplicationController
+  respond_to :html, :js
+
   def index
     @hospitalizations = Hospitalization.all
   end
 
   def new
-    @hospitalization = Hospitalization.find(params[:id])
+    @hospitalization = Hospitalization.new
+    @visit = Visit.last
   end
 
   def create
     @hospitalization = Hospitalization.new(hospitalization_params)
-
     if @hospitalization.save
-      render json: @hospitalization
+      redirect_to :action => :index
     else
       render json: @hospitalization.errors, status: :unprocessable_entity
     end
