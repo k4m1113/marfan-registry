@@ -33,5 +33,8 @@ class Clinician < ActiveRecord::Base
     presence: true,
     numericality: true
   validates :country,
-    presence: true
+    presence: true,
+    format: {
+      with: /\A[a-zA-Z ']+\z/
+    }
 end

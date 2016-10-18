@@ -1,8 +1,8 @@
 class AddSymptomsTable < ActiveRecord::Migration
   def change
     create_table :symptoms do |t|
-      t.belongs_to :seeded_symptom
-      t.belongs_to :visit
+      t.belongs_to :seeded_symptom, null: false
+      t.belongs_to :visit, null: false
 
       t.boolean :presence
       t.float :measurement

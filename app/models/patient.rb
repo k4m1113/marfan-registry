@@ -1,7 +1,6 @@
 class Patient < ActiveRecord::Base
-  has_many :visits, inverse_of: :patient
-  has_many :family_members, inverse_of: :patient
-  has_many :tests, inverse_of: :patient
+  has_many :visits,
+    inverse_of: :patient
 
   validates :first_name,
     presence: true,

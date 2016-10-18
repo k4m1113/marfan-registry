@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20161014224855) do
   end
 
   create_table "hospitalizations", force: :cascade do |t|
-    t.integer  "visit_id"
+    t.integer  "visit_id",       null: false
     t.datetime "admission_date"
     t.integer  "length_of_stay"
     t.string   "type"
@@ -79,8 +79,8 @@ ActiveRecord::Schema.define(version: 20161014224855) do
   end
 
   create_table "symptoms", force: :cascade do |t|
-    t.integer  "seeded_symptom_id"
-    t.integer  "visit_id"
+    t.integer  "seeded_symptom_id", null: false
+    t.integer  "visit_id",          null: false
     t.boolean  "presence"
     t.float    "measurement"
     t.datetime "start_date"
