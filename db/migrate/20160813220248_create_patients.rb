@@ -13,9 +13,7 @@ class CreatePatients < ActiveRecord::Migration
       t.integer :postal_code, null: false
 
       t.string :sex, null: false
-      t.integer :month_of_birth, null: false
-      t.integer :day_of_birth, null: false
-      t.integer :year_of_birth, null: false
+      t.datetime :date_of_birth, null: false
 
       t.timestamps null: false
     end

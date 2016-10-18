@@ -1,5 +1,5 @@
 <div class="form-group col-xs-8 control-label">
-  <%= f.fields_for :family_member do |ff| %>
+  <%= f.fields_for :family_members do |ff| %>
     <div class="col-xs-7">
       <%= ff.label "What is your relationship to the person?", class: "control-label" %><br />
       <%= ff.select :relationship, Rails.application.config.relationship_types, autofocus: true, class: "form-control", prompt: "Select One" %><br />

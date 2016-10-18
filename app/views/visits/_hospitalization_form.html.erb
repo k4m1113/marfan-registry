@@ -1,5 +1,5 @@
 <div class="form-group col-xs-8 control-label">
-  <%= f.fields_for :hospitalization do |ff| %>
+  <%= f.fields_for :hospitalizations do |ff| %>
     <div class="col-xs-7">
       <%= ff.label "When was your recent hospitalization?", class: "control-label" %><br />
       <%= ff.date_field :admission_date, autofocus: true, class: "form-control" %><br />

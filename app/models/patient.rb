@@ -1,6 +1,7 @@
 class Patient < ActiveRecord::Base
-  has_many :visits
-  has_many :family_members
+  has_many :visits, inverse_of: :patient
+  has_many :family_members, inverse_of: :patient
+  has_many :tests, inverse_of: :patient
 
   validates :first_name,
     presence: true,
@@ -22,27 +23,6 @@ class Patient < ActiveRecord::Base
   validates :country,
     presence: true,
     format: { with: /\A[a-zA-Z ']+\z/ }
-  validates :month_of_birth,
-    presence: true,
-    numericality: {
-      only_integer: true,
-      greater_than_or_equal_to: 1,
-      less_than_or_equal_to: 12
-    }
-  validates :day_of_birth,
-    presence: true,
-    numericality: {
-      only_integer: true,
-      greater_than_or_equal_to: 1,
-      less_than_or_equal_to: 31
-    }
-  validates :year_of_birth,
-    presence: true,
-    numericality: {
-      only_integer: true,
-      greater_than_or_equal_to: 1900,
-      less_than_or_equal_to: 9999
-    }
   validates :sex,
     presence: true,
     inclusion: {

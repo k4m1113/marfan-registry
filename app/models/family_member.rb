@@ -1,5 +1,4 @@
 class FamilyMember < ActiveRecord::Base
-  belongs_to :patient
-
-  validates_presence_of :patient
+  validates :visit, presence: true
+  belongs_to :visit, inverse_of: :family_members
 end

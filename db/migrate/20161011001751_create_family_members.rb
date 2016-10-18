@@ -1,7 +1,7 @@
 class CreateFamilyMembers < ActiveRecord::Migration
   def change
     create_table :family_members do |t|
-      t.belongs_to :patient
+      t.belongs_to :visit, null: false
 
       t.string :relationship
       t.string :name

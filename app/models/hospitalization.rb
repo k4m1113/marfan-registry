@@ -1,5 +1,4 @@
 class Hospitalization < ActiveRecord::Base
-  belongs_to :visit
-
-  validates_presence_of :visit
+  validates :visit, presence: true
+  belongs_to :visit, inverse_of: :hospitalizations
 end

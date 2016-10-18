@@ -47,9 +47,7 @@ class PatientsController < ApplicationController
       :state,
       :postal_code,
       :country,
-      :month_of_birth,
-      :day_of_birth,
-      :year_of_birth,
+      :date_of_birth,
       :sex)
   end
 end

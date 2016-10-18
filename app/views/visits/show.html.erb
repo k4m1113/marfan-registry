@@ -8,7 +8,7 @@
       <h5><%= link_to "#{@patient.last_name}, #{@patient.first_name}", patient_path(@patient.id)  %></h5>
     </div>
     <ul class="list-group">
-      <li class="list-group-item"><h5>Date of Birth: <%= "#{@patient.month_of_birth}/#{@patient.day_of_birth}/#{@patient.year_of_birth}" %></h5> </li>
+      <li class="list-group-item"><h5>Date of Birth: <%= @patient.date_of_birth %></h5> </li>
       <li class="list-group-item"><h5>Sex: <%= @patient.sex %></h5></li>
     </ul>
   </div>
@@ -41,7 +41,7 @@
   </div>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Hospitalizations</h3>
+      <h3 class="panel-title">Family Members</h3>
     </div>
     <% if @visit.family_members.length != 0 %>
       <table class="table">
