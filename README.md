@@ -1,5 +1,7 @@
 #NMF Tool
 
+[ ![Codeship Status for Kamilleski/NMF_Tool](https://app.codeship.com/projects/247cce80-e26e-0133-9815-5e7bb9818a79/status?branch=master)](https://app.codeship.com/projects/145614)
+
 The NMF Tool is a global database for tracking the symptoms of Marfan Syndrome. On the client-side patients may input information about themselves and their symptoms while doctors can add symptoms about their patients and generate after-visit summaries including medication, patient symptoms, familial symptoms, and follow-up.
 
 [Heroku Deployment](https://nmf-tool.herokuapp.com/)
