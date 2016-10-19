@@ -91,9 +91,10 @@ ActiveRecord::Schema.define(version: 20161014224855) do
   end
 
   create_table "tests", force: :cascade do |t|
-    t.integer "visit_id", null: false
-    t.string  "type",     null: false
-    t.string  "result",   null: false
+    t.integer  "visit_id",  null: false
+    t.string   "test_type", null: false
+    t.string   "result",    null: false
+    t.datetime "test_date"
   end
 
   create_table "visits", force: :cascade do |t|

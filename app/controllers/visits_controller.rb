@@ -17,6 +17,7 @@ class VisitsController < ApplicationController
     @symptom = @visit.symptoms.build
     @family_member = @visit.family_members.build
     @hospitalization = @visit.hospitalizations.build
+    @test = @visit.tests.build
   end
 
   def create
@@ -93,6 +94,8 @@ class VisitsController < ApplicationController
         [:hospitalization, :visit_id, :admission_date, :length_of_stay, :type, :description, :location],
       family_members_attributes:
         [:family_member, :patient_id, :relationship, :name, :age, :living, :cause_of_death, :note],
+      tests_attributes:
+        [:test, :visit_id, :test_type, :test_date, :result],
       symptoms_attributes:
         [:symptoms, :seeded_symptom_id, :visit_id, :presence, :measurement, :start_date, :frequency, :note])
   end

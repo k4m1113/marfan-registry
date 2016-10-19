@@ -1,36 +1,56 @@
-<div class="form-group col-xs-8 control-label">
-  <%= f.fields_for :family_members do |ff| %>
-    <div class="col-xs-7">
+<%= f.fields_for :family_members do |ff| %>
+<div class="row">
+  <div class="form-group">
+    <div class="col-xs-11 col-md-4 col-centered">
       <%= ff.label "What is your relationship to the person?", class: "control-label" %><br />
-      <%= ff.select :relationship, Rails.application.config.relationship_types, autofocus: true, class: "form-control", prompt: "Select One" %><br />
+      <%= ff.select :relationship, Rails.application.config.relationship_types, autofocus: true, class: "form-control", prompt: "Select One" %>
     </div>
+  </div>
+</div>
 
-    <div class="col-xs-7">
+<div class="row">
+  <div class="form-group">
+    <div class="col-xs-11 col-md-4 col-centered">
       <%= ff.label "What is your family member's name?", class: "control-label" %><br />
-      <%= ff.text_field :name, autofocus: true, class: "form-control" %><br />
+      <%= ff.text_field :name, autofocus: true, class: "form-control" %>
     </div>
+  </div>
+</div>
 
-    <div class="col-xs-7">
+<div class="row">
+  <div class="form-group">
+    <div class="col-xs-11 col-md-4 col-centered">
       <%= ff.label "How old is your family member?", class: "control-label" %><br />
-      <%= ff.number_field :age, autofocus: true, class: "form-control" %><br />
+      <%= ff.number_field :age, autofocus: true, class: "form-control" %>
     </div>
+  </div>
+</div>
 
-
-    <div class="col-xs-7">
-      <%= ff.label "Is the family member still living?", class: "control-label" %><br />
-      <%= ff.check_box :living, autofocus: true, class: "form-control" %><br />
+<div class="row">
+  <div class="form-group">
+    <div class="col-xs-11 col-md-4 col-centered">
+      <%= ff.label "Select if family member is still living:", class: "control-label" %><br />
+      <%= ff.check_box :living, autofocus: true, class: "form-control" %>
     </div>
+  </div>
+</div>
 
-    <div class="col-xs-7">
+<div class="row">
+  <div class="form-group">
+    <div class="col-xs-11 col-md-4 col-centered">
       <%= ff.label "What was their cause of death?", class: "control-label" %><br />
-      <%= ff.text_field :cause_of_death, autofocus: true, class: "form-control" %><br />
+      <%= ff.text_field :cause_of_death, autofocus: true, class: "form-control" %>
     </div>
+  </div>
+</div>
 
-    <div class="col-xs-7">
+<div class="row">
+  <div class="form-group">
+    <div class="col-xs-11 col-md-4 col-centered">
       <%= ff.label "Anything else to add?", class: "control-label" %><br />
       <%= ff.text_area :note, autofocus: true, class: "form-control" %><br />
     </div>
-  <% end %>
+  </div>
 </div>
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+<% end %>

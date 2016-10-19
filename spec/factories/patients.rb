@@ -1,10 +1,9 @@
 FactoryGirl.define do
+  require 'date'
   factory :patient do
     first_name "Kamille"
     last_name "Delgardo"
-    day_of_birth 01
-    month_of_birth 02
-    year_of_birth 1903
+    date_of_birth DateTime.now
     sex "F"
 
     address_line_1 "1500 Main Street"

@@ -64,5 +64,30 @@
       </div>
     <% end %>
   </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Recent Tests</h3>
+    </div>
+    <% if @visit.tests.length != 0 %>
+      <table class="table">
+        <% @visit.tests.each do |t| %>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Result</th>
+          </tr>
+          <tr>
+            <td><%= t.test_date %></td>
+            <td><%= t.test_type %></td>
+            <td><%= t.result %></td>
+          </tr>
+        <% end %>
+      </table>
+    <% else %>
+      <div class="panel-body">
+        <h5>Patient did not discuss any recent tests during this visit.</h5>
+      </div>
+    <% end %>
+  </div>
 
 </div>
