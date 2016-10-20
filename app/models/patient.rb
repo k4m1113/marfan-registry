@@ -1,7 +1,7 @@
 class Patient < ActiveRecord::Base
   include PgSearch
 
-  scope :sorted, ->{ order(last_name: :asc) }
+  scope :sorted, -> { order(last_name: :asc) }
 
   pg_search_scope :search,
     against: [:first_name, :last_name],
