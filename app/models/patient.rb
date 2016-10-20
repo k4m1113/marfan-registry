@@ -1,7 +1,13 @@
 class Patient < ActiveRecord::Base
+  include PgSearch
+  pg_search_scope :search_by_name,
+    against: [:first_name, :last_name],
+    using: {
+      tsearch: {:prefix => true}
+    }
+
   has_many :visits,
     inverse_of: :patient
-
   validates :first_name,
     presence: true,
     format: { with: /\A[a-zA-Z ']+\z/ }

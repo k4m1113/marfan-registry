@@ -14,6 +14,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bootstrap-table-rails'
 gem 'responders'
 gem 'validates_timeliness', '~> 4.0'
+gem 'pg_search', '~> 1.0', '>= 1.0.6'
 
 group :development, :test do
   gem 'byebug'
