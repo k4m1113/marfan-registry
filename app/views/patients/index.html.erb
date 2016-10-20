@@ -1,9 +1,10 @@
 <br />
-<% if @patients.blank? %>
-  <h4>There are no patients whose name contains "<%= params[:search] %>"</h4>
-<% else %>
+
   <div class="row">
     <div class="col-xs-10 col-centered">
+      <% if @patients.blank? %>
+        <h4>There are no patients whose name contains "<%= params[:search] %>"</h4>
+      <% else %>
       <div class="panel panel-default">
         <div class="panel-heading"><h1>All Patients</h1></div>
         <table class="table table-striped table-hover">
