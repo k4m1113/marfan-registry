@@ -1,10 +1,21 @@
 class Patient < ActiveRecord::Base
   include PgSearch
-  pg_search_scope :search_by_name,
+
+  scope :sorted, ->{ order(last_name: :asc) }
+
+  pg_search_scope :search,
     against: [:first_name, :last_name],
     using: {
       tsearch: { prefix: true }
     }
+
+  def self.perform_search(keyword)
+    if keyword.present?
+      Patient.search(keyword)
+    else
+      Patient.all
+    end.sorted
+  end
 
   has_many :visits,
     inverse_of: :patient

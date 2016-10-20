@@ -1,7 +1,7 @@
 class PatientsController < ApplicationController
   def index
     if params[:search].present?
-      @patients = Patient.search_by_name(params[:search])
+      @patients = Patient.perform_search(params[:search])
     else
       @patients = Patient.all
     end
