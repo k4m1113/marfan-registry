@@ -10,6 +10,4 @@ Rails.application.routes.draw do
   resources :family_members
 
   root "patients#new"
-
-  get 'patients/search', to: 'patients#index', controller: :patients
 end

@@ -1,6 +1,8 @@
 class Visit < ActiveRecord::Base
   include Report
 
+  self.per_page = 10
+
   belongs_to :patient,
     inverse_of: :visits
   belongs_to :clinician

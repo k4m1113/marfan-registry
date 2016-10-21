@@ -9,6 +9,8 @@ class Patient < ActiveRecord::Base
       tsearch: { prefix: true }
     }
 
+  self.per_page = 10
+
   def self.perform_search(keyword)
     if keyword.present?
       Patient.search(keyword)
