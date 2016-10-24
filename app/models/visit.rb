@@ -24,10 +24,6 @@ class Visit < ActiveRecord::Base
   accepts_nested_attributes_for :family_members
   accepts_nested_attributes_for :tests
 
-  validates :patient,
-    presence: true
-  validates :clinician,
-    presence: true
   validates :patient_id,
     presence: true,
     numericality: {

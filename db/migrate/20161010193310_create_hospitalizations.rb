@@ -5,7 +5,7 @@ class CreateHospitalizations < ActiveRecord::Migration
 
       t.datetime :admission_date
       t.integer :length_of_stay
-      t.string :type
+      t.string :hosp_type
       t.string :description
       t.string :location
 

@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20161020000336) do
     t.integer  "visit_id",       null: false
     t.datetime "admission_date"
     t.integer  "length_of_stay"
-    t.string   "type"
+    t.string   "hosp_type"
     t.string   "description"
     t.string   "location"
     t.datetime "created_at"

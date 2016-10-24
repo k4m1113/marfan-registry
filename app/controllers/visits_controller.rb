@@ -91,7 +91,7 @@ class VisitsController < ApplicationController
       :primary_reason,
       :secondary_reason,
       hospitalizations_attributes:
-        [:hospitalization, :visit_id, :admission_date, :length_of_stay, :type, :description, :location],
+        [:hospitalization, :visit_id, :admission_date, :length_of_stay, :hosp_type, :description, :location],
       family_members_attributes:
         [:family_member, :patient_id, :relationship, :name, :age, :living, :cause_of_death, :note],
       tests_attributes:
