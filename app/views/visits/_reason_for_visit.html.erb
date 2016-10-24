@@ -33,4 +33,19 @@
     console.log("Partial Four Called")
     $('#reason-for-visit-response').html("<%= j render partial: 'test', :locals => { f: f } %>");
   }
+  function renderHospAgain() {
+    console.log("Hospitalization Partial Called")
+    $('#add-another').html("<%= j render partial: 'hospitalization_form', :locals => { f: f } %>");
+    $('.show_button').hide();
+  }
+  function renderFamAgain() {
+    console.log("Family Partial Called")
+    $('#add-another').html("<%= j render partial: 'family_member', :locals => { f: f } %>");
+    $('.show_button').hide();
+  }
+  function renderTestAgain() {
+    console.log("Test Partial Called")
+    $('#add-another').html("<%= j render partial: 'test', :locals => { f: f } %>");
+    $('.show_button').hide();
+  }
 </script>
