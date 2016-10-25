@@ -10,6 +10,8 @@
       <%= f.radio_button :primary_reason, "because of a hospitalization", :onclick => "renderPartialTwo();" %> <br />
       <%= f.label :primary_reason, "Recent Testing", class: "radio-inline col-xs-10 control-label" %>
       <%= f.radio_button :primary_reason, "for recent testing", :onclick => "renderPartialFour();" %> <br />
+      <%= f.label :primary_reason, "Symptoms" , class: "radio-inline col-xs-10 control-label"%>
+      <%= f.radio_button :primary_reason, "because of related symptoms", :onclick => "renderSymptomsRadioButtons();" %> <br />
       <!-- <%= f.label :primary_reason, "Chest Pain", class: "radio-inline col-xs-10 control-label" %>
       <%= f.radio_button :primary_reason, "on account of chest pain" %> <br />
       <%= f.label :primary_reason, "Checkup", class: "radio-inline col-xs-10 control-label" %>
@@ -32,6 +34,10 @@
   function renderPartialFour() {
     console.log("Partial Four Called")
     $('#reason-for-visit-response').html("<%= j render partial: 'test', :locals => { f: f } %>");
+  }
+  function renderSymptomsRadioButtons() {
+    console.log("Symptom Type Radio Buttons Called")
+    $('#reason-for-visit-response').html("<%= j render partial: 'symptoms_category_buttons', :locals => { f: f } %>");
   }
   function renderHospAgain() {
     console.log("Hospitalization Partial Called")

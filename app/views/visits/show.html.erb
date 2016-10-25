@@ -46,12 +46,12 @@
       </div>
       <% if @visit.family_members.length != 0 %>
         <table class="table table-striped table-hover">
+          <tr>
+            <th>Name</th>
+            <th>Relationship</th>
+            <th>Note</th>
+          </tr>
           <% @visit.family_members.each do |fm| %>
-            <tr>
-              <th>Name</th>
-              <th>Relationship</th>
-              <th>Note</th>
-            </tr>
             <tr>
               <td><%= fm.name %></td>
               <td><%= fm.relationship %></td>
@@ -71,12 +71,12 @@
       </div>
       <% if @visit.tests.length != 0 %>
         <table class="table table-striped table-hover">
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Result</th>
+          </tr>
           <% @visit.tests.each do |t| %>
-            <tr>
-              <th>Date</th>
-              <th>Type</th>
-              <th>Result</th>
-            </tr>
             <tr>
               <td><%= t.test_date.strftime("%d %B %Y") %></td>
               <td><%= t.test_type %></td>
@@ -99,17 +99,15 @@
           <tr>
             <th>Symptom</th>
             <th>System</th>
-            <th>Present</th>
+            <th>Present?</th>
             <th>Measurement</th>
-            <th>Start Date</th>
           </tr>
-          <% @visit.symptoms.each do |s| %>
+          <% @symptoms.each do |s| %>
             <tr>
               <td><%= SeededSymptom.where(id: s.id)[0].common_name %></td>
               <td><%= SeededSymptom.where(id: s.id)[0].systemic_category %></td>
               <td><%= s.presence %></td>
               <td><%= s.measurement %></td>
-              <td><%= s.start_date.strftime("%d %B %Y") %></td>
             </tr>
           <% end %>
         </table>

@@ -1,0 +1,69 @@
+<div class="row">
+  <div class="form-group">
+    <div class="col-xs-11 col-md-4 col-centered">
+      <%= f.label "In which category are your symptoms?", class: "col-xs-10 control-label" %><br /><br />
+      <%= f.label "Cardiac", class: "radio-inline col-xs-10 control-label" %>
+      <%= f.radio_button :secondary_reason, "Cardiac", :onclick => "renderCardiacSymptoms();" %> <br />
+      <%= f.label "Dural", class: "radio-inline col-xs-10 control-label" %>
+      <%= f.radio_button :secondary_reason, "Dural", :onclick => "renderDuralSymptoms();" %> <br />
+      <%= f.label "Aural", class: "radio-inline col-xs-10 control-label" %>
+      <%= f.radio_button :secondary_reason, "Aural", :onclick => "renderAuralSymptoms();" %> <br />
+      <%= f.label "Ocular", class: "radio-inline col-xs-10 control-label" %>
+      <%= f.radio_button :secondary_reason, "Ocular", :onclick => "renderOcularSymptoms();" %> <br />
+      <%= f.label "Pulmonary", class: "radio-inline col-xs-10 control-label" %>
+      <%= f.radio_button :secondary_reason, "Pulmonary", :onclick => "renderPulmonarySymptoms();" %> <br />
+      <%= f.label "Integumentary", class: "radio-inline col-xs-10 control-label" %>
+      <%= f.radio_button :secondary_reason, "Integumentary", :onclick => "renderIntegumentarySymptoms();" %> <br />
+      <%= f.label "Cranial", class: "radio-inline col-xs-10 control-label" %>
+      <%= f.radio_button :secondary_reason, "Cranial", :onclick => "renderCranialSymptoms();" %> <br />
+      <%= f.label "Feet", class: "radio-inline col-xs-10 control-label" %>
+      <%= f.radio_button :secondary_reason, "Feet", :onclick => "renderFeetSymptoms();" %> <br />
+      <%= f.label "General Skeletal", class: "radio-inline col-xs-10 control-label" %>
+      <%= f.radio_button :secondary_reason, "General Skeletal", :onclick => "renderGeneralSkeletalSymptoms();" %> <br />
+      <%= f.label "Hand", class: "radio-inline col-xs-10 control-label" %>
+      <%= f.radio_button :secondary_reason, "Hand", :onclick => "renderHandSymptoms();" %> <br />
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="form-group">
+    <div class="col-xs-11 col-md-8 col-centered">
+      <div id="symptom_category"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function renderCardiacSymptoms() {
+    $('#symptom_category').html("<%= j render 'cardiac', f: f, symptoms: @cardiac_symptoms %>")
+  }
+  function renderDuralSymptoms() {
+    $('#symptom_category').html("<%= j render partial: 'dural', :locals => { f: f } %>")
+  }
+  function renderAuralSymptoms() {
+    $('#symptom_category').html("<%= j render partial: 'aural', :locals => { f: f } %>")
+  }
+  function renderOcularSymptoms() {
+    $('#symptom_category').html("<%= j render partial: 'ocular', :locals => { f: f } %>")
+  }
+  function renderPulmonarySymptoms() {
+    $('#symptom_category').html("<%= j render partial: 'pulmonary', :locals => { f: f } %>")
+  }
+  function renderIntegumentarySymptoms() {
+    $('#symptom_category').html("<%= j render partial: 'integumentary', :locals => { f: f } %>")
+  }
+  function renderCranialSymptoms() {
+    $('#symptom_category').html("<%= j render partial: 'cranial', :locals => { f: f } %>")
+  }
+  function renderFeetSymptoms() {
+    $('#symptom_category').html("<%= j render partial: 'feet', :locals => { f: f } %>")
+  }
+  function renderGeneralSkeletalSymptoms() {
+    $('#symptom_category').html("<%= j render partial: 'general_skeletal', :locals => { f: f } %>")
+  }
+  function renderHandSymptoms() {
+    $('#symptom_category').html("<%= j render partial: 'hand', :locals => { f: f } %>")
+  }
+
+</script>

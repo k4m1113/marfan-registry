@@ -1,5 +1,5 @@
 class SeededSymptom < ActiveRecord::Base
-  belongs_to :symptom
+  belongs_to :symptom, inverse_of: :seeded_symptoms
 
   ## 'Seeded Symptoms' refer to hard-coded data in db/seeds.rb
   ## DO NOT MODIFY DATA OR RELATED CODE

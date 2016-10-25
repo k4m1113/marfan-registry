@@ -24,21 +24,42 @@ class VisitsController < ApplicationController
     @visit = Visit.new(visit_params)
     @form_action = "Create"
     if @visit.save
-      redirect_to :action => :index
+      redirect_to visit_path(@visit.id)
       session[:current_visit] = @visit
     else
       Rails.logger.info(@visit.errors.inspect)
       render :new
     end
+    @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
+    @dural_symptoms = SeededSymptom.where(systemic_category: "Dural")
+    @aural_symptoms = SeededSymptom.where(systemic_category: "Aural")
+    @ocular_symptoms = SeededSymptom.where(systemic_category: "Ocular")
+    @pulmonary_symptoms = SeededSymptom.where(systemic_category: "Pulmonary")
+    @integumentary_symptoms = SeededSymptom.where(systemic_category: "Integumentary")
+    @cranial_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Cranium)")
+    @feet_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Feet & Legs)")
+    @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
+    @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
   end
 
   def show
     @visit = Visit.find(params[:id])
     @patient = Patient.where(id:  @visit.patient_id)[0]
+    @symptoms = @visit.symptoms
   end
 
   def index
     @visits = Visit.all
+    @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
+    @dural_symptoms = SeededSymptom.where(systemic_category: "Dural")
+    @aural_symptoms = SeededSymptom.where(systemic_category: "Aural")
+    @ocular_symptoms = SeededSymptom.where(systemic_category: "Ocular")
+    @pulmonary_symptoms = SeededSymptom.where(systemic_category: "Pulmonary")
+    @integumentary_symptoms = SeededSymptom.where(systemic_category: "Integumentary")
+    @cranial_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Cranium)")
+    @feet_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Feet & Legs)")
+    @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
+    @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
   end
 
   def edit
