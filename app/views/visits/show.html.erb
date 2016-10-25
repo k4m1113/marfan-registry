@@ -104,8 +104,8 @@
           </tr>
           <% @symptoms.each do |s| %>
             <tr>
-              <td><%= SeededSymptom.where(id: s.id)[0].common_name %></td>
-              <td><%= SeededSymptom.where(id: s.id)[0].systemic_category %></td>
+              <td><%= SeededSymptom.where(id: s.seeded_symptom_id)[0].common_name %></td>
+              <td><%= SeededSymptom.where(id: s.seeded_symptom_id)[0].systemic_category %></td>
               <td><%= s.presence %></td>
               <td><%= s.measurement %></td>
             </tr>
