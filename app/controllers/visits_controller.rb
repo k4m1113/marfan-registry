@@ -1,5 +1,8 @@
+require 'report'
+
 class VisitsController < ApplicationController
   respond_to :html, :js
+  include Report
 
   def new
     @visit = Visit.new
@@ -94,6 +97,12 @@ class VisitsController < ApplicationController
   def destroy
     Visit.find(params[:id]).destroy
     redirect_to visits_path
+  end
+
+  def report
+    @visit = Visit.find(params[:id])
+    @clinician = Clinician.where(id: @visit.clinician_id)[0]
+    @first_symptom = @visit.symptoms.first
   end
 
   private

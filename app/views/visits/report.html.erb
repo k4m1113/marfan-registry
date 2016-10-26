@@ -1,0 +1,50 @@
+<br />
+<div class="row">
+  <div class="col-xs-11 col-md-6 col-centered">
+    <% if @visit.patient.sex == "F" %>
+      <% @she_he = "she" %>
+      <% @his_her = "her" %>
+    <% else %>
+      <% @she_he = "he" %>
+      <% @his_her = "his" %>
+    <% end %>
+    <p><%= Time.now.strftime("%d %B %Y") %></p>
+    <br />
+
+    <p><%= @visit.patient.address_line_1 %></p>
+    <p><%= @visit.patient.address_line_2 %></p>
+    <p><%= "#{@visit.patient.city}, #{@visit.patient.state}, #{@visit.patient.postal_code}" %></p>
+    <p><%= @visit.patient.country %></p>
+    <br />
+
+    <p>To whom it may concern,</p>
+    <p>
+      <%= "I had the pleasure of seeing #{@visit.patient.first_name} #{@visit.patient.last_name} on #{@visit.created_at.strftime("%A, %d %B %Y")} at #{@clinician.practice_name} in #{@clinician.city}, #{@clinician.state}." %>
+    </p>
+    <% if @visit.primary_reason %>
+      <p>
+        <%= "#{@visit.patient.first_name} came to us primarily" %>
+        <% case @visit.primary_reason %>
+        <% when "because of a hospitalization" %>
+          <%= "because of a #{@visit.hospitalizations[0].hosp_type} hospitalization" %>
+          <% if @visit.hospitalizations[0].admission_date %>
+            <%= "which occurred on #{@visit.hospitalizations[0].admission_date.strftime('%d %B %Y')}" %>
+          <% else %>
+          <% end %>
+        <% when "due to family history" %>
+          <%= "due to family history" %>
+        <% when "for recent testing" %>
+          <%= "for recent testing" %>
+        <% when "because of related symptoms" %>
+          <%= "because of #{SeededSymptom.where(id: @visit.symptoms.first.seeded_symptom_id)[0].systemic_category.downcase} symptoms." %>
+          <% if @first_symptom.presence == false %>
+            <%= "These symptoms included an absence of #{SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0].article} #{SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0].common_name}." %>
+          <% else %>
+            <%= "These symptoms included a presence of #{SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0].article} #{SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0].common_name}." %>
+          <% end %>
+        <% end %>
+      </p>
+    <% end %>
+
+  </div>
+</div>
