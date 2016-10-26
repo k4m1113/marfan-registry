@@ -7,16 +7,21 @@
         <tr>
           <th data-sortable="true">Date</th>
           <th data-sortable="true">Patient</th>
-          <th>Actions</th>
           <th>After-visit summary</th>
+          <th>Actions</th>
         </tr>
         <% @visits.each do |visit| %>
         <tr>
           <td><%= visit.created_at.strftime("%d %B %Y") %></td>
           <td><%= link_to "#{visit.patient.last_name}, #{visit.patient.first_name}", patient_path(visit.patient_id) %></td>
-          <td><%= link_to "Edit Visit", edit_visit_path(visit.id) %> /
-          <%= link_to "Delete Visit", visit, method: :delete, data: { confirm: "Are you sure?" } %></td>
           <td><%= link_to "View Details", visit_path(visit.id) %></td>
+          <td>
+            <div class="btn-group btn-group-sm" role="group">
+              <%= button_to "Generate Report", report_visit_path(id: visit.id), type: "button", method: :get, class: "btn btn-primary" %>
+              <%= button_to "Edit Visit", edit_visit_path(id: visit.id), type: "button", method: :get, class: "btn btn-warning" %>
+              <%= button_to "Destroy Visit", visit_path(id: visit.id), method: :delete, type: "button", class: "btn btn-danger" %>
+            </div>
+          </td>
         </tr>
         <% end %>
       </table>

@@ -2,12 +2,12 @@
   <div class="col-xs-10 col-centered">
     <h1>Visit <%= @visit.id %></h1>
     <br />
-    <span style="display: inline" >
-        <%= button_to "Generate Report", report_visit_path(id: @visit.id), type: "button", method: :get, class: "btn btn-primary", style: "position: relative, display: inline" %>
-        <%= button_to "Edit Visit", edit_visit_path(id: @visit.id), type: "button", method: :get, class: "btn btn-warning", style: "position: relative; display: inline" %>
-        <%= button_to "Destroy Visit", visit_path(id: @visit.id), method: :delete, type: "button", class: "btn btn-danger" %>
-    </span>
-    <br />
+    <div class="btn-group btn-group-sm" role="group">
+      <%= button_to "Generate Report", report_visit_path(id: @visit.id), type: "button", method: :get, class: "btn btn-primary" %>
+      <%= button_to "Edit Visit", edit_visit_path(id: @visit.id), type: "button", method: :get, class: "btn btn-warning" %>
+      <%= button_to "Destroy Visit", visit_path(id: @visit.id), method: :delete, type: "button", class: "btn btn-danger" %>
+    </div>
+    <br /><br />
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Patient</h3>
