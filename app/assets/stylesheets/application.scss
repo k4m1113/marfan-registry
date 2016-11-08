@@ -10,8 +10,8 @@
 }
 
 .col-centered {
-    float: none;
-    margin: 0 auto;
+  float: none;
+  margin: 0 auto;
 }
 
 body {
@@ -19,11 +19,43 @@ body {
 }
 
 .absolute-center {
-    position:absolute;
-    bottom: 5%;
-    right:20%;
+  position:absolute;
+  bottom: 5%;
+  right:20%;
 }
 
 div.btn-group form{
   display: inline;
+}
+
+.jumbotron {
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/2/28/Stanford_Medical_Center.JPG);
+  background-size: cover;
+  height: 100%;
+}
+
+.thumbnail_container {
+     position: relative;
+     width: 100%;
+     padding-bottom: 100%;
+     float:left;
+}
+
+.thumbnail {
+    position:absolute;
+    width:100%;
+    height:100%;
+}
+.thumbnail img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+img{
+    max-height:100%;
+    max-width:100%;
 }

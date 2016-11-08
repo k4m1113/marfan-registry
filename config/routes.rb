@@ -13,5 +13,5 @@ Rails.application.routes.draw do
   resources :symptoms
   resources :family_members
 
-  root "patients#new"
+  root "pages#main"
 end
