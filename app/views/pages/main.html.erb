@@ -13,13 +13,13 @@
               <p>Dynamic and mobile-friendly design with Bootstrap, jQuery, and javascript functionality for unobtrusive use on iPad during visit.</p>
             </div>
             <div class="col-xs-4">
-              <%= image_tag "new_clinician.jpeg", width: 300 %>
+              <%= link_to image_tag("http://bit.ly/2g1BTS5", alt: "Image of clinician registration form", width: 300), new_clinician_path %>
             </div>
           </div>
           <hr />
           <div class="row">
             <div class="col-xs-4">
-              <%= image_tag "generate_report.jpeg", width: 20 %>
+              <%= link_to image_tag("http://bit.ly/2fG4utq", alt: "Image of report generated", width: 300), visits_path %>
             </div>
             <div class="col-xs-8">
               <h4>Generate Reports<h4>
@@ -33,41 +33,10 @@
               <p>Using the information gathered in the report as well as prior visit information, generate an after-visit letter in well-written English.</p>
             </div>
             <div class="col-xs-4">
-              <%= image_tag "new_visit.jpeg", width: 300 %>
+              <%= link_to image_tag("http://bit.ly/2g1zSFk", alt: "Screenshot of new visit page", width: 300), new_visit_path %>
             </div>
           </div>
           <hr />
-          <div class="container-fluid"> <!-- this makes your images scale constantly, between breakpoints as welll. removing -fluid makes then jump in size at breakpoints -->
-  <div class="row">
-
-  <div class="col-md-3 col-sm-4 col-xs-6">
-    <div class="thumbnail_container">
-      <div class="thumbnail">
-          <img src="http://placehold.it/400x600">
-      </div>
-    </div>
-</div>
-<div class="col-md-3 col-sm-4 col-xs-6">
-    <div class="thumbnail_container">
-      <div class="thumbnail">
-        <img src="http://placehold.it/600x600">
-      </div>
-    </div>
-</div>
-<div class="col-md-3 col-sm-4 col-xs-6">
-    <div class="thumbnail_container">
-      <div class="thumbnail">
-          <img src="http://placehold.it/600x400">
-      </div>
-    </div>
-</div>
-<div class="col-md-3 col-sm-4 col-xs-6">
-    <div class="thumbnail_container">
-      <div class="thumbnail">
-        <img src="no-photo" /> <!-- No Photo, but it still scales -->
-      </div>
-    </div>
-</div>
         </div>
       </div>
     </div>
