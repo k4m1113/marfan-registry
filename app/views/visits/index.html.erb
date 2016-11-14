@@ -16,10 +16,22 @@
           <td><%= link_to "#{visit.patient.last_name}, #{visit.patient.first_name}", patient_path(visit.patient_id) %></td>
           <td><%= link_to "View Details", visit_path(visit.id) %></td>
           <td>
-            <div class="btn-group btn-group-sm" role="group">
+            <div class="hidden-sm hidden-xs btn-group btn-group-sm hidden-sm-down" role="group">
               <%= button_to "Generate Report", report_visit_path(id: visit.id), type: "button", method: :get, class: "btn btn-secondary" %>
               <%= button_to "Edit Visit", edit_visit_path(id: visit.id), type: "button", method: :get, class: "btn btn-secondary" %>
               <%= button_to "Destroy Visit", visit_path(id: visit.id), method: :delete, type: "button", class: "btn btn-secondary" %>
+            </div>
+            <div class="hidden-md hidden-lg hidden-xlg btn-group btn-group-sm" role="group">
+              <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Actions
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Generate Report", report_visit_path(id: visit.id), method: :get %></li>
+                <li><%= link_to "Update Visit", edit_visit_path(id: visit.id), method: :get %></li>
+                <li><%= link_to "Destroy Visit", visit_path(id: visit.id), method: :delete %></li>
+              </ul>
+            </div>
             </div>
           </td>
         </tr>
