@@ -36,34 +36,34 @@
 
 <script>
   function renderCardiacSymptoms() {
-    $('#symptom_category').html("<%= j render 'cardiac', f: f, symptoms: @cardiac_symptoms %>")
+    $('#symptom_category').html("<%= j render 'visits/systemic_categories/cardiac', f: f, symptoms: @cardiac_symptoms %>")
   }
   function renderDuralSymptoms() {
-    $('#symptom_category').html("<%= j render partial: 'dural', :locals => { f: f } %>")
+    $('#symptom_category').html("<%= j render 'visits/systemic_categories/dural', f: f, symptoms: @dural_symptoms %>")
   }
   function renderAuralSymptoms() {
-    $('#symptom_category').html("<%= j render partial: 'aural', :locals => { f: f } %>")
+    $('#symptom_category').html("<%= j render 'visits/systemic_categories/aural', f: f, symptoms: @aural_symptoms %>")
   }
   function renderOcularSymptoms() {
-    $('#symptom_category').html("<%= j render partial: 'ocular', :locals => { f: f } %>")
+    $('#symptom_category').html("<%= j render 'visits/systemic_categories/ocular', f: f, symptoms: @ocular_symptoms %>")
   }
   function renderPulmonarySymptoms() {
-    $('#symptom_category').html("<%= j render partial: 'pulmonary', :locals => { f: f } %>")
+    $('#symptom_category').html("<%= j render 'visits/systemic_categories/pulmonary', f: f, symptoms: @pulmonary_symptoms %>")
   }
   function renderIntegumentarySymptoms() {
-    $('#symptom_category').html("<%= j render partial: 'integumentary', :locals => { f: f } %>")
+    $('#symptom_category').html("<%= j render 'visits/systemic_categories/integumentary', f: f, symptoms: @integumentary_symptoms %>")
   }
   function renderCranialSymptoms() {
-    $('#symptom_category').html("<%= j render partial: 'cranial', :locals => { f: f } %>")
+    $('#symptom_category').html("<%= j render 'visits/systemic_categories/cranial', f: f, symptoms: @cranial_symptoms %>")
   }
   function renderFeetSymptoms() {
-    $('#symptom_category').html("<%= j render partial: 'feet', :locals => { f: f } %>")
+    $('#symptom_category').html("<%= j render 'visits/systemic_categories/feet', f: f, symptoms: @feet_symptoms %>")
   }
   function renderGeneralSkeletalSymptoms() {
-    $('#symptom_category').html("<%= j render partial: 'general_skeletal', :locals => { f: f } %>")
+    $('#symptom_category').html("<%= j render 'visits/systemic_categories/general_skeletal', f: f, symptoms: @general_skeletal_symptoms %>")
   }
   function renderHandSymptoms() {
-    $('#symptom_category').html("<%= j render partial: 'hand', :locals => { f: f } %>")
+    $('#symptom_category').html("<%= j render 'visits/systemic_categories/hand', f: f, symptoms: @hand_symptoms %>")
   }
 
 </script>

@@ -1,38 +1,59 @@
 <br />
+<% require 'Report' %>
 <div class="row">
   <div class="col-xs-11 col-md-6 col-centered">
-    <% if @visit.patient.sex == "F" %>
-      <% @she_he = "she" %>
-      <% @his_her = "her" %>
-    <% else %>
-      <% @she_he = "he" %>
-      <% @his_her = "his" %>
-    <% end %>
     <p><%= Time.now.strftime("%d %B %Y") %></p>
     <br />
 
-    <p><%= @visit.patient.address_line_1 %></p>
-    <p><%= @visit.patient.address_line_2 %></p>
-    <p><%= "#{@visit.patient.city}, #{@visit.patient.state}, #{@visit.patient.postal_code}" %></p>
-    <p><%= @visit.patient.country %></p>
+    <p><%= @patient.address_line_1 %>
+    <% if @patient.address_line_2.nil? %>
+      <br />
+    <% else %>
+      <%= @patient.address_line_2 %><br />
+    <% end %>
+    <%= "#{@patient.city}, #{@patient.state}, #{@patient.postal_code}" %><br />
+    <%= @patient.country %></p>
     <br />
 
     <p>To whom it may concern,</p>
     <p>
-      <%= "I had the pleasure of seeing #{@visit.patient.first_name} #{@visit.patient.last_name} on #{@visit.created_at.strftime("%A, %d %B %Y")} at #{@clinician.practice_name} in #{@clinician.city}, #{@clinician.state}." %>
+      I had the pleasure of seeing <%= "#{@patient.first_name} #{@patient.last_name}" %> on <%= @visit.created_at.strftime("%A, %d %B %Y") %> at <%= @clinician.practice_name %> in <%= "#{@clinician.city}, #{@clinician.state}." %>
     </p>
-    <% if @visit.primary_reason %>
-      <p>
-        <%= "#{@visit.patient.first_name} came to us primarily" %>
+    <p>
+      <%= @patient.first_name %> reported that <%= @he_she %> was feeling in <%= @visit.general_health.downcase %> health
+      <% if @visit.primary_reason %>
+        and <%= @she_he %> came to us primarily
         <% case @visit.primary_reason %>
         <% when "because of a hospitalization" %>
-          <%= "because of a #{@visit.hospitalizations[0].hosp_type} hospitalization" %>
+           because of a <%= @visit.hospitalizations[0].hosp_type.downcase %> hospitalization
           <% if @visit.hospitalizations[0].admission_date %>
-            <%= "which occurred on #{@visit.hospitalizations[0].admission_date.strftime('%d %B %Y')}" %>
+            which occurred on <%= @visit.hospitalizations[0].admission_date.strftime('%d %B %Y') %>
           <% else %>
+           .
           <% end %>
         <% when "due to family history" %>
-          <%= "due to family history" %>
+          due to family history, including
+          <% @visit.family_members.each do |fm| %>
+            a <%= fm.relationship.downcase %>, <%= fm.name %>,
+            <% if fm.age %>
+              <% if fm.living %>
+                aged <%= fm.age %> and still alive
+              <% else %>
+                who was <%= fm.age %> when they died
+                <%- if fm.cause_of_death -%>
+                  of <%= fm.cause_of_death.downcase %>
+                <%- else -%>.
+                <% end %>
+              <% end %>
+            <% end %>
+            <% if fm == @visit.family_members.last %>
+              <%= "." %>
+            <% elsif fm == @visit.family_members[-2] %>
+              <%= ", and" %>
+            <% else %>
+              <%= ", " %>
+            <% end %>
+          <% end %>
         <% when "for recent testing" %>
           <%= "for recent testing" %>
         <% when "because of related symptoms" %>
@@ -43,8 +64,9 @@
             <%= "These symptoms included a presence of #{SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0].article} #{SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0].common_name}." %>
           <% end %>
         <% end %>
-      </p>
-    <% end %>
-
+      <% else %>
+        .
+      <% end %>
+    </p>
   </div>
 </div>
