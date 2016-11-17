@@ -4,16 +4,15 @@
   <div class="form-group">
     <div class="col-xs-11 col-md-4 col-centered">
       <div class="row">
-        <div class="col-xs-11 col-md-5">
-          <%= ff.label "When was the test?", class: "control-label" %><br />
-          <%= ff.date_field :test_date, autofocus: true, class: "form-control" %>
-        </div>
         <div class="col-xs-11 col-md-7">
-          <%= ff.label "And what type of test was it?", class: "control-label" %><br />
+          <%= ff.label "What type of test was it?", class: "control-label" %><br />
           <%= ff.text_field :test_type, autofocus: true, class: "form-control", placeholder: "ex: Echocardiogram, Blood test" %>
         </div>
+        <div class="col-xs-11 col-md-5">
+          <%= ff.label "And when was the test?", class: "control-label" %><br />
+          <%= ff.date_field :test_date, autofocus: true, class: "form-control" %>
+        </div>
       </div>
-
     </div>
     <br />
     <div class="col-xs-11 col-md-4 col-centered">

@@ -5,13 +5,13 @@
     <br />
     <div class="col-xs-11 col-md-4 col-centered">
       <div class="row">
-        <div class="col-xs-11 col-md-7">
-          <%= ff.label "When was your recent hospitalization?", class: "control-label" %><br />
-          <%= ff.date_field :admission_date, autofocus: true, class: "form-control" %>
-        </div>
         <div class="col-xs-11 col-md-5">
-          <%= ff.label "And for how many days?", class: "control-label" %><br />
+          <%= ff.label "For how many days?", class: "control-label" %><br />
           <%= ff.number_field :length_of_stay, autofocus: true, class: "form-control" %>
+        </div>
+        <div class="col-xs-11 col-md-7">
+          <%= ff.label "And when were you admitted?", class: "control-label" %><br />
+          <%= ff.date_field :admission_date, autofocus: true, class: "form-control" %>
         </div>
       </div>
     </div>
