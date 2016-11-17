@@ -1,5 +1,4 @@
 <br />
-<% require 'Report' %>
 <div class="row">
   <div class="col-xs-11 col-md-6 col-centered">
     <p><%= Time.now.strftime("%d %B %Y") %></p>
@@ -55,15 +54,21 @@
             <% end %>
           <% end %>
         <% when "for recent testing" %>
-          <%= "for recent testing" %>
+          for recent testing
+
         <% when "because of related symptoms" %>
-          <%= "because of #{SeededSymptom.where(id: @visit.symptoms.first.seeded_symptom_id)[0].systemic_category.downcase} symptoms." %>
-          <% if @first_symptom.presence == false %>
-            <%= "These symptoms included an absence of #{SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0].article} #{SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0].common_name}." %>
+          because of <%= @first_seeded_symptom.systemic_category.downcase %> symptoms. These symptoms included
+          <% if @first_symptom.presence.nil? %>
           <% else %>
-            <%= "These symptoms included a presence of #{SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0].article} #{SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0].common_name}." %>
+            <% if @first_symptom.presence == false %>
+              an absence of
+            <% elsif @first_symptom.presence == true %>
+              a presence of
+            <% end %>
           <% end %>
+          <%= "#{@first_seeded_symptom.article} #{@first_seeded_symptom.common_name}" %>
         <% end %>
+        if 
       <% else %>
         .
       <% end %>

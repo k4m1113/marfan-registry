@@ -103,8 +103,21 @@ class VisitsController < ApplicationController
     @visit = Visit.find(params[:id])
     @clinician = Clinician.where(id: @visit.clinician_id)[0]
     @first_symptom = @visit.symptoms.first
+    @first_seeded_symptom = SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0]
     @first_family_member = @visit.family_members.first
     @patient = Patient.where(id: @visit.patient_id)[0]
+
+    @relevant_symptoms = []
+    @visit.symptoms.each do |s|
+      @first_seeded_symptom_category = SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0].systemic_category
+      if (SeededSymptom.where(id: s.seeded_symptom_id)[0].systemic_category == @first_seeded_symptom_category)
+        @relevant_symptoms.push(s)
+      end
+      return @relevant_symptoms
+      binding.pry
+    end
+
+
     if @patient.sex == "F"
       @she_he = "she"
       @his_her = "her"

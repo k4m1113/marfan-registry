@@ -1,57 +1,52 @@
-
-
-<div class="row">
-  <div class="form-group">
-    <div class="col-xs-11 col-md-4 col-centered">
-      <%= f.label "What brings you in to the clinic?", class: "col-xs-10 control-label" %><br /><br />
-      <%= f.label :primary_reason, "Family History", class: "radio-inline col-xs-10 control-label" %>
-      <%= f.radio_button :primary_reason, "due to family history", :onclick => "renderPartialThree();" %> <br />
-      <%= f.label :primary_reason, "Hospitalization", class: "radio-inline col-xs-10 control-label" %>
-      <%= f.radio_button :primary_reason, "because of a hospitalization", :onclick => "renderPartialTwo();" %> <br />
-      <%= f.label :primary_reason, "Recent Testing", class: "radio-inline col-xs-10 control-label" %>
-      <%= f.radio_button :primary_reason, "for recent testing", :onclick => "renderPartialFour();" %> <br />
-      <%= f.label :primary_reason, "Symptoms" , class: "radio-inline col-xs-10 control-label"%>
-      <%= f.radio_button :primary_reason, "because of related symptoms", :onclick => "renderSymptomsRadioButtons();" %> <br />
-      <!-- <%= f.label :primary_reason, "Chest Pain", class: "radio-inline col-xs-10 control-label" %>
-      <%= f.radio_button :primary_reason, "on account of chest pain" %> <br />
-      <%= f.label :primary_reason, "Checkup", class: "radio-inline col-xs-10 control-label" %>
-      <%= f.radio_button :primary_reason, "for a checkup" %> <br /> -->
-    </div>
-  </div>
+<div class="form-check">
+  <div class="col-xs-11 col-md-4 col-centered">
+    <%= f.label "What brings you in to the clinic?", class: "form-check-label" %><br />
+    <dl>
+      <div class="container">
+        <label class="form-check-label radio-inline", value="due to family history" >
+          <dt class="col-sm-1"><%= f.radio_button :primary_reason, "due to family history", class: "form-check-input", onclick: "renderFamilyMember('#reason-for-visit-response');" %></dt>
+          <dd class="col-sm-11", value="due to family history">Family History</dd>
+        </label>
+      </div>
+      <div class="container">
+        <label class="form-check-label radio-inline", value="because of a hospitalization" >
+          <dt class="col-sm-1"><%= f.radio_button :primary_reason, "because of a hospitalization", class: "form-check-input", onclick: "renderHospitalization('#reason-for-visit-response');" %></dt>
+          <dd class="col-sm-11", value="because of a hospitalization">Recent Hospitalization</dd>
+        </label>
+      </div>
+      <div class="container">
+        <label class="form-check-label radio-inline", value="for recent testing" >
+          <dt class="col-sm-1"><%= f.radio_button :primary_reason, "for recent testing", class: "form-check-input", onclick: "renderTest('#reason-for-visit-response');" %></dt>
+          <dd class="col-sm-11", value="for recent testing">Recent Testing</dd>
+        </label>
+      </div>
+      <div class="container">
+        <label class="form-check-label radio-inline", value="because of related symptoms" >
+          <dt class="col-sm-1"><%= f.radio_button :primary_reason, "because of related symptoms", class: "form-check-input", onclick: "renderSymptomsRadioButtons('#reason-for-visit-response');" %></dt>
+          <dd class="col-sm-11", value="because of related symptoms">Related Symptoms</dd>
+        </label>
+      </div>
+    </dl>
+  <!-- <%= f.label :primary_reason, "Chest Pain", class: "radio-inline col-xs-10 control-label" %>
+  <%= f.radio_button :primary_reason, "on account of chest pain" %> <br />
+  <%= f.label :primary_reason, "Checkup", class: "radio-inline col-xs-10 control-label" %>
+  <%= f.radio_button :primary_reason, "for a checkup" %> <br /> -->
 </div>
+
 
 <div id="reason-for-visit-response"></div>
 
 <script>
-  function renderPartialTwo() {
-    console.log("Partial Two Called")
-    $('#reason-for-visit-response').html("<%= j render partial: 'hospitalization_form', :locals => { f: f } %>");
+  function renderHospitalization(div_attachment_id) {
+    $(div_attachment_id).html("<%= j render 'hospitalization_form', f: f %>");
   }
-  function renderPartialThree() {
-    console.log("Partial Three Called")
-    $('#reason-for-visit-response').html("<%= j render partial: 'family_member', :locals => { f: f } %>");
+  function renderFamilyMember(div_attachment_id) {
+    $(div_attachment_id).html("<%= j render 'family_member', f: f %>");
   }
-  function renderPartialFour() {
-    console.log("Partial Four Called")
-    $('#reason-for-visit-response').html("<%= j render partial: 'test', :locals => { f: f } %>");
+  function renderTest(div_attachment_id) {
+    $(div_attachment_id).html("<%= j render 'test', f: f %>");
   }
-  function renderSymptomsRadioButtons() {
-    console.log("Symptom Type Radio Buttons Called")
-    $('#reason-for-visit-response').html("<%= j render partial: 'symptoms_category_buttons', :locals => { f: f } %>");
-  }
-  function renderHospAgain() {
-    console.log("Hospitalization Partial Called")
-    $('#add-another').html("<%= j render partial: 'hospitalization_form', :locals => { f: f } %>");
-    $('.show_button').hide();
-  }
-  function renderFamAgain() {
-    console.log("Family Partial Called")
-    $('#add-another').html("<%= j render partial: 'family_member', :locals => { f: f } %>");
-    $('.show_button').hide();
-  }
-  function renderTestAgain() {
-    console.log("Test Partial Called")
-    $('#add-another').html("<%= j render partial: 'test', :locals => { f: f } %>");
-    $('.show_button').hide();
+  function renderSymptomsRadioButtons(div_attachment_id) {
+    $(div_attachment_id).html("<%= j render 'symptoms_category_buttons',  f: f %>");
   }
 </script>

@@ -1,7 +1,7 @@
 <%= form_for @visit, class: "visit_form" do |f| %>
   <script>
     function renderPartialOne() {
-      $('#general-health-response').html('<%= j render partial: "reason_for_visit", :locals => { f: f } %>')
+      $('#general-health-response').html('<%= j render "reason_for_visit", f: f %>')
     }
   </script>
 
@@ -16,31 +16,54 @@
   <div class="row">
     <div class="form-group">
       <div class="col-xs-11 col-md-4 col-centered">
-        <%= f.label "Patient ID: ", class: "col-xs-6 control-label" %><br />
-        <%= f.number_field :patient_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
-        <%= f.label "Clinician ID: ", class: "col-xs-6 control-label" %><br />
-        <%= f.number_field :clinician_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
+        <div class="col-xs-6">
+          <%= f.label "Patient ID: ", class: "col-xs-6 control-label" %><br />
+          <%= f.number_field :patient_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
+        </div>
+        <div class="col-xs-6">
+          <%= f.label "Clinician ID: ", class: "col-xs-6 control-label" %><br />
+          <%= f.number_field :clinician_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
+        </div>
       </div>
     </div>
-  </div>
+  </div><br />
 
   <div class="row">
     <div class="form-group">
-      <div class="col-xs-11 col-md-4 col-centered">
-        <%= f.label "How are you feeling today?", class: "col-xs-10 control-label" %><br />
-        <%= f.label :general_health, "Poor", class: "radio-inline col-xs-10 control-label" %>
-        <%= f.radio_button :general_health, "Poor", :onclick => "renderPartialOne();" %> <br />
-        <%= f.label :general_health, "Fair", class: "radio-inline col-xs-10 control-label" %>
-        <%= f.radio_button :general_health, "Fair", :onclick => "renderPartialOne();" %> <br />
-        <%= f.label :general_health, "Good", class: "radio-inline col-xs-10 control-label" %>
-        <%= f.radio_button :general_health, "Good", :onclick => "renderPartialOne();" %> <br />
-        <%= f.label :general_health, "Excellent", class: "radio-inline col-xs-10 control-label" %>
-        <%= f.radio_button :general_health, "Excellent", :onclick => "renderPartialOne();" %> <br />
+      <div class="form-check">
+        <div class="col-xs-11 col-md-4 col-centered">
+          <%= f.label "How are you feeling today?", class: "form-check-label" %><br />
+          <dl>
+            <div class="container">
+              <label class="form-check-label radio-inline", value="Poor" >
+                <dt class="col-sm-1"><%= f.radio_button :general_health, "Poor", class: "form-check-input", onclick: "renderPartialOne();" %></dt>
+                <dd class="col-sm-11", value="Poor">Poor</dd>
+              </label>
+            </div>
+            <div class="container">
+              <label class="form-check-label radio-inline", value="Fair" >
+                <dt class="col-sm-1"><%= f.radio_button :general_health, "Fair", class: "form-check-input", onclick: "renderPartialOne();" %></dt>
+                <dd class="col-sm-11", value="Fair">Fair</dd>
+              </label>
+            </div>
+            <div class="container">
+              <label class="form-check-label radio-inline", value="Good" >
+                <dt class="col-sm-1"><%= f.radio_button :general_health, "Good", class: "form-check-input", onclick: "renderPartialOne();" %></dt>
+                <dd class="col-sm-11", value="Good">Good</dd>
+              </label>
+            </div>
+            <div class="container">
+              <label class="form-check-label radio-inline", value="Excellent" >
+                <dt class="col-sm-1"><%= f.radio_button :general_health, "Excellent", class: "form-check-input", onclick: "renderPartialOne();" %></dt>
+                <dd class="col-sm-11", value="Excellent">Excellent</dd>
+              </label>
+            </div>
+          </dl>
+        </div>
       </div>
+      <div id="general-health-response"></div>
     </div>
   </div>
-
-  <div id="general-health-response"></div><br />
 
   <div class="row">
     <div class="form-group">
