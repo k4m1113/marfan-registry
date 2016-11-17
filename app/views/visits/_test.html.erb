@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="form-group">
-    <div class="col-xs-11 col-md-4 col-centered">
+    <div class="col-xs-11 col-md-6 col-centered">
       <div class="row">
         <div class="col-xs-11 col-md-7">
           <%= ff.label "What type of test was it?", class: "control-label" %><br />
@@ -10,18 +10,17 @@
         </div>
         <div class="col-xs-11 col-md-5">
           <%= ff.label "And when was the test?", class: "control-label" %><br />
-          <%= ff.date_field :test_date, autofocus: true, class: "form-control" %>
+          <%= ff.date_field :test_date, class: "form-control" %>
         </div>
       </div>
     </div>
     <br />
-    <div class="col-xs-11 col-md-4 col-centered">
+    <div class="col-xs-11 col-md-6 col-centered">
       <%= ff.label "What were the results of the test?", class: "control-label" %><br />
-      <%= ff.text_area :result, autofocus: true, class: "form-control" %>
+      <%= ff.text_area :result, class: "form-control" %>
     </div>
     <br />
-    <div class="col-xs-11 col-md-4 col-centered">
-      <br />
+    <div class="col-xs-11 col-md-6 col-centered">
       <button class="show_button btn btn-primary" type="button" onclick="renderTest('#add-another')">Add another test?</button>
     </div>
   </div>

@@ -1,7 +1,7 @@
 <%= f.fields_for :family_members do |ff| %>
 <div class="row">
   <div class="form-group">
-    <div class="col-xs-11 col-md-4 col-centered">
+    <div class="col-xs-11 col-md-6 col-centered">
       <div class="row">
         <div class="col-xs-11 col-md-4">
           <%= ff.label "Relationship:", class: "control-label" %><br />
@@ -9,32 +9,32 @@
         </div>
         <div class="col-xs-11 col-md-4">
           <%= ff.label "Name:", class: "control-label" %><br />
-          <%= ff.text_field :name, autofocus: true, class: "form-control" %>
+          <%= ff.text_field :name, class: "form-control" %>
         </div>
         <div class="col-xs-11 col-md-4">
           <%= ff.label "Age:", class: "control-label" %><br />
-          <%= ff.number_field :age, autofocus: true, class: "form-control", min: 1, step: 1 %>
+          <%= ff.number_field :age, class: "form-control", min: 1, step: 1 %>
         </div>
       </div>
     </div><br />
 
-    <div class="col-xs-11 col-md-4 col-centered">
+    <div class="col-xs-11 col-md-6 col-centered">
       <%= ff.label "Check if deceased:", class: "control-label" %><br />
-      <%= ff.check_box :living, autofocus: true, class: "form-control btn btn-default", onclick: "$('#deceased').toggle();" %>
+      <%= ff.check_box :living, class: "form-control btn btn-default", onclick: "$('#deceased').toggle();" %>
     </div><br />
 
     <div id="deceased" style="display: none">
-      <div class="col-xs-11 col-md-4 col-centered">
+      <div class="col-xs-11 col-md-6 col-centered">
         <%= ff.label "What was their cause of death?", class: "control-label" %><br />
-        <%= ff.text_field :cause_of_death, autofocus: true, class: "form-control" %>
+        <%= ff.text_field :cause_of_death, class: "form-control" %>
       </div><br />
     </div>
 
-    <div class="col-xs-11 col-md-4 col-centered">
+    <div class="col-xs-11 col-md-6 col-centered">
       <%= ff.label "Anything else to add?", class: "control-label" %><br />
-      <%= ff.text_area :note, autofocus: true, class: "form-control" %><br />
-    </div><br />
-    <div class="col-xs-11 col-md-4 col-centered">
+      <%= ff.text_area :note, class: "form-control" %><br />
+    </div>
+    <div class="col-xs-11 col-md-6 col-centered">
       <button class="show_button btn btn-primary" type="button" onclick="renderFamilyMember('#add-another')">Add another family member?</button>
     </div>
   </div>

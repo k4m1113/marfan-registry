@@ -7,11 +7,16 @@
       <%= s.name %>
     </td>
     <td>
-      <div class="field">
-        <%= ff.label :presence, "True", :value => true, class: "radio-inline" %>
-        <%= ff.radio_button :presence, true, :value => true, name: "visit[symptoms_attributes][#{s.id}][presence]" %>
-        <%= ff.label :presence, "False", :value => false, class: "radio-inline" %>
-        <%= ff.radio_button :presence, false, :value => false, name: "visit[symptoms_attributes][#{s.id}][presence]" %>
+      <div class="form-check">
+        <label class="form-check-label radio-inline", value="true" >
+          <dt><%= f.radio_button :presence, true, :value => true, name: "visit[symptoms_attributes][#{s.id}][presence]" %></dt>
+          <dd value="true">True</dd>
+        </label>
+
+        <label class="form-check-label radio-inline", value="false" >
+          <dt><%= f.radio_button :presence, false, :value => false, name: "visit[symptoms_attributes][#{s.id}][presence]" %></dt>
+          <dd value="false">False</dd>
+        </label>
       </div>
     </td>
     <td>
