@@ -35,7 +35,7 @@
           <% @visit.family_members.each do |fm| %>
             a <%= fm.relationship.downcase %>, <%= fm.name %>,
             <% if fm.age %>
-              <% if fm.living %>
+              <% if !fm.living %>
                 aged <%= fm.age %> and still alive
               <% else %>
                 who was <%= fm.age %> when they died
