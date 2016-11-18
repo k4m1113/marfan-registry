@@ -1,42 +1,34 @@
 <%= f.fields_for :family_members do |ff| %>
-<div class="row">
   <div class="form-group">
-    <div class="col-xs-11 col-md-6 col-centered">
-      <div class="row">
-        <div class="col-xs-11 col-md-5">
-          <%= ff.label "Name:", class: "control-label" %><br />
-          <%= ff.text_field :name, class: "form-control", autofocus: true %>
-        </div>
-        <div class="col-xs-11 col-md-5">
-          <%= ff.label "Relationship:", class: "control-label" %><br />
-          <%= ff.select :relationship, Rails.application.config.relationship_types, class: "form-control", prompt: "Select Relationship" %>
-        </div>
-        <div class="col-xs-11 col-md-2">
-          <%= ff.label "Age:", class: "control-label" %><br />
-          <%= ff.number_field :age, class: "form-control", min: 1, step: 1 %>
-        </div>
+    <div class="row">
+      <div class="col-xs-11 col-md-4">
+        <%= ff.label "Relationship:", class: "control-label" %><br />
+        <%= ff.select :relationship, Rails.application.config.relationship_types, class: "form-control", prompt: "Select Relationship", autofocus: true %>
       </div>
-    </div><br />
-
-    <div class="col-xs-11 col-md-6 col-centered">
-      <%= ff.label "Check if deceased:", class: "control-label" %><br />
-      <%= ff.check_box :living, class: "form-control btn btn-default", onclick: "$('#deceased').toggle();" %>
-    </div><br />
-
+      <div class="col-xs-11 col-md-4">
+        <%= ff.label "Name:", class: "control-label" %><br />
+        <%= ff.text_field :name, class: "form-control" %>
+      </div>
+      <div class="col-xs-11 col-md-4">
+        <%= ff.label "Age:", class: "control-label" %><br />
+        <%= ff.number_field :age, class: "form-control", min: 1, step: 1 %>
+      </div>
+    </div>
+    <br />
+    <%= ff.label "Check if deceased:", class: "control-label" %><br />
+    <%= ff.check_box :living, class: "form-control btn btn-default", onclick: "$('#deceased').toggle();" %>
+    <br />
     <div id="deceased" style="display: none">
-      <div class="col-xs-11 col-md-6 col-centered">
-        <%= ff.label "What was their cause of death?", class: "control-label" %><br />
-        <%= ff.text_field :cause_of_death, class: "form-control" %>
-      </div><br />
+      <%= ff.label "What was their cause of death?", class: "control-label" %><br />
+      <%= ff.text_field :cause_of_death, class: "form-control" %>
     </div>
-
-    <div class="col-xs-11 col-md-6 col-centered">
-      <%= ff.label "Anything else to add?", class: "control-label" %><br />
-      <%= ff.text_area :note, class: "form-control" %><br />
-    </div>
-    <div class="col-xs-11 col-md-6 col-centered">
-      <button class="show_button btn btn-primary" type="button" onclick="renderFamilyMember('#add-another')">Add another family member?</button>
-    </div>
+    <br />
+    <%= ff.label "Anything else to add?", class: "control-label" %><br />
+    <%= ff.text_area :note, class: "form-control" %>
+    <br />
+    <button class="show_button btn btn-primary center-block" type="button" onclick="renderFamilyMember('#add-another')">
+      Add another family member?
+    </button>
   </div>
 </div>
 

@@ -12,7 +12,7 @@
           <dt><%= f.radio_button :presence, true, :value => true, name: "visit[symptoms_attributes][#{s.id}][presence]" %></dt>
           <dd value="true">True</dd>
         </label>
-
+        <br />
         <label class="form-check-label radio-inline", value="false" >
           <dt><%= f.radio_button :presence, false, :value => false, name: "visit[symptoms_attributes][#{s.id}][presence]" %></dt>
           <dd value="false">False</dd>

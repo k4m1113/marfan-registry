@@ -1,40 +1,28 @@
 <%= f.fields_for :hospitalizations do |ff| %>
-
-<div class="row">
   <div class="form-group">
-    <br />
-    <div class="col-xs-11 col-md-6 col-centered">
-      <div class="row">
-        <div class="col-xs-11 col-md-5">
-          <%= ff.label "For how many days?", class: "control-label" %><br />
-          <%= ff.number_field :length_of_stay, autofocus: true, class: "form-control" %>
-        </div>
-        <div class="col-xs-11 col-md-7">
-          <%= ff.label "And when were you admitted?", class: "control-label" %><br />
-          <%= ff.date_field :admission_date, class: "form-control" %>
-        </div>
+    <div class="row">
+      <div class="col-xs-11 col-md-5">
+        <%= ff.label "For how many days?", class: "control-label" %><br />
+        <%= ff.number_field :length_of_stay, autofocus: true, class: "form-control" %>
+      </div>
+      <div class="col-xs-11 col-md-7">
+        <%= ff.label "And when were you admitted?", class: "control-label" %><br />
+        <%= ff.date_field :admission_date, class: "form-control" %>
       </div>
     </div>
     <br />
-    <div class="col-xs-11 col-md-6 col-centered">
-      <%= ff.label "What type of hospitalization was it?", class: "control-label" %><br />
-      <%= ff.text_field :hosp_type, class: "form-control", placeholder: "ex: Emergency, Surgical" %>
-    </div>
+    <%= ff.label "What type of hospitalization was it?", class: "control-label" %><br />
+    <%= ff.text_field :hosp_type, class: "form-control", placeholder: "ex: Emergency, Surgical" %>
     <br />
-    <div class="col-xs-11 col-md-6 col-centered">
-      <%= ff.label "Where were you hospitalized?", class: "control-label" %><br />
-      <%= ff.text_field :location, class: "form-control", placeholder: "ex: San Francisco General Hospital" %>
-    </div>
+    <%= ff.label "Where were you hospitalized?", class: "control-label" %><br />
+    <%= ff.text_field :location, class: "form-control", placeholder: "ex: San Francisco General Hospital" %>
     <br />
-    <div class="col-xs-11 col-md-6 col-centered">
-      <%= ff.label "Anything else to add?", class: "control-label" %><br />
-      <%= ff.text_area :description, class: "form-control" %>
-    </div>
+    <%= ff.label "Anything else to add?", class: "control-label" %><br />
+    <%= ff.text_area :description, class: "form-control" %>
     <br />
-    <div class="col-xs-11 col-md-6 col-centered">
-      <button class="show_button btn btn-primary" type="button" onclick="renderHospitalization('#add-another')">Add another hospitalization?</button>
-    </div>
-
+    <button class="show_button btn btn-primary center-block" type="button" onclick="renderHospitalization('#add-another')">
+      Add another hospitalization?
+    </button>
   </div>
 </div>
 

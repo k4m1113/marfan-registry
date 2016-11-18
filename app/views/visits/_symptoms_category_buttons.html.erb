@@ -1,89 +1,81 @@
-<div class="row">
-  <div class="form-group">
-    <div class="form-check">
-      <div class="col-xs-6 col-md-3 col-centered">
-        <%= f.label "In which category are your symptoms?", class: "form-check-label text-center" %>
-        <br />
-        <label class="form-check-label radio-inline", value="Cardiac" >
-          <dt>
-            <%= f.radio_button :secondary_reason, "Cardiac", class: "form-check-input", onclick: "renderCardiacSymptoms();" %>
-          </dt>
-          <dd value="Cardiac">Cardiac</dd>
-        </label>
-        <br />
-        <label class="form-check-label radio-inline", value="Ocular" >
-          <dt>
-            <%= f.radio_button :secondary_reason, "Ocular", class: "form-check-input", onclick: "renderOcularSymptoms();" %>
-          </dt>
-          <dd value="Ocular">Ocular</dd>
-        </label>
-        <br />
-        <label class="form-check-label radio-inline", value="Aural" >
-          <dt>
-            <%= f.radio_button :secondary_reason, "Aural", class: "form-check-input", onclick: "renderAuralSymptoms();" %>
-          </dt>
-          <dd value="Aural">Aural</dd>
-        </label>
-        <br />
-        <label class="form-check-label radio-inline", value="Ocular" >
-          <dt>
-            <%= f.radio_button :secondary_reason, "Ocular", class: "form-check-input", onclick: "renderOcularSymptoms();" %>
-          </dt>
-          <dd value="Ocular">Ocular</dd>
-        </label>
-        <br />
-        <label class="form-check-label radio-inline", value="Pulmonary" >
-          <dt>
-            <%= f.radio_button :secondary_reason, "Pulmonary", class: "form-check-input", onclick: "renderPulmonarySymptoms();" %>
-          </dt>
-          <dd value="Pulmonary">Pulmonary</dd>
-        </label>
-        <br />
-        <label class="form-check-label radio-inline", value="Integumentary" >
-          <dt>
-            <%= f.radio_button :secondary_reason, "Integumentary", class: "form-check-input", onclick: "renderIntegumentarySymptoms();" %>
-          </dt>
-          <dd value="Integumentary">Integumentary</dd>
-        </label>
-        <br />
-        <label class="form-check-label radio-inline", value="Cranial" >
-          <dt>
-            <%= f.radio_button :secondary_reason, "Cranial", class: "form-check-input", onclick: "renderCranialSymptoms();" %>
-          </dt>
-          <dd value="Cranial">Cranial</dd>
-        </label>
-        <br />
-        <label class="form-check-label radio-inline", value="Feet" >
-          <dt>
-            <%= f.radio_button :secondary_reason, "Feet", class: "form-check-input", onclick: "renderFeetSymptoms();" %>
-          </dt>
-          <dd value="Feet">Feet</dd>
-        </label>
-        <br />
-        <label class="form-check-label radio-inline", value="Hand" >
-          <dt>
-            <%= f.radio_button :secondary_reason, "Hand", class: "form-check-input", onclick: "renderHandSymptoms();" %>
-          </dt>
-          <dd value="Hand">Hand</dd>
-        </label>
-        <br />
-        <label class="form-check-label radio-inline", value="General Skeletal" >
-          <dt>
-            <%= f.radio_button :secondary_reason, "General Skeletal", class: "form-check-input", onclick: "renderGeneralSkeletalSymptoms();" %>
-          </dt>
-          <dd value="General Skeletal">General Skeletal</dd>
-        </label>
-      </div>
-    </div>
+<div class="form-group">
+  <div class="form-check">
+    <%= f.label "In which category are your symptoms?", class: "form-check-label text-center" %>
+    <br />
+    <label class="form-check-label radio-inline", value="Cardiac" >
+      <dt>
+        <%= f.radio_button :secondary_reason, "Cardiac", class: "form-check-input", onclick: "renderCardiacSymptoms();" %>
+      </dt>
+      <dd value="Cardiac">Cardiac</dd>
+    </label>
+    <br />
+    <label class="form-check-label radio-inline", value="Ocular" >
+      <dt>
+        <%= f.radio_button :secondary_reason, "Ocular", class: "form-check-input", onclick: "renderOcularSymptoms();" %>
+      </dt>
+      <dd value="Ocular">Ocular</dd>
+    </label>
+    <br />
+    <label class="form-check-label radio-inline", value="Aural" >
+      <dt>
+        <%= f.radio_button :secondary_reason, "Aural", class: "form-check-input", onclick: "renderAuralSymptoms();" %>
+      </dt>
+      <dd value="Aural">Aural</dd>
+    </label>
+    <br />
+    <label class="form-check-label radio-inline", value="Ocular" >
+      <dt>
+        <%= f.radio_button :secondary_reason, "Ocular", class: "form-check-input", onclick: "renderOcularSymptoms();" %>
+      </dt>
+      <dd value="Ocular">Ocular</dd>
+    </label>
+    <br />
+    <label class="form-check-label radio-inline", value="Pulmonary" >
+      <dt>
+        <%= f.radio_button :secondary_reason, "Pulmonary", class: "form-check-input", onclick: "renderPulmonarySymptoms();" %>
+      </dt>
+      <dd value="Pulmonary">Pulmonary</dd>
+    </label>
+    <br />
+    <label class="form-check-label radio-inline", value="Integumentary" >
+      <dt>
+        <%= f.radio_button :secondary_reason, "Integumentary", class: "form-check-input", onclick: "renderIntegumentarySymptoms();" %>
+      </dt>
+      <dd value="Integumentary">Integumentary</dd>
+    </label>
+    <br />
+    <label class="form-check-label radio-inline", value="Cranial" >
+      <dt>
+        <%= f.radio_button :secondary_reason, "Cranial", class: "form-check-input", onclick: "renderCranialSymptoms();" %>
+      </dt>
+      <dd value="Cranial">Cranial</dd>
+    </label>
+    <br />
+    <label class="form-check-label radio-inline", value="Feet" >
+      <dt>
+        <%= f.radio_button :secondary_reason, "Feet", class: "form-check-input", onclick: "renderFeetSymptoms();" %>
+      </dt>
+      <dd value="Feet">Feet</dd>
+    </label>
+    <br />
+    <label class="form-check-label radio-inline", value="Hand" >
+      <dt>
+        <%= f.radio_button :secondary_reason, "Hand", class: "form-check-input", onclick: "renderHandSymptoms();" %>
+      </dt>
+      <dd value="Hand">Hand</dd>
+    </label>
+    <br />
+    <label class="form-check-label radio-inline", value="General Skeletal" >
+      <dt>
+        <%= f.radio_button :secondary_reason, "General Skeletal", class: "form-check-input", onclick: "renderGeneralSkeletalSymptoms();" %>
+      </dt>
+      <dd value="General Skeletal">General Skeletal</dd>
+    </label>
   </div>
 </div>
 
-<div class="row">
-  <div class="form-group">
-    <div class="col-xs-11 col-md-10 col-centered">
-      <div id="symptom_category"></div>
-    </div>
-  </div>
+<div class="form-group">
+  <div id="symptom_category"></div>
 </div>
 
 <script>
