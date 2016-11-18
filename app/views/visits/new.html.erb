@@ -1,37 +1,38 @@
-<%= form_for @visit, class: "visit_form" do |f| %>
-  <script>
-    function renderPartialOne() {
-      $('#general-health-response').html('<%= j render "reason_for_visit", f: f %>')
-    }
-  </script>
+<br />
+<div class="container container-fluid">
+  <%= form_for @visit, class: "visit_form" do |f| %>
+    <script>
+      function renderPartialOne() {
+        $('#general-health-response').html('<%= j render "reason_for_visit", f: f %>')
+      }
+    </script>
 
-  <div class="row">
-    <div class="form-group">
-      <div class="col-xs-11 col-md-6 col-centered">
-        <h1>New Visit</h1>
+    <div class="row">
+      <div class="form-group">
+
+          <h1>New Visit</h1>
+
       </div>
     </div>
-  </div>
 
-  <div class="row">
-    <div class="form-group">
-      <div class="col-xs-11 col-md-6 col-centered">
-        <div class="col-xs-6">
-          <%= f.label "Patient ID: ", class: "col-xs-6 control-label" %><br />
-          <%= f.number_field :patient_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
-        </div>
-        <div class="col-xs-6">
-          <%= f.label "Clinician ID: ", class: "col-xs-6 control-label" %><br />
-          <%= f.number_field :clinician_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
-        </div>
+    <div class="row">
+      <div class="form-group">
+
+          <div class="col-xs-6">
+            <%= f.label "Patient ID: ", class: "col-xs-6 control-label" %><br />
+            <%= f.number_field :patient_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
+          </div>
+          <div class="col-xs-6">
+            <%= f.label "Clinician ID: ", class: "col-xs-6 control-label" %><br />
+            <%= f.number_field :clinician_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
+          </div>
+
       </div>
-    </div>
-  </div><br />
+    </div><br />
 
-  <div class="row">
-    <div class="form-group">
-      <div class="form-check">
-        <div class="col-xs-11 col-md-6 col-centered">
+    <div class="row">
+      <div class="form-group">
+        <div class="form-check">
           <div class="col-xs-11 col-md-6">
             <%= f.label "How are you feeling today?", class: "form-check-label" %><br />
             <dl>
@@ -67,15 +68,15 @@
         </div>
       </div>
     </div>
-  </div>
-  <div id="reason-for-visit-response"></div>
+    <div id="reason-for-visit-response"></div>
 
-  <div class="row">
-    <div class="form-group">
-      <div class="col-xs-11 col-md-6 col-centered">
-        <%= f.submit "Start New Visit", class: "col-centered col-xs-12 control-label btn btn-primary" %>
+    <div class="row">
+      <div class="form-group">
+        <div class="col-xs-11 col-md-6 col-centered">
+          <%= f.submit "Start New Visit", class: "col-centered col-xs-12 control-label btn btn-primary" %>
+        </div>
       </div>
     </div>
-  </div>
 
-<% end %>
+  <% end %>
+</div>
