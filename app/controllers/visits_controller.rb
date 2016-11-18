@@ -103,7 +103,10 @@ class VisitsController < ApplicationController
     @visit = Visit.find(params[:id])
     @clinician = Clinician.where(id: @visit.clinician_id)[0]
     @first_symptom = @visit.symptoms.first
-    @first_seeded_symptom = SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0]
+    if @first_symptom
+      @first_seeded_symptom = SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0]
+    end
+
     @first_family_member = @visit.family_members.first
     @patient = Patient.where(id: @visit.patient_id)[0]
 
