@@ -24,7 +24,7 @@
         and <%= @she_he %> came to us primarily
         <% case @visit.primary_reason %>
         <% when "because of a hospitalization" %>
-           because of a <%= @visit.hospitalizations[0].hosp_type.downcase %> hospitalization
+           because of a <%= @visit.hospitalizations[0].hosp_type ? @visit.hospitalizations[0].hosp_type.downcase : "" %> hospitalization
           <% if @visit.hospitalizations[0].admission_date %>
             which occurred on <%= @visit.hospitalizations[0].admission_date.strftime('%d %B %Y') %>
           <% else %>
@@ -39,10 +39,14 @@
                 aged <%= fm.age %> and still alive
               <% else %>
                 who was <%= fm.age %> when they died
-                <%- if fm.cause_of_death -%>
-                  of <%= fm.cause_of_death.downcase %>
-                <%- else -%>.
-                <% end %>
+                <% fm.cause_of_death ? fm.cause_of_death.downcase : "" %>
+              <% end %>
+            <% else %>
+              <% if fm.living %>
+                of unknown age and still alive
+              <% else %>
+                who died
+                <% fm.cause_of_death ? "of #{fm.cause_of_death.downcase}" : "of un-noted causes" %>
               <% end %>
             <% end %>
             <% if fm == @visit.family_members.last %>
