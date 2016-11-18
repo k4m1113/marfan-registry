@@ -6,8 +6,8 @@
         <%= ff.select :relationship, Rails.application.config.relationship_types, class: "form-control", prompt: "Select Relationship", autofocus: true %>
       </div>
       <div class="col-xs-11 col-md-4">
-        <%= ff.label "Name:", class: "control-label" %><br />
-        <%= ff.text_field :name, class: "form-control" %>
+        <%= ff.label :name, "Name:", name:  "visit[family_members_attributes][#{@visit.id}][name]", class: "control-label" %><br />
+        <%= ff.text_field :name, name:  "visit[family_members_attributes][#{@visit.id}][name]", class: "form-control" %>
       </div>
       <div class="col-xs-11 col-md-4">
         <%= ff.label "Age:", class: "control-label" %><br />
