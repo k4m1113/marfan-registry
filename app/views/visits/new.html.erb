@@ -5,17 +5,15 @@
       <h1 class="h1">New Visit</h1>
     </div>
     <hr />
-    <div class="row">
-      <div class="form-group">
+    <div class="form-group">
+      <div class="row">
         <div class="col-xs-6">
-          <label>
-          Patient ID:
-          <%= f.number_field :patient_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %></label>
+          <%= f.label :patient_id, "Patient ID:", class: "form-check-label" %><br />
+          <%= f.number_field :patient_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
         </div>
         <div class="col-xs-6">
-          <label>
-          Clinician ID:
-          <%= f.number_field :clinician_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %></label>
+          <%= f.label :clinician_id, "Clinician ID:", class: "form-check-label" %><br />
+          <%= f.number_field :clinician_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
         </div>
       </div>
     </div>
