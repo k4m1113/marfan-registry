@@ -1,0 +1,66 @@
+
+<div class="container">
+  <br />
+  <div class="row" id="self">
+    <div class="col-xs-12 col-centered">
+      <div class="col-xs-4 col-centered">
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: block; margin: 0 auto;">Self</button>
+      </div>
+    </div>
+  </div>
+  <br />
+  <br />
+  <div class="row" id="parents">
+    <div class="col-xs-12 col-centered">
+      <div class="col-xs-6">
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#motherModal" style="display: block; margin: 0 auto;" id="mother">Mother</button>
+      </div>
+      <div class="col-xs-6">
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#fatherModal" style="display: block; margin: 0 auto;" id="father">Father</button>
+      </div>
+    </div>
+  </div>
+  <br />
+  <br />
+  <div class="row" id="grandparents">
+    <div class="col-xs-12 col-centered">
+      <div class="col-xs-3">
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#maternalGrandmotherModal" style="display: block; margin: 0 auto;" id="maternalGrandmother">Grandmother</button>
+      </div>
+      <div class="col-xs-3">
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#maternalGrandfatherModal" style="display: block; margin: 0 auto;" id="maternalGrandfather">Grandfather</button>
+      </div>
+      <div class="col-xs-3">
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#paternalGrandmotherModal" style="display: block; margin: 0 auto;" id="paternalGrandmother">Grandmother</button>
+      </div>
+      <div class="col-xs-3">
+        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#paternalGrandfatherModal" style="display: block; margin: 0 auto;" id="paternalGrandfather">Grandfather</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="motherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= render 'family_tree_modal', f: f, relationship: 'Mother' %>
+</div>
+
+<div class="modal fade" id="fatherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= render 'family_tree_modal', f: f, relationship: 'Father' %>
+</div>
+
+<div class="modal fade" id="maternalGrandmotherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= render 'family_tree_modal', f: f, relationship: 'Maternal Grandmother' %>
+</div>
+
+<div class="modal fade" id="maternalGrandfatherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= render 'family_tree_modal', f: f, relationship: 'Maternal Grandfather' %>
+</div>
+
+<div class="modal fade" id="paternalGrandmotherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= render 'family_tree_modal', f: f, relationship: 'Paternal Grandmother' %>
+</div>
+
+<div class="modal fade" id="paternalGrandfatherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= render 'family_tree_modal', f: f, relationship: 'Paternal Grandfather' %>
+</div>

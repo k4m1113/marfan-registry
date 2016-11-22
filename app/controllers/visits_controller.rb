@@ -27,7 +27,7 @@ class VisitsController < ApplicationController
     @visit = Visit.new(visit_params)
     @form_action = "Create"
     if @visit.save
-      redirect_to visit_path(@visit.id)
+      redirect_to edit_visit_path(@visit.id)
       session[:current_visit] = @visit
     else
       Rails.logger.info(@visit.errors.inspect)
@@ -67,6 +67,7 @@ class VisitsController < ApplicationController
 
   def edit
     @visit = Visit.find(params[:id])
+    @patient = Patient.where(id: @visit.patient_id)[0]
     @all_symptoms = SeededSymptom.all
     @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
     @dural_symptoms = SeededSymptom.where(systemic_category: "Dural")
@@ -134,6 +135,7 @@ class VisitsController < ApplicationController
 
   def visit_params
     params.require(:visit).permit(
+      :id,
       :general_health,
       :height,
       :weight,

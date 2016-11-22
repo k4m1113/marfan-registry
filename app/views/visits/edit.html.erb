@@ -1,1 +1,14 @@
-<h1>Update Visit</h1>
+<%= form_for @visit, class: "visit_form" do |f| %>
+
+  <% case @visit.primary_reason %>
+  <% when 'due to family history' %>
+    <%= render 'family_tree', f: f %>
+  <% when 'because of a hospitalization' %>
+
+  <% when 'for recent testing' %>
+
+  <% when 'because of related symptoms' %>
+    <%= render 'original_form', f: f %>
+
+  <% end %>
+<% end %>

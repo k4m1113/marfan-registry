@@ -1,0 +1,42 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title" id="myModalLabel">Add <%= relationship %></h4>
+    </div>
+    <div class="modal-body">
+      <%= f.fields_for :family_member do |ff| %>
+        <div class="form-group">
+          <div class="row">
+            <%= ff.hidden_field :relationship, value: relationship %>
+            <div class="col-xs-11 col-md-4">
+              <%= ff.label "Name:", class: "control-label" %><br />
+              <%= ff.text_field :name, class: "form-control" %>
+            </div>
+            <div class="col-xs-11 col-md-4">
+              <%= ff.label "Age:", class: "control-label" %><br />
+              <%= ff.number_field :age, class: "form-control", min: 1, step: 1 %>
+            </div>
+          </div>
+          <br />
+          <%= ff.label "Check if deceased:", class: "control-label" %><br />
+          <%= ff.check_box :living, class: "form-control btn btn-default", onclick: "$('#deceased').toggle();" %>
+          <br />
+          <div id="deceased" style="display: none">
+            <%= ff.label "What was their cause of death?", class: "control-label" %><br />
+            <%= ff.text_field :cause_of_death, class: "form-control" %>
+          </div>
+          <br />
+          <%= ff.label "Anything else to add?", class: "control-label" %><br />
+          <%= ff.text_area :note, class: "form-control" %>
+        </div>
+      <% end %>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-primary">Add Family Member</button>
+    </div>
+  </div>
+</div>

@@ -39,8 +39,11 @@
 </div>
 
 <script>
+<% @hosp_counter = 0 %>
   function renderHospitalization(div_attachment_id) {
     $(div_attachment_id).html("<hr /><%= j render 'hospitalization_form', f: f %>");
+    $('#hosp_counter').html("<% @hosp_counter = 1 %>");
+
   }
   function renderFamilyMember(div_attachment_id) {
     $(div_attachment_id).html("<hr /><%= j render 'family_member', f: f %>");

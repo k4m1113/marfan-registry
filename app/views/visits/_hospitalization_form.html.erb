@@ -3,22 +3,22 @@
     <div class="row">
       <div class="col-xs-11 col-md-5">
         <%= ff.label "For how many days?", class: "control-label" %><br />
-        <%= ff.number_field :length_of_stay, autofocus: true, class: "form-control" %>
+        <%= ff.number_field :length_of_stay, autofocus: true, class: "form-control", name: "visit[hospitalizations_attributes][#{@hosp_counter}][length_of_stay]" %>
       </div>
       <div class="col-xs-11 col-md-7">
         <%= ff.label "And when were you admitted?", class: "control-label" %><br />
-        <%= ff.date_field :admission_date, class: "form-control" %>
+        <%= ff.date_field :admission_date, class: "form-control", name:  "visit[hospitalizations_attributes][#{@hosp_counter}][admission_date]" %>
       </div>
     </div>
     <br />
     <%= ff.label "What type of hospitalization was it?", class: "control-label" %><br />
-    <%= ff.text_field :hosp_type, class: "form-control", placeholder: "ex: Emergency, Surgical" %>
+    <%= ff.text_field :hosp_type, class: "form-control", placeholder: "ex: Emergency, Surgical", name:  "visit[hospitalizations_attributes][#{@hosp_counter}][hosp_type]" %>
     <br />
     <%= ff.label "Where were you hospitalized?", class: "control-label" %><br />
-    <%= ff.text_field :location, class: "form-control", placeholder: "ex: San Francisco General Hospital" %>
+    <%= ff.text_field :location, class: "form-control", placeholder: "ex: San Francisco General Hospital", name:  "visit[hospitalizations_attributes][#{@hosp_counter}][location]" %>
     <br />
     <%= ff.label "Anything else to add?", class: "control-label" %><br />
-    <%= ff.text_area :description, class: "form-control" %>
+    <%= ff.text_area :description, class: "form-control", name:  "visit[hospitalizations_attributes][#{@hosp_counter}][description]" %>
     <br />
     <button class="show_button btn btn-primary center-block" type="button" onclick="renderHospitalization('#add-another')">
       Add another hospitalization?
@@ -29,3 +29,4 @@
 <% end %>
 
 <div id="add-another"></div>
+<div id="hosp_counter"></div>
