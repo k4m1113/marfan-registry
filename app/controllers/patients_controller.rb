@@ -14,8 +14,10 @@ class PatientsController < ApplicationController
   def create
     @patient = Patient.new(patient_params)
     if @patient.save
+      flash[:notice] = "Patient #{@patient.last_name}, #{@patient.first_name} successfully added!"
       redirect_to :action => :index
     else
+      flash[:error] = "Please re-check information and/or fill required fields."
       render 'new'
     end
   end

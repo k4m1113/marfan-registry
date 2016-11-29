@@ -9,9 +9,11 @@ FactoryGirl.define do
     upper_segment 92.01
     lower_segment 90.01
     z_score 5.74
-    primary_reason "to follow the yellow brick road"
-    secondary_reason "to get to the other side"
-    symptoms []
+    general_health "good"
+    primary_reason "for recent testing"
+    tests ["0" => {
+      date:
+      }]
 
     patient
     clinician

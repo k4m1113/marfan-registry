@@ -4,6 +4,8 @@
   <% when 'due to family history' %>
     <%= render 'family_tree', f: f %>
   <% when 'because of a hospitalization' %>
+    Add another hospitalization?
+    <%= render 'hospitalization_form', f: f %>
 
   <% when 'for recent testing' %>
 
@@ -11,4 +13,5 @@
     <%= render 'original_form', f: f %>
 
   <% end %>
+
 <% end %>

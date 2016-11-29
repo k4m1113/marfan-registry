@@ -55,6 +55,18 @@
     </div><!-- /.container-fluid -->
   </nav>
 
+  <div class="row">
+    <div class="col col-xs-12 col-centered">
+      <% flash.each do |name, msg| %>
+        <% if msg.is_a?(String) %>
+          <div data-alert class="alert-box round <%= name.to_s == 'notice' ? 'success' : 'alert' %>">
+            <%= content_tag(:div, msg, class: "alert alert-#{name}", style: "color:white") %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
 <%= yield %>
 
 </body>

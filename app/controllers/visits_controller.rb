@@ -87,10 +87,11 @@ class VisitsController < ApplicationController
     @visit = Visit.find(params[:id])
     @form_action = "Update"
     if @visit.update(visit_params)
-      flash[:notice] = "Successfully updated visit"
+      flash[:notice] = "Successfully updated visit!"
       redirect_to visits_path
     else
       Rails.logger.info(@visit.errors.inspect)
+      flash[:error] = "Error updating visit."
       render :edit
     end
   end
