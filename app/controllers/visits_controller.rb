@@ -27,9 +27,11 @@ class VisitsController < ApplicationController
     @visit = Visit.new(visit_params)
     @form_action = "Create"
     if @visit.save
+      flash[:notice] = "Visit started for #{@visit.patient.last_name}, #{@visit.patient.first_name}."
       redirect_to edit_visit_path(@visit.id)
       session[:current_visit] = @visit
     else
+      flash[:error] = "Please re-check information!"
       Rails.logger.info(@visit.errors.inspect)
       render :new
     end

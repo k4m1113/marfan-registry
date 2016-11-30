@@ -11,10 +11,7 @@ FactoryGirl.define do
     z_score 5.74
     general_health "good"
     primary_reason "for recent testing"
-    tests ["0" => {
-      date:
-      }]
-
+  
     patient
     clinician
   end

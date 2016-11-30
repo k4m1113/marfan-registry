@@ -24,7 +24,7 @@ feature 'user can add new clinician' do
 
     click_button "Add New Clinician"
 
-    expect(page).to have_content("Patient Liang, David successfully added!")
+    expect(page).to have_content("Clinician Liang, David successfully added!")
     expect(page).to have_content("All Clinicians")
   end
 
