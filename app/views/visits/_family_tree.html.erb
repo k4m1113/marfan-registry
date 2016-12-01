@@ -2,21 +2,32 @@
 <div class="container">
   <br />
   <div class="row" id="self">
-    <div class="col-xs-12 col-centered">
-      <div class="col-xs-4 col-centered">
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display: block; margin: 0 auto;">Self</button>
+    <div class="col-xs-2 col-xs-offset-2">
+      <%= render 'family_member_card', x: @siblings[0], y: "Sibling 1", z: "siblingOne" %>
+    </div>
+    <div class="col-xs-2 col-xs-offset-1">
+      <div class="card card-block">
+        <h4 class="card-title">Self</h4>
+        <p class="card-text">
+          <%= "#{@patient.first_name} #{@patient.last_name}" %>
+        </p>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="display: block; margin: 0 auto;">Self</button>
       </div>
+    </div>
+    <div class="col-xs-2 col-xs-offset-1">
+      <%= render 'family_member_card', x: @siblings[1], y: "Sibling 2", z: "siblingTwo" %>
     </div>
   </div>
   <br />
   <br />
   <div class="row" id="parents">
-    <div class="col-xs-12 col-centered">
-      <div class="col-xs-6">
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#motherModal" style="display: block; margin: 0 auto;" id="mother">Mother</button>
+    <div class="col-xs">
+      <div class="col-xs-2 col-xs-offset-2">
+          <%= render 'family_member_card', x: @mother, y: "Mother", z: "mother" %>
+        </div>
       </div>
-      <div class="col-xs-6">
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#fatherModal" style="display: block; margin: 0 auto;" id="father">Father</button>
+      <div class="col-xs-2 col-xs-offset-4">
+          <%= render 'family_member_card', x: @father, y: "Father", z: "father" %>
       </div>
     </div>
   </div>
@@ -25,16 +36,16 @@
   <div class="row" id="grandparents">
     <div class="col-xs-12 col-centered">
       <div class="col-xs-3">
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#maternalGrandmotherModal" style="display: block; margin: 0 auto;" id="maternalGrandmother">Grandmother</button>
+        <%= render 'family_member_card', x: @maternal_grandmother, y: "Maternal Grandmother", z: "maternalGrandmother" %>
       </div>
       <div class="col-xs-3">
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#maternalGrandfatherModal" style="display: block; margin: 0 auto;" id="maternalGrandfather">Grandfather</button>
+        <%= render 'family_member_card', x: @maternal_grandfather, y: "Maternal Grandfather", z: "maternalGrandfather" %>
       </div>
       <div class="col-xs-3">
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#paternalGrandmotherModal" style="display: block; margin: 0 auto;" id="paternalGrandmother">Grandmother</button>
+        <%= render 'family_member_card', x: @paternal_grandmother, y: "Paternal Grandmother", z: "paternalGrandmother" %>
       </div>
       <div class="col-xs-3">
-        <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#paternalGrandfatherModal" style="display: block; margin: 0 auto;" id="paternalGrandfather">Grandfather</button>
+        <%= render 'family_member_card', x: @paternal_grandfather, y: "Paternal Grandfather", z: "paternalGrandfather" %>
       </div>
     </div>
   </div>

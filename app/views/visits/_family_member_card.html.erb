@@ -1,0 +1,20 @@
+<div class="card card-block">
+  <h4 class="card-title"><%= y %></h4>
+  <p class="card-text">
+    <% if x.nil? %>
+      No <%= y.downcase %> noted. Add one?
+      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#<%= z -%>Modal" style="display: block; margin: 0 auto;" id=<%= y.downcase %>>Add <%= y %></button>
+    <% else %>
+      Name: <%= x.name ? x.name : "Name not noted" %>
+      <% if x.living %>
+        Age: <%= x.age ? x.age : "Not noted" %>(living)
+      <% else %>
+        Age: <%= x.age ? x.age : "Not noted" %>(deceased)
+        Cause of death: <%= x.cause_of_death ? x.cause_of_death : "Not noted" %>
+      <% end %>
+      Notes: <%= x.note ? x.note : "none" %>
+      <br />
+      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#<%= z -%>Modal" style="display: block; margin: 0 auto;" id=<%= y.downcase %>>Update <%= y %></button>
+    <% end %>
+  </p>
+</div>

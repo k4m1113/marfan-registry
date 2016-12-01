@@ -70,6 +70,17 @@ class VisitsController < ApplicationController
   def edit
     @visit = Visit.find(params[:id])
     @patient = Patient.where(id: @visit.patient_id)[0]
+    @family = @visit.family_members
+    @family_member = @visit.family_members.build
+
+    @mother = @family.where(relationship: "Mother")[0]
+    @father = @family.where(relationship: "Father")[0]
+    @maternal_grandmother = @family.where(relationship: "Maternal Grandmother")[0]
+    @paternal_grandmother = @family.where(relationship: "Paternal Grandmother")[0]
+    @maternal_grandfather = @family.where(relationship: "Maternal Grandfather")[0]
+    @paternal_grandfather = @family.where(relationship: "Paternal Grandfather")[0]
+    @siblings = @family.where(relationship: "Sibling")
+
     @all_symptoms = SeededSymptom.all
     @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
     @dural_symptoms = SeededSymptom.where(systemic_category: "Dural")
@@ -81,6 +92,7 @@ class VisitsController < ApplicationController
     @feet_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Feet & Legs)")
     @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
     @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
+
     @visit.symptoms.build
     @form_action = "Update"
   end

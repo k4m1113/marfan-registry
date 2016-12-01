@@ -9,6 +9,13 @@
 //       -webkit-text-size-adjust: 140%;   /* none for no scaling */
 //     }
 //   }
+.navbar-fixed-top {
+  height: 50px;
+}
+
+body {
+  padding-top: 50px;
+}
 
 .center-block {
   display: block;
@@ -19,10 +26,6 @@
 .col-centered {
   float: none;
   margin: 0 auto;
-}
-
-body {
-  padding-top: 50px;
 }
 
 .absolute-center {
@@ -41,30 +44,9 @@ div.btn-group form{
   height: 100%;
 }
 
-.thumbnail_container {
-     position: relative;
-     width: 100%;
-     padding-bottom: 100%;
-     float:left;
-}
-
-.thumbnail {
-    position:absolute;
-    width:100%;
-    height:100%;
-}
-.thumbnail img {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-}
-
 img{
-    max-height:100%;
-    max-width:100%;
+  max-height:100%;
+  max-width:100%;
 }
 
 .center-text {
