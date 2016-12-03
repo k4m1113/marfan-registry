@@ -1,0 +1,40 @@
+<div class="row">
+  <% Rails.application.config.relationship_types.each do |relationship| %>
+    <div class="col-xs-12 col-centered">
+      <div class="col-xs-3">
+        <%= render 'family_member_card', @relationship_type: relationship %>
+      </div>
+    </div>
+
+  <% end %>
+</div>
+
+
+ $('.user_note_modal').on('click', function() {
+    $('#myModal span.note').html($(this).data('usernote'));
+    $('#myModal').modal('show');
+  });
+
+  <div class="modal fade" id="motherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <%= render 'family_tree_modal', f: f, relationship: relationship %>
+  </div>
+
+<div class="modal fade" id="fatherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= render 'family_tree_modal', f: f, relationship: 'Father' %>
+</div>
+
+<div class="modal fade" id="maternalGrandmotherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= render 'family_tree_modal', f: f, relationship: 'Maternal Grandmother' %>
+</div>
+
+<div class="modal fade" id="maternalGrandfatherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= render 'family_tree_modal', f: f, relationship: 'Maternal Grandfather' %>
+</div>
+
+<div class="modal fade" id="paternalGrandmotherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= render 'family_tree_modal', f: f, relationship: 'Paternal Grandmother' %>
+</div>
+
+<div class="modal fade" id="paternalGrandfatherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= render 'family_tree_modal', f: f, relationship: 'Paternal Grandfather' %>
+</div>

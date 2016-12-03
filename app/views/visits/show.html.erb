@@ -57,12 +57,29 @@
             <th>Name</th>
             <th>Relationship</th>
             <th>Note</th>
+            <th>Actions</th>
           </tr>
           <% @visit.family_members.each do |fm| %>
             <tr>
               <td><%= fm.name %></td>
               <td><%= fm.relationship %></td>
               <td><%= fm.note %></td>
+              <td>
+                <div class="hidden-sm hidden-xs btn-group btn-group-sm hidden-sm-down" role="group">
+                  <%= button_to "Edit", edit_family_member_path(id: fm.id), type: "button", method: :get, class: "btn btn-secondary" %>
+                  <%= button_to "Delete", family_member_path(id: fm.id), type: "button", method: :delete, class: "btn btn-secondary", data: { confirm: "Are you sure?" } %>
+                </div>
+                <div class="hidden-md hidden-lg hidden-xlg btn-group btn-group-sm" role="group">
+                  <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Actions
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><%= link_to "Edit", edit_family_member_path(id: fm.id), method: :get %></li>
+                    <li><%= link_to "Delete", family_member_path(id: fm.id), method: :delete, data: { confirm: "Are you sure?" } %></li>
+                  </ul>
+                </div>
+              </td>
             </tr>
           <% end %>
         </table>

@@ -6,29 +6,34 @@ class FamilyMembersController < ApplicationController
   end
 
   def new
-    @family_member = FamilyMember.find(params[:id])
+
   end
 
   def create
     @family_member = FamilyMember.new(family_member_params)
 
     if @family_member.save
-      render json: @family_member
+      flash[:notice] = "#{@family_member.name} added successfully!"
+      redirect_to edit_visit_path(@family_member.visit_id)
     else
+      flash[:error] = "Please correct the following errors: #{@family_member.errors}"
       render json: @family_member.errors, status: :unprocessable_entity
     end
   end
 
   def update
     if @family_member.update(family_member_params)
+
       render json: @family_member
     else
-      render json: @family_member.errors, status: :unprocessable_entity
+      flash[:error] = "Please correct the following errors: #{@family_member.errors}"
+      redirect_to edit_visit_path(@family_member.visit_id)
     end
   end
 
   def destroy
-    @family_member.destroy
+    FamilyMember.find(params[:id]).destroy
+    redirect_to visit_path(session[:current_visit])
     head :no_content
   end
 
@@ -36,7 +41,7 @@ class FamilyMembersController < ApplicationController
 
   def family_member_params
     params.require(:family_member).permit(
-    :patient_id,
+    :visit_id,
     :relationship,
     :name,
     :age,

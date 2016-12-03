@@ -2,19 +2,26 @@
   <h4 class="card-title"><%= y %></h4>
   <p class="card-text">
     <% if x.nil? %>
+      <% @action = "create" %>
       No <%= y.downcase %> noted. Add one?
-      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#<%= z -%>Modal" style="display: block; margin: 0 auto;" id=<%= y.downcase %>>Add <%= y %></button>
+
     <% else %>
+      <% @action = "update" %>
       Name: <%= x.name ? x.name : "Name not noted" %>
+      <br />
       <% if x.living %>
-        Age: <%= x.age ? x.age : "Not noted" %>(living)
+        Age: <%= x.age ? x.age : "Not noted" %> (living)
+        <br />
       <% else %>
-        Age: <%= x.age ? x.age : "Not noted" %>(deceased)
+        Age: <%= x.age ? x.age : "Not noted" %> (deceased)
+        <br />
         Cause of death: <%= x.cause_of_death ? x.cause_of_death : "Not noted" %>
+        <br />
       <% end %>
       Notes: <%= x.note ? x.note : "none" %>
       <br />
-      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#<%= z -%>Modal" style="display: block; margin: 0 auto;" id=<%= y.downcase %>>Update <%= y %></button>
+      <hr />
     <% end %>
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#<%= z -%>Modal" style="display: block; margin: 0 auto;" id=<%= y.downcase %>><%= "#{@action.capitalize} #{y}" %></button>
   </p>
 </div>
