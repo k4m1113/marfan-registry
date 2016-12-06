@@ -1,0 +1,50 @@
+<%= form_for @relationship do |f| %>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-xs-11 col-md-4">
+        <%= f.label "Relationship:", class: "control-label" %><br />
+        <%= f.collection_select(:seeded_relationship_type_id, SeededRelationshipType.all, :id, :name, class: "form-control", autofocus: true) %>
+      </div>
+      <%= f.hidden_field :patient_id, value: session[:current_visit] %>
+      <%= f.fields_for @relationship_patient do |ff| %>
+        <%= ff.hidden_field :sex, value: SeededRelationshipType.where(ahfnentafel_id: @relationship.seeded_relationship_type_id)[0].gender %>
+          <div class="col-xs-11 col-md-4">
+            <%= f.label "First Name:", class: "control-label" %><br />
+            <%= f.text_field :first_name, class: "form-control" %>
+          </div>
+          <div class="col-xs-11 col-md-4">
+            <%= f.label "Last Name:", class: "control-label" %><br />
+            <%= f.text_field :last_name, class: "form-control" %>
+          </div>
+          <div class="col-xs-11 col-md-4">
+            <%= f.label "Date of Birth:", class: "control-label" %><br />
+            <%= f.datetime :date_of_birth, class: "form-control", min: 1, step: 1 %>
+          </div>
+          <br />
+          <%= f.label "Check if deceased:", class: "control-label" %><br />
+          <%= f.check_box :deceased, class: "form-control btn btn-default", onclick: "$('#deceased').toggle();" %>
+          <br />
+          <div id="deceased" style="display: none">
+            <%= f.label "What was their cause of death?", class: "control-label" %><br />
+            <%= f.text_field :cause_of_death, class: "form-control" %>
+          </div>
+          <br />
+          <%= f.label "Anything else to add?", class: "control-label" %><br />
+          <%= f.text_area :note, class: "form-control" %>
+        <% end %>
+
+
+
+
+    </div>
+
+    <br />
+    <button class="show_button btn btn-primary center-block" type="button" onclick="renderRelationship('#add-another')">
+      Add another family member?
+    </button>
+  </div>
+</div>
+
+<% end %>
+
+<div id="add-another"></div>

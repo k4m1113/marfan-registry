@@ -1,8 +1,7 @@
 <%= form_for @visit, class: "visit_form" do |f| %>
-
   <% case @visit.primary_reason %>
   <% when 'due to family history' %>
-    <%= render 'family_tree', f: f %>
+    <%= controller.redirect_to new_relationship_path, patient_id: @patient.id %>
   <% when 'because of a hospitalization' %>
     <h2>Add another hospitalization?</h2>
     <%= render 'hospitalization_form', f: f %>

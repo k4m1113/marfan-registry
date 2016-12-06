@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161020000336) do
+ActiveRecord::Schema.define(version: 20161205224935) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,16 +31,6 @@ ActiveRecord::Schema.define(version: 20161020000336) do
     t.datetime "updated_at",     null: false
   end
 
-  create_table "family_members", force: :cascade do |t|
-    t.integer "visit_id",       null: false
-    t.string  "relationship"
-    t.string  "name"
-    t.integer "age"
-    t.boolean "living"
-    t.string  "cause_of_death"
-    t.string  "note"
-  end
-
   create_table "hospitalizations", force: :cascade do |t|
     t.integer  "visit_id",       null: false
     t.datetime "admission_date"
@@ -53,19 +43,22 @@ ActiveRecord::Schema.define(version: 20161020000336) do
   end
 
   create_table "patients", force: :cascade do |t|
-    t.string   "first_name",     null: false
-    t.string   "last_name",      null: false
-    t.string   "address_line_1", null: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "address_line_1"
     t.string   "address_line_2"
     t.string   "address_line_3"
-    t.string   "city",           null: false
-    t.string   "state",          null: false
-    t.string   "country",        null: false
-    t.integer  "postal_code",    null: false
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.integer  "postal_code"
     t.string   "sex",            null: false
-    t.datetime "date_of_birth",  null: false
+    t.datetime "date_of_birth"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.boolean  "deceased"
+    t.boolean  "cause_of_death"
+    t.string   "note"
   end
 
   create_table "pg_search_documents", force: :cascade do |t|
@@ -77,6 +70,24 @@ ActiveRecord::Schema.define(version: 20161020000336) do
   end
 
   add_index "pg_search_documents", ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id", using: :btree
+
+  create_table "relationships", force: :cascade do |t|
+    t.integer "seeded_relationship_type_id", null: false
+    t.integer "patient_id",                  null: false
+    t.integer "relation_patient_id",         null: false
+  end
+
+  create_table "seeded_relationship_types", id: false, force: :cascade do |t|
+    t.integer  "ahnentafel_id",   null: false
+    t.integer  "generation",      null: false
+    t.string   "name",            null: false
+    t.string   "name_camelcase",  null: false
+    t.string   "name_underscore", null: false
+    t.string   "description",     null: false
+    t.string   "gender",          null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
 
   create_table "seeded_symptoms", force: :cascade do |t|
     t.string  "name"

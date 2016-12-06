@@ -12,16 +12,12 @@ class Visit < ActiveRecord::Base
   has_many :hospitalizations,
     inverse_of: :visit,
     dependent: :destroy
-  has_many :family_members,
-    inverse_of: :visit,
-    dependent: :destroy
   has_many :tests,
     inverse_of: :visit,
     dependent: :destroy
 
   accepts_nested_attributes_for :symptoms
   accepts_nested_attributes_for :hospitalizations
-  accepts_nested_attributes_for :family_members
   accepts_nested_attributes_for :tests
 
   validates :patient_id,

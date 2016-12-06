@@ -5,13 +5,12 @@ Rails.application.routes.draw do
     end
     resources :hospitalizations
     resources :symptoms
-    resources :family_members
   end
   resources :clinicians
   resources :patients
   resources :hospitalizations
   resources :symptoms
-  resources :family_members
+  resources :relationships
 
   root "pages#main"
 end

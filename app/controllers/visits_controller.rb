@@ -6,6 +6,7 @@ class VisitsController < ApplicationController
 
   def new
     @visit = Visit.new
+
     @all_symptoms = SeededSymptom.all
     @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
     @dural_symptoms = SeededSymptom.where(systemic_category: "Dural")
@@ -17,8 +18,8 @@ class VisitsController < ApplicationController
     @feet_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Feet & Legs)")
     @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
     @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
+
     @symptom = @visit.symptoms.build
-    @family_member = @visit.family_members.build
     @hospitalization = @visit.hospitalizations.build
     @test = @visit.tests.build
   end
@@ -70,16 +71,18 @@ class VisitsController < ApplicationController
   def edit
     @visit = Visit.find(params[:id])
     @patient = Patient.where(id: @visit.patient_id)[0]
-    @family = @visit.family_members
-    @family_member = @visit.family_members.build
+    @family = Relationship.where(patient_id: @patient.id)
 
-    @mother = @family.where(relationship: "Mother")[0]
-    @father = @family.where(relationship: "Father")[0]
-    @maternal_grandmother = @family.where(relationship: "Maternal Grandmother")[0]
-    @paternal_grandmother = @family.where(relationship: "Paternal Grandmother")[0]
-    @maternal_grandfather = @family.where(relationship: "Maternal Grandfather")[0]
-    @paternal_grandfather = @family.where(relationship: "Paternal Grandfather")[0]
-    @siblings = @family.where(relationship: "Sibling")
+    @mother = @family.where(seeded_relationship_type_id: 3)[0]
+    @father = @family.where(seeded_relationship_type_id: 2)[0]
+    @maternal_grandmother = @family.where(seeded_relationship_type_id: 7)[0]
+    @paternal_grandmother = @family.where(seeded_relationship_type_id: 5)[0]
+    @maternal_grandfather = @family.where(seeded_relationship_type_id: 6)[0]
+    @paternal_grandfather = @family.where(seeded_relationship_type_id: 4)[0]
+    @siblings = @family.where(seeded_relationship_type_id: 1)
+    @children = @family.where(ahfnentafel_id: 16)
+    @grandchildren = @family.where(ahfnentafel_id: 17)
+
 
     @all_symptoms = SeededSymptom.all
     @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
@@ -123,7 +126,7 @@ class VisitsController < ApplicationController
       @first_seeded_symptom = SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0]
     end
 
-    @first_family_member = @visit.family_members.first
+    @first_family_member = @visit.relationships.first
     @patient = Patient.where(id: @visit.patient_id)[0]
 
     @relevant_symptoms = []
@@ -164,8 +167,6 @@ class VisitsController < ApplicationController
       :secondary_reason,
       hospitalizations_attributes:
         [:hospitalization, :visit_id, :admission_date, :length_of_stay, :hosp_type, :description, :location],
-      family_members_attributes:
-        [:family_member, :patient_id, :relationship, :name, :age, :living, :cause_of_death, :note],
       tests_attributes:
         [:test, :visit_id, :test_type, :test_date, :result],
       symptoms_attributes:

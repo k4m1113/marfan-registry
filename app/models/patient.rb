@@ -19,31 +19,48 @@ class Patient < ActiveRecord::Base
     end.sorted
   end
 
+  belongs_to :seeded_relationship_type,
+    inverse_of: :patients
+
   has_many :visits,
     inverse_of: :patient
+  has_many :relationships,
+    inverse_of: :patient
+
   validates :first_name,
-    presence: true,
-    format: { with: /\A[a-zA-Z ']+\z/ }
+    format: { with: /\A[a-zA-Z ']+\z/ },
+    allow_nil: true,
+    allow_blank: true
   validates :last_name,
-    presence: true,
-    format: { with: /\A[a-zA-Z ']+\z/ }
-  validates :address_line_1,
-    presence: true
+    format: { with: /\A[a-zA-Z ']+\z/ },
+    allow_nil: true,
+    allow_blank: true
   validates :city,
-    presence: true,
-    format: { with: /\A[a-zA-Z ']+\z/ }
+    format: { with: /\A[a-zA-Z ']+\z/ },
+    allow_nil: true,
+    allow_blank: true
   validates :state,
-    presence: true,
-    format: { with: /\A[a-zA-Z ']+\z/ }
+    format: { with: /\A[a-zA-Z ']+\z/ },
+    allow_nil: true,
+    allow_blank: true
   validates :postal_code,
-    presence: true,
-    numericality: true
+    numericality: true,
+    allow_nil: true,
+    allow_blank: true
   validates :country,
-    presence: true,
-    format: { with: /\A[a-zA-Z ']+\z/ }
+    format: { with: /\A[a-zA-Z ']+\z/ },
+    allow_nil: true,
+    allow_blank: true
   validates :sex,
     presence: true,
-    inclusion: {
-      in: ['F', 'M', 'N']
-    }
+    inclusion: ['F', 'M', 'N']
+  validates :deceased,
+    inclusion: [true, false],
+    allow_nil: true,
+    allow_blank: true
+  validates :cause_of_death,
+    format: { with: /\A[a-zA-Z ']+\z/ },
+    allow_nil: true,
+    allow_blank: true
+
 end
