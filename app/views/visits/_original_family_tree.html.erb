@@ -2,7 +2,7 @@
   <% Rails.application.config.relationship_types.each do |relationship| %>
     <div class="col-xs-12 col-centered">
       <div class="col-xs-3">
-        <%= render 'family_member_card', @relationship_type: relationship %>
+        <%= render 'relationships/family_member_card', @relationship_type: relationship %>
       </div>
     </div>
 
@@ -16,25 +16,25 @@
   });
 
   <div class="modal fade" id="motherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <%= render 'family_tree_modal', f: f, relationship: relationship %>
+    <%= render 'relationships/family_tree_modal', f: f, relationship: relationship %>
   </div>
 
 <div class="modal fade" id="fatherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <%= render 'family_tree_modal', f: f, relationship: 'Father' %>
+  <%= render 'relationships/family_tree_modal', f: f, relationship: 'Father' %>
 </div>
 
 <div class="modal fade" id="maternalGrandmotherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <%= render 'family_tree_modal', f: f, relationship: 'Maternal Grandmother' %>
+  <%= render 'relationships/family_tree_modal', f: f, relationship: 'Maternal Grandmother' %>
 </div>
 
 <div class="modal fade" id="maternalGrandfatherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <%= render 'family_tree_modal', f: f, relationship: 'Maternal Grandfather' %>
+  <%= render 'relationships/family_tree_modal', f: f, relationship: 'Maternal Grandfather' %>
 </div>
 
 <div class="modal fade" id="paternalGrandmotherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <%= render 'family_tree_modal', f: f, relationship: 'Paternal Grandmother' %>
+  <%= render 'relationships/family_tree_modal', f: f, relationship: 'Paternal Grandmother' %>
 </div>
 
 <div class="modal fade" id="paternalGrandfatherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <%= render 'family_tree_modal', f: f, relationship: 'Paternal Grandfather' %>
+  <%= render 'relationships/family_tree_modal', f: f, relationship: 'Paternal Grandfather' %>
 </div>

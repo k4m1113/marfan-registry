@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     end
     resources :hospitalizations
     resources :symptoms
+    resources :relationships
   end
   resources :clinicians
   resources :patients

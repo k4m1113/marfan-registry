@@ -2,16 +2,18 @@ class RelationshipsController < ApplicationController
   respond_to :html, :js
 
   def index
-    @relationships = FamilyMember.all
+    @relationships = Relationship.all
   end
 
   def new
     @relationship = Relationship.new
+    @relationship_patient = Patient.new
   end
 
   def create
     @relationship = Relationship.new(relationship_params)
-    @relationship_patient = @relationship.relation_patient_id
+    @relationship_patient = Patient.where(id: @relationship.relationship_patient_id)[0]
+    @relationship_patient.sex = SeededRelationshipType.where(id: @relationship.seeded_relationship_type_id)[0].gender
 
     if @relationship.save
       flash[:notice] = "#{@relationship.name} added successfully!"
@@ -20,6 +22,11 @@ class RelationshipsController < ApplicationController
       flash[:error] = "Please correct the following errors: #{@family_member.errors}"
       render json: @family_member.errors, status: :unprocessable_entity
     end
+  end
+
+  def edit
+    @relationship
+    @relationship_patient = Patient.where(id: @relationship.relationship_patient_id)[0]
   end
 
   def update
@@ -42,9 +49,10 @@ class RelationshipsController < ApplicationController
 
   def relationship_params
     params.require(:patient).permit(
-    :relation_patient_id,
+    :visit_id,
+    :relationship_patient_id,
     :seeded_relationship_type_id,
-    patients_attributes:
+    relationship_patients_attributes:
       [:first_name, :last_name, :sex, :deceased, :cause_of_death, :note]
     )
   end

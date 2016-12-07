@@ -20,11 +20,11 @@
   <div class="row" id="parents">
     <div class="col-xs">
       <div class="col-xs-3 col-xs-offset-2">
-          <%= render 'family_member_card', x: @mother, y: "Mother", z: "mother" %>
+          <%= render 'relationships/family_member_card', x: @mother, y: "Mother", z: "mother" %>
         </div>
       </div>
       <div class="col-xs-3 col-xs-offset-2">
-          <%= render 'family_member_card', x: @father, y: "Father", z: "father" %>
+          <%= render 'relationships/family_member_card', x: @father, y: "Father", z: "father" %>
       </div>
     </div>
   </div>
@@ -33,16 +33,16 @@
   <div class="row" id="grandparents">
     <div class="col-xs-12 col-centered">
       <div class="col-xs-3">
-        <%= render 'family_member_card', x: @maternal_grandmother, y: "Maternal Grandmother", z: "maternalGrandmother" %>
+        <%= render 'relationships/family_member_card', x: @maternal_grandmother, y: "Maternal Grandmother", z: "maternalGrandmother" %>
       </div>
       <div class="col-xs-3">
-        <%= render 'family_member_card', x: @maternal_grandfather, y: "Maternal Grandfather", z: "maternalGrandfather" %>
+        <%= render 'relationships/family_member_card', x: @maternal_grandfather, y: "Maternal Grandfather", z: "maternalGrandfather" %>
       </div>
       <div class="col-xs-3">
-        <%= render 'family_member_card', x: @paternal_grandmother, y: "Paternal Grandmother", z: "paternalGrandmother" %>
+        <%= render 'relationships/family_member_card', x: @paternal_grandmother, y: "Paternal Grandmother", z: "paternalGrandmother" %>
       </div>
       <div class="col-xs-3">
-        <%= render 'family_member_card', x: @paternal_grandfather, y: "Paternal Grandfather", z: "paternalGrandfather" %>
+        <%= render 'relationships/family_member_card', x: @paternal_grandfather, y: "Paternal Grandfather", z: "paternalGrandfather" %>
       </div>
     </div>
   </div>
@@ -50,25 +50,25 @@
 
 
 <div class="modal fade" id="motherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <%= render 'family_tree_modal', f: f, relationship: 'Mother' %>
+  <%= render 'relationships/family_tree_modal', relationship: 'Mother' %>
 </div>
 
 <div class="modal fade" id="fatherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <%= render 'family_tree_modal', f: f, relationship: 'Father' %>
+  <%= render 'relationships/family_tree_modal', relationship: 'Father' %>
 </div>
 
 <div class="modal fade" id="maternalGrandmotherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <%= render 'family_tree_modal', f: f, relationship: 'Maternal Grandmother' %>
+  <%= render 'relationships/family_tree_modal', relationship: 'Maternal Grandmother' %>
 </div>
 
 <div class="modal fade" id="maternalGrandfatherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <%= render 'family_tree_modal', f: f, relationship: 'Maternal Grandfather' %>
+  <%= render 'relationships/family_tree_modal', relationship: 'Maternal Grandfather' %>
 </div>
 
 <div class="modal fade" id="paternalGrandmotherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <%= render 'family_tree_modal', f: f, relationship: 'Paternal Grandmother' %>
+  <%= render 'relationships/family_tree_modal', relationship: 'Paternal Grandmother' %>
 </div>
 
 <div class="modal fade" id="paternalGrandfatherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <%= render 'family_tree_modal', f: f, relationship: 'Paternal Grandfather' %>
+  <%= render 'relationships/family_tree_modal', relationship: 'Paternal Grandfather' %>
 </div>

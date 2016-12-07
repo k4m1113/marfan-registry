@@ -35,6 +35,6 @@ $('#exampleModal').on('show.bs.modal', function (event) {
   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
   var modal = $(this)
   modal.find('.modal-title').text('New message to ' + familyMember)
-  modal.find('.modal-body span.note').html(<%= j render 'family_member', f: f %>)
+  modal.find('.modal-body span.note').html(<%= j render 'relationships/family_member', f: f %>)
 })
 </script>

@@ -73,8 +73,9 @@ ActiveRecord::Schema.define(version: 20161205224935) do
 
   create_table "relationships", force: :cascade do |t|
     t.integer "seeded_relationship_type_id", null: false
+    t.integer "visit_id"
     t.integer "patient_id",                  null: false
-    t.integer "relation_patient_id",         null: false
+    t.integer "relationship_patient_id",     null: false
   end
 
   create_table "seeded_relationship_types", id: false, force: :cascade do |t|
