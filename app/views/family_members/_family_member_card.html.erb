@@ -30,5 +30,5 @@
   </p>
 </div>
 <div class="modal fade" id=<%= "#{rt.name_camelcase}Modal" %> tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <%= render 'family_members/family_tree_modal', relationship: rt.name, relationship_type_id: rt.id %>
+  <%= render 'family_members/family_tree_modal', relationship: rt.name, relationship_type_id: rt.id, action: @action %>
 </div>

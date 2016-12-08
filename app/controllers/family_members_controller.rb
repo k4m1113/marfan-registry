@@ -22,10 +22,15 @@ class FamilyMembersController < ApplicationController
     end
   end
 
-  def update
-    if @family_member.update(family_member_params)
+  def edit
+    @family_member = FamilyMember.find(params[:id])
+  end
 
-      render json: @family_member
+  def update
+    @family_member = FamilyMember.find(params[:id])
+    if @family_member.update(family_member_params)
+      flash[:success] = "Family Member #{@family_member.id} updated successfully!"
+      redirect_to edit_visit_path(@family_member.visit_id)
     else
       flash[:error] = "Please correct the following errors: #{@family_member.errors}"
       redirect_to edit_visit_path(@family_member.visit_id)

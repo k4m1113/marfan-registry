@@ -1,5 +1,10 @@
 Edit Family Member Path
-<script>
-$('.modal-body span.note').html('<%= j render @fm.relationship %>');
-$('#myModal').modal('show');
-</script>
+<div class="row">
+  <div class="col-xs-12-col-md-4">
+    <%= form_for @family_member, method: :patch do |f| %>
+      <%= render 'family_member_form_body', f: f %>
+      <%= f.submit 'Update' %>
+  </div>
+  <% end %>
+
+</div>
