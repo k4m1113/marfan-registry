@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161205224935) do
+ActiveRecord::Schema.define(version: 20161205234629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,12 @@ ActiveRecord::Schema.define(version: 20161205224935) do
     t.integer  "postal_code",    null: false
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+  end
+
+  create_table "family_members", force: :cascade do |t|
+    t.integer "visit_id",                    null: false
+    t.integer "seeded_relationship_type_id", null: false
+    t.jsonb   "future_patient_data_hash"
   end
 
   create_table "hospitalizations", force: :cascade do |t|
@@ -70,13 +76,6 @@ ActiveRecord::Schema.define(version: 20161205224935) do
   end
 
   add_index "pg_search_documents", ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id", using: :btree
-
-  create_table "relationships", force: :cascade do |t|
-    t.integer "seeded_relationship_type_id", null: false
-    t.integer "visit_id"
-    t.integer "patient_id",                  null: false
-    t.integer "relationship_patient_id",     null: false
-  end
 
   create_table "seeded_relationship_types", id: false, force: :cascade do |t|
     t.integer  "ahnentafel_id",   null: false

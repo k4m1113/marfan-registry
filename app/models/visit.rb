@@ -15,13 +15,13 @@ class Visit < ActiveRecord::Base
   has_many :tests,
     inverse_of: :visit,
     dependent: :destroy
-  has_many :relationships,
+  has_many :family_members,
     inverse_of: :visit
 
   accepts_nested_attributes_for :symptoms
   accepts_nested_attributes_for :hospitalizations
   accepts_nested_attributes_for :tests
-  accepts_nested_attributes_for :relationships
+  accepts_nested_attributes_for :family_members
 
   validates :patient_id,
     presence: true,
@@ -53,4 +53,5 @@ class Visit < ActiveRecord::Base
   validates :arm_span,
     numericality: { greater_than: 0 },
     allow_nil: true
+
 end

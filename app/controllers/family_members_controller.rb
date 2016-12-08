@@ -6,14 +6,15 @@ class FamilyMembersController < ApplicationController
   end
 
   def new
-
+    @visit = session[:current_visit]
   end
 
   def create
     @family_member = FamilyMember.new(family_member_params)
+    @visit = session[:current_visit]
 
     if @family_member.save
-      flash[:notice] = "#{@family_member.name} added successfully!"
+      flash[:notice] = "#{@family_member.future_patient_data_hash["first_name"]}added successfully!"
       redirect_to edit_visit_path(@family_member.visit_id)
     else
       flash[:error] = "Please correct the following errors: #{@family_member.errors}"
@@ -42,12 +43,8 @@ class FamilyMembersController < ApplicationController
   def family_member_params
     params.require(:family_member).permit(
     :visit_id,
-    :relationship,
-    :name,
-    :age,
-    :living,
-    :cause_of_death,
-    :note)
+    :seeded_relationship_type_id,
+    future_patient_data_hash: [:first_name, :last_name, :date_of_birth, :cause_of_death, :deceased, :note])
   end
 
   def current_family_member

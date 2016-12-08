@@ -1,0 +1,48 @@
+<div class="form-group">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <%= f.label "Relationship:", class: "control-label" %><br />
+      <%= f.collection_select(:seeded_relationship_type_id, SeededRelationshipType.all, :id, :name, class: "form-control", autofocus: true) %>
+    </div>
+  </div>
+  <%= f.fields_for :future_patient_data_hash do |ff| %>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <%= ff.label "First Name:", class: "control-label" %><br />
+      <%= ff.text_field :first_name, class: "form-control" %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <%= ff.label "Last Name:", class: "control-label" %><br />
+      <%= ff.text_field :last_name, class: "form-control" %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <%= ff.label "Date of Birth:", class: "control-label" %><br />
+      <%= ff.date_field :date_of_birth, class: "form-control", min: 1, step: 1 %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <%= ff.label "Check if deceased:", class: "control-label" %><br />
+      <%= ff.check_box :deceased, class: "form-control btn btn-default", onclick: "$('#deceased').toggle();" %>
+    </div>
+  </div>
+  <div class="row">
+    <div id="deceased" class="col-md-6 col-md-offset-3" style="display: none">
+      <%= ff.label "What was their cause of death?", class: "control-label" %><br />
+      <%= ff.text_field :cause_of_death, class: "form-control" %>
+    </div>
+  </div>
+
+    <br />
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <%= ff.label "Anything else to add?", class: "control-label" %><br />
+      <%= ff.text_area :note, class: "form-control" %>
+    </div>
+  </div>
+  <% end %>
+</div>

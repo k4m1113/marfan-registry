@@ -61,9 +61,9 @@
           </tr>
           <% @visit.family_members.each do |fm| %>
             <tr>
-              <td><%= fm.name %></td>
-              <td><%= fm.relationship %></td>
-              <td><%= fm.note %></td>
+              <td><%= fm.future_patient_data_hash['first_name']  %></td>
+              <td><%= SeededRelationshipType.where(ahnentafel_id: fm.seeded_relationship_type_id)[0].name %></td>
+              <td><%= fm.visit_id %></td>
               <td>
                 <div class="hidden-sm hidden-xs btn-group btn-group-sm hidden-sm-down" role="group">
                   <%= button_to "Edit", edit_family_member_path(id: fm.id), type: "button", method: :get, class: "btn btn-secondary" %>

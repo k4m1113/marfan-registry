@@ -21,8 +21,7 @@ class VisitsController < ApplicationController
 
     @symptom = @visit.symptoms.build
     @hospitalization = @visit.hospitalizations.build
-    @relationship_patient = Patient.new
-    @relationship = @visit.relationships.build
+    @family_member = @visit.family_members.build
     @test = @visit.tests.build
   end
 
@@ -73,9 +72,8 @@ class VisitsController < ApplicationController
   def edit
     @visit = Visit.find(params[:id])
     @patient = Patient.where(id: @visit.patient_id)[0]
-    @family = @visit.relationships
-    @relationship = @visit.relationships.build
-    @relationship_patient = Patient.where(id: @relationship.relationship_patient_id)[0]
+    @family = @visit.family_members
+    @family_member = @visit.family_members.build
 
     @mother = @family.where(seeded_relationship_type_id: 3)[0]
     @father = @family.where(seeded_relationship_type_id: 2)[0]
@@ -169,13 +167,14 @@ class VisitsController < ApplicationController
       :clinician_id,
       :primary_reason,
       :secondary_reason,
-      relationships_attributes:
-        [:patient_id, :relationship_patient_id, :seeded_relationship_type_id, :visit_id, relationship_patients_attributes: [:first_name, :last_name, :sex, :deceased, :cause_of_death, :note]],
+      family_members_attributes:
+        [:visit_id, :seeded_relationship_type_id, :future_patient_data_hash, {future_patient_data_hash: [
+          :first_name, :last_name, :date_of_birth, :deceased, :cause_of_death, :note]}],
       hospitalizations_attributes:
-        [:hospitalization, :visit_id, :admission_date, :length_of_stay, :hosp_type, :description, :location],
+        [:visit_id, :hospitalization, :admission_date, :length_of_stay, :hosp_type, :description, :location],
       tests_attributes:
-        [:test, :visit_id, :test_type, :test_date, :result],
+        [:visit_id, :test, :test_type, :test_date, :result],
       symptoms_attributes:
-        [:symptoms, :seeded_symptom_id, :visit_id, :presence, :measurement, :start_date, :frequency, :note])
+        [:seeded_symptom_id, :visit_id, :symptoms, :presence, :measurement, :start_date, :frequency, :note])
   end
 end

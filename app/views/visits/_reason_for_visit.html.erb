@@ -4,7 +4,7 @@
       <div class="container">
         <label class="form-check-label radio-inline", value="due to family history" >
           <dt class="col-sm-1">
-            <%= f.radio_button :primary_reason, "due to family history", class: "form-check-input" %>
+            <%= f.radio_button :primary_reason, "due to family history", class: "form-check-input", onclick: "renderFamilyMember('#reason-for-visit-response');" %>
           </dt>
           <dd class="col-sm-11", value="due to family history">Family History</dd>
         </label>
@@ -41,7 +41,10 @@
 <script>
   function renderHospitalization(div_attachment_id) {
     $(div_attachment_id).html("<hr /><%= j render 'hospitalization_form', f: f %>");
-  } 
+  }
+  function renderFamilyMember(div_attachment_id) {
+    $(div_attachment_id).html("<hr /><%= j render 'family_member_form', f: f %>");
+  }
   function renderTest(div_attachment_id) {
     $(div_attachment_id).html("<hr /><%= j render 'test', f: f %>");
   }

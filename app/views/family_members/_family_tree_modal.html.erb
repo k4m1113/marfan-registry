@@ -7,7 +7,14 @@
       <h4 class="modal-title" id="myModalLabel">Add <%= relationship %></h4>
     </div>
     <div class="modal-body">
-      <%= render 'relationships/new_relationship_form' %>
+      <%= form_for @family_member do |f| %>
+        <%= render 'family_members/family_member_form_body', f: f %>
+        <%= f.hidden_field :visit_id, value: @visit.id %>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <%= f.submit "Add Relationship", class: "btn btn-secondary" %>
     </div>
   </div>
+  <% end %>
 </div>

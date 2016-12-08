@@ -1,39 +1,11 @@
-New Family Member Path
-<%= form_for @family_member do |f| %>
-  <div class="form-group">
-    <div class="row">
-      <div class="col-xs-11 col-md-4">
-        <%= f.hidden_field :visit_id, session[:current_visit].id %>
-        <%= f.label "Relationship:", class: "control-label" %><br />
-        <%= f.select :relationship, Rails.application.config.relationship_types, class: "form-control", prompt: "Select Relationship", autofocus: true %>
-      </div>
-      <div class="col-xs-11 col-md-4">
-        <%= f.label "Name:", class: "control-label" %><br />
-        <%= f.text_field :name, class: "form-control" %>
-      </div>
-      <div class="col-xs-11 col-md-4">
-        <%= f.label "Age:", class: "control-label" %><br />
-        <%= f.number_field :age, class: "form-control", min: 1, step: 1 %>
-      </div>
+<%= form_for @family_member do |ff| %>
+    <%= render 'family_member_form_body', f: f %>
+    <br />
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <%= f.submit "Add Relationship", class: "btn btn-secondary" %>
     </div>
-    <br />
-    <%= f.label "Check if deceased:", class: "control-label" %><br />
-    <%= f.check_box :living, class: "form-control btn btn-default", onclick: "$('#deceased').toggle();" %>
-    <br />
-    <div id="deceased" style="display: none">
-      <%= f.label "What was their cause of death?", class: "control-label" %><br />
-      <%= f.text_field :cause_of_death, class: "form-control" %>
-    </div>
-    <br />
-    <%= f.label "Anything else to add?", class: "control-label" %><br />
-    <%= f.text_area :note, class: "form-control" %>
-    <br />
-    <button class="show_button btn btn-primary center-block" type="button" onclick="renderFamilyMember('#add-another')">
-      Add another family member?
-    </button>
   </div>
 </div>
 
 <% end %>
-
-<div id="add-another"></div>

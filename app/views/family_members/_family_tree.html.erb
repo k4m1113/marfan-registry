@@ -1,0 +1,7 @@
+
+<% SeededRelationshipType.all.each do |rt| %>
+  <div class="col-xs-4">
+    <%= render 'family_members/family_member_card', rt: rt %>
+  </div>
+
+<% end %>
