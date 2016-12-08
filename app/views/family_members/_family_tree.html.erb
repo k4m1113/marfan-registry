@@ -1,7 +1,21 @@
-
 <% SeededRelationshipType.all.each do |rt| %>
-  <div class="col-xs-4">
-    <%= render 'family_members/family_member_card', rt: rt %>
-  </div>
-
+  <% case rt.generation %>
+  <% when 0 %>
+    <div class="col-xs-3 col-xs-offset-3">
+      <%= render 'family_members/family_member_card', rt: rt %>
+    </div>
+    <div class="col-xs-3">
+      <%= render 'family_members/family_member_card', rt: rt %>
+    </div>
+    <br />
+  <% when 1 %>
+    <div class="col-xs-3 col-xs-offset-2">
+      <%= render 'family_members/family_member_card', rt: rt %>
+    </div>
+    <br />
+  <% when 2 %>
+    <div class="col-xs-3">
+      <%= render 'family_members/family_member_card', rt: rt %>
+    </div>
+  <% end %>
 <% end %>

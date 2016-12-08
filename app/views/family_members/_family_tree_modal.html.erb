@@ -4,10 +4,11 @@
       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-      <h4 class="modal-title" id="myModalLabel"><%= "#{@action.capitalize} #{relationship}" %></h4>
+      <h4 class="modal-title" id="myModalLabel"><%= "#{@action.capitalize} #{rt.name}" %></h4>
     </div>
     <div class="modal-body">
       <%= form_for @family_member, action: @action do |f| %>
+        <%= f.hidden_field :seeded_relationship_type_id, value: rt.id %>
         <%= render 'family_members/family_member_form_body', f: f %>
         <%= f.hidden_field :visit_id, value: @visit.id %>
     </div>

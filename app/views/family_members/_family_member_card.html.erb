@@ -10,19 +10,19 @@
       <% @fpdh = @fm.future_patient_data_hash %>
 
       <% @action = "update" %>
-      Name: <%= @fpdh['first_name'] ? @fpdh['first_name'] : "Name not noted" %>
+      Name: <%= @fpdh['first_name'].blank? ? "not noted" : @fpdh['first_name'] %>
       <br />
       <% if !@fpdh['deceased'] %>
         <% @age = ((Date.today - @fpdh['date_of_birth'].to_i)/365.25).floor %>
-        Age: <%= @age ? "#{@age} years" : "Not noted" %> (living)
+        Age: <%= @age ? "#{@age} years" : "not noted" %> (living)
         <br />
       <% else %>
         (deceased)
         <br />
-        Cause of death: <%= @fpdh['cause_of_death'] ? @fpdh['cause_of_death'] : "Not noted" %>
+        Cause of death: <%= @fpdh['cause_of_death'].blank? ? "not noted" : @fpdh['cause_of_death']  %>
         <br />
       <% end %>
-      Notes: <%= @fpdh['note'] ? @fpdh['note'] : "none" %>
+      Notes: <%= @fpdh['note'].blank? ? "none" : @fpdh['note'] %>
       <br />
       <hr />
     <% end %>
@@ -30,5 +30,5 @@
   </p>
 </div>
 <div class="modal fade" id=<%= "#{rt.name_camelcase}Modal" %> tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <%= render 'family_members/family_tree_modal', relationship: rt.name, relationship_type_id: rt.id, action: @action %>
+  <%= render 'family_members/family_tree_modal', rt: rt, action: @action %>
 </div>

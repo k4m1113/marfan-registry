@@ -1,3 +1,4 @@
 <%= f.fields_for :family_members do |ff| %>
+  <%= render 'family_members/family_member_form_relationship_selector', f: ff %>
   <%= render 'family_members/family_member_form_body', f: ff %>
 <% end %>
