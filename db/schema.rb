@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20161205234629) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.boolean  "deceased"
-    t.boolean  "cause_of_death"
+    t.string   "cause_of_death"
     t.string   "note"
   end
 

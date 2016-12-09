@@ -14,4 +14,6 @@ Rails.application.routes.draw do
   resources :family_members
 
   root "pages#main"
+
+  put 'family_members' => 'family_members#make_patient'
 end

@@ -24,8 +24,6 @@ class Patient < ActiveRecord::Base
 
   has_many :visits,
     inverse_of: :patient
-  has_many :relationships,
-    inverse_of: :patient
 
   validates :first_name,
     format: { with: /\A[a-zA-Z ']+\z/ },

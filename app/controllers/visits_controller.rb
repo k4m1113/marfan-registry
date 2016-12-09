@@ -6,6 +6,9 @@ class VisitsController < ApplicationController
 
   def new
     @visit = Visit.new
+    if params[:patient]
+      @patient = Patient.find(params[:patient])
+    end
 
     @all_symptoms = SeededSymptom.all
     @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")

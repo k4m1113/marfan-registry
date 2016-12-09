@@ -11,7 +11,7 @@ class EditPatientAttributes < ActiveRecord::Migration
 
     change_table :patients do |t|
       t.boolean :deceased
-      t.boolean :cause_of_death
+      t.string :cause_of_death
 
       t.string :note
     end

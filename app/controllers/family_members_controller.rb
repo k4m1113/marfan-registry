@@ -1,5 +1,6 @@
 class FamilyMembersController < ApplicationController
   respond_to :html, :js
+  helper_method :make_patient
 
   def index
     @family_members = FamilyMember.all
@@ -37,6 +38,10 @@ class FamilyMembersController < ApplicationController
     end
   end
 
+  def show
+    @family_member = FamilyMember.find(params[:id])
+  end
+
   def destroy
     FamilyMember.find(params[:id]).destroy
     redirect_to visit_path(session[:current_visit])
@@ -51,9 +56,4 @@ class FamilyMembersController < ApplicationController
     :seeded_relationship_type_id,
     future_patient_data_hash: [:first_name, :last_name, :date_of_birth, :cause_of_death, :deceased, :note])
   end
-
-  def current_family_member
-    @family_member = family_member.find(params[:id])
-  end
-
 end
