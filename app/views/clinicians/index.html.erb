@@ -1,6 +1,6 @@
 <br />
   <div class="row">
-    <div class="col-xs-10 col-centered">
+    <div class="col-xs-12">
       <div class="panel panel-default">
         <div class="panel-heading">
           <h1>All Clinicians</h1>
@@ -10,14 +10,12 @@
             <th>ID</th>
             <th>Last Name</th>
             <th>First Name</th>
-            <th>Start Visit</th>
           </tr>
           <% @clinicians.each do |c| %>
             <tr>
               <td><%= link_to c.id, clinician_path(c) %></td>
               <td><%= c.last_name %></td>
               <td><%= c.first_name %></td>
-              <td><%= link_to "New visit", new_visit_path %></td>
             </tr>
           <% end %>
         </table>

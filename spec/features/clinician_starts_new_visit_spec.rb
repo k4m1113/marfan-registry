@@ -15,28 +15,44 @@ feature "clinician can initiate appointment" do
     page.find("#visit_general_health_good").trigger("click")
   end
 
-  # scenario "patient is being seen for family history including deceased family member", :js => true do
-  #   page.find("#visit_primary_reason_due_to_family_history").trigger("click")
+  # scenario "doctor navigates from the patient search page", :js => true do
+  #   visit patients_path
   #
-  #   expect(page).to have_content("Relationship:")
-  #   expect(page).to have_content("Name:")
-  #   expect(page).to have_content("Age:")
+  #   expect(page).to have_content("All patients whose name contains")
+  #   expect(page).to have_content("New Visit")
   #
-  #   check "visit_family_members_attributes_0_living"
-  #
-  #   expect(page).to have_content("What was their cause of death?")
-  # end
-  #
-  # scenario "patient is being seen for family history", :js => true do
-  #   page.find("#visit_primary_reason_due_to_family_history").trigger("click")
-  #
-  #   expect(page).to have_content("Relationship:")
-  #   expect(page).to have_content("Name:")
-  #   expect(page).to have_content("Age:")
-  #
-  #   expect(page).to_not have_content("What was their cause of death?")
+  #   expect(page).to_not have_content("In which category are your symptoms?")
+  #   expect(page).to_not have_content("Relationship:")
   #   expect(page).to_not have_content("What type of test was it?")
+  #
+  #   click_button "New Visit"
+  #
+  #   expect(page).to have_content("New Visit for Antoine Marfan")
+  #   expect(page).to_not have_content("Patient id:")
   # end
+
+  scenario "patient is being seen for family history including deceased family member", :js => true do
+    page.find("#visit_primary_reason_due_to_family_history").trigger("click")
+
+    expect(page).to have_content("Relationship:")
+    expect(page).to have_content("First name:")
+    expect(page).to have_content("Date of birth:")
+
+    check "visit_family_members_attributes_0_future_patient_data_hash_deceased"
+
+    expect(page).to have_content("What was their cause of death?")
+  end
+
+  scenario "patient is being seen for family history", :js => true do
+    page.find("#visit_primary_reason_due_to_family_history").trigger("click")
+
+    expect(page).to have_content("Relationship:")
+    expect(page).to have_content("First name:")
+    expect(page).to have_content("Date of birth:")
+
+    expect(page).to_not have_content("When were you hospitalized?")
+    expect(page).to_not have_content("What type of test was it?")
+  end
 
   scenario "patient has had recent testing", :js => true do
     page.find("#visit_primary_reason_for_recent_testing").trigger("click")

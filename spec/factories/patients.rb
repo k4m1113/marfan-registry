@@ -5,6 +5,7 @@ FactoryGirl.define do
     last_name "Delgardo"
     date_of_birth DateTime.now
     sex "F"
+    deceased false
 
     address_line_1 "1500 Main Street"
     address_line_2 "Apartment 4"

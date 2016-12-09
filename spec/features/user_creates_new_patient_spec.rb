@@ -35,7 +35,7 @@ feature 'user can add new patient' do
 
     click_button "Add New Patient"
 
-    expect(page).to have_content("Please re-check information and/or fill required fields.")
+    expect(page).to have_content("Please re-check information and/or fill required fields:")
     expect(page).to have_content("New Patient Information")
   end
 

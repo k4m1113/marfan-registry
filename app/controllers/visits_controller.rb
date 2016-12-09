@@ -36,9 +36,9 @@ class VisitsController < ApplicationController
       redirect_to edit_visit_path(@visit.id)
       session[:current_visit] = @visit
     else
-      flash[:error] = "Please re-check information!"
+      flash[:error] = "Please re-check information: #{@visit.errors}"
       Rails.logger.info(@visit.errors.inspect)
-      render :new
+      render 'new'
     end
     @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
     @dural_symptoms = SeededSymptom.where(systemic_category: "Dural")
@@ -110,11 +110,11 @@ class VisitsController < ApplicationController
     @form_action = "Update"
     if @visit.update(visit_params)
       flash[:notice] = "Successfully updated visit!"
-      redirect_to visits_path
+      redirect_to visit_path(@visit.id)
     else
       Rails.logger.info(@visit.errors.inspect)
-      flash[:error] = "Error updating visit."
-      render :edit
+      flash[:error] = "Error updating visit: #{@visit.errors}"
+      redirect_to edit_visit_path(@visit.id)
     end
   end
 

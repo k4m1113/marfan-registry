@@ -1,22 +1,47 @@
-<br />
 <div class="row">
-  <div class="col-xs">
+  <div class="col-xs-10 col-centered">
+    <h1>Patient <%= @patient.id %></h1>
+    <br />
+    <div class="btn-group btn-group-sm" role="group">
+      <%= button_to "Edit Patient", edit_patient_path(id: @patient.id), type: "button", method: :get, class: "btn btn-secondary" %>
+      <%= button_to "Destroy Patient", patient_path(id: @patient.id), method: :delete, type: "button", class: "btn btn-secondary" %>
+    </div>
+    <br /><br />
     <div class="panel panel-default">
-      <div class="panel-heading"><h1><%= "#{@patient.first_name} #{@patient.last_name}" %></h1></div>
-      <table class="table table-striped table-hover">
-        <tr>
-          <th>ID</th>
-          <th>Clinician</th>
-          <th>Start Visit</th>
-        </tr>
-        <% @visits.each do |v| %>
+      <div class="panel-heading">
+        <h3 class="panel-title">Patient</h3>
+      </div>
+      <div class="panel-body">
+        <ul class="list-group">
+          <li class="list-group-item"><h5>Date of Birth: <%= @patient.date_of_birth.strftime("%d %B %Y") %></h5> </li>
+          <li class="list-group-item"><h5>Sex: <%= @patient.sex %></h5></li>
+        </ul>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Visits</h3>
+      </div>
+      <% if @visits.length != 0 %>
+        <table class="table table-striped table-hover">
           <tr>
-            <td><%= link_to v.id, visit_path(v) %></td>
-            <td><%= link_to "#{Clinician.where(id: v.clinician_id)[0].last_name}, #{Clinician.where(id: v.clinician_id)[0].first_name}", clinician_path(v.clinician_id) %></td>
-            <td><%= link_to "New visit", new_visit_path %></td>
+            <th>Date</th>
+            <th>Reason for Visit</th>
+            <th>Clinician</th>
           </tr>
-        <% end %>
-      </table>
+          <% @visits.each do |v| %>
+            <tr>
+              <td><%= v.date_created.strftime("%d %B %Y") %></td>
+              <td><%= v.reason_for_visit %></td>
+              <td><%= link_to "#{@doctor.first_name} #{@doctor.last_name}", clinician_path(@doctor.id) %></td>
+            </tr>
+          <% end %>
+        </table>
+      <% else %>
+        <div class="panel-body">
+          <h5>Patient does not have any Visits yet.</h5>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

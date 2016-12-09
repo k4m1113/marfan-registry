@@ -30,9 +30,9 @@ class PatientsController < ApplicationController
     @patient = Patient.new(patient_params)
     if @patient.save
       flash[:notice] = "Patient #{@patient.last_name}, #{@patient.first_name} successfully added!"
-      redirect_to :action => :index
+      redirect_to patients_path
     else
-      flash[:error] = "Please re-check information and/or fill required fields."
+      flash[:error] = "Please re-check information and/or fill required fields: #{@patient.errors}"
       render 'new'
     end
   end
@@ -43,16 +43,21 @@ class PatientsController < ApplicationController
 
   def update
     @patient = Patient.find(params[:id])
-    if @patient.save
-      redirect_to :action => :index
+    if @patient.update(patient_params)
+      flash[:success] = "Patient #{@patient.first_name} #{@patient.last_name} updated successfully!"
+      redirect_to patient_path(@patient.id)
     else
-      render 'edit'
+      flash[:error] = "Please correct the following errors: #{@patient.errors}"
+      redirect_to edit_patient_path(@patient.id)
     end
   end
 
   def show
     @patient = Patient.find(params[:id])
     @visits = Visit.where(patient_id: @patient.id)
+    @visits.each do |v|
+      @doctor = Clinician.where(id: v.id)[0]
+    end
   end
 
   def destroy
