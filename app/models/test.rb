@@ -1,7 +1,6 @@
 class Test < ActiveRecord::Base
-  belongs_to :visit, inverse_of: :tests
-  validates :visit,
-    presence: true
+  belongs_to :patient,
+    inverse_of: :tests
   validates :test_type,
     presence: :true
   validates :result,

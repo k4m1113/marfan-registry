@@ -3,15 +3,20 @@ Rails.application.routes.draw do
     member do
       get 'report'
     end
+  end
+
+  resources :patients do
     resources :hospitalizations
     resources :symptoms
     resources :family_members
+    resources :tests
   end
+
   resources :clinicians
-  resources :patients
   resources :hospitalizations
   resources :symptoms
   resources :family_members
+  resources :tests
 
   root "pages#main"
 

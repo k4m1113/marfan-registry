@@ -1,7 +1,7 @@
 Edit Family Member Path
 <div class="row">
   <div class="col-xs-12-col-md-4">
-    <%= form_for @family_member, method: :patch do |f| %>
+    <%= form_for @family_member, method: :put do |f| %>
       <%= render 'family_member_form_relationship_selector', f: f %>
       <%= render 'family_member_form_body', f: f %>
       <%= f.submit 'Update' %>

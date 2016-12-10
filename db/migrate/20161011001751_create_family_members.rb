@@ -9,6 +9,8 @@ class CreateFamilyMembers < ActiveRecord::Migration
       t.boolean :living
       t.string :cause_of_death
       t.string :note
+
+      t.timestamps
     end
   end
 end

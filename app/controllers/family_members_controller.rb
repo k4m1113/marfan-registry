@@ -3,7 +3,11 @@ class FamilyMembersController < ApplicationController
   helper_method :make_patient
 
   def index
-    @family_members = FamilyMember.all
+    if params[:search].present?
+      @family_members = FamilyMember.perform_search(params[:search]).paginate(:page => params[:page])
+    else
+      @family_members = FamilyMember.all.paginate(:page => params[:page])
+    end
   end
 
   def new
@@ -12,7 +16,6 @@ class FamilyMembersController < ApplicationController
 
   def create
     @family_member = FamilyMember.new(family_member_params)
-    @visit = session[:current_visit]
 
     if @family_member.save
       flash[:notice] = "#{@family_member.future_patient_data_hash["first_name"]}added successfully!"
@@ -52,6 +55,7 @@ class FamilyMembersController < ApplicationController
 
   def family_member_params
     params.require(:family_member).permit(
+    :patient_id,
     :visit_id,
     :seeded_relationship_type_id,
     future_patient_data_hash: [:first_name, :last_name, :date_of_birth, :cause_of_death, :deceased, :note])

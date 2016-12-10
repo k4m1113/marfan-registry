@@ -8,6 +8,8 @@
     </div>
     <div class="modal-body">
       <%= form_for @family_member, action: @action do |f| %>
+        <%= f.hidden_field :patient_id, value: @patient.id %>
+        <%= f.hidden_field :seeded_relationship_type_id, value: rt.id %>
         <%= f.hidden_field :seeded_relationship_type_id, value: rt.id %>
         <%= render 'family_members/family_member_form_body', f: f %>
         <%= f.hidden_field :visit_id, value: @visit.id %>

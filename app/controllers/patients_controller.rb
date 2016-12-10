@@ -24,6 +24,9 @@ class PatientsController < ApplicationController
       @patient.deceased = @fpdh['deceased']
       @patient.sex = SeededRelationshipType.find(@fm.seeded_relationship_type_id).gender
     end
+    if params[:start_visit]
+
+    end
   end
 
   def create
@@ -54,10 +57,15 @@ class PatientsController < ApplicationController
 
   def show
     @patient = Patient.find(params[:id])
-    @visits = Visit.where(patient_id: @patient.id)
-    @visits.each do |v|
-      @doctor = Clinician.where(id: v.id)[0]
+    case @patient.sex
+    when 'F'
+      @gender = 'Female'
+    when
+      @gender = 'Male'
+    else
+      @gender = 'Not noted'
     end
+    @visits = Visit.where(patient_id: @patient.id)
   end
 
   def destroy

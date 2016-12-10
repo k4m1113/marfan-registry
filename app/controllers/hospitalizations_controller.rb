@@ -36,6 +36,7 @@ class HospitalizationsController < ApplicationController
 
   def hospitalization_params
     params.require(:hospitalization).permit(
+    :patient_id, 
     :visit_id,
     :admission_date,
     :length_of_stay,

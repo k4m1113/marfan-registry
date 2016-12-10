@@ -1,12 +1,12 @@
 <br />
-  <div class="row">
+  <div class="row flex-items-xs-center">
     <div class="col-xs">
       <%= form_tag "/patients", method: "get", id: "search-form" do %>
         <div class="input-group">
-          <%= text_field_tag :search, params[:search], placeholder:  "Search Patients...", class: "form-control" %>
+          <%= text_field_tag :search, params[:search], placeholder:  "Search Patients...", class: "input group form-control" %>
           <span class="input-group-btn">
-            <%= button_tag(patients_path, method: "get", type: "submit", class: "btn btn-secondary", id: "search" ) do %>
-            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            <%= button_tag(patients_path, method: "get", type: "submit", class: "btn btn-secondary", id: "search") do %>
+            <span style="color:#4CAF50;" class="glyphicon glyphicon-search" aria-hidden="true"></span>
             <% end %>
           </span>
         </div><br /><br />
@@ -30,15 +30,15 @@
             <th>Actions</th>
           </tr>
           <% @patients.each do |p| %>
-            <tr>
+            <tr style="cursor:pointer;" onclick=<%= "location.href='/patients/" + "#{p.id}'" %>>
               <td><%= link_to p.id, patient_path(p) %></td>
               <td><%= p.last_name %></td>
               <td><%= p.first_name %></td>
               <td>
                 <div class="hidden-sm hidden-xs btn-group btn-group-sm hidden-sm-down" role="group">
+                  <%= link_to "New Visit", new_visit_path(patient: p.id), type: "button", class: "btn btn-secondary btn-success" %>
                   <%= link_to "Edit Patient", edit_patient_path(id: p.id), type: "button", method: :get, class: "btn btn-secondary" %>
-                  <%= link_to "Delete Records", patient_path(id: p.id), method: :delete, type: "button", class: "btn btn-secondary" %>
-                  <%= link_to "New Visit", new_visit_path(patient: p.id), type: "button", class: "btn btn-secondary" %>
+                  <%= link_to "Delete Records", patient_path(id: p.id), method: :delete, type: "button", class: "btn btn-secondary", data: { confirm: "Are you sure you want to delete #{p.first_name} #{p.last_name} and all associated records?" } %>
                 </div>
                 <div class="hidden-md hidden-lg hidden-xlg btn-group btn-group-sm" role="group">
                   <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -56,7 +56,7 @@
           <% end %>
         </table>
       </div>
-      <%= will_paginate @patients, renderer: BootstrapPagination::Rails %>
+      <%= will_paginate @family_members, renderer: BootstrapPagination::Rails %>
     </div>
   </div>
 <% end %>

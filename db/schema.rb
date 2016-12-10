@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161205234629) do
+ActiveRecord::Schema.define(version: 20161210000546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,13 +32,16 @@ ActiveRecord::Schema.define(version: 20161205234629) do
   end
 
   create_table "family_members", force: :cascade do |t|
-    t.integer "visit_id",                    null: false
-    t.integer "seeded_relationship_type_id", null: false
-    t.jsonb   "future_patient_data_hash"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "seeded_relationship_type_id", null: false
+    t.jsonb    "future_patient_data_hash"
+    t.integer  "claimed_patient_id"
+    t.integer  "patient_id",                  null: false
+    t.integer  "visit_id"
   end
 
   create_table "hospitalizations", force: :cascade do |t|
-    t.integer  "visit_id",       null: false
     t.datetime "admission_date"
     t.integer  "length_of_stay"
     t.string   "hosp_type"
@@ -46,6 +49,8 @@ ActiveRecord::Schema.define(version: 20161205234629) do
     t.string   "location"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "patient_id",     null: false
+    t.integer  "visit_id"
   end
 
   create_table "patients", force: :cascade do |t|
@@ -101,7 +106,6 @@ ActiveRecord::Schema.define(version: 20161205234629) do
 
   create_table "symptoms", force: :cascade do |t|
     t.integer  "seeded_symptom_id", null: false
-    t.integer  "visit_id",          null: false
     t.boolean  "presence"
     t.float    "measurement"
     t.datetime "start_date"
@@ -109,13 +113,16 @@ ActiveRecord::Schema.define(version: 20161205234629) do
     t.text     "note"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "patient_id",        null: false
+    t.integer  "visit_id"
   end
 
   create_table "tests", force: :cascade do |t|
-    t.integer  "visit_id",  null: false
-    t.string   "test_type", null: false
-    t.string   "result",    null: false
+    t.string   "test_type",  null: false
+    t.string   "result",     null: false
     t.datetime "test_date"
+    t.integer  "patient_id", null: false
+    t.integer  "visit_id"
   end
 
   create_table "visits", force: :cascade do |t|

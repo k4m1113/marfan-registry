@@ -75,39 +75,40 @@
 </div>
 
 <div class="form-group">
+  <%= f.fields_for :patient do |ff| %>
   <div id="symptom_category"></div>
+  <script>
+    function renderCardiacSymptoms() {
+      $('#symptom_category').html("<%= j render 'visits/systemic_categories/cardiac', f: ff, symptoms: @cardiac_symptoms %>")
+    }
+    function renderOcularSymptoms() {
+      $('#symptom_category').html("<%= j render 'visits/systemic_categories/dural', f: ff, symptoms: @dural_symptoms %>")
+    }
+    function renderAuralSymptoms() {
+      $('#symptom_category').html("<%= j render 'visits/systemic_categories/aural', f: ff, symptoms: @aural_symptoms %>")
+    }
+    function renderOcularSymptoms() {
+      $('#symptom_category').html("<%= j render 'visits/systemic_categories/ocular', f: ff, symptoms: @ocular_symptoms %>")
+    }
+    function renderPulmonarySymptoms() {
+      $('#symptom_category').html("<%= j render 'visits/systemic_categories/pulmonary', f: ff, symptoms: @pulmonary_symptoms %>")
+    }
+    function renderIntegumentarySymptoms() {
+      $('#symptom_category').html("<%= j render 'visits/systemic_categories/integumentary', f: ff, symptoms: @integumentary_symptoms %>")
+    }
+    function renderCranialSymptoms() {
+      $('#symptom_category').html("<%= j render 'visits/systemic_categories/cranial', f: ff, symptoms: @cranial_symptoms %>")
+    }
+    function renderFeetSymptoms() {
+      $('#symptom_category').html("<%= j render 'visits/systemic_categories/feet', f: ff, symptoms: @feet_symptoms %>")
+    }
+    function renderGeneralSkeletalSymptoms() {
+      $('#symptom_category').html("<%= j render 'visits/systemic_categories/general_skeletal', f: ff, symptoms: @general_skeletal_symptoms %>")
+    }
+    function renderHandSymptoms() {
+      $('#symptom_category').html("<%= j render 'visits/systemic_categories/hand', f: ff, symptoms: @hand_symptoms %>")
+    }
+
+  </script>
+  <% end %>
 </div>
-
-<script>
-  function renderCardiacSymptoms() {
-    $('#symptom_category').html("<%= j render 'visits/systemic_categories/cardiac', f: f, symptoms: @cardiac_symptoms %>")
-  }
-  function renderOcularSymptoms() {
-    $('#symptom_category').html("<%= j render 'visits/systemic_categories/dural', f: f, symptoms: @dural_symptoms %>")
-  }
-  function renderAuralSymptoms() {
-    $('#symptom_category').html("<%= j render 'visits/systemic_categories/aural', f: f, symptoms: @aural_symptoms %>")
-  }
-  function renderOcularSymptoms() {
-    $('#symptom_category').html("<%= j render 'visits/systemic_categories/ocular', f: f, symptoms: @ocular_symptoms %>")
-  }
-  function renderPulmonarySymptoms() {
-    $('#symptom_category').html("<%= j render 'visits/systemic_categories/pulmonary', f: f, symptoms: @pulmonary_symptoms %>")
-  }
-  function renderIntegumentarySymptoms() {
-    $('#symptom_category').html("<%= j render 'visits/systemic_categories/integumentary', f: f, symptoms: @integumentary_symptoms %>")
-  }
-  function renderCranialSymptoms() {
-    $('#symptom_category').html("<%= j render 'visits/systemic_categories/cranial', f: f, symptoms: @cranial_symptoms %>")
-  }
-  function renderFeetSymptoms() {
-    $('#symptom_category').html("<%= j render 'visits/systemic_categories/feet', f: f, symptoms: @feet_symptoms %>")
-  }
-  function renderGeneralSkeletalSymptoms() {
-    $('#symptom_category').html("<%= j render 'visits/systemic_categories/general_skeletal', f: f, symptoms: @general_skeletal_symptoms %>")
-  }
-  function renderHandSymptoms() {
-    $('#symptom_category').html("<%= j render 'visits/systemic_categories/hand', f: f, symptoms: @hand_symptoms %>")
-  }
-
-</script>

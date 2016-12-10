@@ -1,4 +1,7 @@
 <%= f.fields_for :symptoms do |ff| %>
+  <% if @visit %>
+    <%= f.hidden_field :visit_id, value: @visit.id %>
+  <% end %>
   <div class="panel-group" id="accordion">
     <div class="panel panel-default">
       <div class="panel-body">

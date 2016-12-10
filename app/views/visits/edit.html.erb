@@ -1,3 +1,6 @@
+<div>
+  <%= link_to "View Visit Summary", visit_path(@visit) %>
+</div>
 <%= form_for @visit, class: "visit_form" do |f| %>
   <% case @visit.primary_reason %>
   <% when 'due to family history' %>

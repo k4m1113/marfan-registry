@@ -19,11 +19,22 @@ class Patient < ActiveRecord::Base
     end.sorted
   end
 
-  belongs_to :seeded_relationship_type,
-    inverse_of: :patients
-
   has_many :visits,
     inverse_of: :patient
+
+  has_many :symptoms,
+    dependent: :destroy
+  has_many :family_members,
+    dependent: :destroy
+  has_many :hospitalizations,
+    dependent: :destroy
+  has_many :tests,
+    dependent: :destroy
+
+  accepts_nested_attributes_for :symptoms
+  accepts_nested_attributes_for :hospitalizations
+  accepts_nested_attributes_for :tests
+  accepts_nested_attributes_for :family_members
 
   validates :first_name,
     format: { with: /\A[a-zA-Z ']+\z/ },

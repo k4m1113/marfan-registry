@@ -83,9 +83,14 @@
     </div>
   </div>
   <br />
+  <%= f.hidden_field :deceased %>
+  <%= f.hidden_field :cause_of_death %>
+  <%= f.hidden_field :note %>
+
   <div class="row flex-items-xs-center">
     <div class="col-xs-12">
       <%= f.submit "Add New Patient", class: "btn btn-primary center-block" %>
+      <%= f.submit "Add Patient and Begin Visit", class: "btn btn-primary center-block", name: "start_visit" %>
     </div>
   </div>
 

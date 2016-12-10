@@ -1,6 +1,4 @@
-@import "bootstrap-sprockets";
-@import "bootstrap";
-@import "bootstrap-table";
+
 
 // @media only screen
 //   and (min-device-width : 2048px)
@@ -9,12 +7,37 @@
 //       -webkit-text-size-adjust: 140%;   /* none for no scaling */
 //     }
 //   }
+
 .navbar-fixed-top {
   height: 50px;
 }
 
 body {
   padding-top: 50px;
+}
+
+[type="search"] {
+    -moz-appearance:    textfield;
+    -webkit-appearance: textfield;
+    appearance: textfield;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: #4CAF50;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #4CAF50
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #4CAF50;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #4CAF50;
+}
+
+input:focus {
+    border-color: #cfdc00;
+    box-shadow: 0 0 5px rgba(207, 220, 0, 0.4);
 }
 
 .center-block {
@@ -52,3 +75,7 @@ img{
 .center-text {
   text-align: center;
 }
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "bootstrap-table";

@@ -22,10 +22,10 @@ class VisitsController < ApplicationController
     @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
     @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
 
-    @symptom = @visit.symptoms.build
-    @hospitalization = @visit.hospitalizations.build
-    @family_member = @visit.family_members.build
-    @test = @visit.tests.build
+    @symptoms = @patient.symptoms.build
+    @hospitalizations = @patient.hospitalizations.build
+    @family_member = @patient.family_members.build
+    @tests = @patient.tests.build
   end
 
   def create
@@ -39,6 +39,7 @@ class VisitsController < ApplicationController
       flash[:error] = "Please re-check information: #{@visit.errors}"
       Rails.logger.info(@visit.errors.inspect)
       render 'new'
+      @visit = session[:current_visit]
     end
     @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
     @dural_symptoms = SeededSymptom.where(systemic_category: "Dural")
@@ -55,7 +56,11 @@ class VisitsController < ApplicationController
   def show
     @visit = Visit.find(params[:id])
     @patient = Patient.where(id:  @visit.patient_id)[0]
-    @symptoms = @visit.symptoms
+    @clinician = Clinician.where(id: @visit.clinician_id)[0]
+    @symptoms = Symptom.where(visit_id: @visit.id)
+    @family_members = FamilyMember.where(visit_id: @visit.id)
+    @tests = Test.where(visit_id: @visit.id)
+    @hospitalizations = Hospitalization.where(visit_id: @visit.id)
   end
 
   def index
@@ -75,8 +80,8 @@ class VisitsController < ApplicationController
   def edit
     @visit = Visit.find(params[:id])
     @patient = Patient.where(id: @visit.patient_id)[0]
-    @family = @visit.family_members
-    @family_member = @visit.family_members.build
+    @family = FamilyMember.where(visit_id: @visit.id)
+    @family_member = @patient.family_members.build
 
     @mother = @family.where(seeded_relationship_type_id: 3)[0]
     @father = @family.where(seeded_relationship_type_id: 2)[0]
@@ -101,7 +106,7 @@ class VisitsController < ApplicationController
     @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
     @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
 
-    @visit.symptoms.build
+    @patient.symptoms.build
     @form_action = "Update"
   end
 
@@ -170,14 +175,15 @@ class VisitsController < ApplicationController
       :clinician_id,
       :primary_reason,
       :secondary_reason,
-      family_members_attributes:
-        [:visit_id, :seeded_relationship_type_id, :future_patient_data_hash, {future_patient_data_hash: [
-          :first_name, :last_name, :date_of_birth, :deceased, :cause_of_death, :note]}],
+      family_member_attributes:
+        [:visit_id, :patient_id, :seeded_relationship_type_id, :future_patient_data_hash, {future_patient_data_hash: [
+        :first_name, :last_name, :date_of_birth, :deceased, :cause_of_death, :note]}],
       hospitalizations_attributes:
-        [:visit_id, :hospitalization, :admission_date, :length_of_stay, :hosp_type, :description, :location],
+        [:visit_id, :patient_id, :hospitalization, :admission_date, :length_of_stay, :hosp_type, :description, :location],
       tests_attributes:
-        [:visit_id, :test, :test_type, :test_date, :result],
+        [:visit_id, :patient_id, :test, :test_type, :test_date, :result],
       symptoms_attributes:
-        [:seeded_symptom_id, :visit_id, :symptoms, :presence, :measurement, :start_date, :frequency, :note])
+        [:seeded_symptom_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :start_date, :frequency, :note]
+      )
   end
 end

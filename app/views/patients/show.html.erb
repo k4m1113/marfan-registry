@@ -1,10 +1,12 @@
 <div class="row">
   <div class="col-xs-10 col-centered">
-    <h1>Patient <%= @patient.id %></h1>
     <br />
+    <h1><%= "#{@patient.first_name} #{@patient.last_name}" %></h1>
+    <hr>
     <div class="btn-group btn-group-sm" role="group">
-      <%= button_to "Edit Patient", edit_patient_path(id: @patient.id), type: "button", method: :get, class: "btn btn-secondary" %>
-      <%= button_to "Destroy Patient", patient_path(id: @patient.id), method: :delete, type: "button", class: "btn btn-secondary" %>
+      <%= link_to "New Visit", new_visit_path(patient: @patient.id), type: "button", method: :get, class: "btn btn-secondary btn-success" %>
+      <%= link_to "Edit Patient", edit_patient_path(id: @patient.id), type: "button", method: :get, class: "btn btn-secondary" %>
+      <%= link_to "Destroy Patient", patient_path(id: @patient.id), method: :delete, type: "button", class: "btn btn-secondary", data: { confirm: "Are you sure you want to delete Patient #{@patient.id} and all associated records?" } %>
     </div>
     <br /><br />
     <div class="panel panel-default">
@@ -13,8 +15,17 @@
       </div>
       <div class="panel-body">
         <ul class="list-group">
-          <li class="list-group-item"><h5>Date of Birth: <%= @patient.date_of_birth.strftime("%d %B %Y") %></h5> </li>
-          <li class="list-group-item"><h5>Sex: <%= @patient.sex %></h5></li>
+          <li class="list-group-item"><h5>Date of Birth:</h5> <%= @patient.date_of_birth ? @patient.date_of_birth.strftime("%d %B %Y") : "Not noted"%> </li>
+          <li class="list-group-item"><h5>Sex:</h5> <%= @gender %></li>
+          <li class="list-group-item"><h5>Mailing Address: </h5>
+            <%= @patient.address_line_1 %>
+            <%= @patient.address_line_2 %>
+            <%= @patient.address_line_3 %>
+            <br />
+            <%= "#{@patient.city}, #{@patient.state} #{@patient.postal_code}" %>
+            <br />
+            <%= @patient.country %>
+          </li>
         </ul>
       </div>
     </div>
@@ -30,9 +41,10 @@
             <th>Clinician</th>
           </tr>
           <% @visits.each do |v| %>
-            <tr>
-              <td><%= v.date_created.strftime("%d %B %Y") %></td>
-              <td><%= v.reason_for_visit %></td>
+            <% @doctor = Clinician.where(id: v.clinician_id)[0] %>
+            <tr style="cursor:pointer;" onclick=<%= "location.href='/visits/" + "#{v.id}'" %>>
+              <td><%= v.created_at.strftime("%d %B %Y") %></td>
+              <td><%= v.primary_reason %></td>
               <td><%= link_to "#{@doctor.first_name} #{@doctor.last_name}", clinician_path(@doctor.id) %></td>
             </tr>
           <% end %>

@@ -1,14 +1,17 @@
-<div class="card card-block">
-  <h4 class="card-title"><%= rt.name %></h4>
-  <p class="card-text">
-    <% @fm = @visit.family_members.where(seeded_relationship_type_id: rt.id)[0] %>
-    <% if @fm.nil? %>
-      <% @action = "create" %>
-      No <%= rt.name %> noted. Add one?
 
-    <% else %>
-      <% @fpdh = @fm.future_patient_data_hash %>
-
+<% @fm = @family.where(seeded_relationship_type_id: rt.id)[0] %>
+<% if @fm.nil? %>
+  <div class="card card-block" %>
+    <h4 class="card-title"><%= rt.name %></h4>
+    <p class="card-text">
+    <% @action = "create" %>
+    No <%= rt.name %> noted. Add one?
+<% else %>
+  <% @fpdh = @fm.future_patient_data_hash %>
+  <div class="card card-block">
+    <div class="clickable" style="cursor:pointer;" onclick=<%= "location.href='/family_members/" + "#{@fm.id}'" %>>
+      <h4 class="card-title"><%= rt.name %></h4>
+      <p class="card-text">
       <% @action = "update" %>
       Name: <%= @fpdh['first_name'].blank? ? "not noted" : @fpdh['first_name'] %>
       <br />
@@ -22,13 +25,14 @@
         Cause of death: <%= @fpdh['cause_of_death'].blank? ? "not noted" : @fpdh['cause_of_death']  %>
         <br />
       <% end %>
-      Notes: <%= @fpdh['note'].blank? ? "none" : @fpdh['note'] %>
-      <br />
-      <hr />
-    <% end %>
+        Notes: <%= @fpdh['note'].blank? ? "none" : @fpdh['note'] %>
+        <br />
+    </div>
+<% end %>
+    <hr />
     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#<%= rt.name_camelcase -%>Modal" style="display: block; margin: 0 auto;" id=<%= rt.name_underscore %>><%= "#{@action.capitalize} #{rt.name}" %></button>
   </p>
 </div>
 <div class="modal fade" id=<%= "#{rt.name_camelcase}Modal" %> tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <%= render 'family_members/family_tree_modal', rt: rt, action: @action %>
+  <%= render 'family_members/family_tree_modal', rt: rt, action: @action, patient_id: @patient.id %>
 </div>

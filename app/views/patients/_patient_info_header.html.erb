@@ -1,0 +1,21 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Patient</h3>
+  </div>
+  <div class="panel-body">
+    <h5><%= link_to "#{@patient.last_name}, #{@patient.first_name}", patient_path(@patient.id)  %></h5>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item"><h5>Date of Birth:</h5> <%= @patient.date_of_birth ? @patient.date_of_birth.strftime("%d %B %Y") : "not noted" %> </li>
+    <li class="list-group-item"><h5>Sex:</h5> <%= @patient.sex ? @patient.sex : "not noted" %></li>
+    <li class="list-group-item"><h5>Mailing Address: </h5>
+      <%= @patient.address_line_1 ? @patient.address_line_1 : "/n"%>
+      <%= @patient.address_line_2 ? @patient.address_line_2 : "/n"%>
+      <%= @patient.address_line_2 ? @patient.address_line_2 : "/n"%>
+      <br />
+      <%= "#{@patient.city}, #{@patient.state} #{@patient.postal_code}" %>
+      <br />
+      <%= @patient.country %>
+    </li>
+  </ul>
+</div>

@@ -1,2 +1,6 @@
-Family Member Show Page
-<%= button_to "Claim Family Member?", { action: "make_patient", locals:  }, method: :post %>
+<br />
+<div>
+  <h2><%= "#{@family_member.future_patient_data_hash['first_name']} #{@family_member.future_patient_data_hash['last_name']}" %></h2å>
+</div>
+<br />
+<%= link_to "Claim Family Member?", new_patient_path(fm: @family_member.id), type: "button", class: "btn btn-primary" %>

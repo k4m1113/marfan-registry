@@ -1,0 +1,27 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Hospitalizations</h3>
+  </div>
+  <% if @hospitalizations.length != 0 %>
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Date</th>
+        <th>Length of Stay</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+      <% @hospitalizations.each do |h| %>
+        <tr>
+          <td><%= h.admission_date.strftime("%d %B %Y") %></td>
+          <td><%= h.length_of_stay %></td>
+          <td><%= h.hosp_type %></td>
+          <td><%= h.description %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% else %>
+    <div class="panel-body">
+      Patient did not report any hospitalizations during this visit.
+    </div>
+  <% end %>
+</div>

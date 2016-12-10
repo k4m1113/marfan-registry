@@ -1,4 +1,5 @@
-<%= f.fields_for :family_members do |ff| %>
-  <%= render 'family_members/family_member_form_relationship_selector', f: ff %>
-  <%= render 'family_members/family_member_form_body', f: ff %>
+<%= form_for @family_member do |fff| %>
+  <%= fff.hidden_field :patient_id, value: @patient.id %>
+  <%= render 'family_members/family_member_form_relationship_selector', f: fff %>
+  <%= render 'family_members/family_member_form_body', f: fff %>
 <% end %>

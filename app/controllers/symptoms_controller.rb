@@ -35,6 +35,7 @@ class SymptomsController < ApplicationController
 
   def symptom_params
     params.require(:symptom).permit(
+      :patient_id, 
       :seededsymptom_id,
       :presence,
       :measurement,

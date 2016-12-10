@@ -1,9 +1,10 @@
 class Symptom < ActiveRecord::Base
   has_one :SeededSymptom
-  belongs_to :visit, inverse_of: :symptoms
+  belongs_to :patient,
+    inverse_of: :symptoms
 
   after_save { |s| s.destroy if s.presence.nil? }
-  
+
   validates :seeded_symptom_id,
     presence: true,
     numericality: {
