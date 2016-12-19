@@ -1,5 +1,4 @@
 <%= form_for @patient, action: "create", class: "form-horizontal" do |f| %>
-
   <div class="row flex-items-xs-center">
     <div class="form-group">
       <div class="col-xs-12">
@@ -90,7 +89,7 @@
   <div class="row flex-items-xs-center">
     <div class="col-xs-12">
       <%= f.submit "Add New Patient", class: "btn btn-primary center-block" %>
-      <%= f.submit "Add Patient and Begin Visit", class: "btn btn-primary center-block", name: "start_visit" %>
+      <%= f.submit "Add Patient and Begin Visit", class: "btn btn-primary disabled center-block", name: "start_visit" %>
     </div>
   </div>
 

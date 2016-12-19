@@ -32,7 +32,7 @@ class VisitsController < ApplicationController
     @visit = Visit.new(visit_params)
     @form_action = "Create"
     if @visit.save
-      flash[:notice] = "Visit started for #{@visit.patient.last_name}, #{@visit.patient.first_name}."
+      flash[:success] = "Visit started for #{@visit.patient.last_name}, #{@visit.patient.first_name}."
       redirect_to edit_visit_path(@visit.id)
       session[:current_visit] = @visit
     else
@@ -114,7 +114,7 @@ class VisitsController < ApplicationController
     @visit = Visit.find(params[:id])
     @form_action = "Update"
     if @visit.update(visit_params)
-      flash[:notice] = "Successfully updated visit!"
+      flash[:success] = "Successfully updated visit!"
       redirect_to visit_path(@visit.id)
     else
       Rails.logger.info(@visit.errors.inspect)

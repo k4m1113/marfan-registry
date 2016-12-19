@@ -32,7 +32,7 @@ class PatientsController < ApplicationController
   def create
     @patient = Patient.new(patient_params)
     if @patient.save
-      flash[:notice] = "Patient #{@patient.last_name}, #{@patient.first_name} successfully added!"
+      flash[:success] = "Patient #{@patient.last_name}, #{@patient.first_name} successfully added!"
       redirect_to patients_path
     else
       flash[:error] = "Please re-check information and/or fill required fields: #{@patient.errors}"
@@ -66,6 +66,9 @@ class PatientsController < ApplicationController
       @gender = 'Not noted'
     end
     @visits = Visit.where(patient_id: @patient.id)
+    unless @visits.length == 0
+      @primary_clinician = Clinician.where(id: @visits[0].clinician_id)[0]
+    end
   end
 
   def destroy

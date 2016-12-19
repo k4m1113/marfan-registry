@@ -18,11 +18,10 @@ class FamilyMembersController < ApplicationController
     @family_member = FamilyMember.new(family_member_params)
 
     if @family_member.save
-      flash[:notice] = "#{@family_member.future_patient_data_hash["first_name"]}added successfully!"
+      flash[:success] = "#{@family_member.future_patient_data_hash["first_name"]} added successfully!"
       redirect_to edit_visit_path(@family_member.visit_id)
     else
       flash[:error] = "Please correct the following errors: #{@family_member.errors}"
-      render json: @family_member.errors, status: :unprocessable_entity
     end
   end
 

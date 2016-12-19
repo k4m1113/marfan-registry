@@ -10,7 +10,7 @@ class CliniciansController < ApplicationController
   def create
     @clinician = Clinician.new(clinician_params)
     if @clinician.save
-      flash[:notice] = "Clinician #{@clinician.last_name}, #{@clinician.first_name} successfully added!"
+      flash[:success] = "Clinician #{@clinician.last_name}, #{@clinician.first_name} successfully added!"
 
       redirect_to :action => :index
     else

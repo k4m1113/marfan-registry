@@ -1,6 +1,3 @@
-Family Member Index Page
-
-<br />
 <div class="row flex-items-xs-center">
   <div class="col-xs">
     <%= form_tag "/family_members", method: "get", id: "search-form" do %>
@@ -38,7 +35,7 @@ Family Member Index Page
           <% end %>
           <% @srt = SeededRelationshipType.where(ahnentafel_id: fm.seeded_relationship_type_id)[0] %>
           <% @patient = Patient.where(id: (Visit.find(fm.visit_id).patient_id))[0] %>
-          <tr>
+          <tr class="clickable" style="cursor:pointer;" onclick=<%= "location.href='/family_members/" + "#{fm.id}'" %>>
             <td><%= @fpdh['first_name'] %></td>
             <% if @patient.nil? %>
               <td><%= "#{@srt.description} " %> [redacted]</td>

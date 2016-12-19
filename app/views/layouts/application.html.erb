@@ -37,23 +37,22 @@
     </ul>
   </nav>
 
+  <div class="container container-fluid">
+    <br />
     <div class="row">
       <div class="col col-xs-12 col-centered">
-        <% flash.each do |name, msg| %>
-          <% if msg.is_a?(String) %>
-            <div data-alert class="alert-box round <%= name.to_s == 'notice' ? 'success' : 'alert' %>">
-              <%= content_tag(:div, msg, class: "alert alert-#{name}", style: "color:white") %>
+        <% flash.each do |key, value| %>
+          <% if value.is_a?(String) %>
+            <div data-alert class="alert alert-box round alert-<%= key  %>"><%= value %>
             </div>
           <% end %>
         <% end %>
       </div>
     </div>
 
-    <div class="container container-fluid">
+    <%= yield %>
 
-      <%= yield %>
-
-    </div>
+  </div>
 
 
   </body>
