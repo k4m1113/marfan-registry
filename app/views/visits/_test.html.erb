@@ -1,9 +1,9 @@
 <%= f.fields_for :tests do |fff| %>
   <%= render 'visits/visit_presence_checker', f: fff %>
-  <%= fff.hidden_field :patient_id, value: :patient_id %>
   <div class="form-group">
     <div class="row">
       <div class="col-xs col-md-7">
+        <%= fff.hidden_field :patient_id, value: @patient.id %>
         <%= fff.label "What type of test was it?", class: "control-label" %><br />
         <%= fff.text_field :test_type, autofocus: true, class: "form-control", placeholder: "ex: Echocardiogram, Blood test" %>
       </div>

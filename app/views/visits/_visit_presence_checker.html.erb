@@ -1,3 +1,4 @@
 <% if @visit %>
   <%= f.hidden_field :visit_id, value: @visit.id %>
+  <%= f.hidden_field :patient_id, value: @visit.patient_id %>
 <% end %>

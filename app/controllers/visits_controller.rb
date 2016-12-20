@@ -22,10 +22,10 @@ class VisitsController < ApplicationController
     @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
     @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
 
-    @symptoms = @patient.symptoms.build
-    @hospitalizations = @patient.hospitalizations.build
-    @family_member = @patient.family_members.build
-    @tests = @patient.tests.build
+    @symptoms = @visit.symptoms.build
+    @hospitalizations = @visit.hospitalizations.build
+    @family_member = @visit.family_members.build
+    @tests = @visit.tests.build
   end
 
   def create
@@ -175,7 +175,7 @@ class VisitsController < ApplicationController
       :clinician_id,
       :primary_reason,
       :secondary_reason,
-      family_member_attributes:
+      family_members_attributes:
         [:visit_id, :patient_id, :seeded_relationship_type_id, :future_patient_data_hash, {future_patient_data_hash: [
         :first_name, :last_name, :date_of_birth, :deceased, :cause_of_death, :note]}],
       hospitalizations_attributes:
@@ -184,6 +184,7 @@ class VisitsController < ApplicationController
         [:visit_id, :patient_id, :test, :test_type, :test_date, :result],
       symptoms_attributes:
         [:seeded_symptom_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :start_date, :frequency, :note]
+
       )
   end
 end

@@ -11,9 +11,9 @@
       </tr>
       <% @tests.each do |t| %>
         <tr>
-          <td><%= t.test_date.strftime("%d %B %Y") %></td>
-          <td><%= t.test_type %></td>
-          <td><%= t.result %></td>
+          <td><%= t.test_date ? t.test_date.strftime("%d %B %Y") : "not noted "%></td>
+          <td><%= print_if_present(t.test_type) %></td>
+          <td><%= print_if_present(t.result) %></td>
         </tr>
       <% end %>
     </table>

@@ -2,6 +2,7 @@
   <div class="form-group">
     <td>
       <%= ff.hidden_field :seeded_symptom_id, value: s.id, name: "visit[symptoms_attributes][#{s.id}][seeded_symptom_id]" %>
+      <%= ff.hidden_field :patient_id, value: @patient.id, name: "visit[symptoms_attributes][#{s.id}][patient_id]" %>
     </td>
     <td>
       <%= s.name %>
@@ -9,12 +10,12 @@
     <td>
       <div class="form-check">
         <label class="form-check-label radio-inline", value="true" >
-          <dt><%= f.radio_button :presence, true, :value => true, name: "visit[symptoms_attributes][#{s.id}][presence]" %></dt>
+          <dt><%= ff.radio_button :presence, true, :value => true, name: "visit[symptoms_attributes][#{s.id}][presence]" %></dt>
           <dd value="true">True</dd>
         </label>
         <br />
         <label class="form-check-label radio-inline", value="false" >
-          <dt><%= f.radio_button :presence, false, :value => false, name: "visit[symptoms_attributes][#{s.id}][presence]" %></dt>
+          <dt><%= ff.radio_button :presence, false, :value => false, name: "visit[symptoms_attributes][#{s.id}][presence]" %></dt>
           <dd value="false">False</dd>
         </label>
       </div>

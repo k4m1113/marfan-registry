@@ -12,10 +12,10 @@
       </tr>
       <% @hospitalizations.each do |h| %>
         <tr>
-          <td><%= h.admission_date.strftime("%d %B %Y") %></td>
-          <td><%= h.length_of_stay %></td>
-          <td><%= h.hosp_type %></td>
-          <td><%= h.description %></td>
+          <td><%= h.admission_date ? h.admission_date.strftime("%d %B %Y") : "not noted" %></td>
+          <td><%= print_if_present(h.length_of_stay) %></td>
+          <td><%= print_if_present(h.hosp_type) %></td>
+          <td><%= print_if_present(h.description) %></td>
         </tr>
       <% end %>
     </table>

@@ -93,7 +93,16 @@ class PatientsController < ApplicationController
       :sex,
       :deceased,
       :cause_of_death,
-      :note
+      :note,
+      family_member_attributes:
+        [:visit_id, :patient_id, :seeded_relationship_type_id, :future_patient_data_hash, {future_patient_data_hash: [
+        :first_name, :last_name, :date_of_birth, :deceased, :cause_of_death, :note]}],
+      hospitalizations_attributes:
+        [:visit_id, :patient_id, :hospitalization, :admission_date, :length_of_stay, :hosp_type, :description, :location],
+      tests_attributes:
+        [:visit_id, :patient_id, :test, :test_type, :test_date, :result],
+      symptoms_attributes:
+        [:seeded_symptom_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :start_date, :frequency, :note]
       )
   end
 end
