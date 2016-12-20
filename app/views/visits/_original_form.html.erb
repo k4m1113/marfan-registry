@@ -1,23 +1,15 @@
-<%= render "patient_stats", f: f %><br /><br /><br /><br /><br /><br />
 <%= f.fields_for :symptoms do |ff| %>
   <div class="panel-group" id="accordion">
     <div class="panel panel-default">
       <div class="panel-heading">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
           <h4 class="panel-title">
-            Cardiac Symptoms
+            Cardiac Symptoms <span class="caret"></span>
           </h4>
         </a>
       </div>
       <div id="collapse1" class="panel-collapse collapse">
-        <div class="panel-body">
-          <table class="table table-striped table-hover">
-            <%= render "symptoms_table_header" %>
-            <% @cardiac_symptoms.each do |s| %>
-              <%= render "symptoms_table_row", f: f, ff: ff, s: s %>
-            <% end %>
-          </table>
-        </div>
+        <%= render "visits/systemic_categories/cardiac", f: ff %>
       </div>
     </div>
 
@@ -25,19 +17,12 @@
       <div class="panel-heading">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
           <h4 class="panel-title">
-            Dural Symptoms
+            Dural Symptoms <span class="caret"></span>
           </h4>
         </a>
       </div>
       <div id="collapse2" class="panel-collapse collapse">
-        <div class="panel-body">
-          <table class="table table-striped table-hover">
-            <%= render "symptoms_table_header" %>
-            <% @dural_symptoms.each do |s| %>
-              <%= render "symptoms_table_row", f: f, ff: ff, s: s %>
-            <% end %>
-          </table>
-        </div>
+        <%= render "visits/systemic_categories/dural", f: ff %>
       </div>
     </div>
 
@@ -45,19 +30,12 @@
       <div class="panel-heading">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
           <h4 class="panel-title">
-            Aural Symptoms
+            Aural Symptoms <span class="caret"></span>
           </h4>
         </a>
       </div>
       <div id="collapse3" class="panel-collapse collapse">
-        <div class="panel-body">
-          <table class="table table-striped table-hover">
-            <%= render "symptoms_table_header" %>
-            <% @aural_symptoms.each do |s| %>
-              <%= render "symptoms_table_row", f: f, ff: ff, s: s %>
-            <% end %>
-          </table>
-        </div>
+        <%= render "visits/systemic_categories/aural", f: ff %>
       </div>
     </div>
 
@@ -65,19 +43,12 @@
       <div class="panel-heading">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse4">
           <h4 class="panel-title">
-            Ocular Symptoms
+            Ocular Symptoms <span class="caret"></span>
           </h4>
         </a>
       </div>
       <div id="collapse4" class="panel-collapse collapse">
-        <div class="panel-body">
-          <table class="table table-striped table-hover">
-            <%= render "symptoms_table_header" %>
-            <% @ocular_symptoms.each do |s| %>
-              <%= render "symptoms_table_row", f: f, ff: ff, s: s %>
-            <% end %>
-          </table>
-        </div>
+        <%= render "visits/systemic_categories/ocular", f: ff %>
       </div>
     </div>
 
@@ -85,19 +56,12 @@
       <div class="panel-heading">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse5">
           <h4 class="panel-title">
-            Pulmonary Symptoms
+            Pulmonary Symptoms <span class="caret"></span>
           </h4>
         </a>
       </div>
       <div id="collapse5" class="panel-collapse collapse">
-        <div class="panel-body">
-          <table class="table table-striped table-hover">
-            <%= render "symptoms_table_header" %>
-            <% @pulmonary_symptoms.each do |s| %>
-              <%= render "symptoms_table_row", f: f, ff: ff, s: s %>
-            <% end %>
-          </table>
-        </div>
+        <%= render "visits/systemic_categories/pulmonary", f: ff %>
       </div>
     </div>
 
@@ -105,19 +69,12 @@
       <div class="panel-heading">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse6">
           <h4 class="panel-title">
-            Integumentary Symptoms
+            Integumentary Symptoms <span class="caret"></span>
           </h4>
         </a>
       </div>
       <div id="collapse6" class="panel-collapse collapse">
-        <div class="panel-body">
-          <table class="table table-striped table-hover">
-            <%= render "symptoms_table_header" %>
-            <% @integumentary_symptoms.each do |s| %>
-              <%= render "symptoms_table_row", f: f, ff: ff, s: s %>
-            <% end %>
-          </table>
-        </div>
+        <%= render "visits/systemic_categories/integumentary", f: ff %>
       </div>
     </div>
 
@@ -125,19 +82,12 @@
       <div class="panel-heading">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse7">
           <h4 class="panel-title">
-            Cranial Symptoms
+            Cranial Symptoms <span class="caret"></span>
           </h4>
         </a>
       </div>
       <div id="collapse7" class="panel-collapse collapse">
-        <div class="panel-body">
-          <table class="table table-striped table-hover">
-            <%= render "symptoms_table_header" %>
-            <% @cranial_symptoms.each do |s| %>
-              <%= render "symptoms_table_row", f: f, ff: ff, s: s %>
-            <% end %>
-          </table>
-        </div>
+        <%= render "visits/systemic_categories/cranial", f: ff %>
       </div>
     </div>
 
@@ -145,19 +95,12 @@
       <div class="panel-heading">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse8">
           <h4 class="panel-title">
-            Foot and Leg Symptoms
+            Foot and Leg Symptoms <span class="caret"></span>
           </h4>
         </a>
       </div>
       <div id="collapse8" class="panel-collapse collapse">
-        <div class="panel-body">
-          <table class="table table-striped table-hover">
-            <%= render "symptoms_table_header" %>
-            <% @feet_symptoms.each do |s| %>
-              <%= render "symptoms_table_row", f: f, ff: ff, s: s %>
-            <% end %>
-          </table>
-        </div>
+        <%= render "visits/systemic_categories/feet", f: ff %>
       </div>
     </div>
 
@@ -165,19 +108,12 @@
       <div class="panel-heading">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse9">
           <h4 class="panel-title">
-            General Skeletal Symptoms
+            General Skeletal Symptoms <span class="caret"></span>
           </h4>
         </a>
       </div>
       <div id="collapse9" class="panel-collapse collapse">
-        <div class="panel-body">
-          <table class="table table-striped table-hover">
-            <%= render "symptoms_table_header" %>
-            <% @general_skeletal_symptoms.each do |s| %>
-              <%= render "symptoms_table_row", f: f, ff: ff, s: s %>
-            <% end %>
-          </table>
-        </div>
+        <%= render "visits/systemic_categories/general_skeletal", f: ff %>
       </div>
     </div>
 
@@ -185,20 +121,15 @@
       <div class="panel-heading">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse10">
           <h4 class="panel-title">
-            Hand and Arm Symptoms
+            Hand and Arm Symptoms <span class="caret"></span>
           </h4>
         </a>
       </div>
       <div id="collapse10" class="panel-collapse collapse">
-        <div class="panel-body">
-          <table class="table table-striped table-hover">
-            <%= render "symptoms_table_header" %>
-            <% @hand_symptoms.each do |s| %>
-              <%= render "symptoms_table_row", f: f, ff: ff, s: s %>
-            <% end %>
-          </table>
-        </div>
+        <%= render "visits/systemic_categories/hand", f: ff %>
       </div>
     </div>
   </div>
+
+  <%= f.submit "Update Visit", class: "btn btn-success" %>
 <% end %>
