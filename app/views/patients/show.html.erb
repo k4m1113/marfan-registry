@@ -8,30 +8,7 @@
       <%= link_to "Destroy Patient", patient_path(id: @patient.id), method: :delete, type: "button", class: "btn btn-secondary", data: { confirm: "Are you sure you want to delete Patient #{@patient.id} and all associated records?" } %>
     </div>
     <br /><br />
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Patient</h3>
-      </div>
-      <div class="panel-body">
-        <ul class="list-group">
-          <li class="list-group-item"><h5>Date of Birth:</h5> <%= @patient.date_of_birth ? @patient.date_of_birth.strftime("%d %B %Y") : "Not noted"%> </li>
-          <li class="list-group-item"><h5>Sex:</h5> <%= @gender %></li>
-          <li class="list-group-item"><h5>Mailing Address: </h5>
-            <% if @patient.address_line_1.empty? %>
-              not noted
-            <% else %>
-              <%= @patient.address_line_1 %>
-              <%= @patient.address_line_2 %>
-              <%= @patient.address_line_3 %>
-              <br />
-              <%= "#{@patient.city}, #{@patient.state} #{@patient.postal_code}" %>
-              <br />
-              <%= @patient.country %>
-            <% end %>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <%= render "patient_info_header" %>
     <% if @visits.length != 0 %>
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -70,5 +47,9 @@
       </div>
     <% end %>
     </div>
+    <%= render "visits/show_tables/family_members", display_location: "patient_show" %>
+    <%= render "visits/show_tables/hospitalizations", display_location: "patient_show" %>
+    <%= render "visits/show_tables/tests", display_location: "patient_show" %>
+    <%= render "visits/show_tables/symptoms", display_location: "patient_show" %>
   </div>
 </div>

@@ -16,7 +16,8 @@
     <%= fff.label "What were the results of the test?", class: "control-label" %><br />
     <%= fff.text_area :result, class: "form-control" %>
     <br />
-
-    <br />
+    <% if @form_action == "Update" %>
+      <%= fff.submit "Add Hospitalization", class: "btn btn-success" %>
+    <% end %>
   </div>
 <% end %>

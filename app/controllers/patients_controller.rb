@@ -66,6 +66,10 @@ class PatientsController < ApplicationController
       @gender = 'Not noted'
     end
     @visits = Visit.where(patient_id: @patient.id)
+    @hospitalizations = Hospitalization.where(patient_id: @patient.id)
+    @tests = Test.where(patient_id: @patient.id)
+    @family_members = FamilyMember.where(patient_id: @patient.id)
+    @symptoms = Symptom.where(patient_id: @patient.id)
     unless @visits.length == 0
       @primary_clinician = Clinician.where(id: @visits[0].clinician_id)[0]
     end

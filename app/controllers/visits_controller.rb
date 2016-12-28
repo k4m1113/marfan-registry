@@ -82,6 +82,7 @@ class VisitsController < ApplicationController
     @patient = Patient.where(id: @visit.patient_id)[0]
     @family = FamilyMember.where(visit_id: @visit.id)
     @family_member = @patient.family_members.build
+    @hospitalizations = Hospitalization.where(visit_id: @visit.id)
 
     @mother = @family.where(seeded_relationship_type_id: 3)[0]
     @father = @family.where(seeded_relationship_type_id: 2)[0]
@@ -92,7 +93,6 @@ class VisitsController < ApplicationController
     @siblings = @family.where(seeded_relationship_type_id: 1)
     @children = @family.where(ahfnentafel_id: 16)
     @grandchildren = @family.where(ahfnentafel_id: 17)
-
 
     @all_symptoms = SeededSymptom.all
     @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
