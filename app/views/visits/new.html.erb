@@ -26,6 +26,14 @@
           <%= f.label :clinician_id, "Clinician ID:", class: "form-check-label" %><br />
           <%= f.number_field :clinician_id, value: 1, in: 1..99999999, step: 1, class: "form-control" %>
         </div>
+        <div class="col-xs-4 col-xs-offset-4">
+          <div class="input-group">
+            <%= text_field_tag :query, params[:query], placeholder:  "ex 'David Liang', 'Sunny Pellone'", class: "input group form-control" %>
+            <span class="input-group-btn">
+              <%= button_to "Find Clinician", Doctor.find_doctors(params[:query], Doctor.get_lat_and_long(@patient.city, @patient.state)) %>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
     <hr />

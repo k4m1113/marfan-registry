@@ -1,8 +1,10 @@
 require 'report'
+require 'doctor'
 
 class VisitsController < ApplicationController
   respond_to :html, :js
   include Report
+  include Doctor
 
   def new
     @visit = Visit.new
@@ -126,6 +128,12 @@ class VisitsController < ApplicationController
   def destroy
     Visit.find(params[:id]).destroy
     redirect_to visits_path
+  end
+
+  def find_and_create_clinician(query)
+    loc = Doctor.get_lat_and_long(@patient.city, @patient.state)
+    @clinician = Doctor.find_doctors(query, loc)
+    redirect_to new_visit_path(clinician: @clinician, patient: @patient)
   end
 
   def report
