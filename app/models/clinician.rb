@@ -1,4 +1,6 @@
 class Clinician < ActiveRecord::Base
+  include Doctor
+  
   has_many :patients
   has_many :visits
 
