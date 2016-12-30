@@ -9,12 +9,41 @@
     </div>
     <div id="patientCollapse" class="collapse" role="tabpanel" aria-labelledby="patientHeading">
       <div class="panel-body">
-        <h5><%= link_to "#{@patient.last_name}, #{@patient.first_name}", patient_path(@patient.id)  %></h5>
+        <h5><%= link_to "#{@patient.last_name}, #{@patient.first_name} #{@patient.middle_name ? @patient.middle_name : ''}", patient_path(@patient.id)  %></h5>
       </div>
       <ul class="list-group">
-        <li class="list-group-item"><h5>Date of Birth:</h5> <%= @patient.date_of_birth ? @patient.date_of_birth.strftime("%d %B %Y") : "not noted" %> </li>
-        <li class="list-group-item"><h5>Sex:</h5> <%= @patient.sex ? @patient.sex : "not noted" %></li>
-        <li class="list-group-item"><h5>Mailing Address: </h5>
+        <li class="list-group-item">
+          <h5>Date of Birth:</h5>
+          <%= @patient.date_of_birth ? @patient.date_of_birth.strftime("%d %B %Y") : "not noted" %>
+        </li>
+        <li class="list-group-item">
+          <h5>Sex:</h5>
+          <%= @patient.sex ? @patient.sex : "not noted" %>
+        </li>
+        <li class="list-group-item">
+          <h5>Email:</h5>
+          <a href="mailto:<%= @patient.email %>?Subject=Mail%20from%20NMF%20Tool" target="_blank">
+            <%= @patient.email %>
+          </a>
+        </li>
+        <li class="list-group-item">
+          <h5>Phone Number:</h5>
+          Primary:
+            <% if @patient.phone_1 %>
+              <a href="tel:<%= @patient.phone_1 %>"><%= @patient.phone_1 %></a>
+            <% else %>
+              not noted
+            <% end %>
+          <br />
+          Secondary: <% if @patient.phone_2 %>
+            <a href="tel:<%= @patient.phone_2 %>"><%= @patient.phone_2 %></a>
+          <% else %>
+            not noted
+          <% end %>
+        </li>
+
+        <li class="list-group-item">
+          <h5>Mailing Address: </h5>
           <%= @patient.address_line_1 ? @patient.address_line_1 : "/n"%>
           <%= @patient.address_line_2 ? @patient.address_line_2 : "/n"%>
           <%= @patient.address_line_2 ? @patient.address_line_2 : "/n"%>

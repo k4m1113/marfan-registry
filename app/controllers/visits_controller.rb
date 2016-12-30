@@ -38,7 +38,7 @@ class VisitsController < ApplicationController
       redirect_to edit_visit_path(@visit.id)
       session[:current_visit] = @visit
     else
-      flash[:error] = "Please re-check information: #{@visit.errors}"
+      flash[:error] = "Please re-check information: #{@visit.errors.full_messages}"
       Rails.logger.info(@visit.errors.inspect)
       render 'new'
       @visit = session[:current_visit]
@@ -120,7 +120,7 @@ class VisitsController < ApplicationController
       redirect_to visit_path(@visit.id)
     else
       Rails.logger.info(@visit.errors.inspect)
-      flash[:error] = "Error updating visit: #{@visit.errors}"
+      flash[:error] = "Error updating visit: #{@visit.errors.full_messages}"
       redirect_to edit_visit_path(@visit.id)
     end
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161210000546) do
+ActiveRecord::Schema.define(version: 20161229222624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,13 +63,18 @@ ActiveRecord::Schema.define(version: 20161210000546) do
     t.string   "state"
     t.string   "country"
     t.integer  "postal_code"
-    t.string   "sex",            null: false
+    t.string   "sex",               null: false
     t.datetime "date_of_birth"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.boolean  "deceased"
     t.string   "cause_of_death"
     t.string   "note"
+    t.string   "phone_1",           null: false
+    t.string   "phone_2"
+    t.string   "email",             null: false
+    t.string   "middle_name"
+    t.string   "primary_diagnosis"
   end
 
   create_table "pg_search_documents", force: :cascade do |t|

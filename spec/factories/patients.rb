@@ -13,5 +13,9 @@ FactoryGirl.define do
     state "CA"
     country "USA"
     postal_code 94123
+
+    phone_1 "800-999-9999"
+    phone_2 "800-888-8888"
+    email "kamille@kamille.kamille"
   end
 end

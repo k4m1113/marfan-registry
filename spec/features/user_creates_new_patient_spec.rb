@@ -11,6 +11,7 @@ feature 'user can add new patient' do
     expect(page).to have_content("New Patient Information")
 
     fill_in "patient_first_name", with: "Abraham"
+    fill_in "patient_middle_name", with: "Superfly"
     fill_in "patient_last_name", with: "Lincoln"
     fill_in "patient_date_of_birth", with: "02/12/1809"
     choose "patient_sex_m"
@@ -19,6 +20,9 @@ feature 'user can add new patient' do
     fill_in "patient_state", with: "DC"
     fill_in "patient_postal_code", with: "20500"
     fill_in "patient_country", with: "USA"
+    fill_in "patient_email", with: "a.lincoln@gmail.com"
+    fill_in "patient_phone_1", with: "1-800-777-7777"
+    fill_in "patient_phone_2", with: "900 888 8888"
 
     click_button "Add New Patient"
 

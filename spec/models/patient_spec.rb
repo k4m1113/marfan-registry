@@ -21,4 +21,12 @@ describe Patient do
 
   it { should have_valid(:country).when(nil, "", "USA", "United States of America") }
   it { should_not have_valid(:country).when(2.7) }
+
+  it { should have_valid(:middle_name).when("Joey", "Bobby", "Janey", "Billy Joe") }
+
+  it { should have_valid(:email).when("kamille@kamille.kamille", "joe.schmo@gmail.com") }
+  it { should_not have_valid(:email).when(nil, false, -9,) }
+
+  it { should have_valid(:phone_1).when("18888888888", "1-999-999-9999") }
+  it { should_not have_valid(:phone_1).when(nil, false, "", -99, "USA", 7777) }
 end

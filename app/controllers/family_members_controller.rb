@@ -21,7 +21,7 @@ class FamilyMembersController < ApplicationController
       flash[:success] = "#{@family_member.future_patient_data_hash["first_name"]} added successfully!"
       redirect_to edit_visit_path(@family_member.visit_id)
     else
-      flash[:error] = "Please correct the following errors: #{@family_member.errors}"
+      flash[:notice] = "Please correct the following errors: #{@family_member.errors.full_messages}"
     end
   end
 
@@ -35,7 +35,7 @@ class FamilyMembersController < ApplicationController
       flash[:success] = "Family Member #{@family_member.id} updated successfully!"
       redirect_to edit_visit_path(@family_member.visit_id)
     else
-      flash[:error] = "Please correct the following errors: #{@family_member.errors}"
+      flash[:error] = "Please correct the following errors: #{@family_member.errors.full_messages}"
       redirect_to edit_visit_path(@family_member.visit_id)
     end
   end

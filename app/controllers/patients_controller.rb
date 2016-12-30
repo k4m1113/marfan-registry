@@ -35,7 +35,6 @@ class PatientsController < ApplicationController
       flash[:success] = "Patient #{@patient.last_name}, #{@patient.first_name} successfully added!"
       redirect_to patients_path
     else
-      flash[:error] = "Please re-check information and/or fill required fields: #{@patient.errors}"
       render 'new'
     end
   end
@@ -50,7 +49,7 @@ class PatientsController < ApplicationController
       flash[:success] = "Patient #{@patient.first_name} #{@patient.last_name} updated successfully!"
       redirect_to patient_path(@patient.id)
     else
-      flash[:error] = "Please correct the following errors: #{@patient.errors}"
+      flash[:error] = "Please correct the following errors: #{@patient.errors.full_messages}"
       redirect_to edit_patient_path(@patient.id)
     end
   end
@@ -85,6 +84,7 @@ class PatientsController < ApplicationController
   def patient_params
     params.require(:patient).permit(
       :first_name,
+      :middle_name,
       :last_name,
       :address_line_1,
       :address_line_2,
@@ -98,6 +98,9 @@ class PatientsController < ApplicationController
       :deceased,
       :cause_of_death,
       :note,
+      :phone_1,
+      :phone_2,
+      :email,
       family_member_attributes:
         [:visit_id, :patient_id, :seeded_relationship_type_id, :future_patient_data_hash, {future_patient_data_hash: [
         :first_name, :last_name, :date_of_birth, :deceased, :cause_of_death, :note]}],

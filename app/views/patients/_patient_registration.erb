@@ -1,24 +1,29 @@
-<%= form_for @patient, action: "create", class: "form-horizontal" do |f| %>
+<%= form_for @patient, action: action, class: "form-horizontal" do |f| %>
+  <% if @patient.errors.any? %>
+    <% @patient.errors.full_messages.each do |message| %>
+      <div class="alert alert-warning"><%= message %></div>
+    <% end %>
+  <% end %>
+  <br />
   <div class="row flex-items-xs-center">
     <div class="form-group">
       <div class="col-xs-12">
+        <h1 style="text-align: center">Patient Information</h1>
+        <hr />
+      </div>
+    </div>
+  </div>
+
+  <div class="row flex-items-xs-center">
+    <div class="form-group">
+      <div class="col-xs-4">
         <%= f.text_field :first_name, autofocus: true, placeholder: "First Name", class: "form-control" %>
       </div>
-    </div>
-  </div>
-  <br />
-  <div class="row flex-items-xs-center">
-    <div class="form-group">
-      <div class="col-xs-12">
-        <%= f.text_field :last_name, autofocus: true, placeholder: "Last Name", class: "form-control" %>
+      <div class="col-xs-4">
+        <%= f.text_field :middle_name, placeholder: "Middle Name", class: "form-control" %>
       </div>
-    </div>
-  </div>
-  <br />
-  <div class="row flex-items-xs-center">
-    <div class="form-group">
-      <div class="col-xs-12">
-        <%= f.date_field :date_of_birth, autofocus: true, placeholder: "Date of Birth", class: "form-control" %>
+      <div class="col-xs-4">
+        <%= f.text_field :last_name, placeholder: "Last Name", class: "form-control" %>
       </div>
     </div>
   </div>
@@ -26,10 +31,32 @@
   <div class="row flex-items-xs-center">
     <div class="form-group">
       <div class="col-xs-6">
+        <%= f.text_field :phone_1, placeholder: "Primary Phone (ex: 800-555-1234)", class: "form-control" %>
+      </div>
+      <div class="col-xs-6">
+        <%= f.text_field :phone_2, placeholder: "Secondary Phone (ex: 800-555-1234)", class: "form-control" %>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="row flex-items-xs-center">
+    <div class="form-group">
+      <div class="col-xs-12">
+        <%= f.text_field :email, placeholder: "Email Address", class: "form-control" %>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="row flex-items-xs-center">
+    <div class="form-group">
+      <div class="col-xs-6">
+        <%= f.date_field :date_of_birth, placeholder: "Date of Birth", class: "form-control" %>
+      </div>
+      <div class="col-xs-3">
         <%= f.label :sex, "Female", :value => "F" %>
         <%= f.radio_button :sex, "F", name: "patient[sex]" %>
       </div>
-      <div class="col-xs-6">
+      <div class="col-xs-3">
         <%= f.label :sex, "Male", :value => "M" %>
         <%= f.radio_button :sex, "M", name: "patient[sex]" %>
       </div>
@@ -39,7 +66,7 @@
   <div class="row flex-items-xs-center">
     <div class="form-group">
       <div class="col-xs-12">
-        <%= f.text_field :address_line_1, autofocus: true, placeholder: "Address Line 1", class: "form-control" %>
+        <%= f.text_field :address_line_1, placeholder: "Address Line 1", class: "form-control" %>
       </div>
     </div>
   </div>
@@ -47,7 +74,7 @@
   <div class="row flex-items-xs-center">
     <div class="form-group">
       <div class="col-xs-12">
-        <%= f.text_field :address_line_2, autofocus: true, placeholder: "Address Line 2", class: "form-control" %>
+        <%= f.text_field :address_line_2, placeholder: "Address Line 2", class: "form-control" %>
       </div>
     </div>
   </div>
@@ -55,7 +82,7 @@
   <div class="row flex-items-xs-center">
     <div class="form-group">
       <div class="col-xs-12">
-        <%= f.text_field :address_line_3, autofocus: true, placeholder: "Address Line 3", class: "form-control" %>
+        <%= f.text_field :address_line_3, placeholder: "Address Line 3", class: "form-control" %>
       </div>
     </div>
   </div>
@@ -63,10 +90,10 @@
   <div class="row flex-items-xs-center">
     <div class="form-group">
       <div class="col-xs-8">
-        <%= f.text_field :city, autofocus: true, placeholder: "City", class: "form-control" %>
+        <%= f.text_field :city, placeholder: "City", class: "form-control" %>
       </div>
       <div class="col-xs-4">
-        <%= f.text_field :state, autofocus: true, placeholder: "State", class: "form-control" %>
+        <%= f.text_field :state, placeholder: "State", class: "form-control" %>
       </div>
     </div>
   </div>
@@ -74,10 +101,10 @@
   <div class="row flex-items-xs-center">
     <div class="form-group">
       <div class="col-xs-7">
-        <%= f.text_field :country, autofocus: true, placeholder: "Country", class: "form-control" %>
+        <%= f.text_field :country, placeholder: "Country", class: "form-control" %>
       </div>
       <div class="col-xs-5">
-        <%= f.text_field :postal_code, autofocus: true, placeholder: "Postal Code", class: "form-control" %>
+        <%= f.text_field :postal_code, placeholder: "Postal Code", class: "form-control" %>
       </div>
     </div>
   </div>
@@ -88,9 +115,10 @@
 
   <div class="row flex-items-xs-center">
     <div class="col-xs-12">
-      <%= f.submit "Add New Patient", class: "btn btn-primary center-block" %>
-      <%= f.submit "Add Patient and Begin Visit", class: "btn btn-primary disabled center-block", name: "start_visit" %>
+      <%= f.submit "#{action.capitalize} Patient", class: "btn btn-primary center-block" %>
     </div>
   </div>
 
 <% end %>
+<br />
+<br />
