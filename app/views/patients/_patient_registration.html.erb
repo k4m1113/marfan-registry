@@ -1,0 +1,124 @@
+<%= form_for @patient, action: action, class: "form-horizontal" do |f| %>
+  <% if @patient.errors.any? %>
+    <% @patient.errors.full_messages.each do |message| %>
+      <div class="alert alert-warning"><%= message %></div>
+    <% end %>
+  <% end %>
+  <br />
+  <div class="form-group">
+    <div class="row flex-items-xs-center">
+      <div class="col-xs-12">
+        <h1>Patient Information</h1>
+        <hr />
+      </div>
+    </div>
+    <div class="row flex-items-xs-center">
+      <div class="col-xs-4">
+        <%= f.label :first_name, "First Name", class: "sr-only" %>
+        <%= f.text_field :first_name, autofocus: true, placeholder: "First Name", class: "form-control form-control-lg input-lg input-lg" %>
+      </div>
+      <div class="col-xs-4">
+        <%= f.label :middle_name, "Middle Name", class: "sr-only" %>
+        <%= f.text_field :middle_name, placeholder: "Middle Name", class: "form-control form-control-lg input-lg" %>
+      </div>
+      <div class="col-xs-4">
+        <%= f.label :last_name, "Last Name", class: "sr-only" %>
+        <%= f.text_field :last_name, placeholder: "Last Name", class: "form-control form-control-lg input-lg" %>
+      </div>
+    </div>
+    <br />
+    <div class="row flex-items-xs-center">
+      <div class="col-xs-6">
+        <%= f.label :phone_1, "Primary Phone", class: "sr-only" %>
+        <%= f.text_field :phone_1, placeholder: "Primary Phone (ex: 800-555-1234)", class: "form-control form-control-lg input-lg" %>
+      </div>
+      <div class="col-xs-6">
+        <%= f.label :phone_2, "Secondary Phone", class: "sr-only" %>
+        <%= f.text_field :phone_2, placeholder: "Secondary Phone (ex: 800-555-1234)", class: "form-control form-control-lg input-lg" %>
+      </div>
+    </div>
+    <br />
+    <div class="row flex-items-xs-center">
+      <div class="col-xs-12">
+        <%= f.label :email, "Email", class: "sr-only" %>
+        <%= f.text_field :email, placeholder: "Email Address", class: "form-control form-control-lg input-lg" %>
+      </div>
+    </div>
+    <br />
+    <div class="row flex-items-xs-center">
+      <div class="col-xs-6">
+        <%= f.label :date_of_birth, "Date of Birth", class: "sr-only" %>
+        <%= f.date_field :date_of_birth, placeholder: "Date of Birth", class: "form-control form-control-lg input-lg" %>
+      </div>
+      <div class="enlarge">
+        <div class="col-xs-2">
+          <%= f.label :sex, "Female", value: "F", class: "form-check-label" %>
+          <%= f.radio_button :sex, "F", name: "patient[sex]", class: "form-check-input" %>
+        </div>
+        <div class="col-xs-2">
+            <%= f.label :sex, "Male", value: "M", class: "form-check-label" %>
+            <%= f.radio_button :sex, "M", name: "patient[sex]", class: "form-check-input" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="row flex-items-xs-center">
+      <div class="col-xs-12">
+        <%= f.label :address_line_1, "Address Line 1", class: "sr-only" %>
+        <%= f.text_field :address_line_1, placeholder: "Address Line 1", class: "form-control form-control-lg input-lg" %>
+      </div>
+    </div>
+    <br />
+    <div class="row flex-items-xs-center">
+      <div class="col-xs-12">
+        <%= f.label :address_line_2, "Address Line 2", class: "sr-only" %>
+        <%= f.text_field :address_line_2, placeholder: "Address Line 2", class: "form-control form-control-lg input-lg" %>
+      </div>
+    </div>
+    <br />
+    <div class="row flex-items-xs-center">
+      <div class="col-xs-12">
+        <%= f.text_field :address_line_3, placeholder: "Address Line 3", class: "form-control form-control-lg input-lg" %>
+      </div>
+    </div>
+    <br />
+    <div class="row flex-items-xs-center">
+      <div class="col-xs-8">
+        <%= f.label :city, "City", class: "sr-only" %>
+        <%= f.text_field :city, placeholder: "City", class: "form-control form-control-lg input-lg" %>
+      </div>
+      <div class="col-xs-4">
+        <%= f.label :state, "State", class: "sr-only" %>
+        <%= f.text_field :state, placeholder: "State", class: "form-control form-control-lg input-lg" %>
+      </div>
+    </div>
+    <br />
+    <div class="row flex-items-xs-center">
+      <div class="col-xs-7">
+        <%= f.label :country, "Country", class: "sr-only" %>
+        <%= f.text_field :country, placeholder: "Country", class: "form-control form-control-lg input-lg" %>
+      </div>
+      <div class="col-xs-5">
+        <%= f.label :postal_code, "Postal Code", class: "sr-only" %>
+        <%= f.text_field :postal_code, placeholder: "Postal Code", class: "form-control form-control-lg input-lg" %>
+      </div>
+    </div>
+    <br />
+    <%= f.hidden_field :deceased %>
+    <%= f.hidden_field :cause_of_death %>
+    <%= f.hidden_field :note %>
+
+    <div class="row flex-items-xs-center">
+      <div class="col-xs-12">
+        <%= f.submit "#{action.capitalize} Patient", class: "btn btn-primary btn-lg center-block" %>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(.enlarge).style.transform = "";
+  </script>
+
+<% end %>
+<br />
+<br />

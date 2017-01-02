@@ -1,0 +1,33 @@
+<%= f.hidden_field :concern_type, value: "Cardiac" %>
+<%= f.hidden_field :patient_id, value: @patient.id %>
+<%= f.hidden_field :visit_id, value: @visit.id %>
+<div class="form-group">
+  <div class="row">
+    <div class="col-xs-12">
+      <%= f.label :when, "When did the dissection occur?", class: "control-label" %>
+      <%= f.date_field :when, autofocus: true, class: "form-control" %>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-xs-6">
+      <%= f.label :location, "Where was the dissection?", class: "control-label" %>
+      <%= f.select :location, DISSECTION_LOCATIONS, placeholder: "Select Vessel", class: "form-control" %>
+    </div>
+    <div class="col-xs-6">
+      <%= f.label :extent, "And if Aortic, to what extent?", class: "control-label" %>
+      <%= f.select :extent, AORTIC_EXTENTS, placeholder: "Select Aortic Extent", class: "form-control" %>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-xs-6">
+      <%= f.label :intervention, "What type of intervention was performed?", class: "control-label" %>
+      <%= f.select :intervention, INTERVENTIONS, class: "form-control" %>
+    </div>
+    <div class="col-xs-6">
+      <%= f.label :complication, "And were there any complications?", class: "control-label" %>
+      <%= f.select :complication, COMPLICATIONS, class: "form-control" %>
+    </div>
+  </div>
+</div>

@@ -7,9 +7,8 @@ feature "clinician can initiate appointment" do
   let!(:kamille) { FactoryGirl.create(:patient) }
 
   background do
-    visit new_visit_path
+    visit "/visits/new?patient=#{kamille.id}"
 
-    fill_in "visit_patient_id", with: kamille.id
     fill_in "visit_clinician_id", with: liang.id
 
     page.find("#visit_general_health_good").trigger("click")

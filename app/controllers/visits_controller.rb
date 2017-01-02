@@ -9,7 +9,7 @@ class VisitsController < ApplicationController
   def new
     @visit = Visit.new
     if params[:patient]
-      @patient = Patient.find(params[:patient])
+      @patient = Patient.find_by(id: params[:patient])
     end
 
     @all_symptoms = SeededSymptom.all
@@ -28,6 +28,7 @@ class VisitsController < ApplicationController
     @hospitalizations = @visit.hospitalizations.build
     @family_member = @visit.family_members.build
     @tests = @visit.tests.build
+    @dissections = @visit.dissections.build
   end
 
   def create
@@ -59,6 +60,7 @@ class VisitsController < ApplicationController
     @visit = Visit.find(params[:id])
     @patient = Patient.where(id:  @visit.patient_id)[0]
     @clinician = Clinician.where(id: @visit.clinician_id)[0]
+    @dissections = Dissection.where(visit_id: @visit.id)
     @symptoms = Symptom.where(visit_id: @visit.id)
     @family_members = FamilyMember.where(visit_id: @visit.id)
     @tests = Test.where(visit_id: @visit.id)
@@ -183,6 +185,8 @@ class VisitsController < ApplicationController
       :clinician_id,
       :primary_reason,
       :secondary_reason,
+      dissections_attributes:
+        [:visit_id, :patient_id, :concern_type, :location, :extent, :when, :intervention, :complication, :note],
       family_members_attributes:
         [:visit_id, :patient_id, :seeded_relationship_type_id, :future_patient_data_hash, {future_patient_data_hash: [
         :first_name, :last_name, :date_of_birth, :deceased, :cause_of_death, :note]}],

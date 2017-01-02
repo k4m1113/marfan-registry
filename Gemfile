@@ -18,6 +18,7 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'will_paginate-bootstrap'
 gem 'dotenv'
 gem 'httparty'
+gem 'validates_type'
 
 group :development, :test do
   gem 'byebug'

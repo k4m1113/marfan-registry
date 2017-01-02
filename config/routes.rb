@@ -6,12 +6,14 @@ Rails.application.routes.draw do
   end
 
   resources :patients do
+    resources :dissections
     resources :hospitalizations
     resources :symptoms
     resources :family_members
     resources :tests
   end
 
+  resources :dissections
   resources :clinicians
   resources :hospitalizations
   resources :symptoms

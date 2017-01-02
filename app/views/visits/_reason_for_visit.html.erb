@@ -2,6 +2,12 @@
   <%= f.label "What brings you in to the clinic?", class: "form-check-label" %><br />
     <dl>
       <div class="container">
+        <label class="form-check-label radio-inline", value="because of a dissection" >
+          <dt class="col-sm-1"><%= f.radio_button :primary_reason, "because of a dissection", class: "form-check-input", onclick: "renderDissection('#reason-for-visit-response');" %></dt>
+          <dd class="col-sm-11", value="because of a dissection">Dissection</dd>
+        </label>
+      </div>
+      <div class="container">
         <label class="form-check-label radio-inline", value="due to family history" >
           <dt class="col-sm-1">
             <%= f.radio_button :primary_reason, "due to family history", class: "form-check-input", onclick: "renderFamilyMember('#reason-for-visit-response');" %>
@@ -39,6 +45,9 @@
 </div>
 
 <script>
+  function renderDissection(div_attachment_id) {
+    $(div_attachment_id).html("<hr /><%= j render 'dissection_form', f: f, instance_of: @dissections %>")
+  }
   function renderHospitalization(div_attachment_id) {
     $(div_attachment_id).html("<hr /><%= j render 'hospitalization_form', f: f %>");
   }

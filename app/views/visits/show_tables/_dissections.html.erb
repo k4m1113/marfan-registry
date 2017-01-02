@@ -1,0 +1,34 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Dissections</h3>
+  </div>
+  <% if @dissections.length != 0 %>
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Location</th>
+        <th>Extent</th>
+        <th>Intervention</th>
+        <th>Complication</th>
+        <th>Note</th>
+
+      </tr>
+      <% @dissections.each do |d| %>
+        <tr>
+          <td><%= d.when.strftime("%d %B %Y") %></td>
+          <td><%= print_if_present(d.concern_type)%></td>
+          <td><%= print_if_present(d.location) %></td>
+          <td><%= print_if_present(d.extent) %></td>
+          <td><%= print_if_present(d.intervention) %></td>
+          <td><%= print_if_present(d.complication) %></td>
+          <td><%= print_if_present(d.note) %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% else %>
+    <div class="panel-body">
+      Patient did not discuss any recent tests during this visit.
+    </div>
+  <% end %>
+</div>
