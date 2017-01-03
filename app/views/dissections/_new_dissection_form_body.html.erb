@@ -1,6 +1,8 @@
 <%= f.hidden_field :concern_type, value: "Cardiac" %>
 <%= f.hidden_field :patient_id, value: @patient.id %>
-<%= f.hidden_field :visit_id, value: @visit.id %>
+<% if @visit %>
+  <%= f.hidden_field :visit_id, value: @visit.id %>
+<% end %>
 <div class="form-group">
   <div class="row">
     <div class="col-xs-12">
