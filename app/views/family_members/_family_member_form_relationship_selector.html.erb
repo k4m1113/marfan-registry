@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xs-12">
     <%= f.label "Relationship:", class: "control-label" %><br />
-    <%= f.collection_select(:seeded_relationship_type_id, SeededRelationshipType.all, :id, :name, class: "form-control", autofocus: true) %>
+    <%= f.collection_select(:seeded_relationship_type_id, SeededRelationshipType.all, :id, :name, class: "form-control form-control-lg", autofocus: true) %>
   </div>
 </div>

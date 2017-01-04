@@ -1,3 +1,4 @@
+<h3>Test</h3>
 <%= f.fields_for :tests do |fff| %>
   <%= render 'visits/visit_presence_checker', f: fff %>
   <div class="form-group">
@@ -5,19 +6,20 @@
       <div class="col-xs col-md-7">
         <%= fff.hidden_field :patient_id, value: @patient.id %>
         <%= fff.label "What type of test was it?", class: "control-label" %><br />
-        <%= fff.text_field :test_type, autofocus: true, class: "form-control", placeholder: "ex: Echocardiogram, Blood test" %>
+        <%= fff.text_field :test_type, autofocus: true, class: "form-control form-control-lg", placeholder: "ex: Echocardiogram, Blood test" %>
       </div>
       <div class="col-xs col-md-5">
         <%= fff.label "And when was the test?", class: "control-label" %><br />
-        <%= fff.date_field :test_date, class: "form-control" %>
+        <%= fff.date_field :test_date, class: "form-control form-control-lg" %>
       </div>
     </div>
     <br />
     <%= fff.label "What were the results of the test?", class: "control-label" %><br />
-    <%= fff.text_area :result, class: "form-control" %>
+    <%= fff.text_area :result, class: "form-control form-control-lg" %>
     <br />
     <% if @form_action == "Update" %>
       <%= fff.submit "Add Hospitalization", class: "btn btn-success" %>
     <% end %>
   </div>
 <% end %>
+<div id="add-another"></div>

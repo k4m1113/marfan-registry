@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161230214321) do
+ActiveRecord::Schema.define(version: 20170104181224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,17 +32,19 @@ ActiveRecord::Schema.define(version: 20161230214321) do
   end
 
   create_table "dissections", force: :cascade do |t|
-    t.integer  "patient_id",   null: false
-    t.string   "concern_type", null: false
-    t.string   "location",     null: false
+    t.integer  "patient_id",     null: false
+    t.string   "concern_type",   null: false
+    t.string   "location",       null: false
     t.string   "extent"
-    t.datetime "when",         null: false
-    t.string   "intervention", null: false
+    t.datetime "when"
+    t.string   "intervention",   null: false
     t.string   "complication"
     t.integer  "visit_id"
     t.string   "note"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "time_ago"
+    t.integer  "time_ago_scale"
   end
 
   create_table "family_members", force: :cascade do |t|
@@ -53,6 +55,7 @@ ActiveRecord::Schema.define(version: 20161230214321) do
     t.integer  "claimed_patient_id"
     t.integer  "patient_id",                  null: false
     t.integer  "visit_id"
+    t.integer  "born_years_ago"
   end
 
   create_table "hospitalizations", force: :cascade do |t|
@@ -63,8 +66,11 @@ ActiveRecord::Schema.define(version: 20161230214321) do
     t.string   "location"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "patient_id",     null: false
+    t.integer  "patient_id",           null: false
     t.integer  "visit_id"
+    t.integer  "time_ago"
+    t.string   "time_ago_scale"
+    t.string   "length_of_stay_scale"
   end
 
   create_table "patients", force: :cascade do |t|
@@ -84,9 +90,9 @@ ActiveRecord::Schema.define(version: 20161230214321) do
     t.boolean  "deceased"
     t.string   "cause_of_death"
     t.string   "note"
-    t.string   "phone_1",           null: false
+    t.string   "phone_1"
     t.string   "phone_2"
-    t.string   "email",             null: false
+    t.string   "email"
     t.string   "middle_name"
     t.string   "primary_diagnosis"
   end
@@ -134,14 +140,18 @@ ActiveRecord::Schema.define(version: 20161230214321) do
     t.datetime "updated_at"
     t.integer  "patient_id",        null: false
     t.integer  "visit_id"
+    t.integer  "time_ago"
+    t.integer  "time_ago_scale"
   end
 
   create_table "tests", force: :cascade do |t|
-    t.string   "test_type",  null: false
-    t.string   "result",     null: false
+    t.string   "test_type",      null: false
+    t.string   "result",         null: false
     t.datetime "test_date"
-    t.integer  "patient_id", null: false
+    t.integer  "patient_id",     null: false
     t.integer  "visit_id"
+    t.integer  "time_ago"
+    t.string   "time_ago_scale"
   end
 
   create_table "visits", force: :cascade do |t|

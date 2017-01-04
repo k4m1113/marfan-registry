@@ -189,13 +189,13 @@ class VisitsController < ApplicationController
         [:visit_id, :patient_id, :concern_type, :location, :extent, :when, :intervention, :complication, :note],
       family_members_attributes:
         [:visit_id, :patient_id, :seeded_relationship_type_id, :future_patient_data_hash, {future_patient_data_hash: [
-        :first_name, :last_name, :date_of_birth, :deceased, :cause_of_death, :note]}],
+        :first_name, :last_name, :born_years_ago, :date_of_birth, :deceased, :cause_of_death, :note]}],
       hospitalizations_attributes:
-        [:visit_id, :patient_id, :hospitalization, :admission_date, :length_of_stay, :hosp_type, :description, :location],
+        [:visit_id, :patient_id, :hospitalization, :admission_date, :time_ago, :time_ago_scale, :length_of_stay, :length_of_stay_scale, :hosp_type, :description, :location],
       tests_attributes:
-        [:visit_id, :patient_id, :test, :test_type, :test_date, :result],
+        [:visit_id, :patient_id, :test, :test_type, :test_date, :time_ago, :time_ago_scale, :result],
       symptoms_attributes:
-        [:seeded_symptom_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :start_date, :frequency, :note]
+        [:seeded_symptom_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :time_ago, :time_ago_scale, :start_date, :frequency, :note]
 
       )
   end

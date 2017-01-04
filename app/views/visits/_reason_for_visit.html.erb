@@ -1,63 +1,56 @@
-<div class="form-check">
-  <%= f.label "What brings you in to the clinic?", class: "form-check-label" %><br />
-    <dl>
-      <div class="container">
-        <label class="form-check-label radio-inline", value="because of a dissection" >
-          <dt class="col-sm-1"><%= f.radio_button :primary_reason, "because of a dissection", class: "form-check-input", onclick: "renderDissection('#reason-for-visit-response');" %></dt>
-          <dd class="col-sm-11", value="because of a dissection">Dissection</dd>
-        </label>
-      </div>
-      <div class="container">
-        <label class="form-check-label radio-inline", value="due to family history" >
-          <dt class="col-sm-1">
-            <%= f.radio_button :primary_reason, "due to family history", class: "form-check-input", onclick: "renderFamilyMember('#reason-for-visit-response');" %>
-          </dt>
-          <dd class="col-sm-11", value="due to family history">Family History</dd>
-        </label>
-      </div>
-      <div class="container">
-        <label class="form-check-label radio-inline", value="because of a hospitalization" >
-          <dt class="col-sm-1">
-            <%= f.radio_button :primary_reason, "because of a hospitalization", class: "form-check-input", onclick: "renderHospitalization('#reason-for-visit-response');" %>
-          </dt>
-          <dd class="col-sm-11", value="because of a hospitalization">Recent Hospitalization</dd>
-        </label>
-      </div>
-      <div class="container">
-        <label class="form-check-label radio-inline", value="for recent testing" >
-          <dt class="col-sm-1"><%= f.radio_button :primary_reason, "for recent testing", class: "form-check-input", onclick: "renderTest('#reason-for-visit-response');" %></dt>
-          <dd class="col-sm-11", value="for recent testing">Recent Testing</dd>
-        </label>
-      </div>
-      <div class="container">
-        <label class="form-check-label radio-inline", value="because of related symptoms" >
-          <dt class="col-sm-1">
-            <%= f.radio_button :primary_reason, "because of related symptoms", class: "form-check-input", onclick: "renderSymptomsRadioButtons('#reason-for-visit-response');" %>
-          </dt>
-          <dd class="col-sm-11", value="because of related symptoms">Related Symptoms</dd>
-        </label>
-      </div>
-    </dl>
-  <!-- <%= f.label :primary_reason, "Chest Pain", class: "radio-inline col-xs-10 control-label" %>
-  <%= f.radio_button :primary_reason, "on account of chest pain" %> <br />
-  <%= f.label :primary_reason, "Checkup", class: "radio-inline col-xs-10 control-label" %>
-  <%= f.radio_button :primary_reason, "for a checkup" %> <br /> -->
-</div>
+<%= f.label "What brings you in to the clinic?", class: "form-check-label" %>
+  <br />
+  <label class="custom-control custom-checkbox" id="dissection-reason" value="because of a dissection" for="visit_primary_reason">
+    <%= f.check_box :primary_reason, value: "because of a dissection", class: "custom-control-input" %>
+    <span class="custom-control-indicator"></span>
+    <span class="custom-control-description"><%= f.label :primary_reason, "Dissection", value: "because of a dissection" %></span>
+  </label>
+  <br />
+  <label class="custom-control custom-checkbox" id="family-reason" value="due to family history">
+    <%= f.check_box :primary_reason, value: "due to family history", class: "custom-control-input" %>
+    <span class="custom-control-indicator"></span>
+    <span class="custom-control-description"><%= f.label :primary_reason, "Family History", value: "due to family history" %></span>
+  </label>
+  <br />
+  <label class="custom-control custom-checkbox" id="hospital-reason" value="because of a hospitalization">
+    <%= f.check_box :primary_reason, value: "because of a hospitalization", class: "custom-control-input" %>
+    <span class="custom-control-indicator"></span>
+    <span class="custom-control-description"><%= f.label :primary_reason, "Recent Hospitalization", value: "because of a hospitalization" %></span>
+  </label>
+  <br />
+  <label class="custom-control custom-checkbox" id="test-reason" value="for recent testing">
+    <%= f.check_box :primary_reason, value: "for recent testing", class: "custom-control-input" %>
+    <span class="custom-control-indicator"></span>
+    <span class="custom-control-description"><%= f.label :primary_reason, "Testing", value: "for recent testing" %></span>
+  </label>
+  <br />
+  <label class="custom-control custom-checkbox" id="symptom-reason" value="because of related symptoms">
+    <%= f.check_box :primary_reason, value: "because of related symptoms", class: "custom-control-input" %>
+    <span class="custom-control-indicator"></span>
+    <span class="custom-control-description"><%= f.label :primary_reason, "Related Symptoms", value: "because of related symptoms" %></span>
+  </label>
+  <br />
 
 <script>
-  function renderDissection(div_attachment_id) {
-    $(div_attachment_id).html("<hr /><%= j render 'dissection_form', f: f, instance_of: @dissections %>")
-  }
-  function renderHospitalization(div_attachment_id) {
-    $(div_attachment_id).html("<hr /><%= j render 'hospitalization_form', f: f %>");
-  }
-  function renderFamilyMember(div_attachment_id) {
-    $(div_attachment_id).html("<hr /><%= j render 'family_member_form', f: f %>");
-  }
-  function renderTest(div_attachment_id) {
-    $(div_attachment_id).html("<hr /><%= j render 'test', f: f %>");
-  }
-  function renderSymptomsRadioButtons(div_attachment_id) {
-    $(div_attachment_id).html("<hr /><%= j render 'symptoms_category_buttons',  f: f %>");
-  }
+  $('#dissection-reason').click(function renderDissection() {
+    $('div#add-another:last').html("<hr /><%= j render 'dissection_form', f: f %>");
+    $('#start-button').focus();
+  });
+  $('#hospital-reason').click(function renderHospitalization() {
+    $('div#add-another:last').html("<hr /><%= j render 'hospitalization_form', f: f %>");
+    $('#start-button').focus();
+  });
+  $('#family-reason').click(function renderFamilyMember() {
+    $('div#add-another:last').html("<hr /><%= j render 'family_member_form', f: f %>");
+    $('#start-button').focus();
+  });
+  $('#test-reason').click(function renderTest() {
+    $('div#add-another:last').html("<hr /><%= j render 'test', f: f %>");
+    $('#start-button').focus();
+  });
+  $('#symptom-reason').click(function renderSymptomsRadioButtons() {
+    $('div#add-another:last').html("<hr /><%= j render 'symptoms_category_buttons',  f: f %>");
+    $('#start-button').focus();
+
+  });
 </script>

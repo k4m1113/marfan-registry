@@ -5,4 +5,10 @@ class Test < ActiveRecord::Base
     presence: :true
   validates :result,
     presence: :true
+  validates :time_ago,
+    numericality: {
+      only_integer: true,
+      greater_than: 0
+    },
+    allow_nil: true
 end

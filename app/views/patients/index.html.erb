@@ -1,68 +1,78 @@
   <div class="row flex-items-xs-center">
-    <div class="col-xs">
+    <div class="col-xs-3">
+      <%= button_to "Add New Patient", new_patient_path, method: "get", class: "btn btn-block btn-primary" %>
+    </div>
+    <div class="col-xs-2" style="min-height:32px;">
+      <%= render 'layouts/col_2_OR_buttons' %>
+    </div>
+
+    <div class="col-xs-7">
       <%= form_tag "/patients", method: "get", id: "search-form" do %>
         <div class="input-group">
-          <%= text_field_tag :search, params[:search], placeholder:  "ex: 'John', 'Jane Doe', 'Doe'", class: "form-control" %>
+          <%= text_field_tag :search, params[:search], placeholder:  "ex: 'John', 'Jane Doe', 'Doe'", class: "form-control form-control-lg"%>
           <span class="input-group-btn">
-            <%= button_to "Search Patients", patients_path, class: "btn btn-secondary", method: "get", id: "search", type: "button" %>
+            <%= button_to "Search Patients", patients_path, class: "btn btn-primary", method: "get", id: "search", type: "button" %>
           </span>
         </div>
       <% end %>
-      <hr />
-      <% if @patients.blank? %>
-        <h4>There are no patients whose name contains "<%= params[:search] %>"</h4>
-      <% else %>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <% if !params[:search].blank? %>
-            <h1>All patients whose names include "<%= params[:search] %>"</h1>
-          <% else %>
-            <h1>All Patients</h1>
-          <% end %>
-        </div>
-        <table class="table table-striped table-hover">
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Date of Birth</th>
-            <th>Last Visit</th>
-            <th>Actions</th>
-          </tr>
-          <% @patients.each do |p| %>
-            <tr style="cursor:pointer;" onclick=<%= "location.href='/patients/" + "#{p.id}'" %>>
-              <td><%= link_to p.id, patient_path(p) %></td>
-              <td><%= "#{p.last_name}, #{p.first_name}" %></td>
-              <td><%= p.date_of_birth.strftime("%d %B %Y") %></td>
-              <td>
-                <% if p.visits.length === 0 %>
-                  No Visits Yet
-                <% else %>
-                  <%= link_to "#{p.visits.last.created_at.strftime("%d %B %Y")}", visit_path(p.visits.last.id) %>
-                <% end %>
-              </td>
-              <td>
-                <div class="hidden-sm hidden-xs btn-group btn-group-sm hidden-sm-down" role="group">
-                  <%= link_to "New Visit", new_visit_path(patient: p.id), type: "button", class: "btn btn-secondary btn-success" %>
-                  <%= link_to "Edit Patient", edit_patient_path(id: p.id), type: "button", method: :get, class: "btn btn-secondary" %>
-                  <%= link_to "Delete Records", patient_path(id: p.id), method: :delete, type: "button", class: "btn btn-secondary", data: { confirm: "Are you sure you want to delete #{p.first_name} #{p.last_name} and all associated records?" } %>
-                </div>
-                <div class="hidden-md hidden-lg hidden-xlg btn-group btn-group-sm" role="group">
-                  <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Actions
-                    <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><%= link_to "Edit Patient", edit_patient_path(id: p.id), method: :get %></li>
-                    <li><%= link_to "Destroy Records", patient_path(id: p.id), method: :delete %></li>
-                    <li><%= link_to "New Visit", new_visit_path(patient: p.id) %></li>
-                  </ul>
-                </div>
-              </td>
-            </tr>
-          <% end %>
-        </table>
-      </div>
-      <%= will_paginate @family_members, renderer: BootstrapPagination::Rails %>
     </div>
   </div>
+  <hr />
+  <div class="row flex-items-xs-center">
+    <% if @patients.blank? %>
+      <h4>There are no patients whose name contains "<%= params[:search] %>"</h4>
+    <% else %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <% if !params[:search].blank? %>
+          <h1>All patients whose names include "<%= params[:search] %>"</h1>
+        <% else %>
+          <h1>All Patients</h1>
+        <% end %>
+      </div>
+      <table class="table table-striped table-hover">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Date of Birth</th>
+          <th>Last Visit</th>
+          <th>Actions</th>
+        </tr>
+        <% @patients.each do |p| %>
+          <tr style="cursor:pointer;" onclick=<%= "location.href='/patients/" + "#{p.id}'" %>>
+            <td><%= link_to p.id, patient_path(p) %></td>
+            <td><%= "#{p.last_name}, #{p.first_name}" %></td>
+            <td><%= p.date_of_birth.strftime("%d %B %Y") %></td>
+            <td>
+              <% if p.visits.length === 0 %>
+                No Visits Yet
+              <% else %>
+                <%= link_to "#{p.visits.last.created_at.strftime("%d %B %Y")}", visit_path(p.visits.last.id) %>
+              <% end %>
+            </td>
+            <td>
+              <div class="hidden-sm hidden-xs btn-group btn-group-sm hidden-sm-down" role="group">
+                <%= link_to "New Visit", new_visit_path(patient: p.id), type: "button", class: "btn btn-secondary btn-success" %>
+                <%= link_to "Edit Patient", edit_patient_path(id: p.id), type: "button", method: :get, class: "btn btn-secondary" %>
+                <%= link_to "Delete Records", patient_path(id: p.id), method: :delete, type: "button", class: "btn btn-secondary", data: { confirm: "Are you sure you want to delete #{p.first_name} #{p.last_name} and all associated records?" } %>
+              </div>
+              <div class="hidden-md hidden-lg hidden-xlg btn-group btn-group-sm" role="group">
+                <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Actions
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><%= link_to "Edit Patient", edit_patient_path(id: p.id), method: :get %></li>
+                  <li><%= link_to "Destroy Records", patient_path(id: p.id), method: :delete %></li>
+                  <li><%= link_to "New Visit", new_visit_path(patient: p.id) %></li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+    <%= will_paginate @family_members, renderer: BootstrapPagination::Rails %>
+  </div>
+
 <% end %>

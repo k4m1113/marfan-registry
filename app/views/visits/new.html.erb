@@ -18,13 +18,13 @@
       <div class="row">
         <div class="col-xs-4 col-xs-offset-4">
           <%= f.label :patient_id, "Patient ID:", class: "form-check-label" %><br />
-          <%= f.number_field :patient_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control" %>
+          <%= f.number_field :patient_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control form-control-lg" %>
     <% end %>
 
         </div>
         <div class="col-xs-4 col-xs-offset-4">
           <%= f.label :clinician_id, "Clinician ID:", class: "form-check-label" %><br />
-          <%= f.number_field :clinician_id, value: 1, in: 1..99999999, step: 1, class: "form-control" %>
+          <%= f.number_field :clinician_id, value: 1, in: 1..99999999, step: 1, class: "form-control form-control-lg" %>
         </div>
       </div>
     </div>
@@ -67,13 +67,12 @@
         </div>
       </div>
     </div>
-    <div id="reason-for-visit-response"></div>
+    <div id="add-another"></div>
     <div class="row">
       <br />
-      <div class="form-group">
-        <div class="col-xs col-md-4 col-centered">
-          <%= f.submit "Start New Visit", class: "col-centered col-xs-12 control-label btn btn-success btn-lg" %>
-        </div>
+      <div class="col-xs col-md-4 col-centered">
+        <span id="start-button"></span>
+        <%= f.submit "Start New Visit", class: "col-centered col-xs-12 control-label btn btn-success btn-lg" %>
       </div>
     </div>
     <script>

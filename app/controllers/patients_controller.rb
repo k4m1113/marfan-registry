@@ -33,7 +33,7 @@ class PatientsController < ApplicationController
     @patient = Patient.new(patient_params)
     if @patient.save
       flash[:success] = "Patient #{@patient.last_name}, #{@patient.first_name} successfully added!"
-      redirect_to patients_path
+      redirect_to new_visit_path(patient: @patient)
     else
       render 'new'
     end

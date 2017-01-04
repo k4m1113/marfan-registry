@@ -5,38 +5,38 @@
   <div class="row">
     <div class="col-xs-12">
       <%= ff.label "First Name:", class: "control-label" %><br />
-      <%= ff.text_field :first_name, class: "form-control" %>
+      <%= ff.text_field :first_name, class: "form-control form-control-lg" %>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12">
       <%= ff.label "Last Name:", class: "control-label" %><br />
-      <%= ff.text_field :last_name, class: "form-control" %>
+      <%= ff.text_field :last_name, class: "form-control form-control-lg" %>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12">
       <%= ff.label "Date of Birth:", class: "control-label" %><br />
-      <%= ff.date_field :date_of_birth, class: "form-control", min: 1, step: 1 %>
+      <%= ff.date_field :date_of_birth, class: "form-control form-control-lg", min: 1, step: 1 %>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12">
       <%= ff.label "Check if deceased:", class: "control-label" %><br />
-      <%= ff.check_box :deceased, class: "form-control btn btn-default", onclick: "$('#deceased').toggle();" %>
+      <%= ff.check_box :deceased, class: "form-control form-control-lg btn btn-default", onclick: "$('#deceased').toggle();" %>
     </div>
   </div>
   <div class="row">
     <div id="deceased" class="col-xs-12" style="display: none">
       <%= ff.label "What was their cause of death?", class: "control-label" %><br />
-      <%= ff.text_field :cause_of_death, class: "form-control" %>
+      <%= ff.text_field :cause_of_death, class: "form-control form-control-lg" %>
     </div>
   </div>
   <br />
   <div class="row">
     <div class="col-xs-12">
       <%= ff.label "Anything else to add?", class: "control-label" %><br />
-      <%= ff.text_area :note, class: "form-control" %>
+      <%= ff.text_area :note, class: "form-control form-control-lg" %>
     </div>
   </div>
   <% end %>

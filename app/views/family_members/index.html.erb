@@ -2,7 +2,7 @@
   <div class="col-xs">
     <%= form_tag "/family_members", method: "get", id: "search-form" do %>
       <div class="input-group">
-        <%= text_field_tag :search, params[:search], placeholder:  "Search Family Members...", class: "form-control" %>
+        <%= text_field_tag :search, params[:search], placeholder:  "Search Family Members...", class: "form-control form-control-lg" %>
         <span class="input-group-btn">
           <%= button_tag(family_members_path, method: "get", type: "submit", class: "btn btn-secondary", id: "search" ) do %>
           <span class="glyphicon glyphicon-search" aria-hidden="true"></span>

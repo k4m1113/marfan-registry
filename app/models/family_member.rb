@@ -31,4 +31,10 @@ class FamilyMember < ActiveRecord::Base
       greater_than: 0
     },
     allow_nil: true
+  validates :born_years_ago,
+    numericality: {
+      only_integer: true,
+      greater_than: 0
+    },
+    allow_nil: true
 end
