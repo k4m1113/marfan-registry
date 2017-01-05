@@ -19,6 +19,7 @@ gem 'will_paginate-bootstrap'
 gem 'dotenv'
 gem 'httparty'
 gem 'validates_type'
+gem 'awesome_nested_set'
 
 group :development, :test do
   gem 'byebug'

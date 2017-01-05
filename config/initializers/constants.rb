@@ -8,4 +8,12 @@ AORTIC_EXTENTS = ["", "Root", "Arch", "Thoracic", "Abdominal (Suprarenal)", "Abd
 
 TIME_SCALES = ["", "Years", "Months", "Weeks", "Days"]
 
-REASONS_FOR_VISIT = ["", "Cardiovascular", "Pulmonary", "Opthamologic", "Gynecologic", "Obstetric", "Neurologic", "Gastrointestinal"]
+REASONS_FOR_VISIT = {
+  "Cardiovascular": {},
+  "Pulmonary": [],
+  "Opthamologic": {},
+  "Gynecologic": {},
+  "Obstetric": {},
+  "Neurologic": {},
+  "Gastrointestinal": {}
+}

@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     resources :tests
   end
 
+  resources :topics
+
   resources :dissections
   resources :clinicians
   resources :hospitalizations

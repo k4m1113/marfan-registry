@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170104181224) do
+ActiveRecord::Schema.define(version: 20170105044729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,24 @@ ActiveRecord::Schema.define(version: 20170104181224) do
     t.integer  "time_ago"
     t.string   "time_ago_scale"
     t.string   "length_of_stay_scale"
+  end
+
+  create_table "medications", force: :cascade do |t|
+    t.integer  "patient_id",               null: false
+    t.integer  "visit_id"
+    t.integer  "dose"
+    t.string   "dose_unit_of_measurement"
+    t.integer  "nested_med_id"
+    t.integer  "nested_med_category"
+    t.integer  "duration_amount"
+    t.string   "duration_scale"
+    t.string   "ingestion_method"
+    t.integer  "frequency"
+    t.string   "frequency_scale"
+    t.string   "common_name"
+    t.string   "medication_format"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "patients", force: :cascade do |t|
@@ -153,6 +171,20 @@ ActiveRecord::Schema.define(version: 20170104181224) do
     t.integer  "time_ago"
     t.string   "time_ago_scale"
   end
+
+  create_table "topics", force: :cascade do |t|
+    t.string  "name"
+    t.integer "parent_id"
+    t.integer "lft",                        null: false
+    t.integer "rgt",                        null: false
+    t.string  "topic_type",                 null: false
+    t.integer "depth",          default: 0, null: false
+    t.integer "children_count", default: 0, null: false
+  end
+
+  add_index "topics", ["lft"], name: "index_topics_on_lft", using: :btree
+  add_index "topics", ["parent_id"], name: "index_topics_on_parent_id", using: :btree
+  add_index "topics", ["rgt"], name: "index_topics_on_rgt", using: :btree
 
   create_table "visits", force: :cascade do |t|
     t.integer  "patient_id",       null: false
