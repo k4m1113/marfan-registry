@@ -1,0 +1,74 @@
+<style>
+.list-group.list-group-root {
+    padding: 0;
+    overflow: hidden;
+}
+
+.list-group.list-group-root .list-group {
+    margin-bottom: 0;
+}
+
+.list-group.list-group-root .list-group-item {
+    border-radius: 0;
+    border-width: 1px 0 0 0;
+}
+
+.list-group.list-group-root > .list-group-item:first-child {
+    border-top-width: 0;
+}
+
+.list-group.list-group-root > .list-group > .list-group-item {
+    padding-left: 30px;
+}
+
+.list-group.list-group-root > .list-group > .list-group > .list-group-item {
+    padding-left: 45px;
+}
+
+.list-group-item .glyphicon {
+    margin-right: 5px;
+}
+</style>
+<div class="row flex">
+  <div class="col-xs-12">
+    <% active_parents = [] %>
+      <div class="list-group list-group-root well">
+      <% discussion_topic.each do |category| %>
+        <% active_parents.each do |p| %>
+        <% if !category.is_descendant_of?(p) %>
+          <% active_parents.delete(p) %>
+        </div>
+        <% end %>
+      <% end %>
+
+      <% if category.leaf? %>
+        <a href="#" class="list-group-item"><%= category.name %>
+        <% case category.topic_type %>
+        <% when 'measurement' %>
+          <button class="btn btn-info disabled pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>">TEST FORM HERE</button>
+        <% when 'procedure' %>
+          <button class="btn btn-info disabled pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>">PROCEDURE FORM HERE</button>
+        <% when 'complication' %>
+          <button class="btn btn-info disabled pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>">COMPLICATION FORM HERE</button>
+        <% when 'symptom' %>
+          <button class="btn btn-info disabled pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>">SYMPTOM FORM HERE</button>
+        <% when 'diagnosis' %>
+          <button class="btn btn-info disabled pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>">DIAGNOSIS FORM HERE</button>
+        <% when 'medication' %>
+          <button class="btn btn-info disabled pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>">MEDICATION FORM HERE</button>
+        <% end %>
+        <% category.depth.times do |i| %>
+          </a>
+        <% end %>
+      <% else %>
+        <a href="#item-<%= category.id %>" class="list-group-item" data-toggle="collapse">
+          <i class="glyphicon glyphicon-chevron-right"></i>
+          <%= category.name %>
+        </a>
+        <% active_parents << category %>
+        <div class="list-group collapse" id="item-<%= category.id %>">
+      <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

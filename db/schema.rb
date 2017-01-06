@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170105044729) do
+ActiveRecord::Schema.define(version: 20170105234603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,28 @@ ActiveRecord::Schema.define(version: 20170105044729) do
     t.integer  "postal_code",    null: false
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+  end
+
+  create_table "complications", force: :cascade do |t|
+    t.integer  "topic_id",            null: false
+    t.integer  "patient_id",          null: false
+    t.integer  "time_ago"
+    t.string   "time_ago_scale"
+    t.datetime "absolute_start_date"
+    t.integer  "visit_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  create_table "diagnoses", force: :cascade do |t|
+    t.integer  "topic_id",            null: false
+    t.integer  "patient_id",          null: false
+    t.integer  "time_ago"
+    t.string   "time_ago_scale"
+    t.datetime "absolute_start_date"
+    t.integer  "visit_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "dissections", force: :cascade do |t|
@@ -89,6 +111,10 @@ ActiveRecord::Schema.define(version: 20170105044729) do
     t.string   "medication_format"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.integer  "topic_id",                 null: false
+    t.integer  "time_ago"
+    t.string   "time_ago_scale"
+    t.datetime "absolute_start_date"
   end
 
   create_table "patients", force: :cascade do |t|
@@ -124,6 +150,15 @@ ActiveRecord::Schema.define(version: 20170105044729) do
   end
 
   add_index "pg_search_documents", ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id", using: :btree
+
+  create_table "procedures", force: :cascade do |t|
+    t.integer  "topic_id",     null: false
+    t.integer  "patient_id",   null: false
+    t.integer  "clinician_id"
+    t.integer  "visit_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
 
   create_table "seeded_relationship_types", id: false, force: :cascade do |t|
     t.integer  "ahnentafel_id",   null: false

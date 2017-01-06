@@ -1,0 +1,19 @@
+<%- active_parents = [] -%>
+<ul>
+  <%- @topics.each do |topic| -%>
+    <%- active_parents.each do |p| -%>
+      <%- if !topic.is_descendant_of(p) -%>
+        <%- active_parents.delete(p) -%>
+        <%= '</ul></li>' %>
+      <%- end -%>
+    <%- end -%>
+  <li>
+    <%= topic.name %>
+    <%- if topic.leaf? -%>
+      </li>
+    <%- else -%>
+      <%- active_parents << topic.id -%>
+      <%= '<ul>' %>
+    <%- end -%>
+  <%- end -%>
+</ul>

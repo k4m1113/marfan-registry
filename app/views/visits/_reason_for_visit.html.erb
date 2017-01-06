@@ -1,12 +1,12 @@
 <%= f.label "What brings you in to the clinic?", class: "form-check-label" %>
   <br />
-  <label class="custom-control custom-checkbox" id="dissection-reason" value="because of a dissection" for="visit_primary_reason">
-    <%= f.check_box :primary_reason, value: "because of a dissection", class: "custom-control-input" %>
+  <label class="custom-control custom-checkbox" id="cardiology-reason" value="because of a dissection" for="visit_primary_reason">
+    <%= f.check_box :primary_reason, value: "for cardiology", class: "custom-control-input" %>
     <span class="custom-control-indicator"></span>
     <span class="custom-control-description"><%= f.label :primary_reason, "Dissection", value: "because of a dissection" %></span>
   </label>
   <br />
-  <label class="custom-control custom-checkbox" id="family-reason" value="due to family history">
+  <label class="custom-control custom-checkbox" id="genetics-reason" value="due to family history">
     <%= f.check_box :primary_reason, value: "due to family history", class: "custom-control-input" %>
     <span class="custom-control-indicator"></span>
     <span class="custom-control-description"><%= f.label :primary_reason, "Family History", value: "due to family history" %></span>

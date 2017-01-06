@@ -24,6 +24,14 @@ class VisitsController < ApplicationController
     @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
     @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
 
+    @root_topics = Topic.roots
+    @genetics = Topic.where(name: "genetics")[0].descendants
+    @medications = Topic.where(name: "medication")[0].descendants
+    @cardio = Topic.where(name: "cardiovascular")[0].descendants
+    @pulmonary = Topic.where(name: "pulmonary")[0].descendants
+    @ortho = Topic.where(name: "orthopedic")[0].descendants
+    @ophthalmo = Topic.where(name: "ophthalmologic")[0].descendants
+
     @symptoms = @visit.symptoms.build
     @hospitalizations = @visit.hospitalizations.build
     @family_member = @visit.family_members.build

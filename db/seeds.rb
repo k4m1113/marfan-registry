@@ -228,7 +228,7 @@ meds = Topic.create!(
 )
 beta_blockers = Topic.create!(
   name: "beta-blockers",
-  topic_type: "root category"
+  topic_type: "medication"
 ).move_to_child_of(meds)
 Topic.create!(
   name: "atenolol",
@@ -260,7 +260,7 @@ Topic.create!(
 ).move_to_child_of(other_beta)
 arb = Topic.create!(
   name: "ARB",
-  topic_type: "root category"
+  topic_type: "medication"
 ).move_to_child_of(meds)
 Topic.create!(
   name: "losartan",
@@ -288,7 +288,7 @@ other_arb = Topic.create!(
 ).move_to_child_of(arb)
 calcium_channel_blocker = Topic.create!(
   name: "calcium channel blocker",
-  topic_type: "root category"
+  topic_type: "medication"
 ).move_to_child_of(meds)
 Topic.create!(
   name: "verapamil",
@@ -312,7 +312,7 @@ other_calcium_channel_blocker = Topic.create!(
 ).move_to_child_of(calcium_channel_blocker)
 ace_inhibitor = Topic.create!(
   name: "ACE-inhibitor",
-  topic_type: "root category"
+  topic_type: "medication"
 ).move_to_child_of(meds)
 Topic.create!(
   name: "lisinopril",
@@ -1086,7 +1086,7 @@ mitral_valve_surgery = Topic.create!(
 mitral_valve_repair = Topic.create!(
   name: "mitral valve repair",
   topic_type: "procedure"
-).move_to_child_of("mitral_valve_surgery")
+).move_to_child_of(mitral_valve_surgery)
 Topic.create!(
   name: "ring only",
   topic_type: "procedure"
@@ -1098,7 +1098,7 @@ Topic.create!(
 mitral_valve_replacement = Topic.create!(
   name: "mitral valve replacement",
   topic_type: "procedure"
-).move_to_child_of("mitral_valve_surgery")
+).move_to_child_of(mitral_valve_surgery)
 Topic.create!(
   name: "mechanical prosthesis",
   topic_type: "procedure"
@@ -1430,7 +1430,7 @@ Topic.create!(
   topic_type: "procedure"
 ).move_to_child_of(iol_ectopia)
 cataract = Topic.create!(
-  name: "ectopia lentis",
+  name: "cataract",
   topic_type: "complication"
 ).move_to_child_of(opthalmo)
 Topic.create!(
@@ -1472,7 +1472,7 @@ headache = Topic.create!(
   name: "headache",
   topic_type: "symptom"
 ).move_to_child_of(neuro)
-common_migraine = Topic.new!(
+common_migraine = Topic.create!(
   name: "common migraine",
   topic_type: "complication"
 ).move_to_child_of(headache)
@@ -1481,13 +1481,13 @@ Topic.create!(
   topic_type: "medication"
 ).move_to_child_of(common_migraine)
 prophylaxis_common = Topic.create!(
-  name: "propylaxis",
+  name: "prophylaxis",
   topic_type: "medication"
 ).move_to_child_of(common_migraine)
 Topic.create!(
   name: "antiepileptics",
   topic_type: "medication"
-).move_to_child_of(propylaxis_common)
+).move_to_child_of(prophylaxis_common)
 Topic.create!(
   name: "Ca-blockers",
   topic_type: "medication"
@@ -1496,7 +1496,7 @@ Topic.create!(
   name: "tricyclics",
   topic_type: "medication"
 ).move_to_child_of(prophylaxis_common)
-classic_migraine = Topic.new!(
+classic_migraine = Topic.create!(
   name: "classic migraine",
   topic_type: "complication"
 ).move_to_child_of(neuro)
@@ -1505,13 +1505,13 @@ Topic.create!(
   topic_type: "medication"
 ).move_to_child_of(classic_migraine)
 prophylaxis_classic = Topic.create!(
-  name: "propylaxis",
+  name: "prophylaxis",
   topic_type: "medication"
 ).move_to_child_of(classic_migraine)
 Topic.create!(
   name: "antiepileptics",
   topic_type: "medication"
-).move_to_child_of(propylaxis_classic)
+).move_to_child_of(prophylaxis_classic)
 Topic.create!(
   name: "Ca-blockers",
   topic_type: "medication"
@@ -1520,7 +1520,7 @@ Topic.create!(
   name: "tricyclics",
   topic_type: "medication"
 ).move_to_child_of(prophylaxis_classic)
-complex_migraine = Topic.new!(
+complex_migraine = Topic.create!(
   name: "complex migraine",
   topic_type: "complication"
 ).move_to_child_of(neuro)
@@ -1529,13 +1529,13 @@ Topic.create!(
   topic_type: "medication"
 ).move_to_child_of(complex_migraine)
 prophylaxis_complex = Topic.create!(
-  name: "propylaxis",
+  name: "prophylaxis",
   topic_type: "medication"
 ).move_to_child_of(complex_migraine)
 Topic.create!(
   name: "antiepileptics",
   topic_type: "medication"
-).move_to_child_of(propylaxis_complex)
+).move_to_child_of(prophylaxis_complex)
 Topic.create!(
   name: "Ca-blockers",
   topic_type: "medication"
@@ -1744,7 +1744,7 @@ SeededRelationshipType.create!(
 ## BEGIN SEEDED SYMPTOMS ##
 SeededSymptom.create!(
   name: "ascending aortic dilatation",
-  complex_name: "ascending aortic dilatation",
+  common_name: "ascending aortic dilatation",
   article: "an",
   plural: "ascending aortic dilatations",
   ghent_value: 0,
@@ -1753,7 +1753,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "aortic dissection (ascending)",
-  complex_name: "ascending aortic dissection",
+  common_name: "ascending aortic dissection",
   article: "an",
   plural: "ascending aortic dissections",
   ghent_value: 0,
@@ -1762,7 +1762,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "aortic dissection (descending)",
-  complex_name: "descending aortic dissection",
+  common_name: "descending aortic dissection",
   article: "a",
   plural: "descending aortic dissections",
   ghent_value: 0,
@@ -1771,7 +1771,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "aortic root dilatation (Z > 2)",
-  complex_name: "aortic root dilatation",
+  common_name: "aortic root dilatation",
   article: "an",
   plural: "aortic root dilatations",
   ghent_value: 0,
@@ -1780,7 +1780,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "aortic valve regurgitation",
-  complex_name: "aortic valve regurge",
+  common_name: "aortic valve regurge",
   article: "an",
   plural: "aortic valve regurges",
   ghent_value: 0,
@@ -1789,7 +1789,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "mitral valve prolapse (all types)",
-  complex_name: "mitral valve prolapse",
+  common_name: "mitral valve prolapse",
   article: "a",
   plural: "mitral valve prolapses",
   ghent_value: 1,
@@ -1798,7 +1798,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "mitral valve regurgitation",
-  complex_name: "mitral valve regurge",
+  common_name: "mitral valve regurge",
   article: "a",
   plural: "mitral valve regurges",
   ghent_value: 0,
@@ -1807,7 +1807,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "calcification mitral annulus < 40 years",
-  complex_name: "mitral annulus calcification",
+  common_name: "mitral annulus calcification",
   article: "a",
   plural: "mitral annulus calcifications",
   ghent_value: 0,
@@ -1816,7 +1816,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "bicuspid aortic valve",
-  complex_name: "bicuspid aortic valve",
+  common_name: "bicuspid aortic valve",
   article: "a",
   plural: "bicuspid aortic valves",
   ghent_value: 0,
@@ -1825,7 +1825,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "tortuosity of the aorta",
-  complex_name: "aortic tortuosity",
+  common_name: "aortic tortuosity",
   article: "an",
   plural: "aortic tortuosities",
   ghent_value: 0,
@@ -1834,7 +1834,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "tortuosity of carotid arteries",
-  complex_name: "carotid artery tortuosity",
+  common_name: "carotid artery tortuosity",
   article: "a",
   plural: "carotid artery tortuosities",
   ghent_value: 0,
@@ -1843,7 +1843,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "pulmonary artery dilatation in the absence of valvular or peripheral pulmonic stenosis < 40 years",
-  complex_name: "pulmonary artery dilatation",
+  common_name: "pulmonary artery dilatation",
   article: "a",
   plural: "pulmonary artery dilatations",
   ghent_value: 0,
@@ -1852,7 +1852,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "heart surgery",
-  complex_name: "heart surgery",
+  common_name: "heart surgery",
   article: "a",
   plural: "heart surgeries",
   ghent_value: 0,
@@ -1861,7 +1861,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "Lumbosacral dural ectasia",
-  complex_name: "dural ectasia",
+  common_name: "dural ectasia",
   article: "",
   plural: "dural ectasia",
   ghent_value: 2,
@@ -1870,7 +1870,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "crumpled helix",
-  complex_name: "crumpled helix",
+  common_name: "crumpled helix",
   article: "a",
   plural: "crumpled helices",
   ghent_value: 0,
@@ -1879,7 +1879,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "hearing loss",
-  complex_name: "loss of hearing",
+  common_name: "loss of hearing",
   article: "a",
   plural: "losses of hearing",
   ghent_value: 0,
@@ -1888,7 +1888,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "ectopia lentis (right)",
-  complex_name: "right dislocated lens",
+  common_name: "right dislocated lens",
   article: "a",
   plural: "right dislocated lenses",
   ghent_value: 0,
@@ -1897,7 +1897,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "ectopia lentis (left)",
-  complex_name: "left dislocated lens",
+  common_name: "left dislocated lens",
   article: "a",
   plural: "left dislocated lenses",
   ghent_value: 0,
@@ -1906,7 +1906,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "ectopia lentis (bilateral)",
-  complex_name: "bilateral dislocated lens",
+  common_name: "bilateral dislocated lens",
   article: "a",
   plural: "bilateral dislocated lenses",
   ghent_value: 0,
@@ -1915,7 +1915,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "loss of crypt/furrows (iris)",
-  complex_name: "loss of iris crypt/furrows",
+  common_name: "loss of iris crypt/furrows",
   article: "a",
   plural: "losses of iris crypt/furrows",
   ghent_value: 0,
@@ -1924,7 +1924,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "lattice degeneration",
-  complex_name: "degeneration of the lattice",
+  common_name: "degeneration of the lattice",
   article: "a",
   plural: "degenerations of the lattice",
   ghent_value: 0,
@@ -1933,7 +1933,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "iridodonesis",
-  complex_name: "tremulous iris",
+  common_name: "tremulous iris",
   article: "a",
   plural: "tremulous irises",
   ghent_value: 0,
@@ -1942,7 +1942,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "blue sclera",
-  complex_name: "blue sclera",
+  common_name: "blue sclera",
   article: "a",
   plural: "blue sclerae",
   ghent_value: 0,
@@ -1951,7 +1951,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "hyperopia",
-  complex_name: "abnormally flat cornea",
+  common_name: "abnormally flat cornea",
   article: "an",
   plural: "abnormally flat corneas",
   ghent_value: 0,
@@ -1960,7 +1960,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "(myopia) increased axial length globe (>3 diopters)",
-  complex_name: "nearsightedness",
+  common_name: "nearsightedness",
   article: "",
   plural: "myopias",
   ghent_value: 0,
@@ -1969,7 +1969,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "glaucoma",
-  complex_name: "glaucoma",
+  common_name: "glaucoma",
   article: "",
   plural: "glaucomas",
   ghent_value: 0,
@@ -1978,7 +1978,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "retinal detachment",
-  complex_name: "detached retina",
+  common_name: "detached retina",
   article: "a",
   plural: "detached retinas",
   ghent_value: 0,
@@ -1987,7 +1987,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "spontaneous pneumothorax",
-  complex_name: "collapsed lung",
+  common_name: "collapsed lung",
   article: "a",
   plural: "collapsed lungs",
   ghent_value: 2,
@@ -1996,7 +1996,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "apical blebs (chest radiography)",
-  complex_name: "apical blebs",
+  common_name: "apical blebs",
   article: "",
   plural: "apical blebs",
   ghent_value: 0,
@@ -2005,7 +2005,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "u""ateral recurrent or incisional hernia",
-  complex_name: "u""ateral hernia",
+  common_name: "u""ateral hernia",
   article: "a",
   plural: "u""ateral hernias",
   ghent_value: 0,
@@ -2014,7 +2014,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "bilateral recurrent or incisional hernia",
-  complex_name: "bilateral hernia",
+  common_name: "bilateral hernia",
   article: "an",
   plural: "bilateral hernias",
   ghent_value: 0,
@@ -2023,7 +2023,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "striae atrophicae without cause",
-  complex_name: "stretch marks",
+  common_name: "stretch marks",
   article: "",
   plural: "stretch marks",
   ghent_value: 0,
@@ -2032,7 +2032,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "soft thin skin texture",
-  complex_name: "soft thin skin texture",
+  common_name: "soft thin skin texture",
   article: "a",
   plural: "soft thin skin textures",
   ghent_value: 0,
@@ -2041,7 +2041,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "hyperextensible skin",
-  complex_name: "hyperextensible skin",
+  common_name: "hyperextensible skin",
   article: "",
   plural: "hyperextensible skin",
   ghent_value: 0,
@@ -2050,7 +2050,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "venous chest pattern",
-  complex_name: "venous chest pattern",
+  common_name: "venous chest pattern",
   article: "a",
   plural: "venous chest patterns",
   ghent_value: 0,
@@ -2059,7 +2059,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "hypertrophic scar",
-  complex_name: "raised scarring",
+  common_name: "raised scarring",
   article: "",
   plural: "raised scars",
   ghent_value: 0,
@@ -2068,7 +2068,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "hypotrophic scar",
-  complex_name: "sunken scarring",
+  common_name: "sunken scarring",
   article: "",
   plural: "sunken scars",
   ghent_value: 0,
@@ -2077,7 +2077,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "easy bruisability",
-  complex_name: "easy bruisability",
+  common_name: "easy bruisability",
   article: "",
   plural: "easy bruisings",
   ghent_value: 0,
@@ -2086,7 +2086,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "decreased subcutaneous fat",
-  complex_name: "decreased fat",
+  common_name: "decreased fat",
   article: "",
   plural: "decreased fat",
   ghent_value: 0,
@@ -2095,7 +2095,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "dolichocephaly",
-  complex_name: "long, narrow face and head",
+  common_name: "long, narrow face and head",
   article: "a",
   plural: "long, narrow faces and heads",
   ghent_value: 1,
@@ -2104,7 +2104,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "enophthalmos",
-  complex_name: "prominent brow/deep set eyes",
+  common_name: "prominent brow/deep set eyes",
   article: "a",
   plural: "prominent brows/deep set eyes",
   ghent_value: 1,
@@ -2113,7 +2113,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "down/slanting palpebral fissure",
-  complex_name: "downward-slanting eyes",
+  common_name: "downward-slanting eyes",
   article: "",
   plural: "downward-slanting eyes",
   ghent_value: 1,
@@ -2122,7 +2122,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "retrognathia",
-  complex_name: "underdeveloped mandible and/or maxilla",
+  common_name: "underdeveloped mandible and/or maxilla",
   article: "an",
   plural: "underdeveloped mandibles and/or maxillae",
   ghent_value: 1,
@@ -2131,7 +2131,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "hypertelorism",
-  complex_name: "increased eye distance",
+  common_name: "increased eye distance",
   article: "an",
   plural: "increased eye distances",
   ghent_value: 0,
@@ -2140,7 +2140,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "malar hypoplasia",
-  complex_name: "small cheek bones",
+  common_name: "small cheek bones",
   article: "",
   plural: "small cheek bones",
   ghent_value: 0,
@@ -2149,7 +2149,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "long, slender neck",
-  complex_name: "long, slender neck",
+  common_name: "long, slender neck",
   article: "a",
   plural: "long, slender necks",
   ghent_value: 0,
@@ -2158,7 +2158,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "migraines",
-  complex_name: "migraines",
+  common_name: "migraines",
   article: "",
   plural: "migraines",
   ghent_value: 0,
@@ -2167,7 +2167,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "cleft palate/sub cleft",
-  complex_name: "cleft palate",
+  common_name: "cleft palate",
   article: "a",
   plural: "cleft palates",
   ghent_value: 0,
@@ -2176,7 +2176,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "bifid uvula",
-  complex_name: "cleft uvula",
+  common_name: "cleft uvula",
   article: "a",
   plural: "cleft uvulae",
   ghent_value: 0,
@@ -2185,7 +2185,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "narrow palate",
-  complex_name: "narrow palate",
+  common_name: "narrow palate",
   article: "a",
   plural: "narrow palates",
   ghent_value: 0,
@@ -2194,7 +2194,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "high-arched palate",
-  complex_name: "high-arched palate",
+  common_name: "high-arched palate",
   article: "a",
   plural: "high-arched palates",
   ghent_value: 0,
@@ -2203,7 +2203,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "dental crowding",
-  complex_name: "crowded teeth",
+  common_name: "crowded teeth",
   article: "",
   plural: "crowded teeth",
   ghent_value: 0,
@@ -2212,7 +2212,7 @@ SeededSymptom.create!(
 
   SeededSymptom.create!(
     name: "high-arched palate with dental crowding",
-    complex_name: "high-arched palate with crowded teeth",
+    common_name: "high-arched palate with crowded teeth",
     article: "a",
     plural: "high-arched palates with crowded teeth",
     ghent_value: 0,
@@ -2221,7 +2221,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "orthodontia",
-  complex_name: "orthodontia",
+  common_name: "orthodontia",
   article: "",
   plural: "orthodontics",
   ghent_value: 0,
@@ -2230,7 +2230,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "caries/enamel hypoplasia",
-  complex_name: "incomplete enamel formation",
+  common_name: "incomplete enamel formation",
   article: "an",
   plural: "incomplete enamel formations",
   ghent_value: 0,
@@ -2239,7 +2239,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "right pes planus",
-  complex_name: "flat right foot",
+  common_name: "flat right foot",
   article: "a",
   plural: "flat right feet",
   ghent_value: 1,
@@ -2248,7 +2248,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "left pes planus",
-  complex_name: "flat left foot",
+  common_name: "flat left foot",
   article: "a",
   plural: "flat left feet",
   ghent_value: 1,
@@ -2257,7 +2257,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "bilateral pes planus",
-  complex_name: "flat feet",
+  common_name: "flat feet",
   article: "",
   plural: "flat feet",
   ghent_value: 1,
@@ -2266,7 +2266,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "right pes cavus",
-  complex_name: "high right instep",
+  common_name: "high right instep",
   article: "a",
   plural: "high right insteps",
   ghent_value: 0,
@@ -2275,7 +2275,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "left pes cavus",
-  complex_name: "high left instep",
+  common_name: "high left instep",
   article: "a",
   plural: "high left insteps",
   ghent_value: 0,
@@ -2284,7 +2284,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "bilateral pes cavus",
-  complex_name: "high insteps",
+  common_name: "high insteps",
   article: "",
   plural: "high insteps",
   ghent_value: 0,
@@ -2293,7 +2293,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "right pronated arch",
-  complex_name: "right arch pronation",
+  common_name: "right arch pronation",
   article: "a",
   plural: "right arch pronations",
   ghent_value: 0,
@@ -2302,7 +2302,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "left pronated arch",
-  complex_name: "left arch pronation",
+  common_name: "left arch pronation",
   article: "a",
   plural: "left arch pronations",
   ghent_value: 0,
@@ -2311,7 +2311,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "bilateral pronated arches",
-  complex_name: "pronated arches",
+  common_name: "pronated arches",
   article: "",
   plural: "pronated arches",
   ghent_value: 0,
@@ -2320,7 +2320,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "hammer toe (right)",
-  complex_name: "right hammer toe",
+  common_name: "right hammer toe",
   article: "a",
   plural: "right hammer toes",
   ghent_value: 0,
@@ -2329,7 +2329,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "hammer toe (left)",
-  complex_name: "left hammer toe",
+  common_name: "left hammer toe",
   article: "a",
   plural: "left hammer toes",
   ghent_value: 0,
@@ -2338,7 +2338,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "hammer toe (bilateral)",
-  complex_name: "bilateral hammer toes",
+  common_name: "bilateral hammer toes",
   article: "a",
   plural: "bilateral hammer toes",
   ghent_value: 0,
@@ -2347,7 +2347,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "right long hallux",
-  complex_name: "long right big toe",
+  common_name: "long right big toe",
   article: "a",
   plural: "long right big toes",
   ghent_value: 0,
@@ -2356,7 +2356,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "left long hallux" ,
-  complex_name: "long left big toe",
+  common_name: "long left big toe",
   article: "a",
   plural: "long left big toes",
   ghent_value: 0,
@@ -2365,7 +2365,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "bilateral long halluces",
-  complex_name: "long big toes",
+  common_name: "long big toes",
   article: "",
   plural: "long big toes",
   ghent_value: 0,
@@ -2374,7 +2374,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "right genu recurvatum",
-  complex_name: "backward bending right knee",
+  common_name: "backward bending right knee",
   article: "a",
   plural: "backward bending right knees",
   ghent_value: 0,
@@ -2383,7 +2383,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "left genu recurvatum",
-  complex_name: "backward bending left knee",
+  common_name: "backward bending left knee",
   article: "a",
   plural: "backward bending left knees",
   ghent_value: 0,
@@ -2392,7 +2392,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "bilateral genu recurvatum",
-  complex_name: "backward bending knees",
+  common_name: "backward bending knees",
   article: "a",
   plural: "backward bending knees",
   ghent_value: 0,
@@ -2401,7 +2401,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "right contracture of knee",
-  complex_name: "contracture of the right knee",
+  common_name: "contracture of the right knee",
   article: "a",
   plural: "contractures of the right knee",
   ghent_value: 0,
@@ -2410,7 +2410,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "left contracture of knee",
-  complex_name: "contracture of the left knee",
+  common_name: "contracture of the left knee",
   article: "a",
   plural: "contractures of the left knee",
   ghent_value: 0,
@@ -2419,7 +2419,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "bilateral contracture of knees",
-  complex_name: "contracture of the knees",
+  common_name: "contracture of the knees",
   article: "a",
   plural: "contractures of the knees",
   ghent_value: 0,
@@ -2428,7 +2428,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "right hindfoot deformity",
-  complex_name: "right hindfoot deformity",
+  common_name: "right hindfoot deformity",
   article: "a",
   plural: "right hindfoot deformities",
   ghent_value: 2,
@@ -2437,7 +2437,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "left hindfoot deformity",
-  complex_name: "left hindfoot deformity",
+  common_name: "left hindfoot deformity",
   article: "a",
   plural: "left hindfoot deformities",
   ghent_value: 2,
@@ -2446,7 +2446,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "bilateral hindfoot deformity",
-  complex_name: "bilateral hindfoot deformity",
+  common_name: "bilateral hindfoot deformity",
   article: "a",
   plural: "bilateral hindfoot deformities",
   ghent_value: 2,
@@ -2455,7 +2455,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "pectus carinatum",
-  complex_name: "pigeon chest",
+  common_name: "pigeon chest",
   article: "a",
   plural: "pigeon chests",
   ghent_value: 2,
@@ -2464,7 +2464,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "pectus excavatum or chest asymmetry",
-  complex_name: "sunken chest or chest asymmetry",
+  common_name: "sunken chest or chest asymmetry",
   article: "a",
   plural: "sunken chests or chest asymmetries",
   ghent_value: 1,
@@ -2473,7 +2473,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "loss of lordosis",
-  complex_name: "loss of inward spinal curve",
+  common_name: "loss of inward spinal curve",
   article: "a",
   plural: "losses of inward spinal curve",
   ghent_value: 0,
@@ -2482,7 +2482,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "scoliosis or thoracolumbar kyphosis",
-  complex_name: "curvature of the spine",
+  common_name: "curvature of the spine",
   article: "a",
   plural: "curvatures of the spine",
   ghent_value: 1,
@@ -2491,7 +2491,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "protrusio acetabuli of any degree",
-  complex_name: "deep hip socket",
+  common_name: "deep hip socket",
   article: "a",
   plural: "deep hip sockets",
   ghent_value: 2,
@@ -2500,7 +2500,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "aesthenic body habitus",
-  complex_name: "overall slender build",
+  common_name: "overall slender build",
   article: "an",
   plural: "overall slender builds",
   ghent_value: 0,
@@ -2509,7 +2509,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "arachnodactyly",
-  complex_name: "long fingers and toes",
+  common_name: "long fingers and toes",
   article: "",
   plural: "long fingers and toes",
   ghent_value: 0,
@@ -2518,7 +2518,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "wrist sign",
-  complex_name: "wrist sign",
+  common_name: "wrist sign",
   article: "a",
   plural: "wrist signs",
   ghent_value: 1,
@@ -2527,7 +2527,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "thumb sign",
-  complex_name: "thumb sign",
+  common_name: "thumb sign",
   article: "a",
   plural: "thumb signs",
   ghent_value: 1,
@@ -2536,7 +2536,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "wrist and thumb sign",
-  complex_name: "wrist and thumb sign",
+  common_name: "wrist and thumb sign",
   article: "a",
   plural: "wrist and thumb signs",
   ghent_value: 3,
@@ -2545,7 +2545,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "thumb-to-arm sign (right)",
-  complex_name: "right thumb-to-arm sign",
+  common_name: "right thumb-to-arm sign",
   article: "a",
   plural: "right thumb-to-arm signs",
   ghent_value: 0,
@@ -2554,7 +2554,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "thumb-to-arm sign (left)",
-  complex_name: "left thumb-to-arm sign",
+  common_name: "left thumb-to-arm sign",
   article: "a",
   plural: "left thumb-to-arm signs",
   ghent_value: 0,
@@ -2563,7 +2563,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "f-distal hypermobile joints",
-  complex_name: "f-distal hypermobile joints",
+  common_name: "f-distal hypermobile joints",
   article: "",
   plural: "f-distal hypermobile joints",
   ghent_value: 0,
@@ -2572,7 +2572,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "f-proximal hypermobile joints",
-  complex_name: "f-proximal hypermobile joints",
+  common_name: "f-proximal hypermobile joints",
   article: "",
   plural: "f-proximal hypermobile joints",
   ghent_value: 0,
@@ -2581,7 +2581,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "f-distal joint contracture",
-  complex_name: "f-distal joint contracture",
+  common_name: "f-distal joint contracture",
   article: "",
   plural: "f-distal joint contractures",
   ghent_value: 0,
@@ -2590,7 +2590,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "f-proximal joint contracture",
-  complex_name: "f-proximal joint contracture",
+  common_name: "f-proximal joint contracture",
   article: "",
   plural: "f-proximal joint contractures",
   ghent_value: 0,
@@ -2599,7 +2599,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "cubitus valgus",
-  complex_name: "angled forearm",
+  common_name: "angled forearm",
   article: "an",
   plural: "angled forearms",
   ghent_value: 0,
@@ -2608,7 +2608,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "hyperextensible elbow (right)",
-  complex_name: "hyperextensible right elbow",
+  common_name: "hyperextensible right elbow",
   article: "a",
   plural: "hyperextensible right elbows",
   ghent_value: 0,
@@ -2617,7 +2617,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "hyperextensible elbow (left)",
-  complex_name: "hyperextensible left elbow",
+  common_name: "hyperextensible left elbow",
   article: "a",
   plural: "hyperextensible left elbows",
   ghent_value: 0,
@@ -2626,7 +2626,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "reduced elbow extension",
-  complex_name: "reduced elbow extension",
+  common_name: "reduced elbow extension",
   article: "",
   plural: "reduced elbow extensions",
   ghent_value: 1,
@@ -2635,7 +2635,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "hypermobile shoulder",
-  complex_name: "hypermobile shoulder",
+  common_name: "hypermobile shoulder",
   article: "a",
   plural: "hypermobile shoulders",
   ghent_value: 0,
@@ -2644,7 +2644,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "contracture of shoulder",
-  complex_name: "contracture of shoulder",
+  common_name: "contracture of shoulder",
   article: "a",
   plural: "contractures of the shoulder",
   ghent_value: 0,
@@ -2653,7 +2653,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "joint dislocation",
-  complex_name: "joint dislocation",
+  common_name: "joint dislocation",
   article: "",
   plural: "joint dislocations",
   ghent_value: 0,
@@ -2662,7 +2662,7 @@ SeededSymptom.create!(
 
 SeededSymptom.create!(
   name: "joint pain",
-  complex_name: "joint pain",
+  common_name: "joint pain",
   article: "",
   plural: "joint pains",
   ghent_value: 0,
@@ -2671,373 +2671,373 @@ SeededSymptom.create!(
 
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
 # SeededSymptom.create!(
 #   name: ,
-#   complex_name: ,
+#   common_name: ,
 #   ghent_value: ,
 #   systemic_category: )
 #
