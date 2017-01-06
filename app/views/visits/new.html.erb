@@ -1,33 +1,61 @@
 <div class="well well-lg">
   <%= form_for @visit, class: "visit_form" do |f| %>
     <% if params[:patient] || @patient %>
-    <div class="container center-block" style="text-align: center">
-      <h1 class="h1">New Visit for <%= "#{@patient.first_name} #{@patient.last_name}" %></h1>
+    <div class="card" style="text-align: center">
+      <div class="card-block">
+        <h1 class="purple">New Visit for <%= "#{@patient.first_name} #{@patient.last_name}" %></h1>
+      </div>
     </div>
     <hr />
-    <div class="form-group">
-      <div class="row">
-        <div class="col-xs-4 col-xs-offset-4">
-          <%= f.hidden_field :patient_id, value: @patient.id %>
+    <div class="card">
+      <div class="card-block">
+        <div class="form-group">
+          <div class="row flex-items-xs-center">
+            <%= f.hidden_field :patient_id, value: @patient.id %>
     <% else %>
     <div class="container center-block" style="text-align: center">
       <h1 class="h1">New Visit</h1>
     </div>
     <hr />
     <div class="form-group">
-      <div class="row">
+      <div class="row flex-items-xs-center">
         <div class="col-xs-4 col-xs-offset-4">
           <%= f.label :patient_id, "Patient ID:", class: "form-check-label" %><br />
           <%= f.number_field :patient_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control form-control-lg" %>
+          <%= f.label :clinician_id, "Clinician ID:", class: "sr-only" %><br />
     <% end %>
+          <h4 style="text-align: center;" class="red">Clinician Information:</h3>
+          <hr />
+          <div class="col-xs-1">
+            <%= f.number_field :clinician_id, autofocus: true, in: 1..9999, step: 1, class: "form-control form-control-lg", value: 1, aria: { deacribedby: "cIDHelpBlock" } %>
+            <small id="cIDHelpBlock" class="form-text text-muted">
+              1: Liang
+            </small>
+          </div>
+          <div class="col-xs-1" style="min-height:32px;">
+            <%= render 'layouts/col_2_OR_buttons' %>
+          </div>
+          <div class="col-xs-3">
+            <%= button_to "Add New Clinician", new_clinician_path, method: "get", class: "btn btn-block btn-primary disabled" %>
+          </div>
+          <div class="col-xs-1" style="min-height:32px;">
+            <%= render 'layouts/col_2_OR_buttons' %>
+          </div>
 
-        </div>
-        <div class="col-xs-4 col-xs-offset-4">
-          <%= f.label :clinician_id, "Clinician ID:", class: "form-check-label" %><br />
-          <%= f.number_field :clinician_id, value: 1, in: 1..99999999, step: 1, class: "form-control form-control-lg" %>
+          <div class="col-xs-6">
+            <%= form_tag "/clinicians", method: "get", id: "search-form" do %>
+              <div class="input-group">
+                <%= text_field_tag :search, params[:search], placeholder:  "ex: 'Liang', 'Dietz', 'Sponseller'", class: "form-control form-control-lg"%>
+                <span class="input-group-btn">
+                  <%= button_to "Search Clinicians", clinicians_path, class: "btn btn-primary disabled", method: "get", id: "search", type: "button" %>
+                </span>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
+  </div>
     <hr />
     <div class="row">
       <div class="form-group">
@@ -69,8 +97,8 @@
     </div>
     <div id="add-another"></div>
     <div class="row">
-      <br />
-      <div class="col-xs col-md-4 col-centered">
+      <div class="col-xs-12 col-centered">
+        <br /><hr />
         <span id="start-button"></span>
         <%= f.submit "Start New Visit", class: "col-centered col-xs-12 control-label btn btn-success btn-lg" %>
       </div>

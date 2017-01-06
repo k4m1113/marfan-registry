@@ -1,56 +1,47 @@
 <%= f.label "What brings you in to the clinic?", class: "form-check-label" %>
   <br />
-  <label class="custom-control custom-checkbox" id="cardiology-reason" value="because of a dissection" for="visit_primary_reason">
-    <%= f.check_box :primary_reason, value: "for cardiology", class: "custom-control-input" %>
-    <span class="custom-control-indicator"></span>
-    <span class="custom-control-description"><%= f.label :primary_reason, "Dissection", value: "because of a dissection" %></span>
-  </label>
+  <div class="form-check">
+    <%= f.label :primary_reason, "Cardiovascular Reasons", value: "for cardiology", class: "form-check-label", id: "cardiovascular-reason" do %>
+      <%= f.check_box :primary_reason, value: "for cardiology", id: "cardiovascular-reason", class: "form-check-input" %> Cardiovascular Reasons
+    <% end %>
+  </div>
+  <div class="form-check">
+    <%= f.label :primary_reason, "Family History", value: "due to family history", class: "form-check-label", id: "family-reason" do %>
+      <%= f.check_box :primary_reason, value: "due to family history", class: "form-check-input", id: "family-reason" %> Family History
+    <% end %>
+  </div>
+  <div class="form-check">
+    <%= f.label :primary_reason, "Medication Management", value: "for medication management", class: "form-check-label", id: "medication-reason" do %>
+      <%= f.check_box :primary_reason, value: "for medication management", id: "medication-reason", class: "form-check-input" %> Medication Management
+    <% end %>
+  </div>
+  <div class="form-check">
+    <%= f.label :primary_reason, "Genetic Testing", value: "for genetic testing", class: "form-check-label", id: "genetics-reason" do %>
+      <%= f.check_box :primary_reason, value: "for genetic testing", id: "genetics-reason", class: "form-check-input" %> Genetic Testing
+    <% end %>
+  </div>
+
+
   <br />
-  <label class="custom-control custom-checkbox" id="genetics-reason" value="due to family history">
-    <%= f.check_box :primary_reason, value: "due to family history", class: "custom-control-input" %>
-    <span class="custom-control-indicator"></span>
-    <span class="custom-control-description"><%= f.label :primary_reason, "Family History", value: "due to family history" %></span>
-  </label>
-  <br />
-  <label class="custom-control custom-checkbox" id="hospital-reason" value="because of a hospitalization">
-    <%= f.check_box :primary_reason, value: "because of a hospitalization", class: "custom-control-input" %>
-    <span class="custom-control-indicator"></span>
-    <span class="custom-control-description"><%= f.label :primary_reason, "Recent Hospitalization", value: "because of a hospitalization" %></span>
-  </label>
-  <br />
-  <label class="custom-control custom-checkbox" id="test-reason" value="for recent testing">
-    <%= f.check_box :primary_reason, value: "for recent testing", class: "custom-control-input" %>
-    <span class="custom-control-indicator"></span>
-    <span class="custom-control-description"><%= f.label :primary_reason, "Testing", value: "for recent testing" %></span>
-  </label>
-  <br />
-  <label class="custom-control custom-checkbox" id="symptom-reason" value="because of related symptoms">
-    <%= f.check_box :primary_reason, value: "because of related symptoms", class: "custom-control-input" %>
-    <span class="custom-control-indicator"></span>
-    <span class="custom-control-description"><%= f.label :primary_reason, "Related Symptoms", value: "because of related symptoms" %></span>
-  </label>
-  <br />
+  <!-- <%= f.check_box :primary_reason, value: "because of related symptoms", class: "form-check-input" %>
+  <%= f.label :primary_reason, "Related Symptoms", value: "because of related symptoms", class: "form-check-label" %>
+  <br /> -->
 
 <script>
-  $('#dissection-reason').click(function renderDissection() {
-    $('div#add-another:last').html("<hr /><%= j render 'dissection_form', f: f %>");
+  $('#cardiovascular-reason').click(function renderCardiovascular() {
+    $('div#add-another:last').html("<hr /><%= j render 'cardiovascular_nested_list', f: f %>");
     $('#start-button').focus();
   });
-  $('#hospital-reason').click(function renderHospitalization() {
-    $('div#add-another:last').html("<hr /><%= j render 'hospitalization_form', f: f %>");
+  $('#genetics-reason').click(function renderGenetics() {
+    $('div#add-another:last').html("<hr /><%= j render 'genetics_nested_list', f: f %>");
     $('#start-button').focus();
   });
-  $('#family-reason').click(function renderFamilyMember() {
+  $('#medication-reason').click(function renderMedication() {
+    $('div#add-another:last').html("<hr /><%= j render 'medication_nested_list', f: f %>");
+    $('#start-button').focus();
+  })
+  $('#family-member-reason').click(function renderFamilyMember() {
     $('div#add-another:last').html("<hr /><%= j render 'family_member_form', f: f %>");
     $('#start-button').focus();
-  });
-  $('#test-reason').click(function renderTest() {
-    $('div#add-another:last').html("<hr /><%= j render 'test', f: f %>");
-    $('#start-button').focus();
-  });
-  $('#symptom-reason').click(function renderSymptomsRadioButtons() {
-    $('div#add-another:last').html("<hr /><%= j render 'symptoms_category_buttons',  f: f %>");
-    $('#start-button').focus();
-
   });
 </script>

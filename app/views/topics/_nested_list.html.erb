@@ -45,17 +45,19 @@
         <a href="#" class="list-group-item"><%= category.name %>
         <% case category.topic_type %>
         <% when 'measurement' %>
-          <button class="btn btn-info disabled pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>">TEST FORM HERE</button>
+          <a href="#" role="button" class="btn btn-primary pull-right" style="margin-top: -30px;" data-topic_id="<%= category.id %>" id="test-reason">TEST FORM HERE</a>
         <% when 'procedure' %>
-          <button class="btn btn-info disabled pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>">PROCEDURE FORM HERE</button>
+          <a href="#" role="button" class="btn btn-info pull-right" style="margin-top: -30px;" data-topic_id="<%= category.id %>" id="procedure-reason">PROCEDURE FORM HERE</a>
         <% when 'complication' %>
-          <button class="btn btn-info disabled pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>">COMPLICATION FORM HERE</button>
+          <a href="#" role="button" class="btn btn-info pull-right" style="margin-top: -30px;" data-topic_id="<%= category.id %>" id="complication-reason">COMPLICATION FORM HERE</a>
+        <% when 'measurement' %>
+          <a href="#" role="button" class="btn btn-info pull-right" style="margin-top: -30px;" data-topic_id="<%= category.id %>" id="test-reason">TEST FORM HERE</a>
         <% when 'symptom' %>
-          <button class="btn btn-info disabled pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>">SYMPTOM FORM HERE</button>
+          <a href="#" role="button" class="btn btn-info pull-right" style="margin-top: -30px;" data-topic_id="<%= category.id %>" id="symptom-reason">SYMPTOM FORM HERE</a>
         <% when 'diagnosis' %>
-          <button class="btn btn-info disabled pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>">DIAGNOSIS FORM HERE</button>
+          <a href="#" role="button" class="btn btn-info pull-right" style="margin-top: -30px;" data-topic_id="<%= category.id %>" id="diagnosis-reason">DIAGNOSIS FORM HERE</a>
         <% when 'medication' %>
-          <button class="btn btn-info disabled pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>">MEDICATION FORM HERE</button>
+          <a href="#" role="button" class="btn btn-info pull-right" style="margin-top: -30px;" data-topic_id="<%= category.id %>" id="med-reason">MEDICATION FORM HERE</a>
         <% end %>
         <% category.depth.times do |i| %>
           </a>
@@ -72,3 +74,34 @@
     </div>
   </div>
 </div>
+
+<script>
+  $('#procedure-reason').click(function renderProcedureTopicForm() {
+    $('#form-hook').html("<hr /><%= j render 'procedures/procedure_form', f: f %>");
+    $('#start-button').focus();
+  });
+  $('#complication-reason').click(function renderComplicationTopicForm() {
+    $('#form-hook').html("<hr /><%= j render 'test', f: f %>");
+    $('#start-button').focus();
+  });
+  $('#test-reason').click(function renderTestTopicForm() {
+    $('#form-hook').html("<hr /><%= j render 'test', f: f %>");
+    $('#start-button').focus();
+  });
+  $('#symptom-reason').click(function renderSymptomTopicForm() {
+    $('#form-hook').html("<hr /><%= j render 'test', f: f %>");
+    $('#start-button').focus();
+  });
+  $('#diagnosis-reason').click(function renderDiagnosisTopicForm() {
+    $('#form-hook').html("<hr /><%= j render 'test', f: f %>");
+    $('#start-button').focus();
+  });
+  $('#family-reason').click(function renderFamilyMemberTopicForm() {
+    $('#form-hook').html("<hr /><%= j render 'test', f: f %>");
+    $('#start-button').focus();
+  });
+  $('#med-reason').click(function renderMedTopicForm() {
+    $('#form-hook').html("<hr /><%= j render 'test', f: f %>");
+    $('#start-button').focus();
+  });
+</script>

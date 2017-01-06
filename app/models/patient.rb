@@ -35,8 +35,21 @@ class Patient < ActiveRecord::Base
   has_many :tests,
     dependent: :destroy
 
-  accepts_nested_attributes_for :dissections
+  has_many :complications,
+    dependent: :destroy
+  has_many :diagnoses,
+    dependent: :destroy
+  has_many :medications,
+    dependent: :destroy
+  has_many :procedures,
+    dependent: :destroy
 
+  accepts_nested_attributes_for :complications
+  accepts_nested_attributes_for :diagnoses
+  accepts_nested_attributes_for :medications
+  accepts_nested_attributes_for :procedures
+
+  accepts_nested_attributes_for :dissections
   accepts_nested_attributes_for :symptoms
   accepts_nested_attributes_for :hospitalizations
   accepts_nested_attributes_for :tests
