@@ -53,9 +53,9 @@
         <% when 'symptom' %>
           <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="symptom-reason">Add symptom details</button>
         <% when 'diagnosis' %>
-          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>" id="diagnosis-reason">Add diagnosis details</button>
+          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="diagnosis-reason">Add diagnosis details</button>
         <% when 'medication' %>
-          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>" id="med-reason">Add medication details</button>
+          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="med-reason" onclick="renderMedTopicForm($(this).val());">Add medication details</button>
         <% end %>
         <% category.depth.times do |i| %>
           </a>
@@ -87,8 +87,8 @@
   function renderTestTopicForm(int) {
     console.log('test event called');
     $('#form-hook').html("<%= j render 'test', f: f %><hr />");
+    $('html, body').animate({scrollTop:$('#visit_top').position().top - 80}, 'slow');
     $('input.test-response:last').val(int);
-    $('#start-button').focus();
     console.log(int)
   };
   function renderSymptomTopicForm() {
@@ -103,8 +103,11 @@
     $('#form-hook').html("<%= j render 'test', f: f %><hr />");
     $('#start-button').focus();
   };
-  function renderMedTopicForm() {
-    $('#form-hook').html("<%= j render 'test', f: f %><hr />");
-    $('#start-button').focus();
+  function renderMedTopicForm(int) {
+    console.log('med topic called');
+    $('#form-hook').html("<%= j render 'medication_form', f: f %><hr />");
+    $('html, body').animate({scrollTop:$('#visit_top').position().top - 80}, 'slow');
+    $('input.med-response:last').val(int);
+    console.log(int)
   };
 </script>

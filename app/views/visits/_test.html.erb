@@ -2,10 +2,18 @@
   <%= render 'visits/visit_presence_checker', f: fff %>
   <div class="form-group">
     <div class="row flex-items-xs-center">
-      <div class="col-xs-3">
         <%= fff.hidden_field :patient_id, value: @patient.id %>
-        <%= fff.label :topic_id, "Test Type:" , class: "control-label" %>
-        <%= fff.number_field :topic_id, class: "test-response form-control form-control-lg disabled", value: "" %>
+        <div class="form-inline">
+          <div class="col-xs-12">
+            <%= fff.label :topic_id, "Test Type:" , class: "control-label" %>
+            <div class="form-group">
+              <%= fff.number_field :topic_id, class: "test-response form-control form-control-lg disabled", value: "", aria: { describedby: "testIDExplanation "} %>
+              <p id="testIDExplanation" class="purple text-muted">
+                Identifies specific type of test, e.g. "MRI for suprarenal abdominal aortic complication"
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <br />
@@ -18,7 +26,7 @@
               <%= fff.number_field :time_ago, class: "form-control form-control-lg", step: 1, in: 1..99 %>
               <%= fff.select :time_ago_scale, TIME_SCALES, class: "form-control form-control-lg" %>
             </div>
-            <p id="relativeTime" class="form-text text-muted">
+            <p id="relativeTime" class="purple form-text text-muted">
               relative date, e.g. "5 months ago"
             </p>
           </div>
@@ -28,7 +36,7 @@
         </div>
         <div class="col-xs-5">
           <%= fff.date_field :test_date, class: "form-control form-control-lg", aria: { describedby: "absoluteTime" } %>
-          <p id="absoluteTime" class="form-text text-muted">
+          <p id="absoluteTime" class="purple form-text text-muted">
             absolute date, e.g. "9 March 2016"
           </p>
         </div>

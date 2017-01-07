@@ -11,6 +11,10 @@ Rails.application.routes.draw do
     resources :symptoms
     resources :family_members
     resources :tests
+    resources :medications
+    resources :procedures
+    resources :complications
+    resources :diagnoses
   end
 
   resources :topics

@@ -37,6 +37,7 @@ class VisitsController < ApplicationController
     @family_member = @visit.family_members.build
     @tests = @visit.tests.build
     @dissections = @visit.dissections.build
+    @meds = @visit.medications.build
   end
 
   def create
