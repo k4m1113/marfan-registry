@@ -57,17 +57,18 @@
 <script>
   $('#cardiovascular-reason').click(function renderCardiovascular() {
     $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'cardiovascular_nested_list', f: f %>");
-    $('#start-button').focus();
+    $('html, body').animate({scrollTop:$('#visit_top').position().top - 80}, 'slow');
   });
   $('#genetics-reason').click(function renderGenetics() {
     $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'genetics_nested_list', f: f %>");
-    $('#start-button').focus();
+    $('html, body').animate({scrollTop:$('#visit_top').position().top - 80}, 'slow');
   });
   $('#medication-reason').click(function renderMedication() {
     $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'medication_nested_list', f: f %>");
+    $('html, body').animate({scrollTop:$('#visit_top').position().top - 80}, 'slow');
   });
   $('#family-member-reason').click(function renderFamilyMember() {
     $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'family_member_form', f: f %>");
-    $('#start-button').focus();
+    $('html, body').animate({scrollTop:$('#visit_top').position().top - 80}, 'slow');
   });
 </script>

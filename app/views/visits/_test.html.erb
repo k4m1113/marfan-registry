@@ -16,7 +16,6 @@
         </div>
       </div>
     </div>
-    <br />
     <div class="row flex-items-xs-center">
       <div class="col-xs-12">
         <%= fff.label "And when was the test?", class: "control-label" %><br />
@@ -37,7 +36,7 @@
         <div class="col-xs-5">
           <%= fff.date_field :test_date, class: "form-control form-control-lg", aria: { describedby: "absoluteTime" } %>
           <p id="absoluteTime" class="purple form-text text-muted">
-            absolute date, e.g. "9 March 2016"
+            absolute date, e.g. "01/07/2016"
           </p>
         </div>
       </div>
@@ -47,7 +46,7 @@
   <%= fff.text_area :result, class: "form-control form-control-lg" %>
   <br />
   <% if @form_action == "Update" %>
-    <%= fff.submit "Add Hospitalization", class: "btn btn-success" %>
+    <%= fff.submit "Add Test", class: "btn btn-success" %>
   <% end %>
 <% end %>
 <div id="add-another"></div>
