@@ -45,19 +45,17 @@
         <a href="#" class="list-group-item"><%= category.name %>
         <% case category.topic_type %>
         <% when 'measurement' %>
-          <a href="#" role="button" class="btn btn-primary pull-right" style="margin-top: -30px;" data-topic_id="<%= category.id %>" id="test-reason">TEST FORM HERE</a>
+          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="test-reason" onclick="renderTestTopicForm($(this).val());">Add test details</button>
         <% when 'procedure' %>
-          <a href="#" role="button" class="btn btn-info pull-right" style="margin-top: -30px;" data-topic_id="<%= category.id %>" id="procedure-reason">PROCEDURE FORM HERE</a>
+          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="procedure-reason">Add procedure details</button>
         <% when 'complication' %>
-          <a href="#" role="button" class="btn btn-info pull-right" style="margin-top: -30px;" data-topic_id="<%= category.id %>" id="complication-reason">COMPLICATION FORM HERE</a>
-        <% when 'measurement' %>
-          <a href="#" role="button" class="btn btn-info pull-right" style="margin-top: -30px;" data-topic_id="<%= category.id %>" id="test-reason">TEST FORM HERE</a>
+          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="complication-reason">Add details</button>
         <% when 'symptom' %>
-          <a href="#" role="button" class="btn btn-info pull-right" style="margin-top: -30px;" data-topic_id="<%= category.id %>" id="symptom-reason">SYMPTOM FORM HERE</a>
+          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="symptom-reason">Add symptom details</button>
         <% when 'diagnosis' %>
-          <a href="#" role="button" class="btn btn-info pull-right" style="margin-top: -30px;" data-topic_id="<%= category.id %>" id="diagnosis-reason">DIAGNOSIS FORM HERE</a>
+          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>" id="diagnosis-reason">Add diagnosis details</button>
         <% when 'medication' %>
-          <a href="#" role="button" class="btn btn-info pull-right" style="margin-top: -30px;" data-topic_id="<%= category.id %>" id="med-reason">MEDICATION FORM HERE</a>
+          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" data-topic_id="<%= category.id %>" id="med-reason">Add medication details</button>
         <% end %>
         <% category.depth.times do |i| %>
           </a>
@@ -76,32 +74,37 @@
 </div>
 
 <script>
-  $('#procedure-reason').click(function renderProcedureTopicForm() {
-    $('#form-hook').html("<hr /><%= j render 'procedures/procedure_form', f: f %>");
+  function renderProcedureTopicForm() {
+    console.log('procedure event called');
+    $('#form-hook').html("<%= j render 'procedures/procedure_form', f: f %><hr />");
     $('#start-button').focus();
-  });
-  $('#complication-reason').click(function renderComplicationTopicForm() {
-    $('#form-hook').html("<hr /><%= j render 'test', f: f %>");
+  };
+  function renderComplicationTopicForm() {
+    console.log('complication event called');
+    $('#form-hook').html("<%= j render 'test', f: f %><hr />");
     $('#start-button').focus();
-  });
-  $('#test-reason').click(function renderTestTopicForm() {
-    $('#form-hook').html("<hr /><%= j render 'test', f: f %>");
+  };
+  function renderTestTopicForm(int) {
+    console.log('test event called');
+    $('#form-hook').html("<%= j render 'test', f: f %><hr />");
+    $('input.test-response:last').val(int);
     $('#start-button').focus();
-  });
-  $('#symptom-reason').click(function renderSymptomTopicForm() {
-    $('#form-hook').html("<hr /><%= j render 'test', f: f %>");
+    console.log(int)
+  };
+  function renderSymptomTopicForm() {
+    $('#form-hook').html("<%= j render 'test', f: f %><hr />");
     $('#start-button').focus();
-  });
-  $('#diagnosis-reason').click(function renderDiagnosisTopicForm() {
-    $('#form-hook').html("<hr /><%= j render 'test', f: f %>");
+  };
+  function renderDiagnosisTopicForm() {
+    $('#form-hook').html("<%= j render 'test', f: f %><hr />");
     $('#start-button').focus();
-  });
-  $('#family-reason').click(function renderFamilyMemberTopicForm() {
-    $('#form-hook').html("<hr /><%= j render 'test', f: f %>");
+  };
+  function renderFamilyMemberTopicForm() {
+    $('#form-hook').html("<%= j render 'test', f: f %><hr />");
     $('#start-button').focus();
-  });
-  $('#med-reason').click(function renderMedTopicForm() {
-    $('#form-hook').html("<hr /><%= j render 'test', f: f %>");
+  };
+  function renderMedTopicForm() {
+    $('#form-hook').html("<%= j render 'test', f: f %><hr />");
     $('#start-button').focus();
-  });
+  };
 </script>

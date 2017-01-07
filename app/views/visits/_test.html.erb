@@ -1,25 +1,45 @@
-<h3>Test</h3>
 <%= f.fields_for :tests do |fff| %>
   <%= render 'visits/visit_presence_checker', f: fff %>
   <div class="form-group">
-    <div class="row">
-      <div class="col-xs col-md-7">
+    <div class="row flex-items-xs-center">
+      <div class="col-xs-3">
         <%= fff.hidden_field :patient_id, value: @patient.id %>
-        <%= fff.label "What type of test was it?", class: "control-label" %><br />
-        <%= fff.text_field :test_type, autofocus: true, class: "form-control form-control-lg", placeholder: "ex: Echocardiogram, Blood test" %>
-      </div>
-      <div class="col-xs col-md-5">
-        <%= fff.label "And when was the test?", class: "control-label" %><br />
-        <%= fff.date_field :test_date, class: "form-control form-control-lg" %>
+        <%= fff.label :topic_id, "Test Type:" , class: "control-label" %>
+        <%= fff.number_field :topic_id, class: "test-response form-control form-control-lg disabled", value: "" %>
       </div>
     </div>
     <br />
-    <%= fff.label "What were the results of the test?", class: "control-label" %><br />
-    <%= fff.text_area :result, class: "form-control form-control-lg" %>
-    <br />
-    <% if @form_action == "Update" %>
-      <%= fff.submit "Add Hospitalization", class: "btn btn-success" %>
-    <% end %>
+    <div class="row flex-items-xs-center">
+      <div class="col-xs-12">
+        <%= fff.label "And when was the test?", class: "control-label" %><br />
+        <div class="col-xs-5">
+          <div class="form-inline">
+            <div class="form-group" aria-describedby="relativeTime">
+              <%= fff.number_field :time_ago, class: "form-control form-control-lg", step: 1, in: 1..99 %>
+              <%= fff.select :time_ago_scale, TIME_SCALES, class: "form-control form-control-lg" %>
+            </div>
+            <p id="relativeTime" class="form-text text-muted">
+              relative date, e.g. "5 months ago"
+            </p>
+          </div>
+        </div>
+        <div class="col-xs-2" style="min-height:32px;">
+          <%= render 'layouts/col_2_OR_buttons' %>
+        </div>
+        <div class="col-xs-5">
+          <%= fff.date_field :test_date, class: "form-control form-control-lg", aria: { describedby: "absoluteTime" } %>
+          <p id="absoluteTime" class="form-text text-muted">
+            absolute date, e.g. "9 March 2016"
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
+  <%= fff.label "What were the results of the test?", class: "control-label" %><br />
+  <%= fff.text_area :result, class: "form-control form-control-lg" %>
+  <br />
+  <% if @form_action == "Update" %>
+    <%= fff.submit "Add Hospitalization", class: "btn btn-success" %>
+  <% end %>
 <% end %>
 <div id="add-another"></div>
