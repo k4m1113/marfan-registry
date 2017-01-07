@@ -87,7 +87,7 @@
   function renderTestTopicForm(int) {
     console.log('test event called');
     $('#form-hook').html("<%= j render 'test', f: f %><hr />");
-    $('html, body').animate({scrollTop:$('#visit_top').position().top - 80}, 'slow');
+    $('html, body').animate({scrollTop:$('div#visit_top:last').position().top - 80}, 'slow');
     $('input.test-response:last').val(int);
     console.log(int)
   };
@@ -103,7 +103,7 @@
   function renderMedTopicForm(int) {
     console.log('med topic called');
     $('#form-hook').html("<%= j render 'medication_form', f: f %><hr />");
-    $('html, body').animate({scrollTop:$('#visit_top').position().top - 80}, 'slow');
+    $('html, body').animate({scrollTop:$('div#visit_top:last').position().top - 80}, 'slow');
     $('input.med-response:last').val(int);
     console.log(int)
   };
