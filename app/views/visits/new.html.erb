@@ -100,7 +100,7 @@
       <div class="col-xs-12 col-centered">
         <br /><hr />
         <span id="start-button">
-        <%= f.submit "Start New Visit", class: "col-centered col-xs-12 control-label btn btn-success btn-lg" %>
+        <%= button_to "Generate Report", report_visit_path(1), method: "get", class: "col-centered col-xs-12 control-label btn btn-success btn-lg" %>
         </span>
       </div>
     </div>

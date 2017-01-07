@@ -1,80 +1,41 @@
-<br />
-<div class="row">
-  <div class="col-xs-11 col-md-6 col-centered">
-    <p><%= Time.now.strftime("%d %B %Y") %></p>
-    <br />
+<div class="row flex-items-xs-center">
+  <div class="col-xs-10 col-xs-offset-1">
+    <div class="card">
+      <div class="card-block">
+        <p style="font-size:18px;">
+        <br />
+        07 January 2017
+        <br /><br />
+        123 Main Street
+        <br />
+        Anytown, LA, USA
+        <br />
+        01234
+        <br /><br />
+        To whom it may concern,
+        <br /><br />
+        I had the pleasure of seeing Antoine on January 7, 2017 for a yearly checkup visit at the Stanford University Center for Marfan Syndrome and Related Disorders in Stanford, CA. Antoine came to us primarily for genetic testing of a benign FBN1 gene. He has previously had testing of the ACTA2, MYH11, and MYLK genes.
+        <br /><br />
+        Antoine's current medications consist of Toprol-XL 100mg by mouth once daily, Prozac 50mg by mouth twice daily, and Losartan 50mg by mouth once daily.
+        <br /><br />
+        Antoine was in good health when I saw him, with a a blood pressure of 96/74. Pulse was 63 and weight was 160 lbs. He does not smoke, nor does he drink significant alcohol. His exercise consists of mild walking and moderate commuting by bike. He is currently living with his partner and working as a doctor in France.
+        <br /><br />
+        As part of his clinic visit he had undergone an echocardiogram which demonstrated an aortic root measurement of 4.1 cm. He had previously had undergone an echocardiogram one year prior at this clinic, with an aortic root measurement of 4.0 cm. The measurement is slight enough that it is most likely due to differences in measurement technique rather than to any real change in value. The test also demonstrated trace aortic insufficiency and a well functioning mitral valve.
+        <br /><br />
 
-    <p><%= @patient.address_line_1 %>
-    <% if @patient.address_line_2.nil? %>
-      <br />
-    <% else %>
-      <%= @patient.address_line_2 %><br />
-    <% end %>
-    <%= "#{@patient.city}, #{@patient.state}, #{@patient.postal_code}" %><br />
-    <%= @patient.country %></p>
-    <br />
-
-    <p>To whom it may concern,</p>
-    <p>
-      I had the pleasure of seeing <%= "#{@patient.first_name} #{@patient.last_name}" %> on <%= @visit.created_at.strftime("%A, %d %B %Y") %> at <%= @clinician.practice_name %> in <%= "#{@clinician.city}, #{@clinician.state}." %>
-    </p>
-    <p>
-      <%= @patient.first_name %> reported that <%= @he_she %> was feeling in <%= @visit.general_health.downcase %> health
-      <% if @visit.primary_reason %>
-        and <%= @she_he %> came to us primarily
-        <% case @visit.primary_reason %>
-        <% when "because of a hospitalization" %>
-           because of a <%= @visit.hospitalizations[0].hosp_type ? @visit.hospitalizations[0].hosp_type.downcase : "" %> hospitalization
-          <% if @visit.hospitalizations[0].admission_date %>
-            which occurred on <%= @visit.hospitalizations[0].admission_date.strftime('%d %B %Y') %>
-          <% else %>
-           .
-          <% end %>
-        <% when "due to family history" %>
-          due to family history, including
-          <% @visit.family_members.each do |fm| %>
-            a <%= fm.relationship.downcase %>, <%= fm.name %>,
-            <% if fm.age %>
-              <% if !fm.living %>
-                aged <%= fm.age %> and still alive
-              <% else %>
-                who was <%= fm.age %> when they died
-                <% fm.cause_of_death ? fm.cause_of_death.downcase : "" %>
-              <% end %>
-            <% else %>
-              <% if fm.living %>
-                of unknown age and still alive
-              <% else %>
-                who died
-                <% fm.cause_of_death ? "of #{fm.cause_of_death.downcase}" : "of un-noted causes" %>
-              <% end %>
-            <% end %>
-            <% if fm == @visit.family_members.last %>
-              <%= "." %>
-            <% elsif fm == @visit.family_members[-2] %>
-              <%= ", and" %>
-            <% else %>
-              <%= ", " %>
-            <% end %>
-          <% end %>
-        <% when "for recent testing" %>
-          for recent testing
-
-        <% when "because of related symptoms" %>
-          because of <%= @first_seeded_symptom.systemic_category.downcase %> symptoms. These symptoms included
-          <% if @first_symptom.presence.nil? %>
-          <% else %>
-            <% if @first_symptom.presence == false %>
-              an absence of
-            <% elsif @first_symptom.presence == true %>
-              a presence of
-            <% end %>
-          <% end %>
-          <%= "#{@first_seeded_symptom.article} #{@first_seeded_symptom.common_name}" %>
-        <% end %>
-      <% else %>
-        .
-      <% end %>
-    </p>
+        I have reassured Antoine that the whole clinic team will be available to him in case there are any issues that arise in the future. I encouraged him to contact me if she has any problems with or is intolerant of the medication changes.
+        <br /><br />
+        It has been a pleasure to participate in Antoine's care. if there are any questions or concerns, please contact me.
+        <br /><br />
+        Sincerely,
+        <br /><br />
+        David H. Liang, MD
+        <br />
+        Associate Professor
+        <br />
+        Director, Marfan Center
+      </p>
+      </div>
+    </div>
   </div>
 </div>
