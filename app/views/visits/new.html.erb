@@ -7,7 +7,7 @@
           <li><%= "#{child.id}. #{child.name}
           (render #{child.topic_type} form)" %></li>
         <% else %>
-          <li class="panel"><a data-toggle="collapse" data-parent="#accordion1" href="#link_<%= child.id %>"><%= "#{child.id}. #{child.name}" %></a>
+          <li class="panel"><a data-toggle="collapse" data-parent="#link_<%= child.parent_id %>" href="#link_<%= child.id %>"><%= "#{child.id}. #{child.name}" %></a>
 
             <ul id="link_<%= child.id %>" class="collapse"><% draw_tree(child) %></ul>
         <% end %>
@@ -19,9 +19,13 @@
 
 <ul class="nav nav-stacked" id="accordion1">
   <% Topic.roots.each do |node| %>
+    <% if node.leaf? %>
+    <li><%= node.name %></li>
+    <% else %>
     <li class="panel"><a data-toggle="collapse" data-parent="#accordion1" href="#link_<%= node.id %>"><%= node.name %>
         <ul id="link_<%= node.id %>" class="collapse"><%= draw_tree(node) %></ul>
     </li>
+    <% end %>
   <% end %>
 </ul>
 
