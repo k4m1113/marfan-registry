@@ -1,3 +1,49 @@
+## BEGIN FAMILY HISTORY (xls 6) ##
+family_history = Topic.create!(
+  name: "family history",
+  topic_type: "root category"
+)
+Topic.create!(
+  name: "parent",
+  topic_type: "family member"
+).move_to_child_of(family_history)
+Topic.create!(
+  name: "sibling",
+  topic_type: "family member"
+).move_to_child_of(family_history)
+Topic.create!(
+  name: "child",
+  topic_type: "family member"
+).move_to_child_of(family_history)
+Topic.create!(
+  name: "grandparent",
+  topic_type: "family member"
+).move_to_child_of(family_history)
+Topic.create!(
+  name: "grandchild",
+  topic_type: "family member"
+).move_to_child_of(family_history)
+## END FAMILY HISTORY (xls 11) ##
+
+## BEGIN LIFESTYLE ##
+lifestyle = Topic.create!(
+  name: "lifestyle",
+  topic_type: "root category"
+)
+Topic.create!(
+  name: "tobacco",
+  topic_type: "stat"
+).move_to_child_of(lifestyle)
+Topic.create!(
+  name: "ETOH",
+  topic_type: "stat"
+).move_to_child_of(lifestyle)
+Topic.create!(
+  name: "exercise",
+  topic_type: "stat"
+).move_to_child_of(lifestyle)
+## END LIFESTYLE ##
+
 ## BEGIN GENETICS (xls 13) ##
 genetics = Topic.create!(
   name: "genetics",
@@ -344,12 +390,211 @@ Topic.create!(
 ).move_to_child_of(other_ace)
 ## END MEDICATIONS (xls 61)
 
+## BEGIN VITALS (xls 63) ##
+vitals = Topic.create!(
+  name: "vitals",
+  topic_type: "root category"
+)
+Topic.create!(
+  name: "SBP",
+  topic_type: "stat"
+).move_to_child_of(vitals)
+Topic.create!(
+  name: "DBP",
+  topic_type: "stat"
+).move_to_child_of(vitals)
+Topic.create!(
+  name: "HR",
+  topic_type: "stat"
+).move_to_child_of(vitals)
+## END VITALS (xls 66) ##
+
+## BEGIN MORPHOLOGY (xls 68) ##
+morphology = Topic.create!(
+  name: "morphology/physical findings",
+  topic_type: "root category"
+)
+Topic.create!(
+  name: "weight",
+  topic_type: "stat"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "height",
+  topic_type: "stat"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "arm span",
+  topic_type: "stat"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "lower segment",
+  topic_type: "stat"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "iridodenesis",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "blue sclera",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "sunken eyes",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "hypertelorism",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "dolichocephaly",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "malar hypoplasia",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "retrognathia",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+high_arched_palate = Topic.create!(
+  name: "high arched palate",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "palate spreader",
+  topic_type: "procedure"
+).move_to_child_of(high_arched_palate)
+Topic.create!(
+  name: "no palate spreader",
+  topic_type: "complication"
+).move_to_child_of(high_arched_palate)
+narrow_palate = Topic.create!(
+  name: "narrow palate",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "repaired",
+  topic_type: "procedure"
+).move_to_child_of(narrow_palate)
+Topic.create!(
+  name: "not repaired",
+  topic_type: "complication"
+).move_to_child_of(narrow_palate)
+cleft_palate = Topic.create!(
+  name: "cleft palate",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "repaired",
+  topic_type: "procedure"
+).move_to_child_of(cleft_palate)
+Topic.create!(
+  name: "not repaired",
+  topic_type: "complication"
+).move_to_child_of(cleft_palate)
+Topic.create!(
+  name: "bifid uvula",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "broad uvula",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+dental_crowding = Topic.create!(
+  name: "dental crowding",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "orthodontia",
+  topic_type: "procedure"
+).move_to_child_of(dental_crowding)
+Topic.create!(
+  name: "teeth extraction",
+  topic_type: "procedure"
+).move_to_child_of(dental_crowding)
+Topic.create!(
+  name: "craniosynostosis",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+
+Topic.create!(
+  name: "pectus excavatum",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "pectus carinatum",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "asymmetric pectus",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "pectus surgery",
+  topic_type: "procedure"
+).move_to_child_of(morphology)
+kypho = Topic.create!(
+  name: "kyphoscoliosis",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+thoracic_kypho = Topic.create!(
+  name: "thoracic",
+  topic_type: "complication"
+).move_to_child_of(kypho)
+Topic.create!(
+  name: "degree",
+  topic_type: "measurement"
+).move_to_child_of(thoracic_kypho)
+lumbar_kypho = Topic.create!(
+  name: "lumbar",
+  topic_type: "complication"
+).move_to_child_of(kypho)
+Topic.create!(
+  name: "degree",
+  topic_type: "measurement"
+).move_to_child_of(lumbar_kypho)
+Topic.create!(
+  name: "spondylolisthesis",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "loss of lumbar lordosis",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+
+Topic.create!(
+  name: "thumb sign",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "wrist sign",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "small joint hypermobility",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "arachnodactyly",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "cubitus valgus",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+Topic.create!(
+  name: "elbow contracture",
+  topic_type: "complication"
+).move_to_child_of(morphology)
+## END MORPHOLOGY (xls 123) ##
+
+## BEGIN AORTIC MEASUREMENTS (xls 126) ##
 cardio = Topic.create!(
   name: "cardiovascular",
   topic_type: "root category"
-  )
-
-## BEGIN AORTIC MEASUREMENTS (xls 126) ##
+)
 aortic_root_size = Topic.create!(
   name: "aortic root",
   topic_type: "measurement"
@@ -471,11 +716,11 @@ Topic.create!(
 ).move_to_child_of(cardio)
 Topic.create!(
   name: "mitral valve prolapse",
-  topic_type: "morphology"
+  topic_type: "complication"
 ).move_to_child_of(cardio)
 Topic.create!(
   name: "myxomatous mitral valve",
-  topic_type: "morphology"
+  topic_type: "complication"
 ).move_to_child_of(cardio)
 Topic.create!(
   name: "mitral regurgitation severity",
@@ -486,24 +731,24 @@ Topic.create!(
 ## BEGIN SHALLOW TOPICS (xls 142) ##
 aortic_valve_morph = Topic.create!(
   name: "aortic valve morphology",
-  topic_type: "morphology"
+  topic_type: "complication"
 ).move_to_child_of(cardio)
 Topic.create!(
   name: "tri-leaflet",
-  topic_type: "morphology"
+  topic_type: "complication"
 ).move_to_child_of(aortic_valve_morph)
 Topic.create!(
   name: "bicuspid",
-  topic_type: "morphology"
+  topic_type: "complication"
 ).move_to_child_of(aortic_valve_morph)
 Topic.create!(
   name: "unicuspid",
-  topic_type: "morphology"
+  topic_type: "complication"
 ).move_to_child_of(aortic_valve_morph)
 
 aortic_stenosis = Topic.create!(
   name: "aortic stenosis",
-  topic_type: "morphology"
+  topic_type: "complication"
 ).move_to_child_of(cardio)
 Topic.create!(
   name: "mean gradient",
@@ -1259,17 +1504,71 @@ Topic.create!(
   topic_type: "measurement"
 ).move_to_child_of(pft_asthma)
 Topic.create!(
-  name: "Bronchodilator response",
+  name: "bronchodilator response",
   topic_type: "measurement"
 ).move_to_child_of(pft_asthma)
 ## END SHALLOW PULMONARY (xls 233) ##
 
 ## BEGIN PNEUMOTHORAX (xls 234)##
-
+pneumothorax = Topic.create!(
+  name: "pneumothorax",
+  topic_type: "complication"
+).move_to_child_of(pulmonary)
+Topic.create!(
+  name: "blebs",
+  topic_type: "complication"
+).move_to_child_of(pneumothorax)
+pneumo_treatment = Topic.create!(
+  name: "treatment",
+  topic_type: "procedure"
+).move_to_child_of(pneumothorax)
+Topic.create!(
+  name: "chest tube",
+  topic_type: "procedure"
+).move_to_child_of(pneumo_treatment)
+Topic.create!(
+  name: "pleurodesis",
+  topic_type: "procedure"
+).move_to_child_of(pneumo_treatment)
+Topic.create!(
+  name: "VATS",
+  topic_type: "procedure"
+).move_to_child_of(pneumo_treatment)
 ## END PNEUMOTHORAX (xls 237) ##
 
 ## BEGIN SHALLOW PULMONARY LAST (xls 238) ##
-
+sleep_apnea = Topic.create!(
+  name: "sleep apnea",
+  topic_type: "complication"
+).move_to_child_of(pulmonary)
+s_a_treatment = Topic.create!(
+  name: "treatment",
+  topic_type: "procedure"
+).move_to_child_of(sleep_apnea)
+Topic.create!(
+  name: "CPAP",
+  topic_type: "medication"
+).move_to_child_of(s_a_treatment)
+Topic.create!(
+  name: "surgery",
+  topic_type: "procedure"
+).move_to_child_of(s_a_treatment)
+pulm_meds = Topic.create!(
+  name: "medications",
+  topic_type: "complication"
+).move_to_child_of(pulmonary)
+Topic.create!(
+  name: "bronchodilators",
+  topic_type: "medication"
+).move_to_child_of(pulm_meds)
+Topic.create!(
+  name: "inhaled steroids",
+  topic_type: "medication"
+).move_to_child_of(pulm_meds)
+Topic.create!(
+  name: "systemic steroids",
+  topic_type: "medication"
+).move_to_child_of(pulm_meds)
 ## END SHALLOW PULMONARY LAST (xls 243) ##
 
 ## BEGIN ORTHOPEDIC BACK (xls 245) ##
@@ -1380,12 +1679,141 @@ Topic.create!(
 ## END PECTUS (xls 256) ##
 
 ## BEGIN SHALLOW ORTHOPEDIC (xls 258) ##
+hip = Topic.create!(
+  name: "hip",
+  topic_type: "complication"
+).move_to_child_of(ortho)
+Topic.create!(
+  name: "protrusio acetabulae",
+  topic_type: "complication"
+).move_to_child_of(hip)
+Topic.create!(
+  name: "hip replacement",
+  topic_type: "procedure"
+).move_to_child_of(hip)
+
+foot = Topic.create!(
+  name: "fot",
+  topic_type: "complication"
+).move_to_child_of(ortho)
+pes_planus = Topic.create!(
+  name: "pes planus",
+  topic_type: "complication"
+).move_to_child_of(foot)
+Topic.create!(
+  name: "orthotics",
+  topic_type: "medication"
+).move_to_child_of(pes_planus)
+hind_foot = Topic.create!(
+  name: "hind foot deformity",
+  topic_type: "complication"
+).move_to_child_of(foot)
+Topic.create!(
+  name: "fusion",
+  topic_type: "procedure"
+).move_to_child_of(hind_foot)
+hammer_toes = Topic.create!(
+  name: "hammer toes",
+  topic_type: "complication"
+).move_to_child_of(foot)
+Topic.create!(
+  name: "release",
+  topic_type: "procedure"
+).move_to_child_of(hammer_toes)
 ## END SHALLOW ORTHOPEDIC (xls 263) ##
 
 ## BEGIN OSTEOPEROSIS (xls 265) ##
+osteoporosis = Topic.create!(
+  name: "Osteoporosis",
+  topic_type: "complication"
+).move_to_child_of(ortho)
+Topic.create!(
+  name: "bone mineral density",
+  topic_type: "measurement"
+).move_to_child_of(osteoporosis)
+Topic.create!(
+  name: "compression fractures",
+  topic_type: "complication"
+).move_to_child_of(osteoporosis)
+Topic.create!(
+  name: "hip fractures",
+  topic_type: "complication"
+).move_to_child_of(osteoporosis)
+Topic.create!(
+  name: "wrist fractures",
+  topic_type: "complication"
+).move_to_child_of(osteoporosis)
+osteo_treatment = Topic.create!(
+  name: "treatment",
+  topic_type: "medication"
+).move_to_child_of(osteoporosis)
+Topic.create!(
+  name: "calcium",
+  topic_type: "medication"
+).move_to_child_of(osteo_treatment)
+Topic.create!(
+  name: "vitamin D",
+  topic_type: "medication"
+).move_to_child_of(osteo_treatment)
+Topic.create!(
+  name: "biophosphonates",
+  topic_type: "medication"
+).move_to_child_of(osteo_treatment)
+Topic.create!(
+  name: "calcitonin",
+  topic_type: "medication"
+).move_to_child_of(osteo_treatment)
+Topic.create!(
+  name: "estrogen/analogue",
+  topic_type: "medication"
+).move_to_child_of(osteo_treatment)
+Topic.create!(
+  name: "forteo",
+  topic_type: "medication"
+).move_to_child_of(osteo_treatment)
 ## END OSTEOPEROSIS (xls 274) ##
 
 ## BEGIN SYMPTOMS (xls 276) ##
+ortho_symptoms = Topic.create!(
+  name: "symptoms",
+  topic_type: "complication"
+).move_to_child_of(ortho)
+ortho_pain = Topic.create!(
+  name: "pain",
+  topic_type: "complication"
+).move_to_child_of(ortho_symptoms)
+Topic.create!(
+  name: "upper back",
+  topic_type: "complication"
+).move_to_child_of(ortho_pain)
+Topic.create!(
+  name: "lower back",
+  topic_type: "complication"
+).move_to_child_of(ortho_pain)
+Topic.create!(
+  name: "hip",
+  topic_type: "complication"
+).move_to_child_of(ortho_pain)
+Topic.create!(
+  name: "knee",
+  topic_type: "complication"
+).move_to_child_of(ortho_pain)
+Topic.create!(
+  name: "ankle",
+  topic_type: "complication"
+).move_to_child_of(ortho_pain)
+Topic.create!(
+  name: "foot",
+  topic_type: "complication"
+).move_to_child_of(ortho_pain)
+Topic.create!(
+  name: "sciataca",
+  topic_type: "complication"
+).move_to_child_of(ortho_symptoms)
+Topic.create!(
+  name: "activity limitation",
+  topic_type: "complication"
+).move_to_child_of(ortho_symptoms)
 ## END SYMPTOMS (xls 283) ##
 
 ## BEGIN OPHTHALMOLOGIC (xls 285) ##
@@ -1408,7 +1836,7 @@ Topic.create!(
 Topic.create!(
   name: "amblyopia",
   topic_type: "complication"
-)
+).move_to_child_of(opthalmo)
 ectopia_lentis = Topic.create!(
   name: "ectopia lentis",
   topic_type: "complication"
@@ -1462,6 +1890,138 @@ Topic.create!(
   topic_type: "procedure"
 ).move_to_child_of(retinal_detachment)
 ## END OPHTHALMOLOGIC (xls 297) ##
+
+## BEGIN GYNECOLOGIC/UROLOGIC (xls 299) ##
+gyno = Topic.create!(
+  name: "gynecologic/urologic",
+  topic_type: "root category"
+)
+pelvic = Topic.create!(
+  name: "pelvic floor weakness",
+  topic_type: "complication"
+).move_to_child_of(gyno)
+Topic.create!(
+  name: "treatment",
+  topic_type: "procedure"
+).move_to_child_of(pelvic)
+Topic.create!(
+  name: "bladder prolapse",
+  topic_type: "complication"
+).move_to_child_of(gyno)
+Topic.create!(
+  name: "uterine prolapse",
+  topic_type: "complication"
+).move_to_child_of(gyno)
+## END GYNECOLOGIC/UROLOGIC (xls 302) ##
+
+## BEGIN OBSTETRIC (xls 304) ##
+pregnancy = Topic.create!(
+  name: "obstetric (pregnancy)",
+  topic_type: "root category"
+)
+preg_method = Topic.create!(
+  name: "method",
+  topic_type: "procedure"
+).move_to_child_of(pregnancy)
+Topic.create!(
+  name: "spontaneous",
+  topic_type: "complication"
+).move_to_child_of(preg_method)
+Topic.create!(
+  name: "IVF",
+  topic_type: "complication"
+).move_to_child_of(preg_method)
+Topic.create!(
+  name: "PGD",
+  topic_type: "complication"
+).move_to_child_of(preg_method)
+Topic.create!(
+  name: "surrogate",
+  topic_type: "complication"
+).move_to_child_of(preg_method)
+
+preg_outcome = Topic.create!(
+  name: "outcome",
+  topic_type: "diagnosis"
+).move_to_child_of(pregnancy)
+Topic.create!(
+  name: "term",
+  topic_type: "diagnosis"
+).move_to_child_of(preg_outcome)
+Topic.create!(
+  name: "premature",
+  topic_type: "complication"
+).move_to_child_of(preg_outcome)
+abortion = Topic.create!(
+  name: "abortion",
+  topic_type: "procedure"
+).move_to_child_of(preg_outcome)
+Topic.create!(
+  name: "spontaneous",
+  topic_type: "complication"
+).move_to_child_of(abortion)
+Topic.create!(
+  name: "therapeutic",
+  topic_type: "complication"
+).move_to_child_of(abortion)
+preg_delivery = Topic.create!(
+  name: "delivery",
+  topic_type: "procedure"
+).move_to_child_of(pregnancy)
+vaginal = Topic.create!(
+  name: "vaginal",
+  topic_type: "procedure"
+).move_to_child_of(preg_delivery)
+Topic.create!(
+  name: "assisted",
+  topic_type: "procedure"
+).move_to_child_of(vaginal)
+Topic.create!(
+  name: "induced - Pitocin",
+  topic_type: "procedure"
+).move_to_child_of(vaginal)
+Topic.create!(
+  name: "Caesarean",
+  topic_type: "procedure"
+).move_to_child_of(preg_delivery)
+preg_anesthesia = Topic.create!(
+  name: "anesthesia",
+  topic_type: "medication"
+).move_to_child_of(pregnancy)
+Topic.create!(
+  name: "epidural",
+  topic_type: "medication",
+).move_to_child_of(preg_anesthesia)
+Topic.create!(
+  name: "general",
+  topic_type: "medication",
+).move_to_child_of(preg_anesthesia)
+Topic.create!(
+  name: "none",
+  topic_type: "medication",
+).move_to_child_of(preg_anesthesia)
+
+preg_complications = Topic.create!(
+  name: "complications",
+  topic_type: "medication"
+).move_to_child_of(pregnancy)
+Topic.create!(
+  name: "uterine rupture",
+  topic_type: "complication",
+).move_to_child_of(preg_complications)
+Topic.create!(
+  name: "bleeding",
+  topic_type: "complication",
+).move_to_child_of(preg_complications)
+Topic.create!(
+  name: "laceration",
+  topic_type: "complication",
+).move_to_child_of(preg_complications)
+Topic.create!(
+  name: "lactation",
+  topic_type: "complication"
+).move_to_child_of(pregnancy)
+## END OBSTETRIC (xls 304) ##
 
 ## BEGIN NEUROLOGIC MIGRAINES (xls 326) ##
 neuro = Topic.create!(
@@ -1584,6 +2144,52 @@ Topic.create!(
   topic_type: "procedure"
 ).move_to_child_of(dural_ectasia)
 ## END NEUROLOGIC LOW ICP (xls 333) ##
+
+## BEGIN NEUROLOGIC SHALLOW (xls 335) ##
+Topic.create!(
+  name: "peripheral neuropathy",
+  topic_type: "complication"
+).move_to_child_of(neuro)
+Topic.create!(
+  name: "intracranial aneurysm",
+  topic_type: "complication"
+).move_to_child_of(neuro)
+Topic.create!(
+  name: "carotid dissection",
+  topic_type: "complication"
+).move_to_child_of(neuro)
+Topic.create!(
+  name: "vertebral artery dissection",
+  topic_type: "complication"
+).move_to_child_of(neuro)
+Topic.create!(
+  name: "cervical vascular tortuosity",
+  topic_type: "diagnosis"
+).move_to_child_of(neuro)
+## END NEUROLOGIC SHALLOW (xls 341) ##
+
+## BEGIN GASTROINTESTINAL (xls 343) ##
+gastrointestinal = Topic.create!(
+  name: "gastrointestinal",
+  topic_type: "root category"
+)
+Topic.create!(
+  name: "ulcerative colitis",
+  topic_type: "complication"
+).move_to_child_of(gastrointestinal)
+Topic.create!(
+  name: "eosinophilic esophagitis",
+  topic_type: "complication"
+).move_to_child_of(gastrointestinal)
+Topic.create!(
+  name: "diaphragmattic hernia",
+  topic_type: "complication"
+).move_to_child_of(gastrointestinal)
+Topic.create!(
+  name: "intestinal rupture",
+  topic_type: "complication"
+).move_to_child_of(gastrointestinal)
+## END GASTROINTESTINAL (xls 348) ##
 
 ## BEGIN SEEDED RELATIONSHIP TYPES ##
 SeededRelationshipType.create!(

@@ -1,3 +1,55 @@
+<script>
+$(function () {
+  $('.panel-group').on('shown.bs.collapse', function (e) {
+    var offset = $(this).find('.collapse.in').prev('.panel-heading');
+    if(offset) {
+      $('html,body').animate({
+        scrollTop: $(offset).offset().top -6
+      }, 500);
+      e.stopPropagation();
+    }
+  });
+
+  $('.panel-collapse').on('hidden.bs.collapse', function () {
+    // find the children and close them
+    $(this).find('.collapse.in').collapse('hide');
+  });
+
+});
+</script>
+
+<%
+  def draw_tree(node)
+    node.children.each do |child|
+%>
+      <li><%= "#{child.id}. #{child.name}" %>
+
+        <% if child.leaf? %>
+          (render <%= child.topic_type %> form)
+        <% else %>
+          <ul><% draw_tree(child) %></ul>
+        <% end %>
+      </li>
+<%
+    end; nil
+  end
+%>
+
+<ul>
+  <% Topic.roots.each do |node| %>
+    <li>
+      <%= node.name %>
+      <% unless node.leaf? %>
+        <ul><%= draw_tree(node) %></ul>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+
+
+
+
 <div class="well well-lg">
   <%= form_for @visit, class: "visit_form" do |f| %>
     <% if params[:patient] || @patient %>
