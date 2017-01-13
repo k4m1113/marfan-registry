@@ -1,33 +1,15 @@
-<script>
-$(function () {
-  $('.panel-group').on('shown.bs.collapse', function (e) {
-    var offset = $(this).find('.collapse.in').prev('.panel-heading');
-    if(offset) {
-      $('html,body').animate({
-        scrollTop: $(offset).offset().top -6
-      }, 500);
-      e.stopPropagation();
-    }
-  });
-
-  $('.panel-collapse').on('hidden.bs.collapse', function () {
-    // find the children and close them
-    $(this).find('.collapse.in').collapse('hide');
-  });
-
-});
-</script>
 
 <%
   def draw_tree(node)
     node.children.each do |child|
 %>
-      <li><%= "#{child.id}. #{child.name}" %>
-
         <% if child.leaf? %>
-          (render <%= child.topic_type %> form)
+          <li><%= "#{child.id}. #{child.name}
+          (render #{child.topic_type} form)" %></li>
         <% else %>
-          <ul><% draw_tree(child) %></ul>
+          <li class="panel"><a data-toggle="collapse" data-parent="#accordion1" href="#link_<%= child.id %>"><%= "#{child.id}. #{child.name}" %></a>
+
+            <ul id="link_<%= child.id %>" class="collapse"><% draw_tree(child) %></ul>
         <% end %>
       </li>
 <%
@@ -35,13 +17,10 @@ $(function () {
   end
 %>
 
-<ul>
+<ul class="nav nav-stacked" id="accordion1">
   <% Topic.roots.each do |node| %>
-    <li>
-      <%= node.name %>
-      <% unless node.leaf? %>
-        <ul><%= draw_tree(node) %></ul>
-      <% end %>
+    <li class="panel"><a data-toggle="collapse" data-parent="#accordion1" href="#link_<%= node.id %>"><%= node.name %>
+        <ul id="link_<%= node.id %>" class="collapse"><%= draw_tree(node) %></ul>
     </li>
   <% end %>
 </ul>
