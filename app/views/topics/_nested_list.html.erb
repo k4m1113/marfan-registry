@@ -1,91 +1,65 @@
+<%
+  def render_form_button(category)
+  %>
+    <% case category.topic_type %>
+    <% when 'measurement' %>
+      <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="test-reason" onclick="renderTestTopicForm($(this).val());">Add test details</button>
+    <% when 'procedure' %>
+      <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="procedure-reason">Add procedure details</button>
+    <% when 'complication' %>
+      <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="complication-reason">Add details</button>
+    <% when 'symptom' %>
+      <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="symptom-reason">Add symptom details</button>
+    <% when 'diagnosis' %>
+      <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="test-reason" onclick="renderTestTopicForm($(this).val());">Add testing details</button>
+    <% when 'medication' %>
+      <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="med-reason" onclick="renderMedTopicForm($(this).val());">Add medication details</button>
+    <% end %>
+<% end %>
 
+<%
+  def draw_tree(node)
+    node.children.each do |child|
+%>
+        <% if child.leaf? %>
+          <li class="list-group-item">
+            <%= "#{child.id}. #{child.name}" %>
+            <% render_form_button(child) %>
+        </li>
+        <% else %>
+          <li class="panel list-group-item"><a data-toggle="collapse" data-parent="#link_<%= child.parent_id %>" href="#link_<%= child.id %>"><%= "#{child.id}. #{child.name}" %></a>
 
-
-
-
-
-<!-- /*<style>
-.list-group.list-group-root {
-    padding: 0;
-    overflow: hidden;
-}
-
-.list-group.list-group-root .list-group {
-    margin-bottom: 0;
-}
-
-.list-group.list-group-root .list-group-item {
-    border-radius: 0;
-    border-width: 1px 0 0 0;
-}
-
-.list-group.list-group-root > .list-group-item:first-child {
-    border-top-width: 0;
-}
-
-.list-group.list-group-root > .list-group > .list-group-item {
-    padding-left: 30px;
-}
-
-.list-group.list-group-root > .list-group > .list-group > .list-group-item {
-    padding-left: 45px;
-}
-
-.list-group-item .glyphicon {
-    margin-right: 5px;
-}
-</style>
-<div class="row flex">
-  <div class="col-xs-12">
-    <% active_parents = [] %>
-      <div class="list-group list-group-root well">
-      <% discussion_topic.each do |category| %>
-        <% active_parents.each do |p| %>
-        <% if !category.is_descendant_of?(p) %>
-          <% active_parents.delete(p) %>
-        </div>
+            <ul id="link_<%= child.id %>" class="collapse list-group"><% draw_tree(child) %></ul>
         <% end %>
-      <% end %>
-
-      <% if category.leaf? %>
-        <a href="#" class="list-group-item"><%= category.name %>
-        <% case category.topic_type %>
-        <% when 'measurement' %>
-          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="test-reason" onclick="renderTestTopicForm($(this).val());">Add test details</button>
-        <% when 'procedure' %>
-          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="procedure-reason">Add procedure details</button>
-        <% when 'complication' %>
-          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="complication-reason">Add details</button>
-        <% when 'symptom' %>
-          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="symptom-reason">Add symptom details</button>
-        <% when 'diagnosis' %>
-          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="test-reason" onclick="renderTestTopicForm($(this).val());">Add testing details</button>
-        <% when 'medication' %>
-          <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="med-reason" onclick="renderMedTopicForm($(this).val());">Add medication details</button>
-        <% end %>
-        <% category.depth.times do |i| %>
-          </a>
-        <% end %>
+      </li>
+<%
+    end; nil
+  end
+%>
+<div class="row">
+  <div class="col-xs-6">
+    <ul class="nav nav-stacked list-group" id="accordion1">
+      <% discussion_topic.roots.each do |node| %>
+      <% if node.leaf? %>
+      <li class="list-group-item"><%= node.name %></li>
       <% else %>
-        <a href="#item-<%= category.id %>" class="list-group-item" data-toggle="collapse">
-          <i class="glyphicon glyphicon-chevron-right"></i>
-          <%= category.name %>
-        </a>
-        <% active_parents << category %>
-        <div class="list-group collapse" id="item-<%= category.id %>">
+      <li class="panel list-group-item"><a data-toggle="collapse" data-parent="#accordion1" href="#link_<%= node.id %>"><%= node.name  %><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+        <ul id="link_<%= node.id %>" class="collapse show list-group"><%= draw_tree(node) %></ul>
+      </li>
       <% end %>
       <% end %>
-    </div>
+    </ul>
   </div>
-</div>*/ -->
-
-
+  <div class="col-xs-6">
+    <div id="form-hook"></div>
+  </div>
+</div>
 
 <script>
   function renderProcedureTopicForm() {
     console.log('procedure event called');
     $('#form-hook').html("<%= j render 'procedures/procedure_form', f: f %><hr />");
-    $('#start-button').focus();
+    // $('#start-button').focus();
   };
   function renderComplicationTopicForm() {
     console.log('complication event called');
@@ -95,7 +69,7 @@
   function renderTestTopicForm(int) {
     console.log('test event called');
     $('#form-hook').html("<%= j render 'test', f: f %><hr />");
-    $('html, body').animate({scrollTop:$('div#visit_top:last').position().top - 80}, 'slow');
+    // $('html, body').animate({scrollTop:$('div#visit_top:last').position().top - 80}, 'slow');
     $('input.test-response:last').val(int);
     console.log(int)
   };
@@ -111,7 +85,7 @@
   function renderMedTopicForm(int) {
     console.log('med topic called');
     $('#form-hook').html("<%= j render 'medication_form', f: f %><hr />");
-    $('html, body').animate({scrollTop:$('div#visit_top:last').position().top - 80}, 'slow');
+    // $('html, body').animate({scrollTop:$('div#visit_top:last').position().top - 80}, 'slow');
     $('input.med-response:last').val(int);
     console.log(int)
   };

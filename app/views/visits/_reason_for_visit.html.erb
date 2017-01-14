@@ -56,20 +56,16 @@
 
 <script>
   $('#cardiovascular-reason').click(function renderCardiovascular() {
-    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'cardiovascular_nested_list', f: f %>");
-    $('html, body').animate({scrollTop:$('hr#visit_top:last').position().top - 80}, 'slow');
+    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/nested_list', f: f, discussion_topic: @cardio %>");
   });
   $('#genetics-reason').click(function renderGenetics() {
-    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'genetics_nested_list', f: f %>");
-    $('html, body').animate({scrollTop:$('hr#visit_top:last').position().top - 80}, 'slow');
+    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/nested_list', f: f, discussion_topic: @genetics %>");
   });
   $('#medication-reason').click(function renderMedication() {
-    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'medication_nested_list', f: f %>");
-    $('html, body').animate({scrollTop:$('hr#visit_top:last').position().top - 80}, 'slow');
+    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/nested_list', f: f, discussion_topic: @medications %>");
   });
   $('#family-reason').click(function renderFamilyMember() {
     console.log('family member form')
-    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'family_member_form', f: f %>");
-    $('html, body').animate({scrollTop:$('hr#visit_top:last').position().top - 80}, 'slow');
+    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/nested_list', f: f, discussion_topic: @family_history %>");
   });
 </script>

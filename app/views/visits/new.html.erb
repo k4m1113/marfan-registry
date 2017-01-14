@@ -1,41 +1,5 @@
-
-<%
-  def draw_tree(node)
-    node.children.each do |child|
-%>
-        <% if child.leaf? %>
-          <li><%= "#{child.id}. #{child.name}
-          (render #{child.topic_type} form)" %></li>
-        <% else %>
-          <li class="panel"><a data-toggle="collapse" data-parent="#link_<%= child.parent_id %>" href="#link_<%= child.id %>"><%= "#{child.id}. #{child.name}" %></a>
-
-            <ul id="link_<%= child.id %>" class="collapse"><% draw_tree(child) %></ul>
-        <% end %>
-      </li>
-<%
-    end; nil
-  end
-%>
-
-<ul class="nav nav-stacked" id="accordion1">
-  <% Topic.roots.each do |node| %>
-    <% if node.leaf? %>
-    <li><%= node.name %></li>
-    <% else %>
-    <li class="panel"><a data-toggle="collapse" data-parent="#accordion1" href="#link_<%= node.id %>"><%= node.name %>
-        <ul id="link_<%= node.id %>" class="collapse"><%= draw_tree(node) %></ul>
-    </li>
-    <% end %>
-  <% end %>
-</ul>
-
-
-
-
-
-<div class="well well-lg">
-  <%= form_for @visit, class: "visit_form" do |f| %>
-    <% if params[:patient] || @patient %>
+<%= form_for @visit, class: "visit_form" do |f| %>
+  <div class="well well-lg">
     <div class="card" style="text-align:center; border-color:#B00713;">
       <div class="card-block">
         <h1 class="purple">New Visit for <%= "#{@patient.first_name} #{@patient.last_name}" %></h1>
@@ -47,50 +11,38 @@
         <div class="form-group">
           <div class="row flex-items-xs-center">
             <%= f.hidden_field :patient_id, value: @patient.id %>
-    <% else %>
-    <div class="container center-block">
-      <h1 class="h1">New Visit</h1>
-    </div>
-    <hr />
-    <div class="form-group">
-      <div class="row flex-items-xs-center">
-        <div class="col-xs-4 col-xs-offset-4">
-          <%= f.label :patient_id, "Patient ID:", class: "form-check-label" %><br />
-          <%= f.number_field :patient_id, autofocus: true, in: 1..99999999, step: 1, class: "form-control form-control-lg" %>
-          <%= f.label :clinician_id, "Clinician ID:", class: "sr-only" %><br />
-    <% end %>
-          <h4 style="text-align: center;" class="red">Clinician Information:</h3>
-          <hr />
-          <div class="col-xs-1">
-            <%= f.number_field :clinician_id, in: 1..9999, step: 1, class: "form-control form-control-lg disabled", value: 1, aria: { deacribedby: "cIDHelpBlock" } %>
-            <small id="cIDHelpBlock" class="purple form-text text-muted">
-              1: Liang
-            </small>
-          </div>
-          <div class="col-xs-2" style="min-height:32px;">
-            <%= render 'layouts/col_2_OR_buttons' %>
-          </div>
-          <div class="col-xs-2">
-            <%= button_to "New Clinician", new_clinician_path, method: "get", class: "btn btn-block btn-primary disabled" %>
-          </div>
-          <div class="col-xs-2" style="min-height:32px;">
-            <%= render 'layouts/col_2_OR_buttons' %>
-          </div>
+            <h4 style="text-align: center;" class="red">Clinician Information:</h4>
+            <hr />
+            <div class="col-xs-1">
+              <%= f.number_field :clinician_id, in: 1..9999, step: 1, class: "form-control form-control-lg disabled", value: 1, aria: { deacribedby: "cIDHelpBlock" } %>
+              <small id="cIDHelpBlock" class="purple form-text text-muted">
+                1: Liang
+              </small>
+            </div>
+            <div class="col-xs-2" style="min-height:32px;">
+              <%= render 'layouts/col_2_OR_buttons' %>
+            </div>
+            <div class="col-xs-2">
+              <%= button_to "New Clinician", new_clinician_path, method: "get", class: "btn btn-block btn-primary disabled" %>
+            </div>
+            <div class="col-xs-2" style="min-height:32px;">
+              <%= render 'layouts/col_2_OR_buttons' %>
+            </div>
 
-          <div class="col-xs-5">
-            <%= form_tag "/clinicians", method: "get", id: "search-form" do %>
-              <div class="input-group">
-                <%= text_field_tag :search, params[:search], placeholder:  "ex: Dietz', 'Milewicz'", class: "form-control form-control-lg"%>
-                <span class="input-group-btn">
-                  <%= button_to "Search Clinicians", clinicians_path, class: "btn btn-primary disabled", method: "get", id: "search", type: "button" %>
-                </span>
-              </div>
-            <% end %>
+            <div class="col-xs-5">
+              <!-- <%= form_tag "/clinicians", method: "get", id: "search-form" do %>
+                <div class="input-group">
+                  <%= text_field_tag :search, params[:search], placeholder:  "ex: Dietz', 'Milewicz'", class: "form-control form-control-lg"%>
+                  <span class="input-group-btn">
+                    <%= button_to "Search Clinicians", clinicians_path, class: "btn btn-primary disabled", method: "get", id: "search", type: "button" %>
+                  </span>
+                </div>
+              <% end %> -->
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
     <hr />
     <div class="row">
       <div class="form-group">
@@ -135,7 +87,7 @@
       <div class="col-xs-12 col-centered">
         <br /><hr />
         <span id="start-button">
-        <%= button_to "Generate Report", report_visit_path(1), method: "get", class: "col-centered col-xs-12 control-label btn btn-success btn-lg" %>
+        <%= f.submit "Start Visit", class: "col-centered col-xs-12 control-label btn btn-success btn-lg" %>
         </span>
       </div>
     </div>
@@ -145,6 +97,7 @@
       }
     </script>
 
-  <% end %>
-</div>
+  </div>
 <div id="absolute_bottom"></div>
+
+<% end %>

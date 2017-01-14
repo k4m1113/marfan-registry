@@ -69,5 +69,4 @@ class Visit < ActiveRecord::Base
   validates :arm_span,
     numericality: { greater_than: 0 },
     allow_nil: true
-
 end

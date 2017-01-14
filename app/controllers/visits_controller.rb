@@ -26,12 +26,12 @@ class VisitsController < ApplicationController
 
     @root_topics = Topic.roots
     @family_history = Topic.where(name: "family history")[0].descendants
-    @genetics = Topic.where(name: "genetics")[0].descendants
-    @medications = Topic.where(name: "medication")[0].descendants
-    @cardio = Topic.where(name: "cardiovascular")[0].descendants
-    @pulmonary = Topic.where(name: "pulmonary")[0].descendants
-    @ortho = Topic.where(name: "orthopedic")[0].descendants
-    @ophthalmo = Topic.where(name: "ophthalmologic")[0].descendants
+    @genetics = Topic.where(name: "genetics")[0].self_and_descendants
+    @medications = Topic.where(name: "medication")[0].self_and_descendants
+    @cardio = Topic.where(name: "cardiovascular")[0].self_and_descendants
+    @pulmonary = Topic.where(name: "pulmonary")[0].self_and_descendants
+    @ortho = Topic.where(name: "orthopedic")[0].self_and_descendants
+    @ophthalmo = Topic.where(name: "ophthalmologic")[0].self_and_descendants
 
     @symptoms = @visit.symptoms.build
     @hospitalizations = @visit.hospitalizations.build
@@ -210,7 +210,7 @@ class VisitsController < ApplicationController
       hospitalizations_attributes:
         [:visit_id, :patient_id, :topic_id, :hospitalization, :admission_date, :time_ago, :time_ago_scale, :length_of_stay, :length_of_stay_scale, :hosp_type, :description, :location],
       tests_attributes:
-        [:visit_id, :topic_id,:patient_id, :test, :test_type, :test_date, :time_ago, :time_ago_scale, :result],
+        [:visit_id, :topic_id,:patient_id, :test, :test_date, :time_ago, :time_ago_scale, :result],
       symptoms_attributes:
         [:topic_id, :seeded_symptom_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :time_ago, :time_ago_scale, :start_date, :frequency, :note]
 

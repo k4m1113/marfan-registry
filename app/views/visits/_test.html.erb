@@ -1,9 +1,11 @@
 <h3 class="red h3">Test</h3>
+<h5 class="purple h5" id="test-title"></h5>
 <%= f.fields_for :tests do |fff| %>
   <%= render 'visits/visit_presence_checker', f: fff %>
   <div class="form-group">
     <div class="row flex-items-xs-center">
         <%= fff.hidden_field :patient_id, value: @patient.id %>
+        <%= fff.hidden_field :visit_id, value: @visit.id %>
         <div class="form-inline">
           <div class="col-xs-12">
             <%= fff.label :topic_id, "Test Type:" , class: "control-label" %>

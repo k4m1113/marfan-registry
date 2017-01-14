@@ -9,4 +9,8 @@ module ApplicationHelper
       attribute.nil? ? "not noted" : attribute
     end
   end
+
+  def find_trail(topic)
+    topic.self_and_ancestors.map(&:name).join(" > ")
+  end
 end
