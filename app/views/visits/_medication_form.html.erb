@@ -6,7 +6,6 @@
         <%= fff.hidden_field :patient_id, value: @patient.id %>
         <div class="form-inline">
           <div class="col-xs-12">
-            <%= fff.label :topic_id, "Medication Type:" , class: "control-label" %>
             <div class="form-group">
               <%= fff.number_field :topic_id, class: "med-response form-control form-control-lg disabled", value: "", aria: { describedby: "medIDExplanation "} %>
               <p id="medIDExplanation" class="purple text-muted">
@@ -37,4 +36,4 @@
     <%= fff.submit "Add Hospitalization", class: "btn btn-success" %>
   <% end %>
 <% end %>
-<div id="add-another"></div>
+<div id="form-hook"></div>

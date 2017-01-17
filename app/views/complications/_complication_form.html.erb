@@ -1,4 +1,4 @@
-<h3 class="red h3">Test</h3>
+<h3 class="red h3">Complication</h3>
 <h5 class="purple h5" id="test-title"></h5>
 <%= f.fields_for :tests do |fff| %>
   <%= render 'visits/visit_presence_checker', f: fff %>
@@ -9,9 +9,9 @@
         <div class="form-inline">
           <div class="col-xs-12">
             <div class="form-group">
-              <%= fff.number_field :topic_id, class: "test-response form-control form-control-lg disabled", value: "", aria: { describedby: "testIDExplanation "} %>
-              <p id="testIDExplanation" class="purple text-muted">
-                Identifies specific type of test, e.g. "MRI for suprarenal abdominal aortic complication"
+              <%= fff.number_field :topic_id, class: "complication-response form-control form-control-lg", value: "", aria: { describedby: "compIDExplanation "} %>
+              <p id="compIDExplanation" class="purple text-muted">
+                Identifies specific type of complication, e.g. "dislocated lenses"
               </p>
             </div>
           </div>
@@ -20,7 +20,7 @@
     </div>
     <div class="row flex-items-xs-center">
       <div class="col-xs-12">
-        <%= fff.label "And when was the test?", class: "control-label" %><br />
+        <%= fff.label "And when did it occur?", class: "control-label" %><br />
         <div class="col-xs-5">
           <div class="form-inline">
             <div class="form-group" aria-describedby="relativeTime">
@@ -44,10 +44,11 @@
       </div>
     </div>
   </div>
-  <%= fff.label "What were the results of the test?", class: "control-label" %><br />
-  <%= fff.text_area :result, class: "form-control form-control-lg" %>
+  <%= fff.label "Anything further to note?", class: "control-label" %><br />
+  <%= fff.text_area :note, class: "form-control form-control-lg" %>
   <br />
   <% if @form_action == "Update" %>
-    <%= fff.submit "Add Test", class: "btn btn-success" %>
+    <%= fff.submit "Add Complication", class: "btn btn-success" %>
   <% end %>
 <% end %>
+<div id="form-hook"></div>

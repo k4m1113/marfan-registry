@@ -25,7 +25,7 @@ class VisitsController < ApplicationController
     @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
 
     @root_topics = Topic.roots
-    @family_history = Topic.where(name: "family history")[0].descendants
+    @family_history = Topic.where(name: "family history")[0].self_and_descendants
     @genetics = Topic.where(name: "genetics")[0].self_and_descendants
     @medications = Topic.where(name: "medication")[0].self_and_descendants
     @cardio = Topic.where(name: "cardiovascular")[0].self_and_descendants
@@ -195,22 +195,22 @@ class VisitsController < ApplicationController
       :primary_reason,
       :secondary_reason,
       medications_attributes:
-        [:visit_id, :patient_id, :topic_id, :dose, :dose_unit_of_measurement, :nested_med_id, :nested_med_category, :duration_amount, :duration_scale, :ingestion_method, :frequency, :frequency_scale, :common_name, :medication_format, :time_ago, :time_ago_scale, :absolute_start_date],
+        [:visit_id, :patient_id, :topic_id, :dose, :dose_unit_of_measurement, :nested_med_id, :nested_med_category, :duration_amount, :duration_scale, :ingestion_method, :frequency, :frequency_scale, :common_name, :medication_format, :time_ago, :time_ago_scale, :absolute_start_date, :note],
       diagnoses_attributes:
-        [:topic_id, :patient_id, :time_ago, :time_ago_scale, :absolute_start_date, :visit_id],
+        [:topic_id, :patient_id, :time_ago, :time_ago_scale, :absolute_start_date, :visit_id, :note],
       complications_attributes:
-        [:topic_id, :patient_id, :time_ago, :time_ago_scale, :absolute_start_date, :visit_id],
+        [:topic_id, :patient_id, :time_ago, :time_ago_scale, :absolute_start_date, :visit_id, :note],
       procedures_attributes:
-        [:topic_id, :patient_id, :clinician_id, :visit_id],
+        [:topic_id, :patient_id, :clinician_id, :visit_id, :note],
       dissections_attributes:
         [:visit_id, :patient_id, :concern_type, :location, :extent, :when, :intervention, :complication, :note],
       family_members_attributes:
         [:visit_id, :patient_id, :topic_id, :seeded_relationship_type_id, :future_patient_data_hash, {future_patient_data_hash: [
         :first_name, :last_name, :born_years_ago, :date_of_birth, :deceased, :cause_of_death, :note]}],
       hospitalizations_attributes:
-        [:visit_id, :patient_id, :topic_id, :hospitalization, :admission_date, :time_ago, :time_ago_scale, :length_of_stay, :length_of_stay_scale, :hosp_type, :description, :location],
+        [:visit_id, :patient_id, :topic_id, :hospitalization, :admission_date, :time_ago, :time_ago_scale, :length_of_stay, :length_of_stay_scale, :hosp_type, :description, :location, :note],
       tests_attributes:
-        [:visit_id, :topic_id,:patient_id, :test, :test_date, :time_ago, :time_ago_scale, :result],
+        [:visit_id, :topic_id,:patient_id, :test, :test_date, :time_ago, :time_ago_scale, :result, :note],
       symptoms_attributes:
         [:topic_id, :seeded_symptom_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :time_ago, :time_ago_scale, :start_date, :frequency, :note]
 

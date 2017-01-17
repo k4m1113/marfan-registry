@@ -1,5 +1,13 @@
 <div class="form-group">
   <%= render 'visits/visit_presence_checker', f: f %>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= f.number_field :topic_id, class: "family-response form-control form-control-lg", value: "", aria: { describedby: "famIDExplanation "} %>
+      <p id="famIDExplanation" class="purple text-muted">
+        Identifies relationship to patient, e.g. "mother", "child"
+      </p>
+    </div>
+  </div>
   <%= f.hidden_field :patient_id, value: @patient.id %>
   <%= f.fields_for :future_patient_data_hash do |ff| %>
   <div class="row">

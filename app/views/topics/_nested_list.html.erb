@@ -2,12 +2,14 @@
   def render_form_button(category)
   %>
     <% case category.topic_type %>
+    <% when 'family member' %>
+      <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="family-reason" onclick="renderFamilyMemberTopicForm($(this).val());">Add relationship details</button>
     <% when 'measurement' %>
       <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="test-reason" onclick="renderTestTopicForm($(this).val());">Add test details</button>
     <% when 'procedure' %>
       <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="procedure-reason">Add procedure details</button>
     <% when 'complication' %>
-      <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="complication-reason">Add details</button>
+      <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="complication-reason" onclick="renderComplicationTopicForm($(this).val());">Add details</button>
     <% when 'symptom' %>
       <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="symptom-reason">Add symptom details</button>
     <% when 'diagnosis' %>
@@ -22,31 +24,34 @@
     node.children.each do |child|
 %>
         <% if child.leaf? %>
-          <li class="list-group-item">
-            <%= "#{child.id}. #{child.name}" %>
+          <li class="list-group-item list-group-item-action">
+            <%= child.name %>
             <% render_form_button(child) %>
         </li>
         <% else %>
-          <li class="panel list-group-item"><a data-toggle="collapse" data-parent="#link_<%= child.parent_id %>" href="#link_<%= child.id %>"><%= "#{child.id}. #{child.name}" %></a>
-
+          <a data-toggle="collapse" data-parent="#link_<%= child.parent_id %>" href="#link_<%= child.id %>">
+            <li class="panel list-group-item"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              <%= child.name %>
             <ul id="link_<%= child.id %>" class="collapse list-group"><% draw_tree(child) %></ul>
         <% end %>
-      </li>
+            </li>
+          </a>
 <%
     end; nil
   end
 %>
 <div class="row">
   <div class="col-xs-6">
-    <ul class="nav nav-stacked list-group" id="accordion1">
+    <ul class="list-group" id="accordion1">
       <% discussion_topic.roots.each do |node| %>
-      <% if node.leaf? %>
-      <li class="list-group-item"><%= node.name %></li>
-      <% else %>
-      <li class="panel list-group-item"><a data-toggle="collapse" data-parent="#accordion1" href="#link_<%= node.id %>"><%= node.name  %><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-        <ul id="link_<%= node.id %>" class="collapse show list-group"><%= draw_tree(node) %></ul>
-      </li>
-      <% end %>
+        <% if node.leaf? %>
+        <li class="list-group-item list-group-item-action"><%= node.name %></li>
+        <% else %>
+          <li class="panel list-group-item list-group-item-action"><a data-toggle="collapse" data-parent="#accordion1" href="#link_<%= node.id %>"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+            <%= node.name  %>        </a>
+          <ul id="link_<%= node.id %>" class="collapse show list-group"><%= draw_tree(node) %></ul>
+          </li>
+        <% end %>
       <% end %>
     </ul>
   </div>
@@ -56,37 +61,30 @@
 </div>
 
 <script>
-  function renderProcedureTopicForm() {
-    console.log('procedure event called');
-    $('#form-hook').html("<%= j render 'procedures/procedure_form', f: f %><hr />");
-    // $('#start-button').focus();
+  function renderProcedureTopicForm(int) {
+    $('#form-hook:last').html("<%= j render 'procedures/procedure_form', f: f %><hr />");
+    $('input.procedure-response:last').val(int);
   };
-  function renderComplicationTopicForm() {
-    console.log('complication event called');
-    $('#form-hook').html("<%= j render 'test', f: f %><hr />");
-    $('#start-button').focus();
+  function renderComplicationTopicForm(int) {
+    $('#form-hook:last').html("<%= j render 'complications/complication_form', f: f %><hr />");
+    $('input.complication-response:last').val(int);
   };
   function renderTestTopicForm(int) {
-    console.log('test event called');
-    $('#form-hook').html("<%= j render 'test', f: f %><hr />");
-    // $('html, body').animate({scrollTop:$('div#visit_top:last').position().top - 80}, 'slow');
+    $('#form-hook:last').html("<%= j render 'test', f: f %><hr />");
     $('input.test-response:last').val(int);
-    console.log(int)
   };
   function renderSymptomTopicForm() {
-    $('#form-hook').html("<%= j render 'test', f: f %><hr />");
+    $('#form-hook:last').html("<%= j render 'test', f: f %><hr />");
   };
   function renderDiagnosisTopicForm() {
-    $('#form-hook').html("<%= j render 'diagnosis', f: f %><hr />");
+    $('#form-hook:last').html("<%= j render 'diagnosis', f: f %><hr />");
   };
-  function renderFamilyMemberTopicForm() {
-    $('#form-hook').html("<%= j render 'test', f: f %><hr />");
+  function renderFamilyMemberTopicForm(int) {
+    $('#form-hook:last').html("<%= j render 'family_member_form', f: f %><hr />");
+    $('input.family-response:last').val(int);
   };
   function renderMedTopicForm(int) {
-    console.log('med topic called');
-    $('#form-hook').html("<%= j render 'medication_form', f: f %><hr />");
-    // $('html, body').animate({scrollTop:$('div#visit_top:last').position().top - 80}, 'slow');
+    $('#form-hook:last').html("<%= j render 'medication_form', f: f %><hr />");
     $('input.med-response:last').val(int);
-    console.log(int)
   };
 </script>

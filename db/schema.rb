@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170107000759) do
+ActiveRecord::Schema.define(version: 20170114003804) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20170107000759) do
     t.integer  "visit_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.string   "note"
   end
 
   create_table "diagnoses", force: :cascade do |t|
@@ -51,6 +52,7 @@ ActiveRecord::Schema.define(version: 20170107000759) do
     t.integer  "visit_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.string   "note"
   end
 
   create_table "dissections", force: :cascade do |t|
@@ -78,6 +80,7 @@ ActiveRecord::Schema.define(version: 20170107000759) do
     t.integer  "patient_id",                  null: false
     t.integer  "visit_id"
     t.integer  "born_years_ago"
+    t.string   "note"
   end
 
   create_table "hospitalizations", force: :cascade do |t|
@@ -93,6 +96,7 @@ ActiveRecord::Schema.define(version: 20170107000759) do
     t.integer  "time_ago"
     t.string   "time_ago_scale"
     t.string   "length_of_stay_scale"
+    t.string   "note"
   end
 
   create_table "medications", force: :cascade do |t|
@@ -115,6 +119,7 @@ ActiveRecord::Schema.define(version: 20170107000759) do
     t.integer  "time_ago"
     t.string   "time_ago_scale"
     t.datetime "absolute_start_date"
+    t.string   "note"
   end
 
   create_table "patients", force: :cascade do |t|
@@ -158,6 +163,7 @@ ActiveRecord::Schema.define(version: 20170107000759) do
     t.integer  "visit_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.string   "note"
   end
 
   create_table "seeded_relationship_types", id: false, force: :cascade do |t|
@@ -205,6 +211,7 @@ ActiveRecord::Schema.define(version: 20170107000759) do
     t.integer  "time_ago"
     t.string   "time_ago_scale"
     t.integer  "topic_id",       null: false
+    t.string   "note"
   end
 
   create_table "topics", force: :cascade do |t|
