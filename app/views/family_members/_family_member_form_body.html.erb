@@ -1,14 +1,7 @@
 <div class="form-group">
   <%= render 'visits/visit_presence_checker', f: f %>
-  <div class="row">
-    <div class="col-xs-12">
-      <%= f.number_field :topic_id, class: "family-response form-control form-control-lg", value: "", aria: { describedby: "famIDExplanation "} %>
-      <p id="famIDExplanation" class="purple text-muted">
-        Identifies relationship to patient, e.g. "mother", "child"
-      </p>
-    </div>
-  </div>
   <%= f.hidden_field :patient_id, value: @patient.id %>
+  <%= f.hidden_field :topic_id, class: "family-response", value: "" %>
   <%= f.fields_for :future_patient_data_hash do |ff| %>
   <div class="row">
     <div class="col-xs-6">
@@ -32,7 +25,10 @@
   </div>
   <div  id="deceased" style="display: none">
     <div class="row">
-      <%= ff.label "When did they die?", class: "control-label" %>
+      <div class="col-xs-12">
+        <%= ff.label "When did they die?", class: "control-label" %>
+        <br />
+      </div>
       <%= render 'layouts/relative_absolute_date', fff: ff, column_title: :death_date %>
     </div>
     <div class="row">

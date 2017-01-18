@@ -1,0 +1,25 @@
+<%
+@root = Topic.where(name: imaging_tech, parent_id: Topic.where(name: "aortic root")[0].id)[0].id
+@asc = Topic.where(name: imaging_tech, parent_id: Topic.where(name: "ascending aortic")[0].id)[0].id
+@transv = Topic.where(name: imaging_tech, parent_id: Topic.where(name: "transverse arch")[0].id)[0].id
+@desc = Topic.where(name: imaging_tech, parent_id: Topic.where(name: "descending thoracic aorta")[0].id)[0].id
+@supra = Topic.where(name: imaging_tech, parent_id: Topic.where(name: "suprarenal abdominal aorta")[0].id)[0].id
+@infra = Topic.where(name: imaging_tech, parent_id: Topic.where(name: "infrarenal abdominal aorta")[0].id)[0].id
+@annulus = Topic.where(name: imaging_tech, parent_id: Topic.where(name: "aortic annulus")[0].id)[0].id
+%>
+
+<%= f.fields_for :tests do |ff| %>
+  Aortic Root:
+  <%= render 'tests/test_form_body', f: ff, topic_id: @root, test_date: DateTime.new %>
+  Ascending Aorta:
+  <%= render 'tests/test_form_body', f: ff, topic_id: @root, test_date: DateTime.new %>
+  Transverse Arch:
+  <%= render 'tests/test_form_body', f: ff, topic_id: @root, test_date: DateTime.new %>
+  Descending Thoracic Aorta:
+  <%= render 'tests/test_form_body', f: ff, topic_id: @root, test_date: DateTime.new %>
+  Suprarenal Abdominal Aorta:
+  <%= render 'tests/test_form_body', f: ff, topic_id: @root, test_date: DateTime.new %>
+  Infrarenal Abdominal Aorta:
+
+  Aortic Annulus:
+<% end %>

@@ -1,0 +1,15 @@
+Select type of Imagery:
+<select name="select">
+  <option value="echocardiogram">Echocardiogram</option>
+  <option value="CT" id="ct_imagery_type">CT</option>
+  <option value="MRI">MRI</option>
+</select>
+<hr id="heart-form-hook"/>
+
+
+<script>
+  $("option#ct_imagery_type").click(function renderEchoForm() {
+    $("heart-form-hook").html("<%= render topics/echocardiogram, f: f, imaging_tech: %>")
+  });
+
+</script>

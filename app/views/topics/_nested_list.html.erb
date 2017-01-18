@@ -74,8 +74,9 @@
     $('input.complication-response:last').val(int);
   };
   function renderTestTopicForm(int) {
-    $('#form-hook:last').html("<%= j render 'test', f: f %><hr />");
+    $('#form-hook:last').html("<%= j render 'test', f: f %><hr id='kd' />");
     $('input.test-response:last').val(int);
+    $('hr#kd:last').html("<div id='form-hook'></div>");
   };
   function renderSymptomTopicForm() {
     $('#form-hook:last').html("<%= j render 'test', f: f %><hr />");

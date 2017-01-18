@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170117232458) do
+ActiveRecord::Schema.define(version: 20170118020724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,20 @@ ActiveRecord::Schema.define(version: 20170117232458) do
     t.string   "time_ago_scale"
     t.datetime "death_date"
     t.integer  "topic_id",                 null: false
+  end
+
+  create_table "heart_imagings", force: :cascade do |t|
+    t.integer  "patient_id",                          null: false
+    t.string   "imaging_tech",                        null: false
+    t.integer  "aortic_root_measurement_id"
+    t.integer  "ascending_aortic_measurement_id"
+    t.integer  "transverse_arch_measurement_id"
+    t.integer  "descending_thoracic_measurement_id"
+    t.integer  "suprarenal_abdominal_measurement_id"
+    t.integer  "infrarenal_abdominal_measurement_id"
+    t.integer  "aortic_annulus_measurement_id"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   create_table "hospitalizations", force: :cascade do |t|

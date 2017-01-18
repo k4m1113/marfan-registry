@@ -2,38 +2,19 @@
 <%= f.fields_for :meds do |fff| %>
   <%= render 'visits/visit_presence_checker', f: fff %>
   <div class="form-group">
-    <div class="row flex-items-xs-center">
-        <%= fff.hidden_field :patient_id, value: @patient.id %>
-        <div class="form-inline">
-          <div class="col-xs-12">
-            <div class="form-group">
-              <%= fff.number_field :topic_id, class: "med-response form-control form-control-lg disabled", value: "", aria: { describedby: "medIDExplanation "} %>
-              <p id="medIDExplanation" class="purple text-muted">
-                Identifies specific type of medication and its class, e.g. "calcium-channel blockers > verapamil"
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <%= fff.hidden_field :patient_id, value: @patient.id %>
+    <%= fff.hidden_field :topic_id, class: "med-response", value: "" %>
+    <br />
     <div class="row flex-items-xs-center">
       <div class="col-xs-12" style="min-height:32px;">
-        <%= render 'layouts/col_2_OR_buttons' %>
+        <%= fff.label :medication_format, "Enter formatted medications as plain text:", class: "control-label" %>
+        <%= fff.text_area :medication_format, class: "form-control form-control-lg", placeholder: "EPIC users: '.meds'" %>
       </div>
     </div>
-  </div>
-  <br />
-  <div class="row flex-items-xs-center">
-    <div class="col-xs-12" style="min-height:32px;">
-      <%= fff.label :medication_format, "Enter formatted medications as plain text:", class: "control-label" %>
-      <%= fff.text_area :medication_format, class: "form-control form-control-lg", placeholder: "EPIC users: '.meds'" %>
-    </div>
-  </div>
-</div>
-
-  <br />
-  <% if @form_action == "Update" %>
-    <%= fff.submit "Add Hospitalization", class: "btn btn-success" %>
+    <br />
+    <% if @form_action == "Update" %>
+      <%= fff.submit "Add Hospitalization", class: "btn btn-success" %>
+    <% end %>
   <% end %>
-<% end %>
+</div>
 <div id="form-hook"></div>
