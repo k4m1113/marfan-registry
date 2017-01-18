@@ -632,6 +632,10 @@ transverse_arch = Topic.create!(
   topic_type: "measurement"
 ).move_to_child_of(cardio)
 Topic.create!(
+  name: "echo",
+  topic_type: "measurement"
+).move_to_child_of(transverse_arch)
+Topic.create!(
   name: "CT",
   topic_type: "measurement"
 ).move_to_child_of(transverse_arch)
@@ -643,6 +647,10 @@ descending_thoracic_aorta = Topic.create!(
   name: "descending thoracic aorta",
   topic_type: "measurement"
 ).move_to_child_of(cardio)
+Topic.create!(
+  name: "echo",
+  topic_type: "measurement"
+).move_to_child_of(descending_thoracic_aorta)
 Topic.create!(
   name: "CT",
   topic_type: "measurement"

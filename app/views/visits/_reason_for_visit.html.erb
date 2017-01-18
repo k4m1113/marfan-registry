@@ -43,16 +43,16 @@
             </dd>
           </label>
         </div>
-        <!-- <div class="container">
-          <label class="form-check-label radio-inline" value="for heart imaging" id="heart-imaging-reason">
+        <div class="container">
+          <label class="form-check-label radio-inline" value="for aorta imaging" id="heart-imaging-reason">
             <dt class="col-xs-1">
-              <%= f.radio_button :primary_reason, "Genetic Testing", value: "for genetic testing", class: "form-check-input" %>
+              <%= f.radio_button :primary_reason, "Aorta Imaging", value: "for aorta imagery", class: "form-check-input" %>
             </dt>
-            <dd class="col-xs-11", value="for genetic testing">
-              Genetic Testing
+            <dd class="col-xs-11", value="for aorta imaging">
+              Aorta Imaging
             </dd>
           </label>
-        </div> -->
+        </div>
       </dl>
     </div>
   </div>
@@ -72,11 +72,11 @@
     $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/nested_list', f: f, discussion_topic: @medications %>");
   });
   $('#family-reason').click(function renderFamilyMember() {
-    console.log('family member form')
-    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/nested_list', f: f, discussion_topic: @family_history %>");
+    console.log('family member form');
+    $('div#add-another:last').html("<hr id='visit_top' /><%= j render 'topics/nested_list', f: f, discussion_topic: @family_history %>");
   });
-  // $('#heart-imaging-reason').click(function renderHeartImage() {
-  //   console.log('heart imaging form called')
-  //   $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/echocardiogram', f: f %>");
-  // });
+  $('#heart-imaging-reason').click(function renderHeartImage() {
+    console.log('heart imaging form called');
+    $('div#add-another:last').html("<hr id='visit_top' /><%= j render 'topics/imaging_type_selector', f: f %>");
+  });
 </script>
