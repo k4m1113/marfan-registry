@@ -37,7 +37,6 @@ class VisitsController < ApplicationController
     @hospitalizations = @visit.hospitalizations.build
     @family_member = @visit.family_members.build
     @tests = @visit.tests.build
-    @dissections = @visit.dissections.build
     @meds = @visit.medications.build
   end
 
@@ -202,10 +201,8 @@ class VisitsController < ApplicationController
         [:topic_id, :patient_id, :time_ago, :time_ago_scale, :absolute_start_date, :visit_id, :note],
       procedures_attributes:
         [:topic_id, :patient_id, :clinician_id, :visit_id, :note],
-      dissections_attributes:
-        [:visit_id, :patient_id, :concern_type, :location, :extent, :when, :intervention, :complication, :note],
       family_members_attributes:
-        [:visit_id, :patient_id, :topic_id, :seeded_relationship_type_id, :future_patient_data_hash, {future_patient_data_hash: [
+        [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, {future_patient_data_hash: [
         :first_name, :last_name, :born_years_ago, :date_of_birth, :deceased, :cause_of_death, :note]}],
       hospitalizations_attributes:
         [:visit_id, :patient_id, :topic_id, :hospitalization, :admission_date, :time_ago, :time_ago_scale, :length_of_stay, :length_of_stay_scale, :hosp_type, :description, :location, :note],

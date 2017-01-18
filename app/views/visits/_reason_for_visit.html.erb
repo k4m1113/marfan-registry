@@ -48,14 +48,11 @@
   </div>
 </div>
 
-
   <br />
-  <!-- <%= f.radio_button :primary_reason, value: "because of related symptoms", class: "form-check-input" %>
-  <%= f.label :primary_reason, "Related Symptoms", value: "because of related symptoms", class: "form-check-label" %>
-  <br /> -->
 
 <script>
   $('#cardiovascular-reason').click(function renderCardiovascular() {
+    console.log("cardio nested list called")
     $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/nested_list', f: f, discussion_topic: @cardio %>");
   });
   $('#genetics-reason').click(function renderGenetics() {

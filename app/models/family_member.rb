@@ -21,9 +21,7 @@ class FamilyMember < ActiveRecord::Base
 
   belongs_to :patient,
     inverse_of: :family_members
-  belongs_to :seeded_relationship_type
-  validates :seeded_relationship_type,
-    presence: true
+  belongs_to :topic
 
   validates :claimed_patient_id,
     numericality: {

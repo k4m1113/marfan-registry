@@ -2,8 +2,6 @@ class Visit < ActiveRecord::Base
   include Report
   has_one :patient
 
-  has_many :dissections,
-    dependent: :destroy
   has_many :symptoms,
     dependent: :destroy
   has_many :family_members,
@@ -27,7 +25,6 @@ class Visit < ActiveRecord::Base
   accepts_nested_attributes_for :medications
   accepts_nested_attributes_for :procedures
 
-  accepts_nested_attributes_for :dissections
   accepts_nested_attributes_for :symptoms
   accepts_nested_attributes_for :hospitalizations
   accepts_nested_attributes_for :tests

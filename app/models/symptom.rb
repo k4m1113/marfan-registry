@@ -1,5 +1,5 @@
 class Symptom < ActiveRecord::Base
-  has_one :SeededSymptom
+  belongs_to :topic
   belongs_to :patient,
     inverse_of: :symptoms
 

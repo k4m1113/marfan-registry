@@ -30,12 +30,19 @@
       <%= ff.check_box :deceased, class: "form-control form-control-lg btn btn-default", onclick: "$('#deceased').toggle();" %>
     </div>
   </div>
-  <div class="row">
-    <div id="deceased" class="col-xs-12" style="display: none">
-      <%= ff.label "What was their cause of death?", class: "control-label" %><br />
-      <%= ff.text_field :cause_of_death, class: "form-control form-control-lg" %>
+  <div  id="deceased" style="display: none">
+    <div class="row">
+      <%= ff.label "When did they die?", class: "control-label" %>
+      <%= render 'layouts/relative_absolute_date', fff: ff, column_title: :death_date %>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <%= ff.label "What was their cause of death?", class: "control-label" %><br />
+        <%= ff.text_field :cause_of_death, class: "form-control form-control-lg" %>
+      </div>
     </div>
   </div>
+
   <br />
   <div class="row">
     <div class="col-xs-12">

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170114003804) do
+ActiveRecord::Schema.define(version: 20170117232458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,32 +55,19 @@ ActiveRecord::Schema.define(version: 20170114003804) do
     t.string   "note"
   end
 
-  create_table "dissections", force: :cascade do |t|
-    t.integer  "patient_id",     null: false
-    t.string   "concern_type",   null: false
-    t.string   "location",       null: false
-    t.string   "extent"
-    t.datetime "when"
-    t.string   "intervention",   null: false
-    t.string   "complication"
-    t.integer  "visit_id"
-    t.string   "note"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
-    t.integer  "time_ago"
-    t.integer  "time_ago_scale"
-  end
-
   create_table "family_members", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "seeded_relationship_type_id", null: false
     t.jsonb    "future_patient_data_hash"
     t.integer  "claimed_patient_id"
-    t.integer  "patient_id",                  null: false
+    t.integer  "patient_id",               null: false
     t.integer  "visit_id"
     t.integer  "born_years_ago"
     t.string   "note"
+    t.integer  "time_ago"
+    t.string   "time_ago_scale"
+    t.datetime "death_date"
+    t.integer  "topic_id",                 null: false
   end
 
   create_table "hospitalizations", force: :cascade do |t|
@@ -97,6 +84,7 @@ ActiveRecord::Schema.define(version: 20170114003804) do
     t.string   "time_ago_scale"
     t.string   "length_of_stay_scale"
     t.string   "note"
+    t.integer  "topic_id",             null: false
   end
 
   create_table "medications", force: :cascade do |t|
@@ -157,25 +145,16 @@ ActiveRecord::Schema.define(version: 20170114003804) do
   add_index "pg_search_documents", ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id", using: :btree
 
   create_table "procedures", force: :cascade do |t|
-    t.integer  "topic_id",     null: false
-    t.integer  "patient_id",   null: false
+    t.integer  "topic_id",            null: false
+    t.integer  "patient_id",          null: false
     t.integer  "clinician_id"
     t.integer  "visit_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.string   "note"
-  end
-
-  create_table "seeded_relationship_types", id: false, force: :cascade do |t|
-    t.integer  "ahnentafel_id",   null: false
-    t.integer  "generation",      null: false
-    t.string   "name",            null: false
-    t.string   "name_camelcase",  null: false
-    t.string   "name_underscore", null: false
-    t.string   "description",     null: false
-    t.string   "gender",          null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.integer  "time_ago"
+    t.string   "time_ago_scale"
+    t.datetime "absolute_start_date"
   end
 
   create_table "seeded_symptoms", force: :cascade do |t|
@@ -189,7 +168,6 @@ ActiveRecord::Schema.define(version: 20170114003804) do
   end
 
   create_table "symptoms", force: :cascade do |t|
-    t.integer  "seeded_symptom_id", null: false
     t.boolean  "presence"
     t.float    "measurement"
     t.datetime "start_date"
@@ -197,10 +175,11 @@ ActiveRecord::Schema.define(version: 20170114003804) do
     t.text     "note"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "patient_id",        null: false
+    t.integer  "patient_id",     null: false
     t.integer  "visit_id"
     t.integer  "time_ago"
     t.integer  "time_ago_scale"
+    t.integer  "topic_id",       null: false
   end
 
   create_table "tests", force: :cascade do |t|

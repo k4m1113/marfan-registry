@@ -56,7 +56,7 @@ class FamilyMembersController < ApplicationController
     params.require(:family_member).permit(
     :patient_id,
     :visit_id,
-    :seeded_relationship_type_id,
+    :topic_id,
     future_patient_data_hash: [:first_name, :last_name, :date_of_birth, :cause_of_death, :deceased, :note])
   end
 end

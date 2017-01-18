@@ -92,9 +92,8 @@ class Patient < ActiveRecord::Base
     allow_blank: true
   validates :email,
     format: { with: /.+@.+\..+/i },
-    presence: true
+    allow_blank: true
   validates :phone_1,
     format: { with: /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/, multiline: true },
-    presence: true
-
+    allow_blank: true
 end
