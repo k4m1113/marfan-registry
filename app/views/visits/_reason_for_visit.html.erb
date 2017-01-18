@@ -48,8 +48,8 @@
             <dt class="col-xs-1">
               <%= f.radio_button :primary_reason, "Aorta Imaging", value: "for aorta imagery", class: "form-check-input" %>
             </dt>
-            <dd class="col-xs-11", value="for aorta imaging">
-              Aorta Imaging
+            <dd class="col-xs-12", value="for aorta imaging">
+              Aorta Imaging: <%= render 'topics/imaging_type_selector', f: f %>
             </dd>
           </label>
         </div>
@@ -57,9 +57,6 @@
     </div>
   </div>
 </div>
-
-  <br />
-
 <script>
   $('#cardiovascular-reason').click(function renderCardiovascular() {
     console.log("cardio nested list called")
@@ -74,9 +71,5 @@
   $('#family-reason').click(function renderFamilyMember() {
     console.log('family member form');
     $('div#add-another:last').html("<hr id='visit_top' /><%= j render 'topics/nested_list', f: f, discussion_topic: @family_history %>");
-  });
-  $('#heart-imaging-reason').click(function renderHeartImage() {
-    console.log('heart imaging form called');
-    $('div#add-another:last').html("<hr id='visit_top' /><%= j render 'topics/imaging_type_selector', f: f %>");
   });
 </script>

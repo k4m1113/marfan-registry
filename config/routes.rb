@@ -19,7 +19,6 @@ Rails.application.routes.draw do
 
   resources :topics
 
-  resources :dissections
   resources :clinicians
   resources :hospitalizations
   resources :symptoms

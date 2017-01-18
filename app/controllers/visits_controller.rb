@@ -6,24 +6,9 @@ class VisitsController < ApplicationController
   include Report
   include Doctor
 
-  def new
-    @visit = Visit.new
-    if params[:patient]
-      @patient = Patient.find_by(id: params[:patient])
-    end
+  before_filter :common_content
 
-    @all_symptoms = SeededSymptom.all
-    @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
-    @dural_symptoms = SeededSymptom.where(systemic_category: "Dural")
-    @aural_symptoms = SeededSymptom.where(systemic_category: "Aural")
-    @ocular_symptoms = SeededSymptom.where(systemic_category: "Ocular")
-    @pulmonary_symptoms = SeededSymptom.where(systemic_category: "Pulmonary")
-    @integumentary_symptoms = SeededSymptom.where(systemic_category: "Integumentary")
-    @cranial_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Cranium)")
-    @feet_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Feet & Legs)")
-    @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
-    @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
-
+  def common_content
     @root_topics = Topic.roots
     @family_history = Topic.where(name: "family history")[0].self_and_descendants
     @genetics = Topic.where(name: "genetics")[0].self_and_descendants
@@ -32,6 +17,23 @@ class VisitsController < ApplicationController
     @pulmonary = Topic.where(name: "pulmonary")[0].self_and_descendants
     @ortho = Topic.where(name: "orthopedic")[0].self_and_descendants
     @ophthalmo = Topic.where(name: "ophthalmologic")[0].self_and_descendants
+
+    @root = Topic.where(parent_id: Topic.where(name: "aortic root")[0])
+    @asc = Topic.where(parent_id: Topic.where(name: "ascending aortic")[0])
+    @transv = Topic.where(parent_id: Topic.where(name: "transverse arch")[0])
+    @desc = Topic.where(parent_id: Topic.where(name: "descending thoracic aorta")[0])
+    @supra = Topic.where(parent_id: Topic.where(name: "suprarenal abdominal aorta")[0])
+    @infra = Topic.where(parent_id: Topic.where(name: "infrarenal abdominal aorta")[0])
+    @annulus = Topic.where(parent_id: Topic.where(name: "aortic annulus")[0])
+
+    @heart_imaging_locations = [@root, @asc, @transv, @desc, @supra, @infra, @annulus]
+  end
+
+  def new
+    @visit = Visit.new
+    if params[:patient]
+      @patient = Patient.find_by(id: params[:patient])
+    end
 
     @symptoms = @visit.symptoms.build
     @hospitalizations = @visit.hospitalizations.build
@@ -45,7 +47,7 @@ class VisitsController < ApplicationController
     @form_action = "Create"
     if @visit.save
       flash[:success] = "Visit started for #{@visit.patient.last_name}, #{@visit.patient.first_name}."
-      redirect_to edit_visit_path(@visit.id)
+      redirect_to visit_path(@visit.id)
       session[:current_visit] = @visit
     else
       flash[:error] = "Please re-check information: #{@visit.errors.full_messages}"
@@ -53,41 +55,22 @@ class VisitsController < ApplicationController
       render 'new'
       @visit = session[:current_visit]
     end
-    @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
-    @dural_symptoms = SeededSymptom.where(systemic_category: "Dural")
-    @aural_symptoms = SeededSymptom.where(systemic_category: "Aural")
-    @ocular_symptoms = SeededSymptom.where(systemic_category: "Ocular")
-    @pulmonary_symptoms = SeededSymptom.where(systemic_category: "Pulmonary")
-    @integumentary_symptoms = SeededSymptom.where(systemic_category: "Integumentary")
-    @cranial_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Cranium)")
-    @feet_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Feet & Legs)")
-    @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
-    @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
   end
 
   def show
     @visit = Visit.find(params[:id])
     @patient = Patient.where(id:  @visit.patient_id)[0]
     @clinician = Clinician.where(id: @visit.clinician_id)[0]
-    @dissections = Dissection.where(visit_id: @visit.id)
     @symptoms = Symptom.where(visit_id: @visit.id)
     @family_members = FamilyMember.where(visit_id: @visit.id)
     @tests = Test.where(visit_id: @visit.id)
+    @imagery = @tests.where(topic_id: [@heart_imaging_locations])
+    @tests -= @tests.where(id: @imagery)
     @hospitalizations = Hospitalization.where(visit_id: @visit.id)
   end
 
   def index
     @visits = Visit.all
-    @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
-    @dural_symptoms = SeededSymptom.where(systemic_category: "Dural")
-    @aural_symptoms = SeededSymptom.where(systemic_category: "Aural")
-    @ocular_symptoms = SeededSymptom.where(systemic_category: "Ocular")
-    @pulmonary_symptoms = SeededSymptom.where(systemic_category: "Pulmonary")
-    @integumentary_symptoms = SeededSymptom.where(systemic_category: "Integumentary")
-    @cranial_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Cranium)")
-    @feet_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Feet & Legs)")
-    @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
-    @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
   end
 
   def edit
@@ -96,28 +79,6 @@ class VisitsController < ApplicationController
     @family = FamilyMember.where(visit_id: @visit.id)
     @family_member = @patient.family_members.build
     @hospitalizations = Hospitalization.where(visit_id: @visit.id)
-
-    @mother = @family.where(seeded_relationship_type_id: 3)[0]
-    @father = @family.where(seeded_relationship_type_id: 2)[0]
-    @maternal_grandmother = @family.where(seeded_relationship_type_id: 7)[0]
-    @paternal_grandmother = @family.where(seeded_relationship_type_id: 5)[0]
-    @maternal_grandfather = @family.where(seeded_relationship_type_id: 6)[0]
-    @paternal_grandfather = @family.where(seeded_relationship_type_id: 4)[0]
-    @siblings = @family.where(seeded_relationship_type_id: 1)
-    @children = @family.where(ahfnentafel_id: 16)
-    @grandchildren = @family.where(ahfnentafel_id: 17)
-
-    @all_symptoms = SeededSymptom.all
-    @cardiac_symptoms = SeededSymptom.where(systemic_category: "Cardiovascular")
-    @dural_symptoms = SeededSymptom.where(systemic_category: "Dural")
-    @aural_symptoms = SeededSymptom.where(systemic_category: "Aural")
-    @ocular_symptoms = SeededSymptom.where(systemic_category: "Ocular")
-    @pulmonary_symptoms = SeededSymptom.where(systemic_category: "Pulmonary")
-    @integumentary_symptoms = SeededSymptom.where(systemic_category: "Integumentary")
-    @cranial_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Cranium)")
-    @feet_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Feet & Legs)")
-    @general_skeletal_symptoms = SeededSymptom.where(systemic_category: "Skeletal (General)")
-    @hand_symptoms = SeededSymptom.where(systemic_category: "Skeletal (Hands & Arms)")
 
     @patient.symptoms.build
     @form_action = "Update"
@@ -145,36 +106,6 @@ class VisitsController < ApplicationController
     loc = Doctor.get_lat_and_long(@patient.city, @patient.state)
     @clinician = Doctor.find_doctors(query, loc)
     redirect_to new_visit_path(clinician: @clinician, patient: @patient)
-  end
-
-  def report
-    # @visit = Visit.find(params[:id])
-    # @clinician = Clinician.where(id: @visit.clinician_id)[0]
-    # @first_symptom = @visit.symptoms.first
-    # if @first_symptom
-    #   @first_seeded_symptom = SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0]
-    # end
-    #
-    # @first_family_member = @visit.relationships.first
-    # @patient = Patient.where(id: @visit.patient_id)[0]
-    #
-    # @relevant_symptoms = []
-    # @visit.symptoms.each do |s|
-    #   @first_seeded_symptom_category = SeededSymptom.where(id: @first_symptom.seeded_symptom_id)[0].systemic_category
-    #   if (SeededSymptom.where(id: s.seeded_symptom_id)[0].systemic_category == @first_seeded_symptom_category)
-    #     @relevant_symptoms.push(s)
-    #   end
-    #   return @relevant_symptoms
-    # end
-    #
-    #
-    # if @patient.sex == "F"
-    #   @she_he = "she"
-    #   @his_her = "her"
-    # else
-    #   @she_he = "he"
-    #   @his_her = "his"
-    # end
   end
 
   private

@@ -11,7 +11,23 @@ class TopicsController < ApplicationController
   end
 
   def show
-
+    @topic = Topic.find(params[:id])
+    case @topic.topic_type
+      when 'family member'
+        @all = FamilyMember.where(topic_id: @topic.id)
+      when 'measurement'
+        @all = Test.where(topic_id: @topic.id)
+      when 'procedure'
+        @all = Procedure.where(topic_id: @topic.id)
+      when 'complication'
+        @all = Complication.where(topic_id: @topic.id)
+      when 'symptom'
+        @all = Symptom.where(topic_id: @topic.id)
+      when 'diagnosis'
+        @all = Diagnosis.where(topic_id: @topic.id)
+      when 'medication'
+        @all = Medication.where(topic_id: @topic.id)
+    end
   end
 
   def new

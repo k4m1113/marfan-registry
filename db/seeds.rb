@@ -1,3 +1,30 @@
+Patient.create!(
+  first_name: "Antoine",
+  middle_name: "Louis",
+  last_name: "Marfan",
+  address_line_1: "22 Cours de Republique",
+  city: "Paris",
+  state: "TX",
+  country: "USA",
+  postal_code: 75460,
+  sex: "M",
+  date_of_birth: DateTime.new(1858,7,5),
+  deceased: false,
+  phone_1: 3333333333,
+  email: "antoine@marfan.org"
+)
+Clinician.create!(
+  first_name: "David",
+  last_name: "Liang",
+  practice_name: "The Stanford University Center for Marfan Syndrome and Aortic Disorders",
+  address_line_1: "Stanford University Medical Center Cardiology Clinic, 2nd Floor of Main Hospital",
+  address_line_2: "300 Pasteur Drive",
+  address_line_3: "H2157",
+  city: "Stanford",
+  state: "CA",
+  country: "USA",
+  postal_code: 94305
+)
 ## BEGIN FAMILY HISTORY (xls 6) ##
 family_history = Topic.create!(
   name: "family history",
