@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :procedures
     resources :complications
     resources :diagnoses
+    resources :vitals
   end
 
   resources :topics

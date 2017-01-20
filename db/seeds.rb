@@ -451,11 +451,11 @@ Topic.create!(
 ).move_to_child_of(morphology)
 Topic.create!(
   name: "arm span",
-  topic_type: "stat"
+  topic_type: "measurement"
 ).move_to_child_of(morphology)
 Topic.create!(
   name: "lower segment",
-  topic_type: "stat"
+  topic_type: "measurement"
 ).move_to_child_of(morphology)
 Topic.create!(
   name: "iridodenesis",

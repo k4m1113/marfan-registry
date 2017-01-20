@@ -24,6 +24,8 @@ class Patient < ActiveRecord::Base
 
   has_many :heart_imagings,
     dependent: :destroy
+  has_many :vitals,
+    dependent: :destroy
 
 
   has_many :symptoms,
@@ -44,6 +46,7 @@ class Patient < ActiveRecord::Base
   has_many :procedures,
     dependent: :destroy
 
+  accepts_nested_attributes_for :vitals
   accepts_nested_attributes_for :complications
   accepts_nested_attributes_for :diagnoses
   accepts_nested_attributes_for :medications

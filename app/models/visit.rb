@@ -11,6 +11,8 @@ class Visit < ActiveRecord::Base
   has_many :tests,
     dependent: :destroy
 
+  has_many :vitals,
+    dependent: :destroy
   has_many :complications,
     dependent: :destroy
   has_many :diagnoses,
@@ -21,6 +23,7 @@ class Visit < ActiveRecord::Base
     dependent: :destroy
 
   accepts_nested_attributes_for :complications
+  accepts_nested_attributes_for :vitals
   accepts_nested_attributes_for :diagnoses
   accepts_nested_attributes_for :medications
   accepts_nested_attributes_for :procedures

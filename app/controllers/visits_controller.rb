@@ -18,6 +18,8 @@ class VisitsController < ApplicationController
     @ortho = Topic.where(name: "orthopedic")[0].self_and_descendants
     @ophthalmo = Topic.where(name: "ophthalmologic")[0].self_and_descendants
 
+    @stats = Topic.where(topic_type: "stat")
+
     @root = Topic.where(parent_id: Topic.where(name: "aortic root")[0])
     @asc = Topic.where(parent_id: Topic.where(name: "ascending aortic")[0])
     @transv = Topic.where(parent_id: Topic.where(name: "transverse arch")[0])
@@ -35,6 +37,7 @@ class VisitsController < ApplicationController
       @patient = Patient.find_by(id: params[:patient])
     end
 
+    @vitals = @visit.vitals.build
     @symptoms = @visit.symptoms.build
     @hospitalizations = @visit.hospitalizations.build
     @family_member = @visit.family_members.build
@@ -63,6 +66,7 @@ class VisitsController < ApplicationController
     @clinician = Clinician.where(id: @visit.clinician_id)[0]
     @symptoms = Symptom.where(visit_id: @visit.id)
     @family_members = FamilyMember.where(visit_id: @visit.id)
+    @vitals = Vital.where(visit_id: @visit.id)
     @tests = Test.where(visit_id: @visit.id)
     @imagery = @tests.where(topic_id: [@heart_imaging_locations])
     @tests -= @tests.where(id: @imagery)
@@ -124,6 +128,8 @@ class VisitsController < ApplicationController
       :clinician_id,
       :primary_reason,
       :secondary_reason,
+      vitals_attributes:
+        [:visit_id, :patient_id, :topic_id, :measurement, :note],
       medications_attributes:
         [:visit_id, :patient_id, :topic_id, :dose, :dose_unit_of_measurement, :nested_med_id, :nested_med_category, :duration_amount, :duration_scale, :ingestion_method, :frequency, :frequency_scale, :common_name, :medication_format, :time_ago, :time_ago_scale, :absolute_start_date, :note],
       diagnoses_attributes:
