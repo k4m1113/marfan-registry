@@ -2,19 +2,85 @@
 <%= f.fields_for :meds do |fff| %>
   <%= render 'visits/visit_presence_checker', f: fff %>
   <div class="form-group">
+    <%= fff.hidden_field :visit_id, value: @visit.id %>
     <%= fff.hidden_field :patient_id, value: @patient.id %>
     <%= fff.hidden_field :topic_id, class: "med-response", value: "" %>
     <br />
     <div class="row flex-items-xs-center">
-      <div class="col-xs-12" style="min-height:32px;">
         <%= fff.label :medication_format, "Enter formatted medications as plain text:", class: "control-label" %>
         <%= fff.text_area :medication_format, class: "form-control form-control-lg", placeholder: "EPIC users: '.meds'" %>
+    </div>
+    <br />
+    <div class="row flex-items-xs-center">
+      <div class="form-inline">
+        <%= fff.label :name, "Name:", class: "col-xs-2 col-form-label" %>
+        <div class="col-xs-10">
+          <%= fff.number_field :dosage_form_units, class: "form-control form-control-lg", step: 1, in: 1...99 %>
+          <%= fff.text_field :name, class: "form-control form-control-lg", placeholder: "ex: metoprolol, levothyroxine" %>
+          (<%= fff.text_field :common_name, class: "form-control form-control-lg", placeholder: "ex: Toprol XL, Synthroid" %>)
+          <%= fff.select :dosage_form, ["tablet", "capsule", "pill", "liquid solution", "inhaler", "cream", "drops", "suppository"], class: "form-control form-control-lg" %>
+        </div>
+      </div>
+    </div>
+    <div class="row flex-items-xs-center">
+      <div class="form-inline">
+        <%= fff.label :dose, "Dose:", class: "col-xs-2 col-form-label" %>
+        <div class="col-xs-10">
+          <%= fff.number_field :dose, class: "form-control form-control-lg", step: 1/100, in: 0..99999 %>
+          <%= fff.select :dose_unit_of_measurement, ["mcg","mg", "mL", "mm", "g", "L", "IU"], class: "form-control form-control-lg" %>
+          <%= fff.select :ingestion_method, ADMINISTRATION_METHODS, class: "form-control form-control-lg" %>
+        </div>
+      </div>
+    </div>
+    <div class="row flex-items-xs-center">
+      <div class="form-inline">
+        <%= fff.label :frequency, "Frequency:", class: "col-xs-2 col-form-label" %>
+        <div class="col-xs-10">
+          <%= fff.number_field :frequency, class: "form-control form-control-lg", in: 0..99999  %> time(s) per </h3>
+          <%= fff.select :frequency_scale, ["day", "hour", "week", "month", "year", "as needed"], class: "col-2 col-form-label" %>
+        </div>
+      </div>
+    </div>
+    <div class="row flex-items-xs-center">
+      <div class="form-inline">
+        <%= fff.label :frequency, "Duration:", class: "col-xs-2 col-form-label" %>
+        <div class="col-xs-10">
+          for <%= fff.number_field :duration_amount, class: "form-control form-control-lg", in: 0..99999  %>
+          <%= fff.select :duration_scale, [nil, "days", "weeks", "months", "years"], class: "col-2 col-form-label" %>
+        </div>
       </div>
     </div>
     <br />
     <% if @form_action == "Update" %>
-      <%= fff.submit "Add Hospitalization", class: "btn btn-success" %>
+      <%= fff.submit "Add Medication", class: "btn btn-success" %>
     <% end %>
   <% end %>
 </div>
 <div id="form-hook"></div>
+
+<script>
+function parseMeds(str) {
+
+  kamille = str.split("\n• ");
+  kamille.shift();
+  for(var i = 0; i < kamille.length; i++){
+    var obj = {
+
+    }
+  }
+}
+Current Outpatient Prescriptions
+Medication Sig
+Dispense Refill
+• FLUoxetine (PROZAC) 20 mg tablet
+take 20 mg by mouth daily
+90 Tab 3
+• Levonorgestrel (MIRENA) 20 mcg/24 hr IUD
+by Intrauterine route.
+• levothyroxine (SYNTHROID) 125 mcg TABS
+take 1 Tab by mouth Every Day
+• metoprolol (TOPROL XL) 100 mg sustained release tablet
+TAKE 1 TABLET DAILY  90 Tab 3
+
+
+</script>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170119222257) do
+ActiveRecord::Schema.define(version: 20170120192219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 20170119222257) do
   create_table "medications", force: :cascade do |t|
     t.integer  "patient_id",               null: false
     t.integer  "visit_id"
-    t.integer  "dose"
+    t.decimal  "dose"
     t.string   "dose_unit_of_measurement"
     t.integer  "nested_med_id"
     t.integer  "nested_med_category"
@@ -122,6 +122,9 @@ ActiveRecord::Schema.define(version: 20170119222257) do
     t.string   "time_ago_scale"
     t.datetime "absolute_start_date"
     t.string   "note"
+    t.string   "name"
+    t.string   "dosage_form"
+    t.integer  "dosage_form_units"
   end
 
   create_table "patients", force: :cascade do |t|

@@ -1,5 +1,4 @@
-INTERVENTIONS = ["Surgery", "Stent", "Stent Graft", "Fenestration"]
-
+ADMINISTRATION_METHODS = ["", "orally", "intravenously", "intramuscularly", "subcutaneously", "sublingually", "buccally", "rectally", "vaginally", "by the ocular route", "by the otic route", "nasally", "by nebulization", "cutaneously", "transdermally", "intrathecally"]
 COMPLICATIONS = ["", "Rupture", "Ischemia", "Stroke", "Renal Failure"]
 
 AORTIC_EXTENTS = ["", "Root", "Arch", "Thoracic", "Abdominal (Suprarenal)", "Abdominal (Infrarenal)"]
