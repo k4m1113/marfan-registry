@@ -54,7 +54,6 @@
               <div class="hidden-sm hidden-xs btn-group btn-group-sm hidden-sm-down" role="group">
                 <%= link_to "New Visit", new_visit_path(patient: p.id), type: "button", class: "btn btn-secondary btn-success" %>
                 <%= link_to "Edit Patient", edit_patient_path(id: p.id), type: "button", method: :get, class: "btn btn-secondary" %>
-                <%= link_to "Delete Records", patient_path(id: p.id), method: :delete, type: "button", class: "btn btn-secondary", data: { confirm: "Are you sure you want to delete #{p.first_name} #{p.last_name} and all associated records?" } %>
               </div>
               <div class="hidden-md hidden-lg hidden-xlg btn-group btn-group-sm" role="group">
                 <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -64,7 +63,6 @@
                 <ul class="dropdown-menu">
                   <li><%= link_to "Edit Patient", edit_patient_path(id: p.id), method: :get %></li>
                   <li><%= link_to "Destroy Records", patient_path(id: p.id), method: :delete %></li>
-                  <li><%= link_to "New Visit", new_visit_path(patient: p.id) %></li>
                 </ul>
               </div>
             </td>

@@ -4,7 +4,7 @@ class Patient < ActiveRecord::Base
   scope :sorted, -> { order(last_name: :asc) }
 
   pg_search_scope :search,
-    against: [:first_name, :last_name],
+    against: [:first_name, :last_name, :date_of_birth],
     using: {
       tsearch: { prefix: true }
     }
