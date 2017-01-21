@@ -3,27 +3,27 @@
   <hr />
 </div>
 <%= form_for @visit, class: "visit_form" do |f| %>
-  <% case @visit.primary_reason %>
-  <% when 'due to family history' %>
-    <%= render 'family_members/family_tree', patient_id: @patient.id %>
-  <% when 'because of a hospitalization' %>
-    <%= render 'visits/show_tables/hospitalizations' %>
-    <h2>Add another:</h2>
-    <hr />
-    <%= f.fields_for :patient do |ff| %>
-      <%= render 'hospitalization_form', f: ff, form_action: "Update" %>
-    <% end %>
-  <% when 'for recent testing' %>
-    <h2>Add another:</h2>
-    <hr />
-    <%= f.fields_for :patient do |ff| %>
-      <%= render 'test', f: ff, form_action: "Update" %>
-    <% end %>
-  <% when 'because of related symptoms' %>
-    <h2>Add more:</h2>
-    <hr />
-    <%= f.fields_for :patient do |ff| %>
-      <%= render 'original_form', f: ff %>
-    <% end %>
-  <% end %>
+  <div class="card">
+    <div class="card-header text-center">
+      <ul class="nav nav-pills">
+        <% @root_topics.each do |rt| %>
+          <li><a data-toggle="pill" href="#<%= rt.name.parameterize.underscore %>">
+            <%= rt.name.titleize %>
+          </a></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="card-body">
+      <br />
+      <div class="tab-content">
+        <% @root_topics.each do |rt| %>
+          <div id="<%= rt.name.parameterize.underscore %>" class="tab-pane fade">
+            <h3 class="text-center"><%= rt.name.titleize %></h3>
+            <hr />
+            <%= render 'topics/nested_list', f: f, discussion_topic: Topic.roots.where(name: "#{rt.name}")[0].self_and_descendants %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 <% end %>

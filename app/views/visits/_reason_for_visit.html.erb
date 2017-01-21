@@ -60,13 +60,13 @@
 <script>
   $('#cardiovascular-reason').click(function renderCardiovascular() {
     console.log("cardio nested list called")
-    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/nested_list', f: f, discussion_topic: @cardio %>");
+    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/nested_list', f: f, discussion_topic: @cardiovascular %>");
   });
   $('#genetics-reason').click(function renderGenetics() {
     $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/nested_list', f: f, discussion_topic: @genetics %>");
   });
   $('#medication-reason').click(function renderMedication() {
-    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/nested_list', f: f, discussion_topic: @medications %>");
+    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/nested_list', f: f, discussion_topic: @medication %>");
   });
   $('#family-reason').click(function renderFamilyMember() {
     console.log('family member form');

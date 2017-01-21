@@ -12,8 +12,8 @@ class VisitsController < ApplicationController
     @root_topics = Topic.roots
     @family_history = Topic.where(name: "family history")[0].self_and_descendants
     @genetics = Topic.where(name: "genetics")[0].self_and_descendants
-    @medications = Topic.where(name: "medication")[0].self_and_descendants
-    @cardio = Topic.where(name: "cardiovascular")[0].self_and_descendants
+    @medication = Topic.where(name: "medication")[0].self_and_descendants
+    @cardiovascular = Topic.where(name: "cardiovascular")[0].self_and_descendants
     @pulmonary = Topic.where(name: "pulmonary")[0].self_and_descendants
     @ortho = Topic.where(name: "orthopedic")[0].self_and_descendants
     @ophthalmo = Topic.where(name: "ophthalmologic")[0].self_and_descendants
@@ -79,10 +79,11 @@ class VisitsController < ApplicationController
 
   def edit
     @visit = Visit.find(params[:id])
-    @patient = Patient.where(id: @visit.patient_id)[0]
+    @patient = Patient.find(@visit.patient_id)
     @family = FamilyMember.where(visit_id: @visit.id)
     @family_member = @patient.family_members.build
     @hospitalizations = Hospitalization.where(visit_id: @visit.id)
+    @tests = @patient.tests.build
 
     @patient.symptoms.build
     @form_action = "Update"

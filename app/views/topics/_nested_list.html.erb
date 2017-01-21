@@ -13,7 +13,8 @@
     <% when 'symptom' %>
       <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="symptom-reason">Add symptom details</button>
     <% when 'diagnosis' %>
-      <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="test-reason" onclick="renderTestTopicForm($(this).val());">Add testing details</button>
+      <button type="button" class="btn btn-danger pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="test-reason"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+      <button type="button" class="btn btn-success pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="test-reason"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
     <% when 'medication' %>
       <button type="button" class="btn btn-info pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="med-reason" onclick="renderMedTopicForm($(this).val());">Add medication details</button>
     <% end %>
@@ -74,22 +75,22 @@
     $('input.complication-response:last').val(int);
   };
   function renderTestTopicForm(int) {
-    $('#form-hook:last').html("<%= j render 'test', f: f %><hr id='kd' />");
+    console.log("test called")
+    $('#form-hook:last').html("<%= j render 'visits/test', f: f %>");
     $('input.test-response:last').val(int);
-    $('hr#kd:last').html("<div id='form-hook'></div>");
   };
   function renderSymptomTopicForm() {
-    $('#form-hook:last').html("<%= j render 'test', f: f %><hr />");
+    $('#form-hook:last').html("<%= j render 'visits/test', f: f %><hr />");
   };
   function renderDiagnosisTopicForm() {
-    $('#form-hook:last').html("<%= j render 'diagnosis', f: f %><hr />");
+    $('#form-hook:last').html("<%= j render 'visits/diagnosis', f: f %><hr />");
   };
   function renderFamilyMemberTopicForm(int) {
-    $('#form-hook:last').html("<%= j render 'family_member_form', f: f %><hr />");
+    $('#form-hook:last').html("<%= j render 'visits/family_member_form', f: f %><hr />");
     $('input.family-response:last').val(int);
   };
   function renderMedTopicForm(int) {
-    $('#form-hook:last').html("<%= j render 'medication_form', f: f %><hr />");
+    $('#form-hook:last').html("<%= j render 'visits/medication_form', f: f %><hr />");
     $('input.med-response:last').val(int);
   };
 </script>
