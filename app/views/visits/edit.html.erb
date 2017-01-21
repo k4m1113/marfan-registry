@@ -1,5 +1,5 @@
 <div>
-  <%= link_to "View Visit Summary", visit_path(@visit) %>
+  <%= link_to "View Visit Summary", visit_path(@visit), class: "disabled" %>
   <hr />
 </div>
 <%= form_for @visit, class: "visit_form" do |f| %>

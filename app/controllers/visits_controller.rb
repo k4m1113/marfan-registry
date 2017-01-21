@@ -62,8 +62,8 @@ class VisitsController < ApplicationController
 
   def show
     @visit = Visit.find(params[:id])
-    @patient = Patient.where(id:  @visit.patient_id)[0]
-    @clinician = Clinician.where(id: @visit.clinician_id)[0]
+    @patient = Patient.find(@visit.patient_id)
+    @clinician = Clinician.find(@visit.clinician_id)
     @symptoms = Symptom.where(visit_id: @visit.id)
     @family_members = FamilyMember.where(visit_id: @visit.id)
     @vitals = Vital.where(visit_id: @visit.id)
