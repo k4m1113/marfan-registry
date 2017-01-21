@@ -50,7 +50,7 @@ class VisitsController < ApplicationController
     @form_action = "Create"
     if @visit.save
       flash[:success] = "Visit started for #{@visit.patient.last_name}, #{@visit.patient.first_name}."
-      redirect_to visit_path(@visit.id)
+      redirect_to edit_visit_path(@visit.id)
       session[:current_visit] = @visit
     else
       flash[:error] = "Please re-check information: #{@visit.errors.full_messages}"
