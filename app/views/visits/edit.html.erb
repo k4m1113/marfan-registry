@@ -17,10 +17,11 @@
       <br />
       <div class="tab-content">
         <% @root_topics.each do |rt| %>
+          <% @discussion_topic = Topic.roots.where(name: "#{rt.name}")[0].self_and_descendants %>
           <div id="<%= rt.name.parameterize.underscore %>" class="tab-pane fade">
             <h3 class="text-center"><%= rt.name.titleize %></h3>
             <hr />
-            <%= render 'topics/nested_list', f: f, discussion_topic: Topic.roots.where(name: "#{rt.name}")[0].self_and_descendants %>
+            <%= render 'topics/nested_list', f: f, discussion_topic: @discussion_topic %>
           </div>
         <% end %>
       </div>

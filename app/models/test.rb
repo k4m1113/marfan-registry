@@ -1,7 +1,11 @@
 class Test < ActiveRecord::Base
   belongs_to :topic
+  belongs_to :visit,
+    inverse_of: :tests,
+    required: false
   belongs_to :patient,
     inverse_of: :tests
+    
   validates :time_ago,
     numericality: {
       only_integer: true,
