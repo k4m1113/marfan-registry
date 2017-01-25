@@ -10,6 +10,14 @@ module ApplicationHelper
     end
   end
 
+  def button_color(topic_group, category)
+    if topic_group.any?{ |t| t.topic_id == category.id }
+      return "btn-success"
+    else
+      return "btn-danger"
+    end
+  end
+
   def find_trail(topic)
     topic.self_and_ancestors.map(&:name).join(" > ")
   end
