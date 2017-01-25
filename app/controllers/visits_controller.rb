@@ -37,16 +37,17 @@ class VisitsController < ApplicationController
       @patient = Patient.find_by(id: params[:patient])
     end
 
-    @vitals = @visit.vitals.build
-    @symptoms = @visit.symptoms.build
-    @hospitalizations = @visit.hospitalizations.build
-    @family_member = @visit.family_members.build
-    @tests = @visit.tests.build
-    @meds = @visit.medications.build
+    @visit.vitals.build
+    @visit.symptoms.build
+    @visit.hospitalizations.build
+    @visit.family_members.build
+    @visit.tests.build
+    @visit.medications.build
   end
 
   def create
     @visit = Visit.new(visit_params)
+    @patient = Patient.find(@visit.patient_id)
     @form_action = "Create"
     if @visit.save
       flash[:success] = "Visit started for #{@visit.patient.last_name}, #{@visit.patient.first_name}."
@@ -68,7 +69,7 @@ class VisitsController < ApplicationController
     @family_members = FamilyMember.where(visit_id: @visit.id)
     @vitals = Vital.where(visit_id: @visit.id)
     @tests = Test.where(visit_id: @visit.id)
-    @imagery = @tests.where(topic_id: [@heart_imaging_locations])
+    @imagery = @tests.where(topic_id: [ @heart_imaging_locations].flatten)
     @tests -= @tests.where(id: @imagery)
     @hospitalizations = Hospitalization.where(visit_id: @visit.id)
   end
@@ -129,8 +130,10 @@ class VisitsController < ApplicationController
       :clinician_id,
       :primary_reason,
       :secondary_reason,
+      :vital,
+      :test,
       vitals_attributes:
-        [:visit_id, :patient_id, :topic_id, :measurement, :note],
+        [:visit_id, :patient_id, :topic_id, :vital, :measurement, :note],
       medications_attributes:
         [:visit_id, :patient_id, :topic_id, :dose, :dose_unit_of_measurement, :nested_med_id, :nested_med_category, :duration_amount, :duration_scale, :ingestion_method, :frequency, :frequency_scale, :common_name, :medication_format, :time_ago, :time_ago_scale, :absolute_start_date, :note],
       diagnoses_attributes:
@@ -148,7 +151,6 @@ class VisitsController < ApplicationController
         [:visit_id, :topic_id,:patient_id, :test, :test_date, :time_ago, :time_ago_scale, :result, :note],
       symptoms_attributes:
         [:topic_id, :seeded_symptom_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :time_ago, :time_ago_scale, :start_date, :frequency, :note]
-
       )
   end
 end

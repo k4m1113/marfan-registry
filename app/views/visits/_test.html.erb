@@ -1,6 +1,6 @@
 <h3 class="red h3">Test</h3>
 <h5 class="purple h5" id="test-title"></h5>
-<%= f.fields_for @tests do |fff| %>
+<%= f.fields_for :tests do |fff| %>
   <%= render 'visits/visit_presence_checker', f: fff %>
   <div class="form-group">
     <%= fff.hidden_field :patient_id, value: @patient.id %>

@@ -23,6 +23,11 @@ class FamilyMember < ActiveRecord::Base
     inverse_of: :family_members
   belongs_to :topic
 
+  belongs_to :visit,
+    inverse_of: :family_members,
+    required: false
+
+
   validates :claimed_patient_id,
     numericality: {
       only_integer: true,

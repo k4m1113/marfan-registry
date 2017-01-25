@@ -9,11 +9,19 @@
   $('select').change(function renderCTForm() {
     switch (this.value) {
       case 'echocardiogram':
+        console.log('echo called');
         $("div#add-another:last").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'echo' %>");
+        break;
       case 'CT':
+        console.log('CT called');
+
         $("div#add-another:last").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'CT' %>");
+        break;
       case 'MRI':
+        console.log('MRI called');
+
         $("div#add-another:last").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'MRI' %>");
+        break;
     };
   });
 </script>

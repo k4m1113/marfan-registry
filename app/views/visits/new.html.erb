@@ -95,7 +95,7 @@
     </div>
     <script>
       function renderPartialOne() {
-        $('#general-health-response').html('<%= j render "reason_for_visit", f: f %>')
+        $('#general-health-response').html('<%= j render "reason_for_visit", f: f, patient: @patient, visit: @visit %>')
       }
     </script>
 

@@ -19,7 +19,7 @@
             <td><% link_to "Visit #{fm.visit_id}", visit_path(fm.visit_id) %></td>
           <% end %>
           <td><%= "#{fm.future_patient_data_hash['first_name']} #{fm.future_patient_data_hash['last_name']}"  %></td>
-          <td><%= SeededRelationshipType.where(ahnentafel_id: fm.seeded_relationship_type_id)[0].name %></td>
+          <td><%= Topic.find(fm.topic_id).name %></td>
           <td><%= fm.future_patient_data_hash['note'] %></td>
           <td>
             <%= render 'family_members/link_buttons', fm: fm %>
