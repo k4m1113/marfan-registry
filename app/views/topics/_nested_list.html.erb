@@ -1,25 +1,24 @@
-
-
 <%
   def render_form_button(category)
   %>
     <% case category.topic_type %>
     <% when 'family member' %>
-      <button type="button" class="btn <%= button_color(@family_members, category) %> pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="family-reason" onclick="renderFamilyMemberTopicForm($(this).val());">Add relationship details</button>
+      <button type="button" class="btn <%= button_color(@visit.family_members, category) %> pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="family-reason" onclick="renderFamilyMemberTopicForm($(this).val());">Add relationship details</button>
     <% when 'measurement' %>
       <button type="button" class="btn <%= button_color(@visit.tests, category) %> pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="test-reason" onclick="renderTestTopicForm($(this).val());">Add test details</button>
     <% when 'procedure' %>
-      <button type="button" class="btn <%= button_color(@procedures, category) %> pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="procedure-reason">Add procedure details</button>
+      <button type="button" class="btn <%= button_color(@visit.procedures, category) %> pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="procedure-reason">Add procedure details</button>
     <% when 'complication' %>
-      <button type="button" class="btn <%= button_color(@complications, category) %> pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="complication-reason" onclick="renderComplicationTopicForm($(this).val());">Add details</button>
+      <button type="button" class="btn <%= button_color(@visit.complications, category) %> pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="complication-reason" onclick="renderComplicationTopicForm($(this).val());">Add details</button>
     <% when 'symptom' %>
-      <button type="button" class="btn <%= button_color(@symptoms, category) %> pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="symptom-reason">Add symptom details</button>
+      <button type="button" class="btn <%= button_color(@visit.symptoms, category) %> pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="symptom-reason">Add symptom details</button>
     <% when 'diagnosis' %>
-      <button type="button" class="btn <%= button_color(@diagnoses, category) %> pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="test-reason"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+      <button type="button" class="btn btn-danger pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="test-reason"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button>
+      <button type="button" class="btn btn-success pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="test-reason"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
     <% when 'medication' %>
-      <button type="button" class="btn <%= button_color(@medications, category) %> pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="med-reason" onclick="renderMedTopicForm($(this).val());">Add medication details</button>
+      <button type="button" class="btn <%= button_color(@visit.medications, category) %> pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="med-reason" onclick="renderMedTopicForm($(this).val());">Add medication details</button>
     <% when 'stat' %>
-      <button type="button" class="btn <%= button_color(@vitals, category) %>pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="stat-reason" onclick="renderStatTopicForm($(this).val());">Add vitals details</button>
+      <button type="button" class="btn <%= button_color(@visit.vitals, category) %> pull-right" style="margin-top: -8px;" value="<%= category.id %>" id="stat-reason" onclick="renderStatTopicForm($(this).val());">Add vitals details</button>
     <% end %>
 <% end %>
 
@@ -66,40 +65,40 @@
     </ul>
   </div>
   <div class="col-xs-6">
-    <div id="form-hook"></div>
+    <div class="form-hook"></div>
   </div>
 </div>
 
 <script>
   function renderProcedureTopicForm(int) {
-    $('#form-hook:last').html("<%= j render 'procedures/procedure_form', f: f %><hr />");
+    $('.tab-pane.active').find('.form-hook').html("<%= j render 'procedures/procedure_form', f: f %><hr />");
     $('input.procedure-response:last').val(int);
   };
   function renderComplicationTopicForm(int) {
-    $('#form-hook:last').html("<%= j render 'complications/complication_form', f: f %><hr />");
+    $('.tab-pane.active').find('.form-hook').html("<%= j render 'complications/complication_form', f: f %><hr />");
     $('input.complication-response:last').val(int);
   };
   function renderTestTopicForm(int) {
     console.log("test called")
-    $('#form-hook:last').html("<%= j render 'visits/test', f: f %>");
+    $('.tab-pane.active').find('.form-hook').html("<%= j render 'visits/test', f: f %>");
     $('input.test-response:last').val(int);
   };
   function renderSymptomTopicForm() {
-    $('#form-hook:last').html("<%= j render 'visits/test', f: f %><hr />");
+    $('.tab-pane.active').find('.form-hook').html("<%= j render 'visits/test', f: f %><hr />");
   };
   function renderDiagnosisTopicForm() {
-    $('#form-hook:last').html("<%= j render 'visits/diagnosis', f: f %><hr />");
+    $('.tab-pane.active').find('.form-hook').html("<%= j render 'visits/diagnosis', f: f %><hr />");
   };
   function renderFamilyMemberTopicForm(int) {
-    $('#form-hook:last').html("<%= j render 'visits/family_member_form', f: f %><hr />");
+    $('.tab-pane.active').find('.form-hook').html("<%= j render 'visits/family_member_form', f: f %><hr />");
     $('input.family-response:last').val(int);
   };
   function renderMedTopicForm(int) {
-    $('#form-hook:last').html("<%= j render 'visits/medication_form', f: f %><hr />");
+    $('.tab-pane.active').find('.form-hook').html("<%= j render 'visits/medication_form', f: f %><hr />");
     $('input.med-response:last').val(int);
   };
   function renderStatTopicForm(int) {
-    $('#form-hook:last').html("<%= j render 'topics/vitals_form', f: f %><hr />");
-    $('input.med-response:last').val(int);
+    $('.tab-pane.active').find('.form-hook').html("<%= j render 'topics/vital_form', f: f %><hr />");
+    $('input.stat-response').val(int);
   };
 </script>

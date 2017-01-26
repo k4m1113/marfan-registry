@@ -14,18 +14,21 @@
       </ul>
     </div>
     <div class="card-block">
-      <%= f.submit "Update", class: "btn btn-secondary" %>
-      <% @root_topics.each do |rt| %>
-        <% @discussion_topic = Topic.roots.where(name: "#{rt.name}")[0].self_and_descendants %>
-        <div class="tab-content">
+      <div class="tab-content">
+        <% @root_topics.each do |rt| %>
+          <% @discussion_topic = Topic.roots.where(name: "#{rt.name}")[0].self_and_descendants %>
           <div class="tab-pane" id="<%= rt.name.parameterize.underscore %>">
             <br />
-            <h4 class="card-title text-center"><%= rt.name.titleize %></h3>
+            <h4 class="card-title text-center"><%= rt.name.titleize %>
+              <br />
+              <br />
+              <%= f.submit "Update", class: "btn btn-secondary text-center" %>
+            </h4>
             <hr />
             <%= render 'topics/nested_list', f: f, discussion_topic: @discussion_topic %>
           </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
 <% end %>

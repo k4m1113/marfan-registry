@@ -1,0 +1,18 @@
+<%= f.fields_for :vitals do |ff| %>
+  <div class="card">
+    <div class="card-block">
+      <div class="col-xs-5">
+        <%= ff.label :measurement, class: "control-label" %>
+      </div>
+      <div class="col-xs-7">
+        <%= ff.hidden_field :patient_id, value: @patient.id %>
+        <%= ff.hidden_field :visit_id, value: @visit.id  %>
+        <%= f.hidden_field :topic_id, class: "stat-response", value: "" %>
+        <%= ff.text_field :measurement, class: "form-control form-control-lg" %>
+      </div>
+      <br />
+      <hr />
+      <%= ff.text_area :note, placeholder: "add note?", class: "form-control form-control-lg" %>
+    </div>
+  </div>
+<% end %>
