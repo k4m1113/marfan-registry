@@ -81,18 +81,27 @@ class VisitsController < ApplicationController
   def edit
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient_id)
-    @symptoms = Symptom.where(visit_id: @visit.id)
-    @family_members = FamilyMember.where(visit_id: @visit.id)
     @vitals = Vital.where(visit_id: @visit.id)
+    @medications = Medication.where(visit_id: @visit.id)
+    @symptoms = Symptom.where(visit_id: @visit.id)
+    @hospitalizations = Hospitalization.where(visit_id: @visit.id)
+    @family_members = FamilyMember.where(visit_id: @visit.id)
     @tests = Test.where(visit_id: @visit.id)
     @imagery = @tests.where(topic_id: [@heart_imaging_locations].flatten)
     @tests -= @tests.where(id: @imagery)
-    @hospitalizations = Hospitalization.where(visit_id: @visit.id)
     @procedures = Procedure.where(visit_id: @visit.id)
     @complications = Complication.where(visit_id: @visit.id)
     @diagnoses = Diagnosis.where(visit_id: @visit.id)
-    @medications = Medication.where(visit_id: @visit.id)
 
+    @visit.vitals.build
+    @visit.medications.build
+    @visit.symptoms.build
+    @visit.hospitalizations.build
+    @visit.family_members.build
+    @visit.tests.build
+    @visit.procedures.build
+    @visit.complications.build
+    @visit.diagnoses.build
     @form_action = "Update"
   end
 
@@ -101,7 +110,7 @@ class VisitsController < ApplicationController
     @form_action = "Update"
     if @visit.update(visit_params)
       flash[:success] = "Successfully updated visit!"
-      redirect_to visit_path(@visit.id)
+      redirect_to edit_visit_path(@visit.id)
     else
       Rails.logger.info(@visit.errors.inspect)
       flash[:error] = "Error updating visit: #{@visit.errors.full_messages}"
