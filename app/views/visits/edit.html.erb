@@ -1,34 +1,7 @@
 <div>
-  <%= link_to "View Visit Summary", visit_path(@visit), class: "disabled" %>
+  <%= link_to "View Visit Summary", visit_path(@visit) %>
   <hr />
 </div>
 <%= form_for @visit, class: "visit_form" do |f| %>
-  <div class="card">
-    <div class="card-header text-center">
-      <ul class="nav nav-pills card-header-pills">
-        <% @root_topics.each do |rt| %>
-          <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#<%= rt.name.parameterize.underscore %>">
-            <%= rt.name.titleize %>
-          </a></li>
-        <% end %>
-      </ul>
-    </div>
-    <div class="card-block">
-      <div class="tab-content">
-        <% @root_topics.each do |rt| %>
-          <% @discussion_topic = Topic.roots.where(name: "#{rt.name}")[0].self_and_descendants %>
-          <div class="tab-pane" id="<%= rt.name.parameterize.underscore %>">
-            <br />
-            <h4 class="card-title text-center"><%= rt.name.titleize %>
-              <br />
-              <br />
-              <%= f.submit "Update", class: "btn btn-secondary text-center" %>
-            </h4>
-            <hr />
-            <%= render 'topics/nested_list', f: f, discussion_topic: @discussion_topic %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-  </div>
+  <%= render 'topics/nested_list_form_body', f: f, visit: @visit %>
 <% end %>

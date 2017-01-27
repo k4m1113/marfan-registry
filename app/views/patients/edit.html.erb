@@ -1,1 +1,40 @@
-<%= render "patient_registration", action: "update" %>
+<div class="row flex-items-xs-center">
+  <div class="well well-lg">
+    <h3><%= "#{@patient.last_name}, #{@patient.first_name} #{print_if_present(@patient.middle_name)}" %></h3>
+    <h5><b>Born:</b> <%= @patient.date_of_birth.strftime("%d %B %Y")%></h5>
+  </div>
+  <div id="demogAccordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="demogHeading">
+        <a data-toggle="collapse" data-parent="#demogAccordion" href="#demogCollapse" aria-expanded="true" aria-controls="demogCollapse" style="none">
+          <h3 class="panel-title mb-0">
+            Edit Demographic Details: <span class="caret"></span>
+          </h3>
+        </a>
+      </div>
+      <div id="demogCollapse" class="collapse" role="tabpanel" aria-labelledby="demogHeading">
+        <div class="panel-body">
+          <%= render "patient_registration", action: "update" %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="topicAccordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+      <div class="panel-heading" role="tab" id="topicHeading">
+        <a data-toggle="collapse" data-parent="#topicAccordion" href="#topicCollapse" aria-expanded="true" aria-controls="topicCollapse" style="none">
+          <h3 class="panel-title mb-0">
+            Add Existing Health Data: <span class="caret"></span>
+          </h3>
+        </a>
+      </div>
+      <div id="topicCollapse" class="collapse" role="tabpanel" aria-labelledby="topicHeading">
+          <%= form_for @patient do |f| %>
+            <%= render 'topics/nested_list_form_body', f: f %>
+          <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>

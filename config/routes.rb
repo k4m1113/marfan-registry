@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   resources :family_members
   resources :tests
 
-  root "pages#main"
+  root "patients#index"
 
   put 'family_members' => 'family_members#make_patient'
 end

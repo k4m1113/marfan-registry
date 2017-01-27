@@ -61,60 +61,59 @@
           </div>
         </div>
       </div>
-    </div>
-    <br />
-    <div class="row flex-items-xs-center">
-      <div class="col-xs-12">
-        <%= f.label :address_line_1, "Address Line 1", class: "sr-only" %>
-        <%= f.text_field :address_line_1, placeholder: "Address Line 1", class: "form-control form-control-lg input-lg" %>
+      <br />
+      <div class="row flex-items-xs-center">
+        <div class="col-xs-12">
+          <%= f.label :address_line_1, "Address Line 1", class: "sr-only" %>
+          <%= f.text_field :address_line_1, placeholder: "Address Line 1", class: "form-control form-control-lg input-lg" %>
+        </div>
       </div>
-    </div>
-    <br />
-    <div class="row flex-items-xs-center">
-      <div class="col-xs-12">
-        <%= f.label :address_line_2, "Address Line 2", class: "sr-only" %>
-        <%= f.text_field :address_line_2, placeholder: "Address Line 2", class: "form-control form-control-lg input-lg" %>
+      <br />
+      <div class="row flex-items-xs-center">
+        <div class="col-xs-12">
+          <%= f.label :address_line_2, "Address Line 2", class: "sr-only" %>
+          <%= f.text_field :address_line_2, placeholder: "Address Line 2", class: "form-control form-control-lg input-lg" %>
+        </div>
       </div>
-    </div>
-    <br />
-    <div class="row flex-items-xs-center">
-      <div class="col-xs-12">
-        <%= f.text_field :address_line_3, placeholder: "Address Line 3", class: "form-control form-control-lg input-lg" %>
+      <br />
+      <div class="row flex-items-xs-center">
+        <div class="col-xs-12">
+          <%= f.text_field :address_line_3, placeholder: "Address Line 3", class: "form-control form-control-lg input-lg" %>
+        </div>
       </div>
-    </div>
-    <br />
-    <div class="row flex-items-xs-center">
-      <div class="col-xs-8">
-        <%= f.label :city, "City", class: "sr-only" %>
-        <%= f.text_field :city, placeholder: "City", class: "form-control form-control-lg input-lg" %>
+      <br />
+      <div class="row flex-items-xs-center">
+        <div class="col-xs-8">
+          <%= f.label :city, "City", class: "sr-only" %>
+          <%= f.text_field :city, placeholder: "City", class: "form-control form-control-lg input-lg" %>
+        </div>
+        <div class="col-xs-4">
+          <%= f.label :state, "State", class: "sr-only" %>
+          <%= f.text_field :state, placeholder: "State", class: "form-control form-control-lg input-lg" %>
+        </div>
       </div>
-      <div class="col-xs-4">
-        <%= f.label :state, "State", class: "sr-only" %>
-        <%= f.text_field :state, placeholder: "State", class: "form-control form-control-lg input-lg" %>
+      <br />
+      <div class="row flex-items-xs-center">
+        <div class="col-xs-7">
+          <%= f.label :country, "Country", class: "sr-only" %>
+          <%= f.text_field :country, placeholder: "Country", class: "form-control form-control-lg input-lg" %>
+        </div>
+        <div class="col-xs-5">
+          <%= f.label :postal_code, "Postal Code", class: "sr-only" %>
+          <%= f.text_field :postal_code, placeholder: "Postal Code", class: "form-control form-control-lg input-lg" %>
+        </div>
       </div>
-    </div>
-    <br />
-    <div class="row flex-items-xs-center">
-      <div class="col-xs-7">
-        <%= f.label :country, "Country", class: "sr-only" %>
-        <%= f.text_field :country, placeholder: "Country", class: "form-control form-control-lg input-lg" %>
-      </div>
-      <div class="col-xs-5">
-        <%= f.label :postal_code, "Postal Code", class: "sr-only" %>
-        <%= f.text_field :postal_code, placeholder: "Postal Code", class: "form-control form-control-lg input-lg" %>
-      </div>
-    </div>
-    <br />
-    <%= f.hidden_field :deceased %>
-    <%= f.hidden_field :cause_of_death %>
-    <%= f.hidden_field :note %>
+      <br />
+      <%= f.hidden_field :deceased %>
+      <%= f.hidden_field :cause_of_death %>
+      <%= f.hidden_field :note %>
 
-    <div class="row flex-items-xs-center">
-      <div class="col-xs-12">
-        <%= f.submit "#{action.capitalize} Patient", class: "btn btn-primary btn-lg center-block" %>
+      <div class="row flex-items-xs-center">
+        <div class="col-xs-12">
+          <%= f.submit "#{action.capitalize} Patient", class: "btn btn-primary btn-lg center-block" %>
+        </div>
       </div>
     </div>
-  </div>
   <script>
     $(.enlarge).style.transform = "";
   </script>

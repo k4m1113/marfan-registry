@@ -1,4 +1,7 @@
 class PatientsController < ApplicationController
+
+  before_filter :common_content
+
   def index
     if params[:search].present?
       @patients = Patient.perform_search(params[:search]).paginate(:page => params[:page])
@@ -41,6 +44,7 @@ class PatientsController < ApplicationController
 
   def edit
     @patient = Patient.find(params[:id])
+    @nested_scope = @patient
   end
 
   def update
@@ -101,15 +105,25 @@ class PatientsController < ApplicationController
       :phone_1,
       :phone_2,
       :email,
-      family_member_attributes:
-        [:visit_id, :patient_id, :seeded_relationship_type_id, :future_patient_data_hash, {future_patient_data_hash: [
-        :first_name, :last_name, :date_of_birth, :deceased, :cause_of_death, :note]}],
+      vitals_attributes:
+        [:visit_id, :patient_id, :topic_id, :vital, :measurement, :note],
+      medications_attributes:
+        [:visit_id, :patient_id, :topic_id, :dose, :dose_unit_of_measurement, :nested_med_id, :nested_med_category, :duration_amount, :duration_scale, :ingestion_method, :frequency, :frequency_scale, :common_name, :medication_format, :time_ago, :time_ago_scale, :absolute_start_date, :note],
+      diagnoses_attributes:
+        [:topic_id, :patient_id, :time_ago, :time_ago_scale, :absolute_start_date, :visit_id, :note],
+      complications_attributes:
+        [:topic_id, :patient_id, :time_ago, :time_ago_scale, :absolute_start_date, :visit_id, :note],
+      procedures_attributes:
+        [:topic_id, :patient_id, :clinician_id, :visit_id, :note],
+      family_members_attributes:
+        [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, {future_patient_data_hash: [
+        :first_name, :last_name, :born_years_ago, :date_of_birth, :deceased, :cause_of_death, :note]}],
       hospitalizations_attributes:
-        [:visit_id, :patient_id, :hospitalization, :admission_date, :length_of_stay, :hosp_type, :description, :location],
+        [:visit_id, :patient_id, :topic_id, :hospitalization, :admission_date, :time_ago, :time_ago_scale, :length_of_stay, :length_of_stay_scale, :hosp_type, :description, :location, :note],
       tests_attributes:
-        [:visit_id, :patient_id, :test, :test_type, :test_date, :result],
+        [:visit_id, :topic_id,:patient_id, :test, :test_date, :time_ago, :time_ago_scale, :result, :note],
       symptoms_attributes:
-        [:seeded_symptom_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :start_date, :frequency, :note]
+        [:topic_id, :seeded_symptom_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :time_ago, :time_ago_scale, :start_date, :frequency, :note]
       )
   end
 end
