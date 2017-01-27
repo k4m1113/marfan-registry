@@ -9,14 +9,6 @@
       <%= button_to "Destroy Visit", visit_path(id: @visit.id), method: :delete, type: "button", class: "btn btn-secondary" %>
     </div>
     <br /><br />
-
-    <%= render 'patients/patient_info_header', patient: @patient %>
-    <%= render 'visits/show_tables/vitals', visit: @visit %>
-    <%= render 'visits/show_tables/heart_imagery', visit: @visit %>
-
-    <%= render 'visits/show_tables/family_members', visit: @visit %>
-    <%= render 'visits/show_tables/hospitalizations', visit: @visit %>
-    <%= render 'visits/show_tables/tests', visit: @visit %>
-    <%= render 'visits/show_tables/symptoms', visit: @visit %>
+      <%= render 'visits/show' %>
+    </div>
   </div>
-</div>

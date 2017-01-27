@@ -4,46 +4,6 @@
       <%= f.label "What brings you into the clinic?", class: "form-check-label" %><br />
       <dl>
         <div class="container">
-          <label class="form-check-label radio-inline" value="for cardiology" id="cardiovascular-reason">
-            <dt class="col-xs-1">
-              <%= f.radio_button :primary_reason, "Cardiovascular Reasons", value: "for cardiology", class: "form-check-input" %>
-            </dt>
-            <dd class="col-xs-11", value="for cardiology">
-              Cardiovascular Reasons
-            </dd>
-          </label>
-        </div>
-        <div class="container">
-          <label class="form-check-label radio-inline" value="due to family history" id="family-reason">
-            <dt class="col-xs-1">
-              <%= f.radio_button :primary_reason, "Family History", value: "due to family history", class: "form-check-input" %>
-            </dt>
-            <dd class="col-xs-11", value="due to family history">
-              Family History
-            </dd>
-          </label>
-        </div>
-        <div class="container">
-          <label class="form-check-label radio-inline" value="for medication management" id="medication-reason">
-            <dt class="col-xs-1">
-              <%= f.radio_button :primary_reason, "Medication Management", value: "for medication management", class: "form-check-input" %>
-            </dt>
-            <dd class="col-xs-11", value="for medication management">
-              Medication Management
-            </dd>
-          </label>
-        </div>
-        <div class="container">
-          <label class="form-check-label radio-inline" value="for genetic testing" id="genetics-reason">
-            <dt class="col-xs-1">
-              <%= f.radio_button :primary_reason, "Genetic Testing", value: "for genetic testing", class: "form-check-input" %>
-            </dt>
-            <dd class="col-xs-11", value="for genetic testing">
-              Genetic Testing
-            </dd>
-          </label>
-        </div>
-        <div class="container">
           <label class="form-check-label radio-inline" value="for aorta imaging" id="heart-imaging-reason">
             <dt class="col-xs-1">
               <%= f.radio_button :primary_reason, "Aorta Imaging", value: "for aorta imagery", class: "form-check-input" %>
@@ -57,19 +17,3 @@
     </div>
   </div>
 </div>
-<script>
-  $('#cardiovascular-reason').click(function renderCardiovascular() {
-    console.log("cardio nested list called")
-    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/nested_list', f: f, discussion_topic: @cardiovascular %>");
-  });
-  $('#genetics-reason').click(function renderGenetics() {
-    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/nested_list', f: f, discussion_topic: @genetics %>");
-  });
-  $('#medication-reason').click(function renderMedication() {
-    $('div#add-another:last').html("<hr id='visit_top'/><%= j render 'topics/nested_list', f: f, discussion_topic: @medication %>");
-  });
-  $('#family-reason').click(function renderFamilyMember() {
-    console.log('family member form');
-    $('div#add-another:last').html("<hr id='visit_top' /><%= j render 'topics/nested_list', f: f, discussion_topic: @family_history %>");
-  });
-</script>
