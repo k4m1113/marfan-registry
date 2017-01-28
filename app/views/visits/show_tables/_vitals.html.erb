@@ -8,7 +8,7 @@
       </a>
     </div>
     <div id="vitalsCollapse" class="collapse" role="tabpanel" aria-labelledby="vitalsHeading">
-      <% if @vitals.length != 0 %>
+      <% if vitals.length != 0 %>
         <table class="table table-striped table-hover">
           <tr>
             <th>Topic ID</th>
@@ -16,7 +16,7 @@
             <th>Measurement</th>
             <th>Note</th>
           </tr>
-          <% @vitals.each do |v| %>
+          <% vitals.each do |v| %>
             <tr>
               <td><%= link_to "#{v.topic_id}", topic_path(v.topic_id) %></td>
               <td><%= Topic.find(v.topic_id).name %></td>
@@ -26,7 +26,7 @@
           <% end %>
         </table>
       <% else %>
-        Patient did not have any vitals measured during this visit.
+        Patient has not had any vitals measured.
       <% end %>
     </div>
   </div>

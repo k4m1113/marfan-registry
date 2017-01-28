@@ -58,17 +58,12 @@ class VisitsController < ApplicationController
   def edit
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient_id)
+    @visits = Visit.where(patient_id: @patient.id)
     @nested_scope = @visit
-    @visit = Visit.find(params[:id])
-    @patient = Patient.find(@visit.patient_id)
     @clinician = Clinician.find(@visit.clinician_id)
-    @symptoms = Symptom.where(visit_id: @visit.id)
-    @family_members = FamilyMember.where(visit_id: @visit.id)
-    @vitals = Vital.where(visit_id: @visit.id)
-    @tests = Test.where(visit_id: @visit.id)
-    @imagery = @tests.where(topic_id: [ @heart_imaging_locations].flatten)
-    @tests -= @tests.where(id: @imagery)
-    @hospitalizations = Hospitalization.where(visit_id: @visit.id)
+    unless @visits.length == 0
+      @primary_clinician = Clinician.where(id: @visits[0].clinician_id)[0]
+    end
 
     @visit.vitals.build
     @visit.medications.build
@@ -79,6 +74,7 @@ class VisitsController < ApplicationController
     @visit.procedures.build
     @visit.complications.build
     @visit.diagnoses.build
+
     @form_action = "Update"
   end
 

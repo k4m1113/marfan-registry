@@ -2,7 +2,7 @@
   <div class="panel-heading">
     <h3 class="panel-title">Symptoms</h3>
   </div>
-  <% if @symptoms.length != 0 %>
+  <% if symptoms.length != 0 %>
     <table class="table table-striped table-hover">
       <tr>
         <th>Symptom</th>
@@ -10,7 +10,7 @@
         <th>Present?</th>
         <th>Measurement</th>
       </tr>
-      <% @symptoms.each do |s| %>
+      <% symptoms.each do |s| %>
         <tr>
           <td><%= SeededSymptom.where(id: s.seeded_symptom_id)[0].common_name %></td>
           <td><%= SeededSymptom.where(id: s.seeded_symptom_id)[0].systemic_category %></td>
@@ -21,7 +21,7 @@
     </table>
   <% else %>
     <div class="panel-body">
-      Patient did not report any symptoms during this visit.
+      Patient has not reported any symptoms.
     </div>
   <% end %>
 </div>

@@ -2,7 +2,7 @@
   <div class="panel-heading">
     <h3 class="panel-title">Hospitalizations</h3>
   </div>
-  <% if @hospitalizations.length != 0 %>
+  <% if hospitalizations.length != 0 %>
     <table class="table table-striped table-hover">
       <tr>
         <% if @display_location == "patient_show" %>
@@ -14,7 +14,7 @@
         <th>Location</th>
         <th>Description</th>
       </tr>
-      <% @hospitalizations.each do |h| %>
+      <% hospitalizations.each do |h| %>
         <tr>
           <% if @display_location == "Patient Show" %>
             <td><% link_to "Visit #{h.visit_id}", visit_path(h.visit_id) %></td>
@@ -29,7 +29,7 @@
     </table>
   <% else %>
     <div class="panel-body">
-      Patient did not report any hospitalizations during this visit.
+      Patient has not reported any hospitalizations.
     </div>
   <% end %>
 </div>

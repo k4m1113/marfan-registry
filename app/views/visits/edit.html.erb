@@ -2,9 +2,16 @@
   <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#visitSummaryModal">
     View Visit Summary
   </button>
+  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#patientSummaryModal">
+    View Patient Information
+  </button>
   <hr />
 </div>
-<!-- Modal -->
+
+<%= form_for @visit, class: "visit_form" do |f| %>
+  <%= render 'topics/nested_list_form_body', f: f, visit: @visit %>
+<% end %>
+
 <div class="modal fade" id="visitSummaryModal" tabindex="-1" role="dialog" aria-labelledby="summaryModalTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -12,18 +19,27 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h5 class="modal-title" id="summaryModalTitle">Visit <%= @visit.id %></h5>
-
+        <h5 class="modal-title" id="summaryModalTitle">Visit <%= "#{@visit.id}: #{@visit.created_at.strftime('%d %B %Y')}" %></h5>
       </div>
       <div class="modal-body">
-        <%= render 'visits/show' %>
+        <%= render 'visits/show', family_members: FamilyMember.where(visit_id: @visit.id), vitals: Vital.where(visit_id: @visit.id), tests: Test.where(visit_id: @visit.id), hospitalizations: Hospitalization.where(visit_id: @visit.id), symptoms: Symptom.where(visit_id: @visit.id) %>
       </div>
     </div>
   </div>
 </div>
 
-
-
-<%= form_for @visit, class: "visit_form" do |f| %>
-  <%= render 'topics/nested_list_form_body', f: f, visit: @visit %>
-<% end %>
+<div class="modal fade" id="patientSummaryModal" tabindex="-1" role="dialog" aria-labelledby="patientModalTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="patientModalTitle">Patient <%= "#{@visit.patient_id} (DOB: #{@patient.date_of_birth.strftime('%d %B %Y')})" %></h5>
+      </div>
+      <div class="modal-body">
+        <%= render 'patients/show', family_members: FamilyMember.where(patient_id: @patient.id), vitals: Vital.where(patient_id: @patient.id), tests: Test.where(patient_id: @patient.id), hospitalizations: Hospitalization.where(patient_id: @patient.id), symptoms: Symptom.where(patient_id: @patient.id) %>
+      </div>
+    </div>
+  </div>
+</div>
