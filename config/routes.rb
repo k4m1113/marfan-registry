@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   resources :symptoms
   resources :family_members
   resources :tests
+  resources :diagnoses
 
   root "patients#index"
 

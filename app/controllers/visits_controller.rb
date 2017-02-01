@@ -20,6 +20,7 @@ class VisitsController < ApplicationController
     @visit.family_members.build
     @visit.tests.build
     @visit.medications.build
+    @visit.diagnoses.build
   end
 
   def create
@@ -49,6 +50,7 @@ class VisitsController < ApplicationController
     @imagery = @tests.where(topic_id: [ @heart_imaging_locations].flatten)
     @tests -= @tests.where(id: @imagery)
     @hospitalizations = Hospitalization.where(visit_id: @visit.id)
+    @diagnoses = Diagnosis.where(visit_id: @visit.id)
   end
 
   def index

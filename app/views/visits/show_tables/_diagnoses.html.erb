@@ -1,0 +1,31 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Diagnoses</h3>
+  </div>
+  <% if diagnoses.length != 0 %>
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Date Noted</th>
+        <% if @display_location == "patient_show" %>
+          <th>Visit</th>
+        <% end %>
+        <th>Description</th>
+        <th>Note</th>
+      </tr>
+      <% diagnoses.each do |d| %>
+        <tr>
+          <td><%= d.created_at.strftime("%b %Y") %></td>
+          <% if @display_location == "Patient Show" %>
+            <td><% link_to "Visit #{d.visit_id}", visit_path(d.visit_id) %></td>
+          <% end %>
+          <td><%= find_trail(Topic.find(d.topic_id)) %></td>
+          <td><%= print_if_present(d.note) %></td>
+        </tr>
+      <% end %>
+    </table>
+  <% else %>
+    <div class="panel-body">
+      No diagnoses noted yet.
+    </div>
+  <% end %>
+</div>

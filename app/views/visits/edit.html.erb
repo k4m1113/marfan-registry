@@ -22,7 +22,7 @@
         <h5 class="modal-title" id="summaryModalTitle">Visit <%= "#{@visit.id}: #{@visit.created_at.strftime('%d %B %Y')}" %></h5>
       </div>
       <div class="modal-body">
-        <%= render 'visits/show', family_members: FamilyMember.where(visit_id: @visit.id), vitals: Vital.where(visit_id: @visit.id), tests: Test.where(visit_id: @visit.id), hospitalizations: Hospitalization.where(visit_id: @visit.id), symptoms: Symptom.where(visit_id: @visit.id) %>
+        <%= render 'visits/show', family_members: FamilyMember.where(visit_id: @visit.id), vitals: Vital.where(visit_id: @visit.id), tests: Test.where(visit_id: @visit.id), hospitalizations: Hospitalization.where(visit_id: @visit.id), symptoms: Symptom.where(visit_id: @visit.id), diagnoses: Diagnosis.where(visit_id: @visit.id) %>
       </div>
     </div>
   </div>
