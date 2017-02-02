@@ -7,7 +7,7 @@
     <% when 'measurement' %>
       <button type="button" class="btn <%= button_color(scope.tests, category) %> pull-right down-eight" value="<%= category.id %>" id="test-reason" onclick="renderTestTopicForm($(this).val());">Add test details</button>
     <% when 'procedure' %>
-      <button type="button" class="btn <%= button_color(scope.procedures, category) %> pull-right down-eight" value="<%= category.id %>" id="procedure-reason">Add procedure details</button>
+      <button type="button" class="btn <%= button_color(scope.procedures, category) %> pull-right down-eight" value="<%= category.id %>" id="procedure-reason" onclick="renderProcedureTopicForm($(this).val());">Add procedure details</button>
     <% when 'complication' %>
       <button type="button" class="btn <%= button_color(scope.complications, category) %> pull-right down-eight" value="<%= category.id %>" id="complication-reason" onclick="renderComplicationTopicForm($(this).val());">Add details</button>
     <% when 'symptom' %>
@@ -75,6 +75,7 @@
 
 <script>
   function renderProcedureTopicForm(int) {
+    console.log("procedure form called")
     $('.tab-pane.active').find('.form-hook').html("<%= j render 'procedures/procedure_form', f: f %><hr />");
     $('input.procedure-response:last').val(int);
   };

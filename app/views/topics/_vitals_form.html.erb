@@ -13,7 +13,7 @@
           <div class="form-group">
             <%= f.fields_for :vitals do |ff| %>
               <% @stats.each do |s| %>
-                <div class="col-xs-3">
+                <div class="col-xs-6 col-md-3">
                   <%= render 'topics/vital_form_body', ff: ff, s: s %>
                 </div>
               <% end %>

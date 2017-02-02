@@ -3,7 +3,7 @@
 <%= f.fields_for :tests do |fff| %>
   <%= render 'visits/visit_presence_checker', f: fff %>
   <div class="form-group">
-    <%= fff.hidden_field :patient_id, value: @patient.id %>
+    <%= fff.hidden_field :patient_id, value: @visit.patient_id %>
     <%= fff.hidden_field :visit_id, value: @visit.id %>
     <%= fff.hidden_field :topic_id, class: "test-response", value: "" %>
     <div class="row flex-items-xs-center">

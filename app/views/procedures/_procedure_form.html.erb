@@ -1,2 +1,18 @@
-PROCEDURE FORM HERE
-<div id='form-hook'></div>
+<h3 class="red h3">Procedure</h3>
+<h5 class="purple h5" id="test-title"></h5>
+<%= f.fields_for :procedures do |fff| %>
+  <%= render 'visits/visit_presence_checker', f: fff %>
+  <div class="form-group">
+    <%= fff.hidden_field :patient_id, value: @patient.id %>
+    <%= fff.hidden_field :topic_id, class: "procedure-response", value: "" %>
+    <div class="row flex-items-xs-center">
+      <div class="col-xs-12">
+        <%= fff.label "And when was the procedure?", class: "control-label" %><br />
+        <%= render 'layouts/relative_absolute_date', fff: fff, column_title: :absolute_start_date %>
+      </div>
+    </div>
+  </div>
+  <%= fff.label "Is there anything to note about the procedure?", class: "control-label" %><br />
+  <%= fff.text_area :note, class: "form-control form-control-lg" %>
+  <br />
+<% end %>

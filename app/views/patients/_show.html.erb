@@ -1,4 +1,4 @@
-<% @visits = Visit.where(patient_id: @visit.patient_id) %>
+<% @visits = Visit.where(patient_id: @patient.id) %>
 <%= render "patients/patient_info_header" %>
 <% if @visits.length != 0 %>
   <div class="panel panel-default">
@@ -39,7 +39,8 @@
 <% end %>
 </div>
 
-<%= render "visits/show_tables/family_members", display_location: "patient_show", family_members: family_members %>
+<%= render "visits/show_tables/family_members", display_location: "patient_show", family_members: family_members %><%= render "visits/show_tables/procedures", display_location: "patient_show", procedures: procedures %>
+
 <%= render "visits/show_tables/hospitalizations", display_location: "patient_show", hospitalizations: hospitalizations %>
 <%= render "visits/show_tables/tests", tests: tests, display_location: "patient_show" %>
 <%= render "visits/show_tables/symptoms", symptoms: symptoms, display_location: "patient_show" %>

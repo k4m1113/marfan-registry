@@ -76,12 +76,12 @@ class VisitsController < ApplicationController
     @visit.procedures.build
     @visit.complications.build
     @visit.diagnoses.build
-
     @form_action = "Update"
   end
 
   def update
     @visit = Visit.find(params[:id])
+
     @form_action = "Update"
     if @visit.update(visit_params)
       flash[:success] = "Successfully updated visit!"
@@ -140,7 +140,7 @@ class VisitsController < ApplicationController
       tests_attributes:
         [:visit_id, :topic_id,:patient_id, :test, :test_date, :time_ago, :time_ago_scale, :result, :note],
       symptoms_attributes:
-        [:topic_id, :seeded_symptom_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :time_ago, :time_ago_scale, :start_date, :frequency, :note]
+        [:topic_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :time_ago, :time_ago_scale, :start_date, :frequency, :note]
       )
   end
 end

@@ -69,10 +69,16 @@ class PatientsController < ApplicationController
       @gender = 'Not noted'
     end
     @visits = Visit.where(patient_id: @patient.id)
-    @hospitalizations = Hospitalization.where(patient_id: @patient.id)
-    @tests = Test.where(patient_id: @patient.id)
-    @family_members = FamilyMember.where(patient_id: @patient.id)
+
     @symptoms = Symptom.where(patient_id: @patient.id)
+    @family_members = FamilyMember.where(patient_id: @patient.id)
+    @vitals = Vital.where(patient_id: @patient.id)
+    @tests = Test.where(patient_id: @patient.id)
+    @imagery = @tests.where(topic_id: [ @heart_imaging_locations].flatten)
+    @tests -= @tests.where(id: @imagery)
+    @hospitalizations = Hospitalization.where(patient_id: @patient.id)
+    @diagnoses = Diagnosis.where(patient_id: @patient.id)
+
     unless @visits.length == 0
       @primary_clinician = Clinician.where(id: @visits[0].clinician_id)[0]
     end

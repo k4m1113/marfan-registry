@@ -14,6 +14,11 @@ class DiagnosesController < ApplicationController
     end
   end
 
+  def destroy
+    Diagnosis.find(params[:id]).destroy
+    redirect_to :back
+  end
+
   private
 
   def diagnosis_params

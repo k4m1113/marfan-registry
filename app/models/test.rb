@@ -5,11 +5,14 @@ class Test < ActiveRecord::Base
     required: false
   belongs_to :patient,
     inverse_of: :tests
-    
+
   validates :time_ago,
     numericality: {
       only_integer: true,
       greater_than: 0
     },
     allow_nil: true
+
+  after_save { |t| t.destroy if t.absolute_start_date.nil? && t.time_ago.nil? }
+
 end
