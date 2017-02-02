@@ -1,4 +1,4 @@
 <h3 class="red h3">Family Member</h3>
-<%= f.fields_for :family_members do |fff| %>
+<%= f.fields_for :family_members, @nested_scope.family_members.build do |fff| %>
   <%= render 'family_members/family_member_form_body', f: fff %>
 <% end %>

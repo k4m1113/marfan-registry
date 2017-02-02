@@ -1,5 +1,5 @@
 <h3 class="red h3">Medication</h3>
-<%= f.fields_for :meds do |fff| %>
+<%= f.fields_for :medications, @nested_scope.medications.build do |fff| %>
   <%= render 'visits/visit_presence_checker', f: fff %>
   <div class="form-group">
     <%= fff.hidden_field :patient_id, value: @patient.id %>

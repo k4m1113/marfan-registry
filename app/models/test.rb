@@ -13,6 +13,6 @@ class Test < ActiveRecord::Base
     },
     allow_nil: true
 
-  after_save { |t| t.destroy if t.absolute_start_date.nil? && t.time_ago.nil? }
+  after_save { |t| t.destroy if (t.test_date.nil? && t.time_ago.nil?) }
 
 end

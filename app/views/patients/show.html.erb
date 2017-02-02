@@ -8,4 +8,7 @@
       <%= link_to "Destroy Records", patient_path(id: @patient.id), method: :delete, type: "button", class: "btn btn-secondary", data: { confirm: "Are you sure you want to delete Patient #{@patient.id} and all associated records?" } %>
     </div>
     <br /><br />
-    <%= render 'patients/show',family_members: FamilyMember.where(patient_id: @patient.id), vitals: Vital.where(patient_id: @patient.id), tests: Test.where(patient_id: @patient.id), hospitalizations: Hospitalization.where(patient_id: @patient.id), symptoms: Symptom.where(patient_id: @patient.id), diagnoses: Diagnosis.where(patient_id: @patient.id), procedures: Procedure.where(patient_id: @patientt.id) %>
+
+    FamilyMember.new(visit_id: 1, patient_id: 1, topic_id: 99, first_name: "Suzy", last_name: "Cue", )
+
+    <%= render 'patients/show',family_members: FamilyMember.where(patient_id: @patient.id).where(visit_id: nil), vitals: Vital.where(patient_id: @patient.id).where(visit_id: nil), tests: Test.where(patient_id: @patient.id).where(visit_id: nil), hospitalizations: Hospitalization.where(patient_id: @patient.id).where(visit_id: nil), symptoms: Symptom.where(patient_id: @patient.id).where(visit_id: nil), diagnoses: Diagnosis.where(patient_id: @patient.id).where(visit_id: nil), procedures: Procedure.where(patient_id: @patient.id).where(visit_id: nil) %>

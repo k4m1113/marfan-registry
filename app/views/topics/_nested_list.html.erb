@@ -13,12 +13,14 @@
     <% when 'symptom' %>
       <button type="button" class="btn <%= button_color(scope.symptoms, category) %> pull-right down-eight" value="<%= category.id %>" id="symptom-reason">Add symptom details</button>
     <% when 'diagnosis' %>
-      <%= button_to diagnoses_path(action: :create, topic_id: category.id, patient_id: @visit.patient_id, visit_id: @visit.id, note: "absence"), class: "btn btn-danger pull-right down-eight" do %>
+      <div style="margin-top: -8px">
+        <%= button_to diagnoses_path(action: :create, topic_id: category.id, patient_id: @visit.patient_id, visit_id: @visit.id, note: "absence"), class: "btn btn-danger pull-right down-eight" do %>
         <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-      <% end %>
-      <%= button_to diagnoses_path(action: :create, topic_id: category.id, patient_id: @visit.patient_id, visit_id: @visit.id, note: "presence"), class: "btn btn-success pull-right down-eight" do %>
+        <% end %>
+        <%= button_to diagnoses_path(action: :create, topic_id: category.id, patient_id: @visit.patient_id, visit_id: @visit.id, note: "presence"), class: "btn btn-success pull-right down-eight" do %>
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-      <% end %>
+        <% end %>
+      </div>
     <% when 'medication' %>
       <button type="button" class="btn <%= button_color(scope.medications, category) %> pull-right down-eight" value="<%= category.id %>" id="med-reason" onclick="renderMedTopicForm($(this).val());">Add medication details</button>
     <% when 'stat' %>
@@ -85,21 +87,21 @@
   };
   function renderTestTopicForm(int) {
     console.log("test called")
-    $('.tab-pane.active').find('.form-hook').html("<%= j render 'visits/test', f: f %>");
+    $('.tab-pane.active').find('.form-hook').html("<%= j render 'tests/test_form', f: f, tests: @tests %>");
     $('input.test-response:last').val(int);
   };
   function renderSymptomTopicForm() {
-    $('.tab-pane.active').find('.form-hook').html("<%= j render 'visits/test', f: f %><hr />");
+    $('.tab-pane.active').find('.form-hook').html("<%= j render 'tests/test_form', f: f %><hr />");
   };
   function renderDiagnosisTopicForm() {
-    $('.tab-pane.active').find('.form-hook').html("<%= j render 'visits/diagnosis', f: f %><hr />");
+    $('.tab-pane.active').find('.form-hook').html("<%= j render 'diagnoses/diagnosis', f: f %><hr />");
   };
   function renderFamilyMemberTopicForm(int) {
-    $('.tab-pane.active').find('.form-hook').html("<%= j render 'visits/family_member_form', f: f %><hr />");
+    $('.tab-pane.active').find('.form-hook').html("<%= j render 'family_members/family_member_form', f: f %><hr />");
     $('input.family-response:last').val(int);
   };
   function renderMedTopicForm(int) {
-    $('.tab-pane.active').find('.form-hook').html("<%= j render 'visits/medication_form', f: f %><hr />");
+    $('.tab-pane.active').find('.form-hook').html("<%= j render 'medications/medication_form', f: f %><hr />");
     $('input.med-response:last').val(int);
   };
   function renderStatTopicForm(int) {

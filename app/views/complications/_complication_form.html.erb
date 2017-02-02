@@ -1,7 +1,7 @@
 <h3 class="red h3">Complication</h3>
 <h5 class="purple h5" id="complication-title"></h5>
 <div class="form-group">
-  <%= f.fields_for :complications do |fff| %>
+  <%= f.fields_for :complications, @nested_scope.complications.build do |fff| %>
     <%= render 'visits/visit_presence_checker', f: fff %>
     <%= fff.hidden_field :patient_id, value: @patient.id %>
     <%= fff.hidden_field :visit_id, value: @visit.id %>

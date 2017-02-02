@@ -1,6 +1,6 @@
 <h3 class="red h3">Hospitalization</h3>
 <br />
-<%= f.fields_for :hospitalizations do |fff| %>
+<%= f.fields_for :hospitalizations, @nested_scope.hospitalizations.build do |fff| %>
   <div class="form-group">
     <%= fff.label "What type of hospitalization was it?", class: "control-label" %><br />
     <%= fff.text_field :hosp_type, class: "form-control form-control-lg", placeholder: "ex: Emergency, Surgical", autofocus: true %>

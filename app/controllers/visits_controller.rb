@@ -66,16 +66,6 @@ class VisitsController < ApplicationController
     unless @visits.length == 0
       @primary_clinician = Clinician.where(id: @visits[0].clinician_id)[0]
     end
-
-    @visit.vitals.build
-    @visit.medications.build
-    @visit.symptoms.build
-    @visit.hospitalizations.build
-    @visit.family_members.build
-    @visit.tests.build
-    @visit.procedures.build
-    @visit.complications.build
-    @visit.diagnoses.build
     @form_action = "Update"
   end
 
