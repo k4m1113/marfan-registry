@@ -1,6 +1,5 @@
 <div class="form-group">
   <%= render 'visits/visit_presence_checker', f: f %>
-  <%= f.hidden_field :patient_id, value: @patient.id %>
   <%= f.hidden_field :topic_id, class: "family-response", value: "" %>
   <%= f.fields_for :future_patient_data_hash do |ff| %>
   <div class="row">

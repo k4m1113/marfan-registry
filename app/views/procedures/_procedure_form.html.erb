@@ -3,7 +3,6 @@
 <%= f.fields_for :procedures, @nested_scope.procedures.build do |fff| %>
   <%= render 'visits/visit_presence_checker', f: fff %>
   <div class="form-group">
-    <%= fff.hidden_field :patient_id, value: @patient.id %>
     <%= fff.hidden_field :topic_id, class: "procedure-response", value: "" %>
     <div class="row flex-items-xs-center">
       <div class="col-xs-12">

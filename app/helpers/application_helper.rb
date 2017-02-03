@@ -34,20 +34,20 @@ module ApplicationHelper
     else
       return "not noted"
     end
-    end
-    def button_color(topic_group, cat)
-      if topic_group.any?{ |t| t.topic_id == cat.id }
-        return "btn-info"
-      else
-        return "btn-secondary"
-      end
-    end
-  def render_form_button(category, scope)
+  end
 
+  def button_color(topic_group, cat)
+    if topic_group.any?{ |t| t.topic_id == cat.id }
+      return "btn-info"
+    else
+      return "btn-secondary"
+    end
+  end
+
+  def render_form_button(category, scope)
     case category.topic_type
     when 'family member'
       render html: "<button type='button' class='btn #{button_color(scope.family_members, category)} pull-right down-eight' value='#{category.id}' id='family-reason' onclick='renderFamilyMemberTopicForm($(this).val());'>Add relationship details</button>".html_safe
-
     when 'measurement'
       render html: "<button type='button' class='btn #{button_color(scope.tests, category)} pull-right down-eight' value='<%= #{category.id} %>' id='test-reason' onclick='renderTestTopicForm($(this).val());'>Add test details</button>".html_safe
     when 'procedure'
@@ -57,7 +57,7 @@ module ApplicationHelper
     when 'symptom'
       render html: "<button type='button' class='btn #{button_color(scope.symptoms, category)} pull-right down-eight' value='#{category.id}' id='symptom-reason'>Add symptom details</button>".html_safe
     when 'diagnosis'
-      return "<%= button_to diagnoses_path(action: :create, topic_id: #{category.id}, patient_id: @visit.patient_id, visit_id: @visit.id, note: 'absence'), class: 'btn btn-danger pull-right down-eight' do %><span class='glyphicon glyphicon-minus' aria-hidden='true'></span><% end %><%= button_to diagnoses_path(action: :create, topic_id: #{category.id}, patient_id: @visit.patient_id, visit_id: @visit.id, note: 'presence'), class: 'btn btn-success pull-right down-eight' do %><span class='glyphicon glyphicon-plus' aria-hidden='true'></span><% end %>`"
+      render html: "<%= button_to diagnoses_path(action: :create, topic_id: #{category.id}, patient_id: @visit.patient_id, visit_id: @visit.id, note: 'absence'), class: 'btn btn-danger pull-right down-eight' do %><span class='glyphicon glyphicon-minus' aria-hidden='true'></span><% end %><%= button_to diagnoses_path(action: :create, topic_id: #{category.id}, patient_id: @visit.patient_id, visit_id: @visit.id, note: 'presence'), class: 'btn btn-success pull-right down-eight' do %><span class='glyphicon glyphicon-plus' aria-hidden='true'></span><% end %>".html_safe
     when 'medication'
       render html: "<button type='button' class='btn btn-info pull-right down-eight' value='#{category.id}' id='med-reason' onclick='renderMedTopicForm($(this).val());'>Add medication details</button>".html_safe
     when 'stat'

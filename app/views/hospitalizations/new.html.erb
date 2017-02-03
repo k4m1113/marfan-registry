@@ -1,6 +1,6 @@
 <div class="form-group col-xs-8 control-label">
   <%= form_for @hospitalization do |ff| %>
-    <%= ff.hidden_field :visit_id, value: @visit.id %>
+  <%= render 'visits/visit_presence_checker', f: ff %>
     <%= ff.label "When was your recent hospitalization?", class: "col-xs-6 control-label" %><br />
     <%= ff.date_field :admission_date, autofocus: true, class: "form-control form-control-lg" %><br />
 

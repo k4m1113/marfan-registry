@@ -7,7 +7,6 @@
     <br />
     <div class="row">
       <div class="col-xs-12 col-md-5">
-        <%= fff.hidden_field :patient_id, value: @patient.id %>
         <%= fff.label "For how many days?", class: "control-label" %><br />
         <%= fff.number_field :length_of_stay, class: "form-control form-control-lg" %>
       </div>
@@ -24,7 +23,7 @@
     <%= fff.label "Anything else to add?", class: "control-label" %><br />
     <%= fff.text_area :description, class: "form-control form-control-lg" %>
     <br />
-    <% if @form_action == "Update" %>
+    <% unless @form_action == "Update" %>
       <%= fff.submit "Add Hospitalization", class: "btn btn-success" %>
     <% end %>
     <!-- <button class="show_button btn btn-primary center-block" type="button" onclick="renderHospitalization('#add-another')">

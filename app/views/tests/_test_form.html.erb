@@ -3,20 +3,18 @@
 <%= f.fields_for :tests, @nested_scope.tests.build do |fff| %>
   <%= render 'visits/visit_presence_checker', f: fff %>
   <div class="form-group">
-    <%= fff.hidden_field :patient_id, value: @visit.patient_id %>
-    <%= fff.hidden_field :visit_id, value: @visit.id %>
     <%= fff.hidden_field :topic_id, class: "test-response", value: "" %>
     <div class="row flex-items-xs-center">
       <div class="col-xs-12">
-        <%= fff.label "And when was the test?", class: "control-label" %><br />
+        <%= fff.label "When was the test?", class: "control-label" %><br />
         <%= render 'layouts/relative_absolute_date', fff: fff, column_title: :test_date %>
       </div>
     </div>
   </div>
-  <%= fff.label "What were the results of the test?", class: "control-label" %><br />
+  <%= fff.label "And what were the results of the test?", class: "control-label" %><br />
   <%= fff.text_area :result, class: "form-control form-control-lg" %>
   <br />
-  <% if @form_action == "Update" %>
+  <% unless @form_action == "Update" %>
     <%= fff.submit "Add Test", class: "btn btn-success" %>
   <% end %>
 <% end %>
