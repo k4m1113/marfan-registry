@@ -1,47 +1,18 @@
 <%
-  def render_form_button(category, scope)
-  %>
-    <% case category.topic_type %>
-    <% when 'family member' %>
-      <button type="button" class="btn <%= button_color(scope.family_members, category) %> pull-right down-eight" value="<%= category.id %>" id="family-reason" onclick="renderFamilyMemberTopicForm($(this).val());">Add relationship details</button>
-    <% when 'measurement' %>
-      <button type="button" class="btn <%= button_color(scope.tests, category) %> pull-right down-eight" value="<%= category.id %>" id="test-reason" onclick="renderTestTopicForm($(this).val());">Add test details</button>
-    <% when 'procedure' %>
-      <button type="button" class="btn <%= button_color(scope.procedures, category) %> pull-right down-eight" value="<%= category.id %>" id="procedure-reason" onclick="renderProcedureTopicForm($(this).val());">Add procedure details</button>
-    <% when 'complication' %>
-      <button type="button" class="btn <%= button_color(scope.complications, category) %> pull-right down-eight" value="<%= category.id %>" id="complication-reason" onclick="renderComplicationTopicForm($(this).val());">Add details</button>
-    <% when 'symptom' %>
-      <button type="button" class="btn <%= button_color(scope.symptoms, category) %> pull-right down-eight" value="<%= category.id %>" id="symptom-reason">Add symptom details</button>
-    <% when 'diagnosis' %>
-      <div style="margin-top: -8px">
-        <%= button_to diagnoses_path(action: :create, topic_id: category.id, patient_id: @visit.patient_id, visit_id: @visit.id, note: "absence"), class: "btn btn-danger pull-right down-eight" do %>
-        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-        <% end %>
-        <%= button_to diagnoses_path(action: :create, topic_id: category.id, patient_id: @visit.patient_id, visit_id: @visit.id, note: "presence"), class: "btn btn-success pull-right down-eight" do %>
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-        <% end %>
-      </div>
-    <% when 'medication' %>
-      <button type="button" class="btn <%= button_color(scope.medications, category) %> pull-right down-eight" value="<%= category.id %>" id="med-reason" onclick="renderMedTopicForm($(this).val());">Add medication details</button>
-    <% when 'stat' %>
-      <button type="button" class="btn <%= button_color(scope.vitals, category) %> pull-right down-eight" value="<%= category.id %>" id="stat-reason" onclick="renderStatTopicForm($(this).val());">Add vitals details</button>
-    <% end %>
-<% end %>
-
-<%
   def draw_tree(node)
     node.children.each do |child|
 %>
         <% if child.leaf? %>
           <li class="list-group-item list-group-item-action">
             <%= child.name %>
-            <% render_form_button(child, @nested_scope) %>
+            <%= render_form_button(child, @nested_scope) %>
         </li>
         <% else %>
           <li class="panel list-group-item">
             <a id="heading_<%= child.id %>" data-toggle="collapse" role="tab" aria-expanded="true" aria-controls="link_<%= node.id %>" data-parent="#link_<%= child.parent_id %>" href="#link_<%= child.id %>">
               <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
               <%= child.name %>
+              <%= render_form_button(child, @nested_scope) %>
             </a>
             <br />
             <ul id="link_<%= child.id %>" class="collapse list-group"><% draw_tree(child) %></ul>

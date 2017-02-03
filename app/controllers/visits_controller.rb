@@ -1,5 +1,6 @@
 require 'report'
 require 'doctor'
+require 'pry'
 
 class VisitsController < ApplicationController
   respond_to :html, :js
@@ -74,7 +75,9 @@ class VisitsController < ApplicationController
 
     @form_action = "Update"
     if @visit.update(visit_params)
-      flash[:success] = "Successfully updated visit!"
+      visit_params.keys.each do |vp|
+        flash[:success] = "Successfully updated visit with #{vp}"
+      end
       redirect_to edit_visit_path(@visit.id)
     else
       Rails.logger.info(@visit.errors.inspect)
