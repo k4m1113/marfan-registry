@@ -1,46 +1,46 @@
 module ApplicationHelper
   def print_if_present(attribute)
     case attribute
-    when attribute.class === "String"
-      attribute.empty? ? "not noted" : attribute
-    when attribute.class === "Fixnum"
-      attribute.nil? ? "not noted" : attribute
+    when attribute.class === 'String'
+      attribute.empty? ? 'not noted' : attribute
+    when attribute.class === 'Fixnum'
+      attribute.nil? ? 'not noted' : attribute
     else
-      attribute.nil? ? "not noted" : attribute
+      attribute.nil? ? 'not noted' : attribute
     end
   end
 
 
 
   def find_trail(topic)
-    topic.self_and_ancestors.map(&:name).join(" > ")
+    topic.self_and_ancestors.map(&:name).join(' > ')
   end
 
   def display_test_date(t)
     if t.test_date
-      return t.test_date.strftime("%d %B %Y")
+      return t.test_date.strftime('%d %B %Y')
     elsif t.time_ago
-      return "#{t.time_ago} #{t.time_ago_scale} ago".downcase
+      return '#{t.time_ago} #{t.time_ago_scale} ago'.downcase
     else
-      return "not noted"
+      return 'not noted'
     end
   end
 
   def display_date(topic_type)
     if topic_type.absolute_start_date
-      return topic_type.absolute_start_date.strftime("%d %B %Y")
+      return topic_type.absolute_start_date.strftime('%d %B %Y')
     elsif topic_type.time_ago
-      return "#{topic_type.time_ago} #{topic_type.time_ago_scale} ago"
+      return '#{topic_type.time_ago} #{topic_type.time_ago_scale} ago'
     else
-      return "not noted"
+      return 'not noted'
     end
   end
 
   def button_color(topic_group, cat)
     if topic_group.any?{ |t| t.topic_id == cat.id }
-      return "btn-info"
+      return 'btn-info'
     else
-      return "btn-secondary"
+      return 'btn-secondary'
     end
   end
 
@@ -57,7 +57,7 @@ module ApplicationHelper
     when 'symptom'
       render html: "<button type='button' class='btn #{button_color(scope.symptoms, category)} pull-right down-eight' value='#{category.id}' id='symptom-reason'>Add symptom details</button>".html_safe
     when 'diagnosis'
-      render html: "<%= button_to diagnoses_path(action: :create, topic_id: #{category.id}, patient_id: @visit.patient_id, visit_id: @visit.id, note: 'absence'), class: 'btn btn-danger pull-right down-eight' do %><span class='glyphicon glyphicon-minus' aria-hidden='true'></span><% end %><%= button_to diagnoses_path(action: :create, topic_id: #{category.id}, patient_id: @visit.patient_id, visit_id: @visit.id, note: 'presence'), class: 'btn btn-success pull-right down-eight' do %><span class='glyphicon glyphicon-plus' aria-hidden='true'></span><% end %>".html_safe
+      render html: "<form class='button_to' method='post' action='/diagnoses?note=presence&amp;patient_id=#{@patient.id}&amp;topic_id=#{category.id}&amp;visit_id=#{@visit.id}'><button class='btn btn-success pull-right down-eight' type='submit'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span></button></form><form class='button_to' method='post' action='/diagnoses?note=absence&amp;patient_id=#{@patient.id}&amp;topic_id=#{category.id}&amp;visit_id=#{@visit.id}'><button class='btn btn-danger pull-right down-eight' type='submit'><span class='glyphicon glyphicon-minus' aria-hidden='true'></span></button></form>".html_safe
     when 'medication'
       render html: "<button type='button' class='btn btn-info pull-right down-eight' value='#{category.id}' id='med-reason' onclick='renderMedTopicForm($(this).val());'>Add medication details</button>".html_safe
     when 'stat'
