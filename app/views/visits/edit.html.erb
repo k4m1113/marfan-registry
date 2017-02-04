@@ -3,7 +3,7 @@
     <%= render 'visits/summary_modal_button', visit: @visits[-0], title: "Prior Visit Summary", button_descriptor: "secondary" %>
   <% end %>
   <%= render 'visits/summary_modal_button', visit: @visit, title: "Visit Summary", button_descriptor: "info" %>
-  <%= render 'patients/summary_modal_button' %>
+  <%= render 'patients/summary_modal_button', visit: @visit %>
   <hr />
 </div>
 
