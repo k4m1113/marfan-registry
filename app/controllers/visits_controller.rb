@@ -61,6 +61,9 @@ class VisitsController < ApplicationController
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient_id)
     @visits = Visit.where(patient_id: @patient.id).order("id ASC")
+    if (@visits.length > 1 && @visit === @visits.last)
+      @previous_visit = @visits[-0]
+    end
     @nested_scope = @visit
     @clinician = Clinician.find(@visit.clinician_id)
     unless @visits.length == 0
