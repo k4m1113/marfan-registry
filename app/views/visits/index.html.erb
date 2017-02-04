@@ -6,14 +6,12 @@
         <tr>
           <th data-sortable="true">Date</th>
           <th data-sortable="true">Patient</th>
-          <th>After-visit summary</th>
           <th>Actions</th>
         </tr>
         <% @visits.each do |visit| %>
         <tr style="cursor:pointer;" onclick=<%= "location.href='/visits/" + "#{visit.id}'" %>>
           <td><%= visit.created_at.strftime("%d %B %Y") %></td>
           <td><%= link_to "Patient Information", patient_path(visit.patient_id) %></td>
-          <td><%= render 'visits/summary_modal_button', visit: visit, title: "Quick Summary for Visit #{visit.id}", button_descriptor: "secondary" %></td>
           <td>
             <div class="hidden-sm hidden-xs btn-group btn-group-sm hidden-sm-down" role="group">
               <%= button_to "Generate Report", report_visit_path(id: visit.id), type: "button", method: :get, class: "btn btn-secondary disabled" %>
