@@ -1,6 +1,5 @@
 require 'report'
 require 'doctor'
-require 'pry'
 
 class VisitsController < ApplicationController
   include Report
