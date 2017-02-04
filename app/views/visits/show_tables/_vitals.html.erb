@@ -1,13 +1,13 @@
-<div id="vitals<%= vitals[0].visit_id %>Accordion" role="tablist" aria-multiselectable="true">
+<div id="vitalsAccordion" role="tablist" aria-multiselectable="true">
   <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="vitals<%= vitals[0].visit_id %>Heading">
-      <a data-toggle="collapse" data-parent="#vitals<%= vitals[0].visit_id %>Accordion" href="#vitals<%= vitals[0].visit_id %>Collapse" aria-expanded="true" aria-controls="vitals<%= vitals[0].visit_id %>Collapse" style="none">
+    <div class="panel-heading" role="tab" id="vitalsHeading">
+      <a data-toggle="collapse" data-parent="#vitals>Accordion" href="#vitalsCollapse" aria-expanded="true" aria-controls="vitalsCollapse" style="none">
         <h3 class="panel-title mb-0">
             Vitals <span class="caret"></span>
         </h3>
       </a>
     </div>
-    <div id="vitals<%= vitals[0].visit_id %>Collapse" class="collapse" role="tabpanel" aria-labelledby="vitals<%= vitals[0].visit_id %>Heading">
+    <div id="vitalsCollapse" class="collapse" role="tabpanel" aria-labelledby="vitalsHeading">
       <% if vitals.length != 0 %>
         <table class="table table-striped table-hover">
           <tr>
