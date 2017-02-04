@@ -34,7 +34,6 @@ module NMFTool
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
-    config.relationship_types = ["Mother", "Father", "Dad's sibling", "Mom's sibling", "Paternal Grandmother", "Paternal Grandfather", "Maternal Grandmother", "Maternal Grandfather", "Sibling", "Child"]
 
   end
 end
