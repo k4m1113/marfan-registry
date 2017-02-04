@@ -6,7 +6,6 @@ class VisitsController < ApplicationController
   include Doctor
 
   respond_to :html, :js
-  before_action :set_visit, only: [:show, :edit, :update, :destroy]
   before_filter :common_content
 
   def new
