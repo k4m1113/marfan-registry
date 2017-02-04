@@ -131,6 +131,7 @@ GEM
       slop (~> 3.4)
     pry-rails (0.3.4)
       pry (>= 0.9.10)
+    puma (3.2.0)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -266,6 +267,7 @@ DEPENDENCIES
   pg (~> 0.15)
   pg_search (~> 1.0, >= 1.0.6)
   pry-rails
+  puma
   rails (= 4.2.6)
   react-rails
   responders
