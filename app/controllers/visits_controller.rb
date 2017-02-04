@@ -40,6 +40,7 @@ class VisitsController < ApplicationController
   end
 
   def show
+    @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient_id)
     @clinician = Clinician.find(@visit.clinician_id)
     @symptoms = Symptom.where(visit_id: @visit.id)
@@ -57,6 +58,7 @@ class VisitsController < ApplicationController
   end
 
   def edit
+    @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient_id)
     @visits = Visit.where(patient_id: @patient.id).order("id ASC")
     @nested_scope = @visit
@@ -68,6 +70,7 @@ class VisitsController < ApplicationController
   end
 
   def update
+    @visit = Visit.find(params[:id])
     @form_action = "Update"
     if @visit.update(visit_params)
       visit_params.keys.each do |vp|
@@ -82,6 +85,7 @@ class VisitsController < ApplicationController
   end
 
   def destroy
+    @visit = Visit.find(params[:id])
     @visit.destroy
     redirect_to visits_path
   end
@@ -93,10 +97,6 @@ class VisitsController < ApplicationController
   end
 
   private
-
-  def set_visit
-    @visit = Visit.find(params[:id])
-  end
 
   def visit_params
     params.require(:visit).permit(
