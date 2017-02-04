@@ -19,8 +19,8 @@ gem 'dotenv'
 gem 'httparty'
 gem 'validates_type'
 gem 'awesome_nested_set'
-gem 'resque', "~> 1.22.0"
 gem 'rails_12factor'
+gem 'delayed_job_active_record'
 
 group :development, :test do
   gem 'byebug'
