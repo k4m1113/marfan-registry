@@ -12,7 +12,6 @@
             <a id="heading_<%= child.id %>" data-toggle="collapse" role="tab" aria-expanded="true" aria-controls="link_<%= node.id %>" data-parent="#link_<%= child.parent_id %>" href="#link_<%= child.id %>">
               <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
               <%= child.name %>
-              <%= render_form_button(child, @nested_scope) %>
             </a>
             <br />
             <ul id="link_<%= child.id %>" class="collapse list-group"><% draw_tree(child) %></ul>

@@ -11,6 +11,7 @@
         <% end %>
         <th>Description</th>
         <th>Note</th>
+        <th>Actions</th>
       </tr>
       <% diagnoses.each do |d| %>
         <tr>
@@ -20,6 +21,7 @@
           <% end %>
           <td><%= find_trail(Topic.find(d.topic_id)) %></td>
           <td><%= print_if_present(d.note) %></td>
+          <td><%= render 'diagnoses/link_buttons', d: d %></td>
         </tr>
       <% end %>
     </table>

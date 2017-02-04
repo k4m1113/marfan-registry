@@ -3,10 +3,11 @@ require 'doctor'
 require 'pry'
 
 class VisitsController < ApplicationController
-  respond_to :html, :js
   include Report
   include Doctor
 
+  respond_to :html, :js
+  before_action :set_visit, only: [:show, :edit, :update, :destroy]
   before_filter :common_content
 
   def new
@@ -41,7 +42,6 @@ class VisitsController < ApplicationController
   end
 
   def show
-    @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient_id)
     @clinician = Clinician.find(@visit.clinician_id)
     @symptoms = Symptom.where(visit_id: @visit.id)
@@ -59,9 +59,8 @@ class VisitsController < ApplicationController
   end
 
   def edit
-    @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient_id)
-    @visits = Visit.where(patient_id: @patient.id)
+    @visits = Visit.where(patient_id: @patient.id).order("id ASC")
     @nested_scope = @visit
     @clinician = Clinician.find(@visit.clinician_id)
     unless @visits.length == 0
@@ -71,8 +70,6 @@ class VisitsController < ApplicationController
   end
 
   def update
-    @visit = Visit.find(params[:id])
-
     @form_action = "Update"
     if @visit.update(visit_params)
       visit_params.keys.each do |vp|
@@ -87,7 +84,7 @@ class VisitsController < ApplicationController
   end
 
   def destroy
-    Visit.find(params[:id]).destroy
+    @visit.destroy
     redirect_to visits_path
   end
 
@@ -98,6 +95,10 @@ class VisitsController < ApplicationController
   end
 
   private
+
+  def set_visit
+    @visit = Visit.find(params[:id])
+  end
 
   def visit_params
     params.require(:visit).permit(

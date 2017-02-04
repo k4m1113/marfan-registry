@@ -1,0 +1,19 @@
+<button type="button" class="btn btn-<%= button_descriptor %>" data-toggle="modal" data-target="#visit<%= visit.id %>SummaryModal">
+  <%= title %>
+</button>
+
+<div class="modal fade" id="visit<%= visit.id %>SummaryModal" tabindex="-1" role="dialog" aria-labelledby="summary<%= visit.id %>ModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h5 class="modal-title" id="summary<%= visit.id %>ModalTitle">Visit <%= "#{visit.id}: #{visit.created_at.strftime('%d %B %Y')}" %></h5>
+      </div>
+      <div class="modal-body">
+        <%= render 'visits/show', family_members: FamilyMember.where(visit_id: visit.id), vitals: Vital.where(visit_id: visit.id), tests: Test.where(visit_id: visit.id), hospitalizations: Hospitalization.where(visit_id: visit.id), symptoms: Symptom.where(visit_id: visit.id), diagnoses: Diagnosis.where(visit_id: visit.id), procedures: Procedure.where(visit_id: visit.id) %>
+      </div>
+    </div>
+  </div>
+</div>

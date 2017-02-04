@@ -8,12 +8,14 @@
         <th>Date</th>
         <th>Type</th>
         <th>Result</th>
+        <th>Actions</th>
       </tr>
       <% tests.each do |t| %>
         <tr>
           <td><%= display_test_date(t) %></td>
-          <td><%= find_trail(Topic.where(id: t.topic_id)[0]) %></td>
+          <td><%= find_trail(t.topic_id) %></td>
           <td><%= print_if_present(t.result) %></td>
+          <td><%= render 'tests/link_buttons', t: t %></td>
         </tr>
       <% end %>
     </table>

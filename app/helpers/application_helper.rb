@@ -10,19 +10,18 @@ module ApplicationHelper
     end
   end
 
-
-
-  def find_trail(topic)
-    topic.self_and_ancestors.map(&:name).join(' > ')
+  def find_trail(topic_id)
+    topic = Topic.find(topic_id)
+    topic.self_and_ancestors.map(&:name).join(" > ")
   end
 
   def display_test_date(t)
     if t.test_date
       return t.test_date.strftime('%d %B %Y')
     elsif t.time_ago
-      return '#{t.time_ago} #{t.time_ago_scale} ago'.downcase
+      return "#{t.time_ago} #{t.time_ago_scale} ago".downcase
     else
-      return 'not noted'
+      return "not noted"
     end
   end
 
@@ -30,9 +29,9 @@ module ApplicationHelper
     if topic_type.absolute_start_date
       return topic_type.absolute_start_date.strftime('%d %B %Y')
     elsif topic_type.time_ago
-      return '#{topic_type.time_ago} #{topic_type.time_ago_scale} ago'
+      return "#{topic_type.time_ago} #{topic_type.time_ago_scale} ago"
     else
-      return 'not noted'
+      return "not noted"
     end
   end
 
@@ -57,7 +56,12 @@ module ApplicationHelper
     when 'symptom'
       render html: "<button type='button' class='btn #{button_color(scope.symptoms, category)} pull-right down-eight' value='#{category.id}' id='symptom-reason'>Add symptom details</button>".html_safe
     when 'diagnosis'
-      render html: "<form class='button_to' method='post' action='/diagnoses?note=presence&amp;patient_id=#{@patient.id}&amp;topic_id=#{category.id}&amp;visit_id=#{@visit.id}'><button class='btn btn-success pull-right down-eight' type='submit'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span></button></form><form class='button_to' method='post' action='/diagnoses?note=absence&amp;patient_id=#{@patient.id}&amp;topic_id=#{category.id}&amp;visit_id=#{@visit.id}'><button class='btn btn-danger pull-right down-eight' type='submit'><span class='glyphicon glyphicon-minus' aria-hidden='true'></span></button></form>".html_safe
+      if @visit
+        render html: "<form class='button_to' method='post' action='/diagnoses?note=presence&amp;patient_id=#{@patient.id}&amp;topic_id=#{category.id}&amp;visit_id=#{@visit.id}'><button class='btn btn-success pull-right down-eight' type='submit'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span></button></form><form class='button_to' method='post' action='/diagnoses?note=absence&amp;patient_id=#{@patient.id}&amp;topic_id=#{category.id}&amp;visit_id=#{@visit.id}'><button class='btn btn-danger pull-right down-eight' type='submit'><span class='glyphicon glyphicon-minus' aria-hidden='true'></span></button></form>".html_safe
+      else
+        render html: "<form class='button_to' method='post' action='/diagnoses?note=presence&amp;patient_id=#{@patient.id}&amp;topic_id=#{category.id}'><button class='btn btn-success pull-right down-eight' type='submit'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span></button></form><form class='button_to' method='post' action='/diagnoses?note=absence&amp;patient_id=#{@patient.id}&amp;topic_id=#{category.id}'><button class='btn btn-danger pull-right down-eight' type='submit'><span class='glyphicon glyphicon-minus' aria-hidden='true'></span></button></form>".html_safe
+      end
+
     when 'medication'
       render html: "<button type='button' class='btn btn-info pull-right down-eight' value='#{category.id}' id='med-reason' onclick='renderMedTopicForm($(this).val());'>Add medication details</button>".html_safe
     when 'stat'

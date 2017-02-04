@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Topic:</strong>
+  <%= @diagnosis.topic_id %>
+</p>
+
+<p>
+  <strong>Patient:</strong>
+  <%= @diagnosis.patient_id %>
+</p>
+
+<p>
+  <strong>Time ago:</strong>
+  <%= @diagnosis.time_ago %>
+</p>
+
+<p>
+  <strong>Time ago scale:</strong>
+  <%= @diagnosis.time_ago_scale %>
+</p>
+
+<p>
+  <strong>Absolute start date:</strong>
+  <%= @diagnosis.absolute_start_date %>
+</p>
+
+<p>
+  <strong>Visit:</strong>
+  <%= @diagnosis.visit_id %>
+</p>
+
+<p>
+  <strong>Note:</strong>
+  <%= @diagnosis.note %>
+</p>
+
+<%= link_to 'Edit', edit_diagnosis_path(@diagnosis) %> |
+<%= link_to 'Back', diagnoses_path %>

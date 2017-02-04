@@ -13,11 +13,11 @@
         <tr style="cursor:pointer;" onclick=<%= "location.href='/visits/" + "#{visit.id}'" %>>
           <td><%= visit.created_at.strftime("%d %B %Y") %></td>
           <td><%= link_to "Patient Information", patient_path(visit.patient_id) %></td>
-          <td><%= link_to "View Details", visit_path(visit.id) %></td>
+          <td><%= render 'visits/summary_modal_button', visit: visit, title: "Quick Summary for Visit #{visit.id}", button_descriptor: "secondary" %></td>
           <td>
             <div class="hidden-sm hidden-xs btn-group btn-group-sm hidden-sm-down" role="group">
               <%= button_to "Generate Report", report_visit_path(id: visit.id), type: "button", method: :get, class: "btn btn-secondary disabled" %>
-              <%= button_to "Edit Visit", edit_visit_path(id: visit.id), type: "button", method: :get, class: "btn btn-secondary" %>
+              <%= button_to "Edit Visit", edit_visit_path(id: visit.id), type: "button", method: :get, class: "btn btn-info" %>
             </div>
             <div class="hidden-md hidden-lg hidden-xlg btn-group btn-group-sm" role="group">
               <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
