@@ -12,7 +12,7 @@
     </div>
   </div>
   <%= fff.label "And what were the results of the test?", class: "control-label" %><br />
-  <%= fff.text_area :result, class: "form-control form-control-lg" %>
+  <%= fff.number_field :result, class: "form-control form-control-lg" %>
   <br />
   <% unless @form_action == "Update" %>
     <%= fff.submit "Add Test", class: "btn btn-success" %>
