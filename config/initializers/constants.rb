@@ -14,3 +14,5 @@ REASONS_FOR_VISIT = {
   "Neurologic": {},
   "Gastrointestinal": {}
 }
+
+CAUSES_OF_DEATH = ["aortic dissection", "heart attack", "stroke", "cancer", "old age", "Alzheimer's", "dementia"]

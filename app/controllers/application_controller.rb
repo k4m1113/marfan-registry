@@ -28,6 +28,10 @@ class ApplicationController < ActionController::Base
     @annulus = Topic.where(parent_id: Topic.where(name: "aortic annulus")[0])
 
     @heart_imaging_locations = [@root, @asc, @transv, @desc, @supra, @infra, @annulus]
+
+    @parent = Topic.where(name: "parent")[0]
+    @sibling = Topic.where(name: "sibling")[0]
+    @child = Topic.where(name: "child")[0]
   end
 
 end

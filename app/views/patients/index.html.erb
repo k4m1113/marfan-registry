@@ -39,7 +39,7 @@
           <th>Actions</th>
         </tr>
         <% @patients.each do |p| %>
-          <tr style="cursor:pointer;" onclick=<%= "location.href='/patients/" + "#{p.id}'" %>>
+          <tr>
             <td><%= link_to p.id, patient_path(p) %></td>
             <td><%= "#{p.last_name}, #{p.first_name}" %></td>
             <td><%= p.date_of_birth.strftime("%d %B %Y") %></td>

@@ -1,21 +1,55 @@
-<% SeededRelationshipType.all.each do |rt| %>
-  <% case rt.generation %>
-  <% when 0 %>
-    <div class="col-xs-3 col-xs-offset-3">
-      <%= render 'family_members/family_member_card', rt: rt %>
+<div class="container">
+  <form>
+    <div class="form-group row">
+      <label for="gen_1" class="col-sm-2 col-form-label h4">
+        <h4>Generation +1
+          <small>Patient's biological children</small>
+        </h4>
+      </label>
+      <div class="col-sm-10">
+        <% @children.each do |child| %>
+          <div class="col-xs-3">
+            <%= render 'family_members/family_member_card', fm: child, f: f %>
+          </div>
+        <% end %>
+        <div class="col-xs-3">
+          <%= render 'family_members/plus_button', title: "child", f: f %>
+        </div>
+      </div>
     </div>
-    <div class="col-xs-3">
-      <%= render 'family_members/family_member_card', rt: rt %>
+    <div class="form-group row">
+      <label for="gen_0" class="col-sm-2 col-form-label h4">
+        <h4>Generation 0
+          <small>Patient's biological brothers and sisters</small>
+        </h4>
+      </label>
+      <div class="col-sm-10">
+        <% @siblings.each do |sibling| %>
+          <div class="col-xs-3">
+            <%= render 'family_members/family_member_card', fm: sibling, f: f %>
+          </div>
+        <% end %>
+        <div class="col-xs-3">
+          <%= render 'family_members/plus_button', title: "sibling", f: f %>
+        </div>
+      </div>
     </div>
-    <br />
-  <% when 1 %>
-    <div class="col-xs-3 col-xs-offset-2">
-      <%= render 'family_members/family_member_card', rt: rt %>
+    <div class="form-group row">
+      <label for="gen_-1" class="col-sm-2 col-form-label">
+        <h4>Generation -1
+          <small>Patient's biological mother and father</small>
+        </h4>
+      </label>
+      <div class="col-sm-10">
+        <% @parents.each do |parent| %>
+          <div class="col-xs-3">
+            <%= render 'family_members/family_member_card', fm: parent, f: f %>
+          </div>
+        <% end %>
+        <div class="col-xs-3">
+          <%= render 'family_members/plus_button', title: "parent", f: f %>
+        </div>
+      </div>
     </div>
-    <br />
-  <% when 2 %>
-    <div class="col-xs-3">
-      <%= render 'family_members/family_member_card', rt: rt %>
-    </div>
-  <% end %>
-<% end %>
+  </form>
+</div>

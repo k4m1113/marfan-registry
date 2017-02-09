@@ -9,7 +9,7 @@
           <th>Actions</th>
         </tr>
         <% @visits.each do |visit| %>
-        <tr style="cursor:pointer;" onclick=<%= "location.href='/visits/" + "#{visit.id}'" %>>
+        <tr>
           <td><%= visit.created_at.strftime("%d %B %Y") %></td>
           <td><%= link_to "Patient Information", patient_path(visit.patient_id) %></td>
           <td>

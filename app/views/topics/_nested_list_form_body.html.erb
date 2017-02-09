@@ -14,13 +14,18 @@
         <% @discussion_topic = Topic.roots.where(name: "#{rt.name}")[0].self_and_descendants %>
         <div class="tab-pane" id="<%= rt.name.parameterize.underscore %>">
           <br />
-          <%= f.submit "Update Visit", class: "col-centered col-xs-12 control-label btn btn-secondary btn-lg" %>
-          <br /><br />
-          <hr />
-          <h3 class="card-title text-center"><%= rt.name.titleize %>
-          </h3>
-          <hr />
-          <%= render 'topics/nested_list', f: f, discussion_topic: @discussion_topic %>
+          <% case rt.name %>
+          <% when 'family history' %>
+            <%= render 'family_members/family_tree', f: f %>
+          <% else %>
+            <%= f.submit "Update Visit", class: "col-centered col-xs-12 control-label btn btn-secondary btn-lg" %>
+            <br /><br />
+            <hr />
+            <h3 class="card-title text-center"><%= rt.name.titleize %>
+            </h3>
+            <hr />
+            <%= render 'topics/nested_list', f: f, discussion_topic: @discussion_topic %>
+          <% end %>
         </div>
       <% end %>
     </div>

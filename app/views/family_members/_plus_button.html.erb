@@ -1,0 +1,13 @@
+<% topic = Topic.where(name: "#{title}")[0] %>
+<% action = "add" %>
+<div class="card">
+  <div class="card-block">
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#<%= topic.name -%>Modal" style="display: block; margin: 0 auto;" id=<%= topic.name %>>
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      <%= "Add #{title.capitalize}" %>
+    </button>
+  </div>
+</div>
+<div class="modal fade" id=<%= "#{title}Modal" %> tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <%= render 'family_members/family_tree_modal', topic: topic, action: action, patient_id: @patient.id, f: f %>
+</div>

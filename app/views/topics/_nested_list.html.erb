@@ -24,9 +24,9 @@
 <div class="row">
   <div class="col-xs-6">
     <ul class="list-group" id="accordion1">
-      <% discussion_topic.roots.each do |node| %>
+      <% discussion_topic.roots.each do |node| %>    
         <% if node.leaf? %>
-        <li class="list-group-item list-group-item-action"><%= node.name %></li>
+          <li class="list-group-item list-group-item-action"><%= node.name %></li>
         <% else %>
           <li class="panel list-group-item list-group-item-action">
             <a id="heading_<%= node.id %>" data-toggle="collapse" role="tab" aria-expanded="true" aria-controls="link_<%= node.id %>" data-parent="#accordion1" href="#link_<%= node.id %>">
@@ -34,7 +34,7 @@
               <%= node.name  %>
             </a>
             <br />
-          <ul id="link_<%= node.id %>" class="collapse show list-group" role="tabpanel" aria-labelledby="heading_<%= node.id %>" ><%= draw_tree(node) %></ul>
+            <ul id="link_<%= node.id %>" class="collapse show list-group" role="tabpanel" aria-labelledby="heading_<%= node.id %>" ><%= draw_tree(node) %></ul>
           </li>
         <% end %>
       <% end %>

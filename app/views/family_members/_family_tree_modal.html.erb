@@ -1,23 +1,19 @@
 <div class="modal-dialog modal-lg modal-lg" role="document">
   <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <h4 class="modal-title" id="myModalLabel"><%= "#{@action.capitalize} #{rt.name}" %></h4>
-    </div>
-    <div class="modal-body">
-      <%= form_for @family_member, action: @action do |f| %>
-        <%= f.hidden_field :patient_id, value: @patient.id %>
-        <%= f.hidden_field :seeded_relationship_type_id, value: rt.id %>
-        <%= f.hidden_field :seeded_relationship_type_id, value: rt.id %>
-        <%= render 'family_members/family_member_form_body', f: f %>
-        <%= f.hidden_field :visit_id, value: @visit.id %>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      <%= f.submit "#{@action.capitalize} Relationship", class: "btn btn-secondary" %>
-    </div>
+    <%= f.fields_for :family_members, action: action do |ff| %>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel"><%= "#{action.capitalize} #{topic.name}" %></h4>
+      </div>
+      <div class="modal-body">
+        <%= render 'family_members/family_member_form_body', f: ff %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <%= ff.submit "#{action.capitalize} Relationship", class: "btn btn-secondary" %>
+      </div>
+    <% end %>
   </div>
-  <% end %>
 </div>

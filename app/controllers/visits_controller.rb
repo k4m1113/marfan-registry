@@ -1,5 +1,6 @@
 require 'report'
 require 'doctor'
+require 'pry'
 
 class VisitsController < ApplicationController
   include Report
@@ -60,6 +61,12 @@ class VisitsController < ApplicationController
   def edit
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient_id)
+
+    @family_members = FamilyMember.where(patient_id: @patient.id)
+    @children = @patient.family_members.select{ |relation| relation['topic_id'] === @child.id}
+    @siblings = @patient.family_members.select{ |relation| relation['topic_id'] === @sibling.id}
+    @parents = @patient.family_members.select{ |relation| relation['topic_id'] === @parent.id}
+
     @visits = Visit.where(patient_id: @patient.id).order("id ASC")
     if (@visits.length > 1 && @visit === @visits.last)
       @previous_visit = @visits[-0]
@@ -70,6 +77,7 @@ class VisitsController < ApplicationController
       @primary_clinician = Clinician.where(id: @visits[0].clinician_id)[0]
     end
     @form_action = "Update"
+    @visit.family_members.build
   end
 
   def update
