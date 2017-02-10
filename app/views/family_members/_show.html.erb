@@ -1,0 +1,41 @@
+<% unless @family_member.nil? %>
+  <% fm = @family_member %>
+<% end %>
+
+<div class="row">
+  <div class="col-xs-12">
+    <h2>
+      <%= "#{print_if_present(fm.future_patient_data_hash['first_name'])} #{print_if_present(fm.future_patient_data_hash['last_name'])}" %>
+      <small><%= "#{Topic.find(fm.topic_id).name} of #{@patient.first_name} #{@patient.last_name}" %></small>
+    </h2>
+    <hr />
+    <%= link_to "Edit", edit_family_member_path(fm), type: "button", method: :get, class: "btn btn-secondary" %>
+    <%= link_to "Destroy", family_member_path(fm), method: :delete, type: "button", class: "btn btn-secondary" %>
+    <%= link_to "Claim", new_patient_path(fm), type: "button", class: "btn btn-info" %>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-xs-12">
+    <table class="table">
+      <tr>
+        <th>
+          KEY
+        </th>
+        <th>
+          VALUE
+        </th>
+      </tr>
+      <% fm.future_patient_data_hash.each do |k, v| %>
+      <tr>
+        <td>
+          <%= k.to_s.titleize %>
+        </td>
+        <td>
+          <%= v %>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

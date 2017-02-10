@@ -27,6 +27,7 @@ class FamilyMembersController < ApplicationController
 
   def edit
     @family_member = FamilyMember.find(params[:id])
+    @patient = Patient.find(@family_member.patient_id)
   end
 
   def update
@@ -42,6 +43,8 @@ class FamilyMembersController < ApplicationController
 
   def show
     @family_member = FamilyMember.find(params[:id])
+    @relationship = Topic.find(@family_member.topic_id)
+    @patient = Patient.find(@family_member.patient_id)
   end
 
   def destroy
@@ -57,6 +60,7 @@ class FamilyMembersController < ApplicationController
     :patient_id,
     :visit_id,
     :topic_id,
-    future_patient_data_hash: [:first_name, :last_name, :date_of_birth, :cause_of_death, :deceased, :note])
+    {future_patient_data_hash: [
+    :first_name, :last_name, :born_years_ago, :date_of_birth, :deceased, :death_time_ago, :death_time_ago_scale, :death_date, :cause_of_death, :note]})
   end
 end

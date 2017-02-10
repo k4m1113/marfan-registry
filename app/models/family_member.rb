@@ -3,6 +3,8 @@ class FamilyMember < ActiveRecord::Base
 
   scope :sorted, -> { order(created_at: :desc) }
 
+  after_save { |f| f.destroy if (f[:future_patient_data_hash]['first_name'].blank? && f[:date_of_birth].blank? && f[:future_patient_data_hash]['cause_of_death'].blank?) }
+
   pg_search_scope :search,
     against: [:future_patient_data_hash],
     using: {

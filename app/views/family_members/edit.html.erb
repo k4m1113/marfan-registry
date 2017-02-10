@@ -1,13 +1,9 @@
 <div class="row">
   <div class="col-xs-12-col-md-4">
-    <%= form_for @family_member, method: :put do |f| %>
-      <%= render 'family_member_form_body', f: f %>
+    <%= form_for @family_member do |f| %>
+      <%= render 'family_member_form_body', f: f, topic: Topic.find(@family_member.topic_id), fm: @family_member %>
       <%= f.submit 'Update' %>
   </div>
   <% end %>
 
 </div>
-
-<!-- 
-
-<%= button_to diagnoses_path(action: :create, topic_id: #{category.id}, patient_id: @visit.patient_id, visit_id: @visit.id, note: 'absence'), class: 'btn btn-danger pull-right down-eight' do %><% end %><%= button_to diagnoses_path(action: :create, topic_id: #{category.id}, patient_id: @visit.patient_id, visit_id: @visit.id, note: 'presence'), class: 'btn btn-success pull-right down-eight' do %><span class='glyphicon glyphicon-plus' aria-hidden='true'></span><% end %> -->

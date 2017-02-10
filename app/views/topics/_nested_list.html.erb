@@ -24,7 +24,7 @@
 <div class="row">
   <div class="col-xs-6">
     <ul class="list-group" id="accordion1">
-      <% discussion_topic.roots.each do |node| %>    
+      <% discussion_topic.roots.each do |node| %>
         <% if node.leaf? %>
           <li class="list-group-item list-group-item-action"><%= node.name %></li>
         <% else %>
@@ -47,7 +47,6 @@
 
 <script>
   function renderProcedureTopicForm(int) {
-    console.log("procedure form called")
     $('.tab-pane.active').find('.form-hook').html("<%= j render 'procedures/procedure_form', f: f %><hr />");
     $('input.procedure-response:last').val(int);
   };
@@ -56,7 +55,6 @@
     $('input.complication-response:last').val(int);
   };
   function renderTestTopicForm(int) {
-    console.log("test called")
     $('.tab-pane.active').find('.form-hook').html("<%= j render 'tests/test_form', f: f, tests: @tests %>");
     $('input.test-response:last').val(int);
   };
@@ -67,7 +65,7 @@
     $('.tab-pane.active').find('.form-hook').html("<%= j render 'diagnoses/diagnosis', f: f %><hr />");
   };
   function renderFamilyMemberTopicForm(int) {
-    $('.tab-pane.active').find('.form-hook').html("<%= j render 'family_members/family_member_form', f: f %><hr />");
+    $('.tab-pane.active').find('.form-hook').html("<%= j render 'family_members/family_member_form', f: f, topic: Topic.find(2) %><hr />");
     $('input.family-response:last').val(int);
   };
   function renderMedTopicForm(int) {

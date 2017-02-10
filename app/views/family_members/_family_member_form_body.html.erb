@@ -1,63 +1,157 @@
-<div class="form-group">
-  <%= render 'visits/visit_presence_checker', f: f %>
-  <%= f.hidden_field :topic_id, class: "family-response", value: "" %>
-  <%= f.fields_for :future_patient_data_hash do |ff| %>
-  <div class="row">
-    <div class="col-xs-6">
-      <%= ff.label "First Name:", class: "control-label" %><br />
-      <%= ff.text_field :first_name, class: "form-control form-control-lg" %>
-    </div>
-    <div class="col-xs-6">
-      <%= ff.label "Last Name:", class: "control-label" %><br />
-      <%= ff.text_field :last_name, class: "form-control form-control-lg" %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-6">
-      <%= ff.label "Year of Birth:", class: "control-label" %><br />
-      <%= ff.number_field :date_of_birth, class: "form-control form-control-lg", min: 1900, step: 1 %>
-    </div>
-    <div class="col-xs-6">
-      <%= ff.label "Check if deceased:", class: "control-label" %><br />
-      <%= ff.check_box :deceased, class: "form-control form-control-lg btn btn-default", onclick: "$('#deceased').toggle();" %>
-    </div>
-  </div>
-  
-  <div  id="deceased" style="display: none">
+<% if current_page?(edit_family_member_path()) %>
+  <div class="form-group">
+    <%= render 'visits/visit_presence_checker', f: f %>
+    <%= f.fields_for :future_patient_data_hash do |ff| %>
     <div class="row">
-      <div class="col-xs-12">
-        <%= ff.label "When did they die?", class: "control-label" %>
-        <br />
+      <div class="col-xs-6">
+        <%= ff.label "First Name:", class: "control-label" %><br />
+        <%= ff.text_field :first_name, value: @family_member.future_patient_data_hash['first_name'], class: "form-control form-control-lg" %>
       </div>
-      <%= render 'layouts/relative_absolute_date', fff: ff, column_title: :death_date %>
+      <div class="col-xs-6">
+        <%= ff.label "Last Name:", class: "control-label" %><br />
+        <%= ff.text_field :last_name, value: @family_member.future_patient_data_hash['last_name'], class: "form-control form-control-lg" %>
+      </div>
     </div>
     <div class="row">
-      <div class="col-xs-12">
-        <%= ff.label "What was their cause of death?", class: "control-label" %><br />
-        <div class="form-check">
-          <% CAUSES_OF_DEATH.each do |c| %>
-            <label class="form-check-label", value=<%= c %>>
-              <%= ff.radio_button :cause_of_death, "#{c}", class: "form-check-input" %>
-              <%= c %>
-            </label>
-          <% end %>
-          <div class="input-group">
-            <span class="input-group-addon">
-              <input type="radio" aria-label="Radio button for following text input">
-            </span>
-            <input type="text" class="form-control" aria-label="Text input with radio button">
+      <div class="col-xs-6">
+        <%= ff.label "Date of Birth (can be approximate)", class: "control-label" %><br />
+        <%= ff.date_field :date_of_birth, value: Date.new(@family_member.future_patient_data_hash['date_of_birth'].to_i), class: "form-control form-control-lg", min: 1900, step: 1 %>
+      </div>
+        <div class="col-xs-6">
+          <%= ff.label "Check if deceased:", class: "control-label" %><br />
+          <%= ff.check_box :deceased, checked:  ((@family_member.future_patient_data_hash['deceased'] === "1")? true : false), class: "form-control form-control-lg btn btn-default" %>
+        </div>
+      </div>
+      <div id="deceased">
+        <div class="row">
+          <div class="col-xs-12">
+            <%= ff.label "When did they die?", class: "control-label" %>
+            <br />
+          </div>
+          <div class="col-xs-5">
+            <div class="form-inline">
+              <div class="form-group" aria-describedby="relativeTime">
+                <%= ff.number_field :death_time_ago, value: @family_member.future_patient_data_hash['death_time_ago'],class: "form-control form-control-lg", step: 1, in: 1..99 %>
+                <%= ff.select :death_time_ago_scale, TIME_SCALES, selected: @family_member.future_patient_data_hash['death_time_ago_scale'], class: "form-control form-control-lg" %>
+              </div>
+              <p id="relativeTime" class="purple form-text text-muted">
+                relative date, e.g. "5 months ago"
+              </p>
+            </div>
+          </div>
+          <div class="col-xs-2" style="min-height:32px;">
+            <%= render 'layouts/col_2_OR_buttons' %>
+          </div>
+          <div class="col-xs-5">
+            <%= ff.date_field :death_date, value: Date.new(@family_member.future_patient_data_hash['death_date'].to_i), class: "form-control form-control-lg", aria: { describedby: "absoluteTime" } %>
+            <p id="absoluteTime" class="purple form-text text-muted">
+              absolute date, e.g. "01/07/2016"
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <%= ff.label "What was their cause of death?", class: "control-label" %><br />
+            <div class="form-check">
+              <%= ff.select :cause_of_death, CAUSES_OF_DEATH, selected: @family_member.future_patient_data_hash['cause_of_death'], class: "form-control form-control-lg" %>
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <input type="radio" aria-label="Radio button for following text input">
+                </span>
+                <input type="text" class="form-control" aria-label="Text input with radio button">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <br />
+      <div class="row">
+        <div class="col-xs-12">
+          <%= ff.label "Anything else to add?", class: "control-label" %><br />
+          <%= ff.text_area :note, value: @family_member.future_patient_data_hash['note'], class: "form-control form-control-lg" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% elsif current_page?(edit_visit_path) %>
+  <div class="form-group">
+    <%= render 'visits/visit_presence_checker', f: f %>
+    <%= f.fields_for :future_patient_data_hash do |ff| %>
+    <div class="row">
+      <div class="col-xs-6">
+        <%= ff.label "First Name:", class: "control-label" %><br />
+        <%= ff.text_field :first_name, class: "form-control form-control-lg" %>
+      </div>
+      <div class="col-xs-6">
+        <%= ff.label "Last Name:", class: "control-label" %><br />
+        <%= ff.text_field :last_name, class: "form-control form-control-lg" %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6">
+        <%= ff.label "Year of Birth:", class: "control-label" %><br />
+        <%= ff.number_field :date_of_birth, class: "form-control form-control-lg", min: 1900, step: 1 %>
+      </div>
+      <div class="col-xs-6">
+        <%= ff.label "Check if deceased:", class: "control-label" %><br />
+        <%= ff.check_box :deceased, class: "form-control form-control-lg btn btn-default", onclick:  "$('#new#{topic.name.capitalize}Modal').find('#deceased').toggle();" %>
+      </div>
+    </div>
+
+    <div id="deceased" style="display: none">
+      <div class="row">
+        <div class="col-xs-12">
+          <%= ff.label "When did they die?", class: "control-label" %>
+          <br />
+        </div>
+        <div class="col-xs-5">
+          <div class="form-inline">
+            <div class="form-group" aria-describedby="relativeTime">
+              <%= ff.number_field :death_time_ago, step: 1, in: 1..99 %>
+              <%= ff.select :death_time_ago_scale, TIME_SCALES, class: "form-control form-control-lg" %>
+            </div>
+            <p id="relativeTime" class="purple form-text text-muted">
+              relative date, e.g. "5 months ago"
+            </p>
+          </div>
+        </div>
+        <div class="col-xs-2" style="min-height:32px;">
+          <%= render 'layouts/col_2_OR_buttons' %>
+        </div>
+        <div class="col-xs-5">
+          <%= ff.date_field :death_date, class: "form-control form-control-lg", aria: { describedby: "absoluteTime" } %>
+          <p id="absoluteTime" class="purple form-text text-muted">
+            absolute date, e.g. "01/07/2016"
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <%= ff.label "What was their cause of death?", class: "control-label" %><br />
+          <div class="form-check">
+            <%= ff.select :cause_of_death, CAUSES_OF_DEATH, class: "form-control form-control-lg" %>
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="radio" aria-label="Radio button for following text input">
+              </span>
+              <input type="text" class="form-control" aria-label="Text input with radio button">
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <br />
+    <div class="row">
+      <div class="col-xs-12">
+        <%= ff.label "Anything else to add?", class: "control-label" %><br />
+        <%= ff.text_area :note, class: "form-control form-control-lg" %>
+      </div>
+    </div>
+    <% end %>
   </div>
 
-  <br />
-  <div class="row">
-    <div class="col-xs-12">
-      <%= ff.label "Anything else to add?", class: "control-label" %><br />
-      <%= ff.text_area :note, class: "form-control form-control-lg" %>
-    </div>
-  </div>
-  <% end %>
-</div>
+<% else %>
+  Write code for form outside of modal and fm edit page
+<% end %>

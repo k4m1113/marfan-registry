@@ -137,7 +137,7 @@ class VisitsController < ApplicationController
         [:topic_id, :patient_id, :clinician_id, :visit_id, :note],
       family_members_attributes:
         [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, {future_patient_data_hash: [
-        :first_name, :last_name, :born_years_ago, :date_of_birth, :deceased, :cause_of_death, :note]}],
+        :first_name, :last_name, :born_years_ago, :date_of_birth, :deceased, :death_time_ago, :death_time_ago_scale, :death_date, :cause_of_death, :note]}],
       hospitalizations_attributes:
         [:visit_id, :patient_id, :topic_id, :hospitalization, :admission_date, :time_ago, :time_ago_scale, :length_of_stay, :length_of_stay_scale, :hosp_type, :description, :location, :note],
       tests_attributes:
