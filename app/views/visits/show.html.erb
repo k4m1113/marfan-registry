@@ -1,7 +1,11 @@
 <div class="row">
   <div class="col-xs-12 col-centered">
-    <h1>Visit <%= @visit.id %></h1>
-    <h5>with <%= link_to "#{@clinician.first_name} #{@clinician.last_name}", clinician_path(@clinician) %> at <%= @clinician.practice_name %> on <%= @visit.created_at.strftime("%d %B %Y") %></h5>
+    <h1>
+      Visit <%= @visit.id %>
+      <small>
+        with <%= link_to "#{@clinician.first_name} #{@clinician.last_name}", clinician_path(@clinician) %> at <%= @clinician.practice_name %> on <%= @visit.created_at.strftime("%d %B %Y") %>
+      </small>
+    </h1>
     <hr />
     <div class="btn-group btn-group-sm" role="group">
       <%= button_to "Generate Report", report_visit_path(id: @visit.id), type: "button", method: :get, class: "btn btn-secondary disabled" %>

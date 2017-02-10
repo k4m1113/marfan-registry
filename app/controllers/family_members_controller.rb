@@ -49,8 +49,8 @@ class FamilyMembersController < ApplicationController
 
   def destroy
     FamilyMember.find(params[:id]).destroy
+    flash[:success] = "Relationship record destroyed."
     redirect_to :back
-    head :no_content
   end
 
   private
