@@ -1,5 +1,6 @@
 require 'report'
 require 'doctor'
+require 'json'
 
 class VisitsController < ApplicationController
   include Report

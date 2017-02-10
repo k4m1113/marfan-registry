@@ -15,4 +15,4 @@ REASONS_FOR_VISIT = {
   "Gastrointestinal": {}
 }
 
-CAUSES_OF_DEATH = ["aortic dissection", "heart attack", "stroke", "cancer", "old age", "Alzheimer's", "dementia"]
+CAUSES_OF_DEATH = ["", "aortic dissection", "heart attack", "stroke", "cancer", "old age", "Alzheimer's", "dementia"]

@@ -1,3 +1,5 @@
+require 'json'
+
 class FamilyMembersController < ApplicationController
   respond_to :html, :js
   helper_method :make_patient

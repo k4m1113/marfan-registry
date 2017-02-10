@@ -17,25 +17,6 @@
 <br />
 <div class="row">
   <div class="col-xs-12">
-    <table class="table">
-      <tr>
-        <th>
-          KEY
-        </th>
-        <th>
-          VALUE
-        </th>
-      </tr>
-      <% fm.future_patient_data_hash.each do |k, v| %>
-      <tr>
-        <td>
-          <%= k.to_s.titleize %>
-        </td>
-        <td>
-          <%= v %>
-        </td>
-      </tr>
-      <% end %>
-    </table>
+    <%= render 'family_members/key_value_table', fm: fm %>
   </div>
 </div>
