@@ -91,7 +91,7 @@
     <div class="row">
       <div class="col-xs-6">
         <%= ff.label "Year of Birth:", class: "control-label" %><br />
-        <%= ff.number_field :date_of_birth, class: "form-control form-control-lg", min: 1900, max: Date.today.year, step: 1 %>
+        <%= ff.number_field :date_of_birth, class: "form-control form-control-lg", min: 1900, max: Date.today().year, step: 1 %>
       </div>
       <div class="col-xs-6">
         <%= ff.label "Check if deceased:", class: "control-label" %><br />
