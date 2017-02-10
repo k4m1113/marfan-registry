@@ -49,7 +49,7 @@ class FamilyMembersController < ApplicationController
 
   def destroy
     FamilyMember.find(params[:id]).destroy
-    redirect_to visit_path(session[:current_visit])
+    redirect_to :back
     head :no_content
   end
 
