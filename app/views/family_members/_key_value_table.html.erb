@@ -17,7 +17,7 @@
       <% when 'deceased' %>
         <%= v == '1' ? true : false %>
       <% when 'death_date' %>
-        <%= v.empty? ? "approx #{find_date(fm.future_patient_data_hash['death_time_ago'], fm.future_patient_data_hash['death_time_ago_scale'], Date.today).strftime('%d %B %Y')}" : v.strftime('%d %B %Y') %>
+        <%= v.empty? ? "approx #{find_date(fm.future_patient_data_hash['death_time_ago'], fm.future_patient_data_hash['death_time_ago_scale'], Date.today).strftime('%d %B %Y')}" : "not noted" %>
 
       <% when 'date_of_birth' %>
         <%= Date.new(v.to_i).strftime('%d %B %Y') %>
