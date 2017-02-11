@@ -1,5 +1,16 @@
 module ApplicationHelper
-
+  def find_date(int, meas, meas_date)
+    case meas
+    when *['Days', 'days', 'day', 'Day', 'd', 'D', 'd.', 'D.']
+      return meas_date.to_datetime - (int.to_i).days
+    when *['Weeks', 'weeks', 'week', 'Week', 'w', 'W', 'w.', 'W.']
+      return meas_date.to_datetime - (int.to_i).weeks
+    when *['Months', 'months', 'month', 'Month', 'm', 'M', 'm.', 'M.']
+      return meas_date.to_datetime - (int.to_i).months
+    when *['Years', 'years', 'year', 'Year', 'y', 'Y', 'y.', 'Y.']
+      return meas_date.to_datetime - (int.to_i).years
+    end
+  end
   def find_step(min, max)
     if min.to_s.include?(".")
       num_1 = min.to_s.split(".").last.size

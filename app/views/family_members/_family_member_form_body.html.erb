@@ -15,7 +15,7 @@
     <div class="row">
       <div class="col-xs-6">
         <%= ff.label "Date of Birth (can be approximate)", class: "control-label" %><br />
-        <%= ff.date_field :date_of_birth, value: Date.new(@family_member.future_patient_data_hash['date_of_birth'].to_i), class: "form-control form-control-lg", min: 1900, step: 1 %>
+        <%= ff.date_field :date_of_birth, value: Date.new(@family_member.future_patient_data_hash['date_of_birth'].to_i), class: "form-control form-control-lg", min: 1900, step: 1, type: "month" %>
       </div>
         <div class="col-xs-6">
           <%= ff.label "Check if deceased:", class: "control-label" %><br />
@@ -91,7 +91,7 @@
     <div class="row">
       <div class="col-xs-6">
         <%= ff.label "Year of Birth:", class: "control-label" %><br />
-        <%= ff.number_field :date_of_birth, class: "form-control form-control-lg", min: 1900, max: Date.today().year, step: 1 %>
+        <%= ff.month_field :date_of_birth, class: "form-control form-control-lg" %>
       </div>
       <div class="col-xs-6">
         <%= ff.label "Check if deceased:", class: "control-label" %><br />
@@ -120,7 +120,7 @@
           <%= render 'layouts/col_2_OR_buttons' %>
         </div>
         <div class="col-xs-5">
-          <%= ff.date_field :death_date, class: "form-control form-control-lg", aria: { describedby: "absoluteTime" } %>
+          <%= ff.month_field :death_date, class: "form-control form-control-lg", aria: { describedby: "absoluteTime" } %>
           <p id="absoluteTime" class="purple form-text text-muted">
             absolute date, e.g. "01/07/2016"
           </p>
