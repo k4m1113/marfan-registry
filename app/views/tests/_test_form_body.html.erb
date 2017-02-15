@@ -9,6 +9,6 @@
   <%= f.hidden_field :test_date, value: test_date, name: "visit[tests_attributes][#{topic_id}][test_date]", id: "visit_tests_attributes_#{topic_id}_test_date" %>
 
   <div class="form-inline">
-    <%= f.number_field :result, class: "form-control form-control-lg", name: "visit[tests_attributes][#{topic_id}][result]", min: topic.min_value, max: topic.max_value, default_value: (topic.min_value+topic.min_value)/2, step: topic.step, id: "visit_tests_attributes_#{topic_id}_result" %>  <%= f.label :result, topic.units_of_measurement, class: "control-label" %>
+    <%= f.select :result, (topic.min_value..topic.max_value).step(topic.step).to_a.map{|i| i.round(2)}.unshift(nil), class: "form-control form-control-lg", name: "visit[tests_attributes][#{topic_id}][result]", id: "visit_tests_attributes_#{topic_id}_result" %>  <%= f.label :result, topic.units_of_measurement, class: "control-label" %>
   </div>
 </div>

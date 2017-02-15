@@ -14,7 +14,7 @@
       <% when "exercise" %>
         <%= ff.select :measurement, ["", "mild", "moderate", "strenuous", "competitive"], {}, class: "form-control form-control-lg", id: "visit_vitals_attributes_#{s.id}_measurement", name: "visit[vitals_attributes][#{s.id}][measurement]" %>
       <% else %>
-        <%= ff.number_field :measurement, class: "form-control form-control-lg", min: -0.9, max: 0.9, step: find_step(-0.9, 0.9), id: "visit_vitals_attributes_#{s.id}_measurement", name: "visit[vitals_attributes][#{s.id}][measurement]" %>
+        <%= ff.number_field :measurement, class: "form-control form-control-lg", min: -0.9, max: 0.9, step: 0.1, id: "visit_vitals_attributes_#{s.id}_measurement", name: "visit[vitals_attributes][#{s.id}][measurement]" %>
       <% end %>
     </div>
     <br />

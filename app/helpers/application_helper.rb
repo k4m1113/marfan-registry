@@ -11,20 +11,6 @@ module ApplicationHelper
       return meas_date.to_datetime - (int.to_i).years
     end
   end
-  def find_step(min, max)
-    if min.to_s.include?(".")
-      num_1 = min.to_s.split(".").last.size
-    else
-      num_1 = 0
-    end
-    if max.to_s.include?(".")
-      num_2 = max.to_s.split(".").last.size
-    else
-      num_2 = 0
-    end
-    dec = [num_1, num_2].max
-    ((dec === 0) ? 1 : 10**-dec).to_f
-  end
 
   def print_if_present(attribute)
     case attribute
