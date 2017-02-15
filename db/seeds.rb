@@ -994,7 +994,7 @@ Topic.create!(
 
 ## BEGIN AORTIC MEASUREMENTS (xls 126) ##
 cardio_meas = Topic.create!(
-  name: "cardiovascular",
+  name: "aortic imaging",
   topic_type: "root category"
 )
 aortic_root_size = Topic.create!(

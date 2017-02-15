@@ -1,14 +1,20 @@
 <div class="form-group">
-  <% topic = Topic.find(topic_id) %>
-  <%= f.hidden_field :patient_id, value: @patient.id, name: "visit[tests_attributes][#{topic_id}][patient_id]", id: "visit_tests_attributes_#{topic_id}_patient_id" %>
+  <% @topic = Topic.find(topic_id) %>
+  <%= f.hidden_field :patient_id, value: @patient.id, name: "visit[tests_attributes][#{@topic.id}][patient_id]", id: "visit_tests_attributes_#{@topic.id}_patient_id" %>
 
-  <%= f.hidden_field :visit_id, value: @visit.id, name: "visit[tests_attributes][#{topic_id}][visit_id]", id: "visit_tests_attributes_#{topic_id}_visit_id"%>
+  <%= f.hidden_field :visit_id, value: @visit.id, name: "visit[tests_attributes][#{@topic.id}][visit_id]", id: "visit_tests_attributes_#{@topic.id}_visit_id"%>
 
-  <%= f.hidden_field :topic_id, value: topic_id, name: "visit[tests_attributes][#{topic_id}][topic_id]", id: "visit_tests_attributes_#{topic_id}_topic_id" %>
+  <%= f.hidden_field :topic_id, value: @topic.id, name: "visit[tests_attributes][#{@topic.id}][topic_id]", id: "visit_tests_attributes_#{@topic.id}_topic_id" %>
 
-  <%= f.hidden_field :test_date, value: test_date, name: "visit[tests_attributes][#{topic_id}][test_date]", id: "visit_tests_attributes_#{topic_id}_test_date" %>
-
+  <%= f.hidden_field :test_date, value: test_date, name: "visit[tests_attributes][#{@topic.id}][test_date]", id: "visit_tests_attributes_#{@topic.id}_test_date" %>
   <div class="form-inline">
-    <%= f.select :result, (topic.min_value..topic.max_value).step(topic.step).to_a.map{|i| i.round(2)}.unshift(nil), class: "form-control form-control-lg", name: "visit[tests_attributes][#{topic_id}][result]", id: "visit_tests_attributes_#{topic_id}_result" %>  <%= f.label :result, topic.units_of_measurement, class: "control-label" %>
+    <select name="visit[tests_attributes][<%= @topic.id %>][result]" id="visit_tests_attributes_<%= @topic.id %>_result">
+      <% (@topic.min_value..@topic.max_value).step(@topic.step).to_a.map{|i| i.round(2)}.unshift(nil).each do |num| %>
+        <option value="<%= num %>"  class="form-control form-control-lg"><%= num %></option>
+      <% end %>
+    </select>
+    <label class="control-label">
+      <%= @topic.units_of_measurement %>
+    </label>
   </div>
 </div>
