@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170204031957) do
+ActiveRecord::Schema.define(version: 20170215005724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -231,11 +231,15 @@ ActiveRecord::Schema.define(version: 20170204031957) do
   create_table "topics", force: :cascade do |t|
     t.string  "name"
     t.integer "parent_id"
-    t.integer "lft",                        null: false
-    t.integer "rgt",                        null: false
-    t.string  "topic_type",                 null: false
-    t.integer "depth",          default: 0, null: false
-    t.integer "children_count", default: 0, null: false
+    t.integer "lft",                              null: false
+    t.integer "rgt",                              null: false
+    t.string  "topic_type",                       null: false
+    t.integer "depth",                default: 0, null: false
+    t.integer "children_count",       default: 0, null: false
+    t.float   "min_value"
+    t.float   "max_value"
+    t.float   "step"
+    t.string  "units_of_measurement"
   end
 
   add_index "topics", ["lft"], name: "index_topics_on_lft", using: :btree

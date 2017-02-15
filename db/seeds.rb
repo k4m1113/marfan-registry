@@ -993,149 +993,261 @@ Topic.create!(
 ## END MORPHOLOGY (xls 123) ##
 
 ## BEGIN AORTIC MEASUREMENTS (xls 126) ##
-cardio = Topic.create!(
+cardio_meas = Topic.create!(
   name: "cardiovascular",
   topic_type: "root category"
 )
 aortic_root_size = Topic.create!(
   name: "aortic root",
   topic_type: "heart_measurement"
-).move_to_child_of(cardio)
+).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "echo",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 7.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(aortic_root_size)
 Topic.create!(
   name: "CT",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 7.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(aortic_root_size)
 Topic.create!(
   name: "MRI",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 7.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(aortic_root_size)
 ascending_aortic_size = Topic.create!(
   name: "ascending aortic",
   topic_type: "heart_measurement"
-).move_to_child_of(cardio)
+).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "echo",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(ascending_aortic_size)
 Topic.create!(
   name: "CT",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(ascending_aortic_size)
 Topic.create!(
   name: "MRI",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(ascending_aortic_size)
 transverse_arch = Topic.create!(
   name: "transverse arch",
   topic_type: "heart_measurement"
-).move_to_child_of(cardio)
+).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "echo",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(transverse_arch)
 Topic.create!(
   name: "CT",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(transverse_arch)
 Topic.create!(
   name: "MRI",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(transverse_arch)
 descending_thoracic_aorta = Topic.create!(
   name: "descending thoracic aorta",
   topic_type: "heart_measurement"
-).move_to_child_of(cardio)
+).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "echo",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(descending_thoracic_aorta)
 Topic.create!(
   name: "CT",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(descending_thoracic_aorta)
 Topic.create!(
   name: "MRI",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(descending_thoracic_aorta)
 suprarenal_abdominal_aorta = Topic.create!(
   name: "suprarenal abdominal aorta",
   topic_type: "heart_measurement"
-).move_to_child_of(cardio)
+).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "echo",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(suprarenal_abdominal_aorta)
 Topic.create!(
   name: "CT",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(suprarenal_abdominal_aorta)
 Topic.create!(
   name: "MRI",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(suprarenal_abdominal_aorta)
 infrarenal_abdominal_aorta = Topic.create!(
   name: "infrarenal abdominal aorta",
   topic_type: "heart_measurement"
-).move_to_child_of(cardio)
+).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "echo",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(infrarenal_abdominal_aorta)
 Topic.create!(
   name: "CT",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(infrarenal_abdominal_aorta)
 Topic.create!(
   name: "MRI",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(infrarenal_abdominal_aorta)
 aortic_annulus = Topic.create!(
   name: "aortic annulus",
   topic_type: "heart_measurement"
-).move_to_child_of(cardio)
+).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "echo",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(aortic_annulus)
 Topic.create!(
   name: "CT",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(aortic_annulus)
 Topic.create!(
   name: "MRI",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 6.0,
+  step: 0.1,
+  units_of_measurement: "cm"
 ).move_to_child_of(aortic_annulus)
 ## END AORTA MEASUREMENTS (xls 132) ##
 
+cardio = Topic.create!(
+  name: "cardiovascular",
+  topic_type: "root category"
+)
 ## BEGIN 1-DEPTH TOPICS (xls 134) ##
 Topic.create!(
   name: "LVIDd",
-  topic_type: "heart_measurement"
-).move_to_child_of(cardio)
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 10.0,
+  step: 0.1,
+  units_of_measurement: "cm"
+).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "LVIDs",
-  topic_type: "heart_measurement"
-).move_to_child_of(cardio)
+  topic_type: "heart_measurement",
+  min_value: 1.0,
+  max_value: 8.0,
+  step: 0.1,
+  units_of_measurement: "cm"
+).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "EF",
-  topic_type: "heart_measurement"
-).move_to_child_of(cardio)
+  topic_type: "heart_measurement",
+  min_value: 20.0,
+  max_value: 100.0,
+  step: 1.0,
+  units_of_measurement: "%"
+).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "mitral valve prolapse",
-  topic_type: "heart_measurement"
-).move_to_child_of(cardio)
+  topic_type: "heart_measurement",
+  min_value: 0,
+  max_value: 1,
+  step: 1,
+  units_of_measurement: "presence"
+).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "myxomatous mitral valve",
-  topic_type: "heart_measurement"
-).move_to_child_of(cardio)
+  topic_type: "heart_measurement",
+  min_value: 0,
+  max_value: 1,
+  step: 1,
+  units_of_measurement: "presence"
+).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "mitral regurgitation severity",
-  topic_type: "heart_measurement"
-).move_to_child_of(cardio)
+  topic_type: "heart_measurement",
+  min_value: 0,
+  max_value: 100,
+  step: 1,
+  units_of_measurement: "%"
+).move_to_child_of(cardio_meas)
 ## END 1-DEPTH TOPICS (xls 140)##
 
 ## BEGIN SHALLOW TOPICS (xls 142) ##
@@ -1159,24 +1271,40 @@ Topic.create!(
 aortic_stenosis = Topic.create!(
   name: "aortic stenosis",
   topic_type: "complication"
-).move_to_child_of(cardio)
+).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "mean gradient",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 20,
+  max_value: 100,
+  step: 1,
+  units_of_measurement: "mmHg"
 ).move_to_child_of(aortic_stenosis)
 Topic.create!(
   name: "valve area",
-  topic_type: "heart_measurement"
+  topic_type: "heart_measurement",
+  min_value: 0.5,
+  max_value: 3.0,
+  step: 0.1,
+  units_of_measurement: "cm2"
 ).move_to_child_of(aortic_stenosis)
 
 Topic.create!(
   name: "aortic insufficiency severity",
-  topic_type: "heart_measurement"
-).move_to_child_of(cardio)
+  topic_type: "heart_measurement",
+  min_value: 0,
+  max_value: 100,
+  step: 1,
+  units_of_measurement: "%"
+).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "tricuspid regurgitation severity",
-  topic_type: "heart_measurement"
-).move_to_child_of(cardio)
+  topic_type: "heart_measurement",
+  min_value: 0,
+  max_value: 100,
+  step: 1,
+  units_of_measurement: "%"
+).move_to_child_of(cardio_meas)
 ## END SHALLOW TOPICS (xls 147) %>
 
 ## BEGIN SHALLOW DISSECTIONS (xls 149) ##

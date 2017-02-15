@@ -35,6 +35,7 @@ class ApplicationController < ActionController::Base
     @mean_gradient = Topic.where(name: "mean gradient")[0]
     @valve_area = Topic.where(name: "valve area")[0]
     @ais = Topic.where(name: "aortic insufficiency severity")[0]
+    @heart_imaging_locations = [@root.map(&:id), @asc.map(&:id), @transv.map(&:id), @desc.map(&:id), @supra.map(&:id), @infra.map(&:id), @annulus.map(&:id), @lvidd, @lvids, @mvp, @mmv, @mitral_regurge, @tricuspid_regurge, @mean_gradient, @valve_area, @ais]
 
     @parent = Topic.where(name: "parent")[0]
     @sibling = Topic.where(name: "sibling")[0]

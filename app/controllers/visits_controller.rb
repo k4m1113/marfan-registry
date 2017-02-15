@@ -67,6 +67,10 @@ class VisitsController < ApplicationController
     @siblings = @patient.family_members.select{ |relation| relation['topic_id'] === @sibling.id}
     @parents = @patient.family_members.select{ |relation| relation['topic_id'] === @parent.id}
 
+    @tests = Test.where(visit_id: @visit.id)
+    @imagery = @tests.where(topic_id: [ @heart_imaging_locations].flatten)
+    @tests -= @tests.where(id: @imagery)
+
     @visits = Visit.where(patient_id: @patient.id).order("id ASC")
     if (@visits.length > 1 && @visit === @visits.last)
       @previous_visit = @visits[-0]
