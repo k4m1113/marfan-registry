@@ -42,6 +42,15 @@ module ApplicationHelper
     topic.self_and_ancestors.map(&:name).join(" > ")
   end
 
+  def find_pretty_trail(topic_id)
+    topic = Topic.find(topic_id)
+    if topic.depth <= 1
+      topic.name
+    else
+      "#{topic.parent.name} (#{topic.name})"
+    end
+  end
+
   def display_test_date(t)
     if t.test_date
       return t.test_date.strftime('%d %B %Y')

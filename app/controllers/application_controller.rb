@@ -26,8 +26,15 @@ class ApplicationController < ActionController::Base
     @supra = Topic.where(parent_id: Topic.where(name: "suprarenal abdominal aorta")[0])
     @infra = Topic.where(parent_id: Topic.where(name: "infrarenal abdominal aorta")[0])
     @annulus = Topic.where(parent_id: Topic.where(name: "aortic annulus")[0])
-
-    @heart_imaging_locations = [@root, @asc, @transv, @desc, @supra, @infra, @annulus]
+    @lvidd = Topic.where(name: "LVIDd")[0]
+    @lvids = Topic.where(name: "LVIDs")[0]
+    @mvp = Topic.where(name: "mitral valve prolapse")[0]
+    @mmv = Topic.where(name: "myxomatous mitral valve")[0]
+    @mitral_regurge = Topic.where(name: "mitral regurgitation severity")[0]
+    @tricuspid_regurge = Topic.where(name: "tricuspid regurgitation severity")[0]
+    @mean_gradient = Topic.where(name: "mean gradient")[0]
+    @valve_area = Topic.where(name: "valve area")[0]
+    @ais = Topic.where(name: "aortic insufficiency severity")[0]
 
     @parent = Topic.where(name: "parent")[0]
     @sibling = Topic.where(name: "sibling")[0]

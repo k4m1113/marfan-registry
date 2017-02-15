@@ -7,7 +7,5 @@
 
   <%= f.hidden_field :test_date, value: test_date, name: "visit[tests_attributes][#{topic_id}][test_date]", id: "visit_tests_attributes_#{topic_id}_test_date" %>
 
-  <%= f.number_field :result, class: "form-control form-control-lg", name: "visit[tests_attributes][#{topic_id}][result]", id: "visit_tests_attributes_#{topic_id}_result" %>
-
+  <%= f.number_field :result, class: "form-control form-control-lg", name: "visit[tests_attributes][#{topic_id}][result]", step: 0.1, id: "visit_tests_attributes_#{topic_id}_result" %>
 </div>
-<br />

@@ -1,93 +1,26 @@
 <%
-
+root =  @root.where(name: imaging_tech)[0]
+asc =  @asc.where(name: imaging_tech)[0]
+transv = @transv.where(name: imaging_tech)[0]
+desc = @desc.where(name: imaging_tech)[0]
+supra = @supra.where(name: imaging_tech)[0]
+infra = @infra.where(name: imaging_tech)[0]
+annulus = @annulus.where(name: imaging_tech)[0]
+@imaging_locations = [root, asc, transv, desc, supra, infra, annulus, @lvidd, @mvp, @mmv, @mitral_regurge, @tricuspid_regurge, @mean_gradient, @valve_area, @ais]
 %>
 <hr />
-<div class="row">
-  <br />
+<br />
+<div class="form-group">
   <%= f.fields_for :tests do |ff| %>
-    <div class="col-xs-3">
-      <div class="card text-center">
-        <div class="card-block">
-          <h5 class="card-title">
-            <span class="red">Aortic Root</span> Measurement:
-          </h5>
-          <p class="card-text">
-            <%= render 'tests/test_form_body', f: ff, topic_id: @root.where(name: imaging_tech)[0].id , test_date: DateTime.now %>
-          </p>
+    <% @imaging_locations.each do |m| %>
+      <div class="row">
+        <label for="meas_<%= m.id %>" class="col-xs-5 col-form-label">
+          <%= find_pretty_trail(m.id) %>
+        </label>
+        <div class="col-xs-7" id="aortic-root">
+          <%= render 'tests/test_form_body', f: ff, topic_id: m.id , test_date: DateTime.now %>
         </div>
       </div>
-    </div>
-    <div class="col-xs-3">
-      <div class="card text-center">
-        <div class="card-block">
-          <h5 class="card-title">
-            <span class="red">Ascending Aorta</span> Measurement:
-          </h5>
-          <p class="card-text">
-            <%= render 'tests/test_form_body', f: ff, topic_id: @asc.where(name: imaging_tech)[0].id, test_date: DateTime.now %>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-3">
-      <div class="card text-center">
-        <div class="card-block">
-          <h5 class="card-title">
-            <span class="red">Transverse Arch</span> Measurement:
-          </h5>
-          <p class="card-text">
-            <%= render 'tests/test_form_body', f: ff, topic_id: @transv.where(name: imaging_tech)[0].id, test_date: DateTime.now %>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-3">
-      <div class="card text-center">
-        <div class="card-block">
-          <h5 class="card-title">
-            <span class="red">Descending Thoracic Aorta</span> Measurement:
-          </h5>
-          <p class="card-text">
-            <%= render 'tests/test_form_body', f: ff, topic_id: @desc.where(name: imaging_tech)[0].id, test_date: DateTime.now %>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-3">
-      <div class="card text-center">
-        <div class="card-block">
-          <h5 class="card-title">
-            <span class="red">Suprarenal Abdominal Aorta</span> Measurement:
-          </h5>
-          <p class="card-text">
-            <%= render 'tests/test_form_body', f: ff, topic_id: @supra.where(name: imaging_tech)[0].id, test_date: DateTime.now %>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-3">
-      <div class="card text-center">
-        <div class="card-block">
-          <h5 class="card-title">
-            <span class="red">Aortic Annulus</span> Measurement:
-          </h5>
-          <p class="card-text">
-            <%= render 'tests/test_form_body', f: ff, topic_id: @infra.where(name: imaging_tech)[0].id, test_date: DateTime.now %>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-3">
-      <div class="card text-center">
-        <div class="card-block">
-          <h5 class="card-title">
-            <span class="red">Suprarenal Abdominal Aorta</span> Measurement:
-          </h5>
-          <p class="card-text">
-            <%= render 'tests/test_form_body', f: ff, topic_id: @annulus.where(name: imaging_tech)[0].id, test_date: DateTime.now %>
-          </p>
-        </div>
-      </div>
-    </div>
+    <% end %>
   <% end %>
 </div>
