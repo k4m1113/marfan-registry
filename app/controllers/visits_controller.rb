@@ -1,7 +1,7 @@
 require 'report'
 require 'doctor'
 require 'json'
-# require 'pry'
+require 'pry'
 
 class VisitsController < ApplicationController
   include Report
@@ -45,14 +45,14 @@ class VisitsController < ApplicationController
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient_id)
     @clinician = Clinician.find(@visit.clinician_id)
-    @symptoms = Symptom.where(visit_id: @visit.id)
-    @family_members = FamilyMember.where(visit_id: @visit.id)
-    @vitals = Vital.where(visit_id: @visit.id)
-    @tests = Test.where(visit_id: @visit.id)
-    @imagery = @tests.where(topic_id: [ @heart_imaging_locations].flatten)
-    @tests -= @tests.where(id: @imagery)
-    @hospitalizations = Hospitalization.where(visit_id: @visit.id)
-    @diagnoses = Diagnosis.where(visit_id: @visit.id)
+    @symptoms = symptoms = Symptom.where(visit_id: @visit.id)
+    @family_members = family_members = FamilyMember.where(visit_id: @visit.id)
+    @vitals = vitals = Vital.where(visit_id: @visit.id)
+    @tests = tests = Test.where(visit_id: @visit.id)
+    @imagery = imagery = @tests.find_all{|t| Topic.where(topic_type: "heart_measurement").collect(&:id).include?(t.topic_id) }
+    @tests = tests -= @imagery
+    @hospitalizations = hospitalizations = Hospitalization.where(visit_id: @visit.id)
+    @diagnoses = diagnoses = Diagnosis.where(visit_id: @visit.id)
   end
 
   def index
@@ -68,9 +68,9 @@ class VisitsController < ApplicationController
     @siblings = @patient.family_members.select{ |relation| relation['topic_id'] === @sibling.id}
     @parents = @patient.family_members.select{ |relation| relation['topic_id'] === @parent.id}
 
-    @tests = Test.where(visit_id: @visit.id)
-    @imagery = @tests.where(topic_id: [ @heart_imaging_locations].flatten)
-    @tests -= @tests.where(id: @imagery)
+    @tests = tests = Test.where(visit_id: @visit.id)
+    @imagery = imagery = @tests.find_all{|t| Topic.where(topic_type: "heart_measurement").collect(&:id).include?(t.topic_id) }
+    @tests = tests -= @imagery
 
     @visits = Visit.where(patient_id: @patient.id).order("id ASC")
     if (@visits.length > 1 && @visit === @visits.last)

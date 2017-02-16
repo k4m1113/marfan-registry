@@ -29,6 +29,8 @@ class TopicsController < ApplicationController
         @all = Medication.where(topic_id: @topic.id)
       when 'stat'
         @all = Vital.where(topic_id: @topic.id)
+      when 'heart_measurement'
+        @all = Test.where(topic_id: @topic.id)
     end
   end
 

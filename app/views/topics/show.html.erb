@@ -12,8 +12,20 @@
         <% @all.each do |a| %>
         <% @patient = Patient.find(a.patient_id) %>
           <tr>
-            <td><%= a.created_at.strftime("%d %B %Y") %></td>
-            <td><%= link_to "#{@patient.first_name} #{@patient.last_name}", patient_path(@patient.id) %></td>
+            <% if a.visit_id %>
+              <td>
+                <a href="/visits/<%= a.visit_id %>">
+                  <%= a.created_at.strftime("%d %B %Y") %>
+                </a>
+              </td>
+            <% else %>
+              <td>
+                <%= a.created_at.strftime("%d %B %Y") %>
+              </td>
+            <% end %>
+            <td>
+              <%= link_to "#{@patient.first_name} #{@patient.last_name}", patient_path(@patient.id) %>
+            </td>
           </tr>
         <% end %>
       </table>
