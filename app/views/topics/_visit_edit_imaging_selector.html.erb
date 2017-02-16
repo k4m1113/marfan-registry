@@ -1,0 +1,22 @@
+<select name="select-2" id="visit-edit-imaging-selector">
+  <option value=""></option>
+  <option value="echocardiogram">Echocardiogram</option>
+  <option value="CT">CT</option>
+  <option value="MRI">MRI</option>
+</select>
+
+<script>
+  $('#visit-edit-imaging-selector').change(function renderHeartForm() {
+    switch (this.value) {
+      case 'echocardiogram':
+        $("div#heart-imagery-hook:last").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'echo' %>");
+        break;
+      case 'CT':
+        $("div#heart-imagery-hook:last").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'CT' %>");
+        break;
+      case 'MRI':
+       $("div#heart-imagery-hook:last").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'MRI' %>");
+        break;
+    };
+  });
+</script>
