@@ -9,13 +9,16 @@
   $('#visit-edit-imaging-selector').change(function renderHeartForm() {
     switch (this.value) {
       case 'echocardiogram':
-        $("div#heart-imagery-hook:last").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'echo' %>");
+        console.log("echo");
+        $("div#heart-imagery-hook").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'echo' %>");
         break;
       case 'CT':
-        $("div#heart-imagery-hook:last").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'CT' %>");
+        console.log("CT");
+        $("div#heart-imagery-hook").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'CT' %>");
         break;
       case 'MRI':
-       $("div#heart-imagery-hook:last").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'MRI' %>");
+        console.log("mri");
+        $("div#heart-imagery-hook").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'MRI' %>");
         break;
     };
   });

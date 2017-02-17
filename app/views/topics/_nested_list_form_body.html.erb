@@ -18,7 +18,8 @@
           <% when 'family history' %>
             <%= render 'family_members/family_tree', f: f %>
           <% when 'aortic imaging' %>
-            <%= render 'topics/visit_edit_imaging_selector', f: f %>
+            Add More: <%= render 'topics/visit_edit_imaging_selector', f: f %>
+            <hr />
             <div id="heart-imagery-hook"></div>
             <%= render 'visits/show_tables/heart_imagery', imagery: @imagery %>
           <% else %>

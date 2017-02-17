@@ -6,14 +6,13 @@ desc = @desc.where(name: imaging_tech)[0]
 supra = @supra.where(name: imaging_tech)[0]
 infra = @infra.where(name: imaging_tech)[0]
 annulus = @annulus.where(name: imaging_tech)[0]
-@imaging_locations = [root, asc, transv, desc, supra, infra, annulus, @lvidd, @mvp, @mmv, @mitral_regurge, @tricuspid_regurge, @mean_gradient, @valve_area, @ais]
+imaging_locations = [root, asc, transv, desc, supra, infra, annulus, @lvidd, @mvp, @mmv, @mitral_regurge, @tricuspid_regurge, @mean_gradient, @valve_area, @ais]
 %>
-<hr />
 <br />
 <div class="form-group">
   <div class="row">
-    <%= f.fields_for :tests do |ff| %>
-      <% @imaging_locations.each do |m| %>
+    <% imaging_locations.each do |m| %>
+      <%= f.fields_for :tests, @nested_scope.tests.build do |ff| %>
         <div class="col-xs-6">
           <label for="meas_<%= m.id %>" class="col-xs-7 col-form-label">
             <%= find_pretty_trail(m.id) %>

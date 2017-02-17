@@ -19,13 +19,13 @@ class ApplicationController < ActionController::Base
 
     @stats = Topic.where(topic_type: "stat")
 
-    @root = Topic.where(parent_id: Topic.where(name: "aortic root")[0])
-    @asc = Topic.where(parent_id: Topic.where(name: "ascending aortic")[0])
-    @transv = Topic.where(parent_id: Topic.where(name: "transverse arch")[0])
-    @desc = Topic.where(parent_id: Topic.where(name: "descending thoracic aorta")[0])
-    @supra = Topic.where(parent_id: Topic.where(name: "suprarenal abdominal aorta")[0])
-    @infra = Topic.where(parent_id: Topic.where(name: "infrarenal abdominal aorta")[0])
-    @annulus = Topic.where(parent_id: Topic.where(name: "aortic annulus")[0])
+    @root = Topic.where(parent_id: Topic.where(name: "aortic root")[0].id)
+    @asc = Topic.where(parent_id: Topic.where(name: "ascending aortic")[0].id)
+    @transv = Topic.where(parent_id: Topic.where(name: "transverse arch")[0].id)
+    @desc = Topic.where(parent_id: Topic.where(name: "descending thoracic aorta")[0].id)
+    @supra = Topic.where(parent_id: Topic.where(name: "suprarenal abdominal aorta")[0].id)
+    @infra = Topic.where(parent_id: Topic.where(name: "infrarenal abdominal aorta")[0].id)
+    @annulus = Topic.where(parent_id: Topic.where(name: "aortic annulus")[0].id)
     @lvidd = Topic.where(name: "LVIDd")[0]
     @lvids = Topic.where(name: "LVIDs")[0]
     @mvp = Topic.where(name: "mitral valve prolapse")[0]
