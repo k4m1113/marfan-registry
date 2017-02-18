@@ -9,7 +9,7 @@
   <%= f.hidden_field :test_date, value: test_date, name: "visit[tests_attributes][#{@topic.id}][test_date]", id: "visit_tests_attributes_#{@topic.id}_test_date" %>
   <div class="form-inline">
     <select name="visit[tests_attributes][<%= @topic.id %>][result]" id="visit_tests_attributes_<%= @topic.id %>_result">
-      <% (@topic.min_value..@topic.max_value).step(@topic.step).to_a.map{|i| i.round(2)}.unshift(nil).each do |num| %>
+      <% create_select(@topic.min_value, @topic.max_value, @topic.step).each do |num| %>
         <option value="<%= num %>"  class="form-control form-control-lg"><%= num %></option>
       <% end %>
     </select>

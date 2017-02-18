@@ -12,6 +12,18 @@ module ApplicationHelper
     end
   end
 
+  def create_select(min, max, step)
+    if min === 0 && max === 1 && step === 1
+      return [nil, false, true]
+    else
+      if step == 1
+        return (min..max).step(step).to_a.map{|i| i.round(0)}.unshift(nil)
+      else
+        return (min..max).step(step).to_a.map{|i| i.round(2)}.unshift(nil)
+      end
+    end
+  end
+
   def print_if_present(attribute)
     case attribute
     when attribute.class === 'String'
