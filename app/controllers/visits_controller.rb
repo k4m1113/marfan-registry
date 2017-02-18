@@ -22,6 +22,7 @@ class VisitsController < ApplicationController
     @visit.tests.build
     @visit.medications.build
     @visit.diagnoses.build
+    @nested_scope = @visit
   end
 
   def create
