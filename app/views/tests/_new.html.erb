@@ -1,0 +1,32 @@
+<form>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= f.hidden_field :patient_id, value: @test.patient.id %>
+      <%= render 'visits/visit_presence_checker', f: f %>
+      <%= f.label :result, class: "control-label" %>
+      <%= f.text_area :result, class: "form-control" %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= f.label :test_date, class: "control-label" %>
+      <%= f.date_field :test_date, class: "form-control" %>
+    </div>
+  </div>
+  OR
+  <div class="row">
+    <div class="col-xs-12">
+      <%= f.label :time_ago, class: "control-label" %>
+      <div class="form-inline">
+        <%= f.number_field :time_ago, class: "form-control" %>
+        <%= f.select :time_ago_scale, TIME_SCALES, class: "form-control" %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= f.label :note, class: "control-label" %>
+      <%= f.text_area :note, class: "form-control" %>
+    </div>
+  </div>
+</form>

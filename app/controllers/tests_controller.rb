@@ -14,6 +14,7 @@ class TestsController < ApplicationController
 
   def edit
     @test = Test.find(params[:id])
+    @patient = Patient.find(@test.patient_id)
   end
 
   def create

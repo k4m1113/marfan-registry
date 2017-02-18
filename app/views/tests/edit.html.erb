@@ -1,6 +1,13 @@
-<h1>Editing Test</h1>
+<div class="well well-lg">
+  <h1>Edit <%= "#{find_pretty_trail(@test.topic.id).titleize}" %>
+    <small><%= "#{@test.patient.last_name}, #{@test.patient.first_name} : #{@test.created_at}" %></small>
+  </h1>
 
-<%= render 'test_form' %>
+  <hr />
+  <%= form_for @test do |f| %>
+    <%= render 'tests/new', f: f %>
+  <% end %>
 
-<%= link_to 'Show', @test %> |
-<%= link_to 'Back', tests_path %>
+  <%= link_to 'Show', @test %> |
+  <%= link_to 'Back', :back %>
+</div>
