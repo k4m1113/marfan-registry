@@ -2,7 +2,9 @@
   <% @topic = Topic.find(topic_id) %>
   <%= f.hidden_field :patient_id, value: @patient.id, name: "visit[tests_attributes][#{@topic.id}][patient_id]", id: "visit_tests_attributes_#{@topic.id}_patient_id" %>
 
-  <%= f.hidden_field :visit_id, value: @visit.id, name: "visit[tests_attributes][#{@topic.id}][visit_id]", id: "visit_tests_attributes_#{@topic.id}_visit_id"%>
+  <% if @visit %>
+    <%= f.hidden_field :visit_id, value: @visit.id, name: "visit[tests_attributes][#{@topic.id}][visit_id]", id: "visit_tests_attributes_#{@topic.id}_visit_id"%>
+  <% end %>
 
   <%= f.hidden_field :topic_id, value: @topic.id, name: "visit[tests_attributes][#{@topic.id}][topic_id]", id: "visit_tests_attributes_#{@topic.id}_topic_id" %>
 
