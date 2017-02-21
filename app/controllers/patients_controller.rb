@@ -50,6 +50,10 @@ class PatientsController < ApplicationController
     @children = @patient.family_members.select{ |relation| relation['topic_id'] === @child.id}
     @siblings = @patient.family_members.select{ |relation| relation['topic_id'] === @sibling.id}
     @parents = @patient.family_members.select{ |relation| relation['topic_id'] === @parent.id}
+
+    @tests = tests = Test.where(patient_id: @patient.id)
+    @imagery = imagery = @tests.find_all{|t| Topic.where(topic_type: "heart_measurement").collect(&:id).include?(t.topic_id) }
+    @tests = tests -= @imagery
   end
 
   def update
