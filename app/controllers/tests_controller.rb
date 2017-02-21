@@ -20,10 +20,10 @@ class TestsController < ApplicationController
   def create
     @test = Test.new(test_params)
     if @test.save
-      flash[:success] = "#{@diagnosis.note} of #{find_trail(Topic.find(@diagnosis.topic_id))} added to visit"
-      redirect_to edit_visit_path(@diagnosis.visit_id)
+      flash[:success] = "#{@test.note} of #{find_pretty_trail(Topic.find(@test.topic_id))} added to visit"
+      redirect_to edit_visit_path(@test.visit_id)
     else
-      flash[:error]
+      flash[:error] = "Please re-check information: #{@test.errors.full_messages}"
     end
 
   end

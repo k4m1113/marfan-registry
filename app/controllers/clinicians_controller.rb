@@ -3,8 +3,17 @@ class CliniciansController < ApplicationController
     @clinicians = Clinician.all
   end
 
+  def show
+    @clinician = Clinician.find(params[:id])
+    @visits = Visit.where(clinician_id: @clinician.id)
+  end
+
   def new
     @clinician = Clinician.new
+  end
+
+  def edit
+    @clinician = Clinician.find(params[:id])
   end
 
   def create
@@ -19,10 +28,6 @@ class CliniciansController < ApplicationController
     end
   end
 
-  def edit
-    @clinician = Clinician.find(params[:id])
-  end
-
   def update
     @clinician = Clinician.find(params[:id])
     if @clinician.save
@@ -32,9 +37,11 @@ class CliniciansController < ApplicationController
     end
   end
 
-  def show
+  def destroy
     @clinician = Clinician.find(params[:id])
-    @visits = Visit.where(clinician_id: @clinician.id)
+    @clinician.destroy
+    flash[:success] = "Clinician #{@clinician.id} #{@clinician.last_name}, #{@clinician.first_name} deleted from record"
+    redirect_to :back
   end
 
   private

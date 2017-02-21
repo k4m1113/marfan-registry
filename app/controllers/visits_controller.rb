@@ -9,36 +9,8 @@ class VisitsController < ApplicationController
   respond_to :html, :js
   before_filter :common_content
 
-  def new
-    @visit = Visit.new
-    if params[:patient]
-      @patient = Patient.find_by(id: params[:patient])
-    end
-
-    @visit.vitals.build
-    @visit.symptoms.build
-    @visit.hospitalizations.build
-    @visit.family_members.build
-    @visit.tests.build
-    @visit.medications.build
-    @visit.diagnoses.build
-    @nested_scope = @visit
-  end
-
-  def create
-    @visit = Visit.new(visit_params)
-    @patient = Patient.find(@visit.patient_id)
-    @form_action = "Create"
-    if @visit.save
-      flash[:success] = "Visit started for #{@visit.patient.last_name}, #{@visit.patient.first_name}."
-      redirect_to edit_visit_path(@visit.id)
-      session[:current_visit] = @visit
-    else
-      flash[:error] = "Please re-check information: #{@visit.errors.full_messages}"
-      Rails.logger.info(@visit.errors.inspect)
-      render 'new'
-      @visit = session[:current_visit]
-    end
+  def index
+    @visits = Visit.all
   end
 
   def show
@@ -55,8 +27,20 @@ class VisitsController < ApplicationController
     @diagnoses = diagnoses = Diagnosis.where(visit_id: @visit.id)
   end
 
-  def index
-    @visits = Visit.all
+  def new
+    @visit = Visit.new
+    if params[:patient]
+      @patient = Patient.find_by(id: params[:patient])
+    end
+
+    @visit.vitals.build
+    @visit.symptoms.build
+    @visit.hospitalizations.build
+    @visit.family_members.build
+    @visit.tests.build
+    @visit.medications.build
+    @visit.diagnoses.build
+    @nested_scope = @visit
   end
 
   def edit
@@ -84,6 +68,23 @@ class VisitsController < ApplicationController
     @form_action = "Update"
     @visit.family_members.build
   end
+
+  def create
+    @visit = Visit.new(visit_params)
+    @patient = Patient.find(@visit.patient_id)
+    @form_action = "Create"
+    if @visit.save
+      flash[:success] = "Visit started for #{@visit.patient.last_name}, #{@visit.patient.first_name}."
+      redirect_to edit_visit_path(@visit.id)
+      session[:current_visit] = @visit
+    else
+      flash[:error] = "Please re-check information: #{@visit.errors.full_messages}"
+      Rails.logger.info(@visit.errors.inspect)
+      render 'new'
+      @visit = session[:current_visit]
+    end
+  end
+
 
   def update
     @visit = Visit.find(params[:id])

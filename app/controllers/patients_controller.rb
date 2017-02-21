@@ -8,6 +8,32 @@ class PatientsController < ApplicationController
     else
       @patients = Patient.all.paginate(:page => params[:page])
     end
+
+    def show
+      @patient = Patient.find(params[:id])
+      case @patient.sex
+      when 'F'
+        @gender = 'Female'
+      when
+        @gender = 'Male'
+      else
+        @gender = 'Not noted'
+      end
+      @visits = Visit.where(patient_id: @patient.id)
+
+      @symptoms = Symptom.where(patient_id: @patient.id)
+      @family_members = FamilyMember.where(patient_id: @patient.id)
+      @vitals = Vital.where(patient_id: @patient.id)
+      @tests = Test.where(patient_id: @patient.id)
+      @imagery = @tests.where(topic_id: [ @heart_imaging_locations].flatten)
+      @tests -= @tests.where(id: @imagery)
+      @hospitalizations = Hospitalization.where(patient_id: @patient.id)
+      @diagnoses = Diagnosis.where(patient_id: @patient.id)
+
+      unless @visits.length == 0
+        @primary_clinician = Clinician.where(id: @visits[0].clinician_id)[0]
+      end
+    end
   end
 
   def new
@@ -32,16 +58,6 @@ class PatientsController < ApplicationController
     end
   end
 
-  def create
-    @patient = Patient.new(patient_params)
-    if @patient.save
-      flash[:success] = "Patient #{@patient.last_name}, #{@patient.first_name} successfully added!"
-      redirect_to new_visit_path(patient: @patient)
-    else
-      render 'new'
-    end
-  end
-
   def edit
     @patient = Patient.find(params[:id])
     @nested_scope = @patient
@@ -56,6 +72,16 @@ class PatientsController < ApplicationController
     @tests = tests -= @imagery
   end
 
+  def create
+    @patient = Patient.new(patient_params)
+    if @patient.save
+      flash[:success] = "Patient #{@patient.last_name}, #{@patient.first_name} successfully added!"
+      redirect_to new_visit_path(patient: @patient)
+    else
+      render 'new'
+    end
+  end
+
   def update
     @patient = Patient.find(params[:id])
     if @patient.update(patient_params)
@@ -64,32 +90,6 @@ class PatientsController < ApplicationController
     else
       flash[:error] = "Please correct the following errors: #{@patient.errors.full_messages}"
       redirect_to edit_patient_path(@patient.id)
-    end
-  end
-
-  def show
-    @patient = Patient.find(params[:id])
-    case @patient.sex
-    when 'F'
-      @gender = 'Female'
-    when
-      @gender = 'Male'
-    else
-      @gender = 'Not noted'
-    end
-    @visits = Visit.where(patient_id: @patient.id)
-
-    @symptoms = Symptom.where(patient_id: @patient.id)
-    @family_members = FamilyMember.where(patient_id: @patient.id)
-    @vitals = Vital.where(patient_id: @patient.id)
-    @tests = Test.where(patient_id: @patient.id)
-    @imagery = @tests.where(topic_id: [ @heart_imaging_locations].flatten)
-    @tests -= @tests.where(id: @imagery)
-    @hospitalizations = Hospitalization.where(patient_id: @patient.id)
-    @diagnoses = Diagnosis.where(patient_id: @patient.id)
-
-    unless @visits.length == 0
-      @primary_clinician = Clinician.where(id: @visits[0].clinician_id)[0]
     end
   end
 

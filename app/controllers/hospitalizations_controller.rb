@@ -7,42 +7,51 @@ class HospitalizationsController < ApplicationController
 
   def new
     @hospitalization = Hospitalization.new
-    @visit = Visit.last
   end
 
   def create
     @hospitalization = Hospitalization.new(hospitalization_params)
     if @hospitalization.save
-      redirect_to :action => :index
+      flash[:success] = "Successfully added #{find_trail(print_if_present(@hospitalization.topic.name))}"
+      redirect_to :back
     else
-      render json: @hospitalization.errors, status: :unprocessable_entity
+      flash[:error] = "Please re-check information: #{@hospitalization.errors.full_messages}"
     end
   end
 
   def update
     if @hospitalization.update(hospitalization_params)
-      render json: @hospitalization
+      flash[:success] = "Successfully updated hospitalization #{find_trail(@procedure.topic_id)}"
+      redirect_to :back
     else
-      render json: @hospitalization.errors, status: :unprocessable_entity
+      flash[:error] = "Error updating hospitalization: #{@hospitalization.errors.full_messages}"
+      redirect_to edit_hospitalization_path(@hospitalization.id)
     end
   end
 
   def destroy
+    @hospitalization = Hospitalization.find(params[:id])
     @hospitalization.destroy
-    head :no_content
+    flash[:success] = "Hospitalization #{@hospitalization.id} for #{find_trail(@hospitalization.topic_id)} deleted from record"
+    redirect_to :back
   end
 
   private
 
   def hospitalization_params
     params.require(:hospitalization).permit(
-    :patient_id, 
+    :patient_id,
     :visit_id,
+    :topic_id,
     :admission_date,
     :length_of_stay,
-    :type,
+    :length_of_stay_scale
+    :hosp_type,
     :description,
-    :location)
+    :location,
+    :time_ago,
+    :time_ago_scale,
+    :note)
   end
 
   def current_hospitalization

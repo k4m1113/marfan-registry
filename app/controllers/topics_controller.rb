@@ -34,15 +34,14 @@ class TopicsController < ApplicationController
     end
   end
 
+  def edit
+  end
+
   def new
     @topic = Topic.new
   end
 
   def create
-  end
-
-  def edit
-
   end
 
   def update

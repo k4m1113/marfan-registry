@@ -12,8 +12,19 @@ class FamilyMembersController < ApplicationController
     end
   end
 
+  def show
+    @family_member = FamilyMember.find(params[:id])
+    @relationship = Topic.find(@family_member.topic_id)
+    @patient = Patient.find(@family_member.patient_id)
+  end
+
   def new
     @visit = session[:current_visit]
+  end
+  
+  def edit
+    @family_member = FamilyMember.find(params[:id])
+    @patient = Patient.find(@family_member.patient_id)
   end
 
   def create
@@ -27,11 +38,6 @@ class FamilyMembersController < ApplicationController
     end
   end
 
-  def edit
-    @family_member = FamilyMember.find(params[:id])
-    @patient = Patient.find(@family_member.patient_id)
-  end
-
   def update
     @family_member = FamilyMember.find(params[:id])
     if @family_member.update(family_member_params)
@@ -43,11 +49,6 @@ class FamilyMembersController < ApplicationController
     end
   end
 
-  def show
-    @family_member = FamilyMember.find(params[:id])
-    @relationship = Topic.find(@family_member.topic_id)
-    @patient = Patient.find(@family_member.patient_id)
-  end
 
   def destroy
     FamilyMember.find(params[:id]).destroy
