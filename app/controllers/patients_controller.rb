@@ -45,6 +45,11 @@ class PatientsController < ApplicationController
   def edit
     @patient = Patient.find(params[:id])
     @nested_scope = @patient
+
+    @family_members = FamilyMember.where(patient_id: @patient.id)
+    @children = @patient.family_members.select{ |relation| relation['topic_id'] === @child.id}
+    @siblings = @patient.family_members.select{ |relation| relation['topic_id'] === @sibling.id}
+    @parents = @patient.family_members.select{ |relation| relation['topic_id'] === @parent.id}
   end
 
   def update
