@@ -1,77 +1,77 @@
 <%= form_for @clinician, action: "create", class: "form-horizontal" do |f| %>
-  <div class="row flex-items-xs-center">
+  <div class="row">
     <div class="form-group">
-      <div class="col-xs-12">
-        <%= f.text_field :first_name, autofocus: true, placeholder: "First Name", class: "form-control form-control-lg" %>
+      <div class="col-sm-12">
+        <%= f.text_field :first_name, autofocus: true, placeholder: "First Name", class: "form-control" %>
       </div>
     </div>
   </div>
   <br />
   <div class="row">
     <div class="form-group">
-      <div class="col-xs-12">
-        <%= f.text_field :last_name, autofocus: true, placeholder: "Last Name", class: "form-control form-control-lg" %>
+      <div class="col-sm-12">
+        <%= f.text_field :last_name, autofocus: true, placeholder: "Last Name", class: "form-control" %>
       </div>
     </div>
   </div>
   <br />
   <div class="row">
     <div class="form-group">
-      <div class="col-xs-12">
-        <%= f.text_field :practice_name, autofocus: true, placeholder: "Practice Name", class: "form-control form-control-lg" %>
+      <div class="col-sm-12">
+        <%= f.text_field :practice_name, autofocus: true, placeholder: "Practice Name", class: "form-control" %>
       </div>
     </div>
   </div>
   <br />
   <div class="row">
     <div class="form-group">
-      <div class="col-xs-12">
-        <%= f.text_field :address_line_1, autofocus: true, placeholder: "Address Line 1", class: "form-control form-control-lg" %>
+      <div class="col-sm-12">
+        <%= f.text_field :address_line_1, autofocus: true, placeholder: "Address Line 1", class: "form-control" %>
       </div>
     </div>
   </div>
   <br />
   <div class="row">
     <div class="form-group">
-      <div class="col-xs-12">
-        <%= f.text_field :address_line_2, autofocus: true, placeholder: "Address Line 2", class: "form-control form-control-lg" %>
+      <div class="col-sm-12">
+        <%= f.text_field :address_line_2, autofocus: true, placeholder: "Address Line 2", class: "form-control" %>
       </div>
     </div>
   </div>
   <br />
   <div class="row">
     <div class="form-group">
-      <div class="col-xs-12">
-        <%= f.text_field :address_line_3, autofocus: true, placeholder: "Address Line 3", class: "form-control form-control-lg" %>
+      <div class="col-sm-12">
+        <%= f.text_field :address_line_3, autofocus: true, placeholder: "Address Line 3", class: "form-control" %>
       </div>
     </div>
   </div>
   <br />
   <div class="row">
     <div class="form-group">
-      <div class="col-xs-8">
-        <%= f.text_field :city, autofocus: true, placeholder: "City", class: "form-control form-control-lg" %>
+      <div class="col-sm-8">
+        <%= f.text_field :city, autofocus: true, placeholder: "City", class: "form-control" %>
       </div>
-      <div class="col-xs-4">
-        <%= f.text_field :state, autofocus: true, placeholder: "State", class: "form-control form-control-lg" %>
+      <div class="col-sm-4">
+        <%= f.text_field :state, autofocus: true, placeholder: "State", class: "form-control" %>
       </div>
     </div>
   </div>
   <br />
   <div class="row">
     <div class="form-group">
-      <div class="col-xs-7">
-        <%= f.text_field :country, autofocus: true, placeholder: "Country", class: "form-control form-control-lg" %>
+      <div class="col-sm-7">
+        <%= f.text_field :country, autofocus: true, placeholder: "Country", class: "form-control" %>
       </div>
-      <div class="col-xs-5">
-        <%= f.text_field :postal_code, autofocus: true, placeholder: "Postal Code", class: "form-control form-control-lg" %>
+      <div class="col-sm-5">
+        <%= f.text_field :postal_code, autofocus: true, placeholder: "Postal Code", class: "form-control" %>
       </div>
     </div>
   </div>
   <br />
-  <div class="row flex-items-xs-center">
+  <div class="row">
     <div class="form-group">
-      <div class="col-xs">
+      <div class="col-sm">
         <%= f.submit "Add New Clinician", class: "btn btn-primary center-block" %>
       </div>
     </div>

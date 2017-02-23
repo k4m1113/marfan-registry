@@ -10,13 +10,13 @@
 
   <%= f.hidden_field :test_date, value: test_date, name: "visit[tests_attributes][#{@topic.id}][test_date]", id: "visit_tests_attributes_#{@topic.id}_test_date" %>
   <div class="form-inline">
-    <select name="visit[tests_attributes][<%= @topic.id %>][result]" id="visit_tests_attributes_<%= @topic.id %>_result">
+    <select name="visit[tests_attributes][<%= @topic.id %>][result]" id="visit_tests_attributes_<%= @topic.id %>_result" class="custom-select">
       <% create_select(@topic.min_value, @topic.max_value, @topic.step).each do |num| %>
-        <option value="<%= num %>"  class="form-control form-control-lg"><%= num %></option>
+        <option value="<%= num %>"><%= "#{num} #{@topic.units_of_measurement}" %></option>
       <% end %>
     </select>
-    <label class="control-label">
-      <%= @topic.units_of_measurement %>
+    <label>
+
     </label>
   </div>
 </div>

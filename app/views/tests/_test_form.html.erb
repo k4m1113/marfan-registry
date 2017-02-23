@@ -4,15 +4,15 @@
   <%= render 'visits/visit_presence_checker', f: fff %>
   <div class="form-group">
     <%= fff.hidden_field :topic_id, class: "test-response", value: "" %>
-    <div class="row flex-items-xs-center">
-      <div class="col-xs-12">
-        <%= fff.label "When was the test?", class: "control-label" %><br />
+    <div class="row">
+      <div class="col-sm-12">
+        <%= fff.label "When was the test?", class: "form-control-label" %><br />
         <%= render 'layouts/relative_absolute_date', fff: fff, column_title: :test_date %>
       </div>
     </div>
   </div>
-  <%= fff.label "And what were the results of the test?", class: "control-label" %><br />
-  <%= fff.number_field :result, class: "form-control form-control-lg" %>
+  <%= fff.label "And what were the results of the test?", class: "form-control-label" %><br />
+  <%= fff.number_field :result, class: "form-control" %>
   <br />
   <% unless @form_action == "Update" %>
     <%= fff.submit "Add Test", class: "btn btn-success" %>

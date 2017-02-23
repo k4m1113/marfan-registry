@@ -20,7 +20,7 @@ class DiagnosesController < ApplicationController
   def create
     @diagnosis = Diagnosis.new(diagnosis_params)
     if @diagnosis.save
-      flash[:success] = "#{@diagnosis.note} of #{find_trail(Topic.find(@diagnosis.topic_id))} added to visit"
+      flash[:success] = "#{@diagnosis.note} of #{find_trail(@diagnosis.topic_id)} added to visit"
       redirect_to :back
     else
       flash[:error] = "Please re-check information: #{@diagnosis.errors.full_messages}"
@@ -31,7 +31,7 @@ class DiagnosesController < ApplicationController
 
   def update
     if @diagnosis.update(diagnosis_params)
-      flash[:success] = "#{@diagnosis.note} of #{find_trail(Topic.find(@diagnosis.topic_id))} added to visit"
+      flash[:success] = "#{@diagnosis.note} of #{find_trail(@diagnosis.topic_id)} added to visit"
       redirect_to edit_visit_path(@diagnosis.visit_id)
     else
       flash[:error]

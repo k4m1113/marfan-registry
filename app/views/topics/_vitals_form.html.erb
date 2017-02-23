@@ -1,6 +1,6 @@
-<div id="vitalsAccordion" aria-multiselectable="true">
-  <div class="panel panel-default" style="border-color:#3B144A;" s>
-    <div class="panel-heading"  style="background-color:white; text-align:center" role="tab" id="vitalsHeading">
+<div id="vitalsAccordion" aria-multiselectable="true" role="tablist">
+  <div class="card" style="border-color:#3B144A;" s>
+    <div class="card-header"  style="background-color:white; text-align:center" role="tab" id="vitalsHeading">
       <a data-toggle="collapse" data-parent="#vitalsAccordion" href="#vitalsCollapse" aria-expanded="true" aria-controls="vitalsCollapse" style="none">
         <h4 class="red">
             Vitals <span class="caret"></span>
@@ -8,17 +8,13 @@
       </a>
     </div>
     <div id="vitalsCollapse" class="collapse" role="tabpanel" aria-labelledby="vitalsHeading">
-      <div class="panel-body">
-        <div class="row">
-          <div class="form-group">
-            <%= f.fields_for :vitals do |ff| %>
-              <% @stats.each do |s| %>
-                <div class="col-xs-6 col-md-3">
-                  <%= render 'topics/vital_form_body', ff: ff, s: s %>
-                </div>
-              <% end %>
+      <div class="card-block form-group">
+        <div class="card-group">
+          <%= f.fields_for :vitals do |ff| %>
+            <% @stats.each do |s| %>
+              <%= render 'topics/vital_form_body', ff: ff, s: s %>
             <% end %>
-          </div>
+          <% end %>
         </div>
       </div>
     </div>

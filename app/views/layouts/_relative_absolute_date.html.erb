@@ -1,19 +1,19 @@
-<div class="col-xs-5">
+<div class="col-sm-5">
   <div class="form-inline">
     <div class="form-group" aria-describedby="relativeTime">
-      <%= fff.number_field :time_ago, class: "form-control form-control-lg", step: 1, in: 1..99 %>
-      <%= fff.select :time_ago_scale, TIME_SCALES, class: "form-control form-control-lg" %>
+      <%= fff.number_field :time_ago, class: "form-control", step: 1, in: 1..99 %>
+      <%= fff.select :time_ago_scale, TIME_SCALES, class: "form-control" %>
     </div>
     <p id="relativeTime" class="purple form-text text-muted">
       relative date, e.g. "5 months ago"
     </p>
   </div>
 </div>
-<div class="col-xs-2" style="min-height:32px;">
+<div class="col-sm-2" style="min-height:32px;">
   <%= render 'layouts/col_2_OR_buttons' %>
 </div>
-<div class="col-xs-5">
-  <%= fff.date_field column_title, class: "form-control form-control-lg", aria: { describedby: "absoluteTime" } %>
+<div class="col-sm-5">
+  <%= fff.date_field column_title, class: "form-control", aria: { describedby: "absoluteTime" } %>
   <p id="absoluteTime" class="purple form-text text-muted">
     absolute date, e.g. "01/07/2016"
   </p>

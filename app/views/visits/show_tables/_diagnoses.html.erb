@@ -1,9 +1,9 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Diagnoses</h3>
+<div class="card">
+  <div class="card-header">
+    Diagnoses
   </div>
   <% if diagnoses.length != 0 %>
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-responsive">
       <tr>
         <th>Date Noted</th>
         <% if @display_location == "patient_show" %>
@@ -16,17 +16,21 @@
       <% diagnoses.each do |d| %>
         <tr>
           <td><%= d.created_at.strftime("%b %Y") %></td>
-          <% if @display_location == "Patient Show" %>
+          <% if @display_location == "patient_show" %>
             <td><% link_to "Visit #{d.visit_id}", visit_path(d.visit_id) %></td>
           <% end %>
           <td><%= find_trail(Topic.find(d.topic_id)) %></td>
           <td><%= print_if_present(d.note) %></td>
-          <td><%= render 'diagnoses/link_buttons', d: d %></td>
+          <% if d.class == Diagnosis %>
+            <td><%= render 'diagnoses/link_buttons', d: d %></td>
+          <% elsif d.class == Complication %>
+            <td><%= render 'complications/link_buttons', c: d %></td>
+          <% end %>
         </tr>
       <% end %>
     </table>
   <% else %>
-    <div class="panel-body">
+    <div class="card-block">
       No diagnoses noted yet.
     </div>
   <% end %>

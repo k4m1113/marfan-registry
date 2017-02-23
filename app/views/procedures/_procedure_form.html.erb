@@ -4,14 +4,14 @@
   <%= render 'visits/visit_presence_checker', f: fff %>
   <div class="form-group">
     <%= fff.hidden_field :topic_id, class: "procedure-response", value: "" %>
-    <div class="row flex-items-xs-center">
-      <div class="col-xs-12">
-        <%= fff.label "And when was the procedure?", class: "control-label" %><br />
+    <div class="row">
+      <div class="col-sm-12">
+        <%= fff.label "And when was the procedure?", class: "form-control-label" %><br />
         <%= render 'layouts/relative_absolute_date', fff: fff, column_title: :absolute_start_date %>
       </div>
     </div>
   </div>
-  <%= fff.label "Is there anything to note about the procedure?", class: "control-label" %><br />
-  <%= fff.text_area :note, class: "form-control form-control-lg" %>
+  <%= fff.label "Is there anything to note about the procedure?", class: "form-control-label" %><br />
+  <%= fff.text_area :note, class: "form-control" %>
   <br />
 <% end %>

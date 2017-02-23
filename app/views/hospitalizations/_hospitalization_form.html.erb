@@ -2,26 +2,26 @@
 <br />
 <%= f.fields_for :hospitalizations, @nested_scope.hospitalizations.build do |fff| %>
   <div class="form-group">
-    <%= fff.label "What type of hospitalization was it?", class: "control-label" %><br />
-    <%= fff.text_field :hosp_type, class: "form-control form-control-lg", placeholder: "ex: Emergency, Surgical", autofocus: true %>
+    <%= fff.label "What type of hospitalization was it?", class: "form-control-label" %><br />
+    <%= fff.text_field :hosp_type, class: "form-control", placeholder: "ex: Emergency, Surgical", autofocus: true %>
     <br />
     <div class="row">
-      <div class="col-xs-12 col-md-5">
-        <%= fff.label "For how many days?", class: "control-label" %><br />
-        <%= fff.number_field :length_of_stay, class: "form-control form-control-lg" %>
+      <div class="col-sm-12 col-md-5">
+        <%= fff.label "For how many days?", class: "form-control-label" %><br />
+        <%= fff.number_field :length_of_stay, class: "form-control" %>
       </div>
-      <div class="col-xs-12 col-md-7">
-        <%= fff.label "And when were you admitted?", class: "control-label" %><br />
-        <%= fff.date_field :admission_date, class: "form-control form-control-lg" %>
+      <div class="col-sm-12 col-md-7">
+        <%= fff.label "And when were you admitted?", class: "form-control-label" %><br />
+        <%= fff.date_field :admission_date, class: "form-control" %>
       </div>
     </div>
     <br />
 
-    <%= fff.label "Where were you hospitalized?", class: "control-label" %><br />
-    <%= fff.text_field :location, class: "form-control form-control-lg", placeholder: "ex: San Francisco General Hospital" %>
+    <%= fff.label "Where were you hospitalized?", class: "form-control-label" %><br />
+    <%= fff.text_field :location, class: "form-control", placeholder: "ex: San Francisco General Hospital" %>
     <br />
-    <%= fff.label "Anything else to add?", class: "control-label" %><br />
-    <%= fff.text_area :description, class: "form-control form-control-lg" %>
+    <%= fff.label "Anything else to add?", class: "form-control-label" %><br />
+    <%= fff.text_area :description, class: "form-control" %>
     <br />
     <% unless @form_action == "Update" %>
       <%= fff.submit "Add Hospitalization", class: "btn btn-success" %>

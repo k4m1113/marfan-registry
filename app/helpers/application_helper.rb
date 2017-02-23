@@ -86,7 +86,11 @@ module ApplicationHelper
     when 'procedure'
       render html: "<button type='button' class='btn #{button_color(scope.procedures, category)} pull-right down-eight' value='#{category.id}' id='procedure-reason' onclick='renderProcedureTopicForm($(this).val());'>Add procedure details</button>".html_safe
     when 'complication'
-      render html: "<button type='button' class='btn #{button_color(scope.complications, category)} pull-right down-eight' value='#{category.id}' id='complication-reason' onclick='renderComplicationTopicForm($(this).val());'>Add details</button>".html_safe
+      if @visit
+        render html: "<form class='button_to' method='post' action='/complications?note=presence&amp;patient_id=#{@patient.id}&amp;topic_id=#{category.id}&amp;visit_id=#{@visit.id}'><button class='btn btn-success pull-right down-eight' type='submit'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span></button></form><form class='button_to' method='post' action='/complications?note=absence&amp;patient_id=#{@patient.id}&amp;topic_id=#{category.id}&amp;visit_id=#{@visit.id}'><button class='btn btn-danger pull-right down-eight' type='submit'><span class='glyphicon glyphicon-minus' aria-hidden='true'></span></button></form>".html_safe
+      else
+        render html: "<form class='button_to' method='post' action='/diagnoses?note=presence&amp;patient_id=#{@patient.id}&amp;topic_id=#{category.id}'><button class='btn btn-success pull-right down-eight' type='submit'><span class='glyphicon glyphicon-plus' aria-hidden='true'></span></button></form><form class='button_to' method='post' action='/diagnoses?note=absence&amp;patient_id=#{@patient.id}&amp;topic_id=#{category.id}'><button class='btn btn-danger pull-right down-eight' type='submit'><span class='glyphicon glyphicon-minus' aria-hidden='true'></span></button></form>".html_safe
+      end
     when 'symptom'
       render html: "<button type='button' class='btn #{button_color(scope.symptoms, category)} pull-right down-eight' value='#{category.id}' id='symptom-reason'>Add symptom details</button>".html_safe
     when 'diagnosis'

@@ -3,7 +3,7 @@
 <% end %>
 
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-sm-12">
     <h2>
       <%= "#{print_if_present(fm.future_patient_data_hash['first_name'])} #{print_if_present(fm.future_patient_data_hash['last_name'])}" %>
       <small><%= "#{Topic.find(fm.topic_id).name} of #{@patient.first_name} #{@patient.last_name}" %></small>
@@ -16,7 +16,7 @@
 </div>
 <br />
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-sm-12">
     <%= render 'family_members/key_value_table', fm: fm %>
   </div>
 </div>

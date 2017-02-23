@@ -3,57 +3,57 @@
     <%= render 'visits/visit_presence_checker', f: f %>
     <%= f.fields_for :future_patient_data_hash do |ff| %>
     <div class="row">
-      <div class="col-xs-6">
-        <%= ff.label "First Name:", class: "control-label" %><br />
-        <%= ff.text_field :first_name, value: @family_member.future_patient_data_hash['first_name'], class: "form-control form-control-lg" %>
+      <div class="col-sm-6">
+        <%= ff.label "First Name:", class: "form-control-label" %><br />
+        <%= ff.text_field :first_name, value: @family_member.future_patient_data_hash['first_name'], class: "form-control" %>
       </div>
-      <div class="col-xs-6">
-        <%= ff.label "Last Name:", class: "control-label" %><br />
-        <%= ff.text_field :last_name, value: @family_member.future_patient_data_hash['last_name'], class: "form-control form-control-lg" %>
+      <div class="col-sm-6">
+        <%= ff.label "Last Name:", class: "form-control-label" %><br />
+        <%= ff.text_field :last_name, value: @family_member.future_patient_data_hash['last_name'], class: "form-control" %>
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-6">
-        <%= ff.label "Date of Birth (can be approximate)", class: "control-label" %><br />
-        <%= ff.date_field :date_of_birth, value: Date.new(@family_member.future_patient_data_hash['date_of_birth'].to_i), class: "form-control form-control-lg", min: 1900, step: 1, type: "month" %>
+      <div class="col-sm-6">
+        <%= ff.label "Date of Birth (can be approximate)", class: "form-control-label" %><br />
+        <%= ff.date_field :date_of_birth, value: Date.new(@family_member.future_patient_data_hash['date_of_birth'].to_i), class: "form-control", min: 1900, step: 1, type: "month" %>
       </div>
-        <div class="col-xs-6">
-          <%= ff.label "Check if deceased:", class: "control-label" %><br />
-          <%= ff.check_box :deceased, checked:  ((@family_member.future_patient_data_hash['deceased'] === "1")? true : false), class: "form-control form-control-lg btn btn-default" %>
+        <div class="col-sm-6">
+          <%= ff.label "Check if deceased:", class: "form-control-label" %><br />
+          <%= ff.check_box :deceased, checked:  ((@family_member.future_patient_data_hash['deceased'] === "1")? true : false), class: "form-control btn btn-secondary" %>
         </div>
       </div>
       <div id="deceased">
         <div class="row">
-          <div class="col-xs-12">
-            <%= ff.label "When did they die?", class: "control-label" %>
+          <div class="col-sm-12">
+            <%= ff.label "When did they die?", class: "form-control-label" %>
             <br />
           </div>
-          <div class="col-xs-5">
+          <div class="col-sm-5">
             <div class="form-inline">
               <div class="form-group" aria-describedby="relativeTime">
-                <%= ff.number_field :death_time_ago, value: @family_member.future_patient_data_hash['death_time_ago'], class: "form-control form-control-lg", step: 1, in: 1..99 %>
-                <%= ff.select :death_time_ago_scale, TIME_SCALES, selected: @family_member.future_patient_data_hash['death_time_ago_scale'], class: "form-control form-control-lg" %>
+                <%= ff.number_field :death_time_ago, value: @family_member.future_patient_data_hash['death_time_ago'], class: "form-control", step: 1, in: 1..99 %>
+                <%= ff.select :death_time_ago_scale, TIME_SCALES, selected: @family_member.future_patient_data_hash['death_time_ago_scale'], class: "form-control" %>
               </div>
               <p id="relativeTime" class="purple form-text text-muted">
                 relative date, e.g. "5 months ago"
               </p>
             </div>
           </div>
-          <div class="col-xs-2" style="min-height:32px;">
+          <div class="col-sm-2" style="min-height:32px;">
             <%= render 'layouts/col_2_OR_buttons' %>
           </div>
-          <div class="col-xs-5">
-            <%= ff.date_field :death_date, value: Date.new(@family_member.future_patient_data_hash['death_date'].to_i), class: "form-control form-control-lg", aria: { describedby: "absoluteTime" } %>
+          <div class="col-sm-5">
+            <%= ff.date_field :death_date, value: Date.new(@family_member.future_patient_data_hash['death_date'].to_i), class: "form-control", aria: { describedby: "absoluteTime" } %>
             <p id="absoluteTime" class="purple form-text text-muted">
               absolute date, e.g. "01/07/2016"
             </p>
           </div>
         </div>
         <div class="row">
-          <div class="col-xs-12">
-            <%= ff.label "What was their cause of death?", class: "control-label" %><br />
+          <div class="col-sm-12">
+            <%= ff.label "What was their cause of death?", class: "form-control-label" %><br />
             <div class="form-check">
-              <%= ff.select :cause_of_death, CAUSES_OF_DEATH, selected: @family_member.future_patient_data_hash['cause_of_death'], class: "form-control form-control-lg" %>
+              <%= ff.select :cause_of_death, CAUSES_OF_DEATH, selected: @family_member.future_patient_data_hash['cause_of_death'], class: "form-control" %>
               <div class="input-group">
                 <span class="input-group-addon">
                   <input type="radio" aria-label="Radio button for following text input">
@@ -67,9 +67,9 @@
 
       <br />
       <div class="row">
-        <div class="col-xs-12">
-          <%= ff.label "Anything else to add?", class: "control-label" %><br />
-          <%= ff.text_area :note, value: @family_member.future_patient_data_hash['note'], class: "form-control form-control-lg" %>
+        <div class="col-sm-12">
+          <%= ff.label "Anything else to add?", class: "form-control-label" %><br />
+          <%= ff.text_area :note, value: @family_member.future_patient_data_hash['note'], class: "form-control" %>
         </div>
       </div>
     <% end %>
@@ -79,58 +79,58 @@
     <%= render 'visits/visit_presence_checker', f: f %>
     <%= f.fields_for :future_patient_data_hash do |ff| %>
     <div class="row">
-      <div class="col-xs-6">
-        <%= ff.label "First Name:", class: "control-label" %><br />
-        <%= ff.text_field :first_name, class: "form-control form-control-lg" %>
+      <div class="col-sm-6">
+        <%= ff.label "First Name:", class: "form-control-label" %><br />
+        <%= ff.text_field :first_name, class: "form-control" %>
       </div>
-      <div class="col-xs-6">
-        <%= ff.label "Last Name:", class: "control-label" %><br />
-        <%= ff.text_field :last_name, class: "form-control form-control-lg" %>
+      <div class="col-sm-6">
+        <%= ff.label "Last Name:", class: "form-control-label" %><br />
+        <%= ff.text_field :last_name, class: "form-control" %>
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-6">
-        <%= ff.label "Year of Birth:", class: "control-label" %><br />
-        <%= ff.month_field :date_of_birth, class: "form-control form-control-lg" %>
+      <div class="col-sm-6">
+        <%= ff.label "Year of Birth:", class: "form-control-label" %><br />
+        <%= ff.month_field :date_of_birth, class: "form-control" %>
       </div>
-      <div class="col-xs-6">
-        <%= ff.label "Check if deceased:", class: "control-label" %><br />
-        <%= ff.check_box :deceased, class: "form-control form-control-lg btn btn-default", onclick:  "$('#new#{topic.name.capitalize}Modal').find('#deceased').toggle();" %>
+      <div class="col-sm-6">
+        <%= ff.label "Check if deceased:", class: "form-control-label" %><br />
+        <%= ff.check_box :deceased, class: "form-control btn btn-secondary", onclick:  "$('#new#{topic.name.capitalize}Modal').find('#deceased').toggle();" %>
       </div>
     </div>
 
     <div id="deceased" style="display: none">
       <div class="row">
-        <div class="col-xs-12">
-          <%= ff.label "When did they die?", class: "control-label" %>
+        <div class="col-sm-12">
+          <%= ff.label "When did they die?", class: "form-control-label" %>
           <br />
         </div>
-        <div class="col-xs-5">
+        <div class="col-sm-5">
           <div class="form-inline">
             <div class="form-group" aria-describedby="relativeTime">
               <%= ff.number_field :death_time_ago, step: 1, in: 1..99 %>
-              <%= ff.select :death_time_ago_scale, TIME_SCALES, class: "form-control form-control-lg" %>
+              <%= ff.select :death_time_ago_scale, TIME_SCALES, class: "form-control" %>
             </div>
             <p id="relativeTime" class="purple form-text text-muted">
               relative date, e.g. "5 months ago"
             </p>
           </div>
         </div>
-        <div class="col-xs-2" style="min-height:32px;">
+        <div class="col-sm-2" style="min-height:32px;">
           <%= render 'layouts/col_2_OR_buttons' %>
         </div>
-        <div class="col-xs-5">
-          <%= ff.month_field :death_date, class: "form-control form-control-lg", aria: { describedby: "absoluteTime" } %>
+        <div class="col-sm-5">
+          <%= ff.month_field :death_date, class: "form-control", aria: { describedby: "absoluteTime" } %>
           <p id="absoluteTime" class="purple form-text text-muted">
             absolute date, e.g. "01/07/2016"
           </p>
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-12">
-          <%= ff.label "What was their cause of death?", class: "control-label" %><br />
+        <div class="col-sm-12">
+          <%= ff.label "What was their cause of death?", class: "form-control-label" %><br />
           <div class="form-check">
-            <%= ff.select :cause_of_death, CAUSES_OF_DEATH, class: "form-control form-control-lg" %>
+            <%= ff.select :cause_of_death, CAUSES_OF_DEATH, class: "form-control" %>
             <div class="input-group">
               <span class="input-group-addon">
                 <input type="radio" aria-label="Radio button for following text input">
@@ -144,9 +144,9 @@
 
     <br />
     <div class="row">
-      <div class="col-xs-12">
-        <%= ff.label "Anything else to add?", class: "control-label" %><br />
-        <%= ff.text_area :note, class: "form-control form-control-lg" %>
+      <div class="col-sm-12">
+        <%= ff.label "Anything else to add?", class: "form-control-label" %><br />
+        <%= ff.text_area :note, class: "form-control" %>
       </div>
     </div>
     <% end %>

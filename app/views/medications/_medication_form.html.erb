@@ -4,46 +4,46 @@
   <div class="form-group">
     <%= fff.hidden_field :topic_id, class: "med-response", value: "" %>
     <br />
-    <div class="row flex-items-xs-center">
-        <%= fff.label :medication_format, "Enter formatted medications as plain text:", class: "control-label" %>
-        <%= fff.text_area :medication_format, class: "form-control form-control-lg", placeholder: "EPIC users: '.meds'" %>
+    <div class="row">
+        <%= fff.label :medication_format, "Enter formatted medications as plain text:", class: "form-control-label" %>
+        <%= fff.text_area :medication_format, class: "form-control", placeholder: "EPIC users: '.meds'" %>
     </div>
     <br />
-    <div class="row flex-items-xs-center">
+    <div class="row">
       <div class="form-inline">
-        <%= fff.label :name, "Name:", class: "col-xs-2 col-form-label" %>
-        <div class="col-xs-10">
-          <%= fff.number_field :dosage_form_units, class: "form-control form-control-lg", step: 1, in: 1...99 %>
-          <%= fff.text_field :name, class: "form-control form-control-lg", placeholder: "ex: metoprolol, levothyroxine" %>
-          (<%= fff.text_field :common_name, class: "form-control form-control-lg", placeholder: "ex: Toprol XL, Synthroid" %>)
-          <%= fff.select :dosage_form, ["tablet", "capsule", "pill", "liquid solution", "inhaler", "cream", "drops", "suppository"], class: "form-control form-control-lg" %>
+        <%= fff.label :name, "Name:", class: "col-sm-2 col-form-label" %>
+        <div class="col-sm-10">
+          <%= fff.number_field :dosage_form_units, class: "form-control", step: 1, in: 1...99 %>
+          <%= fff.text_field :name, class: "form-control", placeholder: "ex: metoprolol, levothyroxine" %>
+          (<%= fff.text_field :common_name, class: "form-control", placeholder: "ex: Toprol XL, Synthroid" %>)
+          <%= fff.select :dosage_form, ["tablet", "capsule", "pill", "liquid solution", "inhaler", "cream", "drops", "suppository"], class: "form-control" %>
         </div>
       </div>
     </div>
-    <div class="row flex-items-xs-center">
+    <div class="row">
       <div class="form-inline">
-        <%= fff.label :dose, "Dose:", class: "col-xs-2 col-form-label" %>
-        <div class="col-xs-10">
-          <%= fff.number_field :dose, class: "form-control form-control-lg", step: 1/100, in: 0..99999 %>
-          <%= fff.select :dose_unit_of_measurement, ["mcg","mg", "mL", "mm", "g", "L", "IU"], class: "form-control form-control-lg" %>
-          <%= fff.select :ingestion_method, ADMINISTRATION_METHODS, class: "form-control form-control-lg" %>
+        <%= fff.label :dose, "Dose:", class: "col-sm-2 col-form-label" %>
+        <div class="col-sm-10">
+          <%= fff.number_field :dose, class: "form-control", step: 1/100, in: 0..99999 %>
+          <%= fff.select :dose_unit_of_measurement, ["mcg","mg", "mL", "mm", "g", "L", "IU"], class: "form-control" %>
+          <%= fff.select :ingestion_method, ADMINISTRATION_METHODS, class: "form-control" %>
         </div>
       </div>
     </div>
-    <div class="row flex-items-xs-center">
+    <div class="row">
       <div class="form-inline">
-        <%= fff.label :frequency, "Frequency:", class: "col-xs-2 col-form-label" %>
-        <div class="col-xs-10">
-          <%= fff.number_field :frequency, class: "form-control form-control-lg", in: 0..99999  %> time(s) per </h3>
+        <%= fff.label :frequency, "Frequency:", class: "col-sm-2 col-form-label" %>
+        <div class="col-sm-10">
+          <%= fff.number_field :frequency, class: "form-control", in: 0..99999  %> time(s) per </h3>
           <%= fff.select :frequency_scale, ["day", "hour", "week", "month", "year", "as needed"], class: "col-2 col-form-label" %>
         </div>
       </div>
     </div>
-    <div class="row flex-items-xs-center">
+    <div class="row">
       <div class="form-inline">
-        <%= fff.label :frequency, "Duration:", class: "col-xs-2 col-form-label" %>
-        <div class="col-xs-10">
-          for <%= fff.number_field :duration_amount, class: "form-control form-control-lg", in: 0..99999  %>
+        <%= fff.label :frequency, "Duration:", class: "col-sm-2 col-form-label" %>
+        <div class="col-sm-10">
+          for <%= fff.number_field :duration_amount, class: "form-control", in: 0..99999  %>
           <%= fff.select :duration_scale, [nil, "days", "weeks", "months", "years"], class: "col-2 col-form-label" %>
         </div>
       </div>

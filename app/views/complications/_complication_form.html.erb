@@ -5,15 +5,15 @@
     <%= render 'visits/visit_presence_checker', f: fff %>
     <%= fff.hidden_field :topic_id, class: "complication-response", value: "" %>
 
-    <div class="row flex-items-xs-center">
-      <div class="col-xs-12">
-        <%= fff.label "When did it start?", class: "control-label" %>
+    <div class="row">
+      <div class="col-sm-12">
+        <%= fff.label "When did it start?", class: "form-control-label" %>
         <br />
       </div>
       <%= render 'layouts/relative_absolute_date', fff: fff, column_title: :absolute_start_date %>
     </div>
-    <%= fff.label "Anything further to note?", class: "control-label" %><br />
-    <%= fff.text_area :note, class: "form-control form-control-lg" %>
+    <%= fff.label "Anything further to note?", class: "form-control-label" %><br />
+    <%= fff.text_area :note, class: "form-control" %>
     <br />
     <% unless @form_action == "Update" %>
       <%= fff.submit "Add Complication", class: "btn btn-success" %>

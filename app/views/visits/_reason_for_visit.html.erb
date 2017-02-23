@@ -1,19 +1,4 @@
-<div class="row">
-  <div class="form-group">
-    <div class="form-check">
-      <%= f.label "What brings you into the clinic?", class: "form-check-label" %><br />
-      <dl>
-        <div class="container">
-          <label class="form-check-label radio-inline" value="for aorta imaging" id="heart-imaging-reason">
-            <dt class="col-xs-1">
-              <%= f.radio_button :primary_reason, "Aorta Imaging", value: "for aorta imagery", class: "form-check-input" %>
-            </dt>
-            <dd class="col-xs-12", value="for aorta imaging">
-              Aorta Imaging: <%= render 'topics/imaging_type_selector', f: f %>
-            </dd>
-          </label>
-        </div>
-      </dl>
-    </div>
-  </div>
-</div>
+<form class="form-inline">
+  <label class="form-control-label">What type of aorta imaging did you have?</label>
+  <%= render 'topics/imaging_type_selector', f: f %>
+</form>

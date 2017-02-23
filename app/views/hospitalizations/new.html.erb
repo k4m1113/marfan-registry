@@ -1,20 +1,20 @@
-<div class="form-group col-xs-8 control-label">
+<div class="form-group col-sm-8 form-control-label">
   <%= form_for @hospitalization do |ff| %>
   <%= render 'visits/visit_presence_checker', f: ff %>
-    <%= ff.label "When was your recent hospitalization?", class: "col-xs-6 control-label" %><br />
-    <%= ff.date_field :admission_date, autofocus: true, class: "form-control form-control-lg" %><br />
+    <%= ff.label "When was your recent hospitalization?", class: "col-sm-6 form-control-label" %><br />
+    <%= ff.date_field :admission_date, autofocus: true, class: "form-control" %><br />
 
-    <%= ff.label "How many days were you in the hospital?", class: "col-xs-6 control-label" %><br />
-    <%= ff.number_field :length_of_stay, autofocus: true, class: "form-control form-control-lg" %><br />
+    <%= ff.label "How many days were you in the hospital?", class: "col-sm-6 form-control-label" %><br />
+    <%= ff.number_field :length_of_stay, autofocus: true, class: "form-control" %><br />
 
-    <%= ff.label "What type of hospitalization was it?", class: "col-xs-6 control-label" %><br />
-    <%= ff.text_field :type, autofocus: true, class: "form-control form-control-lg" %><br />
+    <%= ff.label "What type of hospitalization was it?", class: "col-sm-6 form-control-label" %><br />
+    <%= ff.text_field :type, autofocus: true, class: "form-control" %><br />
 
-    <%= ff.label "Where were you hospitalized?", class: "col-xs-6 control-label" %><br />
-    <%= ff.text_field :location, autofocus: true, class: "form-control form-control-lg" %><br />
+    <%= ff.label "Where were you hospitalized?", class: "col-sm-6 form-control-label" %><br />
+    <%= ff.text_field :location, autofocus: true, class: "form-control" %><br />
 
-    <%= ff.label "Anything else to add?", class: "col-xs-6 control-label" %><br />
-    <%= ff.text_area :description, autofocus: true, class: "form-control form-control-lg" %><br />
+    <%= ff.label "Anything else to add?", class: "col-sm-6 form-control-label" %><br />
+    <%= ff.text_area :description, autofocus: true, class: "form-control" %><br />
     <%= ff.submit "Create Hospitalization" %>
   <% end %>
 </div>

@@ -1,4 +1,4 @@
-<div class="hidden-sm hidden-xs btn-group btn-group-sm hidden-sm-down" role="group">
+<div class="btn-group btn-group-sm" role="group">
   <%= link_to test_path(id: t.id), type: "button", method: :get, class: "btn btn-secondary" do %>
     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
   <% end %>
@@ -8,14 +8,4 @@
   <%= link_to test_path(id: t.id), method: :delete, type: "button", class: "btn btn-secondary" do %>
     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
   <% end %>
-</div>
-<div class="hidden-md hidden-lg hidden-xlg btn-group btn-group-sm" role="group">
-  <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Actions
-  </button>
-  <ul class="dropdown-menu">
-    <li><%= link_to "View Details", test_path(id: t.id), method: :get %></li>
-    <li><%= link_to "Edit", edit_test_path(id: t.id), method: :get %></li>
-    <li><%= link_to "Destroy", test_path(id: t.id), method: :delete %></li>
-  </ul>
 </div>

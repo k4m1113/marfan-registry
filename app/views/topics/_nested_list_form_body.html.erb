@@ -1,33 +1,34 @@
 <div class="card">
   <div class="card-header text-center">
     <ul class="nav nav-pills card-header-pills">
-      <% @root_topics.each do |rt| %>
-        <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#<%= rt.name.parameterize.underscore %>">
-          <%= rt.name.titleize %>
-        </a></li>
-      <% end %>
+      <div class="row">
+        <% @root_topics.each do |rt| %>
+          <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#<%= rt.name.parameterize.underscore %>" role="tab">
+            <%= rt.name.titleize %>
+          </a></li>
+        <% end %>
+      </div>
     </ul>
   </div>
   <div class="card-block">
     <div class="tab-content">
       <% @root_topics.each do |rt| %>
         <% @discussion_topic = Topic.roots.where(name: "#{rt.name}")[0].self_and_descendants %>
-        <div class="tab-pane" id="<%= rt.name.parameterize.underscore %>">
-          <br />
+        <div class="tab-pane" id="<%= rt.name.parameterize.underscore %>" role="tabpanel">
           <% case rt.name %>
           <% when 'family history' %>
             <%= render 'family_members/family_tree', f: f %>
           <% when 'aortic imaging' %>
-            <%= f.submit "Update Visit", class: "col-centered col-xs-12 control-label btn btn-secondary btn-lg" %>
-            <br /><br /><hr />
+            <%= f.submit "Update Visit", class: "col-centered col-sm-12 form-control-label btn btn-secondary btn-lg" %>
+            <br /><hr />
             Add More: <%= render 'topics/visit_edit_imaging_selector', f: f %>
             <hr />
             <div id="heart-imagery-hook"></div>
             <%= render 'visits/show_tables/heart_imagery', imagery: @imagery %>
           <% else %>
-            <%= f.submit "Update Visit", class: "col-centered col-xs-12 control-label btn btn-secondary btn-lg" %>
-            <br /><br /><hr />
-            <h3 class="card-title text-center"><%= rt.name.titleize %>
+            <%= f.submit "Update Visit", class: "col-centered col-sm-12 form-control-label btn btn-secondary btn-lg" %>
+            <br /><hr />
+            <h3 class="card-header text-center"><%= rt.name.titleize %>
             </h3>
             <hr />
             <%= render 'topics/nested_list', f: f, discussion_topic: @discussion_topic %>

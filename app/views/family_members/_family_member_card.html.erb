@@ -2,7 +2,7 @@
 <% topic = Topic.find(fm.topic_id) %>
   <% @fpdh = fm.future_patient_data_hash %>
   <div class="card card-block">
-    <h4 class="card-title"><%= topic.name %>
+    <h4 class="card-header"><%= topic.name %>
       <br />
       <small class="card-text">
       <b><%="#{print_if_present(@fpdh['first_name'])} #{print_if_present(@fpdh['last_name'])}" %></b>

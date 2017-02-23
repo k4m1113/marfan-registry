@@ -1,6 +1,6 @@
 //= require jquery
 //= require jquery_ujs
+//= require tether
 //= require bootstrap-sprockets
 //= require components
 //= require_tree .
-//= require bootstrap-table

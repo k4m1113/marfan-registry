@@ -9,30 +9,31 @@ class PatientsController < ApplicationController
       @patients = Patient.all.paginate(:page => params[:page])
     end
 
-    def show
-      @patient = Patient.find(params[:id])
-      case @patient.sex
-      when 'F'
-        @gender = 'Female'
-      when
-        @gender = 'Male'
-      else
-        @gender = 'Not noted'
-      end
-      @visits = Visit.where(patient_id: @patient.id)
+  end
+  
+  def show
+    @patient = Patient.find(params[:id])
+    case @patient.sex
+    when 'F'
+      @gender = 'Female'
+    when
+      @gender = 'Male'
+    else
+      @gender = 'Not noted'
+    end
+    @visits = Visit.where(patient_id: @patient.id)
 
-      @symptoms = Symptom.where(patient_id: @patient.id)
-      @family_members = FamilyMember.where(patient_id: @patient.id)
-      @vitals = Vital.where(patient_id: @patient.id)
-      @tests = Test.where(patient_id: @patient.id)
-      @imagery = @tests.where(topic_id: [ @heart_imaging_locations].flatten)
-      @tests -= @tests.where(id: @imagery)
-      @hospitalizations = Hospitalization.where(patient_id: @patient.id)
-      @diagnoses = Diagnosis.where(patient_id: @patient.id)
+    @symptoms = Symptom.where(patient_id: @patient.id)
+    @family_members = FamilyMember.where(patient_id: @patient.id)
+    @vitals = Vital.where(patient_id: @patient.id)
+    @tests = Test.where(patient_id: @patient.id)
+    @imagery = @tests.where(topic_id: [ @heart_imaging_locations].flatten)
+    @tests -= @tests.where(id: @imagery)
+    @hospitalizations = Hospitalization.where(patient_id: @patient.id)
+    @diagnoses = Diagnosis.where(patient_id: @patient.id)
 
-      unless @visits.length == 0
-        @primary_clinician = Clinician.where(id: @visits[0].clinician_id)[0]
-      end
+    unless @visits.length == 0
+      @primary_clinician = Clinician.where(id: @visits[0].clinician_id)[0]
     end
   end
 
