@@ -35,6 +35,7 @@ class SymptomsController < ApplicationController
     else
       flash[:error] = "Error updating procedure: #{@procedure.errors.full_messages}"
       redirect_to edit_procedure_path(@procedure.id)
+    end
   end
 
   def destroy

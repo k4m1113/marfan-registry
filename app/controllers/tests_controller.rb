@@ -25,7 +25,6 @@ class TestsController < ApplicationController
     else
       flash[:error] = "Please re-check information: #{@test.errors.full_messages}"
     end
-
   end
 
   def update
@@ -48,8 +47,8 @@ class TestsController < ApplicationController
   end
 
   private
-
-    def test_params
-      params.fetch(:test, {})
-    end
+  
+  def test_params
+    params.fetch(:test, {})
+  end
 end
