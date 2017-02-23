@@ -5,7 +5,7 @@
         <%= text_field_tag :search, params[:search], placeholder:  "Search Family Members...", class: "form-control" %>
         <span class="input-group-btn">
           <%= button_tag(family_members_path, method: "get", type: "submit", class: "btn btn-secondary", id: "search" ) do %>
-          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+          <i class="fa fa-search"></i>
           <% end %>
         </span>
       </div><br /><br />

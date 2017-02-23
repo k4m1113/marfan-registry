@@ -20,6 +20,7 @@ gem 'httparty'
 gem 'validates_type'
 gem 'awesome_nested_set'
 gem 'delayed_job_active_record'
+gem 'font-awesome-sass'
 
 group :development, :test do
   gem 'byebug'

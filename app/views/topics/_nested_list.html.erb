@@ -10,7 +10,7 @@
         <% else %>
           <li class="card list-group-item">
             <a id="heading_<%= child.id %>" data-toggle="collapse" role="tab" aria-expanded="true" aria-controls="link_<%= node.id %>" data-parent="#link_<%= child.parent_id %>" href="#link_<%= child.id %>">
-              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              <i class="fa fa-chevron-down"></i>
               <%= child.name %>
             </a>
             <br />
@@ -30,7 +30,7 @@
         <% else %>
           <li class="card list-group-item list-group-item-action">
             <a id="heading_<%= node.id %>" data-toggle="collapse" role="tab" aria-expanded="true" aria-controls="link_<%= node.id %>" data-parent="#accordion1" href="#link_<%= node.id %>">
-              <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+              <i class="fa fa-chevron-down"></i>
               <%= node.name  %>
             </a>
             <br />
