@@ -45,7 +45,7 @@ class HospitalizationsController < ApplicationController
     :topic_id,
     :admission_date,
     :length_of_stay,
-    :length_of_stay_scale
+    :length_of_stay_scale,
     :hosp_type,
     :description,
     :location,
