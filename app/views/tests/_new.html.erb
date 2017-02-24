@@ -19,7 +19,7 @@
       <%= f.label :time_ago, class: "form-control-label" %>
       <div class="form-inline">
         <%= f.number_field :time_ago, class: "form-control" %>
-        <%= f.select :time_ago_scale, TIME_SCALES, class: "form-control" %>
+        <%= f.select :time_ago_scale, TIME_SCALES, {include_blank: true}, {class: "form-control"} %>
       </div>
     </div>
   </div>

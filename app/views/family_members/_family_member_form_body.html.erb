@@ -32,7 +32,7 @@
             <div class="form-inline">
               <div class="form-group" aria-describedby="relativeTime">
                 <%= ff.number_field :death_time_ago, value: @family_member.future_patient_data_hash['death_time_ago'], class: "form-control", step: 1, in: 1..99 %>
-                <%= ff.select :death_time_ago_scale, TIME_SCALES, selected: @family_member.future_patient_data_hash['death_time_ago_scale'], class: "form-control" %>
+                <%= ff.select :death_time_ago_scale, TIME_SCALES, {include_blank: true, selected: @family_member.future_patient_data_hash['death_time_ago_scale']}, {class: "form-control"} %>
               </div>
               <p id="relativeTime" class="purple form-text text-muted">
                 relative date, e.g. "5 months ago"
@@ -53,7 +53,7 @@
           <div class="col-sm-12">
             <%= ff.label "What was their cause of death?", class: "form-control-label" %><br />
             <div class="form-check">
-              <%= ff.select :cause_of_death, CAUSES_OF_DEATH, selected: @family_member.future_patient_data_hash['cause_of_death'], class: "form-control" %>
+              <%= ff.select :cause_of_death, CAUSES_OF_DEATH, {include_blank: true, selected: @family_member.future_patient_data_hash['cause_of_death']}, {class: "form-control"} %>
               <div class="input-group">
                 <span class="input-group-addon">
                   <input type="radio" aria-label="Radio button for following text input">
@@ -109,7 +109,7 @@
           <div class="form-inline">
             <div class="form-group" aria-describedby="relativeTime">
               <%= ff.number_field :death_time_ago, step: 1, in: 1..99 %>
-              <%= ff.select :death_time_ago_scale, TIME_SCALES, class: "form-control" %>
+              <%= ff.select :death_time_ago_scale, TIME_SCALES, {include_blank: true}, {class: "form-control"} %>
             </div>
             <p id="relativeTime" class="purple form-text text-muted">
               relative date, e.g. "5 months ago"
@@ -130,7 +130,7 @@
         <div class="col-sm-12">
           <%= ff.label "What was their cause of death?", class: "form-control-label" %><br />
           <div class="form-check">
-            <%= ff.select :cause_of_death, CAUSES_OF_DEATH, class: "form-control" %>
+            <%= ff.select :cause_of_death, CAUSES_OF_DEATH, {include_blank: true}, {class: "form-control"} %>
             <div class="input-group">
               <span class="input-group-addon">
                 <input type="radio" aria-label="Radio button for following text input">

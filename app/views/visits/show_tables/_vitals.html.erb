@@ -2,21 +2,21 @@
   <div class="card">
     <div class="card-header" role="tab" id="vitalsHeading">
       <a data-toggle="collapse" data-parent="#vitals>Accordion" href="#vitalsCollapse" aria-expanded="true" aria-controls="vitalsCollapse" style="none">
-        <h3 class="card-header mb-0">
-            Vitals <span class="caret"></span>
-        </h3>
+      Vitals <i class="fa fa-caret-down"></i>
       </a>
     </div>
     <div id="vitalsCollapse" class="collapse" role="tabpanel" aria-labelledby="vitalsHeading">
       <% if vitals.length != 0 %>
         <table class="table table-striped table-responsive">
-          <tr>
-            <th>Type</th>
-            <th>Date</th>
-            <th>Name</th>
-            <th>Measurement</th>
-            <th>Note</th>
-          </tr>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Measurement</th>
+              <th>Note</th>
+            </tr>
+          </thead>
           <% vitals.each do |v| %>
             <tr>
               <th><%= link_to "#{v.topic_id}", topic_path(v.topic_id) %></th>

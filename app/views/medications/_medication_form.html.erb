@@ -16,7 +16,7 @@
           <%= fff.number_field :dosage_form_units, class: "form-control", step: 1, in: 1...99 %>
           <%= fff.text_field :name, class: "form-control", placeholder: "ex: metoprolol, levothyroxine" %>
           (<%= fff.text_field :common_name, class: "form-control", placeholder: "ex: Toprol XL, Synthroid" %>)
-          <%= fff.select :dosage_form, ["tablet", "capsule", "pill", "liquid solution", "inhaler", "cream", "drops", "suppository"], class: "form-control" %>
+          <%= fff.select :dosage_form, DOSAGE_FORMS, {include_blank: true}, {class: "form-control"} %>
         </div>
       </div>
     </div>
@@ -25,8 +25,8 @@
         <%= fff.label :dose, "Dose:", class: "col-sm-2 col-form-label" %>
         <div class="col-sm-10">
           <%= fff.number_field :dose, class: "form-control", step: 1/100, in: 0..99999 %>
-          <%= fff.select :dose_unit_of_measurement, ["mcg","mg", "mL", "mm", "g", "L", "IU"], class: "form-control" %>
-          <%= fff.select :ingestion_method, ADMINISTRATION_METHODS, class: "form-control" %>
+          <%= fff.select :dose_unit_of_measurement, DOSE_UNITS_OF_MEASUREMENT, {include_blank: true}, {class: "form-control"} %>
+          <%= fff.select :ingestion_method, ADMINISTRATION_METHODS, {include_blank: true}, {class: "form-control"} %>
         </div>
       </div>
     </div>
@@ -35,7 +35,7 @@
         <%= fff.label :frequency, "Frequency:", class: "col-sm-2 col-form-label" %>
         <div class="col-sm-10">
           <%= fff.number_field :frequency, class: "form-control", in: 0..99999  %> time(s) per </h3>
-          <%= fff.select :frequency_scale, ["day", "hour", "week", "month", "year", "as needed"], class: "col-2 col-form-label" %>
+          <%= fff.select :frequency_scale, FREQUENCY_SCALES, {include_blank: true}, {class: "form-control"} %>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@
         <%= fff.label :frequency, "Duration:", class: "col-sm-2 col-form-label" %>
         <div class="col-sm-10">
           for <%= fff.number_field :duration_amount, class: "form-control", in: 0..99999  %>
-          <%= fff.select :duration_scale, [nil, "days", "weeks", "months", "years"], class: "col-2 col-form-label" %>
+          <%= fff.select :duration_scale, DURATION_SCALES, {include_blank: true}, {class: "form-control"} %>
         </div>
       </div>
     </div>

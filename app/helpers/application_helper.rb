@@ -42,7 +42,6 @@ module ApplicationHelper
       dead = 'Living'
       age_at_death = Date.today.year - (fm.future_patient_data_hash['date_of_birth'] + '-01').to_datetime.year
     end
-
     return dead + " (~#{age_at_death} y/o)"
   end
 
@@ -86,8 +85,6 @@ module ApplicationHelper
       return topic_type.absolute_start_date.strftime('%d %B %Y')
     elsif topic_type.time_ago
       return "#{topic_type.time_ago} #{topic_type.time_ago_scale} ago"
-    elsif topic_type['death_time_ago']
-      return "#{topic_type['death_time_ago']} #{topic_type['death_time_ago_scale']} ago"
     else
       return nil
     end
@@ -95,9 +92,9 @@ module ApplicationHelper
 
   def button_color(topic_group, cat)
     if topic_group.any?{ |t| t.topic_id == cat.id }
-      return 'btn-info'
+      return 'btn-primary'
     else
-      return 'btn-secondary'
+      return 'btn-default'
     end
   end
 

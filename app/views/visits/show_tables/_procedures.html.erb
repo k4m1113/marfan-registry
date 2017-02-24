@@ -4,13 +4,15 @@
   </div>
   <% if procedures.length != 0 %>
     <table class="table table-striped table-responsive">
-      <tr>
-        <th>Type</th>
-        <th>Date</th>
-        <th>Name</th>
-        <th>Note</th>
-        <th>Edit</th>
-      </tr>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Note</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
       <% procedures.each do |p| %>
         <tr>
           <th><%= link_to "#{p.topic_id}", topic_path(p.topic_id) %></th>

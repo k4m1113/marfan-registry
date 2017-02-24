@@ -4,12 +4,14 @@
   </div>
   <% if symptoms.length != 0 %>
     <table class="table table-striped table-responsive">
-      <tr>
-        <th>Symptom</th>
-        <th>System</th>
-        <th>Present?</th>
-        <th>Measurement</th>
-      </tr>
+      <thead>
+        <tr>
+          <th>Symptom</th>
+          <th>System</th>
+          <th>Present?</th>
+          <th>Measurement</th>
+        </tr>
+      </thead>
       <% symptoms.each do |s| %>
         <tr>
           <td><%= SeededSymptom.where(id: s.seeded_symptom_id)[0].common_name %></td>
