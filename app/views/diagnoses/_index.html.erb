@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Diagnoses</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Topic</th>
+      <th>Patient</th>
+      <th>Time ago</th>
+      <th>Time ago scale</th>
+      <th>Absolute start date</th>
+      <th>Visit</th>
+      <th>Note</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% diagnoses.each do |diagnosis| %>
+      <tr>
+        <td><%= diagnosis.topic_id %></td>
+        <td><%= diagnosis.patient_id %></td>
+        <td><%= diagnosis.time_ago %></td>
+        <td><%= diagnosis.time_ago_scale %></td>
+        <td><%= diagnosis.absolute_start_date %></td>
+        <td><%= diagnosis.visit_id %></td>
+        <td><%= diagnosis.note %></td>
+        <td><%= link_to 'Show', diagnosis %></td>
+        <td><%= link_to 'Edit', edit_diagnosis_path(diagnosis) %></td>
+        <td><%= link_to 'Destroy', diagnosis, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Diagnosis', new_diagnosis_path %>

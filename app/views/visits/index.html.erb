@@ -11,7 +11,7 @@
       <td><%= visit.created_at.strftime("%d %B %Y") %></td>
       <td><%= link_to "Patient Information", patient_path(visit.patient_id) %></td>
       <td>
-        <div class="btn-group btn-group-sm" role="group">
+        <div class="btn-group" role="group">
           <%= button_to "Visit Summary", visit_path(id: visit.id), type: "button", method: :get, class: "btn btn-primary" %>
           <%= button_to "Generate Report", report_visit_path(id: visit.id), type: "button", method: :get, class: "btn btn-secondary disabled" %>
           <%= button_to "Edit Visit", edit_visit_path(id: visit.id), type: "button", method: :get, class: "btn btn-info" %>

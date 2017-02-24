@@ -1,9 +1,9 @@
-<div class="btn-group btn-group-sm" role="group">
+<div class="btn-group" role="group">
   <%= link_to diagnosis_path(id: d.id), type: "button", method: :get, class: "btn btn-secondary btn-sm" do %>
     <i class="fa fa-search"></i>
   <% end %>
   <%= link_to edit_diagnosis_path(id: d.id), type: "button", method: :get, class: "btn btn-secondary btn-sm" do %>
-    <i class="fa fa-search"></i>
+    <i class="fa fa-pencil"></i>
   <% end %>
   <%= link_to diagnosis_path(id: d.id), method: :delete, type: "button", class: "btn btn-secondary btn-sm" do %>
     <i class="fa fa-trash"></i>
