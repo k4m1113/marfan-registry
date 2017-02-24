@@ -19,7 +19,7 @@
           <% if @display_location == "Patient Show" %>
             <td><% link_to "Visit #{h.visit_id}", visit_path(h.visit_id) %></td>
           <% end %>
-          <td><%= h.admission_date ? h.admission_date.strftime("%d %B %Y") : "not noted" %></td>
+          <td><%= h.admission_date ? h.admission_date.strftime("%b %Y") : "not noted" %></td>
           <td><%= print_if_present(h.length_of_stay) %></td>
           <td><%= print_if_present(h.hosp_type) %></td>
           <td><%= print_if_present(h.location) %></td>

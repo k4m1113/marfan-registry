@@ -5,21 +5,25 @@
   <% if family_members.length != 0 %>
     <table class="table table-striped table-responsive">
       <tr>
+        <th>Type</th>
         <% if @display_location == "Patient Show" %>
           <th>Visit</th>
         <% end %>
         <th>Name</th>
         <th>Relationship</th>
+        <th>Living?</th>
         <th>Note</th>
         <th>Actions</th>
       </tr>
       <% family_members.each do |fm| %>
-        <tr style="cursor:pointer;" onclick=<%= "location.href='/family_members/" + "#{fm.id}'" %>>
+        <tr>
+          <th><%= link_to "#{fm.topic_id}", topic_path(fm.topic_id) %></th>
           <% if @display_location == "Patient Show" %>
             <td><% link_to "Visit #{fm.visit_id}", visit_path(fm.visit_id) %></td>
           <% end %>
-          <td><%= "#{fm.future_patient_data_hash['first_name']} #{fm.future_patient_data_hash['last_name']}"  %></td>
-          <td><%= Topic.find(fm.topic_id).name %></td>
+          <td><%= "#{print_if_present(fm.future_patient_data_hash['first_name'])} #{print_if_present(fm.future_patient_data_hash['last_name'])}" %></td>
+          <td><%= fm.topic.name %></td>
+          <td><%= death_info(fm) %></td>
           <td><%= fm.future_patient_data_hash['note'] %></td>
           <td>
             <%= render 'family_members/link_buttons', fm: fm %>

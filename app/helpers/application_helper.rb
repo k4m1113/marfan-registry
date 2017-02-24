@@ -24,6 +24,28 @@ module ApplicationHelper
     end
   end
 
+  def death_info(fm)
+    if fm.future_patient_data_hash['deceased'].blank?
+      dead = nil
+    elsif fm.future_patient_data_hash['deceased'].to_i === 1
+      unless fm.future_patient_data_hash['cause_of_death'].blank?
+        dead = "died of #{fm.future_patient_data_hash['cause_of_death']}"
+      end
+      if !fm.future_patient_data_hash['death_date'].blank?
+        # string interpolate '-01' to fit YYYY-MM-DD for Date with fuzzy data
+        death_date = (fm.future_patient_data_hash['death_date'] + "-01").to_datetime
+      elsif !fm.future_patient_data_hash['death_time_ago'].blank? && !fm.future_patient_data_hash['death_time_ago_scale'].blank?
+        death_date = find_date(fm.future_patient_data_hash['death_time_ago'], fm.future_patient_data_hash['death_time_ago_scale'], fm.created_at)
+      end
+      age_at_death = death_date.year - (fm.future_patient_data_hash['date_of_birth'] + "-01").to_datetime.year
+    elsif fm.future_patient_data_hash['deceased'].to_i === 0
+      dead = 'Living'
+      age_at_death = Date.today.year - (fm.future_patient_data_hash['date_of_birth'] + '-01').to_datetime.year
+    end
+
+    return dead + " (~#{age_at_death} y/o)"
+  end
+
   def print_if_present(attribute)
     case attribute
     when attribute.class === 'String'
@@ -64,8 +86,10 @@ module ApplicationHelper
       return topic_type.absolute_start_date.strftime('%d %B %Y')
     elsif topic_type.time_ago
       return "#{topic_type.time_ago} #{topic_type.time_ago_scale} ago"
+    elsif topic_type['death_time_ago']
+      return "#{topic_type['death_time_ago']} #{topic_type['death_time_ago_scale']} ago"
     else
-      return "not noted"
+      return nil
     end
   end
 
