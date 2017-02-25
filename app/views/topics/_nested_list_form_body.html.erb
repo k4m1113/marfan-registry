@@ -1,11 +1,13 @@
 <div class="card">
   <div class="card-header text-center">
-    <ul class="nav nav-pills card-header-pills">
+    <ul class="nav nav-pills" role="tablist">
       <div class="row">
         <% @root_topics.each do |rt| %>
-          <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#<%= rt.name.parameterize.underscore %>" role="tab">
-            <%= rt.name.titleize %>
-          </a></li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="pill" href="#<%= rt.name.parameterize.underscore %>" role="tab">
+              <%= rt.name.titleize %>
+            </a>
+          </li>
         <% end %>
       </div>
     </ul>
@@ -14,7 +16,7 @@
     <div class="tab-content">
       <% @root_topics.each do |rt| %>
         <% @discussion_topic = Topic.roots.where(name: "#{rt.name}")[0].self_and_descendants %>
-        <div class="tab-pane" id="<%= rt.name.parameterize.underscore %>" role="tabpanel">
+        <div class="tab-pane" id="<%= rt.name.parameterize.underscore %>">
           <% case rt.name %>
           <% when 'family history' %>
             <%= render 'family_members/family_tree', f: f %>
@@ -39,6 +41,5 @@
   </div>
 </div>
 <script>
-$(document).ready(function() {
-  
+
 </script>
