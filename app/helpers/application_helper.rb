@@ -92,9 +92,9 @@ module ApplicationHelper
 
   def button_color(topic_group, cat)
     if topic_group.any?{ |t| t.topic_id == cat.id }
-      return 'btn-primary'
+      return 'btn-info'
     else
-      return 'btn-default'
+      return 'btn-secondary'
     end
   end
 

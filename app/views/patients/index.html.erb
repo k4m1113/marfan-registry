@@ -51,7 +51,7 @@
             </td>
             <td>
               <div class="btn-group" role="group">
-                <%= link_to new_visit_path(patient: p.id), type: "button", class: "btn btn-default" do %>
+                <%= link_to new_visit_path(patient: p.id), type: "button", class: "btn btn-success" do %>
                   <i class="fa fa-plus"></i><%= "  New Visit" %>
                 <% end %>
                 <%= link_to edit_patient_path(id: p.id), type: "button", method: :get, class: "btn btn-secondary" do %>
