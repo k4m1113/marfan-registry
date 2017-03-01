@@ -6,7 +6,7 @@
     <table class="table table-striped table-responsive">
       <thead>
         <tr>
-          <th>Type</th>
+          <!-- <th>Type</th> -->
           <% if @display_location == "patient_show" %>
           <th>Visit</th>
           <% end %>
@@ -19,7 +19,7 @@
       </thead>
       <% hospitalizations.each do |h| %>
         <tr>
-          <th><%= link_to "#{h.topic_id}", topic_path(h.topic_id) %></th>
+          <!-- <th><%= link_to "#{h.topic_id}", topic_path(h.topic_id) %></th> -->
           <% if @display_location == "Patient Show" %>
             <td><% link_to "Visit #{h.visit_id}", visit_path(h.visit_id) %></td>
           <% end %>

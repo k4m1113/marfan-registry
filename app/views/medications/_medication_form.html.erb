@@ -5,47 +5,32 @@
     <%= fff.hidden_field :topic_id, class: "med-response", value: "" %>
     <br />
     <div class="row">
-        <%= fff.label :medication_format, "Enter formatted medications as plain text:", class: "form-control-label" %>
-        <%= fff.text_area :medication_format, class: "form-control", placeholder: "EPIC users: '.meds'" %>
+      <%= fff.label :medication_format, "Enter formatted medications as plain text:", class: "form-control-label" %>
+      <%= fff.text_area :medication_format, class: "form-control", placeholder: "EPIC users: '.meds'" %>
     </div>
     <br />
     <div class="row">
-      <div class="form-inline">
-        <%= fff.label :name, "Name:", class: "col-sm-2 col-form-label" %>
-        <div class="col-sm-10">
-          <%= fff.number_field :dosage_form_units, class: "form-control", step: 1, in: 1...99 %>
-          <%= fff.text_field :name, class: "form-control", placeholder: "ex: metoprolol, levothyroxine" %>
-          (<%= fff.text_field :common_name, class: "form-control", placeholder: "ex: Toprol XL, Synthroid" %>)
-          <%= fff.select :dosage_form, DOSAGE_FORMS, {include_blank: true}, {class: "form-control"} %>
-        </div>
+      <div class="input-group">
+        <%= fff.number_field :dosage_form_units, class: "form-control", step: 1, in: 1...99 %>
+        <%= fff.text_field :name, class: "form-control", placeholder: "ex: metoprolol, levothyroxine" %>
+        (<%= fff.text_field :common_name, class: "form-control", placeholder: "ex: Toprol XL, Synthroid" %>)
+        <%= fff.select :dosage_form, DOSAGE_FORMS, {include_blank: true}, {class: "form-control"} %>
+
+        <%= fff.number_field :dose, class: "form-control", step: 1/100, in: 0..99999 %>
+        <%= fff.select :dose_unit_of_measurement, DOSE_UNITS_OF_MEASUREMENT, {include_blank: true}, {class: "form-control"} %>
+        <%= fff.select :ingestion_method, ADMINISTRATION_METHODS, {include_blank: true}, {class: "form-control"} %>
+
+        <%= fff.number_field :frequency, class: "form-control", in: 0..99999  %> time(s) per
+        <%= fff.select :frequency_scale, FREQUENCY_SCALES, {include_blank: true}, {class: "form-control"} %>
+
+        for <%= fff.number_field :duration_amount, class: "form-control", in: 0..99999  %>
+        <%= fff.select :duration_scale, DURATION_SCALES, {include_blank: true}, {class: "form-control"} %>
       </div>
     </div>
     <div class="row">
-      <div class="form-inline">
-        <%= fff.label :dose, "Dose:", class: "col-sm-2 col-form-label" %>
-        <div class="col-sm-10">
-          <%= fff.number_field :dose, class: "form-control", step: 1/100, in: 0..99999 %>
-          <%= fff.select :dose_unit_of_measurement, DOSE_UNITS_OF_MEASUREMENT, {include_blank: true}, {class: "form-control"} %>
-          <%= fff.select :ingestion_method, ADMINISTRATION_METHODS, {include_blank: true}, {class: "form-control"} %>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="form-inline">
-        <%= fff.label :frequency, "Frequency:", class: "col-sm-2 col-form-label" %>
-        <div class="col-sm-10">
-          <%= fff.number_field :frequency, class: "form-control", in: 0..99999  %> time(s) per </h3>
-          <%= fff.select :frequency_scale, FREQUENCY_SCALES, {include_blank: true}, {class: "form-control"} %>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="form-inline">
-        <%= fff.label :frequency, "Duration:", class: "col-sm-2 col-form-label" %>
-        <div class="col-sm-10">
-          for <%= fff.number_field :duration_amount, class: "form-control", in: 0..99999  %>
-          <%= fff.select :duration_scale, DURATION_SCALES, {include_blank: true}, {class: "form-control"} %>
-        </div>
+      <div class="col-sm">
+        <%= fff.label :note, "Add Note", class: "control-label" %>
+        <%= fff.text_area :note, class: "form-control" %>
       </div>
     </div>
     <br />
@@ -67,18 +52,4 @@ function parseMeds(str) {
     }
   }
 }
-Current Outpatient Prescriptions
-Medication Sig
-Dispense Refill
-• FLUoxetine (PROZAC) 20 mg tablet
-take 20 mg by mouth daily
-90 Tab 3
-• Levonorgestrel (MIRENA) 20 mcg/24 hr IUD
-by Intrauterine route.
-• levothyroxine (SYNTHROID) 125 mcg TABS
-take 1 Tab by mouth Every Day
-• metoprolol (TOPROL XL) 100 mg sustained release tablet
-TAKE 1 TABLET DAILY  90 Tab 3
-
-
 </script>

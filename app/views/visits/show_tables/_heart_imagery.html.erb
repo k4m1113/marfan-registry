@@ -6,7 +6,7 @@
     <table class="table table-striped table-responsive">
       <thead>
         <tr>
-          <th>Type</th>
+          <!-- <th>Type</th> -->
           <th>Date</th>
           <th>Name</th>
           <th>Result</th>
@@ -15,7 +15,7 @@
       </thead>
       <% imagery.each do |t| %>
         <tr>
-          <th><%= link_to "#{t.topic_id}", topic_path(t.topic_id) %></th>
+          <!-- <th><%= link_to "#{t.topic_id}", topic_path(t.topic_id) %></th> -->
           <td><%= t.test_date ? t.test_date.strftime("%b %Y") : "not noted "%></td>
           <td><%= find_pretty_trail(Topic.find(t.topic_id)) %></td>
           <td><%= "#{print_if_present(t.result)} #{Topic.find(t.topic_id).units_of_measurement} " %></td>

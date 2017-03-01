@@ -29,7 +29,7 @@
             <br />
           </div>
           <div class="col-sm-5">
-            <div class="form-inline">
+            <div class="input-group">
               <div class="form-group" aria-describedby="relativeTime">
                 <%= ff.number_field :death_time_ago, value: @family_member.future_patient_data_hash['death_time_ago'], class: "form-control", step: 1, in: 1..99 %>
                 <%= ff.select :death_time_ago_scale, TIME_SCALES, {include_blank: true, selected: @family_member.future_patient_data_hash['death_time_ago_scale']}, {class: "form-control"} %>
