@@ -11,7 +11,7 @@
   <%= f.hidden_field :test_date, value: test_date, name: "visit[tests_attributes][#{@topic.id}][test_date]", id: "visit_tests_attributes_#{@topic.id}_test_date" %>
   <div class="input-group">
     <%= f.number_field :test_amount, name: "visit[tests_attributes][#{@topic.id}][test_amount]", id: "visit_tests_attributes_#{@topic.id}_test_amount" %>
-    <%= f.select :test_unit_of_meas, ['kg', 'lb', 'in'], {include_blank: true}, {class: "form-control"} %>
+    <%= f.select :test_unit_of_meas, @topic.units_of_measurement, {include_blank: false}, {class: "form-control"} %>
     <span class="input-group-btn">
       <button class="btn btn-default" type="button" id="test_<%= @topic.id %>_ calc_button"><i class="fa fa-calculator"></i></button>
     </span>

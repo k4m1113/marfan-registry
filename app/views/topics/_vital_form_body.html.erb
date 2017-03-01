@@ -1,45 +1,25 @@
-<div class="col-sm-3">
+<div class="form-group row">
+  <label for="form_<%= s.id %>" class="col-4 col-form-label">
+    <%= s.name %>
+  </label>
+  <div class="col-8">
+    <div class="input-group", id="form_<%= s.id%>">
+      <%= ff.hidden_field :patient_id, value: @patient.id, id: "visit_vitals_attributes_#{s.id}_patient_id", name: "visit[vitals_attributes][#{s.id}][patient_id]"%>
+      <%= ff.hidden_field :visit_id, value: @visit.id, id: "visit_vitals_attributes_#{s.id}_visit_id", name: "visit[vitals_attributes][#{s.id}][visit_id]" %>
+      <%= ff.hidden_field :topic_id, value: s.id, id: "visit_vitals_attributes_#{s.id}_topic_id", name: "visit[vitals_attributes][#{s.id}][topic_id]" %>
 
-  <div class="card-block">
-    <h5 class="card-title"><%= s.name %></h5>
-  </div>
-
-  <div class="card-block">
-    <%= ff.hidden_field :patient_id, value: @patient.id, id: "visit_vitals_attributes_#{s.id}_patient_id", name: "visit[vitals_attributes][#{s.id}][patient_id]"%>
-    <%= ff.hidden_field :visit_id, value: @visit.id, id: "visit_vitals_attributes_#{s.id}_visit_id", name: "visit[vitals_attributes][#{s.id}][visit_id]" %>
-    <%= ff.hidden_field :topic_id, value: s.id, id: "visit_vitals_attributes_#{s.id}_topic_id", name: "visit[vitals_attributes][#{s.id}][topic_id]" %>
-    <% case s.name %>
-    <% when "tobacco" %>
-      <%= ff.select :measurement, ["", "current", "past", "never"], {}, {class: "form-control", id: "visit_vitals_attributes_#{s.id}_measurement", name: "visit[vitals_attributes][#{s.id}][measurement]"} %>
-    <% when "exercise" %>
-      <%= ff.select :measurement, ["", "mild", "moderate", "strenuous", "competitive"], {}, {class: "form-control", id: "visit_vitals_attributes_#{s.id}_measurement", name: "visit[vitals_attributes][#{s.id}][measurement]"} %>
-    <% when "weight" %>
-      <div class="input-group">
-        <%= ff.number_field :test_amount, class: "form-control form-inline",
-        id: "visit_vitals_attributes_#{s.id}_test_amount", name: "visit[vitals_attributes][#{s.id}][test_amount]" %>
-        <%= ff.select :test_unit_of_meas, ["lbs", "kg", "stone"], {include_blank: false}, {class: "form-control", id: "visit_vitals_attributes_#{s.id}_test_unit_of_meas", name: "visit[vitals_attributes][#{s.id}][test_unit_of_meas]"} %>
-        <span class="input-group-btn">
-					<button class="btn btn-default" type="button" id="calc_<%= s.id %>_button"><i class="fa fa-calculator"></i></button>
-				</span>
-      </div>
-    <% when "height" %>
-      <div class="input-group">
-        <%= ff.number_field :test_amount, class: "form-control form-inline test_amount",
-        id: "visit_vitals_attributes_#{s.id}_test_amount", name: "visit[vitals_attributes][#{s.id}][test_amount]" %>
-        <%= ff.select :test_unit_of_meas, ["ft/in", "m"], {include_blank: false}, {class: "form-control", id: "visit_vitals_attributes_#{s.id}_test_unit_of_meas", name: "visit[vitals_attributes][#{s.id}][test_unit_of_meas]"} %>
-        <span class="input-group-btn">
-					<button class="btn btn-default" type="button" id="calc_<%= s.id %>_button"><i class="fa fa-calculator"></i></button>
-				</span>
-      </div>
-    <% else %>
-      <%= ff.number_field :measurement, class: "form-control", id: "visit_vitals_attributes_#{s.id}_measurement", name: "visit[vitals_attributes][#{s.id}][measurement]" %>
-    <% end %>
-  </div>
-
-  <div class="card-block">
-    <%= ff.text_area :note, placeholder: "add note?", class: "form-control", id: "visit_vitals_attributes_#{s.id}_note", name: "visit[vitals_attributes][#{s.id}][note]" %>
+      <%= ff.number_field :test_amount, in: s.min_value..s.max_value, step: s.step, class: "form-control form-inline test_amount",
+      id: "visit_vitals_attributes_#{s.id}_test_amount", name: "visit[vitals_attributes][#{s.id}][test_amount]", required: true %>
+      <%= ff.select :test_unit_of_meas, s.units_of_measurement, {include_blank: false}, {class: "form-control", id: "visit_vitals_attributes_#{s.id}_test_unit_of_meas", name: "visit[vitals_attributes][#{s.id}][test_unit_of_meas]"} %>
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button" id="calc_<%= s.id %>_button"><i class="fa fa-calculator"></i></button>
+      </span>
+    </div>
   </div>
 </div>
+    <!-- <div class="col-sm">
+      <%= ff.text_area :note, placeholder: "add note?", class: "form-control", id: "visit_vitals_attributes_#{s.id}_note", name: "visit[vitals_attributes][#{s.id}][note]" %>
+    </div> -->
 <script>
   $('#calc_<%= s.id %>_button').numpad({
     target: $('#visit_vitals_attributes_<%= s.id %>_test_amount')

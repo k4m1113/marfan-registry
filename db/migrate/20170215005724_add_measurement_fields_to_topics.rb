@@ -4,7 +4,7 @@ class AddMeasurementFieldsToTopics < ActiveRecord::Migration
       t.float :min_value
       t.float :max_value
       t.float :step
-      t.string :units_of_measurement
+      t.string :units_of_measurement, array: true
     end
   end
 end

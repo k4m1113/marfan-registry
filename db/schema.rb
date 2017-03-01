@@ -239,7 +239,7 @@ ActiveRecord::Schema.define(version: 20170215005724) do
     t.float   "min_value"
     t.float   "max_value"
     t.float   "step"
-    t.string  "units_of_measurement"
+    t.string  "units_of_measurement",                          array: true
   end
 
   add_index "topics", ["lft"], name: "index_topics_on_lft", using: :btree

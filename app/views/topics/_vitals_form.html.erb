@@ -6,11 +6,13 @@
       </a>
     </div>
     <div id="vitalsCollapse" class="collapse show" role="tabpanel" aria-labelledby="vitalsHeading">
-      <div class="card-block form-group">
-        <div class="card-group">
+      <div class="card-block">
+        <div class="row">
           <%= f.fields_for :vitals, @visit.vitals.build do |ff| %>
             <% @stats.each do |s| %>
-              <%= render 'topics/vital_form_body', ff: ff, s: s %>
+              <div class="col-sm-6">
+                <%= render 'topics/vital_form_body', ff: ff, s: s %>
+              </div>
             <% end %>
           <% end %>
         </div>
