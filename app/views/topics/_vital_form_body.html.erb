@@ -13,8 +13,26 @@
       <%= ff.select :measurement, ["", "current", "past", "never"], {}, {class: "form-control", id: "visit_vitals_attributes_#{s.id}_measurement", name: "visit[vitals_attributes][#{s.id}][measurement]"} %>
     <% when "exercise" %>
       <%= ff.select :measurement, ["", "mild", "moderate", "strenuous", "competitive"], {}, {class: "form-control", id: "visit_vitals_attributes_#{s.id}_measurement", name: "visit[vitals_attributes][#{s.id}][measurement]"} %>
+    <% when "weight" %>
+      <div class="input-group">
+        <%= ff.number_field :test_amount, class: "form-control form-inline",
+        id: "visit_vitals_attributes_#{s.id}_test_amount", name: "visit[vitals_attributes][#{s.id}][test_amount]" %>
+        <%= ff.select :test_unit_of_meas, ["lbs", "kg", "stone"], {include_blank: false}, {class: "form-control", id: "visit_vitals_attributes_#{s.id}_test_unit_of_meas", name: "visit[vitals_attributes][#{s.id}][test_unit_of_meas]"} %>
+        <span class="input-group-btn">
+					<button class="btn btn-default" type="button" id="calc_<%= s.id %>_button"><i class="fa fa-calculator"></i></button>
+				</span>
+      </div>
+    <% when "height" %>
+      <div class="input-group">
+        <%= ff.number_field :test_amount, class: "form-control form-inline test_amount",
+        id: "visit_vitals_attributes_#{s.id}_test_amount", name: "visit[vitals_attributes][#{s.id}][test_amount]" %>
+        <%= ff.select :test_unit_of_meas, ["ft/in", "m"], {include_blank: false}, {class: "form-control", id: "visit_vitals_attributes_#{s.id}_test_unit_of_meas", name: "visit[vitals_attributes][#{s.id}][test_unit_of_meas]"} %>
+        <span class="input-group-btn">
+					<button class="btn btn-default" type="button" id="calc_<%= s.id %>_button"><i class="fa fa-calculator"></i></button>
+				</span>
+      </div>
     <% else %>
-      <%= ff.number_field :measurement, class: "form-control", min: -0.9, max: 0.9, step: 0.1, id: "visit_vitals_attributes_#{s.id}_measurement", name: "visit[vitals_attributes][#{s.id}][measurement]" %>
+      <%= ff.number_field :measurement, class: "form-control", id: "visit_vitals_attributes_#{s.id}_measurement", name: "visit[vitals_attributes][#{s.id}][measurement]" %>
     <% end %>
   </div>
 
@@ -22,3 +40,8 @@
     <%= ff.text_area :note, placeholder: "add note?", class: "form-control", id: "visit_vitals_attributes_#{s.id}_note", name: "visit[vitals_attributes][#{s.id}][note]" %>
   </div>
 </div>
+<script>
+  $('#calc_<%= s.id %>_button').numpad({
+    target: $('#visit_vitals_attributes_<%= s.id %>_test_amount')
+  });
+</script>

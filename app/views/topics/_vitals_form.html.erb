@@ -5,10 +5,10 @@
         Vitals <i class="fa fa-caret-down"></i>
       </a>
     </div>
-    <div id="vitalsCollapse" class="collapse" role="tabpanel" aria-labelledby="vitalsHeading">
+    <div id="vitalsCollapse" class="collapse show" role="tabpanel" aria-labelledby="vitalsHeading">
       <div class="card-block form-group">
         <div class="card-group">
-          <%= f.fields_for :vitals do |ff| %>
+          <%= f.fields_for :vitals, @visit.vitals.build do |ff| %>
             <% @stats.each do |s| %>
               <%= render 'topics/vital_form_body', ff: ff, s: s %>
             <% end %>

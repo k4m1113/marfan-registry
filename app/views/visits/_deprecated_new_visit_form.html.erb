@@ -1,0 +1,81 @@
+<%= form_for @visit, class: "visit_form" do |f| %>
+  <div class="well well-lg">
+    <div class="card" style="text-align:center; border-color:#B00713;">
+      <div class="card-block">
+        <h1 class="purple">New Visit for <%= "#{@patient.first_name} #{@patient.last_name}" %></h1>
+      </div>
+    </div>
+    <hr />
+    <div class="card" style="text-align:center; border-color:#3B144A;">
+      <div class="card-block">
+        <div class="form-group">
+          <div class="row">
+            <%= f.hidden_field :patient_id, value: @patient.id %>
+            <div class="col-sm">
+              <h4 class="red">Clinician Information:</h4>
+              <hr />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2">
+              <%= f.number_field :clinician_id, in: 1..9999, step: 1, class: "form-control disabled", value: 1, aria: { deacribedby: "cIDHelpBlock" } %>
+              <small id="cIDHelpBlock" class="purple form-text text-muted">
+                1: Liang
+              </small>
+            </div>
+            <div class="col-sm-3">
+              <%= button_to "New Clinician", new_clinician_path, method: "get", class: "btn btn-block btn-primary disabled" %>
+            </div>
+            <div class="col-sm-7">
+              <%= form_tag "/clinicians", method: "get", id: "search-form" do %>
+                <div class="input-group">
+                  <%= text_field_tag :search, params[:search], placeholder:  "ex: Dietz', 'Milewicz'", class: "form-control"%>
+                  <span class="input-group-btn">
+                    <%= button_to "Search Clinicians", clinicians_path, class: "btn btn-primary disabled", method: "get", id: "search", type: "button" %>
+                  </span>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <%= render 'topics/vitals_form', f: f, visit: @visit, patient: @patient %>
+    <hr />
+    <div class="row">
+      <div class="col-sm">
+        <form class="form-inline">
+          <%= f.label :general_health, "How are you feeling today? ", class: "form-control-label" %>
+          <%= f.select :general_health, ["Poor", "Fair", "Good", "Excellent"], {include_blank: true}, {required: true, class: "form-control"}%>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <div id="general-health-response"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <div id="add-another"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm">
+        <br /><hr />
+        <span id="start-button">
+        <%= f.submit "Continue Visit", class: "col-centered col-sm form-control-label btn btn-success btn-lg" %>
+        </span>
+      </div>
+    </div>
+    <script>
+      $('#visit_general_health').change(function renderPartialOne() {
+        $('#general-health-response').html('<%= j render "reason_for_visit", f: f, patient: @patient, visit: @visit %>')
+      });
+    </script>
+
+  </div>
+<div id="absolute_bottom"></div>
+
+<% end %>

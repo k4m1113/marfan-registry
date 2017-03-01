@@ -12,9 +12,20 @@
     </div>
   </div>
   <%= fff.label "And what were the results of the test?", class: "form-control-label" %><br />
-  <%= fff.number_field :result, class: "form-control" %>
+  <div class="input-group">
+    <%= fff.number_field :result, class: "form-control", id: "test-result" %>
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="button" id="testCalcButton"><i class="fa fa-calculator"></i></button>
+    </span>
+  </div>
   <br />
   <% unless @form_action == "Update" %>
     <%= fff.submit "Add Test", class: "btn btn-success" %>
   <% end %>
 <% end %>
+
+<script>
+  $('#testCalcButton').numpad({
+    target: $('#test-result')
+  });
+</script>

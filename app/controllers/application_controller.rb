@@ -41,5 +41,4 @@ class ApplicationController < ActionController::Base
     @sibling = Topic.where(name: "sibling")[0]
     @child = Topic.where(name: "child")[0]
   end
-
 end

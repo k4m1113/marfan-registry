@@ -1,7 +1,7 @@
 require 'report'
 require 'doctor'
 require 'json'
-# require 'pry'
+require 'pry'
 
 class VisitsController < ApplicationController
   include Report
@@ -60,12 +60,10 @@ class VisitsController < ApplicationController
     @visits = Visit.where(patient_id: @patient.id).order("id ASC")
     if (@visits.length > 1 && @visit === @visits.last)
       @previous_visit = @visits[-0]
+      @primary_clinician = @visits.first.clinician
     end
     @nested_scope = @visit
     @clinician = Clinician.find(@visit.clinician_id)
-    unless @visits.length == 0
-      @primary_clinician = Clinician.where(id: @visits[0].clinician_id)[0]
-    end
     @form_action = "Update"
     @visit.family_members.build
   end
@@ -86,9 +84,9 @@ class VisitsController < ApplicationController
     end
   end
 
-
   def update
     @visit = Visit.find(params[:id])
+    @patient = Patient.find(@visit.patient_id)
     @form_action = "Update"
     if @visit.update(visit_params)
       visit_params.keys.each do |vp|
@@ -133,7 +131,7 @@ class VisitsController < ApplicationController
       :vital,
       :test,
       vitals_attributes:
-        [:visit_id, :patient_id, :topic_id, :vital, :measurement, :note],
+        [:visit_id, :patient_id, :topic_id, :vital, :test_amount, :test_unit_of_meas, :measurement, :note],
       medications_attributes:
         [:visit_id, :patient_id, :topic_id, :dose, :dose_unit_of_measurement, :nested_med_id, :nested_med_category, :duration_amount, :duration_scale, :ingestion_method, :frequency, :frequency_scale, :common_name, :medication_format, :time_ago, :time_ago_scale, :absolute_start_date, :note],
       diagnoses_attributes:
@@ -148,7 +146,7 @@ class VisitsController < ApplicationController
       hospitalizations_attributes:
         [:visit_id, :patient_id, :topic_id, :hospitalization, :admission_date, :time_ago, :time_ago_scale, :length_of_stay, :length_of_stay_scale, :hosp_type, :description, :location, :note],
       tests_attributes:
-        [:visit_id, :topic_id,:patient_id, :test, :test_date, :time_ago, :time_ago_scale, :result, :note],
+        [:visit_id, :topic_id,:patient_id, :test, :test_date, :time_ago, :test_amount, :test_unit_of_meas, :time_ago_scale, :result, :note],
       symptoms_attributes:
         [:topic_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :time_ago, :time_ago_scale, :start_date, :frequency, :note]
       )

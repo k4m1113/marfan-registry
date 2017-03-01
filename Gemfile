@@ -21,6 +21,7 @@ gem 'validates_type'
 gem 'awesome_nested_set'
 gem 'delayed_job_active_record'
 gem 'font-awesome-sass'
+gem 'ruby-units'
 
 group :development, :test do
   gem 'byebug'
@@ -43,7 +44,6 @@ group :test do
 end
 
 gem 'puma'
-
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-tether', '>= 1.3.3'

@@ -1,0 +1,12 @@
+<div>
+  <% if @previous_visit %>
+    <%= render 'visits/summary_modal_button', visit: @previous_visit, title: "Prior Visit Summary", button_descriptor: "secondary" %>
+  <% end %>
+  <%= render 'visits/summary_modal_button', visit: @visit, title: "Visit Summary", button_descriptor: "info" %>
+  <%= render 'patients/summary_modal_button', visit: @visit %>
+  <hr />
+</div>
+
+<%= form_for @visit, class: "visit_form" do |f| %>
+  <%= render 'topics/nested_list_form_body', f: f, visit: @visit %>
+<% end %>
