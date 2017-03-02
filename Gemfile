@@ -22,6 +22,7 @@ gem 'awesome_nested_set'
 gem 'delayed_job_active_record'
 gem 'font-awesome-sass'
 gem 'ruby-units'
+gem 'virtual_keyboard'
 
 group :development, :test do
   gem 'byebug'

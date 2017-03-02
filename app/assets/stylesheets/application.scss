@@ -1,13 +1,7 @@
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
-@import "numPad";
-
-.nmpd-wrapper {display: none;}
-.nmpd-target {cursor: pointer;}
-.nmpd-grid {position:absolute; left:50px; top:50px; z-index:5000; -khtml-user-select: none; padding:10px; width: initial; background-color: #B00713;}
-.nmpd-overlay {z-index:4999;}
-input.nmpd-display {text-align: right;}
+@import "keyboard";
 
 .down-eight {
   margin-top: -8px;

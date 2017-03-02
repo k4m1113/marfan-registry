@@ -4,5 +4,5 @@
 //= require bootstrap
 //= require bootstrap-sprockets
 //= require components
-//= require numPad
 //= require_tree .
+//= require keyboard/jquery.keyboard.min

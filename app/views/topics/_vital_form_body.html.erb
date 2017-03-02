@@ -12,7 +12,7 @@
       id: "visit_vitals_attributes_#{s.id}_test_amount", name: "visit[vitals_attributes][#{s.id}][test_amount]", required: true %>
       <%= ff.select :test_unit_of_meas, s.units_of_measurement, {include_blank: false}, {class: "form-control", id: "visit_vitals_attributes_#{s.id}_test_unit_of_meas", name: "visit[vitals_attributes][#{s.id}][test_unit_of_meas]"} %>
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button" id="calc_<%= s.id %>_button"><i class="fa fa-calculator"></i></button>
+        <button id="calc_button_<%= s.id %>" class="btn btn-primary" type="button"><i class="fa fa-calculator"></i></button>
       </span>
     </div>
   </div>
@@ -21,7 +21,18 @@
       <%= ff.text_area :note, placeholder: "add note?", class: "form-control", id: "visit_vitals_attributes_#{s.id}_note", name: "visit[vitals_attributes][#{s.id}][note]" %>
     </div> -->
 <script>
-  $('#calc_<%= s.id %>_button').numpad({
-    target: $('#visit_vitals_attributes_<%= s.id %>_test_amount')
+  $('#visit_vitals_attributes_<%= s.id %>_test_amount').keyboard({
+    openOn : null,
+    stayOpen : true,
+    layout : 'num'
+    });
+  $('#calc_button_<%= s.id %>').click(function(){
+  	var kb = $('#visit_vitals_attributes_<%= s.id %>_test_amount').getkeyboard();
+  	// close the keyboard if the keyboard is visible and the button is clicked a second time
+  	if ( kb.isOpen ) {
+  		kb.close();
+  	} else {
+  		kb.reveal();
+  	}
   });
 </script>

@@ -6,6 +6,9 @@ class Vital < ActiveRecord::Base
   belongs_to :topic
   belongs_to :patient,
     inverse_of: :vitals
+  belongs_to :visit,
+    inverse_of: :vitals,
+    required: false
 
   after_save { |v| v.destroy if v.measurement.empty? }
 
