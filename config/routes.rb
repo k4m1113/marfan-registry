@@ -13,6 +13,12 @@ Rails.application.routes.draw do
   # end
   resources :visits
 
+  resources :visits do
+    member do
+      get 'report'
+    end
+  end
+
   resources :patients
   resources :topics
   resources :clinicians

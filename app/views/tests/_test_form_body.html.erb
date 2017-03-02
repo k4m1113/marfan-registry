@@ -11,7 +11,11 @@
   <%= f.hidden_field :test_date, value: test_date, name: "visit[tests_attributes][#{@topic.id}][test_date]", id: "visit_tests_attributes_#{@topic.id}_test_date" %>
   <div class="input-group">
     <%= f.number_field :test_amount, name: "visit[tests_attributes][#{@topic.id}][test_amount]", id: "visit_tests_attributes_#{@topic.id}_test_amount" %>
-    <%= f.select :test_unit_of_meas, @topic.units_of_measurement, {include_blank: false}, {class: "form-control"} %>
+    <% if @topic.units_of_measurement.length === 1 %>
+      <%= ff.text_field :test_unit_of_meas, value: @topic.units_of_measurement, class: "form-control", disabled: true %>
+    <% else %>
+      <%= f.select :test_unit_of_meas, @topic.units_of_measurement, {include_blank: false}, {class: "form-control"} %>
+    <% end %>
     <span class="input-group-btn">
       <button class="btn btn-default" type="button" id="test_<%= @topic.id %>_ calc_button"><i class="fa fa-calculator"></i></button>
     </span>
@@ -21,7 +25,26 @@
 $('#visit_tests_attributes_<%= @topic.id %>_test_amount').keyboard({
   openOn : null,
   stayOpen : true,
-  layout : 'num'
+  layout : 'num',
+  position : {
+    // null (attach to input/textarea) or a jQuery object (attach elsewhere)
+    of : null,
+    my : 'center top',
+    at : 'center top',
+    // at2 is used when "usePreview" is false (centers keyboard at the bottom
+    // of the input/textarea)
+    at2: 'center bottom',
+    collision: 'flipfit flipfit'
+  },
+  css: {
+    input: 'form-control input-sm',
+    container: 'center-block dropdown-menu',
+    buttonDefault: 'btn btn-default',
+    buttonHover: 'btn-primary',
+    // used when disabling the decimal button {dec}
+    // when a decimal exists in the input area
+    buttonDisabled: 'enabled'
+  }
   });
 $('#test_<%= @topic.id %>_calc_button').click(function(){
   var kb = $('#visit_tests_attributes_<%= @topic.id %>_test_amount').getkeyboard();
