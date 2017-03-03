@@ -1,0 +1,99 @@
+<div class="form-group row">
+  <label for="form_<%= sbp.id %>" class="col-4 col-form-label">
+    Blood Pressure
+  </label>
+  <div class="col-8">
+    <div class="input-group", id="form_<%= sbp.id%>">
+      <%= ff.hidden_field :patient_id, value: @patient.id, id: "visit_vitals_attributes_#{sbp.id}_patient_id", name: "visit[vitals_attributes][#{sbp.id}][patient_id]"%>
+      <%= ff.hidden_field :visit_id, value: @visit.id, id: "visit_vitals_attributes_#{sbp.id}_visit_id", name: "visit[vitals_attributes][#{sbp.id}][visit_id]" %>
+      <%= ff.hidden_field :topic_id, value: sbp.id, id: "visit_vitals_attributes_#{sbp.id}_topic_id", name: "visit[vitals_attributes][#{sbp.id}][topic_id]" %>
+
+      <%= ff.hidden_field :patient_id, value: @patient.id, id: "visit_vitals_attributes_#{dbp.id}_patient_id", name: "visit[vitals_attributes][#{dbp.id}][patient_id]"%>
+      <%= ff.hidden_field :visit_id, value: @visit.id, id: "visit_vitals_attributes_#{dbp.id}_visit_id", name: "visit[vitals_attributes][#{dbp.id}][visit_id]" %>
+      <%= ff.hidden_field :topic_id, value: dbp.id, id: "visit_vitals_attributes_#{dbp.id}_topic_id", name: "visit[vitals_attributes][#{dbp.id}][topic_id]" %>
+
+      <div class="input-group">
+        <%= ff.number_field :measurement, in: sbp.min_value..sbp.max_value, step: sbp.step, class: "form-control form-inline",
+        id: "visit_vitals_attributes_#{sbp.id}_measurement", name: "visit[vitals_attributes][#{sbp.id}][test_amount]", placeholder: "SBP", required: true %>
+        <span class="input-group-btn">
+          <button id="calc_button_<%= sbp.id %>" class="btn btn-primary" type="button"><i class="fa fa-calculator"></i></button>
+        </span>
+        <h4>&nbsp/&nbsp </h4>
+        <%= ff.number_field :measurement, in: dbp.min_value..dbp.max_value, step: sbp.step, class: "form-control form-inline",
+        id: "visit_vitals_attributes_#{dbp.id}_measurement", name: "visit[vitals_attributes][#{dbp.id}][measurement]", placeholder: "DBP", required: true %>
+        <span class="input-group-btn">
+          <button id="calc_button_<%= dbp.id %>" class="btn btn-primary" type="button"><i class="fa fa-calculator"></i></button>
+        </span>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+  $('#visit_vitals_attributes_<%= sbp.id %>_measurement').keyboard({
+    openOn : null,
+    stayOpen : true,
+    layout : 'num',
+    position : {
+      // null (attach to input/textarea) or a jQuery object (attach elsewhere)
+      of : null,
+      my : 'center top',
+      at : 'center top',
+      // at2 is used when "usePreview" is false (centers keyboard at the bottom
+      // of the input/textarea)
+      at2: 'center bottom',
+      collision: 'flipfit flipfit'
+    },
+    css: {
+			input: 'form-control input-sm',
+			container: 'center-block dropdown-menu',
+      buttonDefault: 'btn btn-default',
+      buttonHover: 'btn-primary',
+			// used when disabling the decimal button {dec}
+			// when a decimal exists in the input area
+			buttonDisabled: 'enabled'
+		}
+    });
+  $('#calc_button_<%= sbp.id %>').click(function(){
+  	var kb = $('#visit_vitals_attributes_<%= sbp.id %>_measurement').getkeyboard();
+  	// close the keyboard if the keyboard is visible and the button is clicked a second time
+  	if ( kb.isOpen ) {
+  		kb.close();
+  	} else {
+  		kb.reveal();
+  	}
+  });
+  $('#visit_vitals_attributes_<%= dbp.id %>_measurement').keyboard({
+    openOn : null,
+    stayOpen : true,
+    layout : 'num',
+    position : {
+      // null (attach to input/textarea) or a jQuery object (attach elsewhere)
+      of : null,
+      my : 'center top',
+      at : 'center top',
+      // at2 is used when "usePreview" is false (centers keyboard at the bottom
+      // of the input/textarea)
+      at2: 'center bottom',
+      collision: 'flipfit flipfit'
+    },
+    css: {
+      input: 'form-control input-sm',
+      container: 'center-block dropdown-menu',
+      buttonDefault: 'btn btn-default',
+      buttonHover: 'btn-primary',
+      // used when disabling the decimal button {dec}
+      // when a decimal exists in the input area
+      buttonDisabled: 'enabled'
+    }
+    });
+  $('#calc_button_<%= dbp.id %>').click(function(){
+    var kb = $('#visit_vitals_attributes_<%= dbp.id %>_measurement').getkeyboard();
+    // close the keyboard if the keyboard is visible and the button is clicked a second time
+    if ( kb.isOpen ) {
+      kb.close();
+    } else {
+      kb.reveal();
+    }
+  });
+</script>

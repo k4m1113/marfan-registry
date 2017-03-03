@@ -131,7 +131,7 @@ class VisitsController < ApplicationController
       :vital,
       :test,
       vitals_attributes:
-        [:visit_id, :patient_id, :topic_id, :vital, :test_amount, :test_unit_of_meas, :measurement, :note],
+        [:visit_id, :patient_id, :topic_id, :vital, :test_amount, :sbp, :dbp, :test_unit_of_meas, :measurement, :note],
       medications_attributes:
         [:visit_id, :patient_id, :topic_id, :dose, :dose_unit_of_measurement, :nested_med_id, :nested_med_category, :duration_amount, :duration_scale, :ingestion_method, :frequency, :frequency_scale, :common_name, :medication_format, :time_ago, :time_ago_scale, :absolute_start_date, :note],
       diagnoses_attributes:

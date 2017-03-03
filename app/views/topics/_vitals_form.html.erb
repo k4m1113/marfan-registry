@@ -9,7 +9,11 @@
       <div class="card-block">
         <div class="row">
           <%= f.fields_for :vitals, @visit.vitals.build do |ff| %>
+            <div class="col-sm-6">
+              <%= render 'vitals/blood_pressure', ff: ff, sbp: @sbp[0], dbp: @dbp[0] %>
+            </div>
             <% @stats.each do |s| %>
+
               <div class="col-sm-6">
                 <%= render 'topics/vital_form_body', ff: ff, s: s %>
               </div>

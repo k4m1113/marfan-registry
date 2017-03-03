@@ -18,6 +18,9 @@ class ApplicationController < ActionController::Base
     @ophthalmo = Topic.where(name: "ophthalmologic")[0].self_and_descendants
 
     @stats = Topic.where(topic_type: "stat")
+    @sbp = @stats.select{|s| s.name === 'SBP' }
+    @dbp = @stats.select{|s| s.name === 'DBP' }
+    @stats -= (@sbp + @dbp)
 
     @root = Topic.where(parent_id: Topic.where(name: "aortic root")[0].id)
     @asc = Topic.where(parent_id: Topic.where(name: "ascending aortic")[0].id)

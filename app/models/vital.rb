@@ -24,7 +24,9 @@ class Vital < ActiveRecord::Base
         self.measurement = unit.scalar.to_f.round(3)
       end
     else
-      self.measurement = self.test_amount
+      unless self.measurement
+        self.measurement = self.test_amount
+      end
     end
   end
 end
