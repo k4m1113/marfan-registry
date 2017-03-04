@@ -7,7 +7,6 @@
 
 <script>
   $('#ct_imagery_type').change(function renderCTForm() {
-    console.log(this.value);
     switch (this.value) {
       case 'echocardiogram':
         $("div#add-another:last").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'echo' %>");
