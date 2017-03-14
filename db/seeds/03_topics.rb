@@ -424,8 +424,8 @@ Topic.create!(
 Topic.create!(
   name: "temperature",
   topic_type: "stat",
-  min_value: 90.0,
-  max_value: 110.0,
+  min_value: 0.0,
+  max_value: 120.0,
   step: 0.1,
   units_of_measurement: ["°C", "°F"]
 ).move_to_child_of(vitals)

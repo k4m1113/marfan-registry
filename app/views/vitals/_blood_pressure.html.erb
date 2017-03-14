@@ -14,13 +14,13 @@
 
       <div class="input-group">
         <%= ff.number_field :measurement, in: sbp.min_value..sbp.max_value, step: sbp.step, class: "form-control form-inline",
-        id: "visit_vitals_attributes_#{sbp.id}_measurement", name: "visit[vitals_attributes][#{sbp.id}][test_amount]", placeholder: "SBP", required: true %>
+        id: "visit_vitals_attributes_#{sbp.id}_measurement", name: "visit[vitals_attributes][#{sbp.id}][test_amount]", placeholder: "SBP" %>
         <span class="input-group-btn">
           <button id="calc_button_<%= sbp.id %>" class="btn btn-primary" type="button"><i class="fa fa-calculator"></i></button>
         </span>
         <h4>&nbsp/&nbsp </h4>
         <%= ff.number_field :measurement, in: dbp.min_value..dbp.max_value, step: sbp.step, class: "form-control form-inline",
-        id: "visit_vitals_attributes_#{dbp.id}_measurement", name: "visit[vitals_attributes][#{dbp.id}][measurement]", placeholder: "DBP", required: true %>
+        id: "visit_vitals_attributes_#{dbp.id}_measurement", name: "visit[vitals_attributes][#{dbp.id}][measurement]", placeholder: "DBP" %>
         <span class="input-group-btn">
           <button id="calc_button_<%= dbp.id %>" class="btn btn-primary" type="button"><i class="fa fa-calculator"></i></button>
         </span>

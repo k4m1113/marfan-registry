@@ -103,7 +103,7 @@ module ApplicationHelper
     when 'family member'
       # render html: "<button type='button' class='btn #{button_color(scope.family_members, category)} pull-right down-eight' value='#{category.id}' id='family-reason' onclick='renderFamilyMemberTopicForm($(this).val());'>Add relationship details</button>".html_safe
     when 'measurement'
-      render html: "<button type='button' class='btn #{button_color(scope.tests, category)} pull-right down-eight' value='<%= #{category.id} %>' id='test-reason' onclick='renderTestTopicForm($(this).val());'>Add test details</button>".html_safe
+      render html: "<button type='button' class='btn #{button_color(scope.tests, category)} pull-right down-eight' value='#{category.id}' id='test-reason' onclick='renderTestTopicForm($(this).val());'>Add test details</button>".html_safe
     when 'procedure'
       render html: "<button type='button' class='btn #{button_color(scope.procedures, category)} pull-right down-eight' value='#{category.id}' id='procedure-reason' onclick='renderProcedureTopicForm($(this).val());'>Add procedure details</button>".html_safe
     when 'complication'

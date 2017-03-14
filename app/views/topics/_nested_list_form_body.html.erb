@@ -4,7 +4,7 @@
       <div class="row">
         <% @root_topics.each do |rt| %>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="pill" href="#<%= rt.name.parameterize.underscore %>" role="tab">
+            <a class="nav-link" data-animation="false" data-toggle="pill" href="#<%= rt.name.parameterize.underscore %>" role="tab">
               <%= rt.name.titleize %>
             </a>
           </li>

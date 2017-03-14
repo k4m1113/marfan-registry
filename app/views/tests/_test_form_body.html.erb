@@ -1,28 +1,28 @@
 <div class="form-group">
-  <% @topic = Topic.find(topic_id) %>
-  <%= f.hidden_field :patient_id, value: @patient.id, name: "visit[tests_attributes][#{@topic.id}][patient_id]", id: "visit_tests_attributes_#{@topic.id}_patient_id" %>
+  <% @topic = topic = Topic.find(topic_id) %>
+  <%= f.hidden_field :patient_id, value: @patient.id, name: "visit[tests_attributes][#{topic.id}][patient_id]", id: "visit_tests_attributes_#{topic.id}_patient_id" %>
 
   <% if @visit %>
-    <%= f.hidden_field :visit_id, value: @visit.id, name: "visit[tests_attributes][#{@topic.id}][visit_id]", id: "visit_tests_attributes_#{@topic.id}_visit_id"%>
+    <%= f.hidden_field :visit_id, value: @visit.id, name: "visit[tests_attributes][#{topic.id}][visit_id]", id: "visit_tests_attributes_#{topic.id}_visit_id"%>
   <% end %>
 
-  <%= f.hidden_field :topic_id, value: @topic.id, name: "visit[tests_attributes][#{@topic.id}][topic_id]", id: "visit_tests_attributes_#{@topic.id}_topic_id" %>
+  <%= f.hidden_field :topic_id, value: topic.id, name: "visit[tests_attributes][#{topic.id}][topic_id]", id: "visit_tests_attributes_#{topic.id}_topic_id" %>
 
-  <%= f.hidden_field :test_date, value: test_date, name: "visit[tests_attributes][#{@topic.id}][test_date]", id: "visit_tests_attributes_#{@topic.id}_test_date" %>
+  <%= f.hidden_field :test_date, value: test_date, name: "visit[tests_attributes][#{topic.id}][test_date]", id: "visit_tests_attributes_#{topic.id}_test_date" %>
   <div class="input-group">
-    <%= f.number_field :test_amount, name: "visit[tests_attributes][#{@topic.id}][test_amount]", id: "visit_tests_attributes_#{@topic.id}_test_amount" %>
-    <% if @topic.units_of_measurement.length === 1 %>
-      <%= ff.text_field :test_unit_of_meas, value: @topic.units_of_measurement, class: "form-control", disabled: true %>
+    <%= f.number_field :test_amount, name: "visit[tests_attributes][#{topic.id}][test_amount]", id: "visit_tests_attributes_#{topic.id}_test_amount" %>
+    <% if topic.units_of_measurement.length === 1 %>
+      <%= ff.text_field :test_unit_of_meas, value: topic.units_of_measurement, class: "form-control", disabled: true %>
     <% else %>
-      <%= f.select :test_unit_of_meas, @topic.units_of_measurement, {include_blank: false}, {class: "form-control"} %>
+      <%= f.select :test_unit_of_meas, topic.units_of_measurement, {include_blank: false}, {class: "form-control"} %>
     <% end %>
     <span class="input-group-btn">
-      <button class="btn btn-default" type="button" id="test_<%= @topic.id %>_ calc_button"><i class="fa fa-calculator"></i></button>
+      <button class="btn btn-default" type="button" id="test_<%= topic.id %>_ calc_button"><i class="fa fa-calculator"></i></button>
     </span>
   </div>
 </div>
 <script>
-$('#visit_tests_attributes_<%= @topic.id %>_test_amount').keyboard({
+$('#visit_tests_attributes_<%= topic.id %>_test_amount').keyboard({
   openOn : null,
   stayOpen : true,
   layout : 'num',
@@ -46,8 +46,8 @@ $('#visit_tests_attributes_<%= @topic.id %>_test_amount').keyboard({
     buttonDisabled: 'enabled'
   }
   });
-$('#test_<%= @topic.id %>_calc_button').click(function(){
-  var kb = $('#visit_tests_attributes_<%= @topic.id %>_test_amount').getkeyboard();
+$('#test_<%= topic.id %>_calc_button').click(function(){
+  var kb = $('#visit_tests_attributes_<%= topic.id %>_test_amount').getkeyboard();
   // close the keyboard if the keyboard is visible and the button is clicked a second time
   if ( kb.isOpen ) {
     kb.close();

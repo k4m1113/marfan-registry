@@ -7,9 +7,9 @@
       <%= ff.hidden_field :patient_id, value: @patient.id, id: "visit_vitals_attributes_#{s.id}_patient_id", name: "visit[vitals_attributes][#{s.id}][patient_id]"%>
       <%= ff.hidden_field :visit_id, value: @visit.id, id: "visit_vitals_attributes_#{s.id}_visit_id", name: "visit[vitals_attributes][#{s.id}][visit_id]" %>
       <%= ff.hidden_field :topic_id, value: s.id, id: "visit_vitals_attributes_#{s.id}_topic_id", name: "visit[vitals_attributes][#{s.id}][topic_id]" %>
-      
+
       <%= ff.number_field :test_amount, in: s.min_value..s.max_value, step: s.step, class: "form-control form-inline test_amount",
-      id: "visit_vitals_attributes_#{s.id}_test_amount", name: "visit[vitals_attributes][#{s.id}][test_amount]", required: true %>
+      id: "visit_vitals_attributes_#{s.id}_test_amount", name: "visit[vitals_attributes][#{s.id}][test_amount]" %>
       <% if s.units_of_measurement.length === 1 %>
         <%= ff.text_field :test_unit_of_meas, value: s.units_of_measurement, class: "form-control", disabled: true %>
       <% else %>

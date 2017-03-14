@@ -11,8 +11,10 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'responders'
+gem "paperclip", "~> 5.0.0"
 gem 'validates_timeliness', '~> 4.0'
 gem 'pg_search', '~> 1.0', '>= 1.0.6'
+gem 'turbolinks'
 gem 'will_paginate', '~> 3.1.0'
 gem 'will_paginate-bootstrap'
 gem 'dotenv'

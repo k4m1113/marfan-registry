@@ -10,7 +10,7 @@ class Vital < ActiveRecord::Base
     inverse_of: :vitals,
     required: false
 
-  after_save { |v| v.destroy if v.measurement.empty? }
+  after_save { |v| v.destroy if v.measurement.blank? }
 
   def calculate_metric
     if ['height', 'weight'].include? self.topic.name
