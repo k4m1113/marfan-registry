@@ -40,6 +40,8 @@ class ApplicationController < ActionController::Base
     @ais = Topic.where(name: "aortic insufficiency severity")[0]
     @heart_imaging_locations = [@root.map(&:id), @asc.map(&:id), @transv.map(&:id), @desc.map(&:id), @supra.map(&:id), @infra.map(&:id), @annulus.map(&:id), @lvidd, @lvids, @mvp, @mmv, @mitral_regurge, @tricuspid_regurge, @mean_gradient, @valve_area, @ais]
 
+    @all_meds = Topic.leaves.where(topic_type: "medication") << Topic.roots.where(name: "medication")[0]
+
     @parent = Topic.where(name: "parent")[0]
     @sibling = Topic.where(name: "sibling")[0]
     @child = Topic.where(name: "child")[0]

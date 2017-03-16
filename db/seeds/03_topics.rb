@@ -287,7 +287,7 @@ Topic.create!(
   topic_type: "medication"
 ).move_to_child_of(beta_blockers)
 Topic.create!(
-  name: "propanolol",
+  name: "propranolol",
   topic_type: "medication"
 ).move_to_child_of(beta_blockers)
 other_beta = Topic.create!(
@@ -299,7 +299,7 @@ Topic.create!(
   topic_type: "medication"
 ).move_to_child_of(other_beta)
 Topic.create!(
-  name: "betaxalol",
+  name: "betaxolol",
   topic_type: "medication"
 ).move_to_child_of(other_beta)
 Topic.create!(
@@ -347,7 +347,7 @@ Topic.create!(
   topic_type: "medication"
 ).move_to_child_of(calcium_channel_blocker)
 Topic.create!(
-  name: "amplodipine",
+  name: "amlodipine",
   topic_type: "medication"
 ).move_to_child_of(calcium_channel_blocker)
 Topic.create!(
@@ -367,7 +367,7 @@ Topic.create!(
   topic_type: "medication"
 ).move_to_child_of(ace_inhibitor)
 Topic.create!(
-  name: "elanapril",
+  name: "enalapril",
   topic_type: "medication"
 ).move_to_child_of(ace_inhibitor)
 Topic.create!(
@@ -387,7 +387,7 @@ Topic.create!(
   topic_type: "medication"
 ).move_to_child_of(other_ace)
 Topic.create!(
-  name: "drandolapril",
+  name: "trandolapril",
   topic_type: "medication"
 ).move_to_child_of(other_ace)
 ## END MEDICATIONS (xls 61)
