@@ -21,42 +21,9 @@
     </div>
   </div>
 </div>
-    <!-- <div class="col-sm">
-      <%= ff.text_area :note, placeholder: "add note?", class: "form-control", id: "visit_vitals_attributes_#{s.id}_note", name: "visit[vitals_attributes][#{s.id}][note]" %>
-    </div> -->
+<!-- <div class="col-sm">
+  <%= ff.text_area :note, placeholder: "add note?", class: "form-control", id: "visit_vitals_attributes_#{s.id}_note", name: "visit[vitals_attributes][#{s.id}][note]" %>
+</div> -->
 <script>
-  $('#visit_vitals_attributes_<%= s.id %>_test_amount').keyboard({
-    openOn : null,
-    stayOpen : true,
-    layout : 'num',
-    position : {
-      // null (attach to input/textarea) or a jQuery object (attach elsewhere)
-      of : null,
-      my : 'center top',
-      at : 'center top',
-      // at2 is used when "usePreview" is false (centers keyboard at the bottom
-      // of the input/textarea)
-      at2: 'center bottom',
-      collision: 'flipfit flipfit'
-    },
-    reposition : true,
-    css: {
-			input: 'form-control input-sm',
-			container: 'center-block dropdown-menu',
-      buttonDefault: 'btn btn-default',
-      buttonHover: 'btn-primary',
-			// used when disabling the decimal button {dec}
-			// when a decimal exists in the input area
-			buttonDisabled: 'enabled'
-		}
-    });
-  $('#calc_button_<%= s.id %>').click(function(){
-  	var kb = $('#visit_vitals_attributes_<%= s.id %>_test_amount').getkeyboard();
-  	// close the keyboard if the keyboard is visible and the button is clicked a second time
-  	if ( kb.isOpen ) {
-  		kb.close();
-  	} else {
-  		kb.reveal();
-  	}
-  });
+    <%= render 'vitals/vital_form_body.js', s: s %>
 </script>

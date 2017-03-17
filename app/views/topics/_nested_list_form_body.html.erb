@@ -28,7 +28,7 @@
             <div id="heart-imagery-hook"></div>
             <%= render 'visits/show_tables/heart_imagery', imagery: @imagery %>
           <% when 'vitals' %>
-            <%= render 'topics/vitals_form', f: f %>
+            <%= render 'vitals/vitals_form', f: f %>
             <hr />
           <% when 'medication' %>
             <%= render 'medications/epic_add_form', f: f %>
@@ -47,6 +47,3 @@
     </div>
   </div>
 </div>
-<script>
-
-</script>

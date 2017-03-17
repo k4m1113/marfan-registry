@@ -645,7 +645,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 7.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(aortic_root_size)
 Topic.create!(
   name: "CT",
@@ -653,7 +653,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 7.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(aortic_root_size)
 Topic.create!(
   name: "MRI",
@@ -661,7 +661,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 7.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(aortic_root_size)
 ascending_aortic_size = Topic.create!(
   name: "ascending aortic",
@@ -673,7 +673,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(ascending_aortic_size)
 Topic.create!(
   name: "CT",
@@ -681,7 +681,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(ascending_aortic_size)
 Topic.create!(
   name: "MRI",
@@ -689,7 +689,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(ascending_aortic_size)
 transverse_arch = Topic.create!(
   name: "transverse arch",
@@ -701,7 +701,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(transverse_arch)
 Topic.create!(
   name: "CT",
@@ -709,7 +709,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(transverse_arch)
 Topic.create!(
   name: "MRI",
@@ -717,7 +717,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(transverse_arch)
 descending_thoracic_aorta = Topic.create!(
   name: "descending thoracic aorta",
@@ -729,7 +729,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(descending_thoracic_aorta)
 Topic.create!(
   name: "CT",
@@ -737,7 +737,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(descending_thoracic_aorta)
 Topic.create!(
   name: "MRI",
@@ -745,7 +745,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(descending_thoracic_aorta)
 suprarenal_abdominal_aorta = Topic.create!(
   name: "suprarenal abdominal aorta",
@@ -757,7 +757,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(suprarenal_abdominal_aorta)
 Topic.create!(
   name: "CT",
@@ -765,7 +765,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(suprarenal_abdominal_aorta)
 Topic.create!(
   name: "MRI",
@@ -773,7 +773,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(suprarenal_abdominal_aorta)
 infrarenal_abdominal_aorta = Topic.create!(
   name: "infrarenal abdominal aorta",
@@ -785,7 +785,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(infrarenal_abdominal_aorta)
 Topic.create!(
   name: "CT",
@@ -793,7 +793,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(infrarenal_abdominal_aorta)
 Topic.create!(
   name: "MRI",
@@ -801,7 +801,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(infrarenal_abdominal_aorta)
 aortic_annulus = Topic.create!(
   name: "aortic annulus",
@@ -813,7 +813,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(aortic_annulus)
 Topic.create!(
   name: "CT",
@@ -821,7 +821,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(aortic_annulus)
 Topic.create!(
   name: "MRI",
@@ -829,7 +829,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(aortic_annulus)
 ## END AORTA MEASUREMENTS (xls 132) ##
 
@@ -844,7 +844,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 10.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "LVIDs",
@@ -852,7 +852,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 8.0,
   step: 0.1,
-  units_of_measurement: "cm"
+  units_of_measurement: ["cm"]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "EF",
@@ -860,7 +860,7 @@ Topic.create!(
   min_value: 20.0,
   max_value: 100.0,
   step: 1.0,
-  units_of_measurement: "%"
+  units_of_measurement: ["%"]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "mitral valve prolapse",
@@ -868,7 +868,7 @@ Topic.create!(
   min_value: 0,
   max_value: 1,
   step: 1,
-  units_of_measurement: "presence"
+  units_of_measurement: ["presence"]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "myxomatous mitral valve",
@@ -876,7 +876,7 @@ Topic.create!(
   min_value: 0,
   max_value: 1,
   step: 1,
-  units_of_measurement: "presence"
+  units_of_measurement: ["presence"]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "mitral regurgitation severity",
@@ -884,7 +884,7 @@ Topic.create!(
   min_value: 0,
   max_value: 100,
   step: 1,
-  units_of_measurement: "%"
+  units_of_measurement: ["%"]
 ).move_to_child_of(cardio_meas)
 ## END 1-DEPTH TOPICS (xls 140)##
 
@@ -916,7 +916,7 @@ Topic.create!(
   min_value: 20,
   max_value: 100,
   step: 1,
-  units_of_measurement: "mmHg"
+  units_of_measurement: ["mmHg"]
 ).move_to_child_of(aortic_stenosis)
 Topic.create!(
   name: "valve area",
@@ -924,7 +924,7 @@ Topic.create!(
   min_value: 0.5,
   max_value: 3.0,
   step: 0.1,
-  units_of_measurement: "cm2"
+  units_of_measurement: ["cm2"]
 ).move_to_child_of(aortic_stenosis)
 
 Topic.create!(
@@ -933,7 +933,7 @@ Topic.create!(
   min_value: 0,
   max_value: 100,
   step: 1,
-  units_of_measurement: "%"
+  units_of_measurement: ["%"]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: "tricuspid regurgitation severity",
@@ -941,7 +941,7 @@ Topic.create!(
   min_value: 0,
   max_value: 100,
   step: 1,
-  units_of_measurement: "%"
+  units_of_measurement: ["%"]
 ).move_to_child_of(cardio_meas)
 ## END SHALLOW TOPICS (xls 147) %>
 
@@ -1652,7 +1652,7 @@ pft_emphysema = Topic.create!(
 Topic.create!(
   name: "FEV1",
   topic_type: "measurement",
-  units_of_measurement:[ "cm"]
+  units_of_measurement: ["cm"]
 ).move_to_child_of(pft_emphysema)
 restrictive_lung_disease = Topic.create!(
   name: "restrictive lung disease",

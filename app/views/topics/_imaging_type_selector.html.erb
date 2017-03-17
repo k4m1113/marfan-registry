@@ -4,19 +4,6 @@
   <option value="CT">CT</option>
   <option value="MRI">MRI</option>
 </select>
-
 <script>
-  $('#ct_imagery_type').change(function renderCTForm() {
-    switch (this.value) {
-      case 'echocardiogram':
-        $("div#add-another:last").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'echo' %>");
-        break;
-      case 'CT':
-        $("div#add-another:last").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'CT' %>");
-        break;
-      case 'MRI':
-       $("div#add-another:last").html("<%= j render 'topics/echocardiogram', f: f, imaging_tech: 'MRI' %>");
-        break;
-    };
-  });
+    <%= render 'topics/imaging_type_selector.js', f: f %>
 </script>

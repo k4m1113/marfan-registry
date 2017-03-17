@@ -1,0 +1,116 @@
+function parseMed(str) {
+  var medsArr = str.split("•  ")
+  var medsJSON = []
+  if (medsArr[0].includes('Current')) {
+    medsArr.shift();
+  }
+  for (var i = 0; i < medsArr.length; i++) {
+    commas = medsArr[i].split(', ')
+    if (commas[0].includes('(')) {
+      firstParen = commas[0].indexOf('(')
+      secondParen = commas[0].indexOf(')')
+      doseSpace = commas[0].indexOf(' ', secondParen + 2)
+      lastSpace = commas[0].indexOf(' ', doseSpace + 1)
+      medsJSON.push(
+        {
+          "name": commas[0].slice(0, firstParen - 1),
+          "commonName": commas[0].slice(firstParen + 1, secondParen),
+          "dose": commas[0].slice(secondParen + 2, doseSpace),
+          "doseUnitOfMeas": commas[0].slice(doseSpace + 1, lastSpace),
+          "dosageForm": commas[0].slice(lastSpace + 1, commas[0].length),
+          "ingestionMethod": commas[1],
+          "topicID": mapMed(commas[0].slice(0, firstParen - 1), commas[0].slice(firstParen + 1, secondParen), $('#invisible').data('rubyvar'))
+        }
+      )
+    }
+    else {
+      medsJSON.push(
+        {
+          "medicationFormat": commas[0],
+          "ingestionMethod": commas[1],
+          "topicID": mapMed(commas[0], commas[0], $('#invisible').data('rubyvar'))
+        }
+      )
+    }
+  }
+  for (var i = 0; i < medsJSON.length; i++) {
+    if (medsJSON[i]['medicationFormat']) {
+      $('#unParsedMedsTable').append(
+        `<tr>
+          <input value="<%= @visit.id %>" type="hidden" name="visit[medications_attributes][${i}][visit_id]" id="visit_medications_attributes_${i}_visit_id" />
+          <input value="<%= @patient.id %>" type="hidden" name="visit[medications_attributes][${i}][patient_id]" id="visit_medications_attributes_${i}_visit_id" />
+          <input value="${medsJSON[i]["topicID"]}" type="hidden" name="visit[medications_attributes][${i}][topic_id]" id="visit_medications_attributes_${i}_topic_id" />
+          <input value="${medsJSON[i]["medicationFormat"]}" type="hidden" name="visit[medications_attributes][${i}][name]" id="visit_medications_attributes_${i}_name" />
+          <input value="${medsJSON[i]["ingestionMethod"]}" type="hidden" name="visit[medications_attributes][${i}][ingestion_method]" id="visit_medications_attributes_${i}_ingestion_method" />
+          <td>
+            ${medsJSON[i]["medicationFormat"]}
+          </td>
+          <td>
+            ${medsJSON[i]["ingestionMethod"]}
+          </td>
+          <td>
+            ${medsJSON[i]["topicID"]}
+          </td>
+        </tr>`
+      )
+    }
+    else {
+      $('#parsedMedsTable').append(
+        `<tr>
+          <input value="<%= @visit.id %>" type="hidden" name="visit[medications_attributes][${i}][visit_id]" id="visit_medications_attributes_${i}_visit_id" />
+          <input value="<%= @patient.id %>" type="hidden" name="visit[medications_attributes][${i}][patient_id]" id="visit_medications_attributes_${i}_visit_id" />
+          <input value="${medsJSON[i]["topicID"]}" type="hidden" name="visit[medications_attributes][${i}][topic_id]" id="visit_medications_attributes_${i}_topic_id" />
+          <input value="${medsJSON[i]["commonName"]}" type="hidden" name="visit[medications_attributes][${i}][common_name]" id="visit_medications_attributes_${i}_common_name" />
+          <input value="${medsJSON[i]["name"]}" type="hidden" name="visit[medications_attributes][${i}][name]" id="visit_medications_attributes_${i}_name" />
+          <input value="${medsJSON[i]["dose"]}" type="hidden" name="visit[medications_attributes][${i}][dose]" id="visit_medications_attributes_${i}_dose" />
+          <input value="${medsJSON[i]["doseUnitOfMeas"]}" type="hidden" name="visit[medications_attributes][${i}][dose_unit_of_measurement]" id="visit_medications_attributes_${i}_dose_unit_of_measurement" />
+          <input value="${medsJSON[i]["dosageForm"]}" type="hidden" name="visit[medications_attributes][${i}][dosage_form]" id="visit_medications_attributes_${i}_dosage_form" />
+          <input value="${medsJSON[i]["ingestionMethod"]}" type="hidden" name="visit[medications_attributes][${i}][ingestion_method]" id="visit_medications_attributes_${i}_ingestion_method" />
+          <td>
+            ${medsJSON[i]["name"]} (${medsJSON[i]["commonName"]})
+          </td>
+          <td>
+            ${medsJSON[i]["dose"]} ${medsJSON[i]["doseUnitOfMeas"]} ${medsJSON[i]["dosageForm"]}
+          </td>
+          <td>
+            ${medsJSON[i]["ingestionMethod"]}
+          </td>
+          <td>
+            ${medsJSON[i]["topicID"]}
+
+            <input value="<%= @visit.id %>" type="hidden" name="visit[medications_attributes][${i}][visit_id]" id="visit_medications_attributes_${i}_visit_id" />
+          </td>
+        </tr>`
+      );
+    }
+  }
+};
+
+// Current Outpatient Prescriptions:
+// •  acetaminophen (TYLENOL) 500 mg tablet, take 500 mg by mouth every 6 hours as needed (migraine headaches), Disp: , Rfl:
+// •  aspirin 81 mg enteric coated tablet, take 81 mg by mouth daily, Disp: , Rfl:
+// •  atenolol (TENORMIN) 25 mg tablet, take 12.5 mg by mouth 2 times a day Currently pt is taking 1/4 tab BID due to low BP., Disp: , Rfl:
+// •  BIOFLAVONOIDS PO, take 1,000 mg by mouth 2 times per week, Disp: , Rfl:
+// •  cranberry juice LIQD, take by mouth every day, Disp: , Rfl:
+// •  docusate (COLACE) 100 mg CAPS, take 1 Cap by mouth every day, Disp: , Rfl:
+// •  fluorouracil (EFUDEX) 5 % cream, by Topical route 2 times a day To affected area as directed, Disp: , Rfl:
+// •  warfarin (COUMADIN) 5 mg tablet, take 5 mg by mouth daily Adjust per INR results., Disp: , Rfl:
+
+
+// Current Outpatient Prescriptions:
+// •  aspirin 81 mg enteric coated tablet, TAKE 1 TABLET BY MOUTH EVERY DAY, Disp: 100 Tab, Rfl: 3
+// •  COSOPT OP, 1 Drop by Ophthalmic route 2 times a day. 1 drop to each eye., Disp: , Rfl:
+// •  hydrochlorothiazide (HYDRODIURIL) 12.5 mg tablet, take 12.5 mg by mouth Every Day, Disp: , Rfl:
+// •  levothyroxine (SYNTHROID) 50 mcg tablet, take 50 mcg by mouth every morning before breakfast, Disp: , Rfl:
+// •  metoprolol (TOPROL XL) 25 mg sustained release tablet, TAKE 1 TABLET BY MOUTH EVERY MORNING, Disp: 90 Tab, Rfl: 3
+// •  pantoprazole (PROTONIX) 40 mg delayed release tablet, take 1 Tab by mouth daily, Disp: 90 Tab, Rfl: 3
+// •  rosuvastatin (CRESTOR) 10 mg tablet, take 1 Tab by mouth Daily at night, Disp: 90 Tab, Rfl: 3
+// •  Sodium Bicarb-Sodium Chloride (NEILMED NASAFLO) PACK, by Nasal route Every Day., Disp: , Rfl:
+// •  valsartan (DIOVAN) 160 mg tablet, take 1 Tab by mouth daily, Disp: 90 Tab, Rfl: 3
+// •  ZYRTEC 10 mg TABS, take by mouth every morning. , Disp: , Rfl:
+
+// Current Outpatient Prescriptions:
+// •  azithromycin (ZITHROMAX) 500 mg tablet, take 500 mg by mouth daily as needed (bronchiectasis exacerbations) Azithromycin 500 mg Daily x 3 days as needed for bronchiectasis exacerbations., Disp: , Rfl:
+// •  estradiol (ESTRADERM) 0.1 mg/24 hr twice-weekly patch, apply 1 Patch to skin, Disp: , Rfl:
+// •  Progesterone 200 mg SUPP, insert 200 mg into the vagina, Disp: , Rfl:
+// •  Travoprost (TRAVATAN Z) 0.004 % Drop, 1 Drop by Ophthalmic route every bedtime, Disp: , Rfl:

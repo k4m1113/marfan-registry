@@ -66,6 +66,10 @@ class VisitsController < ApplicationController
     @clinician = Clinician.find(@visit.clinician_id)
     @form_action = "Update"
     @visit.family_members.build
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   def create
