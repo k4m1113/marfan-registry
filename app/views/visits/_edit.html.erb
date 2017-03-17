@@ -4,9 +4,21 @@
   <% end %>
   <%= render 'visits/summary_modal_button', visit: @visit, title: "Visit Summary", button_descriptor: "info" %>
   <%= render 'patients/summary_modal_button', visit: @visit %>
-  <hr />
 </div>
-
+<hr />
 <%= form_for @visit, class: "visit_form" do |f| %>
+  <div class="row">
+    <div class="col-sm">
+      <h4>Uploaded Attachments</h4>
+      <% @visit.attachments.each do |p| %>
+      <%= image_tag p.thumb.url %>
+      <% end %>
+    </div>
+    <div class="col-sm">
+      <%= f.label :attachments, "Add Photos and Documents", class: "control-label" %>
+      <%= f.file_field :attachments, multiple: true, class: "form-control-file" %>
+    </div>
+  </div>
+  <hr />
   <%= render 'topics/nested_list_form_body', f: f, visit: @visit %>
 <% end %>

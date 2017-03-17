@@ -1,5 +1,8 @@
 class Visit < ActiveRecord::Base
   include Report
+  mount_uploaders :attachments, AttachmentUploader
+  # mount_uploaders :documents, DocumentUploader
+
   has_one :patient
 
   has_many :symptoms,

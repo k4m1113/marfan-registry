@@ -130,6 +130,7 @@ class VisitsController < ApplicationController
       :secondary_reason,
       :vital,
       :test,
+      {attachments: []},
       vitals_attributes:
         [:visit_id, :patient_id, :topic_id, :vital, :test_amount, :sbp, :dbp, :test_unit_of_meas, :measurement, :note],
       medications_attributes:

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170303223857) do
+ActiveRecord::Schema.define(version: 20170316230521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20170303223857) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.string   "note"
+    t.json     "attachments"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -69,6 +70,7 @@ ActiveRecord::Schema.define(version: 20170303223857) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.string   "note"
+    t.json     "attachments"
   end
 
   create_table "family_members", force: :cascade do |t|
@@ -84,6 +86,7 @@ ActiveRecord::Schema.define(version: 20170303223857) do
     t.string   "time_ago_scale"
     t.datetime "death_date"
     t.integer  "topic_id",                 null: false
+    t.json     "attachments"
   end
 
   create_table "heart_imagings", force: :cascade do |t|
@@ -98,6 +101,7 @@ ActiveRecord::Schema.define(version: 20170303223857) do
     t.integer  "aortic_annulus_measurement_id"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.json     "attachments"
   end
 
   create_table "hospitalizations", force: :cascade do |t|
@@ -115,6 +119,7 @@ ActiveRecord::Schema.define(version: 20170303223857) do
     t.string   "length_of_stay_scale"
     t.string   "note"
     t.integer  "topic_id",             null: false
+    t.json     "attachments"
   end
 
   create_table "medications", force: :cascade do |t|
@@ -141,6 +146,7 @@ ActiveRecord::Schema.define(version: 20170303223857) do
     t.string   "dosage_form"
     t.integer  "dosage_form_units"
     t.integer  "topic_id"
+    t.json     "attachments"
   end
 
   create_table "patients", force: :cascade do |t|
@@ -165,6 +171,7 @@ ActiveRecord::Schema.define(version: 20170303223857) do
     t.string   "email"
     t.string   "middle_name"
     t.string   "primary_diagnosis"
+    t.json     "attachments"
   end
 
   create_table "pg_search_documents", force: :cascade do |t|
@@ -188,6 +195,7 @@ ActiveRecord::Schema.define(version: 20170303223857) do
     t.integer  "time_ago"
     t.string   "time_ago_scale"
     t.datetime "absolute_start_date"
+    t.json     "attachments"
   end
 
   create_table "seeded_symptoms", force: :cascade do |t|
@@ -213,6 +221,7 @@ ActiveRecord::Schema.define(version: 20170303223857) do
     t.integer  "time_ago"
     t.integer  "time_ago_scale"
     t.integer  "topic_id",       null: false
+    t.json     "attachments"
   end
 
   create_table "tests", force: :cascade do |t|
@@ -226,6 +235,7 @@ ActiveRecord::Schema.define(version: 20170303223857) do
     t.string   "note"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.json     "attachments"
   end
 
   create_table "topics", force: :cascade do |t|
@@ -260,6 +270,7 @@ ActiveRecord::Schema.define(version: 20170303223857) do
     t.float    "arm_span"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.json     "attachments"
   end
 
   create_table "vitals", force: :cascade do |t|

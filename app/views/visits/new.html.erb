@@ -1,12 +1,14 @@
-<%= form_for @visit, class: "visit_form" do |f| %>
-<%= f.hidden_field :patient_id, value: @patient.id %>
-<%= f.hidden_field :clinician_id, value: 1 %>
+<%= form_for @visit, class: "visit_form", html: { multipart: true } do |f| %>
+  <%= f.hidden_field :patient_id, value: @patient.id %>
+  <%= f.hidden_field :clinician_id, value: 1 %>
   <div class="well well-lg">
     <div class="card" style="text-align:center; border-color:#B00713;">
       <div class="card-block">
         <h1 class="purple">New Visit for <%= "#{@patient.first_name} #{@patient.last_name}" %></h1>
       </div>
     </div>
+    <hr />
+    <%= render 'visits/file_upload_buttons', f: f %>
     <hr />
     <%= render 'topics/vitals_form', f: f, visit: @visit, patient: @patient %>
     <div class="row">
@@ -17,5 +19,5 @@
         </span>
       </div>
     </div>
-
+  </div>
 <% end %>

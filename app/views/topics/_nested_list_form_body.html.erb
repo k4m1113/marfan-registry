@@ -30,7 +30,6 @@
           <% when 'vitals' %>
             <%= render 'topics/vitals_form', f: f %>
             <hr />
-            <%= render 'visits/show_tables/vitals', vitals: @patient.vitals %>
           <% when 'medication' %>
             <%= render 'medications/epic_add_form', f: f %>
             <hr />
