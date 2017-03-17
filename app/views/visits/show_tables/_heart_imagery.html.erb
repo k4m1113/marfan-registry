@@ -18,7 +18,7 @@
           <!-- <th><%= link_to "#{t.topic_id}", topic_path(t.topic_id) %></th> -->
           <td><%= t.test_date ? t.test_date.strftime("%b %Y") : "not noted "%></td>
           <td><%= find_pretty_trail(Topic.find(t.topic_id)) %></td>
-          <td><%= "#{print_if_present(t.result)} #{Topic.find(t.topic_id).units_of_measurement} " %></td>
+          <td><%= print_if_present(t.result) %></td>
           <td>
             <%= render 'tests/link_buttons', t: t %>
           </td>

@@ -16,7 +16,7 @@
         <%= ff.select :test_unit_of_meas, s.units_of_measurement, {include_blank: false}, {class: "form-control", id: "visit_vitals_attributes_#{s.id}_test_unit_of_meas", name: "visit[vitals_attributes][#{s.id}][test_unit_of_meas]"} %>
       <% end %>
       <span class="input-group-btn">
-        <button id="calc_button_<%= s.id %>" class="btn btn-primary" type="button"><i class="fa fa-calculator"></i></button>
+        <button id="vital_<%= s.id %>_calc_button" class="btn btn-primary" type="button"><i class="fa fa-calculator"></i></button>
       </span>
     </div>
   </div>

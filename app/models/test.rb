@@ -1,7 +1,7 @@
 class Test < ActiveRecord::Base
   attr_accessor :test_amount, :test_unit_of_meas
 
-  # before_save :calculate_metric
+  before_save :concat_result
 
   belongs_to :topic
   belongs_to :visit,
@@ -20,10 +20,9 @@ class Test < ActiveRecord::Base
 
   after_save { |t| t.destroy if (t.test_date.nil? && t.time_ago.nil?) || (t.result.blank?) }
 
-  def calculate_metric
+  def concat_result
     unless self.test_amount.blank? || self.test_unit_of_meas.blank?
-      unit = Unit.new("#{self.test_amount} #{self.test_unit_of_meas}")
-      self.result = unit.base.scalar.to_f.round(3)
+      self.result = "#{self.test_amount} #{self.test_unit_of_meas}"
     end
   end
 end
