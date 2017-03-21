@@ -72,7 +72,8 @@ class MedicationsController < ApplicationController
       :note,
       :name,
       :dosage_form,
-      :dosage_form_units
+      :dosage_form_units,
+      :current
     )
   end
 end

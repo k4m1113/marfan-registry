@@ -37,19 +37,26 @@ function parseMed(str) {
     if (medsJSON[i]['medicationFormat']) {
       $('#unParsedMedsTable').append(
         `<tr>
-          <input value="<%= @visit.id %>" type="hidden" name="visit[medications_attributes][${i}][visit_id]" id="visit_medications_attributes_${i}_visit_id" />
-          <input value="<%= @patient.id %>" type="hidden" name="visit[medications_attributes][${i}][patient_id]" id="visit_medications_attributes_${i}_visit_id" />
-          <input value="${medsJSON[i]["topicID"]}" type="hidden" name="visit[medications_attributes][${i}][topic_id]" id="visit_medications_attributes_${i}_topic_id" />
-          <input value="${medsJSON[i]["medicationFormat"]}" type="hidden" name="visit[medications_attributes][${i}][name]" id="visit_medications_attributes_${i}_name" />
-          <input value="${medsJSON[i]["ingestionMethod"]}" type="hidden" name="visit[medications_attributes][${i}][ingestion_method]" id="visit_medications_attributes_${i}_ingestion_method" />
           <td>
-            ${medsJSON[i]["medicationFormat"]}
+            <input value="${medsJSON[i]["medicationFormat"]}" class="form-control" type="text" name="visit[medications_attributes][${i}][name]" id="visit_medications_attributes_${i}_name" />
           </td>
           <td>
-            ${medsJSON[i]["ingestionMethod"]}
+            <input value="${medsJSON[i]["ingestionMethod"]}" class="form-control" type="text" name="visit[medications_attributes][${i}][ingestion_method]" id="visit_medications_attributes_${i}_ingestion_method" />
           </td>
           <td>
-            ${medsJSON[i]["topicID"]}
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_true" value="true"> Continue
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_false" value="false"> Discontinue
+              </label>
+            </div>
+            <input value="<%= @visit.id %>" class="form-control" type="hidden" name="visit[medications_attributes][${i}][visit_id]" id="visit_medications_attributes_${i}_visit_id" />
+            <input value="<%= @patient.id %>" class="form-control" type="hidden" name="visit[medications_attributes][${i}][patient_id]" id="visit_medications_attributes_${i}_visit_id" />
+            <input value="${medsJSON[i]["topicID"]}" class="form-control" type="hidden" name="visit[medications_attributes][${i}][topic_id]" id="visit_medications_attributes_${i}_topic_id" />
           </td>
         </tr>`
       )
@@ -57,28 +64,38 @@ function parseMed(str) {
     else {
       $('#parsedMedsTable').append(
         `<tr>
-          <input value="<%= @visit.id %>" type="hidden" name="visit[medications_attributes][${i}][visit_id]" id="visit_medications_attributes_${i}_visit_id" />
-          <input value="<%= @patient.id %>" type="hidden" name="visit[medications_attributes][${i}][patient_id]" id="visit_medications_attributes_${i}_visit_id" />
-          <input value="${medsJSON[i]["topicID"]}" type="hidden" name="visit[medications_attributes][${i}][topic_id]" id="visit_medications_attributes_${i}_topic_id" />
-          <input value="${medsJSON[i]["commonName"]}" type="hidden" name="visit[medications_attributes][${i}][common_name]" id="visit_medications_attributes_${i}_common_name" />
-          <input value="${medsJSON[i]["name"]}" type="hidden" name="visit[medications_attributes][${i}][name]" id="visit_medications_attributes_${i}_name" />
-          <input value="${medsJSON[i]["dose"]}" type="hidden" name="visit[medications_attributes][${i}][dose]" id="visit_medications_attributes_${i}_dose" />
-          <input value="${medsJSON[i]["doseUnitOfMeas"]}" type="hidden" name="visit[medications_attributes][${i}][dose_unit_of_measurement]" id="visit_medications_attributes_${i}_dose_unit_of_measurement" />
-          <input value="${medsJSON[i]["dosageForm"]}" type="hidden" name="visit[medications_attributes][${i}][dosage_form]" id="visit_medications_attributes_${i}_dosage_form" />
-          <input value="${medsJSON[i]["ingestionMethod"]}" type="hidden" name="visit[medications_attributes][${i}][ingestion_method]" id="visit_medications_attributes_${i}_ingestion_method" />
           <td>
-            ${medsJSON[i]["name"]} (${medsJSON[i]["commonName"]})
+            <div class="form-inline">
+              <input value="${medsJSON[i]["name"]}" class="form-control" type="text" name="visit[medications_attributes][${i}][name]" id="visit_medications_attributes_${i}_name" style=
+              "max-width:8em;" />
+              <input value="${medsJSON[i]["commonName"]}" class="form-control" type="text" name="visit[medications_attributes][${i}][common_name]" id="visit_medications_attributes_${i}_common_name" style=
+              "max-width:8em;" />
+            </div>
           </td>
           <td>
-            ${medsJSON[i]["dose"]} ${medsJSON[i]["doseUnitOfMeas"]} ${medsJSON[i]["dosageForm"]}
+            <div class="form-inline">
+              <input value="${medsJSON[i]["dose"]}" class="form-control" style="max-width:6em;" type="number" name="visit[medications_attributes][${i}][dose]" id="visit_medications_attributes_${i}_dose" />
+              <input value="${medsJSON[i]["doseUnitOfMeas"]}" class="form-control" style="max-width:6em;" type="text" name="visit[medications_attributes][${i}][dose_unit_of_measurement]" id="visit_medications_attributes_${i}_dose_unit_of_measurement" />
+              <input value="${medsJSON[i]["dosageForm"]}" class="form-control" type="text" name="visit[medications_attributes][${i}][dosage_form]" id="visit_medications_attributes_${i}_dosage_form" />
+            </div>
           </td>
           <td>
-            ${medsJSON[i]["ingestionMethod"]}
+            <input value="${medsJSON[i]["ingestionMethod"]}" class="form-control" type="text" name="visit[medications_attributes][${i}][ingestion_method]" id="visit_medications_attributes_${i}_ingestion_method" />
           </td>
           <td>
-            ${medsJSON[i]["topicID"]}
-
-            <input value="<%= @visit.id %>" type="hidden" name="visit[medications_attributes][${i}][visit_id]" id="visit_medications_attributes_${i}_visit_id" />
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_true" value="true"> Continue
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_false" value="false"> Discontinue
+              </label>
+            </div>
+            <input value="<%= @visit.id %>" class="form-control" type="hidden" name="visit[medications_attributes][${i}][visit_id]" id="visit_medications_attributes_${i}_visit_id" />
+            <input value="<%= @patient.id %>" class="form-control" type="hidden" name="visit[medications_attributes][${i}][patient_id]" id="visit_medications_attributes_${i}_visit_id" />
+            <input value="${medsJSON[i]["topicID"]}" class="form-control" type="hidden" name="visit[medications_attributes][${i}][topic_id]" id="visit_medications_attributes_${i}_topic_id" />
           </td>
         </tr>`
       );

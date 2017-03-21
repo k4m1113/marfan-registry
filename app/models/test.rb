@@ -1,5 +1,6 @@
 class Test < ActiveRecord::Base
   attr_accessor :test_amount, :test_unit_of_meas
+  mount_uploaders :attachments, AttachmentUploader
 
   before_save :concat_result
 

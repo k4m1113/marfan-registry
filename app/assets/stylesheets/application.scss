@@ -76,3 +76,10 @@ img{
 .center-text {
   text-align: center;
 }
+
+@media (min-width: 768px) {
+  .modal-xl {
+    width: 90%;
+   max-width:1200px;
+  }
+}

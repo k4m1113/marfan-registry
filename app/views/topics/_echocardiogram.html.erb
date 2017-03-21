@@ -8,11 +8,17 @@ infra = @infra.where(name: imaging_tech)[0]
 annulus = @annulus.where(name: imaging_tech)[0]
 imaging_locations = [root, asc, transv, desc, supra, infra, annulus, @lvidd, @mvp, @mmv, @mitral_regurge, @tricuspid_regurge, @mean_gradient, @valve_area, @ais]
 %>
-<br />
-<div class="form-group">
+<%= f.fields_for :tests, @nested_scope.tests.build do |ff| %>
   <div class="row">
-    <% imaging_locations.each do |m| %>
-      <%= f.fields_for :tests, @nested_scope.tests.build do |ff| %>
+    <div class="col-sm">
+      <%= ff.label :attachments, "Add Photos and Documents", class: "control-label" %>
+      <%= ff.file_field :attachments, multiple: true, class: "form-control-file", id: "heart_imagery_attachments" %>
+    </div>
+  </div>
+  <hr />
+  <div class="form-group">
+    <div class="row">
+      <% imaging_locations.each do |m| %>
         <div class="col-sm-6">
           <label for="meas_<%= m.id %>" class="col-sm-7 col-form-label">
             <%= find_pretty_trail(m.id) %>
@@ -22,6 +28,6 @@ imaging_locations = [root, asc, transv, desc, supra, infra, annulus, @lvidd, @mv
           </div>
         </div>
       <% end %>
-    <% end %>
+    </div>
   </div>
-</div>
+<% end %>
