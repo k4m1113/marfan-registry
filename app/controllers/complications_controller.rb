@@ -30,6 +30,7 @@ class ComplicationsController < ApplicationController
   end
 
   def update
+    @complication = Complication.find(params[:id])
     if @complication.update(complication_params)
       flash[:success] = "#{@complication.note} of #{find_trail(@complication.topic_id)} added to visit"
       redirect_to edit_visit_path(@complication.visit_id)
@@ -41,16 +42,13 @@ class ComplicationsController < ApplicationController
   end
 
   def destroy
+    @complication = Complication.find(params[:id])
     @complication.destroy
     flash[:success] = "Complication #{@complication.id} for #{find_trail(@complication.topic_id)} deleted from record"
     redirect_to :back
   end
 
   private
-
-  def set_complication
-    @complication = Complication.find(params[:id])
-  end
 
   def complication_params
     params.permit(

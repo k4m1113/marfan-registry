@@ -28,6 +28,7 @@ class MedicationsController < ApplicationController
   end
 
   def update
+    @medication = Medication.find(params[:id])
     if @medication.update(medication_params)
       flash[:success] = "#{@medication.note} of #{find_trail(@medication.topic_id)} added to visit"
       redirect_to edit_visit_path(@medication.visit_id)
@@ -39,16 +40,13 @@ class MedicationsController < ApplicationController
   end
 
   def destroy
+    @medication = Medication.find(params[:id])
     @medication.destroy
     flash[:success] = "Medication #{@medication.id} for #{find_trail(@medication.topic_id)} deleted from record"
     redirect_to :back
   end
 
   private
-
-  def set_medication
-    @medication = Medication.find(params[:id])
-  end
 
   def medication_params
     params.require(:medication).permit(

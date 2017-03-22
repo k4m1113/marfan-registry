@@ -5,6 +5,10 @@ class HospitalizationsController < ApplicationController
     @hospitalizations = Hospitalization.all
   end
 
+  def show
+    @hospitalization = Hospitalization.find(params[:id])
+  end
+
   def new
     @hospitalization = Hospitalization.new
   end
@@ -20,6 +24,7 @@ class HospitalizationsController < ApplicationController
   end
 
   def update
+    @hospitalization = Hospitalization.find(params[:id])
     if @hospitalization.update(hospitalization_params)
       flash[:success] = "Successfully updated hospitalization #{find_trail(@procedure.topic_id)}"
       redirect_to :back

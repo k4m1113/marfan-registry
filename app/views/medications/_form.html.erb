@@ -1,0 +1,81 @@
+<%= form_for(@medication) do |f| %>
+  <div class="field">
+    <%= f.label :topic_id %><br>
+    <%= f.text_field :topic_id, disabled: "disabled"  %>
+  </div>
+  <div class="field">
+    <%= f.label :patient_id %><br>
+    <%= f.text_field :patient_id, disabled: "disabled"  %>
+  </div>
+  <div class="field">
+    <%= f.label :visit_id %><br>
+    <%= f.text_field :visit_id, disabled: "disabled" %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :common_name %><br>
+    <%= f.text_field :common_name %>
+  </div>
+  <div class="field">
+    <%= f.label :medication_format %><br>
+    <%= f.text_field :medication_format %>
+  </div>
+  <div class="field">
+    <%= f.label :dose %><br>
+    <%= f.text_field :dose %>
+  </div>
+  <div class="field">
+    <%= f.label :dose_unit_of_measurement %><br>
+    <%= f.text_field :dose_unit_of_measurement %>
+  </div>
+  <div class="field">
+    <%= f.label :dosage_form %><br>
+    <%= f.text_field :dosage_form %>
+  </div>
+  <div class="field">
+    <%= f.label :dosage_form_units %><br>
+    <%= f.text_field :dosage_form_units %>
+  </div>
+  <div class="field">
+    <%= f.label :ingestion_method %><br>
+    <%= f.text_field :ingestion_method %>
+  </div>
+  <div class="field">
+    <%= f.label :frequency %><br>
+    <%= f.text_field :frequency %>
+  </div>
+  <div class="field">
+    <%= f.label :frequency_scale %><br>
+    <%= f.text_field :frequency_scale %>
+  </div>
+  <div class="field">
+    <%= f.label :time_ago %><br>
+    <%= f.text_field :time_ago %>
+  </div>
+  <div class="field">
+    <%= f.label :time_ago_scale %><br>
+    <%= f.text_field :time_ago_scale %>
+  </div>
+  <div class="field">
+    <%= f.label :absolute_start_date %><br>
+    <%= f.text_field :absolute_start_date %>
+  </div>
+  <div class="field">
+    <%= f.label :attachments %><br>
+    <%= f.file_field :attachments %>
+  </div>
+  <div class="field">
+    <%= f.label :current %><br>
+    <%= f.text_field :current %>
+  </div>
+  <div class="field">
+    <%= f.label :note %><br>
+    <%= f.text_field :note %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

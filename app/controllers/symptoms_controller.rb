@@ -39,6 +39,7 @@ class SymptomsController < ApplicationController
   end
 
   def destroy
+    @symptom = Symptom.find(params[:id])
     @symptom.destroy
     flash[:success] = "Symptom #{@symptom.id} for #{find_trail(@symptom.topic_id)} deleted from record."
     redirect_to :back

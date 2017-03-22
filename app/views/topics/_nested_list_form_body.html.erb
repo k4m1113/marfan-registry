@@ -33,7 +33,7 @@
           <% when 'medication' %>
             <%= render 'medications/epic_add_form', f: f %>
             <hr />
-            <%= render 'visits/show_tables/medications', medications: @patient.medications %>
+            <%= render 'medications/show_table', medications: @patient.medications %>
           <% else %>
             <%= f.submit "Update Visit", class: "col-centered col-sm-12 form-control-label btn btn-secondary btn-lg" %>
             <br /><hr />
