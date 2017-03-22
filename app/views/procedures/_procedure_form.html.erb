@@ -4,9 +4,10 @@
   <%= render 'visits/visit_presence_checker', f: fff %>
   <div class="form-group">
     <%= fff.hidden_field :topic_id, class: "procedure-response", value: "" %>
+    <%= render 'layouts/file_attachment_row', f: fff %>
     <div class="row">
       <div class="col-sm-12">
-        <%= fff.label "And when was the procedure?", class: "form-control-label" %><br />
+        <%= fff.label "When was the procedure?", class: "form-control-label" %><br />
         <%= render 'layouts/relative_absolute_date', fff: fff, column_title: :absolute_start_date %>
       </div>
     </div>

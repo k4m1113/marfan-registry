@@ -13,6 +13,7 @@
         <th>Relationship</th>
         <th>Living?</th>
         <th>Note</th>
+        <th>Attachments</th>
         <th>Actions</th>
       </tr>
       <% family_members.each do |fm| %>
@@ -25,9 +26,8 @@
           <td><%= fm.topic.name %></td>
           <td><%= death_info(fm) %></td>
           <td><%= fm.future_patient_data_hash['note'] %></td>
-          <td>
-            <%= render 'family_members/link_buttons', fm: fm %>
-          </td>
+          <td><%= render 'layouts/attachment_thumbnails', model: fm %></td>
+          <td><%= render 'family_members/link_buttons', fm: fm %></td>
         </tr>
       <% end %>
     </table>

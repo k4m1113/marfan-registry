@@ -12,6 +12,7 @@
         <% end %>
         <th>Description</th>
         <th>Note</th>
+        <th>Attachments</th>
         <th>Actions</th>
       </tr>
       <% diagnoses.each do |d| %>
@@ -23,6 +24,7 @@
           <% end %>
           <td><%= find_trail(Topic.find(d.topic_id)) %></td>
           <td><%= print_if_present(d.note) %></td>
+          <td><%= render 'layouts/attachment_thumbnails', model: d %></td>
           <% if d.class == Diagnosis %>
             <td><%= render 'diagnoses/link_buttons', d: d %></td>
           <% elsif d.class == Complication %>

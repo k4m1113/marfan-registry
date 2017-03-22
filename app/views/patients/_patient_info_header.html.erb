@@ -10,44 +10,44 @@
         <h5><%= link_to "#{@patient.last_name}, #{@patient.first_name} #{@patient.middle_name ? @patient.middle_name : ''}", patient_path(@patient.id)  %></h5>
         <ul class="list-group">
           <li class="list-group-item">
-            <h5>Date of Birth:</h5>
-            <%= @patient.date_of_birth ? @patient.date_of_birth.strftime("%d %B %Y") : "not noted" %>
+            <label class="col-sm-3">Date of Birth</label>
+            <div class="col-sm-9">
+              <%= @patient.date_of_birth ? @patient.date_of_birth.strftime("%d %B %Y") : "not noted" %>
+            </div>
           </li>
           <li class="list-group-item">
-            <h5>Sex:</h5>
-            <%= @patient.sex ? @patient.sex : "not noted" %>
+            <label class="col-sm-3">Sex</label>
+            <div class="col-sm-9">
+              <%= print_if_present(@patient.sex) %>
+            </div>
           </li>
           <li class="list-group-item">
-            <h5>Email:</h5>
-            <a href="mailto:<%= @patient.email %>?Subject=Mail%20from%20NMF%20Tool" target="_blank">
-              <%= @patient.email %>
-            </a>
+            <label class="col-sm-3">Email</label>
+            <div class="col-sm-9">
+              <a href="mailto:<%= @patient.email %>?Subject=Mail%20from%20NMF%20Tool" target="_blank">
+                <%= @patient.email %>
+              </a>
+            </div>
           </li>
           <li class="list-group-item">
-            <h5>Phone Number:</h5>
-            Primary:
-              <% if @patient.phone_1 %>
-                <a href="tel:<%= @patient.phone_1 %>"><%= @patient.phone_1 %></a>
-              <% else %>
-                not noted
-              <% end %>
-            <br />
-            Secondary: <% if @patient.phone_2 %>
-              <a href="tel:<%= @patient.phone_2 %>"><%= @patient.phone_2 %></a>
-            <% else %>
-              not noted
-            <% end %>
+            <label class="col-sm-3">Phone Number</label>
+            <div class="col-sm-9">
+              Primary: <%= print_if_present(@patient.phone_1) %>
+              Secondary: <%= print_if_present(@patient.phone_1) %>
+            </div>
           </li>
 
           <li class="list-group-item">
-            <h5>Mailing Address: </h5>
-            <%= @patient.address_line_1 ? @patient.address_line_1 : "/n"%>
-            <%= @patient.address_line_2 ? @patient.address_line_2 : "/n"%>
-            <%= @patient.address_line_2 ? @patient.address_line_2 : "/n"%>
-            <br />
-            <%= "#{@patient.city}, #{@patient.state} #{@patient.postal_code}" %>
-            <br />
-            <%= @patient.country %>
+            <label class="col-sm-3">Mailing Address</label>
+            <div class="col-sm-9">
+              <%= @patient.address_line_1 ? @patient.address_line_1 : "/n"%>
+              <%= @patient.address_line_2 ? @patient.address_line_2 : "/n"%>
+              <%= @patient.address_line_3 ? @patient.address_line_3 : "/n"%>
+              <br />
+              <%= "#{@patient.city}, #{@patient.state} #{@patient.postal_code}" %>
+              <br />
+              <%= @patient.country %>
+            </div>
           </li>
         </ul>
       </div>

@@ -6,7 +6,6 @@
     <table class="table table-striped table-responsive">
       <thead>
         <tr>
-          <!-- <th>Type</th> -->
           <% if @display_location == "patient_show" %>
           <th>Visit</th>
           <% end %>
@@ -15,11 +14,12 @@
           <th>Name</th>
           <th>Location</th>
           <th>Description</th>
+          <th>Attachments</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <% hospitalizations.each do |h| %>
         <tr>
-          <!-- <th><%= link_to "#{h.topic_id}", topic_path(h.topic_id) %></th> -->
           <% if @display_location == "Patient Show" %>
             <td><% link_to "Visit #{h.visit_id}", visit_path(h.visit_id) %></td>
           <% end %>
@@ -28,6 +28,8 @@
           <td><%= print_if_present(h.hosp_type) %></td>
           <td><%= print_if_present(h.location) %></td>
           <td><%= print_if_present(h.description) %></td>
+          <td><%= render 'layouts/attachment_thumbnails', model: h %></td>
+          <td><%= render 'hospitalizations/link_buttons', h: h %></td>
         </tr>
       <% end %>
     </table>

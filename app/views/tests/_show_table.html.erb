@@ -11,6 +11,7 @@
           <th>Date</th>
           <th>Name</th>
           <th>Result</th>
+          <th>Attachments</th>
           <th>Actions</th>
         </tr>
         <% tests.each do |t| %>
@@ -19,6 +20,7 @@
           <td><%= display_test_date(t) %></td>
           <td><%= find_trail(t.topic_id) %></td>
           <td><%= print_if_present(t.result) %></td>
+          <td><%= render 'layouts/attachment_thumbnails', model: t %></td>
           <td><%= render 'tests/link_buttons', t: t %></td>
         </tr>
         <% end %>

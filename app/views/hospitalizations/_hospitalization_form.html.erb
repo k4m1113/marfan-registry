@@ -2,6 +2,8 @@
 <br />
 <%= f.fields_for :hospitalizations, @nested_scope.hospitalizations.build do |fff| %>
   <div class="form-group">
+    <%= render 'layouts/file_attachment_row', f: fff %>
+
     <%= fff.label "What type of hospitalization was it?", class: "form-control-label" %><br />
     <%= fff.text_field :hosp_type, class: "form-control", placeholder: "ex: Emergency, Surgical", autofocus: true %>
     <br />

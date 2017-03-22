@@ -1,6 +1,7 @@
 <% if current_page?(edit_family_member_path()) %>
   <div class="form-group">
     <%= render 'visits/visit_presence_checker', f: f %>
+    <%= render 'layouts/file_attachment_row', f: f %>
     <%= f.fields_for :future_patient_data_hash do |ff| %>
     <div class="row">
       <div class="col-sm-6">

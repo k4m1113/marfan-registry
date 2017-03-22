@@ -8,8 +8,7 @@
       </div>
     </div>
     <hr />
-    <%= render 'visits/file_upload_buttons', f: f %>
-    <hr />
+    <%= render 'layouts/file_attachment_row', f: f %>
     <%= render 'vitals/vitals_form', f: f, visit: @visit, patient: @patient %>
     <div class="row">
       <div class="col-sm">

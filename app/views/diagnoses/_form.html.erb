@@ -1,4 +1,5 @@
 <%= form_for(@diagnosis) do |f| %>
+  <%= render 'layouts/file_attachment_row', f: f %>
   <div class="field">
     <%= f.label :topic_id %><br>
     <%= f.text_field :topic_id %>

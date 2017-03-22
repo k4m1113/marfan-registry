@@ -9,13 +9,6 @@ annulus = @annulus.where(name: imaging_tech)[0]
 imaging_locations = [root, asc, transv, desc, supra, infra, annulus, @lvidd, @mvp, @mmv, @mitral_regurge, @tricuspid_regurge, @mean_gradient, @valve_area, @ais]
 %>
 <%= f.fields_for :tests, @nested_scope.tests.build do |ff| %>
-  <div class="row">
-    <div class="col-sm">
-      <%= ff.label :attachments, "Add Photos and Documents", class: "control-label" %>
-      <%= ff.file_field :attachments, multiple: true, class: "form-control-file", id: "heart_imagery_attachments" %>
-    </div>
-  </div>
-  <hr />
   <div class="form-group">
     <div class="row">
       <% imaging_locations.each do |m| %>

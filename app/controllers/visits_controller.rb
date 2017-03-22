@@ -136,24 +136,24 @@ class VisitsController < ApplicationController
       :test,
       {attachments: []},
       vitals_attributes:
-        [:visit_id, :patient_id, :topic_id, :vital, :test_amount, :sbp, :dbp, :test_unit_of_meas, :measurement, :note],
+        [:visit_id, :patient_id, :topic_id, :vital, :test_amount, :sbp, :dbp, :test_unit_of_meas, :measurement, :note, {attachments: []}],
       medications_attributes:
-        [:visit_id, :patient_id, :topic_id, :dose, :dose_unit_of_measurement, :nested_med_id, :nested_med_category, :duration_amount, :duration_scale, :ingestion_method, :frequency, :frequency_scale, :common_name, :medication_format, :time_ago, :time_ago_scale, :absolute_start_date, :note, :name, :dosage_form, :dosage_form_units, :current, :attachments],
+        [:visit_id, :patient_id, :topic_id, :dose, :dose_unit_of_measurement, :nested_med_id, :nested_med_category, :duration_amount, :duration_scale, :ingestion_method, :frequency, :frequency_scale, :common_name, :medication_format, :time_ago, :time_ago_scale, :absolute_start_date, :note, :name, :dosage_form, :dosage_form_units, :current, {attachments: []}],
       diagnoses_attributes:
-        [:topic_id, :patient_id, :time_ago, :time_ago_scale, :absolute_start_date, :visit_id, :note],
+        [:topic_id, :patient_id, :time_ago, :time_ago_scale, :absolute_start_date, :visit_id, :note, {attachments: []}],
       complications_attributes:
-        [:topic_id, :patient_id, :time_ago, :time_ago_scale, :absolute_start_date, :visit_id, :note],
+        [:topic_id, :patient_id, :time_ago, :time_ago_scale, :absolute_start_date, :visit_id, :note, {attachments: []}],
       procedures_attributes:
-        [:topic_id, :patient_id, :clinician_id, :visit_id, :note],
+        [:topic_id, :patient_id, :clinician_id, :visit_id, :note, {attachments: []}],
       family_members_attributes:
         [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, {future_patient_data_hash: [
-        :first_name, :last_name, :born_years_ago, :date_of_birth, :deceased, :death_time_ago, :death_time_ago_scale, :death_date, :cause_of_death, :note]}],
+        :first_name, :last_name, :born_years_ago, :date_of_birth, :deceased, :death_time_ago, :death_time_ago_scale, :death_date, :cause_of_death, :note]}, {attachments: []}],
       hospitalizations_attributes:
         [:visit_id, :patient_id, :topic_id, :hospitalization, :admission_date, :time_ago, :time_ago_scale, :length_of_stay, :length_of_stay_scale, :hosp_type, :description, :location, :note],
       tests_attributes:
         [:visit_id, :topic_id,:patient_id, :test, :test_date, :time_ago, :test_amount, :test_unit_of_meas, :time_ago_scale, :result, :note, {attachments: []}],
       symptoms_attributes:
-        [:topic_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :time_ago, :time_ago_scale, :start_date, :frequency, :note]
+        [:topic_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :time_ago, :time_ago_scale, :start_date, :frequency, :note, {attachments: []}]
       )
   end
 end

@@ -4,7 +4,7 @@
   <%= f.fields_for :complications, @nested_scope.complications.build do |fff| %>
     <%= render 'visits/visit_presence_checker', f: fff %>
     <%= fff.hidden_field :topic_id, class: "complication-response", value: "" %>
-
+    <%= render 'layouts/file_attachment_row', f: fff %>
     <div class="row">
       <div class="col-sm-12">
         <%= fff.label "When did it start?", class: "form-control-label" %>

@@ -1,0 +1,11 @@
+<div class="btn-group" role="group">
+  <%= link_to procedure_path(p.id), type: "button", method: :get, class: "btn btn-secondary btn-sm" do %>
+    <i class="fa fa-search"></i>
+  <% end %>
+  <%= link_to edit_procedure_path(p.id), type: "button", method: :get, class: "btn btn-secondary btn-sm" do %>
+    <i class="fa fa-pencil"></i>
+  <% end %>
+  <%= link_to procedure_path(p.id), method: :delete, type: "button", class: "btn btn-secondary btn-sm" do %>
+    <i class="fa fa-trash"></i>
+  <% end %>
+</div>
