@@ -1,4 +1,5 @@
 require 'json'
+# require 'pry'
 
 class FamilyMembersController < ApplicationController
   respond_to :html, :js
@@ -21,7 +22,7 @@ class FamilyMembersController < ApplicationController
   def new
     @visit = session[:current_visit]
   end
-  
+
   def edit
     @family_member = FamilyMember.find(params[:id])
     @patient = Patient.find(@family_member.patient_id)
@@ -60,10 +61,16 @@ class FamilyMembersController < ApplicationController
 
   def family_member_params
     params.require(:family_member).permit(
-    :patient_id,
     :visit_id,
+    :patient_id,
     :topic_id,
-    {future_patient_data_hash: [
-    :first_name, :last_name, :born_years_ago, :date_of_birth, :deceased, :death_time_ago, :death_time_ago_scale, :death_date, :cause_of_death, :note]})
+    :family_member,
+    :future_patient_data_hash,
+    {future_patient_data_hash:
+      [:first_name, :last_name, :born_years_ago, :date_of_birth, :deceased, :death_time_ago, :death_time_ago_scale, :death_date, :cause_of_death, :note]},
+    :gallery,
+    gallery_attributes:
+      [:id, :gallery, :title, :visit_id, :patient_id, :family_member_id, {attachments: []}]
+    )
   end
 end

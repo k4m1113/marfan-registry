@@ -78,6 +78,10 @@
 <% elsif current_page?(edit_visit_path) %>
   <div class="form-group">
     <%= render 'visits/visit_presence_checker', f: f %>
+    <%= f.fields_for :gallery do |ff| %>
+      <%= ff.label :attachments, "Add Photos and Documents", class: "control-label" %>
+      <%= ff.file_field :attachments, multiple: true, class: "form-control-file" %>
+    <% end %>
     <%= f.fields_for :future_patient_data_hash do |ff| %>
     <div class="row">
       <div class="col-sm-6">

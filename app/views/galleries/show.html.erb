@@ -8,7 +8,7 @@
         <img src="<%= a.url %>" class="figure-img img-fluid">
         <figcaption class="figure-caption">
           <%= a.model.id %>
-          <%= link_to "Delete", gallery_attachment_path(@gallery, i), method: :delete, data: { confirm: "Are you sure you want to delete this image?" } %>
+          <%= link_to "Delete", gallery_attachment_path(@gallery, i), method: :delete, data: { confirm: "Are you sure you want to delete this attachment?" } %>
         </figcaption>
       </figure>
     </div>
@@ -24,4 +24,4 @@
   <%= f.submit "Add More Images" %>
 <% end %>
 <hr />
-<%= link_to '‹ Back', :back, class: "btn btn-secondary" %>
+<%= link_to '‹ Back', edit_visit_path(@gallery.visit_id), class: "btn btn-secondary" %>

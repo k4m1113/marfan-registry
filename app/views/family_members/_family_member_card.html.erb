@@ -1,30 +1,26 @@
 <% action = "update" %>
 <% topic = Topic.find(fm.topic_id) %>
-  <% @fpdh = fm.future_patient_data_hash %>
-  <div class="card card-block">
-    <h4 class="card-header"><%= topic.name %>
+<% @fpdh = fm.future_patient_data_hash %>
+<div class="card">
+  <% if fm.gallery && !fm.gallery.attachments.blank? %>
+    <%= image_tag(fm.gallery.attachments[0].url, class: "card-img-top img-fluid") %>
+    <%= link_to "Manage Attachments ›", gallery_path(@gallery.id), class: "btn btn-secondary" %>
+  <% end %>
+  <h4 class="card-header">
+    <%= "#{topic.name}: #{print_if_present(@fpdh['first_name'])} #{print_if_present(@fpdh['last_name'])}" %>
+  </h4>
+  <div class="card-block">
+    <p class="card-text">
+      <%= death_info(fm) %>
       <br />
-      <small class="card-text">
-      <b><%="#{print_if_present(@fpdh['first_name'])} #{print_if_present(@fpdh['last_name'])}" %></b>
-      <br />
-      <% if !@fpdh['deceased'] %>
-        <% @age = ((Date.today - @fpdh['date_of_birth'].to_i)/365.25).floor %>
-        Age: <%= @age ? "#{@age} years" : "not noted" %> (living)
-        <br />
-      <% else %>
-        (cause of death <%= print_if_present(@fpdh['cause_of_death']).downcase %>)
-        <br />
-      <% end %>
-        Notes: <%= @fpdh['note'].blank? ? "none" : @fpdh['note'] %>
-        <br />
-        <hr />
-      </small>
-    </h4>
+      Notes: <%= @fpdh['note'].blank? ? "none" : @fpdh['note'] %>
+    </p>
     <button type="button" class="btn btn-primary btn-sm" data-animation="false" data-toggle="modal" data-target="#<%= fm.id -%>Modal" style="display: block; margin: 0 auto;" id=<%= topic.name %>>
       <i class="fa fa-search"></i>
       See Details
     </button>
   </div>
-  <div class="modal fade" id=<%= "#{fm.id}Modal" %> tabindex="-1" role="dialog" aria-labelledby="showModalLabel" aria-hidden="true">
-    <%= render 'family_members/show_modal', fm: fm  %>
-  </div>
+</div>
+<div class="modal fade" id=<%= "#{fm.id}Modal" %> tabindex="-1" role="dialog" aria-labelledby="showModalLabel" aria-hidden="true">
+  <%= render 'family_members/show_modal', fm: fm, f: f  %>
+</div>

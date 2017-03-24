@@ -49,7 +49,7 @@ class VisitsController < ApplicationController
   def edit
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient_id)
-    @gallery = Gallery.find(@visit.gallery.id)
+    @gallery = Gallery.where(visit_id: @visit.id).order(id: :asc)[0]
 
     @family_members = FamilyMember.where(patient_id: @patient.id)
     @children = @patient.family_members.select{ |relation| relation['topic_id'] === @child.id}
@@ -157,8 +157,10 @@ class VisitsController < ApplicationController
       procedures_attributes:
         [:topic_id, :patient_id, :clinician_id, :visit_id, :note, {attachments: []}],
       family_members_attributes:
-        [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, {future_patient_data_hash: [
-        :first_name, :last_name, :born_years_ago, :date_of_birth, :deceased, :death_time_ago, :death_time_ago_scale, :death_date, :cause_of_death, :note]}, {attachments: []}],
+        [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, :family_member, {future_patient_data_hash: [
+        :first_name, :last_name, :born_years_ago, :date_of_birth, :deceased, :death_time_ago, :death_time_ago_scale, :death_date, :cause_of_death, :note]}, :gallery, gallery_attributes:
+          [:title, {attachments: []}]
+        ],
       hospitalizations_attributes:
         [:visit_id, :patient_id, :topic_id, :hospitalization, :admission_date, :time_ago, :time_ago_scale, :length_of_stay, :length_of_stay_scale, :hosp_type, :description, :location, :note],
       tests_attributes:

@@ -7,7 +7,7 @@
       <h4 class="modal-title" id="showModalLabel"><%= Topic.find(fm.topic_id).name.capitalize %></h4>
     </div>
     <div class="modal-body">
-      <%= render 'family_members/show', fm: fm %>
+      <%= render 'family_members/show', fm: fm, f: f %>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

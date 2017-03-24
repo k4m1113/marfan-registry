@@ -7,7 +7,7 @@ gem 'sass-rails'
 gem 'sprockets-rails', '>= 2.3.2'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
-gem 'jquery-rails'
+gem 'jquery-rails', ">=3.0.0"
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'responders'
@@ -26,6 +26,8 @@ gem 'delayed_job_active_record'
 gem 'font-awesome-sass'
 gem 'ruby-units'
 gem 'virtual_keyboard'
+gem 'tether-rails'
+gem 'jquery-ui-rails'
 
 group :development, :test do
   gem 'byebug'
@@ -48,7 +50,3 @@ group :test do
 end
 
 gem 'puma'
-
-source 'https://rails-assets.org' do
-  gem 'rails-assets-tether', '>= 1.3.3'
-end

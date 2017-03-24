@@ -7,13 +7,15 @@
         </h4>
       </label>
       <div class="col-sm-10">
-        <% @children.each do |child| %>
-          <div class="col-sm-3">
-            <%= render 'family_members/family_member_card', fm: child, title: "child", f: f %>
+        <div class="row">
+          <% @children.each do |child| %>
+            <div class="col-sm-4">
+              <%= render 'family_members/family_member_card', fm: child, title: "child", f: f %>
+            </div>
+          <% end %>
+          <div class="col-sm-4">
+            <%= render 'family_members/plus_button', title: "child", f: f %>
           </div>
-        <% end %>
-        <div class="col-sm-3">
-          <%= render 'family_members/plus_button', title: "child", f: f %>
         </div>
       </div>
     </div>
@@ -24,13 +26,15 @@
         </h4>
       </label>
       <div class="col-sm-10">
-        <% @siblings.each do |sibling| %>
-          <div class="col-sm-3">
-            <%= render 'family_members/family_member_card', fm: sibling, title: "sibling", f: f %>
+        <div class="row">
+          <% @siblings.each do |sibling| %>
+            <div class="col-sm-4">
+              <%= render 'family_members/family_member_card', fm: sibling, title: "sibling", f: f %>
+            </div>
+          <% end %>
+          <div class="col-sm-4">
+            <%= render 'family_members/plus_button', title: "sibling", f: f %>
           </div>
-        <% end %>
-        <div class="col-sm-3">
-          <%= render 'family_members/plus_button', title: "sibling", f: f %>
         </div>
       </div>
     </div>
@@ -41,13 +45,15 @@
         </h4>
       </label>
       <div class="col-sm-10">
-        <% @parents.each do |parent| %>
-          <div class="col-sm-3">
-            <%= render 'family_members/family_member_card', fm: parent, title: "parent", f: f %>
+        <div class="row">
+          <% @parents.each do |parent| %>
+            <div class="col-sm-4">
+              <%= render 'family_members/family_member_card', fm: parent, title: "parent", f: f %>
+            </div>
+          <% end %>
+          <div class="col-sm-4">
+            <%= render 'family_members/plus_button', title: "parent", f: f %>
           </div>
-        <% end %>
-        <div class="col-sm-3">
-          <%= render 'family_members/plus_button', title: "parent", f: f %>
         </div>
       </div>
     </div>
