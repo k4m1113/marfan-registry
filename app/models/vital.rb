@@ -2,6 +2,10 @@ class Vital < ActiveRecord::Base
   attr_accessor :test_amount, :test_unit_of_meas
 
   before_save :calculate_metric
+  
+  has_one :gallery
+
+  accepts_nested_attributes_for :gallery
 
   belongs_to :topic
   belongs_to :patient,

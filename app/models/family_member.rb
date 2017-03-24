@@ -24,6 +24,8 @@ class FamilyMember < ActiveRecord::Base
       FamilyMember.all
     end.sorted
   end
+  
+  has_one :gallery
 
   belongs_to :patient,
     inverse_of: :family_members
@@ -32,7 +34,6 @@ class FamilyMember < ActiveRecord::Base
   belongs_to :visit,
     inverse_of: :family_members,
     required: false
-
 
   validates :claimed_patient_id,
     numericality: {

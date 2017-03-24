@@ -1,9 +1,9 @@
 class Visit < ActiveRecord::Base
   include Report
-  mount_uploaders :attachments, AttachmentUploader
-  # mount_uploaders :documents, DocumentUploader
 
   has_one :patient
+  has_one :gallery,
+    inverse_of: :visit
 
   has_many :symptoms,
     dependent: :destroy
@@ -24,6 +24,8 @@ class Visit < ActiveRecord::Base
     dependent: :destroy
   has_many :procedures,
     dependent: :destroy
+
+  accepts_nested_attributes_for :gallery
 
   accepts_nested_attributes_for :complications
   accepts_nested_attributes_for :vitals
@@ -72,4 +74,9 @@ class Visit < ActiveRecord::Base
   validates :arm_span,
     numericality: { greater_than: 0 },
     allow_nil: true
+
+  def tags_for_form
+    gallery = Gallery.find(visit_id: id)
+    gallery.any? ? gallery : gallery.build
+  end
 end

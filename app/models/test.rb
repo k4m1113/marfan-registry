@@ -1,6 +1,5 @@
 class Test < ActiveRecord::Base
   attr_accessor :test_amount, :test_unit_of_meas
-  mount_uploaders :attachments, AttachmentUploader
 
   before_save :concat_result
 
@@ -18,6 +17,9 @@ class Test < ActiveRecord::Base
     },
     allow_nil: true
 
+  has_one :gallery
+
+  accepts_nested_attributes_for :gallery
 
   after_save { |t| t.destroy if (t.test_date.nil? && t.time_ago.nil?) || (t.result.blank?) }
 

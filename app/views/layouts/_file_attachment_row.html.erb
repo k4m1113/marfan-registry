@@ -1,7 +1,9 @@
 <div class="row">
   <div class="col-sm">
-    <%= f.label :attachments, "Add Photos and Documents", class: "control-label" %>
-    <%= f.file_field :attachments, multiple: true, class: "form-control-file" %>
+    <%= f.fields_for :gallery do |ff| %>
+      <%= f.label :attachments, "Add Photos and Documents", class: "control-label" %>
+      <%= f.file_field :attachments, multiple: true, class: "form-control-file" %>
+    <% end %>
   </div>
 </div>
 <hr />

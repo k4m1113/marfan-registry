@@ -19,6 +19,9 @@ class Patient < ActiveRecord::Base
     end.sorted
   end
 
+  has_one :gallery,
+    inverse_of: :patient
+
   has_many :visits,
     inverse_of: :patient
 
@@ -26,7 +29,6 @@ class Patient < ActiveRecord::Base
     dependent: :destroy
   has_many :vitals,
     dependent: :destroy
-
 
   has_many :symptoms,
     dependent: :destroy
@@ -45,6 +47,8 @@ class Patient < ActiveRecord::Base
     dependent: :destroy
   has_many :procedures,
     dependent: :destroy
+
+  accepts_nested_attributes_for :gallery
 
   accepts_nested_attributes_for :vitals
   accepts_nested_attributes_for :complications

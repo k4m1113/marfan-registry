@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1><%= @gallery.title ? @gallery.title : "Visit #{@gallery.visit_id} Gallery #{@gallery.id}:" %></h1>
+<div class="row">
+  <% @gallery.attachments.each_with_index do |a, i| %>
+    <div class="col-sm-4">
+      <figure>
+        <img src="<%= a.url %>" class="figure-img img-fluid">
+        <figcaption class="figure-caption">
+          <%= a.model.id %>
+          <%= link_to "Delete", gallery_attachment_path(@gallery, i), method: :delete, data: { confirm: "Are you sure you want to delete this image?" } %>
+        </figcaption>
+      </figure>
+    </div>
+  <% end %>
+</div>
+<hr />
+<h4>Add more attachments</h4>
+
+<%= form_for @gallery, url: gallery_attachments_path(@gallery), method: :post do |f| %>
+
+  <%= f.file_field :attachments, multiple: true %>
+
+  <%= f.submit "Add More Images" %>
+<% end %>
+<hr />
+<%= link_to '‹ Back', :back, class: "btn btn-secondary" %>

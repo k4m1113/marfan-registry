@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170321224759) do
+ActiveRecord::Schema.define(version: 20170322223536) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,22 @@ ActiveRecord::Schema.define(version: 20170321224759) do
     t.datetime "death_date"
     t.integer  "topic_id",                 null: false
     t.json     "attachments"
+  end
+
+  create_table "galleries", force: :cascade do |t|
+    t.string   "title"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "attachments",        default: [],              array: true
+    t.integer  "visit_id"
+    t.integer  "test_id"
+    t.integer  "symptom_id"
+    t.integer  "procedure_id"
+    t.integer  "patient_id"
+    t.integer  "medication_id"
+    t.integer  "hospitalization_id"
+    t.integer  "family_member_id"
+    t.integer  "diagnosis_id"
   end
 
   create_table "heart_imagings", force: :cascade do |t|

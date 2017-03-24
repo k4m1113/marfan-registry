@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :galleries do
+    resources :attachments, only: [:create, :destroy]
+  end
   # resources :visits do
   #   resources :heart_imagings
   #   resources :hospitalizations
@@ -31,6 +34,7 @@ Rails.application.routes.draw do
   resources :diagnoses
   resources :medications
   resources :complications
+  resources :images
 
   root "patients#index"
 

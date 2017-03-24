@@ -1,7 +1,7 @@
 require 'report'
 require 'doctor'
 require 'json'
-# require 'pry'
+require 'pry'
 
 class VisitsController < ApplicationController
   include Report
@@ -9,6 +9,8 @@ class VisitsController < ApplicationController
 
   respond_to :html, :js
   before_filter :common_content
+
+  after_filter :set_gallery, only: :create
 
   def index
     @visits = Visit.all
@@ -47,6 +49,7 @@ class VisitsController < ApplicationController
   def edit
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient_id)
+    @gallery = Gallery.find(@visit.gallery.id)
 
     @family_members = FamilyMember.where(patient_id: @patient.id)
     @children = @patient.family_members.select{ |relation| relation['topic_id'] === @child.id}
@@ -118,6 +121,12 @@ class VisitsController < ApplicationController
 
   private
 
+  def set_gallery
+    unless @visit.gallery
+      Gallery.create(visit_id: @visit.id, patient_id: @patient.id)
+    end
+  end
+
   def visit_params
     params.require(:visit).permit(
       :id,
@@ -134,7 +143,9 @@ class VisitsController < ApplicationController
       :secondary_reason,
       :vital,
       :test,
-      {attachments: []},
+      :gallery,
+      gallery_attributes:
+        [:id, :gallery, :title, :visit_id, :patient_id, {attachments: []}],
       vitals_attributes:
         [:visit_id, :patient_id, :topic_id, :vital, :test_amount, :sbp, :dbp, :test_unit_of_meas, :measurement, :note, {attachments: []}],
       medications_attributes:
@@ -151,7 +162,10 @@ class VisitsController < ApplicationController
       hospitalizations_attributes:
         [:visit_id, :patient_id, :topic_id, :hospitalization, :admission_date, :time_ago, :time_ago_scale, :length_of_stay, :length_of_stay_scale, :hosp_type, :description, :location, :note],
       tests_attributes:
-        [:visit_id, :topic_id,:patient_id, :test, :test_date, :time_ago, :test_amount, :test_unit_of_meas, :time_ago_scale, :result, :note, {attachments: []}],
+        [:visit_id, :topic_id,:patient_id, :test, :test_date, :time_ago, :test_amount, :test_unit_of_meas, :time_ago_scale, :result, :note,
+        gallery_attributes:
+          [:title, {attachments: []}]
+        ],
       symptoms_attributes:
         [:topic_id, :patient_id, :visit_id, :symptoms, :presence, :measurement, :time_ago, :time_ago_scale, :start_date, :frequency, :note, {attachments: []}]
       )
