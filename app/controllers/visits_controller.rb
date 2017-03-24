@@ -1,7 +1,7 @@
 require 'report'
 require 'doctor'
 require 'json'
-require 'pry'
+# require 'pry'
 
 class VisitsController < ApplicationController
   include Report
