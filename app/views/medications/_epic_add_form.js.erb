@@ -1,9 +1,7 @@
 function parseMed(str) {
-  var medsArr = str.split("•  ")
+  var medsArr = str.split("•  ");
+  medsArr.shift();
   var medsJSON = []
-  if (medsArr[0].includes('Current')) {
-    medsArr.shift();
-  }
   for (var i = 0; i < medsArr.length; i++) {
     commas = medsArr[i].split(', ')
     if (commas[0].includes('(')) {
@@ -125,7 +123,7 @@ function parseMed(str) {
 // •  Sodium Bicarb-Sodium Chloride (NEILMED NASAFLO) PACK, by Nasal route Every Day., Disp: , Rfl:
 // •  valsartan (DIOVAN) 160 mg tablet, take 1 Tab by mouth daily, Disp: 90 Tab, Rfl: 3
 // •  ZYRTEC 10 mg TABS, take by mouth every morning. , Disp: , Rfl:
-
+//
 // Current Outpatient Prescriptions:
 // •  azithromycin (ZITHROMAX) 500 mg tablet, take 500 mg by mouth daily as needed (bronchiectasis exacerbations) Azithromycin 500 mg Daily x 3 days as needed for bronchiectasis exacerbations., Disp: , Rfl:
 // •  estradiol (ESTRADERM) 0.1 mg/24 hr twice-weekly patch, apply 1 Patch to skin, Disp: , Rfl:
