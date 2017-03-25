@@ -1,10 +1,10 @@
 <div class="card">
   <div class="card-header text-center">
-    <ul class="nav nav-pills" role="tablist">
+    <ul class="nav nav-tabs" role="tablist">
       <div class="row">
         <% @root_topics.each do |rt| %>
           <li class="nav-item">
-            <a class="nav-link" data-animation="false" data-toggle="pill" href="#<%= rt.name.parameterize.underscore %>" role="tab">
+            <a class="nav-link" data-toggle="tab" href="#<%= rt.name.parameterize.underscore %>" role="tab">
               <%= rt.name.titleize %>
             </a>
           </li>
@@ -14,9 +14,10 @@
   </div>
   <div class="card-block">
     <div class="tab-content">
-      <% @root_topics.each do |rt| %>
-        <% @discussion_topic = Topic.roots.where(name: "#{rt.name}")[0].self_and_descendants %>
-        <div class="tab-pane" id="<%= rt.name.parameterize.underscore %>">
+      <% @root_topics.each_with_index do |rt, i| %>
+
+        <div class="tab-pane fade <%= "show in" if i == 0 %>" role="tabpanel" id="<%= rt.name.parameterize.underscore %>">
+          <% @discussion_topic = Topic.roots.where(name: "#{rt.name}")[0].self_and_descendants %>
           <% case rt.name %>
           <% when 'family history' %>
             <%= render 'family_members/family_tree', f: f %>
@@ -47,3 +48,9 @@
     </div>
   </div>
 </div>
+<script>
+$('a.nav-link').on("click", function(){
+  $(".nav").find(".active").removeClass("active");
+  $(this).parent().addClass("active");
+});
+</script>
