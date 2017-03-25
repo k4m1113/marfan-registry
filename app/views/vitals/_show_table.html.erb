@@ -15,7 +15,6 @@
       </thead>
       <% vitals.each do |v| %>
         <tr>
-          <!-- <th><%= link_to "#{v.topic_id}", topic_path(v.topic_id) %></th> -->
           <td><%= v.created_at.strftime("%b %Y") %></td>
           <td><%= v.topic.name %></td>
           <td><%= "#{print_if_present(v.measurement)} #{v.topic.units_of_measurement[0]}" %></td>

@@ -1,0 +1,37 @@
+<%= form_for(@procedure) do |f| %>
+  <div class="field">
+    <%= f.label :topic_id %><br>
+    <%= f.text_field :topic_id %>
+  </div>
+  <div class="field">
+    <%= f.label :patient_id %><br>
+    <%= f.text_field :patient_id %>
+  </div>
+  <div class="field">
+    <%= f.label :visit_id %><br>
+    <%= f.text_field :visit_id %>
+  </div>
+  <div class="field">
+    <%= f.label :clinician_id %><br>
+    <%= f.text_field :clinician_id %>
+  </div>
+  <div class="field">
+    <%= f.label :time_ago %><br>
+    <%= f.text_field :time_ago %>
+  </div>
+  <div class="field">
+    <%= f.label :time_ago_scale %><br>
+    <%= f.text_field :time_ago_scale %>
+  </div>
+  <div class="field">
+    <%= f.label :absolute_start_date %><br>
+    <%= f.text_field :absolute_start_date %>
+  </div>
+  <div class="field">
+    <%= f.label :note %><br>
+    <%= f.text_field :note %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
