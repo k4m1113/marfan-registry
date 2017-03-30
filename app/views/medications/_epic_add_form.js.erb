@@ -3,20 +3,22 @@ function parseMed(str) {
   medsArr.shift();
   var medsJSON = []
   for (var i = 0; i < medsArr.length; i++) {
-    commas = medsArr[i].split(', ')
+    commas = splitNoParen(medsArr[i])
+    commas = commas.map(function(x) { return x.trim() });
+    console.log(commas)
     if (commas[0].includes('(')) {
       firstParen = commas[0].indexOf('(')
       secondParen = commas[0].indexOf(')')
-      doseSpace = commas[0].indexOf(' ', secondParen + 2)
-      lastSpace = commas[0].indexOf(' ', doseSpace + 1)
+      doseSpace = commas[1].indexOf(' ')
+      lastSpace = commas[1].indexOf(' ', doseSpace + 1)
       medsJSON.push(
         {
           "name": commas[0].slice(0, firstParen - 1),
           "commonName": commas[0].slice(firstParen + 1, secondParen),
-          "dose": commas[0].slice(secondParen + 2, doseSpace),
-          "doseUnitOfMeas": commas[0].slice(doseSpace + 1, lastSpace),
-          "dosageForm": commas[0].slice(lastSpace + 1, commas[0].length),
-          "ingestionMethod": commas[1],
+          "dose": commas[1].slice(0, doseSpace),
+          "doseUnitOfMeas": commas[1].slice(doseSpace + 1, lastSpace),
+          "dosageForm": commas[1].slice(lastSpace + 1, commas[0].length),
+          "ingestionMethod": commas[2],
           "topicID": mapMed(commas[0].slice(0, firstParen - 1), commas[0].slice(firstParen + 1, secondParen), $('#invisible').data('rubyvar'))
         }
       )
@@ -129,3 +131,16 @@ function parseMed(str) {
 // •  estradiol (ESTRADERM) 0.1 mg/24 hr twice-weekly patch, apply 1 Patch to skin, Disp: , Rfl:
 // •  Progesterone 200 mg SUPP, insert 200 mg into the vagina, Disp: , Rfl:
 // •  Travoprost (TRAVATAN Z) 0.004 % Drop, 1 Drop by Ophthalmic route every bedtime, Disp: , Rfl:
+
+
+// Current Outpatient Prescriptions:
+// •  aspirin 81 mg enteric coated tablet, take 81 mg by mouth daily.  , Disp: , Rfl:
+// •  atorvastatin (LIPITOR) 40 mg tablet, take 1 Tab by mouth daily, Disp: 90 Tab, Rfl: 3
+// •  clopidogrel (PLAVIX) 75 mg tablet, take 1 Tab by mouth daily, Disp: 90 Tab, Rfl: 3
+// •  fluticasone (FLONASE) 50 mcg/actuation SpSn spray, 2 Sprays by Nasal route daily, Disp: 16 g, Rfl: 11
+// •  lansoprazole (PREVACID) 30 mg delayed release capsule, take 1 Cap by mouth 2 times a day, Disp: 180 Cap, Rfl: 11
+// •  lisinopril (PRINIVIL, ZESTRIL) 5 mg tablet, take 1 Tab by mouth daily, Disp: 90 Tab, Rfl: 3
+// •  metoprolol (LOPRESSOR) 25 mg tablet, take 0.5 Tabs by mouth 2 times a day, Disp: 90 Tab, Rfl: 3
+// •  mometasone (NASONEX) 50 mcg/actuation nasal spray, 2 Sprays by Nasal route daily (Patient taking differently: 2 Sprays by Nasal route daily as needed ), Disp: 1 Bottle, Rfl: 11
+// •  nitroglycerin (NITROSTAT) 0.4 mg sublingual tablet, PLACE 1 TABLET UNDER THE TONGUE AND LET DISSOLVE AS NEEDED, Disp: 25 Tab, Rfl: 6
+// •  ranitidine (ZANTAC) 300 mg tablet, take 300 mg by mouth Evening, Disp: 60 Tab, Rfl: 6
