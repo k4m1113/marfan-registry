@@ -1,41 +1,44 @@
 <div class="row">
-  <div class="col-sm-10 col-sm-offset-1">
+  <div class="col-sm-12">
     <div class="card">
       <div class="card-block">
-        <p style="font-size:18px;">
-        <br />
-        07 January 2017
-        <br /><br />
-        123 Main Street
-        <br />
-        Anytown, LA, USA
-        <br />
-        01234
-        <br /><br />
-        To whom it may concern,
-        <br /><br />
-        I had the pleasure of seeing Antoine on January 7, 2017 for a yearly checkup visit at the Stanford University Center for Marfan Syndrome and Related Disorders in Stanford, CA. Antoine came to us primarily for genetic testing of a benign FBN1 gene. He has previously had testing of the ACTA2, MYH11, and MYLK genes.
-        <br /><br />
-        Antoine's current medications consist of Toprol-XL 100mg by mouth once daily, Prozac 50mg by mouth twice daily, and Losartan 50mg by mouth once daily.
-        <br /><br />
-        Antoine was in good health when I saw him, with a a blood pressure of 96/74. Pulse was 63 and weight was 160 lbs. He does not smoke, nor does he drink significant alcohol. His exercise consists of mild walking and moderate commuting by bike. He is currently living with his partner and working as a doctor in France.
-        <br /><br />
-        As part of his clinic visit he had undergone an echocardiogram which demonstrated an aortic root measurement of 4.1 cm. He had previously had undergone an echocardiogram one year prior at this clinic, with an aortic root measurement of 4.0 cm. The measurement is slight enough that it is most likely due to differences in measurement technique rather than to any real change in value. The test also demonstrated trace aortic insufficiency and a well functioning mitral valve.
-        <br /><br />
-
-        I have reassured Antoine that the whole clinic team will be available to him in case there are any issues that arise in the future. I encouraged him to contact me if she has any problems with or is intolerant of the medication changes.
-        <br /><br />
-        It has been a pleasure to participate in Antoine's care. if there are any questions or concerns, please contact me.
-        <br /><br />
-        Sincerely,
-        <br /><br />
-        David H. Liang, MD
-        <br />
-        Associate Professor
-        <br />
-        Director, Marfan Center
-      </p>
+        <textarea class="form-control" style="min-height:50em;">
+          <%= Visit.find(params[:id]).report %>
+        </textarea>
       </div>
     </div>
   </div>
 </div>
+
+<!-- <br />
+07 January 2017
+<br /><br />
+123 Main Street
+<br />
+Anytown, LA, USA
+<br />
+01234
+<br /><br />
+To whom it may concern,
+<br /><br />
+I had the pleasure of seeing Antoine on January 7, 2017 for a yearly checkup visit at the Stanford University Center for Marfan Syndrome and Related Disorders in Stanford, CA. Antoine came to us primarily for genetic testing of a benign FBN1 gene. He has previously had testing of the ACTA2, MYH11, and MYLK genes.
+<br /><br />
+Antoine's current medications consist of Toprol-XL 100mg by mouth once daily, Prozac 50mg by mouth twice daily, and Losartan 50mg by mouth once daily.
+<br /><br />
+
+<br /><br />
+As part of his clinic visit he had undergone an echocardiogram which demonstrated an aortic root measurement of 4.1 cm. He had previously had undergone an echocardiogram one year prior at this clinic, with an aortic root measurement of 4.0 cm. The measurement is slight enough that it is most likely due to differences in measurement technique rather than to any real change in value. The test also demonstrated trace aortic insufficiency and a well functioning mitral valve.
+<br /><br />
+
+I have reassured Antoine that the whole clinic team will be available to him in case there are any issues that arise in the future. I encouraged him to contact me if she has any problems with or is intolerant of the medication changes.
+<br /><br />
+It has been a pleasure to participate in Antoine's care. if there are any questions or concerns, please contact me.
+<br /><br />
+Sincerely,
+<br /><br />
+David H. Liang, MD
+<br />
+Associate Professor
+<br />
+Director, Marfan Center
+</p> -->

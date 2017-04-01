@@ -1,4 +1,6 @@
 module Report
+  module_function
+
   def sentence_constructor(noun, adjective, object, location, time)
     sentence = ""
     sentence += "#{noun.capitalize} reported a/an "
@@ -13,4 +15,6 @@ module Report
       return ","
     end
   end
+
+
 end

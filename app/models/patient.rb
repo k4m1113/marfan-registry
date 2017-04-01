@@ -1,5 +1,6 @@
 class Patient < ActiveRecord::Base
   include PgSearch
+  attr_accessor :object_pronoun, :subject_pronoun, :possessive_pronoun
 
   scope :sorted, -> { order(last_name: :asc) }
 
@@ -18,6 +19,37 @@ class Patient < ActiveRecord::Base
       Patient.all
     end.sorted
   end
+
+  def object_pronoun
+    if self.sex == "F"
+      return "her"
+    elsif self.sex == "M"
+      return "him"
+    else
+      return "them"
+    end
+  end
+
+  def subject_pronoun
+    if self.sex == "F"
+      return "she"
+    elsif self.sex == "M"
+      return "he"
+    else
+      return "they"
+    end
+  end
+
+  def possessive_pronoun
+    if self.sex == "F"
+      return "her"
+    elsif self.sex == "M"
+      return "his"
+    else
+      return "their"
+    end
+  end
+
 
   has_one :gallery,
     inverse_of: :patient
