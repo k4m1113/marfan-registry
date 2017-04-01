@@ -122,10 +122,10 @@ class Visit < ActiveRecord::Base
         parsed_meds = meds.select{ |m| m.common_name != nil }
         all_meds = []
         parsed_meds.each do |pm|
-          all_meds << "#{pm.name} #{number_to_human(pm.dose)}#{pm.dose_unit_of_measurement} #{pm.ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '')}"
+          all_meds << "#{pm.name.downcase} #{number_to_human(pm.dose)}#{pm.dose_unit_of_measurement.downcase} #{pm.ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '')}"
         end
         simple_meds.each do |sm|
-          all_meds << "#{sm.name} #{sm.ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '')}"
+          all_meds << "#{sm.name.downcase} #{sm.ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '')}"
         end
         return %(#{patient.first_name.capitalize}'s medications consist of #{list_constructor(all_meds)}.)
       end
