@@ -1,3 +1,4 @@
+# require 'pry'
 class Visit < ActiveRecord::Base
   include ActiveSupport::NumberHelper
 
@@ -109,7 +110,28 @@ class Visit < ActiveRecord::Base
     end
 
     def vitals_paragraph
-      return %(#{patient.first_name} was in good health when I saw #{patient.object_pronoun}, with a blood pressure of #{vitals.select{|v| v.topic.name == 'SBP'}[0].measurement}/#{vitals.select{|v| v.topic.name == 'DBP'}[0].measurement} and a pulse of #{vitals.select{|v| v.topic.name == 'heart rate'}[0].measurement} bpm. #{patient.subject_pronoun.capitalize} measured #{vitals.select{|v| v.topic.name == 'height'}[0].measurement.to_f.round(2)}m in height and #{patient.possessive_pronoun} weight was #{vitals.select{|v| v.topic.name == 'weight'}[0].measurement.to_f.round(2)} kg.)
+      phrases = []
+
+      phrases << "a blood pressure of #{vitals.select{|v| v.topic.name == 'SBP'}[0].measurement}/#{vitals.select{|v| v.topic.name == 'DBP'}[0].measurement}" if vitals.select{|v| v.topic.name == 'SBP'}[0]
+      phrases << "a pulse of #{vitals.select{|v| v.topic.name == 'heart rate'}[0].measurement}" if vitals.select{|v| v.topic.name == 'heart rate'}[0]
+      phrases << "a height of #{vitals.select{|v| v.topic.name == 'height'}[0].measurement.to_f.round(2)}m" if vitals.select{|v| v.topic.name == 'height'}[0]
+      phrases << "a weight of #{vitals.select{|v| v.topic.name == 'weight'}[0].measurement.to_f.round(2)}kg" if vitals.select{|v| v.topic.name == 'weight'}[0]
+      phrases << "a temperature of #{vitals.select{|v| v.topic.name == 'temperature'}[0].measurement}°C" if vitals.select{|v| v.topic.name == 'temperature'}[0]
+
+      if phrases.empty?
+        return %(#{patient.first_name} had no vitals measured during this visit.)
+      else
+        return %(#{patient.first_name} was in good health when I saw #{patient.object_pronoun} with #{list_constructor(phrases)}.)
+      end
+    end
+
+    def family_paragraph
+      family_members = patient.family_members
+      if family_members.blank?
+        return %(A family history was not completed for #{patient.first_name} during #{patient.possessive_pronoun} visit.)
+      else
+        return %(#{family_members[0].future_patient_data_hash["note"]})
+      end
     end
 
     def meds_paragraph
@@ -142,6 +164,7 @@ class Visit < ActiveRecord::Base
     end
     return %(\n#{self.header}
       \n#{self.vitals_paragraph}
+      \n#{self.family_paragraph}
       \n#{self.meds_paragraph}
       \n#{self.signature})
   end
