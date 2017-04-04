@@ -12,6 +12,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'responders'
 gem "carrierwave"
+gem "fog"
 gem "mini_magick"
 gem 'validates_timeliness', '~> 4.0'
 gem 'pg_search', '~> 1.0', '>= 1.0.6'

@@ -1,5 +1,4 @@
 class Visit < ActiveRecord::Base
-  include Report
   include ActiveSupport::NumberHelper
 
   has_one :patient
