@@ -1,4 +1,4 @@
-require 'pry'
+# require 'pry'
 class FamilyMember < ActiveRecord::Base
   include PgSearch
   include ApplicationHelper
