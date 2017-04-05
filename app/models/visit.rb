@@ -130,14 +130,18 @@ class Visit < ActiveRecord::Base
       if family_members.blank?
         return %(A family history was not completed for #{patient.first_name} during #{patient.possessive_pronoun} visit.)
       else
-        return %(#{family_members[0].future_patient_data_hash["note"]})
+        bios = ""
+        family_members.each do |fm|
+          bios += "#{fm.generate_bio} "
+        end
+        return %(As part of #{patient.first_name}'s comprehensive visit we gathered the following family history: \n#{bios})
       end
     end
 
     def meds_paragraph
       meds = self.medications.select{|m| m.current?}
       if meds.blank?
-        return "I did not discuss any medications with #{patient.first_name} during our visit."
+        return %(I did not discuss any medications with #{patient.first_name} during our visit.)
       else
         simple_meds = meds.select{ |m| m.common_name == nil }
         parsed_meds = meds.select{ |m| m.common_name != nil }
