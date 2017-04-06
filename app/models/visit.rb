@@ -100,6 +100,10 @@ class Visit < ActiveRecord::Base
       return list
     end
 
+    def sort_by_topic(active_record_spewing)
+
+    end
+
     def header
       address = %(\n#{Date.today.strftime('%m %B %Y')}\n\n#{patient.address_line_1 unless patient.address_line_1.blank?})
       [patient.address_line_2, patient.address_line_3].each do |line|
@@ -135,7 +139,7 @@ class Visit < ActiveRecord::Base
       else
         bios = ""
         family_members.each do |fm|
-          bios += "#{fm.generate_bio} "
+          bios += "\n#{fm.generate_bio} "
         end
         return %(As part of #{patient.first_name}'s comprehensive visit we gathered the following family history: \n#{bios})
       end
@@ -201,6 +205,37 @@ class Visit < ActiveRecord::Base
       end
     end
 
+    def diagnoses_paragraph
+      diagnoses = self.diagnoses + self.complications
+      if diagnoses.blank?
+
+      else
+        diags = ""
+        positives = diagnoses.select{|d| d.note === "presence"}
+        negatives = diagnoses.select{|d| d.note === "absence"}
+        diagnosis_constructors = [
+          "#{self.patient.subject_pronoun.capitalize} was found to have",
+          "#{self.patient.subject_pronoun.capitalize} was given",
+          "#{self.patient.subject_pronoun.capitalize} demonstrated",
+          "#{self.patient.subject_pronoun.capitalize} showed",
+          "#{self.patient.subject_pronoun.capitalize} had",
+          "We gave #{self.patient.object_pronoun}",
+          "We assigned to #{self.patient.object_pronoun}"
+        ]
+        unless positives.empty?
+          positives.each do |p|
+            diags += "#{diagnosis_constructors.sample} a positive #{p.topic.root.name} diagnosis of #{p.topic.name}. "
+          end
+        end
+        unless negatives.empty?
+          negatives.each do |p|
+            diags += "#{diagnosis_constructors.sample} a negative #{p.topic.root.name} diagnosis of #{p.topic.name}"
+          end
+        end
+      end
+      return %(#{diags})
+    end
+
     def signature
       return %(I have assured #{patient.first_name} that the whole clinic team will be available to #{patient.object_pronoun} in case there are any issues that arise in the future. I encouraged #{patient.object_pronoun} to contact me if #{patient.subject_pronoun} has any problems with or is intolerant of any changes we recommended.
       \nIt has been a pleasure to participate in #{patient.first_name.capitalize}'s care. if there are any questions or concerns, please don't hesitate contact us.
@@ -208,15 +243,13 @@ class Visit < ActiveRecord::Base
       \n#{self.clinician.first_name} #{self.clinician.last_name}
       \n#{self.clinician.practice_name})
     end
-    def echo
 
-
-    end
     return %(\n#{self.header}
       \n#{self.vitals_paragraph}
       \n#{self.meds_paragraph}
       \n#{self.imagery_paragraph}
       \n#{self.family_paragraph}
+      \n#{self.diagnoses_paragraph}
       \n#{self.signature})
   end
 
