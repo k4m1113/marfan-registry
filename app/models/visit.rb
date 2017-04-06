@@ -1,4 +1,4 @@
-require 'pry'
+# require 'pry'
 class Visit < ActiveRecord::Base
   include ActiveSupport::NumberHelper
   include ApplicationController::CommonContent
@@ -159,7 +159,7 @@ class Visit < ActiveRecord::Base
         simple_meds.each do |sm|
           all_meds << "#{sm.name.downcase} #{sm.ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '')}"
         end
-        return %(#{patient.first_name.capitalize}'s medications consist of #{list_constructor(all_meds)}.)
+        return %(#{patient.first_name.capitalize}'s medications consist of #{list_constructor(all_meds)})
       end
     end
 
@@ -207,10 +207,10 @@ class Visit < ActiveRecord::Base
 
     def diagnoses_paragraph
       diagnoses = self.diagnoses + self.complications
+      diags = ""
       if diagnoses.blank?
-
+        diags += "We did not note any diagnoses during this visit."
       else
-        diags = ""
         positives = diagnoses.select{|d| d.note === "presence"}
         negatives = diagnoses.select{|d| d.note === "absence"}
         diagnosis_constructors = [
