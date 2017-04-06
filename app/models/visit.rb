@@ -1,6 +1,9 @@
-# require 'pry'
+require 'pry'
 class Visit < ActiveRecord::Base
   include ActiveSupport::NumberHelper
+  include ApplicationController::CommonContent
+
+  HEART_IMAGING_LOCATIONS =  ApplicationController::CommonContent.instance_variable_get(:@heart_imaging_locations)
 
   has_one :patient
   has_one :gallery,
@@ -156,6 +159,48 @@ class Visit < ActiveRecord::Base
       end
     end
 
+    def imagery_paragraph
+      results = ""
+      imagery = self.tests.select{|t| HEART_IMAGING_LOCATIONS.include?(t.topic)}
+      if imagery.empty?
+        results += "#{self.patient.first_name} did not undergo any heart imagery as part of our visit."
+      else
+        echo = imagery.select{|i| i.topic.name === "echo" }
+        mri = imagery.select{|i| i.topic.name === "MRI" }
+        ct = imagery.select{|i| i.topic.name === "CT" }
+        other_meas = imagery - ct - mri - echo
+        unless echo.empty?
+          echos = []
+          echo.each do |e|
+            echos << "#{e.topic.parent.name} was #{e.result}"
+          end
+          results += "#{self.patient.first_name} underwent an echocardiogram in which #{self.patient.possessive_pronoun} #{list_constructor(echos)}. "
+        end
+        unless mri.empty?
+          mris = []
+          mri.each do |m|
+            mris << "#{m.topic.parent.name} was #{m.result}"
+          end
+          results += "#{self.patient.first_name} underwent an MRI in which #{self.patient.possessive_pronoun} #{list_constructor(mris)}. "
+        end
+        unless ct.empty?
+          cts = []
+          ct.each do |c|
+            cts << "#{c.topic.parent.name} was #{c.result}"
+          end
+          results += "#{self.patient.first_name} underwent a CT scan in which #{self.patient.possessive_pronoun} #{list_constructor(cts)}. "
+        end
+        unless other_meas.empty?
+          others = []
+          other_meas.each do |o|
+            others << "#{o.topic.name} of #{o.result}"
+          end
+          results += "#{self.patient.subject_pronoun.capitalize} had a #{list_constructor(others)}. "
+        end
+        return "#{results}"
+      end
+    end
+
     def signature
       return %(I have assured #{patient.first_name} that the whole clinic team will be available to #{patient.object_pronoun} in case there are any issues that arise in the future. I encouraged #{patient.object_pronoun} to contact me if #{patient.subject_pronoun} has any problems with or is intolerant of any changes we recommended.
       \nIt has been a pleasure to participate in #{patient.first_name.capitalize}'s care. if there are any questions or concerns, please don't hesitate contact us.
@@ -165,11 +210,13 @@ class Visit < ActiveRecord::Base
     end
     def echo
 
+
     end
     return %(\n#{self.header}
       \n#{self.vitals_paragraph}
-      \n#{self.family_paragraph}
       \n#{self.meds_paragraph}
+      \n#{self.imagery_paragraph}
+      \n#{self.family_paragraph}
       \n#{self.signature})
   end
 

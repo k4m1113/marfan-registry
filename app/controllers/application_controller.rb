@@ -46,4 +46,24 @@ class ApplicationController < ActionController::Base
     @sibling = Topic.where(name: "sibling")[0]
     @child = Topic.where(name: "child")[0]
   end
+
+  module CommonContent
+    @root = Topic.where(parent_id: Topic.where(name: "aortic root")[0].id)
+    @asc = Topic.where(parent_id: Topic.where(name: "ascending aortic")[0].id)
+    @transv = Topic.where(parent_id: Topic.where(name: "transverse arch")[0].id)
+    @desc = Topic.where(parent_id: Topic.where(name: "descending thoracic aorta")[0].id)
+    @supra = Topic.where(parent_id: Topic.where(name: "suprarenal abdominal aorta")[0].id)
+    @infra = Topic.where(parent_id: Topic.where(name: "infrarenal abdominal aorta")[0].id)
+    @annulus = Topic.where(parent_id: Topic.where(name: "aortic annulus")[0].id)
+    @lvidd = Topic.where(name: "LVIDd")[0]
+    @lvids = Topic.where(name: "LVIDs")[0]
+    @mvp = Topic.where(name: "mitral valve prolapse")[0]
+    @mmv = Topic.where(name: "myxomatous mitral valve")[0]
+    @mitral_regurge = Topic.where(name: "mitral regurgitation severity")[0]
+    @tricuspid_regurge = Topic.where(name: "tricuspid regurgitation severity")[0]
+    @mean_gradient = Topic.where(name: "mean gradient")[0]
+    @valve_area = Topic.where(name: "valve area")[0]
+    @ais = Topic.where(name: "aortic insufficiency severity")[0]
+    @heart_imaging_locations = [@root, @asc, @transv, @desc, @supra, @infra, @annulus, @lvidd, @lvids, @mvp, @mmv, @mitral_regurge, @tricuspid_regurge, @mean_gradient, @valve_area, @ais].flatten
+  end
 end
