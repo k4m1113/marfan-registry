@@ -238,10 +238,14 @@ class Visit < ActiveRecord::Base
       return %(#{body}.
       \nAntoine reported no #{list_constructor(no_instances, "nor")}.)
     end
+    
+    def recommendations
+
+    end
 
     def signature
       return %(I have assured #{patient.first_name} that the whole clinic team will be available to #{patient.object_pronoun} in case there are any issues that arise in the future. I encouraged #{patient.object_pronoun} to contact me if #{patient.subject_pronoun} has any problems with or is intolerant of any changes we recommended.
-      \nIt has been a pleasure to participate in #{patient.first_name.capitalize}'s care. if there are any questions or concerns, please don't hesitate contact us.
+      \nIt has been a pleasure to participate in #{patient.first_name.capitalize}'s care. If there are any questions or concerns, please don't hesitate contact us.
       \nSincerely,
       \n#{self.clinician.first_name} #{self.clinician.last_name}
       \n#{self.clinician.practice_name})
@@ -253,6 +257,7 @@ class Visit < ActiveRecord::Base
       \n#{self.imagery_paragraph}
       \n#{self.family_paragraph}
       \n#{self.concerns_body}
+      \n#{self.recommendations}
       \n#{self.signature})
   end
 end

@@ -6,10 +6,6 @@ class Complication < ActiveRecord::Base
     inverse_of: :complications
 
   def generate_summary
-    if self.note == "presence"
-      return "a presence of #{self.topic.name}"
-    else
-      return "an absence of #{self.topic.name}"
-    end
+    return "#{self.note.with_indefinite_article} of #{self.topic.name}"
   end
 end

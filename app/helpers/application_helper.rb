@@ -66,7 +66,9 @@ module ApplicationHelper
     if topic.depth <= 1
       topic.name
     else
-      "#{topic.parent.name} (#{topic.name})"
+      descriptors = topic.ancestors.map(&:name)
+      descriptors.shift
+      descriptors
     end
   end
 

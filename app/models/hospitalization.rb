@@ -1,4 +1,5 @@
 class Hospitalization < ActiveRecord::Base
+  include ApplicationHelper
   has_one :gallery
 
   belongs_to :topic
@@ -16,5 +17,10 @@ class Hospitalization < ActiveRecord::Base
     allow_nil: true
 
   def generate_summary
+    if self.note
+      return "#{self.topic.name} (#{self.note})"
+    else
+      "#{self.topic.name} procedure"
+    end
   end
 end

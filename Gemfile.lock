@@ -243,6 +243,8 @@ GEM
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     i18n (0.8.1)
+    indefinite_article (0.2.4)
+      activesupport
     inflecto (0.0.2)
     ipaddress (0.8.3)
     jbuilder (2.6.3)
@@ -423,6 +425,7 @@ DEPENDENCIES
   fog
   font-awesome-sass
   httparty
+  indefinite_article
   jbuilder (~> 2.0)
   jquery-rails (>= 3.0.0)
   jquery-ui-rails

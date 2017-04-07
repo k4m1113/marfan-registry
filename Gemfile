@@ -29,6 +29,8 @@ gem 'ruby-units'
 gem 'virtual_keyboard'
 gem 'tether-rails'
 gem 'jquery-ui-rails'
+gem 'indefinite_article'
+
 
 group :development, :test do
   gem 'byebug'
