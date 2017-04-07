@@ -14,4 +14,7 @@ class Hospitalization < ActiveRecord::Base
   validates :length_of_stay,
     numericality: { greater_than: 0 },
     allow_nil: true
+
+  def generate_summary
+  end
 end

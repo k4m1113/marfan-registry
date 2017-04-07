@@ -220,65 +220,19 @@ class Visit < ActiveRecord::Base
       end
     end
 
-## Concerns = anything discussed in a visit not incl: family history, vitals, heart imagery.
+    ## Concerns = anything discussed in a visit not incl: family history, vitals, heart imagery.
     def concerns_body
-      body = []
+      body = ""
       no_instances = []
       self.sort_by_topic.each do |topic, instances|
         if instances.blank?
           no_instances << topic
         else
-          body << "\n#{patient.first_name} had #{instances.length} #{topic}"
-          instances.each do |instance|
-            case instance
-            when Test
-              body << "\n#{instance.topic.name} on  #{find_date(instance.time_ago, instance.time_ago_scale, instance.created_at)} -- #{instance.result}, #{instance.note}"
-            when Diagnosis, Complication
-              body << "\n#{instance.topic.name} (#{instance.note})"
-            when Hospitalization
-              body << "\n#{instance.topic.name} hospitalization"
-            when Procedure
-              body << "\n#{instance.topic.name} procedure"
-            when Symptom
-              body << "\n#{instance.topic.name} symptom"
-            end
-          end
+          body << "\n#{patient.first_name} had #{instances.length} #{topic}: #{list_constructor(instances.map{|instance| instance.generate_summary})}"
         end
       end
-
-      return %(#{list_constructor(body)}
-      \nAntoine reported no #{list_constructor(no_instances, "nor")})
-    end
-
-    def diagnoses_paragraph
-      diagnoses = self.diagnoses + self.complications
-      diags = ""
-      if diagnoses.blank?
-        diags += "We did not note any diagnoses during this visit."
-      else
-        positives = diagnoses.select{|d| d.note === "presence"}
-        negatives = diagnoses.select{|d| d.note === "absence"}
-        diagnosis_constructors = [
-          "#{self.patient.subject_pronoun.capitalize} was found to have",
-          "#{self.patient.subject_pronoun.capitalize} was given",
-          "#{self.patient.subject_pronoun.capitalize} demonstrated",
-          "#{self.patient.subject_pronoun.capitalize} showed",
-          "#{self.patient.subject_pronoun.capitalize} had",
-          "We gave #{self.patient.object_pronoun}",
-          "We assigned to #{self.patient.object_pronoun}"
-        ]
-        unless positives.empty?
-          positives.each do |p|
-            diags += "#{diagnosis_constructors.sample} a positive #{p.topic.root.name} diagnosis of #{p.topic.name}. "
-          end
-        end
-        unless negatives.empty?
-          negatives.each do |p|
-            diags += "#{diagnosis_constructors.sample} a negative #{p.topic.root.name} diagnosis of #{p.topic.name}"
-          end
-        end
-      end
-      return %(#{diags})
+      return %(#{body}.
+      \nAntoine reported no #{list_constructor(no_instances, "nor")}.)
     end
 
     def signature

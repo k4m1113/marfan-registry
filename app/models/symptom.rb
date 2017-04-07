@@ -13,4 +13,9 @@ class Symptom < ActiveRecord::Base
   validates :measurement,
     numericality: true,
     allow_nil: true
+
+
+  def generate_summary
+  
+  end
 end

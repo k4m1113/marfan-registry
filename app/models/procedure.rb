@@ -6,4 +6,13 @@ class Procedure < ActiveRecord::Base
     inverse_of: :procedures
   belongs_to :patient,
     inverse_of: :procedures
+
+
+  def generate_summary
+    if self.note
+      return "#{self.topic.name} (#{self.note})"
+    else
+      "#{self.topic.name} procedure"
+    end
+  end
 end

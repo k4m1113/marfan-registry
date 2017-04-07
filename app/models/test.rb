@@ -1,4 +1,5 @@
 class Test < ActiveRecord::Base
+  include ApplicationHelper
   attr_accessor :test_amount, :test_unit_of_meas
 
   before_save :concat_result
@@ -27,5 +28,21 @@ class Test < ActiveRecord::Base
     unless self.test_amount.blank? || self.test_unit_of_meas.blank?
       self.result = "#{self.test_amount} #{self.test_unit_of_meas}"
     end
+  end
+  
+  def generate_summary
+    if self.test_date
+      test_date = self.test_date
+    elsif self.time_ago && self.time_ago_scale
+      test_date = find_date(self.time_ago, self.time_ago_scale, self.created_at)
+    else
+      test_date = self.created_at
+    end
+    if Topic.roots.include?(self.topic.parent)
+      descriptor = "#{self.topic.name}"
+    else
+      descriptor = "#{self.topic.name} for #{self.topic.parent.name}"
+    end
+    return "#{descriptor} was #{self.result}"
   end
 end

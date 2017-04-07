@@ -7,4 +7,12 @@ class Diagnosis < ActiveRecord::Base
     required: false
   belongs_to :patient,
     inverse_of: :diagnoses
+
+  def generate_summary
+    if self.note == "presence"
+      return "a presence of #{self.topic.name}"
+    else
+      return "an absence of #{self.topic.name}"
+    end
+  end
 end
