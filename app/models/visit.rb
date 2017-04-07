@@ -1,4 +1,4 @@
-require 'pry'
+# require 'pry'
 class Visit < ActiveRecord::Base
   include ActiveSupport::NumberHelper
   include ApplicationController::CommonContent
