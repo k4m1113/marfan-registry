@@ -107,13 +107,13 @@ class Visit < ActiveRecord::Base
     vitals = self.vitals
     concerns = self.sort_by_topic
 
-    def list_constructor(arr)
+    def list_constructor(arr, conjunction = "and")
       list = ""
       arr.each_with_index do |item, index|
         if index < (arr.length - 1)
           list << "#{item}, "
         else
-          list << "and #{item}"
+          list << "#{conjunction} #{item}"
         end
       end
       return list
@@ -220,17 +220,34 @@ class Visit < ActiveRecord::Base
       end
     end
 
+## Concerns = anything discussed in a visit not incl: family history, vitals, heart imagery.
     def concerns_body
       body = []
-      binding.pry
+      no_instances = []
       self.sort_by_topic.each do |topic, instances|
         if instances.blank?
-          body << "#{patient.first_name} did not report any #{topic}"
+          no_instances << topic
         else
-          body << "#{patient.first_name} had #{instances.length} #{topic}"
+          body << "\n#{patient.first_name} had #{instances.length} #{topic}"
+          instances.each do |instance|
+            case instance
+            when Test
+              body << "\n#{instance.topic.name} on  #{find_date(instance.time_ago, instance.time_ago_scale, instance.created_at)} -- #{instance.result}, #{instance.note}"
+            when Diagnosis, Complication
+              body << "\n#{instance.topic.name} (#{instance.note})"
+            when Hospitalization
+              body << "\n#{instance.topic.name} hospitalization"
+            when Procedure
+              body << "\n#{instance.topic.name} procedure"
+            when Symptom
+              body << "\n#{instance.topic.name} symptom"
+            end
+          end
         end
       end
-      return %(#{list_constructor(body)})
+
+      return %(#{list_constructor(body)}
+      \nAntoine reported no #{list_constructor(no_instances, "nor")})
     end
 
     def diagnoses_paragraph
@@ -280,5 +297,4 @@ class Visit < ActiveRecord::Base
       \n#{self.concerns_body}
       \n#{self.signature})
   end
-
 end
