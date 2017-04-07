@@ -87,7 +87,7 @@ class FamilyMember < ActiveRecord::Base
 
       def notes
         if !self.future_patient_data_hash['note'].blank?
-          return "We noted \"#{self.future_patient_data_hash['note']}\" about this family member."
+          return "(#{self.future_patient_data_hash['note']})"
         else
           return nil
         end

@@ -1,4 +1,4 @@
-# require 'pry'
+require 'pry'
 class Visit < ActiveRecord::Base
   include ActiveSupport::NumberHelper
   include ApplicationController::CommonContent
@@ -84,9 +84,28 @@ class Visit < ActiveRecord::Base
     gallery.any? ? gallery : gallery.build
   end
 
+  def concerns
+    return self.tests + self.procedures + self.complications + self.diagnoses + self.symptoms + self.hospitalizations
+  end
+
+  def sort_by_topic
+    return {
+      "cardiovascular concerns": self.concerns.select{|c| c.topic.root.name == "cardiovascular" },
+      "morphology/physical findings": self.concerns.select{|c| c.topic.root.name == "morphology/physical findings"},
+      "pulmonary concerns": self.concerns.select{|c| c.topic.root.name == "pulmonary"},
+      "orthopedic concerns": self.concerns.select{|c| c.topic.root.name == "orthopedic"},
+      "ophthalmologic concerns": self.concerns.select{|c| c.topic.root.name == "ophthalmologic"},
+      "gynecologic/urologic concerns": self.concerns.select{|c| c.topic.root.name == "gynecologic/urologic"},
+      "obstetric concerns": self.concerns.select{|c| c.topic.root.name == "obstetric (pregnancy)"},
+      "neurologic concerns": self.concerns.select{|c| c.topic.root.name == "neurologic"},
+      "gastrointestinal concerns": self.concerns.select{|c| c.topic.root.name == "gastrointestinal"}
+    }
+  end
+
   def report
     patient = Patient.find(self.patient_id)
     vitals = self.vitals
+    concerns = self.sort_by_topic
 
     def list_constructor(arr)
       list = ""
@@ -98,10 +117,6 @@ class Visit < ActiveRecord::Base
         end
       end
       return list
-    end
-
-    def sort_by_topic(active_record_spewing)
-
     end
 
     def header
@@ -205,6 +220,19 @@ class Visit < ActiveRecord::Base
       end
     end
 
+    def concerns_body
+      body = []
+      binding.pry
+      self.sort_by_topic.each do |topic, instances|
+        if instances.blank?
+          body << "#{patient.first_name} did not report any #{topic}"
+        else
+          body << "#{patient.first_name} had #{instances.length} #{topic}"
+        end
+      end
+      return %(#{list_constructor(body)})
+    end
+
     def diagnoses_paragraph
       diagnoses = self.diagnoses + self.complications
       diags = ""
@@ -249,7 +277,7 @@ class Visit < ActiveRecord::Base
       \n#{self.meds_paragraph}
       \n#{self.imagery_paragraph}
       \n#{self.family_paragraph}
-      \n#{self.diagnoses_paragraph}
+      \n#{self.concerns_body}
       \n#{self.signature})
   end
 
