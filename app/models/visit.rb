@@ -107,14 +107,14 @@ class Visit < ActiveRecord::Base
     vitals = self.vitals
     concerns = self.sort_by_topic
 
-    def list_constructor(arr, conjunction = "and")
+    def list_constructor(arr, conjunction = "and", punctuation = ",")
       list = ""
       if arr.length == 1
         list << "#{arr[0]}"
       else
         arr.each_with_index do |item, index|
           if index < (arr.length - 1)
-            list << "#{item}, "
+            list << "#{item}#{punctuation} "
           else
             list << "#{conjunction} #{item}"
           end
@@ -165,20 +165,13 @@ class Visit < ActiveRecord::Base
     end
 
     def meds_paragraph
-      meds = self.medications.select{|m| m.current?}
+      meds = self.patient.medications.select{|m| m.current?}
       if meds.blank?
         return %(I did not discuss any medications with #{patient.first_name} during our visit.)
       else
-        simple_meds = meds.select{ |m| m.common_name == nil }
-        parsed_meds = meds.select{ |m| m.common_name != nil }
-        all_meds = []
-        parsed_meds.each do |pm|
-          all_meds << "#{pm.name.downcase} #{number_to_human(pm.dose)}#{pm.dose_unit_of_measurement.downcase} #{pm.ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '')}"
-        end
-        simple_meds.each do |sm|
-          all_meds << "#{sm.name.downcase} #{sm.ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '')}"
-        end
-        return %(#{patient.first_name.capitalize}'s medications consist of #{list_constructor(all_meds)})
+        all_meds = meds.map{|m| m.generate_summary}
+        return %(#{patient.first_name.capitalize}'s medications consist of:
+        \n#{list_constructor(all_meds, '',';')})
       end
     end
 
@@ -238,9 +231,20 @@ class Visit < ActiveRecord::Base
       return %(#{body}.
       \nAntoine reported no #{list_constructor(no_instances, "nor")}.)
     end
-    
-    def recommendations
 
+    def recommendations
+      recs = ""
+      if self.patient.medications
+        continue = self.patient.medications.select{ |m| m.current? }
+        discontinue = self.patient.medications - continue
+        if continue.length != 0
+          recs << " \nWe advise #{self.patient.first_name} continue to take\n*  #{list_constructor(continue.map{|m| m.generate_summary}, "", ";\n* ")}."
+        end
+        if discontinue.length != 0
+          recs << " \nWe advise him to discontinue taking #{list_constructor(discontinue.map{|m| m.generate_summary}, "or", ";\n* ")}."
+        end
+      end
+      return %(#{recs})
     end
 
     def signature
