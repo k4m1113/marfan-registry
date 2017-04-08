@@ -1,4 +1,3 @@
-# require 'pry'
 class Visit < ActiveRecord::Base
   include ActiveSupport::NumberHelper
   include ApplicationController::CommonContent
@@ -142,7 +141,7 @@ class Visit < ActiveRecord::Base
       phrases << "a pulse of #{vitals.select{|v| v.topic.name == 'heart rate'}[0].measurement}" if vitals.select{|v| v.topic.name == 'heart rate'}[0]
       phrases << "a height of #{vitals.select{|v| v.topic.name == 'height'}[0].measurement.to_f.round(2)}m" if vitals.select{|v| v.topic.name == 'height'}[0]
       phrases << "a weight of #{vitals.select{|v| v.topic.name == 'weight'}[0].measurement.to_f.round(2)}kg" if vitals.select{|v| v.topic.name == 'weight'}[0]
-      phrases << "a temperature of #{vitals.select{|v| v.topic.name == 'temperature'}[0].measurement}°C" if vitals.select{|v| v.topic.name == 'temperature'}[0]
+      phrases << "a temperature of #{vitals.select{|v| v.topic.name == 'temperature'}[0].measurement.to_f.round(1)}°C" if vitals.select{|v| v.topic.name == 'temperature'}[0]
 
       if phrases.empty?
         return %(#{patient.first_name} had no vitals measured during this visit.)
@@ -171,7 +170,7 @@ class Visit < ActiveRecord::Base
       else
         all_meds = meds.map{|m| m.generate_summary}
         return %(#{patient.first_name.capitalize}'s medications consist of:
-        \n#{list_constructor(all_meds, '',';')})
+        \n#{list_constructor(all_meds, '', ';')})
       end
     end
 
@@ -225,10 +224,10 @@ class Visit < ActiveRecord::Base
         if instances.blank?
           no_instances << topic
         else
-          body << "\n#{patient.first_name} had #{instances.length} #{topic}: #{list_constructor(instances.map{|instance| instance.generate_summary})}"
+          body << "\n#{self.patient.first_name} had #{instances.length} #{topic}: #{list_constructor(instances.map{|instance| instance.generate_summary})}"
         end
       end
-      return %(#{body}.
+      return %(#{body}
       \nAntoine reported no #{list_constructor(no_instances, "nor")}.)
     end
 
@@ -244,7 +243,8 @@ class Visit < ActiveRecord::Base
           recs << " \nWe advise him to discontinue taking #{list_constructor(discontinue.map{|m| m.generate_summary}, "or", ";\n* ")}."
         end
       end
-      return %(#{recs})
+
+      return %(#{recs.blank? ? "We have no recommendations for further care at this time." : recs})
     end
 
     def signature

@@ -13,9 +13,9 @@ class Medication < ActiveRecord::Base
       summ << ", #{self.topic.parent.name.with_indefinite_article.singularize},"
     end
     if self.common_name.nil?
-      summ << " #{self.ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '').rstrip}"
+      summ << " #{self.ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '').rstrip.gsub(/\.$/, '')}"
     else
-      summ << " at #{number_to_human(self.dose)} #{self.dose_unit_of_measurement} #{self.ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '').rstrip}"
+      summ << " at #{number_to_human(self.dose)} #{self.dose_unit_of_measurement} #{self.ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '').rstrip.gsub(/\.$/, '')}"
     end
     return summ
   end
