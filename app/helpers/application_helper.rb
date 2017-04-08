@@ -66,9 +66,9 @@ module ApplicationHelper
     if topic.depth <= 1
       topic.name
     else
-      descriptors = topic.ancestors.map(&:name)
-      descriptors.shift
-      descriptors
+      descriptors = topic.self_and_ancestors.reverse_each.map(&:name)
+      descriptors.pop
+      descriptors.join(" ")
     end
   end
 

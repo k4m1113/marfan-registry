@@ -89,6 +89,7 @@ class Visit < ActiveRecord::Base
 
   def sort_by_topic
     return {
+      "genetic concerns": self.concerns.select{|c| c.topic.root.name == "genetics" },
       "cardiovascular concerns": self.concerns.select{|c| c.topic.root.name == "cardiovascular" },
       "morphology/physical findings": self.concerns.select{|c| c.topic.root.name == "morphology/physical findings"},
       "pulmonary concerns": self.concerns.select{|c| c.topic.root.name == "pulmonary"},
@@ -224,7 +225,7 @@ class Visit < ActiveRecord::Base
         if instances.blank?
           no_instances << topic
         else
-          body << "\n#{self.patient.first_name} had #{instances.length} #{topic}: #{list_constructor(instances.map{|instance| instance.generate_summary})}"
+          body << "\n#{self.patient.first_name} had #{instances.length} #{topic}: #{list_constructor(instances.map{|instance| instance.generate_summary})}."
         end
       end
       return %(#{body}

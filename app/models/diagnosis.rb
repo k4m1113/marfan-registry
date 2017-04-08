@@ -1,4 +1,6 @@
 class Diagnosis < ActiveRecord::Base
+  include ApplicationHelper
+  
   has_one :gallery
 
   belongs_to :topic
@@ -9,10 +11,6 @@ class Diagnosis < ActiveRecord::Base
     inverse_of: :diagnoses
 
   def generate_summary
-    if self.note == "presence"
-      return "a presence of #{self.topic.name}"
-    else
-      return "an absence of #{self.topic.name}"
-    end
+    return "#{self.note.with_indefinite_article} of #{find_pretty_trail(self.topic_id)}"
   end
 end
