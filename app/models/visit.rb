@@ -1,8 +1,9 @@
 class Visit < ActiveRecord::Base
+  include Report
   include ActiveSupport::NumberHelper
-  include ApplicationController::CommonContent
+  include CommonContent
 
-  HEART_IMAGING_LOCATIONS =  ApplicationController::CommonContent.instance_variable_get(:@heart_imaging_locations)
+  heart_imaging_locations = CommonContent.instance_variable_get(:@heart_imaging_locations)
 
   has_one :patient
   has_one :gallery,
@@ -177,7 +178,7 @@ class Visit < ActiveRecord::Base
 
     def imagery_paragraph
       results = ""
-      imagery = self.tests.select{|t| HEART_IMAGING_LOCATIONS.include?(t.topic)}
+      imagery = self.tests.select{|t| heart_imaging_locations.include?(t.topic)}
       if imagery.empty?
         results += "#{self.patient.first_name} did not undergo any heart imagery as part of our visit."
       else

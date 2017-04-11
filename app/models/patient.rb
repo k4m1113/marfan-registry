@@ -96,43 +96,43 @@ class Patient < ActiveRecord::Base
 
   validates :first_name,
     format: { with: /\A[a-zA-Z ']+\z/ },
-    allow_nil: true,
-    allow_blank: true
+    allow_nil: false,
+    allow_blank: false
   validates :last_name,
     format: { with: /\A[a-zA-Z ']+\z/ },
-    allow_nil: true,
-    allow_blank: true
+    allow_nil: false,
+    allow_blank: false
   validates :city,
     format: { with: /\A[a-zA-Z ']+\z/ },
-    allow_nil: true,
-    allow_blank: true
+    allow_nil: false,
+    allow_blank: false
   validates :state,
     format: { with: /\A[a-zA-Z ']+\z/ },
-    allow_nil: true,
-    allow_blank: true
+    allow_nil: false,
+    allow_blank: false
   validates :postal_code,
-    numericality: true,
-    allow_nil: true,
-    allow_blank: true
+    numericality: false,
+    allow_nil: false,
+    allow_blank: false
   validates :country,
     format: { with: /\A[a-zA-Z ']+\z/ },
-    allow_nil: true,
-    allow_blank: true
+    allow_nil: false,
+    allow_blank: false
   validates :sex,
-    presence: true,
+    presence: false,
     inclusion: ['F', 'M', 'N']
   validates :deceased,
     inclusion: [true, false],
-    allow_nil: true,
-    allow_blank: true
+    allow_nil: false,
+    allow_blank: false
   validates :cause_of_death,
     format: { with: /\A[a-zA-Z ']+\z/ },
     allow_nil: true,
     allow_blank: true
   validates :email,
     format: { with: /.+@.+\..+/i },
-    allow_blank: true
+    allow_blank: false
   validates :phone_1,
     format: { with: /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/, multiline: true },
-    allow_blank: true
+    allow_blank: false
 end

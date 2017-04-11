@@ -13,7 +13,10 @@ module Report
   #     return ","
   #   end
   # end
+  def kamilleify
+    return 'report'
+  end
 
-  
+
 
 end

@@ -1,6 +1,13 @@
 require 'rails_helper'
+patient = FactoryGirl.create(:patient)
+describe Patient, type: :model do
+  it "is valid with valid attributes" do
+    expect(Patient.new).to be_valid
 
-describe Patient do
+  end
+  it "is invalid without full name" do
+
+  end
   it { should have_valid(:first_name).when(nil, "", "John", "Jane") }
 
   it { should have_valid(:last_name).when(nil, "", "Doe", "O'Leary", "San Miguel") }
