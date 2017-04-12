@@ -1,5 +1,7 @@
 class Patient < ActiveRecord::Base
   include PgSearch
+  include CommonContent
+
   attr_reader :object_pronoun, :subject_pronoun, :possessive_pronoun
 
   scope :sorted, -> { order(last_name: :asc) }

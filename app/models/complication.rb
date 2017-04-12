@@ -6,6 +6,9 @@ class Complication < ActiveRecord::Base
   belongs_to :topic
   belongs_to :patient,
     inverse_of: :complications
+    
+  validates :note,
+    presence: true
 
   def generate_summary
     return "#{self.note.with_indefinite_article} of #{find_pretty_trail(self.topic_id)}"
