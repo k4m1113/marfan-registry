@@ -12,44 +12,6 @@ class Patient < ActiveRecord::Base
 
   self.per_page = 10
 
-  def self.perform_search(keyword)
-    if keyword.present?
-      Patient.search(keyword)
-    else
-      Patient.all
-    end.sorted
-  end
-
-  def object_pronoun
-    if self.sex == "F"
-      return "her"
-    elsif self.sex == "M"
-      return "him"
-    else
-      return "them"
-    end
-  end
-
-  def subject_pronoun
-    if self.sex == "F"
-      return "she"
-    elsif self.sex == "M"
-      return "he"
-    else
-      return "they"
-    end
-  end
-
-  def possessive_pronoun
-    if self.sex == "F"
-      return "her"
-    elsif self.sex == "M"
-      return "his"
-    else
-      return "their"
-    end
-  end
-
   has_one :gallery,
     inverse_of: :patient
 
@@ -127,7 +89,6 @@ class Patient < ActiveRecord::Base
     presence: true,
     inclusion: ['F', 'M', 'N']
   validates :deceased,
-    # presence: true,
     inclusion: [true, false]
   validates :cause_of_death,
     format: {
@@ -142,4 +103,42 @@ class Patient < ActiveRecord::Base
     }
   validates :phone_1,
     presence: true
+
+  def self.perform_search(keyword)
+    if keyword.present?
+      Patient.search(keyword)
+    else
+      Patient.all
+    end.sorted
+  end
+
+  def object_pronoun
+    if self.sex == "F"
+      return "her"
+    elsif self.sex == "M"
+      return "him"
+    else
+      return "them"
+    end
+  end
+
+  def subject_pronoun
+    if self.sex == "F"
+      return "she"
+    elsif self.sex == "M"
+      return "he"
+    else
+      return "they"
+    end
+  end
+
+  def possessive_pronoun
+    if self.sex == "F"
+      return "her"
+    elsif self.sex == "M"
+      return "his"
+    else
+      return "their"
+    end
+  end
 end

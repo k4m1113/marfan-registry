@@ -12,6 +12,22 @@ module ApplicationHelper
     end
   end
 
+  def list_constructor(arr, conjunction = "and", punctuation = ",")
+    list = ""
+    if arr.length == 1
+      list << "#{arr[0]}"
+    else
+      arr.each_with_index do |item, index|
+        if index < (arr.length - 1)
+          list << "#{item}#{punctuation} "
+        else
+          list << "#{conjunction} #{item}"
+        end
+      end
+    end
+    return list
+  end
+
   def create_select(min, max, step)
     if min === 0 && max === 1 && step === 1
       return [nil, false, true]

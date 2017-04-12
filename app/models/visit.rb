@@ -2,10 +2,14 @@ class Visit < ActiveRecord::Base
   include Report
   include ActiveSupport::NumberHelper
   include CommonContent
+  include ApplicationHelper
 
   heart_imaging_locations = CommonContent.instance_variable_get(:@heart_imaging_locations)
 
-  has_one :patient
+  belongs_to :patient,
+    inverse_of: :visits
+  belongs_to :clinician
+
   has_one :gallery,
     inverse_of: :visit
 
@@ -44,10 +48,6 @@ class Visit < ActiveRecord::Base
 
   self.per_page = 10
 
-  belongs_to :patient,
-    inverse_of: :visits
-  belongs_to :clinician
-
   validates :patient_id,
     presence: true,
     numericality: {
@@ -60,24 +60,6 @@ class Visit < ActiveRecord::Base
       greater_than: 0,
       only_integer: true
     }
-  validates :weight,
-    numericality: { greater_than: 0 },
-    allow_nil: true
-  validates :height,
-    numericality: { greater_than: 0 },
-    allow_nil: true
-  validates :z_score,
-    numericality: { greater_than: 0 },
-    allow_nil: true
-  validates :upper_segment,
-    numericality: { greater_than: 0 },
-    allow_nil: true
-  validates :lower_segment,
-    numericality: { greater_than: 0 },
-    allow_nil: true
-  validates :arm_span,
-    numericality: { greater_than: 0 },
-    allow_nil: true
 
   def tags_for_form
     gallery = Gallery.find(visit_id: id)
@@ -103,167 +85,163 @@ class Visit < ActiveRecord::Base
     }
   end
 
-  def report
+  def header
+    patient = Patient.find(self.patient_id)
+
+    address = %(\n#{Date.today.strftime('%m %B %Y')}\n\n#{patient.address_line_1 unless patient.address_line_1.blank?})
+    [patient.address_line_2, patient.address_line_3].each do |line|
+      address += %(\n#{line}) unless line.blank?
+    end
+    address += %(\n#{patient.city}, #{patient.state} #{patient.country}\n#{patient.postal_code})
+    greeting = %(\nTo whom it may concern,
+    \nI had the pleasure of meeting #{patient.first_name} in Atlanta at the 33rd annual Marfan Foundation Conference in Atlanta, GA on August 3rd and 4th, 2017 in clinic for a comprehensive patient assessment.)
+    return %(#{address}
+    #{greeting})
+  end
+
+  def vitals_paragraph
     patient = Patient.find(self.patient_id)
     vitals = self.vitals
+
+    phrases = []
+
+    phrases << "a blood pressure of #{vitals.select{|v| v.topic.name == 'SBP'}[0].measurement}/#{vitals.select{|v| v.topic.name == 'DBP'}[0].measurement}" if vitals.select{|v| v.topic.name == 'SBP'}[0]
+    phrases << "a pulse of #{vitals.select{|v| v.topic.name == 'heart rate'}[0].measurement}" if vitals.select{|v| v.topic.name == 'heart rate'}[0]
+    phrases << "a height of #{vitals.select{|v| v.topic.name == 'height'}[0].measurement.to_f.round(2)}m" if vitals.select{|v| v.topic.name == 'height'}[0]
+    phrases << "a weight of #{vitals.select{|v| v.topic.name == 'weight'}[0].measurement.to_f.round(2)}kg" if vitals.select{|v| v.topic.name == 'weight'}[0]
+    phrases << "a temperature of #{vitals.select{|v| v.topic.name == 'temperature'}[0].measurement.to_f.round(1)}°C" if vitals.select{|v| v.topic.name == 'temperature'}[0]
+
+    if phrases.empty?
+      return %(#{patient.first_name} had no vitals measured during this visit.)
+    else
+      return %(#{patient.first_name} was in good health when I saw #{patient.object_pronoun} with #{list_constructor(phrases)}.)
+    end
+  end
+
+  def family_paragraph
+    patient = Patient.find(self.patient_id)
+    family_members = patient.family_members
+
+    if family_members.blank?
+      return %(A family history was not completed for #{patient.first_name} during #{patient.possessive_pronoun} visit.)
+    else
+      bios = ""
+      family_members.each do |fm|
+        bios += "\n#{fm.generate_bio} "
+      end
+      return %(As part of #{patient.first_name}'s comprehensive visit we gathered the following family history: \n#{bios})
+    end
+  end
+
+  def meds_paragraph
+    patient = Patient.find(self.patient_id)
+    meds = self.patient.medications.select{|m| m.current?}
+
+    if meds.blank?
+      return %(I did not discuss any medications with #{patient.first_name} during our visit.)
+    else
+      all_meds = meds.map{|m| m.generate_summary}
+      return %(#{patient.first_name.capitalize}'s medications consist of:
+      \n#{list_constructor(all_meds, '', ';')})
+    end
+  end
+
+  def imagery_paragraph
+    patient = Patient.find(self.patient_id)
+
+    results = ""
+    imagery = self.tests.select{|t| heart_imaging_locations.include?(t.topic)}
+    if imagery.empty?
+      results += "#{self.patient.first_name} did not undergo any heart imagery as part of our visit."
+    else
+      echo = imagery.select{|i| i.topic.name === "echo" }
+      mri = imagery.select{|i| i.topic.name === "MRI" }
+      ct = imagery.select{|i| i.topic.name === "CT" }
+      other_meas = imagery - ct - mri - echo
+      unless echo.empty?
+        echos = []
+        echo.each do |e|
+          echos << "#{e.topic.parent.name} was #{e.result}"
+        end
+        results += "#{self.patient.first_name} underwent an echocardiogram in which #{self.patient.possessive_pronoun} #{list_constructor(echos)}. "
+      end
+      unless mri.empty?
+        mris = []
+        mri.each do |m|
+          mris << "#{m.topic.parent.name} was #{m.result}"
+        end
+        results += "#{self.patient.first_name} underwent an MRI in which #{self.patient.possessive_pronoun} #{list_constructor(mris)}. "
+      end
+      unless ct.empty?
+        cts = []
+        ct.each do |c|
+          cts << "#{c.topic.parent.name} was #{c.result}"
+        end
+        results += "#{self.patient.first_name} underwent a CT scan in which #{self.patient.possessive_pronoun} #{list_constructor(cts)}. "
+      end
+      unless other_meas.empty?
+        others = []
+        other_meas.each do |o|
+          others << "#{o.topic.name} of #{o.result}"
+        end
+        results += "#{self.patient.subject_pronoun.capitalize} had a #{list_constructor(others)}. "
+      end
+      return "#{results}"
+    end
+  end
+
+  ## Concerns = anything discussed in a visit not incl: family history, vitals, heart imagery.
+  def concerns_body
+    patient = Patient.find(self.patient_id)
     concerns = self.sort_by_topic
 
-    def list_constructor(arr, conjunction = "and", punctuation = ",")
-      list = ""
-      if arr.length == 1
-        list << "#{arr[0]}"
+    body = ""
+    no_instances = []
+    self.sort_by_topic.each do |topic, instances|
+      if instances.blank?
+        no_instances << topic
       else
-        arr.each_with_index do |item, index|
-          if index < (arr.length - 1)
-            list << "#{item}#{punctuation} "
-          else
-            list << "#{conjunction} #{item}"
-          end
-        end
+        body << "\n#{self.patient.first_name} had #{instances.length} #{topic}: #{list_constructor(instances.map{|instance| instance.generate_summary})}."
       end
-      return list
     end
+    return %(#{body}
+    \nAntoine reported no #{list_constructor(no_instances, "nor")}.)
+  end
 
-    def header
-      address = %(\n#{Date.today.strftime('%m %B %Y')}\n\n#{patient.address_line_1 unless patient.address_line_1.blank?})
-      [patient.address_line_2, patient.address_line_3].each do |line|
-        address += %(\n#{line}) unless line.blank?
+  def recommendations
+    patient = Patient.find(self.patient_id)
+
+    recs = ""
+    if self.patient.medications
+      continue = self.patient.medications.select{ |m| m.current? }
+      discontinue = self.patient.medications - continue
+      if continue.length != 0
+        recs << " \nWe advise #{self.patient.first_name} continue to take\n*  #{list_constructor(continue.map{|m| m.generate_summary}, "", ";\n* ")}."
       end
-      address += %(\n#{patient.city}, #{patient.state} #{patient.country}\n#{patient.postal_code})
-      greeting = %(\nTo whom it may concern,
-      \nI had the pleasure of meeting #{patient.first_name} in Atlanta at the 33rd annual Marfan Foundation Conference in Atlanta, GA on August 3rd and 4th, 2017 in clinic for a comprehensive patient assessment.)
-      return %(#{address}
-      #{greeting})
-    end
-
-    def vitals_paragraph
-      phrases = []
-
-      phrases << "a blood pressure of #{vitals.select{|v| v.topic.name == 'SBP'}[0].measurement}/#{vitals.select{|v| v.topic.name == 'DBP'}[0].measurement}" if vitals.select{|v| v.topic.name == 'SBP'}[0]
-      phrases << "a pulse of #{vitals.select{|v| v.topic.name == 'heart rate'}[0].measurement}" if vitals.select{|v| v.topic.name == 'heart rate'}[0]
-      phrases << "a height of #{vitals.select{|v| v.topic.name == 'height'}[0].measurement.to_f.round(2)}m" if vitals.select{|v| v.topic.name == 'height'}[0]
-      phrases << "a weight of #{vitals.select{|v| v.topic.name == 'weight'}[0].measurement.to_f.round(2)}kg" if vitals.select{|v| v.topic.name == 'weight'}[0]
-      phrases << "a temperature of #{vitals.select{|v| v.topic.name == 'temperature'}[0].measurement.to_f.round(1)}°C" if vitals.select{|v| v.topic.name == 'temperature'}[0]
-
-      if phrases.empty?
-        return %(#{patient.first_name} had no vitals measured during this visit.)
-      else
-        return %(#{patient.first_name} was in good health when I saw #{patient.object_pronoun} with #{list_constructor(phrases)}.)
+      if discontinue.length != 0
+        recs << " \nWe advise him to discontinue taking #{list_constructor(discontinue.map{|m| m.generate_summary}, "or", ";\n* ")}."
       end
     end
 
-    def family_paragraph
-      family_members = patient.family_members
-      if family_members.blank?
-        return %(A family history was not completed for #{patient.first_name} during #{patient.possessive_pronoun} visit.)
-      else
-        bios = ""
-        family_members.each do |fm|
-          bios += "\n#{fm.generate_bio} "
-        end
-        return %(As part of #{patient.first_name}'s comprehensive visit we gathered the following family history: \n#{bios})
-      end
-    end
+    return %(#{recs.blank? ? "We have no recommendations for further care at this time." : recs})
+  end
 
-    def meds_paragraph
-      meds = self.patient.medications.select{|m| m.current?}
-      if meds.blank?
-        return %(I did not discuss any medications with #{patient.first_name} during our visit.)
-      else
-        all_meds = meds.map{|m| m.generate_summary}
-        return %(#{patient.first_name.capitalize}'s medications consist of:
-        \n#{list_constructor(all_meds, '', ';')})
-      end
-    end
+  def signature
+    return %(I have assured #{patient.first_name} that the whole clinic team will be available to #{patient.object_pronoun} in case there are any issues that arise in the future. I encouraged #{patient.object_pronoun} to contact me if #{patient.subject_pronoun} has any problems with or is intolerant of any changes we recommended.
+    \nIt has been a pleasure to participate in #{patient.first_name.capitalize}'s care. If there are any questions or concerns, please don't hesitate contact us.
+    \nSincerely,
+    \n#{self.clinician.first_name} #{self.clinician.last_name}
+    \n#{self.clinician.practice_name})
+  end
 
-    def imagery_paragraph
-      results = ""
-      imagery = self.tests.select{|t| heart_imaging_locations.include?(t.topic)}
-      if imagery.empty?
-        results += "#{self.patient.first_name} did not undergo any heart imagery as part of our visit."
-      else
-        echo = imagery.select{|i| i.topic.name === "echo" }
-        mri = imagery.select{|i| i.topic.name === "MRI" }
-        ct = imagery.select{|i| i.topic.name === "CT" }
-        other_meas = imagery - ct - mri - echo
-        unless echo.empty?
-          echos = []
-          echo.each do |e|
-            echos << "#{e.topic.parent.name} was #{e.result}"
-          end
-          results += "#{self.patient.first_name} underwent an echocardiogram in which #{self.patient.possessive_pronoun} #{list_constructor(echos)}. "
-        end
-        unless mri.empty?
-          mris = []
-          mri.each do |m|
-            mris << "#{m.topic.parent.name} was #{m.result}"
-          end
-          results += "#{self.patient.first_name} underwent an MRI in which #{self.patient.possessive_pronoun} #{list_constructor(mris)}. "
-        end
-        unless ct.empty?
-          cts = []
-          ct.each do |c|
-            cts << "#{c.topic.parent.name} was #{c.result}"
-          end
-          results += "#{self.patient.first_name} underwent a CT scan in which #{self.patient.possessive_pronoun} #{list_constructor(cts)}. "
-        end
-        unless other_meas.empty?
-          others = []
-          other_meas.each do |o|
-            others << "#{o.topic.name} of #{o.result}"
-          end
-          results += "#{self.patient.subject_pronoun.capitalize} had a #{list_constructor(others)}. "
-        end
-        return "#{results}"
-      end
-    end
-
-    ## Concerns = anything discussed in a visit not incl: family history, vitals, heart imagery.
-    def concerns_body
-      body = ""
-      no_instances = []
-      self.sort_by_topic.each do |topic, instances|
-        if instances.blank?
-          no_instances << topic
-        else
-          body << "\n#{self.patient.first_name} had #{instances.length} #{topic}: #{list_constructor(instances.map{|instance| instance.generate_summary})}."
-        end
-      end
-      return %(#{body}
-      \nAntoine reported no #{list_constructor(no_instances, "nor")}.)
-    end
-
-    def recommendations
-      recs = ""
-      if self.patient.medications
-        continue = self.patient.medications.select{ |m| m.current? }
-        discontinue = self.patient.medications - continue
-        if continue.length != 0
-          recs << " \nWe advise #{self.patient.first_name} continue to take\n*  #{list_constructor(continue.map{|m| m.generate_summary}, "", ";\n* ")}."
-        end
-        if discontinue.length != 0
-          recs << " \nWe advise him to discontinue taking #{list_constructor(discontinue.map{|m| m.generate_summary}, "or", ";\n* ")}."
-        end
-      end
-
-      return %(#{recs.blank? ? "We have no recommendations for further care at this time." : recs})
-    end
-
-    def signature
-      return %(I have assured #{patient.first_name} that the whole clinic team will be available to #{patient.object_pronoun} in case there are any issues that arise in the future. I encouraged #{patient.object_pronoun} to contact me if #{patient.subject_pronoun} has any problems with or is intolerant of any changes we recommended.
-      \nIt has been a pleasure to participate in #{patient.first_name.capitalize}'s care. If there are any questions or concerns, please don't hesitate contact us.
-      \nSincerely,
-      \n#{self.clinician.first_name} #{self.clinician.last_name}
-      \n#{self.clinician.practice_name})
-    end
-
-    return %(\n#{self.header}
-      \n#{self.vitals_paragraph}
-      \n#{self.meds_paragraph}
-      \n#{self.imagery_paragraph}
-      \n#{self.family_paragraph}
-      \n#{self.concerns_body}
-      \n#{self.recommendations}
-      \n#{self.signature})
+  def report
+    return %(#{self.header}
+    \n#{self.vitals_paragraph}
+    \n#{self.meds_paragraph}
+    \n#{self.imagery_paragraph}
+    \n#{self.family_paragraph}
+    \n#{self.concerns_body}
+    \n#{self.recommendations}
+    \n#{self.signature})
   end
 end

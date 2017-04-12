@@ -14,8 +14,15 @@ describe Patient, type: :model do
     end
 
     it "is invalid without full address" do
-      patient.address_line_1 = nil
-      expect(patient).to_not be_valid
+      should validate_presence_of :address_line_1
+      should validate_presence_of :city
+      should validate_presence_of :state
+      should validate_presence_of :postal_code
+      should validate_presence_of :country
+
+      should allow_value(nil).for(:address_line_2)
+      should allow_value(nil).for(:address_line_3)
+      should allow_value("123 Main Street").for(:address_line_1)
     end
 
     it "is invalid without deceased status" do
@@ -26,11 +33,22 @@ describe Patient, type: :model do
     it "is invalid without sex" do
       patient.sex = 'K'
       expect(patient).to_not be_valid
+
+      should allow_value("F").for(:sex)
+      should allow_value("M").for(:sex)
+      should_not allow_value(nil).for(:sex)
+      should_not allow_value(false).for(:sex)
+      should_not allow_value(22).for(:sex)
     end
 
     it "is invalid without @ email" do
       patient.email = nil
       expect(patient).to_not be_valid
+
+      should allow_value("antoine@marfan.org").for(:email)
+      should_not allow_value("not-an-email").for(:email)
+      should_not allow_value(false).for(:email)
+      should_not allow_value(22).for(:email)
     end
 
     it "is invalid without primary phone" do

@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :visit do
-    patient_id 1
-    clinician_id 1
+    patient
+    clinician
 
     height 182.00
     weight 57.09
@@ -11,8 +11,5 @@ FactoryGirl.define do
     z_score 5.74
     general_health "good"
     primary_reason "for recent testing"
-  
-    patient
-    clinician
   end
 end
