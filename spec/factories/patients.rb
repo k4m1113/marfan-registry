@@ -1,5 +1,6 @@
 FactoryGirl.define do
   require 'date'
+  
   factory :patient do
     first_name "Antoine"
     last_name "Marfan"

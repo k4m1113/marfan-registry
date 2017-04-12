@@ -3,8 +3,6 @@ require 'date'
 
 describe Symptom do
   let!(:now) { DateTime.now }
-  it { should have_valid(:seeded_symptom_id).when(1, 44) }
-  it { should_not have_valid(:seeded_symptom_id).when(-1, false, nil, "") }
 
   it { should have_valid(:visit_id).when(1, 23) }
 

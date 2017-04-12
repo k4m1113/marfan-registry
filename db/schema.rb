@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170322223536) do
+ActiveRecord::Schema.define(version: 20170411221331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -167,25 +167,25 @@ ActiveRecord::Schema.define(version: 20170322223536) do
   end
 
   create_table "patients", force: :cascade do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "address_line_1"
+    t.string   "first_name",                        null: false
+    t.string   "last_name",                         null: false
+    t.string   "address_line_1",                    null: false
     t.string   "address_line_2"
     t.string   "address_line_3"
-    t.string   "city"
-    t.string   "state"
-    t.string   "country"
-    t.integer  "postal_code"
-    t.string   "sex",               null: false
-    t.datetime "date_of_birth"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.boolean  "deceased"
+    t.string   "city",                              null: false
+    t.string   "state",                             null: false
+    t.string   "country",                           null: false
+    t.string   "postal_code",                       null: false
+    t.string   "sex",                               null: false
+    t.datetime "date_of_birth",                     null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.boolean  "deceased",          default: false, null: false
     t.string   "cause_of_death"
     t.string   "note"
-    t.string   "phone_1"
+    t.string   "phone_1",                           null: false
     t.string   "phone_2"
-    t.string   "email"
+    t.string   "email",                             null: false
     t.string   "middle_name"
     t.string   "primary_diagnosis"
     t.json     "attachments"

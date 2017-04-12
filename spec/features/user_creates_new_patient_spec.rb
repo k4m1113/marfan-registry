@@ -8,7 +8,7 @@ feature 'user can add new patient' do
   end
 
   scenario "user adds new patient with valid information" do
-    expect(page).to have_content("New Patient Information")
+    expect(page).to have_content("Patient Information")
 
     fill_in "patient_first_name", with: "Abraham"
     fill_in "patient_middle_name", with: "Superfly"
@@ -24,23 +24,23 @@ feature 'user can add new patient' do
     fill_in "patient_phone_1", with: "1-800-777-7777"
     fill_in "patient_phone_2", with: "900 888 8888"
 
-    click_button "Add New Patient"
+    click_button "Create Patient"
 
     expect(page).to have_content("Patient Lincoln, Abraham successfully added!")
     expect(page).to have_content("All Patients")
   end
 
   scenario "user adds new patient with invalid information" do
-    expect(page).to have_content("New Patient Information")
+    expect(page).to have_content("Patient Information")
 
     fill_in "patient_first_name", with: "Abraham"
     fill_in "patient_last_name", with: "Lincoln"
     fill_in "patient_date_of_birth", with: "02/12/1809"
 
-    click_button "Add New Patient"
+    click_button "Create Patient"
 
-    expect(page).to have_content("Please re-check information and/or fill required fields:")
-    expect(page).to have_content("New Patient Information")
+    expect(page).to have_content("Address line 1 can't be blank")
+    expect(page).to have_content("Patient Information")
   end
 
 end

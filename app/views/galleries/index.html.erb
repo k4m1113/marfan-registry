@@ -16,8 +16,8 @@
       <tr>
         <td><%= gallery.title %></td>
         <td>
-          <% gallery.images.each do |image| %>
-            <% image_tag(image.thumb.url) %>
+          <% gallery.attachments.each do |a| %>
+            <% image_tag(a.thumb.url) %>
           <% end %>
         </td>
         <td><%= link_to 'Show', gallery %></td>

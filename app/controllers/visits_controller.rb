@@ -6,6 +6,7 @@ require 'json'
 class VisitsController < ApplicationController
   include Report
   include Doctor
+  include CommonContent
 
   respond_to :html, :js
   before_filter :common_content

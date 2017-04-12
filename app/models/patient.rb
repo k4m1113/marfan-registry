@@ -50,7 +50,6 @@ class Patient < ActiveRecord::Base
     end
   end
 
-
   has_one :gallery,
     inverse_of: :patient
 
@@ -95,44 +94,52 @@ class Patient < ActiveRecord::Base
   accepts_nested_attributes_for :family_members
 
   validates :first_name,
-    format: { with: /\A[a-zA-Z ']+\z/ },
-    allow_nil: false,
-    allow_blank: false
+    presence: true,
+    format: {
+      with: /\A[a-zA-Z ']+\z/
+    }
   validates :last_name,
-    format: { with: /\A[a-zA-Z ']+\z/ },
-    allow_nil: false,
-    allow_blank: false
+    presence: true,
+    format: {
+      with: /\A[a-zA-Z ']+\z/
+    }
+  validates :address_line_1,
+    presence: true
   validates :city,
-    format: { with: /\A[a-zA-Z ']+\z/ },
-    allow_nil: false,
-    allow_blank: false
+    presence: true,
+    format: {
+      with: /\A[a-zA-Z ']+\z/
+    }
   validates :state,
-    format: { with: /\A[a-zA-Z ']+\z/ },
-    allow_nil: false,
-    allow_blank: false
+    presence: true,
+    format: {
+      with: /\A[a-zA-Z ']+\z/
+    }
   validates :postal_code,
-    numericality: false,
-    allow_nil: false,
-    allow_blank: false
+    presence: true,
+    numericality: true
   validates :country,
-    format: { with: /\A[a-zA-Z ']+\z/ },
-    allow_nil: false,
-    allow_blank: false
+    presence: true,
+    format: {
+      with: /\A[a-zA-Z ']+\z/
+    }
   validates :sex,
-    presence: false,
+    presence: true,
     inclusion: ['F', 'M', 'N']
   validates :deceased,
-    inclusion: [true, false],
-    allow_nil: false,
-    allow_blank: false
+    # presence: true,
+    inclusion: [true, false]
   validates :cause_of_death,
-    format: { with: /\A[a-zA-Z ']+\z/ },
+    format: {
+      with: /\A[a-zA-Z ']+\z/
+    },
     allow_nil: true,
     allow_blank: true
   validates :email,
-    format: { with: /.+@.+\..+/i },
-    allow_blank: false
+    presence: true,
+    format: {
+      with: /.+@.+\..+/i
+    }
   validates :phone_1,
-    format: { with: /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/, multiline: true },
-    allow_blank: false
+    presence: true
 end

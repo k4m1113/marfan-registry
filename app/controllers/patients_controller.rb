@@ -1,7 +1,6 @@
 class PatientsController < ApplicationController
-
-  before_filter :common_content
-
+  include CommonContent
+  
   def index
     if params[:search].present?
       @patients = Patient.perform_search(params[:search]).paginate(:page => params[:page])
@@ -10,7 +9,7 @@ class PatientsController < ApplicationController
     end
 
   end
-  
+
   def show
     @patient = Patient.find(params[:id])
     case @patient.sex
