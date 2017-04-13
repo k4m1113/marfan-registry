@@ -1,13 +1,12 @@
 FactoryGirl.define do
   factory :test do
-    result 77
-    topic_id 99
+    patient
 
-    patient_id 1
+    test_amount 7
+    test_unit_of_meas "dural sac ratio"
+    topic_id 502
 
     time_ago 3
     time_ago_scale "years"
-
-    note "negative"
   end
 end

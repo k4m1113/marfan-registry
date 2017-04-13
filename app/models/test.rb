@@ -11,13 +11,6 @@ class Test < ActiveRecord::Base
   belongs_to :patient,
     inverse_of: :tests
 
-  validates :time_ago,
-    numericality: {
-      only_integer: true,
-      greater_than: 0
-    },
-    allow_nil: true
-
   has_one :gallery
 
   accepts_nested_attributes_for :gallery
@@ -29,7 +22,7 @@ class Test < ActiveRecord::Base
       self.result = "#{self.test_amount} #{self.test_unit_of_meas}"
     end
   end
-  
+
   def generate_summary
     if self.test_date
       test_date = self.test_date

@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'pry'
 
 describe Visit, type: :model do
   visit = FactoryGirl.create(:visit)
@@ -33,7 +32,7 @@ describe Visit, type: :model do
   end
 
   describe ".sort_by_topic" do
-    
+
   end
 
   describe ".header" do
