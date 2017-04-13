@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'pry'
 
 describe FamilyMember, type: :model do
   family_member = FactoryGirl.create(:family_member)

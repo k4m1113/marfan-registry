@@ -7,6 +7,11 @@ class Medication < ActiveRecord::Base
   belongs_to :patient,
     inverse_of: :medications
 
+  validates :name,
+    presence: true
+  validates :ingestion_method,
+    presence: true
+
   def generate_summary
     summ = "#{self.name.downcase}"
     unless self.topic_id == 66 || self.topic.depth < 1
