@@ -1,7 +1,8 @@
-# require 'pry'
+require 'pry'
 class FamilyMember < ActiveRecord::Base
   include PgSearch
   include ApplicationHelper
+  include CommonContent
 
   scope :sorted, -> { order(created_at: :desc) }
 
@@ -38,6 +39,14 @@ class FamilyMember < ActiveRecord::Base
     inverse_of: :family_members,
     required: false
 
+  validates :topic_id,
+    numericality: {
+      only_integer: true
+    },
+    presence: true,
+    inclusion: {
+      in: CommonContent.instance_variable_get(:@family_member_ids)
+    }
   validates :claimed_patient_id,
     numericality: {
       only_integer: true,
@@ -77,7 +86,12 @@ class FamilyMember < ActiveRecord::Base
           elsif !self.future_patient_data_hash['death_time_ago'].blank? && !self.future_patient_data_hash['death_time_ago_scale'].blank?
             death_date = find_date(self.future_patient_data_hash['death_time_ago'], self.future_patient_data_hash['death_time_ago_scale'], self.created_at)
           end
-          age_at_death = death_date.year - (self.future_patient_data_hash['date_of_birth'] + "-01").to_datetime.year
+          if self.future_patient_data_hash['born_years_ago']
+            age_at_death = death_date.year - (self.created_at - self.future_patient_data_hash['born_years_ago'].years).to_datetime.year
+          else
+            "unknown"
+          end
+
         elsif self.future_patient_data_hash['deceased'].to_i === 0
           age_at_death = Date.today.year - (self.future_patient_data_hash['date_of_birth'] + '-01').to_datetime.year
           dead = 'is alive'
