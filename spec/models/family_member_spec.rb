@@ -1,4 +1,5 @@
 require 'rails_helper'
+include CommonContent
 
 describe FamilyMember, type: :model do
   family_member = FactoryGirl.create(:family_member)

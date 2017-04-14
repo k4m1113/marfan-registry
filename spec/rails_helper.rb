@@ -10,7 +10,6 @@ require 'spec_helper'
 
 require 'capybara/webkit/matchers'
 require 'rails/all'
-include CommonContent
 
 ActiveRecord::Migration.maintain_test_schema!
 
