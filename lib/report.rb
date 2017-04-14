@@ -16,7 +16,4 @@ module Report
   def kamilleify
     return 'report'
   end
-
-
-
 end

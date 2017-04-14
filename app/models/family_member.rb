@@ -37,14 +37,14 @@ class FamilyMember < ActiveRecord::Base
   belongs_to :visit,
     inverse_of: :family_members,
     required: false
-
+  self.common_content
   validates :topic_id,
     numericality: {
       only_integer: true
     },
     presence: true,
     inclusion: {
-      in: CommonContent.instance_variable_get(:@family_member_ids)
+      in: self.family_member_ids
     }
   validates :claimed_patient_id,
     numericality: {

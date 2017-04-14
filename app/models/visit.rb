@@ -4,7 +4,8 @@ class Visit < ActiveRecord::Base
   include CommonContent
   include ApplicationHelper
 
-  heart_imaging_locations = CommonContent.instance_variable_get(:@heart_imaging_locations)
+  self.common_content
+  heart_imaging_locations = self.heart_imaging_locations
 
   belongs_to :patient,
     inverse_of: :visits
