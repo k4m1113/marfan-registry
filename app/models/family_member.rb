@@ -19,6 +19,9 @@ class FamilyMember < ActiveRecord::Base
 
   self.per_page = 10
 
+  Patient.last.common_content
+  fam = Patient.last.family_member_ids
+
   def self.perform_search(keyword)
     if keyword.present?
       FamilyMember.search(keyword)
@@ -37,15 +40,12 @@ class FamilyMember < ActiveRecord::Base
   belongs_to :visit,
     inverse_of: :family_members,
     required: false
-  self.common_content
   validates :topic_id,
     numericality: {
       only_integer: true
     },
     presence: true,
-    inclusion: {
-      in: self.family_member_ids
-    }
+    inclusion: fam
   validates :claimed_patient_id,
     numericality: {
       only_integer: true,

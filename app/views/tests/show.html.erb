@@ -1,4 +1,8 @@
-<p id="notice"><%= notice %></p>
-
+<p id="notice">
+  <%= notice %>
+</p>
+<p>
+  <%= @test.generate_summary %>
+</p>
 <%= link_to 'Edit', edit_test_path(@test) %> |
 <%= link_to '‹ Back', :back, class: "btn btn-secondary" %>

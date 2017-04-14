@@ -1,11 +1,9 @@
+require 'pry'
 class Visit < ActiveRecord::Base
   include Report
   include ActiveSupport::NumberHelper
   include CommonContent
   include ApplicationHelper
-
-  self.common_content
-  heart_imaging_locations = self.heart_imaging_locations
 
   belongs_to :patient,
     inverse_of: :visits
@@ -148,6 +146,8 @@ class Visit < ActiveRecord::Base
   end
 
   def imagery_paragraph
+    heart_imaging_locations = self.heart_imaging_locations
+
     patient = Patient.find(self.patient_id)
 
     results = ""

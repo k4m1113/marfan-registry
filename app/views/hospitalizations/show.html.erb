@@ -1,1 +1,8 @@
+<p id="notice">
+  <%= notice %>
+</p>
+<p>
+  <%= @hospitalization.generate_summary %>
+</p>
+<%= link_to 'Edit', edit_medication_path(@hospitalization) %> |
 <%= link_to '‹ Back', :back, class: "btn btn-secondary" %>
