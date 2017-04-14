@@ -1,6 +1,4 @@
 class ComplicationsController < ApplicationController
-  before_action :set_complication, only: [:show, :edit, :update, :destroy]
-
   def index
     @complications = Complication.all
   end

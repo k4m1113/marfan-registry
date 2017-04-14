@@ -1,6 +1,4 @@
 class DiagnosesController < ApplicationController
-  before_action :set_diagnosis, only: [:show, :edit, :update, :destroy]
-
   def index
     @diagnoses = Diagnosis.all
   end
