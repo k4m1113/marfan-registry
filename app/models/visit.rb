@@ -146,6 +146,7 @@ class Visit < ActiveRecord::Base
   end
 
   def imagery_paragraph
+    self.common_content
     heart_imaging_locations = self.heart_imaging_locations
 
     patient = Patient.find(self.patient_id)

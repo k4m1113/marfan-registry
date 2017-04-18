@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Diagnosis, type: :model do
-  diagnosis = FactoryGirl.create(:diagnosis)
+  diagnosis = FactoryGirl.create :diagnosis
 
   describe "Validations" do
     it "is valid with valid attributes" do

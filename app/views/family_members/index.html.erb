@@ -23,25 +23,14 @@
       </div>
       <table class="table table-striped table-responsive">
         <tr>
-          <th data-sortable="true">Name</th>
-          <th data-sortable="true">Relation</th>
+          <th data-sortable="true">Summary</th>
           <th>Actions</th>
         </tr>
         <% @family_members.each do |fm| %>
-          <% if fm.future_patient_data_hash %>
-            <% @fpdh = fm.future_patient_data_hash %>
-          <% else %>
-            <% @fpdh = {"note"=>"", "deceased"=>"", "last_name"=>"", "first_name"=>"", "date_of_birth"=>"", "cause_of_death"=>""} %>
-          <% end %>
-          <% @srt = SeededRelationshipType.where(ahnentafel_id: fm.seeded_relationship_type_id)[0] %>
-          <% @patient = Patient.where(id: (Visit.find(fm.visit_id).patient_id))[0] %>
-          <tr class="clickable" style="cursor:pointer;" onclick=<%= "location.href='/family_members/" + "#{fm.id}'" %>>
-            <td><%= @fpdh['first_name'] %></td>
-            <% if @patient.nil? %>
-              <td><%= "#{@srt.description} " %> [redacted]</td>
-            <% else %>
-              <td><%= "#{@srt.description} " %><%= link_to "#{@patient.first_name} #{@patient.last_name}", patient_path(id: @patient.id) %></td>
-            <% end %>
+          <tr>
+            <td>
+              <%= fm.generate_bio %>
+            </td>
             <td>
               <%= render 'family_members/link_buttons', fm: fm %>
             </td>

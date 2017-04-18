@@ -20,7 +20,7 @@ class VisitsController < ApplicationController
 
   def show
     @visit = Visit.find(params[:id])
-    @patient = Patient.find(@visit.patient_id)
+    @patient = Patient.find(@visit.patient.id)
     @clinician = Clinician.find(@visit.clinician_id)
     @symptoms = symptoms = Symptom.where(visit_id: @visit.id)
     @family_members = family_members = FamilyMember.where(visit_id: @visit.id)
@@ -50,7 +50,7 @@ class VisitsController < ApplicationController
 
   def edit
     @visit = Visit.find(params[:id])
-    @patient = Patient.find(@visit.patient_id)
+    @patient = Patient.find(@visit.patient.id)
     @gallery = Gallery.where(visit_id: @visit.id).order(id: :asc)[0]
 
     @family_members = FamilyMember.where(patient_id: @patient.id)
@@ -79,7 +79,7 @@ class VisitsController < ApplicationController
 
   def create
     @visit = Visit.new(visit_params)
-    @patient = Patient.find(@visit.patient_id)
+    @patient = Patient.find(@visit.patient.id)
     @form_action = "Create"
     if @visit.save
       flash[:success] = "Visit started for #{@visit.patient.last_name}, #{@visit.patient.first_name}."
@@ -95,7 +95,7 @@ class VisitsController < ApplicationController
 
   def update
     @visit = Visit.find(params[:id])
-    @patient = Patient.find(@visit.patient_id)
+    @patient = Patient.find(@visit.patient.id)
     @form_action = "Update"
     if @visit.update(visit_params)
       visit_params.keys.each do |vp|
