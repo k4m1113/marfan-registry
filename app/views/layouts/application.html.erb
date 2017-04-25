@@ -23,12 +23,12 @@
     </a>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link red" href="/patients">Start Visit with Patient Search</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link purple" href="/visits">All Visits</a>
-        </li>
+        <a class="nav-item nav-link red" href="/patients">
+          New Visit
+        </a>
+        <a class="nav-item nav-link purple" href="/visits">
+          All Visits
+        </a>
       </ul>
     </div>
   </nav>
@@ -38,7 +38,9 @@
     <div class="row">
       <div class="col col-sm-12 col-centered">
         <% flash.each do |key, value| %>
-          <div class="alert alert-<%= key %>"><%= value %></div>
+          <div class="alert alert-<%= key %>">
+            <%= value %>
+          </div>
         <% end %>
       </div>
     </div>

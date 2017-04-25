@@ -1,8 +1,9 @@
 class Clinician < ActiveRecord::Base
   include Doctor
-  
+
   has_many :patients
-  has_many :visits
+  has_many :visits,
+    inverse_of: :clinician
 
   validates :first_name,
     presence: true,

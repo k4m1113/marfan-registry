@@ -1,8 +1,4 @@
   <div class="row">
-    <div class="col-sm-5">
-      <%= button_to "Add New Patient", new_patient_path, method: "get", class: "btn btn-block btn-primary" %>
-    </div>
-
     <div class="col-sm-7">
       <%= form_tag "/patients", method: "get", id: "search-form" do %>
         <div class="input-group">
@@ -12,6 +8,9 @@
           </span>
         </div>
       <% end %>
+    </div>
+    <div class="col-sm-5">
+      <%= button_to "Add New Patient", new_patient_path, method: "get", class: "btn btn-block btn-primary" %>
     </div>
   </div>
   <hr />
@@ -40,7 +39,7 @@
         <% @patients.each do |p| %>
           <tr>
             <td><%= link_to p.id, patient_path(p) %></td>
-            <td><%= "#{p.last_name}, #{p.first_name}" %></td>
+            <td><%= link_to "#{p.last_name}, #{p.first_name}", patient_path(p) %></td>
             <td><%= p.date_of_birth.strftime("%d %B %Y") %></td>
             <td>
               <% if p.visits.length === 0 %>
@@ -51,8 +50,16 @@
             </td>
             <td>
               <div class="btn-group" role="group">
-                <%= link_to "New Visit", new_visit_path(patient: p.id), type: "button", method: :get, class: "btn btn-secondary" %>
-                <%= link_to "Edit Patient", edit_patient_path(id: p.id), type: "button", method: :get, class: "btn btn-default" %>
+
+                <form class='button_to' method='post' action='/visits'>
+                  <input type="hidden" id="visit_patient_id" name="visit[patient_id]" value="<%= p.id %>"/>
+                  <input type="hidden" id="visit_clinician_id" name="visit[clinician_id]" value="1"/>
+                  <button class='btn btn-secondary' type='submit'>
+                    New Visit
+                  </button>
+                </form>
+
+                <%= link_to "Edit Patient", edit_patient_path(id: p.id), role: "button", method: :get, class: "btn btn-secondary" %>
               </div>
             </td>
           </tr>
