@@ -2,6 +2,7 @@ class FamilyMember < ActiveRecord::Base
   include PgSearch
   include ApplicationHelper
   include CommonContent
+  attr_reader :table_headings, :table_body
 
   scope :sorted, -> { order(created_at: :desc) }
 
@@ -58,6 +59,35 @@ class FamilyMember < ActiveRecord::Base
       greater_than: 0
     },
     allow_nil: true
+
+    def self.table_headings
+      return ['Name', 'Relationship', 'Living?', 'Note', 'Attachments', 'Actions']
+    end
+
+    def table_body
+      action_view = ActionView::Base.new(Rails.configuration.paths["app/views"])
+      action_view.class_eval do
+        include Rails.application.routes.url_helpers
+        include ApplicationHelper
+
+        def protect_against_forgery?
+          false
+        end
+      end
+
+      return {
+        'name': "#{print_if_present(self.future_patient_data_hash['first_name'])} #{print_if_present(self.future_patient_data_hash['last_name'])}",
+        'relationship': self.topic.name,
+        'living': death_info(self),
+        'note': print_if_present(self.future_patient_data_hash['note']),
+        'attachments': "#{action_view.render(
+          partial: 'layouts/attachment_thumbnails', format: :txt,
+          locals: { model: self})}".html_safe,
+        'actions': "#{action_view.render(
+          partial: 'family_members/link_buttons', format: :txt,
+          locals: { fm: self})}".html_safe
+      }
+    end
 
     def generate_bio
       def name

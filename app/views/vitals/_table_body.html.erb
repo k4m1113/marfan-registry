@@ -1,0 +1,28 @@
+<%
+  heads = @patient.vitals_show_header
+  bodies = @patient.vitals_by_date
+%>
+<% if vitals.length != 0 %>
+  <table class="table table-striped table-responsive">
+    <thead>
+      <tr>
+        <% heads.each do |h| %>
+          <th>
+            <%= h %>
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+    <% bodies.each do |b| %>
+      <tr>
+        <% b.each do |k,v| %>
+          <td>
+            <%= v %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  Patient has not had any vitals measured.
+<% end %>

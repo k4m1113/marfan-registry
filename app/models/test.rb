@@ -1,6 +1,7 @@
 class Test < ActiveRecord::Base
   include ApplicationHelper
   attr_accessor :test_amount, :test_unit_of_meas
+  attr_reader :table_headings, :table_body
 
   before_save :concat_result
 
@@ -21,6 +22,34 @@ class Test < ActiveRecord::Base
     unless self.test_amount.blank? || self.test_unit_of_meas.blank?
       self.result = "#{self.test_amount} #{self.test_unit_of_meas}"
     end
+  end
+
+  def self.table_headings
+    return ['Date', 'Name', 'Result', 'Attachments', 'Actions']
+  end
+
+  def table_body
+    action_view = ActionView::Base.new(Rails.configuration.paths["app/views"])
+    action_view.class_eval do
+      include Rails.application.routes.url_helpers
+      include ApplicationHelper
+
+      def protect_against_forgery?
+        false
+      end
+    end
+
+    return {
+      'date': display_test_date(self),
+      'name': find_trail(self.topic_id),
+      'result': print_if_present(self.result),
+      'attachments': "#{action_view.render(
+        partial: 'layouts/attachment_thumbnails', format: :txt,
+        locals: { model: self})}".html_safe,
+      'actions': "#{action_view.render(
+        partial: 'tests/link_buttons', format: :txt,
+        locals: { t: self})}".html_safe
+    }
   end
 
   def generate_summary

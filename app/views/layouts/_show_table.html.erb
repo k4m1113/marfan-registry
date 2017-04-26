@@ -1,5 +1,11 @@
 <!-- discussion_topic should be in plural underscore local variable format, i.e. hospitalizations, family_members -->
-<% dt_str = discussion_topic.class.to_s.split('::').first.pluralize.parameterize %>
+
+<% if discussion_topic.class.to_s.include?('::') %>
+  <% dt_str = discussion_topic.class.to_s.split('::').first.pluralize.underscore %>
+<% else %>
+  <% dt_str = discussion_topic[0].class.to_s.pluralize.underscore %>
+<% end %>
+
 <div class="card">
   <div class="card-header">
     <%= dt_str.humanize.titleize %>
@@ -28,7 +34,7 @@
         <% end %>
       </table>
     <% else %>
-      Patient does not have any <%= dt_str.humanize %> on file yet. <%= link_to "Add Some", controller: dt_str, action: "new", class: "", patient: @patient %>
+      Patient does not have any <%= dt_str.humanize.downcase %> on file yet. <%= link_to "Add Some", controller: dt_str, action: "new", class: "", patient: @patient %>
     <% end %>
   </div>
 </div>

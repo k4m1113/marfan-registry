@@ -1,5 +1,6 @@
+# verbatim from paperclip galleries
 class GalleriesController < ApplicationController
-  before_action :set_gallery, only: [:show, :edit, :update, :destroy]
+  before_action :set_gallery, only: %i[show edit update destroy]
 
   # GET /galleries
   # GET /galleries.json
@@ -9,8 +10,7 @@ class GalleriesController < ApplicationController
 
   # GET /galleries/1
   # GET /galleries/1.json
-  def show
-  end
+  def show; end
 
   # GET /galleries/new
   def new
@@ -18,8 +18,7 @@ class GalleriesController < ApplicationController
   end
 
   # GET /galleries/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /galleries
   # POST /galleries.json
@@ -28,7 +27,7 @@ class GalleriesController < ApplicationController
 
     respond_to do |format|
       if @gallery.save
-        format.html { redirect_to @gallery, notice: 'Gallery was successfully created.' }
+        format.html { redirect_to @gallery, notice: 'Gallery created.' }
         format.json { render :show, status: :created, location: @gallery }
       else
         format.html { render :new }
@@ -42,7 +41,7 @@ class GalleriesController < ApplicationController
   def update
     respond_to do |format|
       if @gallery.update(gallery_params)
-        format.html { redirect_to @gallery, notice: 'Gallery was successfully updated.' }
+        format.html { redirect_to @gallery, notice: 'Gallery updated.' }
         format.json { render :show, status: :ok, location: @gallery }
       else
         format.html { render :edit }
@@ -56,19 +55,18 @@ class GalleriesController < ApplicationController
   def destroy
     @gallery.destroy
     respond_to do |format|
-      format.html { redirect_to galleries_url, notice: 'Gallery was successfully destroyed.' }
+      format.html { redirect_to galleries_url, notice: 'Gallery destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_gallery
-      @gallery = Gallery.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def gallery_params
-      params.require(:gallery).permit(:title, {attachments: []})
-    end
+  def set_gallery
+    @gallery = Gallery.find(params[:id])
+  end
+
+  def gallery_params
+    params.require(:gallery).permit(:title, attachments: [])
+  end
 end

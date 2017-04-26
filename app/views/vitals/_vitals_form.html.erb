@@ -8,10 +8,9 @@
       </h4>
     </div>
     <div id="vitalsCollapse" class="collapse" role="tabpanel" aria-labelledby="vitalsFormHeading">
-
       <div class="card-block">
-        <div class="row">
-          <%= f.fields_for :vitals, @visit.vitals.build do |ff| %>
+        <%= f.fields_for :vitals, @visit.vitals.build unless @visit.vitals do |ff| %>
+          <div class="row">
             <div class="col-sm-6">
               <%= render 'vitals/blood_pressure', ff: ff, sbp: @sbp[0], dbp: @dbp[0] %>
             </div>
@@ -20,10 +19,12 @@
                 <%= render 'vitals/vital_form_body', ff: ff, s: s %>
               </div>
             <% end %>
-          <% end %>
+          </div>
+        <% end %>
+        <div class="row">
+          <%= render 'vitals/table_body', vitals: @patient.vitals %>
         </div>
       </div>
-
     </div>
   </div>
 </div>

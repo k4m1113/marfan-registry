@@ -1,6 +1,6 @@
 class Medication < ActiveRecord::Base
   include ActiveSupport::NumberHelper
-  attr_accessor :table_headings, :table_body
+  attr_reader :table_headings, :table_body
 
   has_one :gallery
 

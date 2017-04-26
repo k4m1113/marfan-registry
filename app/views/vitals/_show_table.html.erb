@@ -2,28 +2,5 @@
   <div class="card-header" role="tab" id="vitalsHeading">
     Vitals
   </div>
-  <% if vitals.length != 0 %>
-    <table class="table table-striped table-responsive">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Name</th>
-          <th>Measurement</th>
-          <th>Note</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <% vitals.each do |v| %>
-        <tr>
-          <td><%= v.created_at.strftime("%b %Y") %></td>
-          <td><%= v.topic.name %></td>
-          <td><%= "#{print_if_present(v.measurement)} #{v.topic.units_of_measurement[0]}" %></td>
-          <td><%= print_if_present(v.note) %></td>
-          <td><%= render 'vitals/link_buttons', v: v %></td>
-        </tr>
-      <% end %>
-    </table>
-  <% else %>
-    Patient has not had any vitals measured.
-  <% end %>
+  <%= render 'vitals/table_body', vitals: @patient.vitals %>
 </div>
