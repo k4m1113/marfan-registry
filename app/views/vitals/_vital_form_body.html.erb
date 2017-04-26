@@ -25,5 +25,18 @@
   <%= ff.text_area :note, placeholder: "add note?", class: "form-control", id: "visit_vitals_attributes_#{s.id}_note", name: "visit[vitals_attributes][#{s.id}][note]" %>
 </div> -->
 <script>
-    <%= render 'vitals/vital_form_body.js', s: s %>
+$('#visit_vitals_attributes_<%= s.id %>_test_amount').addKeyboard();
+$('#vital_<%= s.id %>_calc_button').click(function(e){
+  e.stopImmediatePropagation();
+  console.log("k");
+  var kb = $('#visit_vitals_attributes_<%= s.id %>_test_amount').getkeyboard();
+
+  // close the keyboard if the keyboard is visible and the button is clicked a second time
+  if ( kb.isOpen ) {
+    kb.close();
+  } else {
+    kb.reveal();
+  }
+});
+
 </script>

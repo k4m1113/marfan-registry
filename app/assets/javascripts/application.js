@@ -1,9 +1,11 @@
 //= require jquery
 //= require jquery_ujs
-//= require jquery-ui
+//= require jquery-ui/core
+//= require jquery-ui/position
 //= require tether
 //= require bootstrap
 //= require bootstrap-sprockets
 //= require components
 //= require_tree .
 //= require keyboard/jquery.keyboard.min
+//= require addKeyboard

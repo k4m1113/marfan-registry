@@ -30,5 +30,27 @@
   </div>
 </div>
 <script>
-    <%= render 'vitals/blood_pressure.js', sbp: sbp, dbp: dbp %>
+$('#visit_vitals_attributes_<%= sbp.id %>_measurement').addKeyboard();
+$('#calc_button_<%= sbp.id %>').click(function(e){
+  e.stopImmediatePropagation();
+  var kb = $('#visit_vitals_attributes_<%= sbp.id %>_measurement').getkeyboard();
+  // close the keyboard if the keyboard is visible and the button is clicked a second time
+  if ( kb.isOpen ) {
+    kb.close();
+  } else {
+    kb.reveal();
+  }
+});
+$('#visit_vitals_attributes_<%= dbp.id %>_measurement').addKeyboard();
+$('#calc_button_<%= dbp.id %>').click(function(e){
+  e.stopImmediatePropagation();
+  var kb = $('#visit_vitals_attributes_<%= dbp.id %>_measurement').getkeyboard();
+  // close the keyboard if the keyboard is visible and the button is clicked a second time
+  if ( kb.isOpen ) {
+    kb.close();
+  } else {
+    kb.reveal();
+  }
+});
+
 </script>

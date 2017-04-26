@@ -39,5 +39,4 @@ Rails.application.routes.draw do
   root "patients#index"
 
   put 'family_members' => 'family_members#make_patient'
-  post 'visits/create' => 'visits#create'
 end

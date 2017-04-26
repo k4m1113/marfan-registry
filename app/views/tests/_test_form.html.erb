@@ -24,3 +24,15 @@
     <%= fff.submit "Add Test", class: "btn btn-success" %>
   <% end %>
 <% end %>
+<script>
+$('#test-result').addKeyboard();
+$('#testCalcButton').click(function(){
+  var kb = $('#test-result').getkeyboard();
+  // close the keyboard if the keyboard is visible and the button is clicked a second time
+  if ( kb.isOpen ) {
+    kb.close();
+  } else {
+    kb.reveal();
+  }
+});
+</script>

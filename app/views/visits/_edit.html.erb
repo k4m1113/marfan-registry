@@ -27,5 +27,11 @@
     </div>
   </div>
   <hr />
+  <% if @visit.vitals %>
+
+  <% else %>
+
+  <% end %>
+  <%= render 'vitals/vitals_form', f: f, visit: @visit %>
   <%= render 'topics/nested_list_form_body', f: f, visit: @visit %>
 <% end %>
