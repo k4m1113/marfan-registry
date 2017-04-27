@@ -66,6 +66,7 @@ class VisitsController < ApplicationController
       @previous_visit = @visits[-0]
       @primary_clinician = @visits.first.clinician
     end
+    @concerns = @visit.sort_by_topic
     @nested_scope = @visit
     @clinician = Clinician.find(@visit.clinician_id)
     @form_action = "Update"

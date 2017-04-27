@@ -1,0 +1,25 @@
+<% if discussion_topic.length != 0 %>
+  <table class="table table-striped table-responsive">
+    <thead>
+      <tr>
+        <% dt_str.classify.constantize.table_headings.each do |th| %>
+          <th>
+            <%= th %>
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+    <% discussion_topic.each do |item| %>
+      <tr>
+        <% row = item.table_body %>
+        <% row.each do |k, v| %>
+          <td>
+            <%= v %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  Patient does not have any <%= dt_str.humanize.downcase %> on file yet. <%= link_to "Add Some", controller: dt_str, action: "new", class: "", patient: @patient %>
+<% end %>

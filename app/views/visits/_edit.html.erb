@@ -1,19 +1,17 @@
+<%#= render 'visits/top_edit_buttons' %>
 <div class="row">
   <div class="col-sm">
-    <div class="btn-group" role="group">
-      <%= render 'visits/report_generate_button', visit: @visit %>
-      <%= render 'visits/summary_modal_button', visit: @previous_visit, title: "Prior Visit Summary", button_descriptor: "secondary" if @previous_visit %>
-      <%= render 'visits/summary_modal_button', visit: @visit, title: "Visit Summary", button_descriptor: "info" %>
-      <%= render 'patients/summary_modal_button', visit: @visit %>
-    </div>
+
+    <%= render 'visits/show_accordion', family_members: FamilyMember.where(visit_id: @visit.id), vitals: Vital.where(visit_id: @visit.id), medications: Medication.where(visit_id: @visit.id), imagery: @imagery, tests: @tests, hospitalizations: Hospitalization.where(visit_id: @visit.id), symptoms: Symptom.where(visit_id: @visit.id), diagnoses: (Diagnosis.where(visit_id: @visit.id) + Complication.where(visit_id: @visit.id)), procedures: Procedure.where(visit_id: @visit.id) %>
   </div>
 </div>
-<hr />
 <%= form_for @visit, class: "visit_form" do |f| %>
   <div class="row">
     <div class="col-sm">
       <% if @gallery %>
-        <h4>Uploaded Attachments</h4>
+        <h4>
+          Uploaded Attachments
+        </h4>
         <% @gallery.attachments.each do |a| %>
           <%= image_tag(a.thumb.url) %>
         <% end %>
@@ -27,11 +25,6 @@
     </div>
   </div>
   <hr />
-  <% if @visit.vitals %>
-
-  <% else %>
-
-  <% end %>
   <%= render 'vitals/vitals_form', f: f, visit: @visit %>
   <%= render 'topics/nested_list_form_body', f: f, visit: @visit %>
 <% end %>
