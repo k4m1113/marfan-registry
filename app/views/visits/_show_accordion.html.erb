@@ -7,18 +7,18 @@
         <div class="card-header summary-bar" role="tab" id="<%= key %>Heading">
           <h6 class="m-2 summary-bar">
             <li>
-              <!-- <a data-toggle="collapse" data-parent="#barsAccordion" href="#<%= k.to_s.underscore.parameterize %>Collapse" aria-expanded="true" aria-controls="<%= k.to_s.underscore.parameterize %>Collapse"> -->
               <a class="open-tab summary-bar" data-key="<%= key %>" data-toggle="tab" href="#<%= key %>" role="tab">
-                <%= k.to_s %>
+                <%= k.to_s %> - <%= list_constructor(v.map(&:generate_summary)) %>
+
               </a>
+              <div class="summary-body" style="display:none" id="<%= key %>Summary">
+                <p style="none">
+                  BODY
+                </p>
+              </div>
+
             </li>
           </h6>
-        </div>
-
-        <div id="<%= k.to_s.parameterize.underscore %>Collapse" class="collapse" role="tabpanel" aria-labelledby="<%= key %>Heading">
-          <div class="card-block">
-            <%= v %>
-          </div>
         </div>
       </div>
     <% end %>
@@ -32,8 +32,5 @@ $(window).load(function() {
     var ind = $("div.tab-pane[id^=" + reg + "]").data('tab-index');
     $(this).attr('data-tab-index', ind);
   });
-})
-$("a.summary-bar").on('click', function() {
-
 })
 </script>

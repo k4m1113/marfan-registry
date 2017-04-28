@@ -56,6 +56,8 @@ $(function () {
 $('a.open-tab').on("click", function(){
   $("ul.summary-bar").find(".active").removeClass("active");
   $('#tabs').tabs("option", "active", $(this).data("tab-index"));
+  $('.summary-body').hide();
+  $(this).next(".summary-body").toggle();
   console.log($(this).data("tab-index"));
 });
 $('a.nav-link').on("click", function(){
