@@ -1,10 +1,11 @@
-<div class="card">
+<div class="card" id="mainNestedList">
   <div class="card-header text-center">
     <ul class="nav nav-tabs" role="tablist">
       <div class="row">
-        <% @root_topics.each do |rt| %>
+        <% @root_topics.each_with_index do |rt, i| %>
+        <% key = rt.name.singularize.parameterize.underscore%>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#<%= rt.name.parameterize.underscore %>" role="tab">
+            <a class="nav-link open-tab" data-tab-index="<%= i %>" data-toggle="tab" href="#<%= key %>" role="tab">
               <%= rt.name.titleize %>
             </a>
           </li>
@@ -15,8 +16,8 @@
   <div class="card-block">
     <div class="tab-content">
       <% @root_topics.each_with_index do |rt, i| %>
-
-        <div class="tab-pane fade <%= "show in" if i == 0 %>" role="tabpanel" id="<%= rt.name.parameterize.underscore %>">
+        <% key = rt.name.singularize.parameterize.underscore%>
+        <div class="tab-pane fade <%= "show in" if i == 0 %>" role="tabpanel" id="<%= key %>" data-tab-index="<%= i %>">
           <% @discussion_topic = Topic.roots.where(name: "#{rt.name}")[0].self_and_descendants %>
           <% case rt.name %>
           <% when 'family history' %>
@@ -49,6 +50,14 @@
   </div>
 </div>
 <script>
+$(function () {
+   $("#mainNestedList").tabs()
+});
+$('a.open-tab').on("click", function(){
+  $("ul.summary-bar").find(".active").removeClass("active");
+  $('#tabs').tabs("option", "active", $(this).data("tab-index"));
+  console.log($(this).data("tab-index"));
+});
 $('a.nav-link').on("click", function(){
   $(".nav").find(".active").removeClass("active");
   $(this).parent().addClass("active");

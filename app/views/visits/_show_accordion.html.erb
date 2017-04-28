@@ -1,51 +1,39 @@
-<% @concerns.each do |k,v| %>
+<div id="barsAccordion" role="tablist" aria-multiselectable="true">
+  <ul class="summary-bar">
+    <% @concerns.each do |k,v| %>
+    <% key = k.to_s.gsub(/ concerns/, '').parameterize.underscore %>
+      <% next if v.empty? %>
+      <div class="card summary-bar">
+        <div class="card-header summary-bar" role="tab" id="<%= key %>Heading">
+          <h6 class="m-2 summary-bar">
+            <li>
+              <!-- <a data-toggle="collapse" data-parent="#barsAccordion" href="#<%= k.to_s.underscore.parameterize %>Collapse" aria-expanded="true" aria-controls="<%= k.to_s.underscore.parameterize %>Collapse"> -->
+              <a class="open-tab summary-bar" data-key="<%= key %>" data-toggle="tab" href="#<%= key %>" role="tab">
+                <%= k.to_s %>
+              </a>
+            </li>
+          </h6>
+        </div>
 
-<% end %>
-<!-- <div id="showAccordion" role="tablist" aria-multiselectable="true">
-  <div class="row">
-    <div class="col-sm">
-      <%#= render 'visits/show_tables/heart_imagery', imagery: imagery %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm">
-      <%#= render 'diagnoses/show_table', diagnoses: diagnoses %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm">
-      <%#= render 'family_members/show_table', family_members: family_members %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm">
-      <%#= render 'procedures/show_table', procedures: procedures %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm">
-      <%#= render 'hospitalizations/show_table', hospitalizations: hospitalizations %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm">
-      <%#= render 'tests/show_table', tests: tests %>
-    </div>
-  </div>
-  <br />
-  <div class="row">
-    <div class="col-sm">
-      <%#= render 'symptoms/show_table', symptoms: symptoms %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm">
-      <%#= render 'vitals/show_table', vitals: vitals %>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm">
-      <%#= render 'medications/show_table', medications: medications %>
-    </div>
-  </div>
-</div> -->
+        <div id="<%= k.to_s.parameterize.underscore %>Collapse" class="collapse" role="tabpanel" aria-labelledby="<%= key %>Heading">
+          <div class="card-block">
+            <%= v %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </ul>
+</div>
+<script>
+$(window).load(function() {
+  var kids = $('h6.summary-bar').find('a.open-tab')
+  kids.each( function(element) {
+    var reg = $(this).data('key')
+    var ind = $("div.tab-pane[id^=" + reg + "]").data('tab-index');
+    $(this).attr('data-tab-index', ind);
+  });
+})
+$("a.summary-bar").on('click', function() {
+
+})
+</script>

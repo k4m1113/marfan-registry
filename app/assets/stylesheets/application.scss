@@ -82,6 +82,17 @@ img{
   text-align: center;
 }
 
+.summary-bar {
+  &.card-header {
+    padding: 0;
+  }
+  &.card {
+  }
+  &h6 {
+    color: orange;
+  }
+}
+
 @media (min-width: 768px) {
   .modal-xl {
     width: 90%;
