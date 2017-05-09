@@ -25,7 +25,7 @@ describe Medication, type: :model do
   end
 
   describe ".generate_summary" do
-    summ = medication.generate_summary
+    summ = medication.generate_full_summary
     it "begins with medication name" do
       expect(summ).to start_with "losartan"
     end
@@ -36,7 +36,7 @@ describe Medication, type: :model do
 
   describe ".medMapper.js" do
     topic = Topic.find(medication.topic_id)
-    summ = medication.generate_summary
+    summ = medication.generate_full_summary
 
     it "matches med topics" do
       expect(topic.name).to eq medication.name

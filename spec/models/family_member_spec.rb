@@ -3,7 +3,7 @@ include CommonContent
 
 describe FamilyMember, type: :model do
   family_member = FactoryGirl.create(:family_member)
-  bio = family_member.generate_bio
+  bio = family_member.generate_summary
   family_member.common_content
 
   describe "Validations" do
@@ -32,7 +32,7 @@ describe FamilyMember, type: :model do
     it { should belong_to :patient }
   end
 
-  describe ".generate_bio" do
+  describe ".generate_summary" do
     it "begins with name of family member" do
       expect(bio).to start_with "Anna Banana"
     end

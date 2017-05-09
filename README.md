@@ -1,41 +1,25 @@
-<h1>NMF Tool</h1>
+# National Marfan Foundation Tool
 
-<a href="https://app.codeship.com/projects/145614">
-  <img src="https://app.codeship.com/projects/247cce80-e26e-0133-9815-5e7bb9818a79/status?branch=master" alt="Codeship Build Status">
-</a>
+[![Heroku Deployment](https://heroku-badge.herokuapp.com/?app=nmf-tool)](https://nmf-tool.herokuapp.com/)
+[![Codeship Build Status](https://app.codeship.com/projects/247cce80-e26e-0133-9815-5e7bb9818a79/status?branch=master)](https://app.codeship.com/projects/145614)
 
-<hr>
-<h3>
-  The NMF Tool is a global database for tracking the symptoms of Marfan Syndrome. On the client side patients may input information about themselves and their symptoms while doctors can add symptoms about their patients and generate after-visit summaries including medication, patient symptoms, familial symptoms, and follow-up.
-<h3>
+The NMF Tool is a clinical tool and global database for collecting and tracking relevant information about connective tissue disorders, including health data and family history.
 
-<a href="https://nmf-tool.herokuapp.com/">Heroku Deployment</a>
+Built with the [National Marfan Foundation](https://www.marfan.org/) and the [American Heart Association](https://www.marfan.org/about-us/news/2016/11/13/marfan-foundation-announces-collaboration-american-heart-association-pilot), the application was initially a proof-of-concept for further consideration by the AHA, but will be going into production at the [33rd annual NMF conference](https://www.marfan.org/resources/patients/conference) in Atlanta in August 2017.
 
-<h2>Features</h2>
-<ul>
-  <li>
-    Doctors and Patients have separate portals and profiles (TO BE IMPLEMENTED WITH HIPAA COMPLIANCE)
-  </li>
-  <li>
-    Doctors may add information during visits in a distraction-free interface to maintain as much bedside manner as possible
-  </li>
-  <li>
-    After-visit letters are generated in proper, readable English
-  </li>
-</ul>
+## Features
+* iPad-first design to maximize engagement between doctors and patients
+* [After-visit letters](https://nmf-tool.herokuapp.com/visits/1/report) generated in proper, readable English without the need for dictation
+* Medication parsing from EPIC Electronic Health Record
+* Handwriting recognition with [MyScript](http://myscript.com/technology/#text)
+* "Fuzzy Data" collection and manipulation
+* Doctors and Patients have separate portals and profiles (TO BE IMPLEMENTED WITH HIPAA COMPLIANCE)
 
-<h2>Technologies</h2>
-<ul>
-  <li>
-    Login/Registration functionality to be implemented with <a href="https://github.com/plataformatec/devise/wiki">Devise</a>
-  </li>
-  <li>
-    Feature testing with <a href="https://github.com/jnicklas/capybara">Capybara</a>
-  </li>
-  <li>
-    Model testing with <a href="http://rspec.info/">Rspec</a> and <a href="https://github.com/thoughtbot/factory_girl">
-  </li>
-  <li>
-    iPad- and touch-friendly styling with <a href="https://getbootstrap.com/">Bootstrap</a>
-  </li>
-</ul>
+## Technologies
+* [Ruby 2.2.3](https://www.ruby-lang.org/en/news/2015/08/18/ruby-2-2-3-released/) and [Rails 4.2.6](http://weblog.rubyonrails.org/2016/3/11/Rails-4-2-6-and-4-1-15-have-been-released/)
+* iPad- and touch-friendly styling with [Bootstrap 4](https://v4-alpha.getbootstrap.com/)
+* [Carrierwave](https://github.com/carrierwaveuploader/carrierwave) photo and document uploading to [AWS](https://aws.amazon.com/)
+* [jQuery UI](https://jqueryui.com/) widgets
+* Feature testing with [Capybara](https://github.com/jnicklas/capybara)
+* Model testing with [RSpec](http://rspec.info/) and [FactoryGirl](https://github.com/thoughtbot/factory_girl)
+* Login/Registration functionality to be implemented with [Devise](https://github.com/plataformatec/devise/wiki)

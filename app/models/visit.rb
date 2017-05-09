@@ -52,22 +52,39 @@ class Visit < ActiveRecord::Base
   end
 
   def concerns
-    tests + procedures + complications + diagnoses + symptoms + hospitalizations
+    tests + procedures + complications + diagnoses + symptoms + hospitalizations + family_members + medications + vitals
+  end
+
+  def letter_sort_by_topic
+    {
+      'genetic concerns': concerns.select { |c| c.topic.root.name == 'genetics' },
+      'cardiovascular concerns': concerns.select { |c| c.topic.root.name == 'cardiovascular' },
+      'morphology/physical findings': concerns.select { |c| c.topic.root.name == 'morphology/physical findings' },
+      'pulmonary concerns': concerns.select { |c| c.topic.root.name == 'pulmonary' },
+      'orthopedic concerns': concerns.select { |c| c.topic.root.name == 'orthopedic' },
+      'ophthalmologic concerns': concerns.select { |c| c.topic.root.name == 'ophthalmologic' },
+      'gynecologic/urologic concerns': concerns.select { |c| c.topic.root.name == 'gynecologic/urologic' },
+      'obstetric concerns': concerns.select { |c| c.topic.root.name == 'obstetric (pregnancy)' },
+      'neurologic concerns': concerns.select { |c| c.topic.root.name == 'neurologic' },
+      'gastrointestinal concerns': concerns.select { |c| c.topic.root.name == 'gastrointestinal' }
+    }
   end
 
   def sort_by_topic
-    {
-      'genetic concerns': concerns.select{ |c| c.topic.root.name == 'genetics' },
-      'cardiovascular concerns': concerns.select{ |c| c.topic.root.name == 'cardiovascular' },
-      'morphology/physical findings': concerns.select{ |c| c.topic.root.name == 'morphology/physical findings' },
-      'pulmonary concerns': concerns.select{ |c| c.topic.root.name == 'pulmonary' },
-      'orthopedic concerns': concerns.select{ |c| c.topic.root.name == 'orthopedic' },
-      'ophthalmologic concerns': concerns.select{ |c| c.topic.root.name == 'ophthalmologic' },
-      'gynecologic/urologic concerns': concerns.select{ |c| c.topic.root.name == 'gynecologic/urologic' },
-      'obstetric concerns': concerns.select{ |c| c.topic.root.name == 'obstetric (pregnancy)' },
-      'neurologic concerns': concerns.select{ |c| c.topic.root.name == 'neurologic' },
-      'gastrointestinal concerns': concerns.select{ |c| c.topic.root.name == 'gastrointestinal' }
+    letter_sort_by_topic.merge(
+      'family history': concerns.select { |c| c.topic.root.name == 'family history' },
+      'medication': concerns.select { |c| c.topic.root.name == 'medication' },
+      'vitals': concerns.select { |c| c.topic.root.name == 'vitals' }
+    )
+  end
+
+  def sort_by_topic_then_type
+    all = sort_by_topic
+    all.map { |k, v| [k, v.group_by(&:class)] }.to_h
+    k = all.transform_values { |arr|
+      arr.group_by(&:class).transform_keys { |key| key.name.pluralize }
     }
+    k
   end
 
   def header
@@ -91,11 +108,11 @@ class Visit < ActiveRecord::Base
 
     phrases = []
 
-    phrases << "a blood pressure of #{vitals.select{ |v| v.topic.name == 'SBP' }[0].measurement}/#{vitals.select{ |v| v.topic.name == 'DBP' }[0].measurement}" if vitals.select{ |v| v.topic.name == 'SBP' }[0]
-    phrases << "a pulse of #{vitals.select{ |v| v.topic.name == 'heart rate' }[0].measurement}" if vitals.select{ |v| v.topic.name == 'heart rate' }[0]
-    phrases << "a height of #{vitals.select{ |v| v.topic.name == 'height' }[0].measurement.to_f.round(2)}m" if vitals.select{ |v| v.topic.name == 'height' }[0]
-    phrases << "a weight of #{vitals.select{ |v| v.topic.name == 'weight' }[0].measurement.to_f.round(2)}kg" if vitals.select{ |v| v.topic.name == 'weight' }[0]
-    phrases << "a temperature of #{vitals.select{ |v| v.topic.name == 'temperature' }[0].measurement.to_f.round(1)}°C" if vitals.select{ |v| v.topic.name == 'temperature' }[0]
+    phrases << "a blood pressure of #{vitals.select { |v| v.topic.name == 'SBP' }[0].measurement}/#{vitals.select { |v| v.topic.name == 'DBP' }[0].measurement}" if vitals.select { |v| v.topic.name == 'SBP' }[0]
+    phrases << "a pulse of #{vitals.select { |v| v.topic.name == 'heart rate' }[0].measurement}" if vitals.select { |v| v.topic.name == 'heart rate' }[0]
+    phrases << "a height of #{vitals.select { |v| v.topic.name == 'height' }[0].measurement.to_f.round(2)}m" if vitals.select { |v| v.topic.name == 'height' }[0]
+    phrases << "a weight of #{vitals.select { |v| v.topic.name == 'weight' }[0].measurement.to_f.round(2)}kg" if vitals.select { |v| v.topic.name == 'weight' }[0]
+    phrases << "a temperature of #{vitals.select { |v| v.topic.name == 'temperature' }[0].measurement.to_f.round(1)}°C" if vitals.select { |v| v.topic.name == 'temperature' }[0]
 
     if phrases.empty?
       %(#{patient.first_name} had no vitals measured during this visit.)
@@ -113,7 +130,7 @@ class Visit < ActiveRecord::Base
     else
       bios = ""
       family_members.each do |fm|
-        bios += "\n#{fm.generate_bio} "
+        bios += "\n#{fm.generate_summary} "
       end
       %(As part of #{patient.first_name}'s comprehensive visit we gathered the following family history: \n#{bios})
     end
@@ -126,7 +143,7 @@ class Visit < ActiveRecord::Base
     if meds.blank?
       %(I did not discuss any medications with #{patient.first_name} during our visit.)
     else
-      all_meds = meds.map(&:generate_summary)
+      all_meds = meds.map(&:generate_full_summary)
       %(#{patient.first_name.capitalize}'s medications consist of:
       \n#{list_constructor(all_meds, '', ';')})
     end
@@ -139,13 +156,13 @@ class Visit < ActiveRecord::Base
     patient = Patient.find(patient_id)
 
     results = ''
-    imagery = tests.select{ |t| heart_imaging_locations.include?(t.topic)}
+    imagery = tests.select { |t| heart_imaging_locations.include?(t.topic)}
     if imagery.empty?
       results += "#{patient.first_name} did not undergo any heart imagery as part of our visit."
     else
-      echo = imagery.select{ |i| i.topic.name == 'echo' }
-      mri = imagery.select{ |i| i.topic.name == 'MRI' }
-      ct = imagery.select{ |i| i.topic.name == 'CT' }
+      echo = imagery.select { |i| i.topic.name == 'echo' }
+      mri = imagery.select { |i| i.topic.name == 'MRI' }
+      ct = imagery.select { |i| i.topic.name == 'CT' }
       other_meas = imagery - ct - mri - echo
       unless echo.empty?
         echos = []
@@ -179,14 +196,14 @@ class Visit < ActiveRecord::Base
     end
   end
 
-  ## Concerns = anything discussed in a visit not incl: family history, vitals, heart imagery.
+  ## Concerns = anything discussed in a visit not incl: family history, vitals, heart imagery, meds.
   def concerns_body
     patient = Patient.find(patient_id)
-    concerns = sort_by_topic
+    concerns = letter_sort_by_topic
 
     body = ''
     no_instances = []
-    sort_by_topic.each do |topic, instances|
+    concerns.each do |topic, instances|
       if instances.blank?
         no_instances << topic
       else

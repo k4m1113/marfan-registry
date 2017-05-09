@@ -49,10 +49,18 @@ class Hospitalization < ActiveRecord::Base
   end
 
   def generate_summary
-    if self.note
-      return "#{self.topic.name} (#{self.note})"
+    if note
+      "#{topic.name} (#{note})"
     else
-      "#{self.topic.name} procedure"
+      "#{topic.name} procedure"
     end
+  end
+
+  def generate_full_summary
+    summ = ""
+    admission_date? ? (summ << "hospitalized on #{admission_date.strftime('%d %B %Y')}") : nil
+    (length_of_stay && length_of_stay_scale) ? "for #{length_of_stay} #{length_of_stay_scale}" : nil
+    summ << "for #{topic.name}"
+    location? ? (summ << "at #{location}") : nil
   end
 end

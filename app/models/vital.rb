@@ -2,7 +2,7 @@ class Vital < ActiveRecord::Base
   attr_accessor :test_amount, :test_unit_of_meas
 
   before_save :calculate_metric
-  
+
   has_one :gallery
 
   accepts_nested_attributes_for :gallery
@@ -15,6 +15,14 @@ class Vital < ActiveRecord::Base
     required: false
 
   after_save { |v| v.destroy if v.measurement.blank? }
+
+  def generate_summary
+    "#{topic.name} was #{measurement}#{topic.units_of_measurement[0]}"
+  end
+
+  def generate_full_summary
+    
+  end
 
   def calculate_metric
     if ['height', 'weight'].include? self.topic.name

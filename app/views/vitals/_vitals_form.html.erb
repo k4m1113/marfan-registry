@@ -1,31 +1,15 @@
-<div id="vitalsFormAccordion" aria-multiselectable="true" role="tablist">
-  <div class="card">
-    <div class="card-header" role="tab" id="vitalsFormHeading">
-      <h4>
-        <a data-toggle="collapse" data-parent="#vitalsFormAccordion" href="#vitalsCollapse" aria-expanded="false" aria-controls="vitalsCollapse">
-          Vitals <i class="fa fa-caret-down"></i>
-        </a>
-      </h4>
+<%= f.fields_for :vitals, @visit.vitals.build unless @visit.vitals do |ff| %>
+  <div class="row">
+    <div class="col-sm-6">
+      <%= render 'vitals/blood_pressure', ff: ff, sbp: @sbp[0], dbp: @dbp[0] %>
     </div>
-    <div id="vitalsCollapse" class="collapse" role="tabpanel" aria-labelledby="vitalsFormHeading">
-      <div class="card-block">
-        <%= f.fields_for :vitals, @visit.vitals.build unless @visit.vitals do |ff| %>
-          <div class="row">
-            <div class="col-sm-6">
-              <%= render 'vitals/blood_pressure', ff: ff, sbp: @sbp[0], dbp: @dbp[0] %>
-            </div>
-            <% @stats.each do |s| %>
-              <div class="col-sm-6">
-                <%= render 'vitals/vital_form_body', ff: ff, s: s %>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-        <div class="row">
-          <%= render 'vitals/table_body', vitals: @patient.vitals %>
-        </div>
+    <% @stats.each do |s| %>
+      <div class="col-sm-6">
+        <%= render 'vitals/vital_form_body', ff: ff, s: s %>
       </div>
-    </div>
+    <% end %>
   </div>
+<% end %>
+<div class="row">
+  <%= render 'vitals/table_body', vitals: @patient.vitals %>
 </div>
-<hr />

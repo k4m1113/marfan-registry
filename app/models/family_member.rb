@@ -61,7 +61,7 @@ class FamilyMember < ActiveRecord::Base
     allow_nil: true
 
     def self.table_headings
-      return ['Name', 'Relationship', 'Living?', 'Note', 'Attachments', 'Actions']
+      ['Name', 'Relationship', 'Living?', 'Note', 'Attachments', 'Actions']
     end
 
     def table_body
@@ -76,10 +76,10 @@ class FamilyMember < ActiveRecord::Base
       end
 
       return {
-        'name': "#{print_if_present(self.future_patient_data_hash['first_name'])} #{print_if_present(self.future_patient_data_hash['last_name'])}",
-        'relationship': self.topic.name,
+        'name': "#{print_if_present(future_patient_data_hash['first_name'])} #{print_if_present(future_patient_data_hash['last_name'])}",
+        'relationship': topic.name,
         'living': death_info(self),
-        'note': print_if_present(self.future_patient_data_hash['note']),
+        'note': print_if_present(future_patient_data_hash['note']),
         'attachments': "#{action_view.render(
           partial: 'layouts/attachment_thumbnails', format: :txt,
           locals: { model: self})}".html_safe,
@@ -89,53 +89,53 @@ class FamilyMember < ActiveRecord::Base
       }
     end
 
-    def generate_bio
+    def generate_summary
       def name
-        if !self.future_patient_data_hash["first_name"].blank?
-          if !self.future_patient_data_hash["last_name"].blank?
-            return "#{self.future_patient_data_hash['first_name'].capitalize} #{self.future_patient_data_hash['last_name'].capitalize} (#{self.patient.first_name}'s #{self.topic.name})"
+        if !future_patient_data_hash["first_name"].blank?
+          if !future_patient_data_hash["last_name"].blank?
+            return "#{future_patient_data_hash['first_name'].capitalize} #{future_patient_data_hash['last_name'].capitalize} (#{patient.first_name}'s #{topic.name})"
           else
-            return "#{self.future_patient_data_hash['first_name'].capitalize} (#{self.patient.first_name}'s #{self.topic.name})"
+            return "#{future_patient_data_hash['first_name'].capitalize} (#{patient.first_name}'s #{topic.name})"
           end
         else
-          return "#{self.patient.first_name}'s unnamed #{self.topic.name}"
+          return "#{patient.first_name}'s unnamed #{topic.name}"
         end
       end
 
       def living_info
-        if self.future_patient_data_hash['deceased'].blank?
+        if future_patient_data_hash['deceased'].blank?
           dead = nil
-        elsif self.future_patient_data_hash['deceased'].to_i === 1
-          unless self.future_patient_data_hash['cause_of_death'].blank?
-            dead = "died of #{self.future_patient_data_hash['cause_of_death']}"
+        elsif future_patient_data_hash['deceased'].to_i === 1
+          unless future_patient_data_hash['cause_of_death'].blank?
+            dead = "died of #{future_patient_data_hash['cause_of_death']}"
           end
-          if !self.future_patient_data_hash['death_date'].blank?
+          if !future_patient_data_hash['death_date'].blank?
             # string interpolate '-01' to fit YYYY-MM-DD for Date with fuzzy data
-            death_date = (self.future_patient_data_hash['death_date'] + "-01").to_datetime
-          elsif !self.future_patient_data_hash['death_time_ago'].blank? && !self.future_patient_data_hash['death_time_ago_scale'].blank?
-            death_date = find_date(self.future_patient_data_hash['death_time_ago'], self.future_patient_data_hash['death_time_ago_scale'], self.created_at)
+            death_date = (future_patient_data_hash['death_date'] + "-01").to_datetime
+          elsif !future_patient_data_hash['death_time_ago'].blank? && !future_patient_data_hash['death_time_ago_scale'].blank?
+            death_date = find_date(future_patient_data_hash['death_time_ago'], future_patient_data_hash['death_time_ago_scale'], created_at)
           end
-          if self.future_patient_data_hash['born_years_ago']
-            age_at_death = death_date.year - (self.created_at - self.future_patient_data_hash['born_years_ago'].years).to_datetime.year
+          if future_patient_data_hash['born_years_ago']
+            age_at_death = death_date.year - (created_at - future_patient_data_hash['born_years_ago'].years).to_datetime.year
           else
             "unknown"
           end
 
-        elsif self.future_patient_data_hash['deceased'].to_i === 0
-          age_at_death = Date.today.year - (self.future_patient_data_hash['date_of_birth'] + '-01').to_datetime.year
+        elsif future_patient_data_hash['deceased'].to_i === 0
+          age_at_death = Date.today.year - (future_patient_data_hash['date_of_birth'] + '-01').to_datetime.year
           dead = 'is alive'
         end
         return dead + " at approximately #{age_at_death} years old"
       end
 
       def notes
-        if !self.future_patient_data_hash['note'].blank?
-          return "(#{self.future_patient_data_hash['note']})"
+        if !future_patient_data_hash['note'].blank?
+          return "(#{future_patient_data_hash['note']})"
         else
           return nil
         end
       end
 
-      return %(#{self.name} #{self.living_info}. #{self.notes})
+      return %(#{name} #{living_info}. #{notes})
     end
 end

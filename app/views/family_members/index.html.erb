@@ -29,7 +29,7 @@
         <% @family_members.each do |fm| %>
           <tr>
             <td>
-              <%= fm.generate_bio %>
+              <%= fm.generate_summary %>
             </td>
             <td>
               <%= render 'family_members/link_buttons', fm: fm %>

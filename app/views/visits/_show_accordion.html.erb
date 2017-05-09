@@ -1,5 +1,5 @@
 <div id="barsAccordion" role="tablist" aria-multiselectable="true">
-  <ul class="summary-bar">
+  <ul class="summary-bar list-unstyled">
     <% @concerns.each do |k,v| %>
     <% key = k.to_s.gsub(/ concerns/, '').parameterize.underscore %>
       <% next if v.empty? %>
@@ -12,11 +12,27 @@
 
               </a>
               <div class="summary-body" style="display:none" id="<%= key %>Summary">
-                <p style="none">
-                  BODY
+                <hr />
+                <p>
+                  <% @sorted_concerns[:"#{k}"].each do |k,v| %>
+                    <% if k.downcase == 'vitals' %>
+                      <%= render 'vitals/vitals_form', f: f, visit: @visit %>
+                    <% else %>
+                      <b>
+                        <%= k %>
+                      </b>
+                      <ul>
+                        <% v.each do |item| %>
+                            <li>
+                              <%= item.generate_summary %>
+                            </li>
+                          <% end %>
+                      </ul>
+                      <br />
+                    <% end %>
+                  <% end %>
                 </p>
               </div>
-
             </li>
           </h6>
         </div>

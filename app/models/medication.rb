@@ -27,23 +27,23 @@ class Medication < ActiveRecord::Base
         false
       end
     end
-    if self.current === true
+    if current === true
       status = 'current'
-    elsif self.current === false
+    elsif current === false
       status = 'discontinued'
     else
       status = 'not noted'
     end
 
-    if self.common_name != nil
-      name = "#{self.name} (#{self.common_name.upcase}) #{sprintf("%g", self.dose)} #{self.dose_unit_of_measurement} #{self.dosage_form}"
+    if common_name != nil
+      name = "#{name} (#{common_name.upcase}) #{sprintf("%g", dose)} #{dose_unit_of_measurement} #{dosage_form}"
     elsif common_name == nil
-      name = "#{self.name}"
+      name = "#{name}"
     end
-    return {
-      'date': self.created_at.strftime("%b %Y"),
+    {
+      'date': created_at.strftime("%b %Y"),
       'name': name,
-      'instructions': self.ingestion_method,
+      'instructions': ingestion_method,
       'status': status,
       'actions': "#{action_view.render(
         partial: 'medications/link_buttons', format: :txt,
@@ -52,15 +52,21 @@ class Medication < ActiveRecord::Base
   end
 
   def generate_summary
-    summ = "#{self.name.downcase}"
-    unless self.topic_id == 66 || self.topic.depth < 1
-      summ << ", #{self.topic.parent.name.with_indefinite_article.singularize},"
+    summ = "#{name.downcase}"
+    summ << "( #{topic.parent.name.with_indefinite_article.singularize})" unless topic_id == 66 || topic.depth < 1
+    summ
+  end
+
+  def generate_full_summary
+    summ = "#{name.downcase}"
+    unless topic_id == 66 || topic.depth < 1
+      summ << ", #{topic.parent.name.with_indefinite_article.singularize},"
     end
-    if self.common_name.nil?
-      summ << " #{self.ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '').rstrip.gsub(/\.$/, '')}"
+    if common_name.nil?
+      summ << " #{ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '').rstrip.gsub(/\.$/, '')}"
     else
-      summ << " at #{number_to_human(self.dose)} #{self.dose_unit_of_measurement} #{self.ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '').rstrip.gsub(/\.$/, '')}"
+      summ << " at #{number_to_human(dose)} #{dose_unit_of_measurement} #{ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '').rstrip.gsub(/\.$/, '')}"
     end
-    return summ
+    summ
   end
 end
