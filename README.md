@@ -5,7 +5,7 @@
 
 The NMF Tool is a clinical tool and global database for collecting and tracking relevant information about connective tissue disorders, including health data and family history.
 
-Built with the [National Marfan Foundation](https://www.marfan.org/) and the [American Heart Association](https://www.marfan.org/about-us/news/2016/11/13/marfan-foundation-announces-collaboration-american-heart-association-pilot), the application was initially a proof-of-concept for further consideration by the AHA, but will be going into production at the [33rd annual NMF conference](https://www.marfan.org/resources/patients/conference) in Atlanta in August 2017.
+Built with the [National Marfan Foundation](https://www.marfan.org/) and the [American Heart Association](https://www.marfan.org/about-us/news/2016/11/13/marfan-foundation-announces-collaboration-american-heart-association-pilot), the application is currently live as a proof-of-concept for further consideration by the AHA, to be demonstrated at the [33rd annual NMF conference](https://www.marfan.org/resources/patients/conference) in Atlanta in August 2017.
 
 ## Features
 * iPad-first design to maximize engagement between doctors and patients
