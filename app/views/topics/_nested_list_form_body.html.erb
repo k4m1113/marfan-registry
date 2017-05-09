@@ -50,16 +50,25 @@
   </div>
 </div>
 <script>
+// initialize jQuery UI tabbing
 $(function () {
    $("#mainNestedList").tabs()
 });
+
+// click on either 'bar' or tab 'nav-link'
 $('a.open-tab').on("click", function(){
+  // accordion-style collapse
   $("ul.summary-bar").find(".active").removeClass("active");
   $('#tabs').tabs("option", "active", $(this).data("tab-index"));
   $('.summary-body').hide();
   $(this).next(".summary-body").toggle();
-  console.log($(this).data("tab-index"));
+  // scroll to new content
+  $('html, body').animate({
+    scrollTop: ($('.tab-pane.active').offset().top)
+  }, 350);
 });
+
+// click on tab 'nav-link'
 $('a.nav-link').on("click", function(){
   $(".nav").find(".active").removeClass("active");
   $(this).parent().addClass("active");
