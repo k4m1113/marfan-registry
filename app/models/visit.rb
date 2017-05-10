@@ -104,7 +104,7 @@ class Visit < ActiveRecord::Base
 
   def vitals_paragraph
     patient = Patient.find(patient_id)
-    vitals = vitals
+    vitals = self.vitals
 
     phrases = []
 
