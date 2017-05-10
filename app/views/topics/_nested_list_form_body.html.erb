@@ -16,7 +16,7 @@
   <div class="card-block">
     <div class="tab-content">
       <% @root_topics.each_with_index do |rt, i| %>
-        <% key = rt.name.singularize.parameterize.underscore%>
+        <% key = rt.keyify %>
         <div class="tab-pane fade <%= "show in" if i == 0 %>" role="tabpanel" id="<%= key %>" data-tab-index="<%= i %>">
           <% @discussion_topic = Topic.roots.where(name: "#{rt.name}")[0].self_and_descendants %>
           <% case rt.name %>
