@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-sm">
 
-      <%= render 'visits/show_accordion', f: f, family_members: FamilyMember.where(visit_id: @visit.id), vitals: Vital.where(visit_id: @visit.id), medications: Medication.where(visit_id: @visit.id), imagery: @imagery, tests: @tests, hospitalizations: Hospitalization.where(visit_id: @visit.id), symptoms: Symptom.where(visit_id: @visit.id), diagnoses: (Diagnosis.where(visit_id: @visit.id) + Complication.where(visit_id: @visit.id)), procedures: Procedure.where(visit_id: @visit.id) %>
+      <%= render 'visits/show_accordion', f: f, family_members: FamilyMember.where(visit_id: @visit.id), vitals: Vital.where(visit_id: @visit.id), medications: Medication.where(visit_id: @visit.id), imagery: @imagery, tests: @tests, hospitalizations: Hospitalization.where(visit_id: @visit.id), diagnoses: Diagnosis.where(visit_id: @visit.id), procedures: Procedure.where(visit_id: @visit.id) %>
     </div>
   </div>
   <div class="row">

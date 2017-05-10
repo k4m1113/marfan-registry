@@ -23,8 +23,7 @@ t -= im
           medications: Medication.where(visit_id: visit.id),
           imagery: im, tests: t,
           hospitalizations: Hospitalization.where(visit_id: visit.id),
-          symptoms: Symptom.where(visit_id: visit.id),
-          diagnoses: (Diagnosis.where(visit_id: visit.id) + Complication.where(visit_id: visit.id)),
+          diagnoses: Diagnosis.where(visit_id: visit.id),
           procedures: Procedure.where(visit_id: visit.id)
         %>
       </div>

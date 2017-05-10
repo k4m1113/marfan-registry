@@ -11,26 +11,22 @@ class Visit < ActiveRecord::Base
 
   has_one :gallery, inverse_of: :visit
 
-  has_many :symptoms, dependent: :destroy
   has_many :family_members, dependent: :destroy
   has_many :hospitalizations, dependent: :destroy
   has_many :tests, dependent: :destroy
 
   has_many :vitals, dependent: :destroy
-  has_many :complications, dependent: :destroy
   has_many :diagnoses, dependent: :destroy
   has_many :medications, dependent: :destroy
   has_many :procedures, dependent: :destroy
 
   accepts_nested_attributes_for :gallery
 
-  accepts_nested_attributes_for :complications
   accepts_nested_attributes_for :vitals
   accepts_nested_attributes_for :diagnoses
   accepts_nested_attributes_for :medications
   accepts_nested_attributes_for :procedures
 
-  accepts_nested_attributes_for :symptoms
   accepts_nested_attributes_for :hospitalizations
   accepts_nested_attributes_for :tests
   accepts_nested_attributes_for :family_members
@@ -52,7 +48,7 @@ class Visit < ActiveRecord::Base
   end
 
   def concerns
-    tests + procedures + complications + diagnoses + symptoms + hospitalizations + family_members + medications + vitals
+    tests + procedures + diagnoses + hospitalizations + family_members + medications + vitals
   end
 
   def letter_sort_by_topic

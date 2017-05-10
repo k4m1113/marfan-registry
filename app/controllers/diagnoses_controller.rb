@@ -58,6 +58,7 @@ class DiagnosesController < ApplicationController
       :time_ago_scale,
       :absolute_start_date,
       :visit_id,
+      :presence,
       :note
     )
   end

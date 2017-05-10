@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs" role="tablist">
       <div class="row">
         <% @root_topics.each_with_index do |rt, i| %>
-        <% key = rt.name.singularize.parameterize.underscore%>
+        <% key = rt.keyify %>
           <li class="nav-item">
             <a class="nav-link open-tab" data-tab-index="<%= i %>" data-toggle="tab" href="#<%= key %>" role="tab">
               <%= rt.name.titleize %>

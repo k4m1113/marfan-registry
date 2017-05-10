@@ -2,26 +2,22 @@ class Vital < ActiveRecord::Base
   attr_accessor :test_amount, :test_unit_of_meas
 
   before_save :calculate_metric
+  after_save { |v| v.destroy if v.measurement.blank? }
 
   has_one :gallery
 
   accepts_nested_attributes_for :gallery
 
   belongs_to :topic
-  belongs_to :patient,
-    inverse_of: :vitals
-  belongs_to :visit,
-    inverse_of: :vitals,
-    required: false
-
-  after_save { |v| v.destroy if v.measurement.blank? }
+  belongs_to :patient, inverse_of: :vitals
+  belongs_to :visit, inverse_of: :vitals, required: false
 
   def generate_summary
     "#{topic.name} was #{measurement}#{topic.units_of_measurement[0]}"
   end
 
   def generate_full_summary
-    
+
   end
 
   def calculate_metric

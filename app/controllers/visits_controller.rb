@@ -1,7 +1,7 @@
 require 'report'
 require 'doctor'
 require 'json'
-# require 'pry'
+require 'pry'
 
 # visits controller
 class VisitsController < ApplicationController
@@ -23,7 +23,6 @@ class VisitsController < ApplicationController
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient.id)
     @clinician = Clinician.find(@visit.clinician_id)
-    @symptoms = symptoms = Symptom.where(visit_id: @visit.id)
     @family_members = family_members = FamilyMember.where(visit_id: @visit.id)
     @vitals = vitals = Vital.where(visit_id: @visit.id)
     @tests = tests = Test.where(visit_id: @visit.id)
@@ -38,7 +37,6 @@ class VisitsController < ApplicationController
     @patient = Patient.find_by(id: params[:patient]) if params[:patient]
 
     @visit.vitals.build
-    @visit.symptoms.build
     @visit.hospitalizations.build
     @visit.family_members.build
     @visit.tests.build
@@ -100,6 +98,7 @@ class VisitsController < ApplicationController
     @patient = Patient.find(@visit.patient.id)
     @form_action = 'Update'
     if @visit.update(visit_params)
+      binding.pry
       visit_params.keys.each do |vp|
         flash[:success] = "Successfully updated visit with #{vp}"
       end
@@ -152,15 +151,11 @@ class VisitsController < ApplicationController
       medications_attributes:
         %i[visit_id patient_id topic_id dose dose_unit_of_measurement nested_med_id nested_med_category duration_amount duration_scale ingestion_method frequency frequency_scale common_name medication_format time_ago time_ago_scale absolute_start_date note name dosage_form dosage_form_units current],
       diagnoses_attributes:
-        [:topic_id, :patient_id, :time_ago, :time_ago_scale, :absolute_start_date, :visit_id, :note, attachments: []],
-      complications_attributes:
-        %i[topic_id patient_id time_ago time_ago_scale absolute_start_date visit_id note],
+        [:topic_id, :patient_id, :time_ago, :presence, :time_ago_scale, :absolute_start_date, :visit_id, :note, attachments: []],
       procedures_attributes:
         %i[topic_id patient_id clinician_id visit_id note],
       hospitalizations_attributes:
         %i[visit_id patient_id topic_id hospitalization admission_date time_ago time_ago_scale length_of_stay length_of_stay_scale hosp_type description location note],
-      symptoms_attributes:
-      %i[topic_id patient_id visit_id symptoms presence measurement time_ago time_ago_scale start_date frequency note],
       family_members_attributes:
         [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, :family_member, :gallery,  future_patient_data_hash:
           %i[first_name last_name born_years_ago date_of_birth deceased death_time_ago death_time_ago_scale death_date cause_of_death note],

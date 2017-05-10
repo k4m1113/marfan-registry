@@ -1,6 +1,10 @@
 class Diagnosis < ActiveRecord::Base
   include ApplicationHelper
   attr_reader :table_headings, :table_body
+  attr_accessor :presence
+
+  before_save :presence_to_note
+  after_save { |d| d.destroy if d.note.blank? }
 
   has_one :gallery
 
@@ -8,14 +12,16 @@ class Diagnosis < ActiveRecord::Base
   belongs_to :visit, inverse_of: :diagnoses, required: false
   belongs_to :patient, inverse_of: :diagnoses
 
-  validates :note, presence: true
-
-  def self.table_headings
-    %w[Description Note Attachments Actions]
+  def presence_to_note
+    self.note = if presence == "true"
+                  'presence'
+                elsif presence == "false"
+                  'absence'
+                end
   end
 
   def self.table_headings
-    %w[Date Description Note Attachments Actions]
+    %w[Description Note Attachments Actions]
   end
 
   def table_body
