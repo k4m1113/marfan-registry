@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th>
-
+        <a href="#" class="btn btn-sm all-neg-toggler">All Absent</button>
       </th>
       <th>
         Present
@@ -30,12 +30,6 @@
               <%= ff.radio_button :presence, false, name: "visit[diagnoses_attributes][#{l.id}][presence]", id: "visit_diagnoses_attributes_#{l.id}_presence_false" %>
             </td>
           </div>
-          <td>
-            <%= %>
-          </td>
-          <td>
-
-          </td>
         </tr>
       <% end %>
     <% end %>
@@ -43,7 +37,7 @@
 </table>
 <script>
     <%= render 'topics/nested_list.js', f: f %>
-</script> 
+</script>
 <!-- <%
   def draw_tree(node)
     node.children.each do |child|

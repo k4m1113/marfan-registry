@@ -1,7 +1,7 @@
 require 'report'
 require 'doctor'
 require 'json'
-require 'pry'
+# require 'pry'
 
 # visits controller
 class VisitsController < ApplicationController
@@ -98,7 +98,6 @@ class VisitsController < ApplicationController
     @patient = Patient.find(@visit.patient.id)
     @form_action = 'Update'
     if @visit.update(visit_params)
-      binding.pry
       visit_params.keys.each do |vp|
         flash[:success] = "Successfully updated visit with #{vp}"
       end

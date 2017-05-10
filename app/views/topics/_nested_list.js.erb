@@ -1,6 +1,7 @@
-function toggleAllAbsent {
-
-}
+$('.all-neg-toggler').click(function toggleAllAbsent() {
+  $('.tab-pane.active').find("input[value='false']").prop("checked", "checked")
+  $("html, body").animate({ scrollTop: $(document).height() }, 350);
+});
 // function renderProcedureTopicForm(int) {
 //   $('.tab-pane.active').find('.form-hook').html("<%= j render 'procedures/procedure_form', f: f %><hr />");
 //   $('input.procedure-response:last').val(int);
