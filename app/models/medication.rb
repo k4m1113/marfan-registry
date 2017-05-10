@@ -27,6 +27,7 @@ class Medication < ActiveRecord::Base
         false
       end
     end
+
     if current === true
       status = 'current'
     elsif current === false
@@ -35,9 +36,9 @@ class Medication < ActiveRecord::Base
       status = 'not noted'
     end
 
-    if common_name != nil
+    if !common_name.nil? && !dose.nil?
       name = "#{name} (#{common_name.upcase}) #{sprintf('%g', dose)} #{dose_unit_of_measurement} #{dosage_form}"
-    elsif common_name == nil
+    else
       name = "#{name}"
     end
     {
