@@ -1,4 +1,4 @@
-require 'pry'
+# require 'pry'
 # Visit Class is where it all happens
 class Visit < ActiveRecord::Base
   include Report
