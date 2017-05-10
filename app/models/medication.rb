@@ -36,7 +36,7 @@ class Medication < ActiveRecord::Base
     end
 
     if common_name != nil
-      name = "#{name} (#{common_name.upcase}) #{sprintf("%g", dose)} #{dose_unit_of_measurement} #{dosage_form}"
+      name = "#{name} (#{common_name.upcase}) #{sprintf('%g', dose)} #{dose_unit_of_measurement} #{dosage_form}"
     elsif common_name == nil
       name = "#{name}"
     end
