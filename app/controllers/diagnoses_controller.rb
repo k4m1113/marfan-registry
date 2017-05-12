@@ -28,6 +28,7 @@ class DiagnosesController < ApplicationController
   end
 
   def update
+    @diagnosis = Diagnosis.find(params[:id])
     if @diagnosis.update(diagnosis_params)
       flash[:success] = "#{@diagnosis.note} of #{find_trail(@diagnosis.topic_id)} added to visit"
       redirect_to edit_visit_path(@diagnosis.visit_id)
@@ -39,16 +40,13 @@ class DiagnosesController < ApplicationController
   end
 
   def destroy
+    @diagnosis = Diagnosis.find(params[:id])
     @diagnosis.destroy
     flash[:success] = "Diagnosis #{@diagnosis.id} for #{find_trail(@diagnosis.topic_id)} deleted from record"
     redirect_to :back
   end
 
   private
-
-  def set_diagnosis
-    @diagnosis = Diagnosis.find(params[:id])
-  end
 
   def diagnosis_params
     params.permit(
