@@ -23,7 +23,7 @@ class Visit < ActiveRecord::Base
   accepts_nested_attributes_for :gallery
 
   accepts_nested_attributes_for :vitals
-  accepts_nested_attributes_for :diagnoses
+  accepts_nested_attributes_for :diagnoses, reject_if: proc { |attributes| attributes['present'].nil? }
   accepts_nested_attributes_for :medications
   accepts_nested_attributes_for :procedures
 

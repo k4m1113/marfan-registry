@@ -54,11 +54,13 @@ class DiagnosesController < ApplicationController
     params.permit(
       :topic_id,
       :patient_id,
-      :time_ago,
+      :time_ago_amount,
       :time_ago_scale,
+      :duration_amount,
+      :duration_scale,
       :absolute_start_date,
       :visit_id,
-      :presence,
+      :present,
       :note
     )
   end

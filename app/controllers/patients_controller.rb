@@ -124,7 +124,7 @@ class PatientsController < ApplicationController
       medications_attributes:
         %i[visit_id patient_id topic_id dose dose_unit_of_measurement nested_med_id nested_med_category duration_amount duration_scale ingestion_method frequency frequency_scale common_name medication_format time_ago time_ago_scale absolute_start_date note],
       diagnoses_attributes:
-        %i[topic_id patient_id time_ago time_ago_scale absolute_start_date visit_id note presence],
+        %i[topic_id patient_id time_ago_amount time_ago_scale duration duration_scale absolute_start_date visit_id note present],
       procedures_attributes:
         %i[topic_id patient_id clinician_id visit_id note],
       family_members_attributes:

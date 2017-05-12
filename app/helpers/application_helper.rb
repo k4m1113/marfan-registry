@@ -74,7 +74,7 @@ module ApplicationHelper
 
   def find_trail(topic_id)
     topic = Topic.find(topic_id)
-    topic.self_and_ancestors.map(&:name).join(" > ")
+    topic.self_and_ancestors.select { |t| t.depth > 0 } .map(&:name).join(' > ')
   end
 
   def find_pretty_trail(topic_id)

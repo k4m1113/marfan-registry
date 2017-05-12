@@ -10,14 +10,7 @@
       </tr>
     </thead>
     <% discussion_topic.each do |item| %>
-      <tr>
-        <% row = item.table_body %>
-        <% row.each do |k, v| %>
-          <td>
-            <%= v %>
-          </td>
-        <% end %>
-      </tr>
+      <%= render 'layouts/table_row', item: item %>
     <% end %>
   </table>
 <% else %>

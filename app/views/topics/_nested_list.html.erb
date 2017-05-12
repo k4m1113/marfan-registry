@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th>
-        <a href="#" class="btn btn-sm all-neg-toggler">All Absent</button>
+        <h6 class="btn btn-sm all-neg-toggler">All Absent</button>
       </th>
       <th>
         Present
@@ -15,19 +15,19 @@
   <tbody>
     <%= f.fields_for :diagnoses, @nested_scope.diagnoses.build do |ff| %>
       <% discussion_topic.leaves.select { |leaf| leaf.topic_type == 'diagnosis' }.each do |l| %>
-        <%= ff.hidden_field :patient_id, value: @patient.id, name: "visit[diagnoses_attributes][#{l.id}][patient_id]", id: "visit_diagnoses_attributes_#{l.id}_patient_id" %>
-        <%= ff.hidden_field :visit_id, value: @visit.id, name: "visit[diagnoses_attributes][#{l.id}][visit_id]", id: "visit_diagnoses_attributes_#{l.id}_visit_id" %>
-        <%= ff.hidden_field :topic_id, value: l.id, name: "visit[diagnoses_attributes][#{l.id}][topic_id]", id: "visit_diagnoses_attributes_#{l.id}_topic_id" %>
         <tr>
+          <%= ff.hidden_field :patient_id, value: @patient.id, name: "visit[diagnoses_attributes][#{l.id}][patient_id]", id: "visit_diagnoses_attributes_#{l.id}_patient_id" %>
+          <%= ff.hidden_field :visit_id, value: @visit.id, name: "visit[diagnoses_attributes][#{l.id}][visit_id]", id: "visit_diagnoses_attributes_#{l.id}_visit_id" %>
+          <%= ff.hidden_field :topic_id, value: l.id, name: "visit[diagnoses_attributes][#{l.id}][topic_id]", id: "visit_diagnoses_attributes_#{l.id}_topic_id", class: "topic_id" %>
           <td>
             <%= l.name %>
           </td>
           <div class="form-check">
             <td>
-              <%= ff.radio_button :presence, true, name: "visit[diagnoses_attributes][#{l.id}][presence]", id: "visit_diagnoses_attributes_#{l.id}_presence_true" %>
+              <%= ff.radio_button :present, true, name: "visit[diagnoses_attributes][#{l.id}][present]", id: "visit_diagnoses_attributes_#{l.id}_present_true" %>
             </td>
             <td>
-              <%= ff.radio_button :presence, false, name: "visit[diagnoses_attributes][#{l.id}][presence]", id: "visit_diagnoses_attributes_#{l.id}_presence_false" %>
+              <%= ff.radio_button :present, false, name: "visit[diagnoses_attributes][#{l.id}][present]", id: "visit_diagnoses_attributes_#{l.id}_present_false" %>
             </td>
           </div>
         </tr>
@@ -36,7 +36,7 @@
   </tbody>
 </table>
 <script>
-    <%= render 'topics/nested_list.js', f: f %>
+  <%= render 'topics/nested_list.js', f: f %>
 </script>
 <!-- <%
   def draw_tree(node)

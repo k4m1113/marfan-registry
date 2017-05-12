@@ -1,0 +1,10 @@
+<div class="form-inline">
+  <div class="form-group">
+    <input type="number" name="visit[diagnoses_attributes][<%= topic %>][time_ago]" id="visit_diagnoses_attributes_<%= topic %>_time_ago">
+    <select name="visit[diagnoses_attributes][<%= topic %>][time_ago_scale]" id="visit_diagnoses_attributes_<%= topic %>_time_ago_scale">
+      <% TIME_SCALES.each do |t| %>
+        <option value="<%= t %>"><%= t %></option>
+      <% end %>
+    </select>
+  </div>
+</div>

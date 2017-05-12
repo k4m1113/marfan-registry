@@ -32,7 +32,7 @@ lifestyle = Topic.create!(
 Topic.create!(
   name: 'tobacco',
   topic_type: 'measurement',
-  units_of_measurement: ['current', 'past', 'never']
+  units_of_measurement: %w[current past never]
 ).move_to_child_of(lifestyle)
 Topic.create!(
   name: 'ETOH',
@@ -42,7 +42,7 @@ Topic.create!(
 Topic.create!(
   name: 'exercise',
   topic_type: 'measurement',
-  units_of_measurement: ['none', 'mild', 'moderate', 'strenuous', 'competitive']
+  units_of_measurement: %w[none mild moderate strenuous competitive]
 ).move_to_child_of(lifestyle)
 ## END LIFESTYLE ##
 
@@ -61,212 +61,69 @@ mutation = Topic.create!(
 ).move_to_child_of(genetics)
 fbn1 = Topic.create!(
   name: 'FBN1',
-  topic_type: 'diagnosis'
-).move_to_child_of(genetics)
+  topic_type: 'diagnosis',
+  descriptors: %w[benign pathogenic VUS]
+).move_to_child_of(mutation)
 Topic.create!(
-  name: 'pathogenic',
-  topic_type: 'diagnosis'
-).move_to_child_of(fbn1)
-Topic.create!(
-  name: 'VUS',
-  topic_type: 'diagnosis'
-).move_to_child_of(fbn1)
-Topic.create!(
-  name: 'benign',
-  topic_type: 'diagnosis'
-).move_to_child_of(fbn1)
-tgfbr1 = Topic.create!(
   name: 'TGFBR1',
-  topic_type: 'diagnosis'
-).move_to_child_of(genetics)
+  topic_type: 'diagnosis',
+  descriptors: %w[benign pathogenic VUS]
+).move_to_child_of(mutation)
 Topic.create!(
-  name: 'pathogenic',
-  topic_type: 'diagnosis'
-).move_to_child_of(tgfbr1)
-Topic.create!(
-  name: 'VUS',
-  topic_type: 'diagnosis'
-).move_to_child_of(tgfbr1)
-Topic.create!(
-  name: 'benign',
-  topic_type: 'diagnosis'
-).move_to_child_of(tgfbr1)
-tgfbr2 = Topic.create!(
   name: 'TGFBR2',
-  topic_type: 'diagnosis'
-).move_to_child_of(genetics)
+  topic_type: 'diagnosis',
+  descriptors: %w[benign pathogenic VUS]
+).move_to_child_of(mutation)
 Topic.create!(
-  name: 'pathogenic',
-  topic_type: 'diagnosis'
-).move_to_child_of(tgfbr2)
-Topic.create!(
-  name: 'VUS',
-  topic_type: 'diagnosis'
-).move_to_child_of(tgfbr2)
-Topic.create!(
-  name: 'benign',
-  topic_type: 'diagnosis'
-).move_to_child_of(tgfbr2)
-smad3 = Topic.create!(
   name: 'SMAD3',
-  topic_type: 'diagnosis'
-).move_to_child_of(genetics)
+  topic_type: 'diagnosis',
+  descriptors: %w[benign pathogenic VUS]
+).move_to_child_of(mutation)
 Topic.create!(
-  name: 'pathogenic',
-  topic_type: 'diagnosis'
-).move_to_child_of(smad3)
-Topic.create!(
-  name: 'VUS',
-  topic_type: 'diagnosis'
-).move_to_child_of(smad3)
-Topic.create!(
-  name: 'benign',
-  topic_type: 'diagnosis'
-).move_to_child_of(smad3)
-tgfb2 = Topic.create!(
   name: 'TGFB2',
-  topic_type: 'diagnosis'
-).move_to_child_of(genetics)
+  topic_type: 'diagnosis',
+  descriptors: %w[benign pathogenic VUS]
+).move_to_child_of(mutation)
 Topic.create!(
-  name: 'pathogenic',
-  topic_type: 'diagnosis'
-).move_to_child_of(tgfb2)
-Topic.create!(
-  name: 'VUS',
-  topic_type: 'diagnosis'
-).move_to_child_of(tgfb2)
-Topic.create!(
-  name: 'benign',
-  topic_type: 'diagnosis'
-).move_to_child_of(tgfb2)
-prkg1 = Topic.create!(
   name: 'prkg1',
-  topic_type: 'diagnosis'
-).move_to_child_of(genetics)
+  topic_type: 'diagnosis',
+  descriptors: %w[benign pathogenic VUS]
+).move_to_child_of(mutation)
 Topic.create!(
-  name: 'pathogenic',
-  topic_type: 'diagnosis'
-).move_to_child_of(prkg1)
-Topic.create!(
-  name: 'VUS',
-  topic_type: 'diagnosis'
-).move_to_child_of(prkg1)
-Topic.create!(
-  name: 'benign',
-  topic_type: 'diagnosis'
-).move_to_child_of(prkg1)
-acta2 = Topic.create!(
   name: 'ACTA2',
-  topic_type: 'diagnosis'
-).move_to_child_of(genetics)
+  topic_type: 'diagnosis',
+  descriptors: %w[benign pathogenic VUS]
+).move_to_child_of(mutation)
 Topic.create!(
-  name: 'pathogenic',
-  topic_type: 'diagnosis'
-).move_to_child_of(acta2)
-Topic.create!(
-  name: 'VUS',
-  topic_type: 'diagnosis'
-).move_to_child_of(acta2)
-Topic.create!(
-  name: 'benign',
-  topic_type: 'diagnosis'
-).move_to_child_of(acta2)
-prkg1 = Topic.create!(
   name: 'PRKG1',
-  topic_type: 'diagnosis'
-).move_to_child_of(genetics)
+  topic_type: 'diagnosis',
+  descriptors: %w[benign pathogenic VUS]
+).move_to_child_of(mutation)
 Topic.create!(
-  name: 'pathogenic',
-  topic_type: 'diagnosis'
-).move_to_child_of(prkg1)
-Topic.create!(
-  name: 'VUS',
-  topic_type: 'diagnosis'
-).move_to_child_of(prkg1)
-Topic.create!(
-  name: 'benign',
-  topic_type: 'diagnosis'
-).move_to_child_of(prkg1)
-myh11 = Topic.create!(
   name: 'MYH11',
-  topic_type: 'diagnosis'
-).move_to_child_of(genetics)
+  topic_type: 'diagnosis',
+  descriptors: %w[benign pathogenic VUS]
+).move_to_child_of(mutation)
 Topic.create!(
-  name: 'pathogenic',
-  topic_type: 'diagnosis'
-).move_to_child_of(myh11)
-Topic.create!(
-  name: 'VUS',
-  topic_type: 'diagnosis'
-).move_to_child_of(myh11)
-Topic.create!(
-  name: 'benign',
-  topic_type: 'diagnosis'
-).move_to_child_of(myh11)
-mylk = Topic.create!(
   name: 'MYLK',
-  topic_type: 'diagnosis'
-).move_to_child_of(genetics)
+  topic_type: 'diagnosis',
+  descriptors: %w[benign pathogenic VUS]
+).move_to_child_of(mutation)
 Topic.create!(
-  name: 'pathogenic',
-  topic_type: 'diagnosis'
-).move_to_child_of(mylk)
-Topic.create!(
-  name: 'VUS',
-  topic_type: 'diagnosis'
-).move_to_child_of(mylk)
-Topic.create!(
-  name: 'benign',
-  topic_type: 'diagnosis'
-).move_to_child_of(mylk)
-col3a1 = Topic.create!(
   name: 'col3a1',
-  topic_type: 'diagnosis'
-).move_to_child_of(genetics)
+  topic_type: 'diagnosis',
+  descriptors: %w[benign pathogenic VUS]
+).move_to_child_of(mutation)
 Topic.create!(
-  name: 'pathogenic',
-  topic_type: 'diagnosis'
-).move_to_child_of(col3a1)
-Topic.create!(
-  name: 'VUS',
-  topic_type: 'diagnosis'
-).move_to_child_of(col3a1)
-Topic.create!(
-  name: 'benign',
-  topic_type: 'diagnosis'
-).move_to_child_of(col3a1)
-fbln4 = Topic.create!(
   name: 'FBLN4',
-  topic_type: 'diagnosis'
-).move_to_child_of(genetics)
+  topic_type: 'diagnosis',
+  descriptors: %w[benign pathogenic VUS]
+).move_to_child_of(mutation)
 Topic.create!(
-  name: 'pathogenic',
-  topic_type: 'diagnosis'
-).move_to_child_of(fbln4)
-Topic.create!(
-  name: 'VUS',
-  topic_type: 'diagnosis'
-).move_to_child_of(fbln4)
-Topic.create!(
-  name: 'benign',
-  topic_type: 'diagnosis'
-).move_to_child_of(fbln4)
-col3a1 = Topic.create!(
   name: 'COL3A1',
-  topic_type: 'diagnosis'
-).move_to_child_of(genetics)
-Topic.create!(
-  name: 'pathogenic',
-  topic_type: 'diagnosis'
-).move_to_child_of(col3a1)
-Topic.create!(
-  name: 'VUS',
-  topic_type: 'diagnosis'
-).move_to_child_of(col3a1)
-Topic.create!(
-  name: 'benign',
-  topic_type: 'diagnosis'
-).move_to_child_of(col3a1)
+  topic_type: 'diagnosis',
+  descriptors: %w[benign pathogenic VUS]
+).move_to_child_of(mutation)
 ## END GENETICS (xls 28) ##
 
 ## BEGIN MEDICATIONS (xls 41) ##
@@ -403,7 +260,7 @@ Topic.create!(
   min_value: 0,
   max_value: 250,
   step: 1,
-  units_of_measurement: ['mmHg']
+  units_of_measurement: %w[mmHg]
 ).move_to_child_of(vitals)
 Topic.create!(
   name: 'DBP',
@@ -411,7 +268,7 @@ Topic.create!(
   min_value: 0,
   max_value: 250,
   step: 1,
-  units_of_measurement: ['mmHg']
+  units_of_measurement: %w[mmHg]
 ).move_to_child_of(vitals)
 Topic.create!(
   name: 'heart rate',
@@ -419,7 +276,7 @@ Topic.create!(
   min_value: 10,
   max_value: 200,
   step: 1,
-  units_of_measurement: ['bpm']
+  units_of_measurement: %w[bpm]
 ).move_to_child_of(vitals)
 Topic.create!(
   name: 'temperature',
@@ -427,7 +284,7 @@ Topic.create!(
   min_value: 0.0,
   max_value: 120.0,
   step: 0.1,
-  units_of_measurement: ['°C', '°F']
+  units_of_measurement: %w[°C °F]
 ).move_to_child_of(vitals)
 ## END VITALS (xls 66) ##
 
@@ -442,7 +299,7 @@ Topic.create!(
   min_value: 0,
   max_value: 500,
   step: 0.1,
-  units_of_measurement: ['kg', 'lb']
+  units_of_measurement: %w[kg lb]
 ).move_to_child_of(morphology)
 Topic.create!(
   name: 'height',
@@ -450,7 +307,7 @@ Topic.create!(
   min_value: 0,
   max_value: 250,
   step: 0.01,
-  units_of_measurement: ['m', 'in']
+  units_of_measurement: %w[m in]
 ).move_to_child_of(morphology)
 Topic.create!(
   name: 'arm span',
@@ -458,7 +315,7 @@ Topic.create!(
   min_value: 0,
   max_value: 250,
   step: 0.01,
-  units_of_measurement: ['m', 'in']
+  units_of_measurement: %w[m in]
 ).move_to_child_of(morphology)
 Topic.create!(
   name: 'lower segment',
@@ -466,7 +323,7 @@ Topic.create!(
   min_value: 0,
   max_value: 250,
   step: 0.01,
-  units_of_measurement: ['m', 'in']
+  units_of_measurement: %w[m in]
 ).move_to_child_of(morphology)
 Topic.create!(
   name: 'iridodenesis',
@@ -584,7 +441,7 @@ thoracic_kypho = Topic.create!(
 Topic.create!(
   name: 'degree',
   topic_type: 'measurement',
-  units_of_measurement: ['degrees']
+  units_of_measurement: %w[degrees]
 ).move_to_child_of(thoracic_kypho)
 lumbar_kypho = Topic.create!(
   name: 'lumbar',
@@ -593,7 +450,7 @@ lumbar_kypho = Topic.create!(
 Topic.create!(
   name: 'degree',
   topic_type: 'measurement',
-  units_of_measurement: ['degrees']
+  units_of_measurement: %w[degrees]
 ).move_to_child_of(lumbar_kypho)
 Topic.create!(
   name: 'spondylolisthesis',
@@ -645,7 +502,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 7.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(aortic_root_size)
 Topic.create!(
   name: 'CT',
@@ -653,7 +510,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 7.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(aortic_root_size)
 Topic.create!(
   name: 'MRI',
@@ -661,7 +518,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 7.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(aortic_root_size)
 ascending_aortic_size = Topic.create!(
   name: 'ascending aortic',
@@ -673,7 +530,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(ascending_aortic_size)
 Topic.create!(
   name: 'CT',
@@ -681,7 +538,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(ascending_aortic_size)
 Topic.create!(
   name: 'MRI',
@@ -689,7 +546,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(ascending_aortic_size)
 transverse_arch = Topic.create!(
   name: 'transverse arch',
@@ -701,7 +558,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(transverse_arch)
 Topic.create!(
   name: 'CT',
@@ -709,7 +566,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(transverse_arch)
 Topic.create!(
   name: 'MRI',
@@ -717,7 +574,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(transverse_arch)
 descending_thoracic_aorta = Topic.create!(
   name: 'descending thoracic aorta',
@@ -729,7 +586,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(descending_thoracic_aorta)
 Topic.create!(
   name: 'CT',
@@ -737,7 +594,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(descending_thoracic_aorta)
 Topic.create!(
   name: 'MRI',
@@ -745,7 +602,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(descending_thoracic_aorta)
 suprarenal_abdominal_aorta = Topic.create!(
   name: 'suprarenal abdominal aorta',
@@ -757,7 +614,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(suprarenal_abdominal_aorta)
 Topic.create!(
   name: 'CT',
@@ -765,7 +622,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(suprarenal_abdominal_aorta)
 Topic.create!(
   name: 'MRI',
@@ -773,7 +630,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(suprarenal_abdominal_aorta)
 infrarenal_abdominal_aorta = Topic.create!(
   name: 'infrarenal abdominal aorta',
@@ -785,7 +642,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(infrarenal_abdominal_aorta)
 Topic.create!(
   name: 'CT',
@@ -793,7 +650,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(infrarenal_abdominal_aorta)
 Topic.create!(
   name: 'MRI',
@@ -801,7 +658,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(infrarenal_abdominal_aorta)
 aortic_annulus = Topic.create!(
   name: 'aortic annulus',
@@ -813,7 +670,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(aortic_annulus)
 Topic.create!(
   name: 'CT',
@@ -821,7 +678,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(aortic_annulus)
 Topic.create!(
   name: 'MRI',
@@ -829,7 +686,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 6.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(aortic_annulus)
 ## END AORTA MEASUREMENTS (xls 132) ##
 
@@ -844,7 +701,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 10.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'LVIDs',
@@ -852,7 +709,7 @@ Topic.create!(
   min_value: 1.0,
   max_value: 8.0,
   step: 0.1,
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'EF',
@@ -860,7 +717,7 @@ Topic.create!(
   min_value: 20.0,
   max_value: 100.0,
   step: 1.0,
-  units_of_measurement: ['%']
+  units_of_measurement: %w[%]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'mitral valve prolapse',
@@ -868,7 +725,7 @@ Topic.create!(
   min_value: 0,
   max_value: 1,
   step: 1,
-  units_of_measurement: ['presence']
+  units_of_measurement: %w[presence]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'myxomatous mitral valve',
@@ -876,7 +733,7 @@ Topic.create!(
   min_value: 0,
   max_value: 1,
   step: 1,
-  units_of_measurement: ['presence']
+  units_of_measurement: %w[presence]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'mitral regurgitation severity',
@@ -884,7 +741,7 @@ Topic.create!(
   min_value: 0,
   max_value: 100,
   step: 1,
-  units_of_measurement: ['%']
+  units_of_measurement: %w[%]
 ).move_to_child_of(cardio_meas)
 ## END 1-DEPTH TOPICS (xls 140)##
 
@@ -916,7 +773,7 @@ Topic.create!(
   min_value: 20,
   max_value: 100,
   step: 1,
-  units_of_measurement: ['mmHg']
+  units_of_measurement: %w[mmHg]
 ).move_to_child_of(aortic_stenosis)
 Topic.create!(
   name: 'valve area',
@@ -924,7 +781,7 @@ Topic.create!(
   min_value: 0.5,
   max_value: 3.0,
   step: 0.1,
-  units_of_measurement: ['cm2']
+  units_of_measurement: %w[cm2]
 ).move_to_child_of(aortic_stenosis)
 
 Topic.create!(
@@ -933,7 +790,7 @@ Topic.create!(
   min_value: 0,
   max_value: 100,
   step: 1,
-  units_of_measurement: ['%']
+  units_of_measurement: %w[%]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'tricuspid regurgitation severity',
@@ -941,7 +798,7 @@ Topic.create!(
   min_value: 0,
   max_value: 100,
   step: 1,
-  units_of_measurement: ['%']
+  units_of_measurement: %w[%]
 ).move_to_child_of(cardio_meas)
 ## END SHALLOW TOPICS (xls 147) %>
 
@@ -976,388 +833,62 @@ Topic.create!(
 ).move_to_child_of(aortic_dissection)
 ## END SHALLOW DISSECTIONS (xls 154) ##
 
-## BEGIN RIGHT ILIAC DISSECTION (155) ##
 iliac = Topic.create!(
   name: 'iliac',
   topic_type: 'diagnosis'
 ).move_to_child_of(aortic_dissection)
-right_iliac = Topic.create!(
+
+Topic.create!(
   name: 'right',
   topic_type: 'diagnosis'
 ).move_to_child_of(iliac)
-Topic.create!(
-  name: 'dissected',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_iliac)
-right_iliac_true_lumen = Topic.create!(
-  name: 'true lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_iliac)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_iliac_true_lumen)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_iliac_true_lumen)
-right_iliac_false_lumen = Topic.create!(
-  name: 'true lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_iliac)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_iliac_false_lumen)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_iliac_false_lumen)
-## END RIGHT ILIAC DISSECTION (xls 155) ##
 
-## BEGIN LEFT ILIAC DISSECTION (xls 156) ##
-left_iliac = Topic.create!(
-  name: 'right',
+Topic.create!(
+  name: 'left',
   topic_type: 'diagnosis'
 ).move_to_child_of(iliac)
-Topic.create!(
-  name: 'dissected',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_iliac)
-left_iliac_true_lumen = Topic.create!(
-  name: 'true lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_iliac)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_iliac_true_lumen)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_iliac_true_lumen)
-left_iliac_false_lumen = Topic.create!(
-  name: 'true lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_iliac)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_iliac_false_lumen)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_iliac_false_lumen)
-## END LEFT ILIAC DISSECTION (xls 156) ##
 
-## BEGIN RIGHT RENAL DISSECTION (xls 158) ##
 renal = Topic.create!(
   name: 'renal',
   topic_type: 'diagnosis'
 ).move_to_child_of(aortic_dissection)
-right_renal = Topic.create!(
-  name: 'right',
-  topic_type: 'diagnosis'
-).move_to_child_of(renal)
-Topic.create!(
-  name: 'dissected',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_renal)
-right_renal_dissected = Topic.create!(
-  name: 'dissected',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_renal)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_renal_dissected)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_renal_dissected)
-right_renal_true_lumen = Topic.create!(
-  name: 'true lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_renal)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_renal_true_lumen)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_renal_true_lumen)
-right_renal_false_lumen = Topic.create!(
-  name: 'false lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_renal)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_renal_false_lumen)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(right_renal_false_lumen)
-## END RIGHT RENAL DISSECTION (xls 158) ##
 
-## BEGIN LEFT RENAL DISSECTION (xls 159) ##
-true_lumen_sma = Topic.create!(
+Topic.create!(
   name: 'right',
   topic_type: 'diagnosis'
 ).move_to_child_of(renal)
-true_lumen_sma_dissected = Topic.create!(
-  name: 'dissected',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_sma)
+
 Topic.create!(
-  name: 'perfused',
+  name: 'left',
   topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_sma_dissected)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_sma_dissected)
-true_lumen_sma_true_lumen = Topic.create!(
-  name: 'true lumen',
-  topic_type: 'diagnosis'
-  ).move_to_child_of(true_lumen_sma)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_sma_true_lumen)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_sma_true_lumen)
-true_lumen_sma_false_lumen = Topic.create!(
-  name: 'false lumen',
-  topic_type: 'diagnosis'
-  ).move_to_child_of(true_lumen_sma)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_sma_false_lumen)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_sma_false_lumen)
-## END RIGHT RENAL DISSECTION (xls 159) ##
+).move_to_child_of(renal)
 
 ## BEGIN SMA DISSECTION (xls 161) ##
 sma = Topic.create!(
   name: 'SMA',
   topic_type: 'diagnosis'
 ).move_to_child_of(aortic_dissection)
-true_lumen_sma = Topic.create(
-  name: 'true lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(sma)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_sma)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_sma)
-false_lumen_sma = Topic.create(
-  name: 'false lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(sma)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(false_lumen_sma)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(false_lumen_sma)
-sma_dissected = Topic.create!(
-  name: 'dissected',
-  topic_type: 'diagnosis'
-).move_to_child_of(sma)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(sma_dissected)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_sma_dissected)
-## END SMA DISSECTION (xls 163) ##
 
-## BEGIN CELIAC DISSECTION (xls 164) ##
 celiac = Topic.create!(
-  name: 'SMA',
+  name: 'celiac',
   topic_type: 'diagnosis'
 ).move_to_child_of(aortic_dissection)
-true_lumen_sma = Topic.create(
-  name: 'true lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(sma)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_sma)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_sma)
-false_lumen_sma = Topic.create(
-  name: 'false lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(sma)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(false_lumen_sma)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(false_lumen_sma)
-sma_dissected = Topic.create!(
-  name: 'dissected',
-  topic_type: 'diagnosis'
-).move_to_child_of(sma)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(sma_dissected)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_sma_dissected)
-## END CELIAC DISSECTION (xls 166) ##
 
-## BEGIN INNOMINATE DISSECTION (xls 167) ##
 innominate = Topic.create!(
   name: 'innominate',
   topic_type: 'diagnosis'
 ).move_to_child_of(aortic_dissection)
-true_lumen_innominate = Topic.create(
-  name: 'true lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(innominate)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_innominate)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_innominate)
-false_lumen_innominate = Topic.create(
-  name: 'false lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(innominate)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(false_lumen_innominate)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(false_lumen_innominate)
-innominate_dissected = Topic.create!(
-  name: 'dissected',
-  topic_type: 'diagnosis'
-).move_to_child_of(innominate)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(innominate_dissected)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(innominate_dissected)
-## END INNOMINATE DISSECTION (xls 169)
 
-## BEGIN LEFT CAROTID DISSECTION (xls 170) ##
+
 left_carotid = Topic.create!(
   name: 'left carotid',
   topic_type: 'diagnosis'
 ).move_to_child_of(aortic_dissection)
-true_lumen_left_carotid = Topic.create(
-  name: 'true lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_carotid)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_left_carotid)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_left_carotid)
-false_lumen_left_carotid = Topic.create(
-  name: 'false lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_carotid)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(false_lumen_left_carotid)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(false_lumen_left_carotid)
-left_carotid_dissected = Topic.create!(
-  name: 'dissected',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_carotid)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_carotid_dissected)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_carotid_dissected)
-## LEFT CAROTID DISSECTION (xls 172) ##
 
-## BEGIN LEFT SUBCLAVIAN DISSECTION (xls 173) ##
 left_subclavian = Topic.create!(
   name: 'left subclavian',
   topic_type: 'diagnosis'
 ).move_to_child_of(aortic_dissection)
-true_lumen_left_subclavian = Topic.create(
-  name: 'true lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_subclavian)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_left_subclavian)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(true_lumen_left_subclavian)
-false_lumen_left_subclavian = Topic.create(
-  name: 'false lumen',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_subclavian)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(false_lumen_left_subclavian)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(false_lumen_left_subclavian)
-left_subclavian_dissected = Topic.create!(
-  name: 'dissected',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_subclavian)
-Topic.create!(
-  name: 'perfused',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_subclavian_dissected)
-Topic.create!(
-  name: 'ischemic',
-  topic_type: 'diagnosis'
-).move_to_child_of(left_subclavian_dissected)
-## END LEFT SUBCLAVIAN DISSECTION (xls 176)
 
 ## BEGIN ROOT REPLACEMENT (xls 177) ##
 aortic_surgery = Topic.create!(
@@ -1610,7 +1141,8 @@ symptoms = Topic.create!(
 ).move_to_child_of(cardio)
 Topic.create!(
   name: 'chest pain',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: ['sharp', 'burning', 'abrupt', 'increasing', 'decreasing', 'with exercise', 'with movement']
 ).move_to_child_of(symptoms)
 Topic.create!(
   name: 'dyspnea on exertion',
@@ -1618,7 +1150,8 @@ Topic.create!(
 ).move_to_child_of(symptoms)
 Topic.create!(
   name: 'palpitations',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: ['lightheaded', 'shortness of breath', 'syncope', 'skipped beats', 'strong beats', 'heart racing']
 ).move_to_child_of(symptoms)
 Topic.create!(
   name: 'lightheadedness',
@@ -1635,6 +1168,11 @@ pulmonary = Topic.create!(
   name: 'pulmonary',
   topic_type: 'root category'
 )
+Topic.create!(
+  name: 'shortness of breath',
+  topic_type: 'diagnosis',
+  descriptors: ['at rest', 'walking', 'running', 'up stairs']
+).move_to_child_of(pulmonary)
 emphysema = Topic.create!(
   name: 'emphysema',
   topic_type: 'diagnosis'
@@ -1642,17 +1180,17 @@ emphysema = Topic.create!(
 Topic.create!(
   name: 'CT/CXR',
   topic_type: 'measurement',
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(emphysema)
 pft_emphysema = Topic.create!(
   name: 'PFT',
   topic_type: 'measurement',
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(emphysema)
 Topic.create!(
   name: 'FEV1',
   topic_type: 'measurement',
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(pft_emphysema)
 restrictive_lung_disease = Topic.create!(
   name: 'restrictive lung disease',
@@ -1661,17 +1199,17 @@ restrictive_lung_disease = Topic.create!(
 pft_rld = Topic.create!(
   name: 'PFT',
   topic_type: 'measurement',
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(restrictive_lung_disease)
 Topic.create!(
   name: 'FVC',
   topic_type: 'measurement',
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(pft_rld)
 Topic.create!(
   name: 'TLC',
   topic_type: 'measurement',
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(pft_rld)
 asthma = Topic.create!(
   name: 'asthma',
@@ -1680,17 +1218,17 @@ asthma = Topic.create!(
 pft_asthma = Topic.create!(
   name: 'PFT',
   topic_type: 'measurement',
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(asthma)
 Topic.create!(
   name: 'FEV1',
   topic_type: 'measurement',
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(pft_asthma)
 Topic.create!(
   name: 'bronchodilator response',
   topic_type: 'measurement',
-  units_of_measurement: ['cm']
+  units_of_measurement: %w[cm]
 ).move_to_child_of(pft_asthma)
 ## END SHALLOW PULMONARY (xls 233) ##
 
@@ -1915,7 +1453,7 @@ osteoporosis = Topic.create!(
 Topic.create!(
   name: 'bone mineral density',
   topic_type: 'measurement',
-  units_of_measurement: ['Z-Score', 'T-Score']
+  units_of_measurement: %w[Z-Score T-Score]
 ).move_to_child_of(osteoporosis)
 Topic.create!(
   name: 'compression fractures',
@@ -2014,12 +1552,12 @@ myopia = Topic.create!(
 Topic.create!(
   name: 'severity',
   topic_type: 'measurement',
-  units_of_measurement: ['diopters']
+  units_of_measurement: %w[diopters]
 ).move_to_child_of(myopia)
 Topic.create!(
   name: 'globe length',
   topic_type: 'measurement',
-  units_of_measurement: ['mm']
+  units_of_measurement: %w[mm]
 ).move_to_child_of(myopia)
 Topic.create!(
   name: 'amblyopia',
@@ -2032,7 +1570,7 @@ ectopia_lentis = Topic.create!(
 Topic.create!(
   name: 'iridodensis',
   topic_type: 'measurement',
-  units_of_measurement: ['left', 'right', 'both']
+  units_of_measurement: %w[left right both]
 ).move_to_child_of(ectopia_lentis)
 Topic.create!(
   name: 'phakectomy',
@@ -2307,7 +1845,7 @@ chiari = Topic.create!(
 Topic.create!(
   name: 'MRI',
   topic_type: 'measurement',
-  units_of_measurement: ['I', 'II', 'III', 'IV']
+  units_of_measurement: %w[I II III IV]
 ).move_to_child_of(chiari)
 dural_ectasia = Topic.create!(
   name: 'dural ectasia',

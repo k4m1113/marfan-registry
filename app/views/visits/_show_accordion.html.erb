@@ -21,13 +21,11 @@
                       <b>
                         <%= k %>
                       </b>
-                      <ul>
+                      <table>
                         <% v.each do |item| %>
-                            <li>
-                              <%= item.generate_summary %>
-                            </li>
-                          <% end %>
-                      </ul>
+                          <%= render 'layouts/table_row', item: item %>
+                        <% end %>
+                      </table>
                       <br />
                     <% end %>
                   <% end %>

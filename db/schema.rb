@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170411221331) do
+ActiveRecord::Schema.define(version: 20170510234324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,14 +63,15 @@ ActiveRecord::Schema.define(version: 20170411221331) do
   create_table "diagnoses", force: :cascade do |t|
     t.integer  "topic_id",            null: false
     t.integer  "patient_id",          null: false
-    t.integer  "time_ago"
-    t.string   "time_ago_scale"
+    t.string   "time_ago"
     t.datetime "absolute_start_date"
     t.integer  "visit_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.string   "note"
     t.json     "attachments"
+    t.boolean  "present",             null: false
+    t.string   "duration"
   end
 
   create_table "family_members", force: :cascade do |t|
@@ -267,6 +268,7 @@ ActiveRecord::Schema.define(version: 20170411221331) do
     t.float   "max_value"
     t.float   "step"
     t.string  "units_of_measurement",                          array: true
+    t.string  "descriptors",                                   array: true
   end
 
   add_index "topics", ["lft"], name: "index_topics_on_lft", using: :btree

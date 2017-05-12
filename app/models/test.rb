@@ -6,11 +6,8 @@ class Test < ActiveRecord::Base
   before_save :concat_result
 
   belongs_to :topic
-  belongs_to :visit,
-    inverse_of: :tests,
-    required: false
-  belongs_to :patient,
-    inverse_of: :tests
+  belongs_to :visit, inverse_of: :tests, required: false
+  belongs_to :patient, inverse_of: :tests
 
   has_one :gallery
 
@@ -19,13 +16,13 @@ class Test < ActiveRecord::Base
   after_save { |t| t.destroy if (t.test_date.nil? && t.time_ago.nil?) || (t.result.blank?) }
 
   def concat_result
-    unless self.test_amount.blank? || self.test_unit_of_meas.blank?
-      self.result = "#{self.test_amount} #{self.test_unit_of_meas}"
+    unless test_amount.blank? || test_unit_of_meas.blank?
+      self.result = "#{test_amount} #{test_unit_of_meas}"
     end
   end
 
   def self.table_headings
-    return ['Date', 'Name', 'Result', 'Attachments', 'Actions']
+    %w[Date Name Result Attachments Actions]
   end
 
   def table_body
