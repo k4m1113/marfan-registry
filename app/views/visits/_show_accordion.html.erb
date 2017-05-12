@@ -21,7 +21,17 @@
                       <b>
                         <%= k %>
                       </b>
-                      <table>
+                      <table class="table table-sm">
+                        <thead>
+                          <tr>
+
+                            <% v.first.class.table_headings.each do |col| %>
+                            <th>
+                              <%= col %>
+                            </th>
+                            <% end %>
+                          </tr>
+                        </thead>
                         <% v.each do |item| %>
                           <%= render 'layouts/table_row', item: item %>
                         <% end %>

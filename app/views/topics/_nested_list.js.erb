@@ -4,27 +4,13 @@ $('h6.all-neg-toggler').click(function toggleAllAbsent() {
 });
 $('input[value=true]').off('click').on('click', function() {
   topic = $(this).closest('tr').children('.topic_id').val();
-  select_options = `<option value="seconds">
-    seconds
-  </option>
-  <option value="minutes">
-    minutes
-  </option>
-  <option value="hours">
-    hours
-  </option>
-  <option value="days">
-    days
-  </option>
-  <option value="weeks">
-    weeks
-  </option>
-  <option value="months">
-    months
-  </option>
-  <option value="years">
-    years
-  </option>`
+  select_options = `<option>seconds</option>
+  <option>minutes</option>
+  <option>hours</option>
+  <option>days</option>
+  <option>weeks</option>
+  <option>months</option>
+  <option>years</option>`
   $(this).closest('tr').after(`<div class="form-inline">
       <div class="input-group">
         <input type="number" name="visit[diagnoses_attributes][${topic}][time_ago_amount]" id="visit_diagnoses_attributes_${topic}_time_ago_amount" class="form-control" placeholder="time ago">

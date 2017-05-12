@@ -61,6 +61,17 @@ module ApplicationHelper
     return dead + " (~#{age_at_death} y/o)"
   end
 
+  def blank_unless_present(attribute)
+    case attribute
+    when attribute.class === 'String'
+      attribute.empty? ? '-' : attribute
+    when attribute.class === 'Fixnum'
+      attribute.nil? ? '-' : attribute
+    else
+      attribute.nil? ? '-' : attribute
+    end
+  end
+
   def print_if_present(attribute)
     case attribute
     when attribute.class === 'String'
