@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170510234324) do
+ActiveRecord::Schema.define(version: 20170512180848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 20170510234324) do
     t.json     "attachments"
     t.boolean  "present",             null: false
     t.string   "duration"
+    t.string   "frequency"
   end
 
   create_table "family_members", force: :cascade do |t|

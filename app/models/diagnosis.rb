@@ -1,9 +1,9 @@
 class Diagnosis < ActiveRecord::Base
   include ApplicationHelper
   attr_reader :table_headings, :table_body
-  attr_accessor :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale
+  attr_accessor :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale
 
-  before_save :concat_duration, :concat_time_ago
+  before_save :concat_duration, :concat_time_ago, :concat_frequency
 
   has_one :gallery
 
@@ -21,6 +21,10 @@ class Diagnosis < ActiveRecord::Base
 
   def concat_time_ago
     self.time_ago = "#{time_ago_amount} #{time_ago_scale} ago" unless time_ago_amount.nil? || time_ago_scale.nil?
+  end
+
+  def concat_frequency
+    self.frequency = "#{frequency_amount} #{frequency_scale} ago" unless frequency_amount.nil? || frequency_scale.nil?
   end
 
   def table_body
@@ -52,8 +56,18 @@ class Diagnosis < ActiveRecord::Base
     }
   end
 
+  def times
+    clause = ''
+    clause << " #{time_ago} ago" unless time_ago.blank?
+    clause << " for #{duration}" unless duration.blank?
+    clause
+  end
+
   def generate_summary
-    abs_or_pr = present? ? 'presence' : 'absence'
-    "#{abs_or_pr.with_indefinite_article} of #{find_pretty_trail(topic_id)}"
+    ap = present? ? 'presence' : 'absence'
+    "#{ap.with_indefinite_article} of #{find_pretty_trail(topic_id)}"
+  end
+  def generate_full_summary
+    generate_summary << times
   end
 end
