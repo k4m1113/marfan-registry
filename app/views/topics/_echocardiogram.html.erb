@@ -1,7 +1,7 @@
 <%= f.fields_for :tests, @nested_scope.tests.build do |ff| %>
   <div class="form-group">
     <div class="row">
-      <% HeartImaging.locations.each do |m| %>
+      <!-- <% HeartImaging.locations.each do |m| %>
         <div class="col-sm-6">
           <div class="row">
             <label for="meas_<%= m.id %>" class="col-sm-7 col-form-label">
@@ -12,7 +12,7 @@
             </div>
           </div>
         </div>
-      <% end %>
+      <% end %> -->
     </div>
   </div>
 <% end %>
