@@ -1,5 +1,5 @@
 module CommonContent
-  attr_reader :root_topics, :family_history, :genetics, :medication, :cardiovascular, :pulmonary, :ortho, :ophthalmo, :sbp, :dbp, :stats, :root, :asc, :desc, :transv, :supra, :infra, :annulus, :lvidd, :lvids, :mvp, :mmv, :mitral_regurge, :tricuspid_regurge, :mean_gradient, :valve_area, :ais, :heart_imaging_locations, :all_meds, :parent, :sibling, :child, :family_member_ids
+  attr_reader :root_topics, :family_history, :genetics, :medication, :cardiovascular, :pulmonary, :ortho, :ophthalmo, :sbp, :dbp, :stats, :root, :asc, :desc, :transv, :supra, :infra, :annulus, :lvidd, :lvids, :mitral_regurge, :tricuspid_regurge, :mean_gradient, :valve_area, :ais, :heart_imaging_locations, :all_meds, :parent, :sibling, :child, :family_member_ids
 
   def common_content
     @root_topics = Topic.roots
