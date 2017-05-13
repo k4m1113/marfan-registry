@@ -16,7 +16,7 @@ module CommonContent
     @dbp = @stats.select{|s| s.name === 'DBP' }
     @stats -= (@sbp + @dbp)
 
-    @all_meds = Topic.leaves.where(topic_type: 'medication') << Topic.roots.where(name: 'medication')[0]
+    @all_meds = (Topic.leaves.where(topic_type: 'medication') + Topic.roots.where(name: 'medication'))
 
     @parent = Topic.where(name: 'parent')[0]
     @sibling = Topic.where(name: 'sibling')[0]
