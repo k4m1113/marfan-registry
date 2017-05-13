@@ -1,9 +1,9 @@
 class Diagnosis < ActiveRecord::Base
   include ApplicationHelper
   attr_reader :table_headings, :table_body
-  attr_accessor :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale
+  attr_accessor :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale, :descriptors
 
-  before_save :concat_duration, :concat_time_ago, :concat_frequency
+  before_save :concat_duration, :concat_time_ago, :concat_frequency, :descriptors_to_note
 
   has_one :gallery
 
@@ -12,7 +12,7 @@ class Diagnosis < ActiveRecord::Base
   belongs_to :patient, inverse_of: :diagnoses
 
   def self.table_headings
-    %w[Date Description Present Note When Duration Actions]
+    %w[Date Description Present Note When Duration Frequency Actions]
   end
 
   def concat_duration
@@ -25,6 +25,15 @@ class Diagnosis < ActiveRecord::Base
 
   def concat_frequency
     self.frequency = "#{frequency_amount} #{frequency_scale} ago" unless frequency_amount.nil? || frequency_scale.nil?
+  end
+
+  def descriptors_to_note
+    list = descriptors ? descriptors.join(', ') : nil
+    if note.empty?
+      self.note = list
+    else
+      self.note += "; #{list}"
+    end
   end
 
   def table_body
@@ -45,6 +54,7 @@ class Diagnosis < ActiveRecord::Base
       'note': blank_unless_present(note),
       'when': blank_unless_present(time_ago),
       'duration': blank_unless_present(duration),
+      'frequency': blank_unless_present(frequency),
       # 'attachments': action_view.render(
       #   partial: 'layouts/attachment_thumbnails', format: :txt,
       #   locals: { model: self }

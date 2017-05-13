@@ -25,7 +25,7 @@
           <% when 'aortic imaging' %>
             <%= f.submit "Update Visit", class: "col-centered col-sm-12 form-control-label btn btn-secondary btn-lg" %>
             <br /><hr />
-            Add More: <%= render 'topics/visit_edit_imaging_selector', f: f %>
+            Add More: <%= render 'topics/echocardiogram', f: f %>
             <hr />
             <div id="heart-imagery-hook"></div>
             <%= render 'visits/show_tables/heart_imagery', imagery: @imagery %>

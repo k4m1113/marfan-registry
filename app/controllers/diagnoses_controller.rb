@@ -56,6 +56,8 @@ class DiagnosesController < ApplicationController
       :time_ago_scale,
       :duration_amount,
       :duration_scale,
+      :frequency_amount,
+      :frequency_scale,
       :absolute_start_date,
       :visit_id,
       :present,

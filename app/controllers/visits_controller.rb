@@ -1,7 +1,7 @@
 require 'report'
 require 'doctor'
 require 'json'
-# require 'pry'
+require 'pry'
 
 # visits controller
 class VisitsController < ApplicationController
@@ -98,6 +98,7 @@ class VisitsController < ApplicationController
     @patient = Patient.find(@visit.patient.id)
     @form_action = 'Update'
     if @visit.update(visit_params)
+      binding.pry
       visit_params.keys.each do |vp|
         flash[:success] = "Successfully updated visit with #{vp}"
       end
@@ -150,7 +151,7 @@ class VisitsController < ApplicationController
       medications_attributes:
         %i[visit_id patient_id topic_id dose dose_unit_of_measurement nested_med_id nested_med_category duration_amount duration_scale ingestion_method frequency frequency_scale common_name medication_format time_ago time_ago_scale absolute_start_date note name dosage_form dosage_form_units current],
       diagnoses_attributes:
-        [:topic_id, :patient_id, :time_ago_amount, :present, :time_ago_scale, :duration_amount, :duration_scale, :absolute_start_date, :visit_id, :note, attachments: []],
+        [:topic_id, :patient_id, :present, :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale, :absolute_start_date, :visit_id, :note, descriptors: [], attachments: []],
       procedures_attributes:
         %i[topic_id patient_id clinician_id visit_id note],
       hospitalizations_attributes:
