@@ -32,7 +32,7 @@ function renderRowForm(topic, descriptors) {
           return_statement += plural_select_options
         return_statement += "</select>"
         return_statement += ","
-        return_statement += "<input type='number' name='visit[diagnoses_attributes][ "+ topic + "][frequency_amount]' id='visit_diagnoses_attributes_" + topic + "_frequency_amount' class='form-control' placeholder='frequency'>"
+        return_statement += "<input type='number' name='visit[diagnoses_attributes]["+ topic + "][frequency_amount]' id='visit_diagnoses_attributes_" + topic + "_frequency_amount' class='form-control' placeholder='frequency'>"
         return_statement += "<label for='visit_diagnoses_attributes_" + topic + "_frequency_amount'>"
            return_statement += "times per"
         return_statement += "</label>"
