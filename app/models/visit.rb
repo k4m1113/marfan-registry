@@ -41,6 +41,13 @@ class Visit < ActiveRecord::Base
     greater_than: 0,
     only_integer: true
   }
+  def topic_types
+    k = {}
+    Topic.all.order('id ASC').each do |t|
+      k[t.id] = t.topic_type
+    end
+    JSON.generate(k)
+  end
 
   def tags_for_form
     gallery = Gallery.find(visit_id: id)

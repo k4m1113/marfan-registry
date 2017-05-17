@@ -3,9 +3,10 @@ $('h6.all-neg-toggler').click(function toggleAllAbsent() {
   $("html, body").animate({ scrollTop: $(document).height() }, 350);
 });
 $('input[value=true]').off('click').on('click', function() {
-  topic = $(this).closest('tr').children('.topic_id').val();
-  descriptors = $(this).closest('tr').find('input[type=hidden].descriptors').val().split(',')
-  $(this).closest('tr').after(renderRowForm(topic, descriptors));
+  var topic = $(this).closest('tr').children('.topic_id').val();
+  var descriptors = $(this).closest('tr').find('input[type=hidden].descriptors').val().split(',');
+  var allTopics = $('div#all_topics').data('topicsmap');
+  $(this).closest('tr').after(renderRowForm(topic, descriptors, allTopics));
 });
 $('tr.row_form')
 

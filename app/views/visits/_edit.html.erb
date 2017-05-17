@@ -1,5 +1,6 @@
 <%#= render 'visits/top_edit_buttons' %>
 <%= form_for @visit, class: "visit_form" do |f| %>
+  <div id="all_topics" data-topicsMap="<%= @visit.topic_types %>"></div>
   <div class="row">
     <div class="col-sm">
 
