@@ -1,6 +1,7 @@
 class Hospitalization < ActiveRecord::Base
   include ApplicationHelper
   attr_reader :table_headings, :table_body
+  attr_accessor :time_ago_scale, :time_ago_amount, :duration_amount, :duration_scale, :absolute_start_date
 
   has_one :gallery
 
@@ -46,6 +47,9 @@ class Hospitalization < ActiveRecord::Base
         partial: 'hospitalizations/link_buttons', format: :txt,
         locals: { h: self})}".html_safe
     }
+  end
+
+  def length_of_stay
   end
 
   def generate_summary

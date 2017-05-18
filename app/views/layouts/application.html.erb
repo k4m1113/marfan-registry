@@ -26,28 +26,33 @@
         <a class="nav-item nav-link red" href="/patients">
           New Visit
         </a>
-        <a class="nav-item nav-link purple" href="/visits">
-          All Visits
-        </a>
       </ul>
     </div>
   </nav>
-
-  <div class="container container-fluid">
-    <br />
-    <div class="row">
-      <div class="col col-sm-12 col-centered">
-        <% flash.each do |key, value| %>
-          <div class="alert alert-<%= key %>">
-            <%= value %>
-          </div>
-        <% end %>
+  <% if current_page?(edit_visit_path) %>
+    <% flash.each do |key, value| %>
+      <div class="alert alert-<%= key %>">
+        <%= value %>
       </div>
+    <% end %>
+    <%= yield %>
+  <% else %>
+    <div class="container container-fluid">
+      <br />
+      <div class="row">
+        <div class="col col-sm-12 col-centered">
+          <% flash.each do |key, value| %>
+            <div class="alert alert-<%= key %>">
+              <%= value %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <%= yield %>
+
     </div>
 
-    <%= yield %>
-
-  </div>
-
+  <% end %>
   </body>
 </html>

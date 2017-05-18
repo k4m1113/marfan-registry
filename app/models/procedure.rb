@@ -1,5 +1,6 @@
 class Procedure < ActiveRecord::Base
   attr_reader :table_headings, :table_body
+  attr_accessor :present, :time_ago_amount, :time_ago_scale
 
   has_one :gallery
 

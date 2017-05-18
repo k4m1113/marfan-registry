@@ -1096,28 +1096,13 @@ Topic.create!(
 ## BEGIN PNEUMOTHORAX (xls 234)##
 pneumothorax = Topic.create!(
   name: 'pneumothorax',
-  topic_type: 'diagnosis'
+  topic_type: 'procedure',
+  descriptors: ['chest tube', 'pleurodesis', 'VATS']
 ).move_to_child_of(pulmonary)
 Topic.create!(
   name: 'blebs',
   topic_type: 'diagnosis'
 ).move_to_child_of(pneumothorax)
-pneumo_treatment = Topic.create!(
-  name: 'treatment',
-  topic_type: 'procedure'
-).move_to_child_of(pneumothorax)
-Topic.create!(
-  name: 'chest tube',
-  topic_type: 'procedure'
-).move_to_child_of(pneumo_treatment)
-Topic.create!(
-  name: 'pleurodesis',
-  topic_type: 'procedure'
-).move_to_child_of(pneumo_treatment)
-Topic.create!(
-  name: 'VATS',
-  topic_type: 'procedure'
-).move_to_child_of(pneumo_treatment)
 ## END PNEUMOTHORAX (xls 237) ##
 
 ## BEGIN SHALLOW PULMONARY LAST (xls 238) ##
@@ -1125,18 +1110,14 @@ sleep_apnea = Topic.create!(
   name: 'sleep apnea',
   topic_type: 'diagnosis'
 ).move_to_child_of(pulmonary)
-s_a_treatment = Topic.create!(
-  name: 'treatment',
-  topic_type: 'procedure'
-).move_to_child_of(sleep_apnea)
 Topic.create!(
   name: 'CPAP',
   topic_type: 'medication'
-).move_to_child_of(s_a_treatment)
+).move_to_child_of(sleep_apnea)
 Topic.create!(
   name: 'surgery',
   topic_type: 'procedure'
-).move_to_child_of(s_a_treatment)
+).move_to_child_of(sleep_apnea)
 pulm_meds = Topic.create!(
   name: 'medications',
   topic_type: 'diagnosis'
@@ -1168,46 +1149,16 @@ scoliosis = Topic.create!(
   name: 'scoliosis',
   topic_type: 'diagnosis'
 ).move_to_child_of(back)
-thoracic = Topic.create!(
+Topic.create!(
   name: 'thoracic',
-  topic_type: 'diagnosis'
+  topic_type: 'procedure',
+  descriptors: ['bracing', 'Harrington rods', 'physical therapy', 'fusion']
 ).move_to_child_of(scoliosis)
-Topic.create!(
-  name: 'bracing',
-  topic_type: 'procedure'
-).move_to_child_of(thoracic)
-Topic.create!(
-  name: 'Harrington rods',
-  topic_type: 'procedure'
-).move_to_child_of(thoracic)
-Topic.create!(
-  name: 'physical therapy',
-  topic_type: 'procedure'
-).move_to_child_of(thoracic)
-Topic.create!(
-  name: 'fusion',
-  topic_type: 'procedure'
-).move_to_child_of(thoracic)
 lumbar = Topic.create!(
   name: 'lumbar',
-  topic_type: 'diagnosis'
+  topic_type: 'procedure',
+  descriptors: ['bracing', 'Harrington rods', 'physical therapy', 'fusion']
 ).move_to_child_of(scoliosis)
-Topic.create!(
-  name: 'bracing',
-  topic_type: 'procedure'
-).move_to_child_of(lumbar)
-Topic.create!(
-  name: 'Harrington rods',
-  topic_type: 'procedure'
-).move_to_child_of(lumbar)
-Topic.create!(
-  name: 'physical therapy',
-  topic_type: 'procedure'
-).move_to_child_of(lumbar)
-Topic.create!(
-  name: 'fusion',
-  topic_type: 'procedure'
-).move_to_child_of(lumbar)
 
 dural_ectasia = Topic.create!(
   name: 'dural ectasia',
@@ -1224,42 +1175,21 @@ pectus = Topic.create!(
   name: 'pectus',
   topic_type: 'diagnosis'
 ).move_to_child_of(ortho)
-excavatum = Topic.create!(
+Topic.create!(
   name: 'excavatum',
-  topic_type: 'diagnosis'
+  topic_type: 'procedure',
+  descriptors: ['Ravitch procedure', 'Nuss bar']
 ).move_to_child_of(pectus)
 Topic.create!(
-  name: 'Ravitch procedure',
-  topic_type: 'procedure'
-).move_to_child_of(excavatum)
-Topic.create!(
-  name: 'Nuss bar',
-  topic_type: 'procedure'
-).move_to_child_of(excavatum)
-carinatum = Topic.create!(
   name: 'carinatum',
-  topic_type: 'diagnosis'
+  topic_type: 'procedure',
+  descriptors: ['Ravitch procedure', 'Nuss bar']
 ).move_to_child_of(pectus)
 Topic.create!(
-  name: 'Ravitch procedure',
-  topic_type: 'procedure'
-).move_to_child_of(carinatum)
-Topic.create!(
-  name: 'Nuss bar',
-  topic_type: 'procedure'
-).move_to_child_of(carinatum)
-asymmetric_pectus = Topic.create!(
   name: 'asymmetric',
-  topic_type: 'diagnosis'
+  topic_type: 'procedure',
+  descriptors: ['Ravitch procedure', 'Nuss bar']
 ).move_to_child_of(pectus)
-Topic.create!(
-  name: 'Ravitch procedure',
-  topic_type: 'procedure'
-).move_to_child_of(asymmetric_pectus)
-Topic.create!(
-  name: 'Nuss bar',
-  topic_type: 'procedure'
-).move_to_child_of(asymmetric_pectus)
 ## END PECTUS (xls 256) ##
 
 ## BEGIN SHALLOW ORTHOPEDIC (xls 258) ##
@@ -1308,7 +1238,7 @@ Topic.create!(
 
 ## BEGIN OSTEOPEROSIS (xls 265) ##
 osteoporosis = Topic.create!(
-  name: 'Osteoporosis',
+  name: 'osteoporosis',
   topic_type: 'diagnosis'
 ).move_to_child_of(ortho)
 Topic.create!(
@@ -1447,16 +1377,9 @@ Topic.create!(
 ).move_to_child_of(iol_ectopia)
 cataract = Topic.create!(
   name: 'cataract',
-  topic_type: 'diagnosis'
+  topic_type: 'procedure',
+  descriptors: ['IOL', 'phakectomy']
 ).move_to_child_of(opthalmo)
-Topic.create!(
-  name: 'IOL',
-  topic_type: 'procedure'
-).move_to_child_of(cataract)
-Topic.create!(
-  name: 'phakectomy',
-  topic_type: 'procedure'
-).move_to_child_of(cataract)
 Topic.create!(
   name: 'glaucoma',
   topic_type: 'diagnosis'
@@ -1467,16 +1390,9 @@ Topic.create!(
 ).move_to_child_of(opthalmo)
 retinal_detachment = Topic.create!(
   name: 'retinal detachment',
-  topic_type: 'diagnosis'
+  topic_type: 'procedure',
+  descriptors: ['buckle', 'laser']
 ).move_to_child_of(opthalmo)
-Topic.create!(
-  name: 'buckle',
-  topic_type: 'procedure'
-).move_to_child_of(retinal_detachment)
-Topic.create!(
-  name: 'laser',
-  topic_type: 'procedure'
-).move_to_child_of(retinal_detachment)
 ## END OPHTHALMOLOGIC (xls 297) ##
 
 ## BEGIN GYNECOLOGIC/UROLOGIC (xls 299) ##
@@ -1484,14 +1400,10 @@ gyno = Topic.create!(
   name: 'gynecologic/urologic',
   topic_type: 'root category'
 )
-pelvic = Topic.create!(
+Topic.create!(
   name: 'pelvic floor weakness',
   topic_type: 'diagnosis'
 ).move_to_child_of(gyno)
-Topic.create!(
-  name: 'treatment',
-  topic_type: 'procedure'
-).move_to_child_of(pelvic)
 Topic.create!(
   name: 'bladder prolapse',
   topic_type: 'diagnosis'
@@ -1724,10 +1636,6 @@ Topic.create!(
 Topic.create!(
   name: 'chronic',
   topic_type: 'diagnosis'
-).move_to_child_of(dural_ectasia)
-Topic.create!(
-  name: 'blood patch',
-  topic_type: 'procedure'
 ).move_to_child_of(dural_ectasia)
 Topic.create!(
   name: 'blood patch',

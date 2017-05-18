@@ -1,5 +1,6 @@
-<div class="card" id="mainNestedList">
-  <div class="card-header text-center">
+<!-- <div class="card" id="mainNestedList">
+  <div class="card-header text-center"> -->
+  <nav class="navbar navbar-toggleable-sm navbar-light bg-faded">
     <ul class="nav nav-tabs" role="tablist">
       <div class="row">
         <% @root_topics.each_with_index do |rt, i| %>
@@ -12,8 +13,9 @@
         <% end %>
       </div>
     </ul>
-  </div>
-  <div class="card-block">
+  </nav>
+  <!-- </div> -->
+  <div class="container container-fluid">
     <div class="tab-content">
       <% @root_topics.each_with_index do |rt, i| %>
         <% key = rt.keyify %>
@@ -24,31 +26,28 @@
             <%= render 'family_members/family_tree', f: f %>
           <% when 'aortic imaging' %>
             <%= f.submit "Update Visit", class: "col-centered col-sm-12 form-control-label btn btn-secondary btn-lg" %>
-            <br /><hr />
+            <br />
             Add More: <%= render 'topics/echocardiogram', f: f %>
-            <hr />
             <div id="heart-imagery-hook"></div>
             <%= render 'visits/show_tables/heart_imagery', imagery: @imagery %>
           <% when 'vitals' %>
             Vitals
-            <hr />
           <% when 'medication' %>
             <%= render 'medications/epic_add_form', f: f %>
             <hr />
             <%= render 'medications/show_table', medications: @patient.medications %>
           <% else %>
             <%= f.submit "Update Visit", class: "col-centered col-sm-12 form-control-label btn btn-secondary btn-lg" %>
-            <br /><hr />
+            <br />
             <h3 class="card-header text-center"><%= rt.name.titleize %>
             </h3>
-            <hr />
             <%= render 'topics/nested_list', f: f, discussion_topic: @discussion_topic %>
           <% end %>
         </div>
       <% end %>
     </div>
   </div>
-</div>
+<!-- </div> -->
 <script>
 // initialize jQuery UI tabbing
 $(function () {

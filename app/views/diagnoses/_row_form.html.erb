@@ -1,10 +1,21 @@
-<div class="form-inline">
-  <div class="form-group">
-    <input type="number" name="visit[diagnoses_attributes][<%= topic %>][time_ago]" id="visit_diagnoses_attributes_<%= topic %>_time_ago">
-    <select name="visit[diagnoses_attributes][<%= topic %>][time_ago_scale]" id="visit_diagnoses_attributes_<%= topic %>_time_ago_scale">
-      <% TIME_SCALES.each do |t| %>
-        <option value="<%= t %>"><%= t %></option>
-      <% end %>
-    </select>
-  </div>
-</div>
+<%= f.fields_for :diagnoses, @nested_scope.diagnoses.build do |ff| %>
+  <% discussion_topic.leaves.select { |leaf| leaf.topic_type == 'diagnosis' }.each do |l| %>
+    <tr>
+      <%= ff.hidden_field :patient_id, value: @patient.id, name: "visit[diagnoses_attributes][#{l.id}][patient_id]", id: "visit_diagnoses_attributes_#{l.id}_patient_id" %>
+      <%= ff.hidden_field :visit_id, value: @visit.id, name: "visit[diagnoses_attributes][#{l.id}][visit_id]", id: "visit_diagnoses_attributes_#{l.id}_visit_id" %>
+      <%= ff.hidden_field :topic_id, value: l.id, name: "visit[diagnoses_attributes][#{l.id}][topic_id]", id: "visit_diagnoses_attributes_#{l.id}_topic_id", class: "topic_id" %>
+      <input type="hidden" class="descriptors" id="topic_<%= l.id %>_descriptors" value="<%= l.descriptors.join(',') unless l.descriptors.blank? %>">
+      <td>
+        <%= find_pretty_trail(l.id) %>
+      </td>
+      <div class="form-check">
+        <td>
+          <%= ff.radio_button :present, true, name: "visit[diagnoses_attributes][#{l.id}][present]", id: "visit_diagnoses_attributes_#{l.id}_present_true", class: "pres_abs" %>
+        </td>
+        <td>
+          <%= ff.radio_button :present, false, name: "visit[diagnoses_attributes][#{l.id}][present]", id: "visit_diagnoses_attributes_#{l.id}_present_false", class: "pres_abs" %>
+        </td>
+      </div>
+    </tr>
+  <% end %>
+<% end %>

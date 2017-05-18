@@ -1,0 +1,22 @@
+<%= f.fields_for :procedures, @nested_scope.procedures.build do |ff| %>
+  <% discussion_topic.leaves.select { |leaf| leaf.topic_type == 'procedure' }.each do |l| %>
+    <tr>
+      <%= ff.hidden_field :patient_id, value: @patient.id, name: "visit[procedures_attributes][#{l.id}][patient_id]", id: "visit_procedures_attributes_#{l.id}_patient_id" %>
+      <%= ff.hidden_field :visit_id, value: @visit.id, name: "visit[procedures_attributes][#{l.id}][visit_id]", id: "visit_procedures_attributes_#{l.id}_visit_id" %>
+      <%= ff.hidden_field :topic_id, value: l.id, name: "visit[procedures_attributes][#{l.id}][topic_id]", id: "visit_procedures_attributes_#{l.id}_topic_id", class: "topic_id" %>
+      <input type="hidden" class="descriptors" id="topic_<%= l.id %>_descriptors" value="<%= l.descriptors.join(',') unless l.descriptors.blank? %>">
+      <td>
+        <%= find_pretty_trail(l.id) %>
+        <%= l.siblings.map(&:name) %>
+      </td>
+      <div class="form-check">
+        <td>
+          <%= ff.radio_button :present, true, name: "visit[procedures_attributes][#{l.id}][present]", id: "visit_procedures_attributes_#{l.id}_present_true", class: "pres_abs" %>
+        </td>
+        <td>
+          <%= ff.radio_button :present, false, name: "visit[procedures_attributes][#{l.id}][present]", id: "visit_procedures_attributes_#{l.id}_present_false", class: "pres_abs" %>
+        </td>
+      </div>
+    </tr>
+  <% end %>
+<% end %>
