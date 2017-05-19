@@ -17,6 +17,35 @@
           <%= ff.radio_button :present, false, name: "visit[procedures_attributes][#{l.id}][present]", id: "visit_procedures_attributes_#{l.id}_present_false", class: "pres_abs" %>
         </td>
       </div>
+      <td>
+        <%= render 'topics/row_form_components/file_attachment_button', ff: ff, topic: l.id, parameterized_plural: 'procedures' %>
+      </td>
     </tr>
+    <script>
+    // default hide all rendered row forms
+    $('tr.row_form').hide()
+
+    // hide or display row form based on 'present' or 'absent' checked
+    $('input[name="visit[procedures_attributes][<%= l.id %>][present]"]').change(function() {
+      $('tr.row_form#row_<%= l.id %>').toggle($('input#visit_procedures_attributes_<%= l.id %>_present_true')[0].checked)
+      if ($('input#visit_procedures_attributes_<%= l.id %>_present_true')[0].checked) {
+        $('tr.row_form#row_<%= l.id %>').show()
+      }
+      else if ($('input#visit_procedures_attributes_<%= l.id %>_present_false')[0].checked) {
+        $('tr.row_form#row_<%= l.id %>').hide()
+      }
+      else {
+        $('tr.row_form#row_<%= l.id %>').hide()
+      }
+    })
+
+    // change handler for attachment upload camera button
+    $('input#visit_procedures_attributes_<%= l.id %>_attachments').on('change', function() {
+      file_name = $(this).val().split('\\').pop().split('/').pop()
+      console.log($(this));
+      console.log(file_name);
+      $(this).parent('td').find('label').append(file_name)
+    })
+    </script>
   <% end %>
 <% end %>

@@ -10,6 +10,7 @@
   <%= f.hidden_field :topic_id, value: topic.id, name: "visit[tests_attributes][#{@topic.id}][topic_id]", id: "visit_tests_attributes_#{@topic.id}_topic_id" %>
 
   <%= f.hidden_field :test_date, value: test_date, name: "visit[tests_attributes][#{@topic.id}][test_date]", id: "visit_tests_attributes_#{@topic.id}_test_date" %>
+  <%= f.file_field :attachments, name: "visit[tests_attributes][#{@topic.id}][attachments][]", id: "visit_tests_attributes_#{@topic.id}_attachments", multiple: true, style: "display:none" %>
   <div class="input-group">
     <% if @topic.units_of_measurement %>
       <%= f.number_field :test_amount, in: @topic.min_value..@topic.max_value, step: @topic.step, name: "visit[tests_attributes][#{@topic.id}][test_amount]", id: "visit_tests_attributes_#{@topic.id}_test_amount", class: "form-control" %>
@@ -19,12 +20,21 @@
         <%= f.select :test_unit_of_meas, @topic.units_of_measurement, {include_blank: false}, {class: "form-control", name: "visit[tests_attributes][#{@topic.id}][test_unit_of_meas]", id: "visit_tests_attributes_#{@topic.id}_test_unit_of_meas"} %>
       <% end %>
       <span class="input-group-btn">
-        <button class="btn btn-primary" type="button" id="test_<%= topic.id %>_calc_button"><i class="fa fa-calculator"></i></button>
+        <button class="btn btn-primary" type="button" id="test_<%= topic.id %>_calc_button">
+          <i class="fa fa-calculator"></i>
+        </button>
       </span>
     <% end %>
     <% if @topic.descriptors %>
       <%= f.select :note, @topic.descriptors, {include_blank: true, multiple: true}, {class: "form-control", name: "visit[tests_attributes][#{@topic.id}][note]", id: "visit_tests_attributes_#{@topic.id}_note"} %>
     <% end %>
+    <span class="input-group-btn">
+      <button class="btn btn-primary" type="button">
+        <label for="visit_tests_attributes_<%= @topic.id %>_attachments">
+          <i class="fa fa-camera"></i>
+        </label>
+      </button>
+    </span>
   </div>
 </div>
 <script>

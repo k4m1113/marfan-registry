@@ -96,7 +96,10 @@ class VisitsController < ApplicationController
   def update
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient.id)
+    @gallery = Gallery.where(visit_id: @visit.id).order(id: :asc)[0]
     @form_action = 'Update'
+    # binding.pry
+    add_more_attachments(visit_params[:gallery_attributes][:attachments]) unless visit_params[:gallery_attributes][:attachments].nil?
     if @visit.update(visit_params)
       visit_params.keys.each do |vp|
         flash[:success] = "Successfully updated visit with #{vp}"
@@ -126,6 +129,12 @@ class VisitsController < ApplicationController
     Gallery.create(visit_id: @visit.id, patient_id: @patient.id) unless @visit.gallery
   end
 
+  def add_more_attachments(new_attachments)
+    attachments = @gallery.attachments # copy the old attachments
+    attachments += new_attachments # concat old attachments with new ones
+    @gallery.attachments = attachments # assign back
+  end
+
   def visit_params
     params.require(:visit).permit(
       :id,
@@ -144,7 +153,7 @@ class VisitsController < ApplicationController
       :test,
       :gallery,
       gallery_attributes:
-        [:id, :gallery, :title, :visit_id, :patient_id, attachments: []],
+        [:id, :gallery, :title, :visit_id, :patient_id, {attachments: []}],
       vitals_attributes:
         %i[visit_id patient_id topic_id vital test_amount sbp dbp test_unit_of_meas measurement note],
       medications_attributes:

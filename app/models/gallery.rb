@@ -6,9 +6,9 @@ class Gallery < ActiveRecord::Base
   belongs_to :test,
     inverse_of: :gallery,
     required: false
-  belongs_to :symptom,
-    inverse_of: :gallery,
-    required: false
+  # belongs_to :symptom,
+  #   inverse_of: :gallery,
+  #   required: false
   belongs_to :procedure,
     inverse_of: :gallery,
     required: false

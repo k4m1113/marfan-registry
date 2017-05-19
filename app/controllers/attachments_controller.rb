@@ -2,6 +2,7 @@ class AttachmentsController < ApplicationController
   before_action :set_gallery
 
   def create
+    @gallery = Gallery.find(params[:gallery_id])
     add_more_attachments(attachments_params[:attachments])
     flash[:error] = "Failed uploading attachments" unless @gallery.save
     redirect_to :back
