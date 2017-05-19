@@ -75,7 +75,7 @@
       </div>
     <% end %>
   </div>
-<% elsif current_page?(edit_visit_path) %>
+<% elsif params[:controller] == 'visits' %>
   <div class="form-group">
     <%= render 'visits/visit_presence_checker', f: f %>
     <%= f.fields_for :gallery do |ff| %>

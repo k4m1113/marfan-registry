@@ -1,13 +1,13 @@
 <%= f.fields_for :procedures, @nested_scope.procedures.build do |ff| %>
   <% discussion_topic.leaves.select { |leaf| leaf.topic_type == 'procedure' }.each do |l| %>
-    <tr>
+    <tr class="main_row">
       <%= ff.hidden_field :patient_id, value: @patient.id, name: "visit[procedures_attributes][#{l.id}][patient_id]", id: "visit_procedures_attributes_#{l.id}_patient_id" %>
       <%= ff.hidden_field :visit_id, value: @visit.id, name: "visit[procedures_attributes][#{l.id}][visit_id]", id: "visit_procedures_attributes_#{l.id}_visit_id" %>
       <%= ff.hidden_field :topic_id, value: l.id, name: "visit[procedures_attributes][#{l.id}][topic_id]", id: "visit_procedures_attributes_#{l.id}_topic_id", class: "topic_id" %>
       <input type="hidden" class="descriptors" id="topic_<%= l.id %>_descriptors" value="<%= l.descriptors.join(',') unless l.descriptors.blank? %>">
       <td>
         <%= find_pretty_trail(l.id) %>
-        <%= l.siblings.map(&:name) %>
+        <!-- <%= l.siblings.map(&:name) %> -->
       </td>
       <div class="form-check">
         <td>

@@ -1,4 +1,5 @@
 class Procedure < ActiveRecord::Base
+  include ApplicationHelper
   attr_reader :table_headings, :table_body
   attr_accessor :present, :time_ago_amount, :time_ago_scale
 
@@ -9,6 +10,9 @@ class Procedure < ActiveRecord::Base
     inverse_of: :procedures
   belongs_to :patient,
     inverse_of: :procedures
+
+  after_save { |p| p.destroy if p.note.nil? }
+
 
   def self.table_headings
     return ['Date', 'Name', 'Note', 'Attachments', 'Actions']

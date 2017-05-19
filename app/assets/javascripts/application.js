@@ -9,4 +9,3 @@
 //= require components
 //= require_tree .
 //= require keyboard/jquery.keyboard.min
-//= require addKeyboard

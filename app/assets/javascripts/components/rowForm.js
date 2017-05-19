@@ -8,39 +8,60 @@ parameterizedPlurals = {
   'hospitalization': 'hospitalizations'
 }
 
+
 function renderTimeAgoFields(topic, parameterizedPlural) {
   return_statement = [
-    "<input type='number' name='visit[" + parameterizedPlural + "_attributes][" + topic + "][time_ago_amount]' id='visit_" + parameterizedPlural + "_attributes_" + topic + "_time_ago_amount' class='form-control' placeholder='time ago'>",
-    "<select name='visit[" + parameterizedPlural + "_attributes][" + topic + "][time_ago_scale]' id='visit_" + parameterizedPlural + "_attributes_" + topic + "_time_ago_scale' class='form-control'>",
-    plural_select_options,
-    "</select>",
-    "<label for='visit_" + parameterizedPlural + "_attributes_" + topic + "_time_ago_scale'>",
-    "ago",
-    "</label>"
-  ]
+    "<div class='input-group'>",
+      "<input type='number' name='visit[" + parameterizedPlural + "_attributes][" + topic + "][time_ago_amount]' id='visit_" + parameterizedPlural + "_attributes_" + topic + "_time_ago_amount' class='form-control' placeholder='time ago'>",
+      "<span class='input-group-btn'>",
+        "<button class='btn btn-primary' type='button' id='" + parameterizedPlural + "_" +  topic + "_calc_button'><i class='fa fa-calculator'></i></button>",
+      "</span>",
+      "<select name='visit[" + parameterizedPlural + "_attributes][" + topic + "][time_ago_scale]' id='visit_" + parameterizedPlural + "_attributes_" + topic + "_time_ago_scale' class='form-control'>",
+        plural_select_options,
+      "</select>",
+      "<label for='visit_" + parameterizedPlural + "_attributes_" + topic + "_time_ago_scale'>",
+      "ago",
+      "</label>",
+    "</div>"
+  ];
+  $('#visit_' + parameterizedPlural + '_attributes_' + topic + '_time_ago_amount').addKeyboard();
+  $('#' + parameterizedPlural + '_' + topic + '_calc_button').click(function(e){
+    e.stopImmediatePropagation();
+    var kb = $('#visit_' + parameterizedPlural + '_attributes_' + topic + '_time_ago_amount').getkeyboard();
+    // close the keyboard if the keyboard is visible and the button is clicked a second time
+    if ( kb.isOpen ) {
+      kb.close();
+    } else {
+      kb.reveal();
+    }
+  });
   return return_statement.join('')
 }
 function renderDurationFields(topic, parameterizedPlural) {
   return_statement = [
-    "<label for='visit_" + parameterizedPlural + "_attributes_" + topic + "_duration_amount'>",
-    "for",
-    "</label>",
-    "<input type='number' name='visit[" + parameterizedPlural + "_attributes][" + topic + "][duration_amount]' id='visit_" + parameterizedPlural + "_attributes_" + topic + "_duration_amount' class='form-control' placeholder='duration'>",
-    "<select name='visit[" + parameterizedPlural + "_attributes][" + topic + "][duration_scale]' id='visit_" + parameterizedPlural + "_attributes_" + topic + "_duration_scale' class='form-control'>",
-    plural_select_options,
-    "</select>"
+    "<div class='input-group'",
+      "<label for='visit_" + parameterizedPlural + "_attributes_" + topic + "_duration_amount'>",
+      "for",
+      "</label>",
+      "<input type='number' name='visit[" + parameterizedPlural + "_attributes][" + topic + "][duration_amount]' id='visit_" + parameterizedPlural + "_attributes_" + topic + "_duration_amount' class='form-control' placeholder='duration'>",
+      "<select name='visit[" + parameterizedPlural + "_attributes][" + topic + "][duration_scale]' id='visit_" + parameterizedPlural + "_attributes_" + topic + "_duration_scale' class='form-control'>",
+        plural_select_options,
+      "</select>",
+    "</div>"
   ]
   return return_statement.join('')
 }
 function renderFrequencyFields(topic, parameterizedPlural) {
   return_statement = [
-    "<label for='visit_" + parameterizedPlural + "_attributes_" + topic + "_frequency_amount'>",
-    "for",
-    "</label>",
-    "<input type='number' name='visit[" + parameterizedPlural + "_attributes][" + topic + "][frequency_amount]' id='visit_" + parameterizedPlural + "_attributes_" + topic + "_frequency_amount' class='form-control' placeholder='frequency'>",
-    "<select name='visit[" + parameterizedPlural + "_attributes][" + topic + "][frequency_scale]' id='visit_" + parameterizedPlural + "_attributes_" + topic + "_frequency_scale' class='form-control'>",
-    plural_select_options,
-    "</select>"
+    "<div class='input-group'",
+      "<label for='visit_" + parameterizedPlural + "_attributes_" + topic + "_frequency_amount'>",
+      "</label>",
+      "<input type='number' name='visit[" + parameterizedPlural + "_attributes][" + topic + "][frequency_amount]' id='visit_" + parameterizedPlural + "_attributes_" + topic + "_frequency_amount' class='form-control' placeholder='frequency'>",
+      'times per',
+      "<select name='visit[" + parameterizedPlural + "_attributes][" + topic + "][frequency_scale]' id='visit_" + parameterizedPlural + "_attributes_" + topic + "_frequency_scale' class='form-control'>",
+        plural_select_options,
+      "</select>",
+    "</div>"
   ]
   return return_statement.join('')
 }
@@ -96,7 +117,6 @@ function renderProcedureForm(topic, descriptors, parameterizedPlural) {
       "<div class='form-inline'>",
         "<div class='input-group'>",
           renderTimeAgoFields(topic, parameterizedPlural),
-          renderFrequencyFields(topic, parameterizedPlural),
         "</div>",
       "</div>",
       renderKeywords(topic, descriptors, parameterizedPlural),

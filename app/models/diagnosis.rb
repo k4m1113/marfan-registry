@@ -29,7 +29,7 @@ class Diagnosis < ActiveRecord::Base
 
   def descriptors_to_note
     list = descriptors ? descriptors.join(', ') : nil
-    if note.empty?
+    if note.blank?
       self.note = list
     else
       self.note += "; #{list}"

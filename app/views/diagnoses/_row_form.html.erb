@@ -1,6 +1,6 @@
 <%= f.fields_for :diagnoses, @nested_scope.diagnoses.build do |ff| %>
   <% discussion_topic.leaves.select { |leaf| leaf.topic_type == 'diagnosis' }.each do |l| %>
-    <tr>
+    <tr class="main_row">
       <%= ff.hidden_field :patient_id, value: @patient.id, name: "visit[diagnoses_attributes][#{l.id}][patient_id]", id: "visit_diagnoses_attributes_#{l.id}_patient_id" %>
       <%= ff.hidden_field :visit_id, value: @visit.id, name: "visit[diagnoses_attributes][#{l.id}][visit_id]", id: "visit_diagnoses_attributes_#{l.id}_visit_id" %>
       <%= ff.hidden_field :topic_id, value: l.id, name: "visit[diagnoses_attributes][#{l.id}][topic_id]", id: "visit_diagnoses_attributes_#{l.id}_topic_id", class: "topic_id" %>
@@ -17,5 +17,34 @@
         </td>
       </div>
     </tr>
+    <tr class="row_form" id="row_<%= l.id %>">
+      <td colspan='3'>
+        <div class='form-inline'>
+          <div class='input-group'>
+            <%= render 'topics/row_form_components/time_ago_fields', parameterized_plural: 'diagnoses', topic: l.id %>
+            <%= render 'topics/row_form_components/duration_fields', parameterized_plural: 'diagnoses', topic: l.id %>
+            <%= render 'topics/row_form_components/frequency_fields', parameterized_plural: 'diagnoses', topic: l.id %>
+          </div>
+        </div>
+        <div class='form-inline'>
+          <%= render 'topics/row_form_components/note_field', parameterized_plural: 'diagnoses', topic: l.id %>
+        </div>
+      </td>
+    </tr>
+    <script>
+    $('tr.row_form').hide()
+    $('input[name="visit[diagnoses_attributes][<%= l.id %>][present]"]').change(function() {
+      $('tr.row_form#row_<%= l.id %>').toggle($('input#visit_diagnoses_attributes_<%= l.id %>_present_true')[0].checked)
+      if ($('input#visit_diagnoses_attributes_<%= l.id %>_present_true')[0].checked) {
+        $('tr.row_form#row_<%= l.id %>').show()
+      }
+      else if ($('input#visit_diagnoses_attributes_<%= l.id %>_present_false')[0].checked) {
+        $('tr.row_form#row_<%= l.id %>').hide()
+      }
+      else {
+        $('tr.row_form#row_<%= l.id %>').hide()
+      }
+    })
+    </script>
   <% end %>
 <% end %>

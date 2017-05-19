@@ -29,7 +29,7 @@
       </ul>
     </div>
   </nav>
-  <% if current_page?(edit_visit_path) %>
+  <% if params[:controller] == 'visits' %>
     <% flash.each do |key, value| %>
       <div class="alert alert-<%= key %>">
         <%= value %>

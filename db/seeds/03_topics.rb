@@ -659,7 +659,7 @@ Topic.create!(
   min_value: 0,
   max_value: 100,
   step: 1,
-
+  units_of_measurement: %w[%]
 ).move_to_child_of(cardio_meas)
 ## END SHALLOW TOPICS (xls 147) %>
 
