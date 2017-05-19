@@ -3,7 +3,7 @@
   </label>
   <input type='number' name='visit[<%= parameterized_plural %>_attributes][<%= topic %>][frequency_amount]' id='visit_<%= parameterized_plural %>_attributes_<%= topic %>_frequency_amount' class='form-control' placeholder='frequency'>
   <span class='input-group-btn'>
-    <button class='btn btn-primary' type='button' id='<%= parameterized_plural %>_<%= topic %>_calc_button'><i class='fa fa-calculator'></i></button>
+    <button class='btn btn-primary' type='button' id='<%= parameterized_plural %>_<%= topic %>_freq_calc_button'><i class='fa fa-calculator'></i></button>
   </span>
   times per
   <select name='visit[<%= parameterized_plural %>_attributes][<%= topic %>][frequency_scale]' id='visit_<%= parameterized_plural %>_attributes_<%= topic %>_frequency_scale' class='form-control'>
@@ -12,7 +12,7 @@
 </div>
 <script>
 $('#visit_<%= parameterized_plural %>_attributes_<%= topic %>_frequency_amount').addKeyboard();
-$('#<%= parameterized_plural %>_<%= topic %>_calc_button').click(function(e){
+$('#<%= parameterized_plural %>_<%= topic %>_freq_calc_button').click(function(e){
   e.stopImmediatePropagation();
   var kb = $('#visit_<%= parameterized_plural %>_attributes_<%= topic %>_frequency_amount').getkeyboard();
   // close the keyboard if the keyboard is visible and the button is clicked a second time
