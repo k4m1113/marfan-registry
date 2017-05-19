@@ -95,7 +95,7 @@ function renderNoteField(topic, parameterizedPlural) {
 function renderDiagnosisForm(topic, descriptors, parameterizedPlural) {
   return_statement =
   [
-    "<tr class='row_form'><td colspan='3'>",
+    "<tr class='row_form'><td colspan='4'>",
       "<div class='form-inline'>",
         "<div class='input-group'>",
           renderTimeAgoFields(topic, parameterizedPlural),
@@ -113,7 +113,7 @@ function renderDiagnosisForm(topic, descriptors, parameterizedPlural) {
 function renderProcedureForm(topic, descriptors, parameterizedPlural) {
   return_statement =
   [
-    "<tr class='row_form'><td colspan='3'>",
+    "<tr class='row_form'><td colspan='4'>",
       "<div class='form-inline'>",
         "<div class='input-group'>",
           renderTimeAgoFields(topic, parameterizedPlural),
@@ -129,7 +129,7 @@ function renderProcedureForm(topic, descriptors, parameterizedPlural) {
 function renderHospitalizationForm(topic, descriptors, parameterizedPlural) {
   return_statement =
   [
-    "<tr class='row_form'><td colspan='3'>",
+    "<tr class='row_form'><td colspan='4'>",
       "<div class='form-inline'>",
         "<div class='input-group'>",
           renderTimeAgoFields(topic, parameterizedPlural),
@@ -145,10 +145,10 @@ function renderHospitalizationForm(topic, descriptors, parameterizedPlural) {
 
 function renderMedicationForm(topic) {
   [
-    "<tr class='row_form'><td colspan='3'>",
+    "<tr class='row_form'><td colspan='4'>",
 
   ]
-  return_statement = "<tr class='row_form'><td colspan='3'>"
+  return_statement = "<tr class='row_form'><td colspan='4'>"
 }
 
 // runs formRender function according to topic type

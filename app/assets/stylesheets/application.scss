@@ -25,14 +25,8 @@
   -webkit-transform: scale(1.3); /* Chrome, Safari, Opera */
   transform: scale(1.3);
 }
-.file-upload-camera {
-  color: black;
-  padding: 2px;
-  :hover {
-    color: blue;
-    cursor: pointer;
-    cursor: hand;
-  }
+label.fontawesome-icon {
+  margin-bottom: -8px;
 }
 
 

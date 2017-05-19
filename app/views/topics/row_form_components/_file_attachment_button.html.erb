@@ -1,6 +1,6 @@
 <%= ff.file_field :attachments, name: "visit[#{parameterized_plural}_attributes][#{topic}][attachments][]", id: "visit_#{parameterized_plural}_attributes_#{topic}_attachments", multiple: true, style: "display:none" %>
-<label for="visit_<%= parameterized_plural %>_attributes_<%= topic %>_attachments">
-  <button class="btn btn-primary" type="button">
+<button class="btn btn-secondary" type="button">
+  <label for="visit_<%= parameterized_plural %>_attributes_<%= topic %>_attachments" class="fontawesome-icon">
     <i class="fa fa-camera"></i>
-  </button>
-</label>
+  </label>
+</button>
