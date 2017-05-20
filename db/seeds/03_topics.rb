@@ -1338,7 +1338,8 @@ opthalmo = Topic.create!(
 )
 myopia = Topic.create!(
   name: 'myopia',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: %w[left right both]
 ).move_to_child_of(opthalmo)
 Topic.create!(
   name: 'severity',
@@ -1352,11 +1353,13 @@ Topic.create!(
 ).move_to_child_of(myopia)
 Topic.create!(
   name: 'amblyopia',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: %w[left right both]
 ).move_to_child_of(opthalmo)
 ectopia_lentis = Topic.create!(
   name: 'ectopia lentis',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: %w[left right both]
 ).move_to_child_of(opthalmo)
 Topic.create!(
   name: 'iridodensis',
@@ -1365,21 +1368,29 @@ Topic.create!(
 ).move_to_child_of(ectopia_lentis)
 Topic.create!(
   name: 'phakectomy',
-  topic_type: 'procedure'
-).move_to_child_of(ectopia_lentis)
-iol_ectopia = Topic.create!(
-  name: 'IOL',
-  topic_type: 'procedure'
+  topic_type: 'procedure',
+  units_of_measurement: %w[left right both]
 ).move_to_child_of(ectopia_lentis)
 Topic.create!(
-  name: 'type',
-  topic_type: 'procedure'
-).move_to_child_of(iol_ectopia)
+  name: 'IOL',
+  topic_type: 'procedure',
+  units_of_measurement: %w[left right both]
+).move_to_child_of(ectopia_lentis)
 cataract = Topic.create!(
   name: 'cataract',
   topic_type: 'procedure',
-  descriptors: ['IOL', 'phakectomy']
+  descriptors: %w['IOL', 'phakectomy']
 ).move_to_child_of(opthalmo)
+Topic.create!(
+  name: 'phakectomy',
+  topic_type: 'procedure',
+  units_of_measurement: %w[left right both]
+).move_to_child_of(cataract)
+Topic.create!(
+  name: 'IOL',
+  topic_type: 'procedure',
+  units_of_measurement: %w[left right both]
+).move_to_child_of(cataract)
 Topic.create!(
   name: 'glaucoma',
   topic_type: 'diagnosis'
@@ -1391,7 +1402,7 @@ Topic.create!(
 retinal_detachment = Topic.create!(
   name: 'retinal detachment',
   topic_type: 'procedure',
-  descriptors: ['buckle', 'laser']
+  descriptors: %w[buckle laser]
 ).move_to_child_of(opthalmo)
 ## END OPHTHALMOLOGIC (xls 297) ##
 

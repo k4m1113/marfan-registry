@@ -72,7 +72,7 @@ class FamilyMembersController < ApplicationController
     future_patient_data_hash:
       %i[first_name last_name born_years_ago date_of_birth deceased death_time_ago death_time_ago_scale death_date cause_of_death note],
     gallery_attributes:
-      [:id, :gallery, :title, :visit_id, :patient_id, :family_member_id, attachments: []]
+      %i[id gallery title visit_id patient_id family_member_id attachment]
     )
   end
 end

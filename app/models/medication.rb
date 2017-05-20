@@ -1,5 +1,7 @@
 class Medication < ActiveRecord::Base
   include ActiveSupport::NumberHelper
+  mount_uploader :attachment, AttachmentUploader
+
   attr_reader :table_headings, :table_body
 
   has_one :gallery

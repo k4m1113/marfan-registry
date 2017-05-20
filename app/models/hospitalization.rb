@@ -1,5 +1,7 @@
 class Hospitalization < ActiveRecord::Base
   include ApplicationHelper
+  mount_uploader :attachment, AttachmentUploader
+
   attr_reader :table_headings, :table_body
   attr_accessor :time_ago_scale, :time_ago_amount, :duration_amount, :duration_scale, :absolute_start_date
 
@@ -40,7 +42,7 @@ class Hospitalization < ActiveRecord::Base
       'name': print_if_present(self.hosp_type),
       'location': print_if_present(self.location),
       'description': print_if_present(self.description),
-      'attachments': "#{action_view.render(
+      'attachment': "#{action_view.render(
         partial: 'layouts/attachment_thumbnails', format: :txt,
         locals: { model: self})}".html_safe,
       'actions': "#{action_view.render(

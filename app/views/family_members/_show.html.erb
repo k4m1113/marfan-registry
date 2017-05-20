@@ -14,25 +14,6 @@
     <%= link_to "Claim", new_patient_path(fm), type: "button", class: "btn btn-info disabled" %>
   </div>
 </div>
-<br />
-<div class="row">
-  <div class="col-sm">
-    <!-- <% if fm.gallery && !fm.gallery.attachments.blank? %>
-      <h4>Uploaded Attachments</h4>
-      <% fm.gallery.attachments.each do |a| %>
-        <%= image_tag(a.thumb.url) %>
-      <% end %>
-      <%= link_to "Manage Attachments ›", gallery_path(@gallery.id), class: "btn btn-secondary" %>
-    <% else %>
-      <%= form_for Gallery.create(patient_id: @patient.id, visit_id: @visit.id, family_member_id: fm.id) do |ff| %>
-        <%= ff.label :attachments, "Add Photos and Documents", class: "control-label" %>
-        <%= ff.file_field :attachments, multiple: true, class: "form-control-file" %>
-        <%= ff.submit %>
-      <% end %>
-    <% end %> -->
-  </div>
-</div>
-<hr />
 <div class="row">
   <div class="col-sm-12">
     <%= render 'family_members/key_value_table', fm: fm %>

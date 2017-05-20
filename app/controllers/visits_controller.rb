@@ -99,7 +99,6 @@ class VisitsController < ApplicationController
     @gallery = Gallery.where(visit_id: @visit.id).order(id: :asc)[0]
     @form_action = 'Update'
     # binding.pry
-    add_more_attachments(visit_params[:gallery_attributes][:attachments]) unless visit_params[:gallery_attributes][:attachments].nil?
     if @visit.update(visit_params)
       visit_params.keys.each do |vp|
         flash[:success] = "Successfully updated visit with #{vp}"
@@ -153,27 +152,21 @@ class VisitsController < ApplicationController
       :test,
       :gallery,
       gallery_attributes:
-        [:id, :gallery, :title, :visit_id, :patient_id, {attachments: []}],
+        %i[id gallery title visit_id patient_id attachment],
       vitals_attributes:
-        %i[visit_id patient_id topic_id vital test_amount sbp dbp test_unit_of_meas measurement note],
+        %i[visit_id patient_id topic_id vital test_amount sbp dbp test_unit_of_meas measurement note attachment],
       medications_attributes:
-        %i[visit_id patient_id topic_id dose dose_unit_of_measurement nested_med_id nested_med_category duration_amount duration_scale ingestion_method frequency frequency_scale common_name medication_format time_ago time_ago_scale absolute_start_date note name dosage_form dosage_form_units current],
+        %i[visit_id patient_id topic_id dose dose_unit_of_measurement nested_med_id nested_med_category duration_amount duration_scale ingestion_method frequency frequency_scale common_name medication_format time_ago time_ago_scale absolute_start_date note name dosage_form dosage_form_units current attachment],
       diagnoses_attributes:
-        [:visit_id, :topic_id, :patient_id, :present, :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale, :absolute_start_date, :note, descriptors: [], attachments: []],
+        [:visit_id, :topic_id, :patient_id, :present, :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale, :absolute_start_date, :note, :attachment, descriptors: []],
       procedures_attributes:
-        %i[ topic_id patient_id clinician_id  note],
+        %i[topic_id patient_id clinician_id note attachment present],
       hospitalizations_attributes:
-        %i[visit_id patient_id topic_id hospitalization admission_date time_ago time_ago_scale length_of_stay length_of_stay_scale hosp_type description location note],
+        %i[visit_id patient_id topic_id hospitalization admission_date time_ago time_ago_scale length_of_stay length_of_stay_scale hosp_type description location note attachment],
       family_members_attributes:
-        [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, :family_member, :gallery,  future_patient_data_hash:
+        [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, :family_member, :attachment,  future_patient_data_hash:
           %i[first_name last_name born_years_ago date_of_birth deceased death_time_ago death_time_ago_scale death_date cause_of_death note],
-        gallery_attributes:
-            [:title, attachments: []]],
       tests_attributes:
-        [:visit_id, :topic_id,:patient_id, :test, :test_date, :time_ago, :test_amount, :test_unit_of_meas, :time_ago_scale, :result, :note,
-        gallery_attributes:
-          [:title, attachments: []]
-        ]
-      )
+        %i[visit_id topic_id patient_id test test_date time_ago test_amount test_unit_of_meas time_ago_scale result note attachment]])
   end
 end

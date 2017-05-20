@@ -1,5 +1,7 @@
 class Procedure < ActiveRecord::Base
   include ApplicationHelper
+  mount_uploader :attachment, AttachmentUploader
+
   attr_reader :table_headings, :table_body
   attr_accessor :present, :time_ago_amount, :time_ago_scale
 
@@ -33,7 +35,7 @@ class Procedure < ActiveRecord::Base
       'date': display_date(self),
       'description': find_trail(self.topic_id),
       'note': print_if_present(self.note),
-      'attachments': "#{action_view.render(
+      'attachment': "#{action_view.render(
         partial: 'layouts/attachment_thumbnails', format: :txt,
         locals: { model: self})}".html_safe,
       'actions': "#{action_view.render(

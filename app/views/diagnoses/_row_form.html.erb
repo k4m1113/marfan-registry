@@ -53,7 +53,7 @@
     })
 
     // change handler for attachment upload camera button
-    $('input#visit_diagnoses_attributes_<%= l.id %>_attachments').on('change', function() {
+    $('input#visit_diagnoses_attributes_<%= l.id %>_attachment').on('change', function() {
       file_name = $(this).val().split('\\').pop().split('/').pop()
       console.log($(this));
       console.log(file_name);

@@ -67,6 +67,6 @@ class GalleriesController < ApplicationController
   end
 
   def gallery_params
-    params.require(:gallery).permit(:title, attachments: [])
+    params.require(:gallery).permit(:title, :attachment)
   end
 end

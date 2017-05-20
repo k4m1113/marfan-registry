@@ -1,5 +1,7 @@
 class Test < ActiveRecord::Base
   include ApplicationHelper
+  mount_uploader :attachment, AttachmentUploader
+
   attr_accessor :test_amount, :test_unit_of_meas
   attr_reader :table_headings, :table_body
 
@@ -40,7 +42,7 @@ class Test < ActiveRecord::Base
       'date': display_test_date(self),
       'name': find_trail(self.topic_id),
       'result': print_if_present(self.result),
-      'attachments': "#{action_view.render(
+      'attachment': "#{action_view.render(
         partial: 'layouts/attachment_thumbnails', format: :txt,
         locals: { model: self})}".html_safe,
       'actions': "#{action_view.render(

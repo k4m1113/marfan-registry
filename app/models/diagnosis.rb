@@ -1,5 +1,7 @@
 class Diagnosis < ActiveRecord::Base
   include ApplicationHelper
+  mount_uploader :attachment, AttachmentUploader
+
   attr_reader :table_headings, :table_body
   attr_accessor :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale, :descriptors
 
@@ -12,7 +14,7 @@ class Diagnosis < ActiveRecord::Base
   belongs_to :patient, inverse_of: :diagnoses
 
   def self.table_headings
-    %w[Date Description Present Note When Duration Frequency Actions]
+    %w[Date Description Present Note When Duration Frequency Attachment Actions]
   end
 
   def concat_duration
@@ -55,10 +57,10 @@ class Diagnosis < ActiveRecord::Base
       'when': blank_unless_present(time_ago),
       'duration': blank_unless_present(duration),
       'frequency': blank_unless_present(frequency),
-      # 'attachments': action_view.render(
-      #   partial: 'layouts/attachment_thumbnails', format: :txt,
-      #   locals: { model: self }
-      # ).html_safe,
+      'attachment': action_view.render(
+        partial: 'layouts/attachment_thumbnails', format: :txt,
+        locals: { model: self }
+      ).html_safe,
       'actions': action_view.render(
         partial: 'diagnoses/link_buttons', format: :txt,
         locals: { d: self }

@@ -2,6 +2,8 @@ class FamilyMember < ActiveRecord::Base
   include PgSearch
   include ApplicationHelper
   include CommonContent
+  mount_uploader :attachment, AttachmentUploader
+
   attr_reader :table_headings, :table_body
 
   scope :sorted, -> { order(created_at: :desc) }
@@ -80,7 +82,7 @@ class FamilyMember < ActiveRecord::Base
         'relationship': topic.name,
         'living': death_info(self),
         'note': print_if_present(future_patient_data_hash['note']),
-        'attachments': "#{action_view.render(
+        'attachment': "#{action_view.render(
           partial: 'layouts/attachment_thumbnails', format: :txt,
           locals: { model: self})}".html_safe,
         'actions': "#{action_view.render(

@@ -1,30 +1,11 @@
-<%#= render 'visits/top_edit_buttons' %>
 <%= form_for @visit, class: "visit_form" do |f| %>
   <div id="all_topics" data-topicsMap="<%= @visit.topic_types %>"></div>
-  <!-- <div class="row"> -->
-    <!-- <div class="col-sm"> -->
+  <div class="row">
+    <div class="col-sm">
 
       <%= render 'visits/show_accordion', f: f, family_members: FamilyMember.where(visit_id: @visit.id), vitals: Vital.where(visit_id: @visit.id), medications: Medication.where(visit_id: @visit.id), imagery: @imagery, tests: @tests, hospitalizations: Hospitalization.where(visit_id: @visit.id), diagnoses: Diagnosis.where(visit_id: @visit.id), procedures: Procedure.where(visit_id: @visit.id) %>
-    <!-- </div>
+    </div>
   </div>
-  <div class="row">
-    <div class="col-sm"> -->
-      <% if @gallery %>
-        <h4>
-          Uploaded Attachments
-        </h4>
-        <% @gallery.attachments.each do |a| %>
-          <%= image_tag(a.thumb.url) %>
-        <% end %>
-        <%= link_to "Manage Attachments ›", gallery_path(@gallery.id), class: "btn btn-secondary" %>
-      <% else %>
-        <%= f.fields_for :gallery do |ff| %>
-          <%= ff.label :attachments, "Add Photos and Documents", class: "control-label" %>
-          <%= ff.file_field :attachments, multiple: true, class: "form-control-file" %>
-        <% end %>
-      <% end %>
-    <!-- </div>
-  </div> -->
   <hr />
   <%= render 'topics/nested_list_form_body', f: f, visit: @visit %>
 <% end %>
