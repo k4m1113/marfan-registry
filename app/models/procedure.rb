@@ -3,7 +3,11 @@ class Procedure < ActiveRecord::Base
   mount_uploader :attachment, AttachmentUploader
 
   attr_reader :table_headings, :table_body
-  attr_accessor :present, :time_ago_amount, :time_ago_scale
+  attr_accessor :present, :time_ago_amount, :time_ago_scale, :descriptors
+
+  before_save :concat_time_ago, :descriptors_to_note
+
+  after_save { |p| p.destroy if (p.time_ago.nil? && p.note.blank? && p.attachment.nil?) }
 
   has_one :gallery
 
@@ -17,7 +21,7 @@ class Procedure < ActiveRecord::Base
 
 
   def self.table_headings
-    return ['Date', 'Name', 'Note', 'Attachments', 'Actions']
+    return %w[Date Name Note Attachment Actions]
   end
 
   def table_body
@@ -42,6 +46,19 @@ class Procedure < ActiveRecord::Base
         partial: 'procedures/link_buttons', format: :txt,
         locals: { p: self})}".html_safe
     }
+  end
+
+  def concat_time_ago
+    self.time_ago = "#{time_ago_amount} #{time_ago_scale} ago" unless time_ago_amount.nil? || time_ago_scale.nil?
+  end
+
+  def descriptors_to_note
+    list = descriptors ? descriptors.join(', ') : nil
+    if note.blank?
+      self.note = list
+    else
+      self.note += "#{list}"
+    end
   end
 
   def generate_summary

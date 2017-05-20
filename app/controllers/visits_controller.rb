@@ -160,7 +160,7 @@ class VisitsController < ApplicationController
       diagnoses_attributes:
         [:visit_id, :topic_id, :patient_id, :present, :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale, :absolute_start_date, :note, :attachment, descriptors: []],
       procedures_attributes:
-        %i[topic_id patient_id clinician_id note attachment present],
+        [:topic_id, :patient_id, :clinician_id, :note, :attachment, :present, :time_ago_amount, :time_ago_scale, descriptors: []],
       hospitalizations_attributes:
         %i[visit_id patient_id topic_id hospitalization admission_date time_ago time_ago_scale length_of_stay length_of_stay_scale hosp_type description location note attachment],
       family_members_attributes:

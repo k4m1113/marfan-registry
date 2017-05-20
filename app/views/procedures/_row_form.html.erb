@@ -21,6 +21,18 @@
         <%= render 'topics/row_form_components/file_attachment_button', ff: ff, topic: l.id, parameterized_plural: 'procedures' %>
       </td>
     </tr>
+    <tr class="row_form" id="row_<%= l.id %>">
+      <td colspan='4'>
+        <div class='form-inline'>
+          <div class='input-group'>
+            <%= render 'topics/row_form_components/time_ago_fields', parameterized_plural: 'procedures', topic: l.id %>
+          </div>
+        </div>
+        <div class='form-inline'>
+          <%= render 'topics/row_form_components/note_field', parameterized_plural: 'procedures', topic: l.id %>
+        </div>
+      </td>
+    </tr>
     <script>
     // default hide all rendered row forms
     $('tr.row_form').hide()
