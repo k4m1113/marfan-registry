@@ -34,6 +34,6 @@ class AttachmentsController < ApplicationController
   end
 
   def attachments_params
-    params.require(:gallery).permit({:attachment}) # allow nested params as array
+    params.require(:gallery).permit(:attachment) # allow nested params as array
   end
 end
