@@ -23,13 +23,13 @@ class Visit < ActiveRecord::Base
   accepts_nested_attributes_for :gallery
 
   accepts_nested_attributes_for :vitals
-  accepts_nested_attributes_for :diagnoses, reject_if: proc { |attributes| attributes['present'].nil? }
+  accepts_nested_attributes_for :diagnoses, reject_if: proc { |att| att['present'].nil? }
   accepts_nested_attributes_for :medications
-  accepts_nested_attributes_for :procedures
+  accepts_nested_attributes_for :procedures, reject_if: proc { |att| att['time_ago'].nil? && att['note'].blank? && att['attachment'].nil? }
 
   accepts_nested_attributes_for :hospitalizations
-  accepts_nested_attributes_for :tests
-  accepts_nested_attributes_for :family_members
+  accepts_nested_attributes_for :tests, reject_if: proc { |t| (t['test_date'].nil? && t['time_ago'].nil?) || (t['result'].blank?) }
+  accepts_nested_attributes_for :family_members, reject_if: proc { |att| (att['future_patient_data_hash']['first_name'].blank? && att['date_of_birth'].blank? && att['future_patient_data_hash']['cause_of_death'].blank?) }
 
   self.per_page = 10
 
