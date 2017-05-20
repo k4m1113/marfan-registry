@@ -21,7 +21,7 @@ class Procedure < ActiveRecord::Base
 
 
   def self.table_headings
-    return %w[Date Name Note Attachment Actions]
+    return %w[Date Name Note When Attachment Actions]
   end
 
   def table_body
@@ -39,6 +39,7 @@ class Procedure < ActiveRecord::Base
       'date': display_date(self),
       'description': find_trail(self.topic_id),
       'note': print_if_present(self.note),
+      'when': print_if_present(self.time_ago),
       'attachment': "#{action_view.render(
         partial: 'layouts/attachment_thumbnails', format: :txt,
         locals: { model: self})}".html_safe,
@@ -49,7 +50,11 @@ class Procedure < ActiveRecord::Base
   end
 
   def concat_time_ago
-    self.time_ago = "#{time_ago_amount} #{time_ago_scale} ago" unless time_ago_amount.nil? || time_ago_scale.nil?
+    if !time_ago_amount.blank? && !time_ago_scale.blank?
+      date = find_date(time_ago_amount.to_i, time_ago_scale, Date.today)
+      self.time_ago = "#{time_ago_amount} #{time_ago_scale} ago"
+      self.absolute_start_date = date unless absolute_start_date
+    end
   end
 
   def descriptors_to_note

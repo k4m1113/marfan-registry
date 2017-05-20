@@ -18,15 +18,21 @@ class Diagnosis < ActiveRecord::Base
   end
 
   def concat_duration
-    self.duration = "for #{duration_amount} #{duration_scale}" unless duration_amount.nil? || duration_scale.nil?
+    self.duration = "for #{duration_amount} #{duration_scale}" unless duration_amount.blank? || duration_scale.blank?
   end
 
   def concat_time_ago
-    self.time_ago = "#{time_ago_amount} #{time_ago_scale} ago" unless time_ago_amount.nil? || time_ago_scale.nil?
+    unless time_ago_amount.blank? || time_ago_scale.blank?
+      date = find_date(time_ago_amount.to_i, time_ago_scale, Date.today)
+      self.time_ago = "#{time_ago_amount} #{time_ago_scale} ago"
+      if absolute_start_date.nil?
+        self.absolute_start_date = date
+      end
+    end
   end
 
   def concat_frequency
-    self.frequency = "#{frequency_amount} #{frequency_scale} ago" unless frequency_amount.nil? || frequency_scale.nil?
+    self.frequency = "#{frequency_amount} #{frequency_scale} ago" unless frequency_amount.blank? || frequency_scale.blank?
   end
 
   def descriptors_to_note

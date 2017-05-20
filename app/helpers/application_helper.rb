@@ -1,13 +1,18 @@
 module ApplicationHelper
   def find_date(int, meas, meas_date)
-    case meas
-    when *['Days', 'days', 'day', 'Day', 'd', 'D', 'd.', 'D.']
+    if %w[Seconds seconds second(s) second Second s S].include?(meas)
+      return meas_date.to_datetime - (int.to_i).seconds
+    elsif %w[Minutes minutes minute(s) minute Minute min].include?(meas)
+      return meas_date.to_datetime - (int.to_i).minutes
+    elsif %w[Hours hours hour(s) hour Hour h H hr hrs].include?(meas)
+      return meas_date.to_datetime - (int.to_i).hours
+    elsif %w[Days days day(s) day Day d D].include?(meas)
       return meas_date.to_datetime - (int.to_i).days
-    when *['Weeks', 'weeks', 'week', 'Week', 'w', 'W', 'w.', 'W.']
+    elsif %w[Weeks weeks week(s) week Week w W].include?(meas)
       return meas_date.to_datetime - (int.to_i).weeks
-    when *['Months', 'months', 'month', 'Month', 'm', 'M', 'm.', 'M.']
+    elsif %w[Months months month(s) month Month m M].include?(meas)
       return meas_date.to_datetime - (int.to_i).months
-    when *['Years', 'years', 'year', 'Year', 'y', 'Y', 'y.', 'Y.']
+    elsif %w[Years years year(s) year Year y Y].include?(meas)
       return meas_date.to_datetime - (int.to_i).years
     end
   end
@@ -111,9 +116,12 @@ module ApplicationHelper
 
   def display_date(topic_type)
     if topic_type.absolute_start_date
-      return topic_type.absolute_start_date.strftime('%d %B %Y')
+      topic_type.absolute_start_date.strftime('%d %B %Y')
     elsif topic_type.time_ago
-      return "#{topic_type.time_ago} #{topic_type.time_ago_scale} ago"
+      split = topic_type.time_ago.split(' ')
+      date = find_date(split[0].to_i, split[1], topic_type.created_at)
+      return "approx #{date.strftime('%B %Y')}"
+
     else
       return nil
     end

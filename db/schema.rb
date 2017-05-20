@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170519224210) do
+ActiveRecord::Schema.define(version: 20170520044750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20170519224210) do
   create_table "complications", force: :cascade do |t|
     t.integer  "topic_id",            null: false
     t.integer  "patient_id",          null: false
-    t.integer  "time_ago"
+    t.string   "time_ago"
     t.string   "time_ago_scale"
     t.datetime "absolute_start_date"
     t.integer  "visit_id"
@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 20170519224210) do
     t.integer  "visit_id"
     t.integer  "born_years_ago"
     t.string   "note"
-    t.integer  "time_ago"
+    t.string   "time_ago"
     t.string   "time_ago_scale"
     t.datetime "death_date"
     t.integer  "topic_id",                 null: false
@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(version: 20170519224210) do
     t.datetime "updated_at"
     t.integer  "patient_id",           null: false
     t.integer  "visit_id"
-    t.integer  "time_ago"
+    t.string   "time_ago"
     t.string   "time_ago_scale"
     t.string   "length_of_stay_scale"
     t.string   "note"
@@ -141,7 +141,7 @@ ActiveRecord::Schema.define(version: 20170519224210) do
     t.string   "medication_format"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
-    t.integer  "time_ago"
+    t.string   "time_ago"
     t.string   "time_ago_scale"
     t.datetime "absolute_start_date"
     t.string   "note"
@@ -196,7 +196,7 @@ ActiveRecord::Schema.define(version: 20170519224210) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.string   "note"
-    t.integer  "time_ago"
+    t.string   "time_ago"
     t.string   "time_ago_scale"
     t.datetime "absolute_start_date"
     t.string   "attachment"
@@ -222,7 +222,7 @@ ActiveRecord::Schema.define(version: 20170519224210) do
     t.datetime "updated_at"
     t.integer  "patient_id",     null: false
     t.integer  "visit_id"
-    t.integer  "time_ago"
+    t.string   "time_ago"
     t.integer  "time_ago_scale"
     t.integer  "topic_id",       null: false
     t.string   "attachment"
@@ -233,7 +233,7 @@ ActiveRecord::Schema.define(version: 20170519224210) do
     t.datetime "test_date"
     t.integer  "patient_id",     null: false
     t.integer  "visit_id"
-    t.integer  "time_ago"
+    t.string   "time_ago"
     t.string   "time_ago_scale"
     t.integer  "topic_id",       null: false
     t.string   "note"

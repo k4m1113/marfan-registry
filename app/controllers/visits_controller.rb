@@ -13,7 +13,7 @@ class VisitsController < ApplicationController
 
   before_filter :common_content
 
-  after_filter :set_gallery, only: :create
+  # after_filter :set_gallery, only: :create
 
   def index
     @visits = Visit.all
@@ -48,7 +48,7 @@ class VisitsController < ApplicationController
   def edit
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient.id)
-    @gallery = Gallery.where(visit_id: @visit.id).order(id: :asc)[0]
+    # @gallery = Gallery.where(visit_id: @visit.id).order(id: :asc)[0]
 
     @family_members = FamilyMember.where(patient_id: @patient.id)
     @children = @patient.family_members.select { |r| r['topic_id'] == @child.id }
@@ -96,7 +96,7 @@ class VisitsController < ApplicationController
   def update
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient.id)
-    @gallery = Gallery.where(visit_id: @visit.id).order(id: :asc)[0]
+    # @gallery = Gallery.where(visit_id: @visit.id).order(id: :asc)[0]
     @form_action = 'Update'
     # binding.pry
     if @visit.update(visit_params)
@@ -124,15 +124,9 @@ class VisitsController < ApplicationController
 
   private
 
-  def set_gallery
-    Gallery.create(visit_id: @visit.id, patient_id: @patient.id) unless @visit.gallery
-  end
-
-  def add_more_attachments(new_attachments)
-    attachments = @gallery.attachments # copy the old attachments
-    attachments += new_attachments # concat old attachments with new ones
-    @gallery.attachments = attachments # assign back
-  end
+  # def set_gallery
+  #   Gallery.create(visit_id: @visit.id, patient_id: @patient.id) unless @visit.gallery
+  # end
 
   def visit_params
     params.require(:visit).permit(
