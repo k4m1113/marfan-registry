@@ -1,4 +1,4 @@
-class Vital < ActiveRecord::Base
+class Vital < ApplicationRecord
   attr_accessor :test_amount, :test_unit_of_meas
 
   before_save :calculate_metric

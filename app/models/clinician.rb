@@ -1,4 +1,4 @@
-class Clinician < ActiveRecord::Base
+class Clinician < ApplicationRecord
   include Doctor
 
   has_many :patients

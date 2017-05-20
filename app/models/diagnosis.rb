@@ -1,4 +1,4 @@
-class Diagnosis < ActiveRecord::Base
+class Diagnosis < ApplicationRecord
   include ApplicationHelper
   mount_uploader :attachment, AttachmentUploader
 

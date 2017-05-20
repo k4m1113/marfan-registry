@@ -1,4 +1,4 @@
-class Gallery < ActiveRecord::Base
+class Gallery < ApplicationRecord
   mount_uploaders :attachments, AttachmentUploader # mount the uploaders
   belongs_to :visit,
     inverse_of: :gallery,

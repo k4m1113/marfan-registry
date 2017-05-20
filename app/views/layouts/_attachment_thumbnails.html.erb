@@ -1,1 +1,1 @@
-<%= image_tag(model.attachment_url(:thumb)) %>
+<%= image_tag(model.attachment_url(:thumb)) unless model.attachment.blank? %>

@@ -15,3 +15,5 @@ node_modules
 /app/assets/javascripts/bundle.js
 .env
 *.log
+/public/packs
+/node_modules

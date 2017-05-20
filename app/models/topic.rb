@@ -1,4 +1,4 @@
-class Topic < ActiveRecord::Base
+class Topic < ApplicationRecord
   acts_as_nested_set
   attr_reader :keyify
 

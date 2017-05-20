@@ -1,4 +1,4 @@
-class Procedure < ActiveRecord::Base
+class Procedure < ApplicationRecord
   include ApplicationHelper
   mount_uploader :attachment, AttachmentUploader
 

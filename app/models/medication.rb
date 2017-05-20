@@ -1,4 +1,4 @@
-class Medication < ActiveRecord::Base
+class Medication < ApplicationRecord
   include ActiveSupport::NumberHelper
   mount_uploader :attachment, AttachmentUploader
 

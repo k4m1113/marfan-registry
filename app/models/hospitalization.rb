@@ -1,4 +1,4 @@
-class Hospitalization < ActiveRecord::Base
+class Hospitalization < ApplicationRecord
   include ApplicationHelper
   mount_uploader :attachment, AttachmentUploader
 

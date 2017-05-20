@@ -1,6 +1,6 @@
 # require 'pry'
 # Visit Class is where it all happens
-class Visit < ActiveRecord::Base
+class Visit < ApplicationRecord
   include HeartImaging
   include ActiveSupport::NumberHelper
   include CommonContent

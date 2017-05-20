@@ -1,4 +1,4 @@
-class Patient < ActiveRecord::Base
+class Patient < ApplicationRecord
   include PgSearch
   include CommonContent
 

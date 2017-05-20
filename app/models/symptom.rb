@@ -1,4 +1,4 @@
-class Symptom < ActiveRecord::Base
+class Symptom < ApplicationRecord
   belongs_to :topic
   belongs_to :visit,
     inverse_of: :symptoms

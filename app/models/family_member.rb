@@ -1,4 +1,4 @@
-class FamilyMember < ActiveRecord::Base
+class FamilyMember < ApplicationRecord
   include PgSearch
   include ApplicationHelper
   include CommonContent

@@ -1,4 +1,4 @@
-class Test < ActiveRecord::Base
+class Test < ApplicationRecord
   include ApplicationHelper
   mount_uploader :attachment, AttachmentUploader
 
