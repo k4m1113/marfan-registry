@@ -11,6 +11,8 @@
 global.jQuery = window.jQuery = window.$ = $ = require('jquery')
 import React, { Component } from 'react'
 import { render } from 'react-dom'
+import ReactOne from '../components/react_one.jsx'
+RWR.registerComponent('ReactOne', ReactOne);
 
 import 'jquery-ujs'
 import 'jquery-ui/ui/core.js'
@@ -24,6 +26,7 @@ import 'font-awesome-webpack'
 import '../components/epicMeds.js'
 import '../components/medMapper.js'
 import '../components/rowForm.js'
+
 require('../../stylesheet/application.scss')
 require('expose-loader?$!expose-loader?jQuery!jquery');
 require('../components/addKeyboard.js')($)

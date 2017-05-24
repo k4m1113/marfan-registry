@@ -1,8 +1,8 @@
 GIT
   remote: https://github.com/rails/webpacker.git
-  revision: 158987a82b605b534bcdc9468efca2602313c791
+  revision: 79b0c59eddc030fa6b51266fc56c5b81c857b39a
   specs:
-    webpacker (1.2)
+    webpacker (2.0)
       activesupport (>= 4.2)
       multi_json (~> 1.2)
       railties (>= 4.2)
@@ -323,6 +323,8 @@ GEM
       execjs (~> 2.5)
       rails (>= 3.2)
       rainbow (~> 2.1)
+    react_webpack_rails (0.7.0)
+      rails (>= 3.2)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
@@ -345,6 +347,10 @@ GEM
     rspec-support (3.6.0)
     ruby-boolean (1.3.4)
     ruby-units (2.1.0)
+    rwr-view_helpers (0.2.0)
+      rails
+      react_webpack_rails (>= 0.6.0)
+      sprockets (>= 3.0)
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
@@ -425,10 +431,11 @@ DEPENDENCIES
   pry-rails
   puma
   rails (= 5.1.1)
-  react_on_rails
+  react_on_rails (~> 7)
   responders
   rspec-rails
   ruby-units
+  rwr-view_helpers
   sdoc (~> 0.4.0)
   shoulda
   spring

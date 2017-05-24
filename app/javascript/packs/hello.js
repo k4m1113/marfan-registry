@@ -1,4 +1,4 @@
 import ReactOne from 'components/ReactOne';
-import WebpackerReact from 'webpacker-react';
+import ReactOnRails from 'react-on-rails';
 
-WebpackerReact.register(ReactOne);
+ReactOnRails.register(ReactOne);

@@ -3,8 +3,8 @@ ruby '2.3.4'
 gem 'rails', '5.1.1'
 gem 'pg'
 gem 'webpacker', git: 'https://github.com/rails/webpacker.git'
-gem 'react_on_rails'
 gem 'jquery-rails'
+gem 'react_on_rails', '~>7' 
 gem 'foreman'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
@@ -48,3 +48,4 @@ end
 gem 'puma'
 
 gem 'mini_racer', platforms: :ruby
+gem 'rwr-view_helpers'

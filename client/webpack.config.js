@@ -16,7 +16,7 @@ module.exports = {
   context: path.join(__dirname, '..', 'app'),
 
   entry: {
-    application: ['jquery', "./javascript/packs/application.js", "./stylesheet/application.scss", 'bootstrap-loader']
+    application: ['jquery', "./javascript/packs/application.js", "./stylesheet/application.scss", 'bootstrap-loader', './javascript/components/react_one.jsx']
   },
 
   resolve: {
@@ -35,11 +35,11 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015']
+          presets: ['es2015', 'react']
         }
       },
       {
