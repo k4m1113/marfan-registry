@@ -1,8 +1,17 @@
 require_relative 'boot'
 
-require 'rails/all'
+require 'rails'
 require 'dotenv'
 require 'fog/aws'
+require 'active_model/railtie'
+require 'active_job/railtie'
+require 'active_record/railtie'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'action_view/railtie'
+require 'action_cable/engine'
+# require 'sprockets/railtie'
+require 'rails/test_unit/railtie'
 
 Dotenv.load
 
@@ -16,6 +25,6 @@ module NMFTool
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     config.autoload_paths += %W(#{config.root}/lib)
-    config.active_record.raise_in_transactional_callbacks = true
+    # config.active_record.raise_in_transactional_callbacks = true
   end
 end

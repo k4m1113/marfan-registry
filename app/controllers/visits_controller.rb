@@ -11,7 +11,7 @@ class VisitsController < ApplicationController
 
   respond_to :html, :js
 
-  before_filter :common_content
+  before_action :common_content
 
   # after_filter :set_gallery, only: :create
 

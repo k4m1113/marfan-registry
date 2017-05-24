@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def fingerprinted_asset(name)
+    Rails.env.production? ? "#{name}-#{ASSET_FINGERPRINT}" : name
+  end
+  
   def find_date(int, meas, meas_date)
     if %w[Seconds seconds second(s) second Second s S].include?(meas)
       return meas_date.to_datetime - (int.to_i).seconds

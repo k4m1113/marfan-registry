@@ -1,11 +1,7 @@
-/*
- *= require tether
- *= require jquery-ui/core
- */
-
-@import "bootstrap";
-@import "font-awesome-sprockets";
-@import "font-awesome";
+@import "~tether/dist/css/tether.min.css";
+@import "~jquery-ui/themes/base/core.css";
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
 @import "keyboard";
 
 .down-eight {
