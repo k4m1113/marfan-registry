@@ -4,15 +4,14 @@ class FamilyMember < ApplicationRecord
   include CommonContent
   mount_uploader :attachment, AttachmentUploader
 
+  attr_accessor :age
   attr_reader :table_headings, :table_body
 
-  scope :sorted, -> { order(created_at: :desc) }
+  scope :sorted, (-> { order(created_at: :desc) })
 
-  # before_validation(on: :create) do
-  #    self.future_patient_data_hash['death_date'] = find_date(future_patient_data_hash['death_time_ago'], future_patient_data_hash['death_time_ago_scale'], Date.today) if (attribute_present?(future_patient_data_hash['death_time_ago']) && attribute_present?(future_patient_data_hash['death_time_ago_scale']))
-  # end
+  before_save :age_calc
 
-  after_save { |f| f.destroy if (f[:future_patient_data_hash]['first_name'].blank? && f[:date_of_birth].blank? && f[:future_patient_data_hash]['cause_of_death'].blank?) }
+  after_save { |f| f.destroy if f[:future_patient_data_hash]['first_name'].blank? && f[:date_of_birth].blank? && f[:future_patient_data_hash]['cause_of_death'].blank? }
 
   pg_search_scope :search,
     against: [:future_patient_data_hash],

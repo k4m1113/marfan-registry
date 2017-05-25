@@ -88,7 +88,11 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery",
-      jquery: "jquery"
+      jquery: "jquery",
+      "window.jQuery": "jquery",
+      "window.Tether": 'tether',
+      Tether: 'tether',
+      tether: 'tether'
     }),
     new ExtractTextPlugin(css_output_template),
 

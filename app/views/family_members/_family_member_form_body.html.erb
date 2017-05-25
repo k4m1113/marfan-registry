@@ -93,8 +93,8 @@
     </div>
     <div class="row">
       <div class="col-sm-6">
-        <%= ff.label "Year of Birth:", class: "form-control-label" %><br />
-        <%= ff.month_field :date_of_birth, class: "form-control" %>
+        <%= ff.label "Age", class: "form-control-label" %><br />
+        <%= ff.number_field :born_years_ago, step: 1, in: 1..99, class: "form-control" %>
       </div>
       <div class="col-sm-6">
         <%= ff.label "Check if deceased:", class: "form-control-label" %><br />
