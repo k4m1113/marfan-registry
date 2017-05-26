@@ -16,15 +16,16 @@ module.exports = {
   context: path.join(__dirname, '..', 'app'),
 
   entry: {
-    application: ['jquery', "./javascript/packs/application.js", "./stylesheet/application.scss", 'bootstrap-loader', './javascript/components/react_one.jsx']
+    application: ['jquery', "./javascript/packs/application.js", "./stylesheet/application.scss", 'bootstrap-loader']
   },
 
   resolve: {
     alias: {
-      "add-keyboard": path.resolve(
-        "./javascript/addKeyboard.js"
+      'add-keyboard': path.resolve(
+        './javascript/addKeyboard.js'
       )
-    }
+    },
+    extensions: ['.js', '.jsx', '.erb', '.css', '.scss', '.woff2', '.svg', '.tff', '.eot', '.jsx.erb'],
   },
 
   output: {
@@ -34,6 +35,16 @@ module.exports = {
 
   module: {
     loaders: [
+      {
+        test: /\.erb$/,
+        enforce: 'pre',
+        loader: 'rails-erb-loader'
+      },
+      {
+        test: /\.jsx.erb$/,
+        enforce: 'pre',
+        loader: 'rails-erb-loader'
+      },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
@@ -93,6 +104,7 @@ module.exports = {
       "window.Tether": 'tether',
       Tether: 'tether',
       tether: 'tether'
+      // ADD splitNoParen, etc?
     }),
     new ExtractTextPlugin(css_output_template),
 

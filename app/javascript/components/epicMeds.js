@@ -1,4 +1,4 @@
-function splitNoParen(s){
+module.exports = function splitNoParen(s){
     var left= 0, right= 0, A= [],
     M= s.match(/([^()]+)|([()])/g), L= M.length, next, str= '';
     for(var i= 0; i<L; i++){

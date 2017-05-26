@@ -6,7 +6,6 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 //
-// To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 // import React, { Component } from 'react'
 // import { render } from 'react-dom'
@@ -24,12 +23,17 @@ import 'virtual-keyboard/dist/js/jquery.keyboard.js'
 
 import 'bootstrap'
 import 'font-awesome-webpack'
-import '../components/epicMeds.js'
-import '../components/medMapper.js'
-import '../components/rowForm.js'
+import '../components/epicMeds'
+import '../components/medMapper'
+import '../components/htmlTest'
+import '../components/addKeyboard'
+import '../components/row_form_pieces/rowForm'
+import '../components/row_form_pieces/durationField'
 
-require('../../stylesheet/application.scss')
+// EXPOSING JS TO BE USED IN RAILS
+require('../../stylesheet/application.scss');
+require('expose-loader?addKeyboard!../components/addKeyboard.js');
+require('expose-loader?mapMed!../components/medMapper.js');
+require('expose-loader?splitNoParen!../components/epicMeds.js');
+require('expose-loader?renderDiagnosisForm!../components/row_form_pieces/assembledDiagnosisForm');
 require('expose-loader?$!expose-loader?jQuery!jquery');
-$(document).ready(function() {
-    $('body').addKeyboard();
-});
