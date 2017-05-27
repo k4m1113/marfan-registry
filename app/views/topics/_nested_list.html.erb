@@ -10,9 +10,6 @@
       <th>
         Absent
       </th>
-      <th>
-        Attachments
-      </th>
     </tr>
   </thead>
   <tbody>
@@ -23,63 +20,3 @@
 <script>
   <%= render 'topics/nested_list.js', f: f %>
 </script>
-<!-- <%
-  def draw_tree(node)
-    node.children.each do |child|
-%>
-    <div class="card">
-      <% if child.leaf? %>
-        <div class="card-block">
-            <%= child.name %>
-            <%= render_form_button(child, @nested_scope) %>
-        </div>
-      <% else %>
-        <div class="card-header" role="tab" id="heading_<%= child.id %>">
-          <h5 class="mb-0">
-            <a data-animation="false" data-toggle="collapse" data-parent="#accordion1" href="#link_<%= child.id %>" aria-expanded="true" aria-controls="link_<%= child.id %>">
-              <%= child.name  %><i class="fa fa-chevron-down"></i>
-            </a>
-          </h5>
-        </div>
-        <div id="link_<%= child.id %>" class="collapse" role="tabpanel" aria-labelledby="heading_<%= child.id %>">
-          <div class="card-block">
-            <%= draw_tree(child) %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-<%
-    end; nil
-  end
-%>
-<div class="row">
-  <div class="col-sm-6">
-    <div id="accordion1" role="tablist" aria-multiselectable="true">
-      <% discussion_topic.roots.each do |node| %>
-        <div class="card">
-          <% if node.leaf? %>
-            <div class="card-block">
-              <%= node.name %>
-            </div>
-          <% else %>
-            <div class="card-header" role="tab" id="heading_<%= node.id %>">
-              <h5 class="mb-0">
-                <a data-animation="false" data-toggle="collapse" data-parent="#accordion1" href="#link_<%= node.id %>" aria-expanded="true" aria-controls="link_<%= node.id %>">
-                  <%= node.name  %><i class="fa fa-chevron-down"></i>
-                </a>
-              </h5>
-            </div>
-            <div id="link_<%= node.id %>" class="collapse show" role="tabpanel" aria-labelledby="heading_<%= node.id %>">
-              <div class="card-block">
-                <%= draw_tree(node) %>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-  <div class="col-sm-6">
-    <div class="form-hook"></div>
-  </div>
-</div>-->

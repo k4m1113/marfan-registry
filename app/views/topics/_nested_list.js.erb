@@ -1,48 +1,7 @@
+table_body = $('tab-pane.active').find('tbody')
+
 $('h6.all-neg-toggler').click(function toggleAllAbsent() {
   $('.tab-pane.active').find("input[value='false']").prop("checked", "checked")
   $("html, body").animate({ scrollTop: $(document).height() }, 350);
 });
-
-
-// var parameterizedPlurals = {
-//   'diagnosis': 'diagnoses',
-//   'family member': 'family_members',
-//   'procedure': 'procedures',
-//   'medication': 'medications',
-//   'hospitalization': 'hospitalizations'
-// }
-// var topic = $(this).children('.topic_id')[0].value;
-// var descriptors = $(this).find('input[type=hidden].descriptors')[0].value.split(',');
-// var allTopics = $('div#all_topics').data('topicsmap');
-// var topic_type = allTopics[topic]
-//
-// $('tr.main_row').append(function() {
-//   console.log($(this))
-// });  // renderRowForm(topic, descriptors, allTopics)).promise();
-//
-// $('tr.row_form')
-
-
-// function renderProcedureTopicForm(int) {
-//   $('.tab-pane.active').find('.form-hook').html("<%= j render 'procedures/procedure_form', f: f %><hr />");
-//   $('input.procedure-response:last').val(int);
-// };
-// function renderTestTopicForm(int) {
-//   $('.tab-pane.active').find('.form-hook').html("<%= j render 'tests/test_form', f: f, tests: @tests %>");
-//   $('input.test-response:last').val(int);
-// };
-// function renderDiagnosisTopicForm() {
-//   $('.tab-pane.active').find('.form-hook').html("<%= j render 'diagnoses/diagnosis', f: f %><hr />");
-// };
-// function renderFamilyMemberTopicForm(int) {
-//   $('.tab-pane.active').find('.form-hook').html("<%= j render 'family_members/family_member_form', f: f, topic: Topic.find(2) %><hr />");
-//   $('input.family-response:last').val(int);
-// };
-// function renderMedTopicForm(int) {
-//   $('.tab-pane.active').find('.form-hook').html("<%= j render 'medications/medication_form', f: f %><hr />");
-//   $('input.med-response:last').val(int);
-// };
-// function renderStatTopicForm(int) {
-//   $('.tab-pane.active').find('.form-hook').html("<%= j render 'vitals/vital_form', f: f %><hr />");
-//   $('input.stat-response').val(int);
-// };
+// discussion_topic leaves each renderRowForm and append to table_body

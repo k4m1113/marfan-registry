@@ -20,7 +20,7 @@
         <%= render 'topics/row_form_components/file_attachment_button', ff: ff, topic: l.id, parameterized_plural: 'diagnoses' %>
       </td>
     </tr>
-    <tr class="row_form" id="row_<%= l.id %>">
+    <tr class="row_form" id="row_<%= l.id %>" style="display:none">
       <td colspan='4'>
         <div class='form-inline'>
           <div class='input-group'>
@@ -35,9 +35,6 @@
       </td>
     </tr>
     <script>
-    // default hide all rendered row forms
-    $('tr.row_form').hide()
-
     // hide or display row form based on 'present' or 'absent' checked
     $('input[name="visit[diagnoses_attributes][<%= l.id %>][present]"]').change(function() {
       $('tr.row_form#row_<%= l.id %>').toggle($('input#visit_diagnoses_attributes_<%= l.id %>_present_true')[0].checked)
