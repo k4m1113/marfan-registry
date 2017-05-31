@@ -4,9 +4,10 @@ gem 'rails', '5.1.1'
 gem 'pg'
 gem 'webpacker', git: 'https://github.com/rails/webpacker.git'
 gem 'jquery-rails'
-gem 'react_on_rails', '~>7' 
+gem 'react_on_rails', '~>7'
 gem 'foreman'
 gem 'jbuilder', '~> 2.0'
+gem 'json'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'responders'
 gem "carrierwave"
@@ -32,6 +33,7 @@ group :development, :test do
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'pry-rails'
+  gem 'pry-remote'
   gem 'valid_attribute'
   gem 'shoulda'
 end

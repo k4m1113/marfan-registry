@@ -5,9 +5,9 @@ import renderNoteField from './noteField'
 import renderFileButton from './fileAttachmentButton'
 
 module.exports = function renderProcedureForm(topic) {
-  const parameterizedPlural = 'procedures'
+  let parameterizedPlural = 'procedures'
   const returnStatement = `
-  <tr class='row_form' style='display:none'><td colspan='3'>
+  <tr class='row_form' id='row_${topic.id}' style='display:none'><td colspan='3'>
     <div class='form-inline'>
       <div class='input-group'>
         ${renderTimeAgoField(topic, parameterizedPlural)}

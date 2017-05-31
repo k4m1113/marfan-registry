@@ -1,7 +1,3 @@
-table_body = $('tab-pane.active').find('tbody')
-
 $('h6.all-neg-toggler').click(function toggleAllAbsent() {
   $('.tab-pane.active').find("input[value='false']").prop("checked", "checked")
-  $("html, body").animate({ scrollTop: $(document).height() }, 350);
 });
-// discussion_topic leaves each renderRowForm and append to table_body

@@ -11,7 +11,6 @@ const dosageForms = ['tablet', 'capsule', 'pill', 'liquid solution', 'inhaler', 
 
 module.exports = function renderMedFormBody(topic){
   const returnStatement = `
-  ADD ${topic.name.toUpperCase()}
   <div class='input-group'>
     DOSE
     <input type='number' name='visit[medications_attributes][${topic.id}][dose]' id='visit_medications_attributes_${topic.id}_dose' class='form-control' placeholder='dose'>

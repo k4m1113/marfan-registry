@@ -18,5 +18,5 @@
   </tbody>
 </table>
 <script>
-  <%= render 'topics/nested_list.js', f: f %>
+  <%= render 'topics/nested_list.js', f: f, discussion_topic: discussion_topic.leaves.to_json %>
 </script>

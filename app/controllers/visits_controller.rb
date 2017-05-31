@@ -1,7 +1,7 @@
 require 'report'
 require 'doctor'
 require 'json'
-# require 'pry'
+# require 'pry-remote'
 
 # visits controller
 class VisitsController < ApplicationController
@@ -48,7 +48,6 @@ class VisitsController < ApplicationController
   def edit
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient.id)
-    # @gallery = Gallery.where(visit_id: @visit.id).order(id: :asc)[0]
 
     @family_members = FamilyMember.where(patient_id: @patient.id)
     @children = @patient.family_members.select { |r| r['topic_id'] == @child.id }
@@ -69,10 +68,14 @@ class VisitsController < ApplicationController
     @nested_scope = @visit
     @clinician = Clinician.find(@visit.clinician_id)
     @form_action = "Update"
-    @visit.family_members.build
+    # @visit.family_members.build
+    # @visit.medications.build
+    # @visit.diagnoses.build
+    @sorted_topics = Topic.roots.map { |t| [t.name, t.descendants.leaves] }.to_json
+    @jvisit = @visit.to_json
     respond_to do |format|
       format.html
-      format.js
+      format.json
     end
   end
 
@@ -96,9 +99,8 @@ class VisitsController < ApplicationController
   def update
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient.id)
-    # @gallery = Gallery.where(visit_id: @visit.id).order(id: :asc)[0]
     @form_action = 'Update'
-    # binding.pry
+    # binding.remote_pry
     if @visit.update(visit_params)
       visit_params.keys.each do |vp|
         flash[:success] = "Successfully updated visit with #{vp}"
@@ -150,7 +152,7 @@ class VisitsController < ApplicationController
       vitals_attributes:
         %i[visit_id patient_id topic_id vital test_amount sbp dbp test_unit_of_meas measurement note attachment],
       medications_attributes:
-        %i[visit_id patient_id topic_id dose dose_unit_of_measurement nested_med_id nested_med_category duration_amount duration_scale ingestion_method frequency frequency_scale common_name medication_format time_ago time_ago_scale absolute_start_date note name dosage_form dosage_form_units current attachment],
+        %i[visit_id patient_id topic_id present dose dose_unit_of_measurement nested_med_id nested_med_category duration_amount duration_scale ingestion_method frequency frequency_scale common_name medication_format time_ago time_ago_scale absolute_start_date note name dosage_form dosage_form_units current attachment],
       diagnoses_attributes:
         [:visit_id, :topic_id, :patient_id, :present, :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale, :absolute_start_date, :note, :attachment, descriptors: []],
       procedures_attributes:

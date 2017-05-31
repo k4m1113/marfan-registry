@@ -14,7 +14,7 @@ const parameterizedPlurals = {
 }
 
 // runs formRender function according to topic type
-function renderRowForm(topic) {
+module.exports = function renderRowForm(topic, visit) {
   const pp = parameterizedPlurals[topic.topic_type]
   const jq =  `<script>
     // hide or display row form based on 'present' or 'absent' checked
@@ -33,42 +33,43 @@ function renderRowForm(topic) {
 
     // change handler for attachment upload camera button
     $('input#visit_${pp}_attributes_${topic.id}_attachment').on('change', function() {
-      file_name = $(this).val().split('\\').pop().split('/').pop()
-      console.log($(this));
-      console.log(file_name);
-      $(this).parent('td').find('label').append(file_name)
+      // var file_name = $(this).val().split('\\').pop().split('/').pop()
+      // console.log(file_name);
+      // $(this).parent('td').find('label').append(file_name)
     })
   </script>`;
 
-  let returnStatement = `<%= f.fields_for :${pp}, @nested_scope.${pp}.build do |ff| %>`
+  let returnStatement = ``
 
-  switch (topic['topic_type']) {
+  switch (topic.topic_type) {
     case "family member":
       returnStatement += `${renderFamilyMemberForm(topic)}`;
       break;
     case "diagnosis":
-      returnStatement += `${renderButtons(topic)}`;
+      returnStatement += `${renderButtons(topic, visit)}`;
       returnStatement += `${renderDiagnosisForm(topic)}`;
       break;
     case "hospitalization":
-      returnStatement += `${renderButtons(topic)}`;
+      returnStatement += `${renderButtons(topic, visit)}`;
       returnStatement += `${renderHospitalizationForm(topic)}`;
       break;
     case "procedure":
-      returnStatement += `${renderButtons(topic)}`;
+      returnStatement += `${renderButtons(topic, visit)}`;
       returnStatement += `${renderProcedureForm(topic)}`;
       break;
     case "vital":
       "kat"
       break;
+    case "heart_measurement":
+      "kat"
+      break;
     case "medication":
+      returnStatement += `${renderButtons(topic, visit)}`;
       returnStatement += `${renderMedicationForm(topic)}`;
       break;
     default:
       console.log('default');
   };
-
-  returnStatement += `<% end %>`
   returnStatement += jq
   return returnStatement;
 }

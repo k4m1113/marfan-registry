@@ -10,9 +10,6 @@ module.exports = function renderTimeAgoField(topic, parameterizedPlural) {
     <select name='visit[${parameterizedPlural}_attributes][${topic.id}][time_ago_scale]' id='visit_${parameterizedPlural}_attributes_${topic.id}_time_ago_scale' class='form-control'>
       ${selectConstructor(options)}
     </select>
-    <label for='visit_${parameterizedPlural}_attributes_${topic.id}_time_ago_scale'>
-    ago
-    </label>
   </div>
   <script>
   $('#visit_${parameterizedPlural}_attributes_${topic.id}_time_ago_amount').addKeyboard();

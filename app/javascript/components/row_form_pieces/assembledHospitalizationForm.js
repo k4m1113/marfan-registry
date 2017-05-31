@@ -6,9 +6,9 @@ import renderKeywords from './keywords'
 import renderNoteField from './noteField'
 
 module.exports = function renderHospitalizationForm(topic) {
-  const parameterizedPlural = 'hospitalizations'
+  let parameterizedPlural = 'hospitalizations'
   const returnStatement = `
-  <tr class='row_form' style='display:none'><td colspan='3'>
+  <tr class='row_form' id='row_${topic.id}' style='display:none'><td colspan='3'>
     <div class='form-inline'>
       <div class='input-group'>
         ${renderTimeAgoField(topic, parameterizedPlural)}

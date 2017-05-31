@@ -5,12 +5,12 @@ const parameterizedPlurals = {
   'medication': 'medications',
   'hospitalization': 'hospitalizations'
 }
-module.exports = function renderButtons(topic) {
+module.exports = function renderButtons(topic, visit) {
   var parameterizedPlural = parameterizedPlurals[topic.topic_type]
   var returnStatement = `
   <tr class="main_row">
-    <input value="1" name="visit[${parameterizedPlural}_attributes][${topic.id}][patient_id]" id="visit_${parameterizedPlural}_attributes_${topic.id}_patient_id" type="hidden">
-    <input value="5" name="visit[${parameterizedPlural}_attributes][${topic.id}][visit_id]" id="visit_${parameterizedPlural}_attributes_${topic.id}_visit_id" type="hidden">
+    <input value="${visit.patient_id}" name="visit[${parameterizedPlural}_attributes][${topic.id}][patient_id]" id="visit_${parameterizedPlural}_attributes_${topic.id}_patient_id" type="hidden">
+    <input value="${visit.id}" name="visit[${parameterizedPlural}_attributes][${topic.id}][visit_id]" id="visit_${parameterizedPlural}_attributes_${topic.id}_visit_id" type="hidden">
     <input value="${topic.id}" name="visit[${parameterizedPlural}_attributes][${topic.id}][topic_id]" id="visit_${parameterizedPlural}_attributes_${topic.id}_topic_id" class="topic_id" type="hidden">
     <td>
       ${topic['name']}

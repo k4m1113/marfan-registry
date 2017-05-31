@@ -24,7 +24,7 @@ class Visit < ApplicationRecord
 
   accepts_nested_attributes_for :vitals
   accepts_nested_attributes_for :diagnoses, reject_if: proc { |att| att['present'].nil? }
-  accepts_nested_attributes_for :medications
+  accepts_nested_attributes_for :medications, reject_if: proc { |att| att['current'].nil? }
   accepts_nested_attributes_for :procedures, reject_if: proc { |att| att['time_ago'].nil? && att['note'].blank? && att['attachment'].nil? }
 
   accepts_nested_attributes_for :hospitalizations

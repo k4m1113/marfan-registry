@@ -4,6 +4,10 @@ class Medication < ApplicationRecord
 
   attr_reader :table_headings, :table_body
 
+  attr_accessor :present
+
+  before_save :current_or_not
+
   has_one :gallery
 
   belongs_to :topic
@@ -52,6 +56,10 @@ class Medication < ApplicationRecord
         partial: 'medications/link_buttons', format: :txt,
         locals: { m: self})}".html_safe
     }
+  end
+
+  def current_or_not
+    self.current = present
   end
 
   def generate_summary
