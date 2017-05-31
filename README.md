@@ -13,11 +13,11 @@ Built with the [National Marfan Foundation](https://www.marfan.org/) and the [Am
 * Medication parsing from EPIC Electronic Health Record
 * Handwriting recognition with [MyScript](http://myscript.com/technology/#text)
 * "Fuzzy Data" collection and manipulation
-* Doctors and Patients have separate portals and profiles (TO BE IMPLEMENTED WITH HIPAA COMPLIANCE)
 
 ## Technologies
-* [Ruby 2.2.3](https://www.ruby-lang.org/en/news/2015/08/18/ruby-2-2-3-released/) and [Rails 4.2.6](http://weblog.rubyonrails.org/2016/3/11/Rails-4-2-6-and-4-1-15-have-been-released/)
-* iPad- and touch-friendly styling with [Bootstrap 4](https://v4-alpha.getbootstrap.com/)
+* [Ruby 2.3.4](https://www.ruby-lang.org/en/news/2017/03/30/ruby-2-3-4-released/) and [Rails 5.1.1](http://weblog.rubyonrails.org/2017/5/12/Rails-5-0-3-and-5-1-1-have-been-released/)
+* [Webpack](https://github.com/rails/webpacker) asset management
+* Stylus-first UI with [Bootstrap 4](https://v4-alpha.getbootstrap.com/)
 * [Carrierwave](https://github.com/carrierwaveuploader/carrierwave) photo and document uploading to [AWS](https://aws.amazon.com/)
 * [jQuery UI](https://jqueryui.com/) widgets
 * Feature testing with [Capybara](https://github.com/jnicklas/capybara)
