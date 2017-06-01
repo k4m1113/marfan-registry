@@ -20,11 +20,6 @@ module.exports = function nestedListPane(arr, visit) {
       returnStatement += `${renderRowForm(arr[i], visit)}`
     }
     returnStatement += `</tbody>
-  </table>
-  <script>
-    $('h6.all-neg-toggler').click(function toggleAllAbsent() {
-      $('.tab-pane.active').find("input[value='false']").prop("checked", "checked")
-    });
-  </script>`;
+  </table>`;
   return returnStatement;
 };

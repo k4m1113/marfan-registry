@@ -1,3 +1,7 @@
+<script>
+  let allTopics = <%= @sorted_topics.html_safe %>
+  let visit = <%= @jvisit.html_safe %>
+</script>
 <%= form_for @visit, class: "visit_form" do |f| %>
   <div class="row">
     <div class="col-sm">
@@ -19,9 +23,62 @@
       <span id="nestedListHook"></span>
     </div>
   </div>
-<script>
-  let allTopics = <%= @sorted_topics.html_safe %>
-  let visit = <%= @jvisit.html_safe %>
-  $('#nestedListHook').append(nestedList(allTopics, visit))
-</script>
 <% end %>
+<script>
+  $('#nestedListHook').append(nestedList(allTopics, visit))
+
+  // initialize jQuery UI tabbing
+  $(function () {
+     $("#mainNestedList").tabs()
+  });
+
+  // click on either 'bar' or tab 'nav-link'
+  $('a.open-tab').on("click", function(){
+    // accordion-style collapse
+    $("ul.summary-bar").find(".active").removeClass("active");
+    $('#tabs').tabs("option", "active", $(this).data("tab-index"));
+    $('.summary-body').hide();
+    $(this).next(".summary-body").toggle();
+    // scroll to new content
+    $('html, body').animate({
+      scrollTop: ($('.tab-pane.active').offset().top)
+    }, 350);
+  });
+
+  // click on tab 'nav-link'
+  $('a.nav-link').on("click", function(){
+    $(".nav").find(".active").removeClass("active");
+    $(this).parent().addClass("active");
+  });
+
+  // toggle all negative on current pane
+  $('h6.all-neg-toggler').click(function toggleAllAbsent() {
+    $('.tab-pane.active').find("input[value='false']").prop("checked", "checked")
+  });
+
+  // calc button clicked
+  $('button.calculator').click(function(e){
+    $targetInput =  $(this).closest('.input-group').children("input[type='number']")
+    $targetInput.addKeyboard()
+    e.stopImmediatePropagation();
+    var kb = $targetInput.getkeyboard();
+    // close the keyboard if the keyboard is visible and the button is clicked a second time
+    if ( kb.isOpen ) {
+      kb.close();
+    } else {
+      kb.reveal();
+    }
+  });
+
+  // append file name to attachment button on change
+  $("input[type='file']").on('change', function() {
+    var file_name = $(this).val().split("\\").pop().split("/").pop()
+    $(this).next('button').find('label').append(file_name)
+  });
+
+  // hide or display row form based on 'present' or 'absent' checked
+  $("input.pres_abs").change(function() {
+    $row_form = $(this).parent().parent().next('tr.row_form')
+    $row_form.toggle($(this).val())
+  });
+</script>

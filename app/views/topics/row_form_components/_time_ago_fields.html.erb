@@ -1,7 +1,7 @@
 <div class='input-group'>
   <input type='number' name='visit[<%= parameterized_plural %>_attributes][<%= topic %>][time_ago_amount]' id='visit_<%= parameterized_plural %>_attributes_<%= topic %>_time_ago_amount' class='form-control' placeholder='time ago'>
   <span class='input-group-btn'>
-    <button class='btn btn-primary' type='button' id='<%= parameterized_plural %>_<%= topic %>_time_calc_button'><i class='fa fa-calculator'></i></button>
+    <button class='btn btn-primary calculator' type='button' id='<%= parameterized_plural %>_<%= topic %>_time_calc_button'><i class='fa fa-calculator'></i></button>
   </span>
   <select name='visit[<%= parameterized_plural %>_attributes][<%= topic %>][time_ago_scale]' id='visit_<%= parameterized_plural %>_attributes_<%= topic %>_time_ago_scale' class='form-control'>
     <%= render 'topics/row_form_components/plural_select_options' %>

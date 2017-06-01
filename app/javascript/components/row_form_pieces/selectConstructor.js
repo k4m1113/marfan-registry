@@ -1,6 +1,6 @@
 // turn an array into html select options
-module.exports = function selectConstructor(array) {
-  var returnStatement = []
+module.exports = function selectConstructor(array, title) {
+  var returnStatement = [`<option value="" selected disabled>${title}</option>`]
   array.map(function(item) {
     const optionized = `<option>${item}</option>`
     returnStatement.push(optionized);
