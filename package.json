@@ -9,6 +9,7 @@
   "scripts": {
     "development": "webpack --config client/webpack.config.js",
     "production": "webpack --config client/webpack.config.js",
+    "heroku-postbuild": "webpack -p --config client/webpack.config.js--progress",
     "postinstall": "cd client && yarn install",
     "rails-server": "echo 'visit http://localhost:3000/hello_world' && foreman start -f Procfile.dev",
     "test": "rspec"
