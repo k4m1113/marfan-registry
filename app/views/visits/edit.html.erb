@@ -59,7 +59,6 @@
   // calc button clicked
   $('button.calculator').click(function(e){
     $targetInput =  $(this).closest('.input-group').children("input[type='number']")
-    $targetInput.addKeyboard()
     e.stopImmediatePropagation();
     var kb = $targetInput.getkeyboard();
     // close the keyboard if the keyboard is visible and the button is clicked a second time
@@ -79,6 +78,7 @@
   // hide or display row form based on 'present' or 'absent' checked
   $("input.pres_abs").change(function() {
     $row_form = $(this).parent().parent().next('tr.row_form')
+    $row_form.find("input[type='number']").addKeyboard()
     $row_form.toggle($(this).val())
   });
 </script>
