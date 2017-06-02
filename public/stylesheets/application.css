@@ -12044,6 +12044,38 @@ button.ui-keyboard-extender span {
     height: 2.5em;
     padding: 0.5em 0; } }
 
+.tab-content {
+  margin-left: 200px;
+  width: calc(100% - 200px);
+  background-color: white !important;
+  padding: 8px !important; }
+  .tab-content .tab-pane {
+    display: none;
+    overflow-y: auto; }
+  .tab-content .active {
+    display: block; }
+
+.nav-link {
+  width: 200px;
+  border-radius: 0px !important;
+  border: 0 !important; }
+  .nav-link:hover {
+    background-color: #cccccc !important;
+    border: 0 !important; }
+  .nav-link.active {
+    background-color: white !important;
+    border: 0 !important; }
+
+.nav-tabs {
+  float: left;
+  padding-right: 8px !important;
+  width: 200px;
+  background: #F7F7F7 !important; }
+  .nav-tabs li {
+    float: none; }
+    .nav-tabs li a {
+      border: 0; }
+
 .down-eight {
   margin-top: -8px; }
 

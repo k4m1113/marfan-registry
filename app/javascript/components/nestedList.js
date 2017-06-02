@@ -11,20 +11,20 @@ function keyify(str) {
 }
 
 module.exports = function nestedList(arr, visit) {
-  let updateButton = `<input type="submit" name="commit" value="Update Visit" class="col-centered col-sm-12 form-control-label btn btn-secondary btn-lg">`
-  let topBar = `<nav class="navbar navbar-toggleable-sm navbar-light bg-faded"><ul class="nav nav-tabs" role="tablist"><div class="row">`
+  let updateButton = `<input type="submit" name="commit" value="Update Visit" class="col-centered form-control-label btn btn-secondary btn-lg" style="width:100%;">`
+  let topBar = `<ul class="nav nav-tabs flex-column" role="tablist">`
   for (var i = 0; i < arr.length; i++) {
     let groupName = arr[i][0]
     let key = keyify(groupName)
-    topBar += `<li class="nav-item">
+    topBar += `<li class="nav-item" style="width:60px;">
       <a class="nav-link open-tab" data-tab-index="${i}" data-toggle="tab" href="#${key}" role="tab">
         ${groupName}
       </a>
     </li>`
   }
-  topBar += '</ul></nav>'
+  topBar += '</ul>'
 
-  let panes = `<div class="container"><div class="tab-content">`
+  let panes = `<div class="tab-content">`
   for (var i = 0; i < arr.length; i++) {
     const groupName = arr[i][0]
     const children = arr[i][1]
@@ -51,7 +51,7 @@ module.exports = function nestedList(arr, visit) {
 
     }
   }
-  panes += `</div></div>`
+  panes += `</div>`
   const returnStatement = `${topBar}
   ${panes}`
   return returnStatement

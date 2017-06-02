@@ -2628,16 +2628,16 @@ function keyify(str) {
 }
 
 module.exports = function nestedList(arr, visit) {
-  var updateButton = '<input type="submit" name="commit" value="Update Visit" class="col-centered col-sm-12 form-control-label btn btn-secondary btn-lg">';
-  var topBar = '<nav class="navbar navbar-toggleable-sm navbar-light bg-faded"><ul class="nav nav-tabs" role="tablist"><div class="row">';
+  var updateButton = '<input type="submit" name="commit" value="Update Visit" class="col-centered form-control-label btn btn-secondary btn-lg" style="width:100%;">';
+  var topBar = '<ul class="nav nav-tabs flex-column" role="tablist">';
   for (var i = 0; i < arr.length; i++) {
     var groupName = arr[i][0];
     var key = keyify(groupName);
-    topBar += '<li class="nav-item">\n      <a class="nav-link open-tab" data-tab-index="' + i + '" data-toggle="tab" href="#' + key + '" role="tab">\n        ' + groupName + '\n      </a>\n    </li>';
+    topBar += '<li class="nav-item" style="width:60px;">\n      <a class="nav-link open-tab" data-tab-index="' + i + '" data-toggle="tab" href="#' + key + '" role="tab">\n        ' + groupName + '\n      </a>\n    </li>';
   }
-  topBar += '</ul></nav>';
+  topBar += '</ul>';
 
-  var panes = '<div class="container"><div class="tab-content">';
+  var panes = '<div class="tab-content">';
   for (var i = 0; i < arr.length; i++) {
     var _groupName = arr[i][0];
     var children = arr[i][1];
@@ -2663,7 +2663,7 @@ module.exports = function nestedList(arr, visit) {
 
     }
   }
-  panes += '</div></div>';
+  panes += '</div>';
   var returnStatement = topBar + '\n  ' + panes;
   return returnStatement;
 };
@@ -2904,16 +2904,16 @@ function keyify(str) {
 }
 
 module.exports = function nestedList(arr, visit) {
-  var updateButton = '<input type="submit" name="commit" value="Update Visit" class="col-centered col-sm-12 form-control-label btn btn-secondary btn-lg">';
-  var topBar = '<nav class="navbar navbar-toggleable-sm navbar-light bg-faded"><ul class="nav nav-tabs" role="tablist"><div class="row">';
+  var updateButton = '<input type="submit" name="commit" value="Update Visit" class="col-centered form-control-label btn btn-secondary btn-lg" style="width:100%;">';
+  var topBar = '<ul class="nav nav-tabs flex-column" role="tablist">';
   for (var i = 0; i < arr.length; i++) {
     var groupName = arr[i][0];
     var key = keyify(groupName);
-    topBar += '<li class="nav-item">\n      <a class="nav-link open-tab" data-tab-index="' + i + '" data-toggle="tab" href="#' + key + '" role="tab">\n        ' + groupName + '\n      </a>\n    </li>';
+    topBar += '<li class="nav-item" style="width:60px;">\n      <a class="nav-link open-tab" data-tab-index="' + i + '" data-toggle="tab" href="#' + key + '" role="tab">\n        ' + groupName + '\n      </a>\n    </li>';
   }
-  topBar += '</ul></nav>';
+  topBar += '</ul>';
 
-  var panes = '<div class="container"><div class="tab-content">';
+  var panes = '<div class="tab-content">';
   for (var i = 0; i < arr.length; i++) {
     var _groupName = arr[i][0];
     var children = arr[i][1];
@@ -2939,7 +2939,7 @@ module.exports = function nestedList(arr, visit) {
 
     }
   }
-  panes += '</div></div>';
+  panes += '</div>';
   var returnStatement = topBar + '\n  ' + panes;
   return returnStatement;
 };

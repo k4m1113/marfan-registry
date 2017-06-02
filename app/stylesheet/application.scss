@@ -4,6 +4,50 @@
 @import "~font-awesome/css/font-awesome.css";
 @import "keyboard";
 
+$bootstrap-grey: #F7F7F7;
+$bootstrap-dark-grey: #cccccc;
+$bootstrap-light-grey: white;
+
+.tab-content {
+  margin-left: 200px;
+  width: calc(100% - 200px);
+  background-color: $bootstrap-light-grey !important;
+  padding: 8px !important;
+  .tab-pane {
+    display: none;
+    overflow-y: auto;
+  }
+
+  .active { display: block; }
+}
+.nav-link {
+  width: 200px;
+  border-radius: 0px !important;
+  border: 0 !important;
+  &:hover {
+    background-color: $bootstrap-dark-grey !important;
+    border: 0 !important;
+  }
+  &.active {
+    background-color: $bootstrap-light-grey !important;
+    border: 0 !important;
+  }
+}
+
+.nav-tabs {
+  float: left;
+  padding-right: 8px !important;
+  width: 200px;
+  background: $bootstrap-grey !important;
+  li {
+    float: none;
+
+    a {
+      border: 0;
+    }
+  }
+}
+
 .down-eight {
   margin-top: -8px;
 }
