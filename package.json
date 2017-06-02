@@ -29,7 +29,7 @@
     "coffee-loader": "^0.7.3",
     "coffee-script": "^1.12.6",
     "compression-webpack-plugin": "^0.4.0",
-    "css-loader": "^0.28.2",
+    "css-loader": "^0.28.4",
     "erb": "^1.0.0",
     "eslint-plugin-flow-vars": "^0.5.0",
     "expose-loader": "^0.7.3",
