@@ -79,6 +79,12 @@
   $("input.pres_abs").change(function() {
     $row_form = $(this).parent().parent().next('tr.row_form')
     $row_form.find("input[type='number']").addKeyboard()
-    $row_form.toggle($(this).val())
+    if ($(this).val() == "true") {
+      $row_form.show()
+    } else if ($(this).val() == "false") {
+      $row_form.hide()
+    } else {
+      $row_form.hide()
+    }
   });
 </script>
