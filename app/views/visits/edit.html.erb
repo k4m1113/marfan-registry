@@ -77,7 +77,7 @@
 
   // hide or display row form based on 'present' or 'absent' checked
   $("input.pres_abs").change(function() {
-    $row_form = $(this).parent().parent().next('tr.row_form')
+    $row_form = $(this).parent().parent().parent().next('tr.row_form')
     $row_form.find("input[type='number']").addKeyboard()
     if ($(this).val() == "true") {
       $row_form.show()

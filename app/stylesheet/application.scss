@@ -3,11 +3,18 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~font-awesome/css/font-awesome.css";
 @import "keyboard";
+@import "radio-buttons";
 
 $bootstrap-grey: #F7F7F7;
 $bootstrap-dark-grey: #cccccc;
 $bootstrap-light-grey: white;
 
+td {
+  vertical-align: middle !important;
+}
+button:hover{
+  cursor: pointer;
+}
 .tab-content {
   margin-left: 200px;
   width: calc(100% - 200px);

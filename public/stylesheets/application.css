@@ -12044,6 +12044,53 @@ button.ui-keyboard-extender span {
     height: 2.5em;
     padding: 0.5em 0; } }
 
+input.pres_abs {
+  display: none; }
+
+label.btn {
+  padding: 0;
+  margin: 0; }
+
+label input[type="radio"] ~ i.fa.fa-circle-o {
+  color: #c8c8c8;
+  display: inline; }
+
+label input[type="radio"] ~ i.fa.fa-check-circle-o {
+  display: none; }
+
+label input[type="radio"]:checked ~ i.fa.fa-circle-o {
+  display: none; }
+
+label input[type="radio"]:checked ~ i.fa.fa-check-circle-o {
+  color: #0275D8;
+  display: inline; }
+
+label:hover input[type="radio"] ~ i.fa {
+  color: #0275D8;
+  cursor: pointer; }
+
+div[data-toggle="buttons"] label.active {
+  color: #7AA3CC; }
+
+div[data-toggle="buttons"] label {
+  display: inline-block;
+  cursor: pointer;
+  color: #c8c8c8;
+  user-select: none; }
+
+div[data-toggle="buttons"] label:hover {
+  cursor: pointer;
+  color: #7AA3CC; }
+
+div[data-toggle="buttons"] label:active, div[data-toggle="buttons"] label.active {
+  box-shadow: none; }
+
+td {
+  vertical-align: middle !important; }
+
+button:hover {
+  cursor: pointer; }
+
 .tab-content {
   margin-left: 200px;
   width: calc(100% - 200px);

@@ -15,12 +15,18 @@ module.exports = function renderButtons(topic, visit) {
     <td>
       ${topic['name']}
     </td>
+    <div class="btn-group" data-toggle="buttons">
     <td>
-      <input name="visit[${parameterizedPlural}_attributes][${topic.id}][present]" id="visit_${parameterizedPlural}_attributes_${topic.id}_present_true" class="pres_abs" type="radio" value="true">
+      <label class="btn">
+        <input name="visit[${parameterizedPlural}_attributes][${topic.id}][present]" id="visit_${parameterizedPlural}_attributes_${topic.id}_present_true" class="pres_abs" type="radio" value="true"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>
+      </label>
     </td>
     <td>
-      <input name="visit[${parameterizedPlural}_attributes][${topic.id}][present]" id="visit_${parameterizedPlural}_attributes_${topic.id}_present_false" class="pres_abs" type="radio" value="false">
+      <label class="btn">
+        <input name="visit[${parameterizedPlural}_attributes][${topic.id}][present]" id="visit_${parameterizedPlural}_attributes_${topic.id}_present_false" class="pres_abs" type="radio" value="false"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>
+      </label>
     </td>
+    </div>
   </tr>
   `
   return returnStatement
