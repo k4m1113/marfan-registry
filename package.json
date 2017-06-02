@@ -10,7 +10,7 @@
     "development": "webpack --config client/webpack.config.js",
     "webpack:deploy": "webpack --config client/webpack.config.js -p",
     "postinstall": "cd client && yarn install",
-    "heroku-postbuild": "npm run webpack:deploy",
+    "heroku-postbuild": "yarn run webpack:deploy",
     "rails-server": "echo 'visit http://localhost:3000/hello_world' && foreman start -f Procfile.dev",
     "test": "rspec"
   },
