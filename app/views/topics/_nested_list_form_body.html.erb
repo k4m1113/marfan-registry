@@ -51,14 +51,22 @@
 <script>
 // initialize jQuery UI tabbing
 $(function () {
-   $("#mainNestedList").tabs()
+  $("#mainNestedList").tabs()
 });
 
 // click on either 'bar' or tab 'nav-link'
 $('a.open-tab').on("click", function(){
+  var reg = $(this).data('key').split('_')[0]
+  var tabIndex = $("div.tab-pane[id^=" + reg + "]").data('tab-index');
+  console.log(tabIndex)
   // accordion-style collapse
   $("ul.summary-bar").find(".active").removeClass("active");
-  $('#tabs').tabs("option", "active", $(this).data("tab-index"));
+  //open relevant tab-pane
+  $('#tabs').tabs("option", "active", tabIndex);
+  $('a.nav-link.open-tab').find('active').removeClass('active')
+  var $ind = $('a.nav-link.open-tab[data-tab-index=' + tabIndex + ']')
+  console.log($ind)
+  $ind.addClass('active')
   $('.summary-body').hide();
   $(this).next(".summary-body").toggle();
   // scroll to new content
