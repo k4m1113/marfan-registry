@@ -1,7 +1,7 @@
 <div id="barsAccordion" role="tablist" aria-multiselectable="true">
   <ul class="summary-bar list-unstyled">
     <% @concerns.each do |k,v| %>
-    <% key = k.to_s.gsub(/ concerns/, '').parameterize.underscore %>
+    <% key = keyify(k) %>
       <% next if v.empty? %>
       <div class="card summary-bar">
         <div class="card-header summary-bar" role="tab" id="<%= key %>Heading">

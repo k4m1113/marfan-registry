@@ -2,7 +2,7 @@ module ApplicationHelper
   def fingerprinted_asset(name)
     Rails.env.production? ? "#{name}-#{ASSET_FINGERPRINT}" : name
   end
-  
+
   def find_date(int, meas, meas_date)
     if %w[Seconds seconds second(s) second Second s S].include?(meas)
       return meas_date.to_datetime - (int.to_i).seconds
@@ -137,6 +137,16 @@ module ApplicationHelper
     else
       return 'btn-secondary'
     end
+  end
+
+  def keyify(str)
+    rt = str.to_s.gsub(/ concerns/, '').parameterize.underscore
+    if rt == 'morphology_physical_finding' || rt == 'vital' || rt == 'genetic'
+      rt = rt.pluralize
+    elsif rt == 'obstetric'
+      rt = 'obstetric_pregnancy'
+    end
+    rt
   end
 
   def render_form_button(category, scope)
