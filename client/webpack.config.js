@@ -16,16 +16,17 @@ module.exports = {
   context: path.join(__dirname, '..', 'app'),
 
   entry: {
-    application: ['jquery', "./javascript/packs/application.js", "./stylesheet/application.scss", 'bootstrap-loader']
+    application: ['jquery', "./javascript/packs/application.js", "./stylesheet/application.scss", 'bootstrap-loader', 'myscript-text-web']
   },
 
   resolve: {
     alias: {
       'add-keyboard': path.resolve(
         './javascript/addKeyboard.js'
-      )
+      ),
+      'myscript-text-web': path.resolve('../bower_components/myscript-text-web/mymyscript-text-web.html')
     },
-    extensions: ['.js', '.jsx', '.erb', '.css', '.scss', '.woff2', '.svg', '.tff', '.eot', '.jsx.erb'],
+    extensions: ['.js', '.jsx', '.erb', '.css', '.scss', '.woff2', '.svg', '.tff', '.eot', '.jsx.erb', '.html'],
   },
 
   output: {
@@ -53,6 +54,10 @@ module.exports = {
           presets: ['es2015', 'react']
         }
       },
+      // {
+      //   test: /\.html$/,
+      //   use: ["html-loader"]
+      // },
       {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({

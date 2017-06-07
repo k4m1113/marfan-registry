@@ -1,0 +1,17 @@
+{
+  "name": "nmf-tool",
+  "description": "none",
+  "main": "index.js",
+  "authors": [
+    "Kamille Delgardo <kamilledelgardo@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/kamillamagna/NMF_Tool",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

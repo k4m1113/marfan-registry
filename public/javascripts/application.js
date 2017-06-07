@@ -23328,7 +23328,8 @@ http://www.opensource.org/licenses/mit-license.php
 __webpack_require__(0);
 __webpack_require__(21);
 __webpack_require__(10);
-module.exports = __webpack_require__(22);
+__webpack_require__(22);
+(function webpackMissingModule() { throw new Error("Cannot find module \"myscript-text-web\""); }());
 
 
 /***/ })
