@@ -7,6 +7,7 @@ default: &default            # ~ = Rails.root
   manifest: manifest.json    # ~/public/:output/:manifest
   config: config/webpack     # ~/:config
   node_modules: node_modules # ~/:node_modules
+  bower_components: bower_components
   extensions:
     - .coffee
     - .js

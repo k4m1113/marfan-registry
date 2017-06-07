@@ -57,7 +57,8 @@ module.exports = {
     extensions: paths.extensions,
     modules: [
       resolve(paths.source),
-      resolve(paths.node_modules)
+      resolve(paths.node_modules),
+      resolve(paths.bower_components)
     ],
     alias: {
       jquery: "jquery/src/jquery"
@@ -65,6 +66,6 @@ module.exports = {
   },
 
   resolveLoader: {
-    modules: [paths.node_modules]
+    modules: [paths.node_modules, paths.bower_components]
   }
 }

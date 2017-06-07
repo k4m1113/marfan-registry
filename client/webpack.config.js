@@ -7,6 +7,7 @@ const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 var path = require("path");
 var node_dir = __dirname + '/node_modules';
+var bower_dir = __dirname + '/bower_components'
 const prod = process.argv.indexOf('-p') !== -1;
 const css_output_template = prod ? "stylesheets/[name]-[hash].css" : "stylesheets/[name].css";
 const js_output_template = prod ? "javascripts/[name]-[hash].js" : "javascripts/[name].js";
@@ -16,16 +17,23 @@ module.exports = {
   context: path.join(__dirname, '..', 'app'),
 
   entry: {
-    application: ['jquery', "./javascript/packs/application.js", "./stylesheet/application.scss", 'bootstrap-loader', 'myscript-text-web']
+    application: ['jquery', "./javascript/packs/application.js", "./stylesheet/application.scss", 'bootstrap-loader']
   },
 
   resolve: {
     alias: {
       'add-keyboard': path.resolve(
         './javascript/addKeyboard.js'
-      ),
-      'myscript-text-web': path.resolve('../bower_components/myscript-text-web/mymyscript-text-web.html')
+      )
     },
+    modules: [
+      "node_modules",
+      "bower_components"
+    ],
+    descriptionFiles: [
+      'package.json',
+      'bower.json'
+    ],
     extensions: ['.js', '.jsx', '.erb', '.css', '.scss', '.woff2', '.svg', '.tff', '.eot', '.jsx.erb', '.html'],
   },
 
