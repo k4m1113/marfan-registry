@@ -23,6 +23,7 @@ import 'virtual-keyboard/dist/js/jquery.keyboard.js'
 
 import 'bootstrap'
 import 'font-awesome-webpack'
+import 'bower_components/webcomponentsjs/webcomponents-lite.js'
 import '../components/epicMeds'
 import '../components/medMapper'
 import '../components/htmlTest'
