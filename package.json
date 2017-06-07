@@ -28,6 +28,7 @@
     "bootstrap": "4.0.0-alpha.6",
     "bootstrap-loader": "^2.1.0",
     "bootstrap-sass": "^3.3.7",
+    "bower": "^1.8.0",
     "coffee-loader": "^0.7.3",
     "coffee-script": "^1.12.6",
     "compression-webpack-plugin": "^0.4.0",
