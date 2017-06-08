@@ -82,8 +82,9 @@
   // hide or display row form based on 'present' or 'absent' checked
   $("input.pres_abs").change(function() {
     $row_form = $(this).parent().parent().parent().next('tr.row_form')
+    // add keyboard and scribble widgets on row display
     $row_form.find("input[type='number']").addKeyboard()
-    $row_form.find("button.scribble").parent().parent().append(renderScribbleButton(mskey, mshmac))
+    $row_form.find("input[type='textarea']").parent().append(renderScribbleButton(mskey, mshmac))
     if ($(this).val() == "true") {
       $row_form.show()
     } else if ($(this).val() == "false") {
@@ -92,4 +93,8 @@
       $row_form.hide()
     }
   });
+
+  // append scribble result to note field
+  $('myscript-math-web').result['LATEX']
+
 </script>

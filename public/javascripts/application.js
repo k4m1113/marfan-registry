@@ -154,7 +154,7 @@ module.exports = function renderDurationField(topic, parameterizedPlural) {
 
 
 module.exports = function renderNoteField(topic, parameterizedPlural) {
-  var returnStatement = "<input type='textarea' placeholder='note' name='visit[" + parameterizedPlural + "_attributes][" + topic.id + "][note]' id='visit_" + parameterizedPlural + "_attributes_" + topic.id + "_note' class='form-control'>\n  <span class='input-group-btn'>\n    <button class='btn btn-primary scribble' type='button' id='" + parameterizedPlural + "_" + topic.id + "_handwriting_button'>\n      <i class='fa fa-pencil'></i>\n    </button>\n  </span>\n  ";
+  var returnStatement = "<input type='textarea' placeholder='note' name='visit[" + parameterizedPlural + "_attributes][" + topic.id + "][note]' id='visit_" + parameterizedPlural + "_attributes_" + topic.id + "_note' class='form-control' value=\"\">";
   return returnStatement;
 };
 
@@ -5487,7 +5487,7 @@ module.exports = function nestedList(arr, visit) {
 
 
 module.exports = function renderScribbleButton(mskey, mshmac) {
-  var returnStatement = "\n    <myscript-math-web\n      applicationkey=\"" + mskey + "\"\n      hmackey=\"" + mshmac + "\"\n      protocol=\"REST\"\n      hideresult=\"true\">\n     </myscript-math-web>\n  ";
+  var returnStatement = "\n    <myscript-math-web\n      applicationkey=\"" + mskey + "\"\n      hmackey=\"" + mshmac + "\"\n      protocol=\"REST\"\n      hideresult=\"true\"\n      hidebuttons=\"true\">\n     </myscript-math-web>\n  ";
   return returnStatement;
 };
 

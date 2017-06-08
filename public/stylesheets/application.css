@@ -12085,6 +12085,10 @@ div[data-toggle="buttons"] label:hover {
 div[data-toggle="buttons"] label:active, div[data-toggle="buttons"] label.active {
   box-shadow: none; }
 
+myscript-math-web {
+  background: #FAF2AD;
+  min-width: 500px; }
+
 td {
   vertical-align: middle !important; }
 

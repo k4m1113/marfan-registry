@@ -7,8 +7,8 @@ const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const Dotenv = require("dotenv-webpack")
 var path = require("path");
-var node_dir = __dirname + '/node_modules';
-var bower_dir = __dirname + '/bower_components'
+var node_dir = path.join(__dirname, '/node_modules');
+var bower_dir = path.join(__dirname, '/bower_components');
 const prod = process.argv.indexOf('-p') !== -1;
 const css_output_template = prod ? "stylesheets/[name]-[hash].css" : "stylesheets/[name].css";
 const js_output_template = prod ? "javascripts/[name]-[hash].js" : "javascripts/[name].js";
@@ -125,7 +125,7 @@ module.exports = {
     function() {
       // delete previous outputs
       this.plugin("compile", function() {
-        let basepath = __dirname + "/public";
+        let basepath = path.join(__dirname, "/public");
         let paths = ["/javascripts", "/stylesheets"];
 
         for (let x = 0; x < paths.length; x++) {

@@ -8,7 +8,12 @@
 $bootstrap-grey: #F7F7F7;
 $bootstrap-dark-grey: #cccccc;
 $bootstrap-light-grey: white;
+$legal-pad-yellow: #FAF2AD;
 
+myscript-math-web {
+  background: $legal-pad-yellow;
+  min-width: 500px;
+}
 td {
   vertical-align: middle !important;
 }
