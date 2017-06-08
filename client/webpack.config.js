@@ -5,6 +5,7 @@
 const fs = require('fs');
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const Dotenv = require("dotenv-webpack")
 var path = require("path");
 var node_dir = __dirname + '/node_modules';
 var bower_dir = __dirname + '/bower_components'
@@ -105,6 +106,10 @@ module.exports = {
   },
 
   plugins: [
+    // new webpack.DefinePlugin({
+    //   'process.env.MYSCRIPT_KEY': ,
+    //   'process.env.MYSCRIPT_HMAC':
+    // }),
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery",

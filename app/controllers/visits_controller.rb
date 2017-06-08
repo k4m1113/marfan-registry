@@ -1,5 +1,4 @@
 require 'report'
-require 'doctor'
 require 'json'
 # require 'pry-remote'
 

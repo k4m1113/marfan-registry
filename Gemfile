@@ -17,13 +17,9 @@ gem 'validates_timeliness', '~> 4.0'
 gem 'pg_search'
 gem 'will_paginate', '~> 3.1.0'
 gem 'will_paginate-bootstrap'
-gem 'dotenv'
-gem 'httparty'
 gem 'validates_type'
 gem 'awesome_nested_set'
-# gem 'delayed_job_active_record', git: 'https://github.com/gogovan/delayed_job_active_record', branch: 'rails-5.1'
 gem 'ruby-units'
-gem 'virtual_keyboard'
 gem 'indefinite_article'
 
 group :development, :test do

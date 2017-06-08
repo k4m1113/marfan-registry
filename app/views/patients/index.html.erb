@@ -45,7 +45,7 @@
               <% if p.visits.length === 0 %>
                 No Visits Yet
               <% else %>
-                <%= link_to "#{p.visits.last.created_at.strftime("%d %B %Y")}", visit_path(p.visits.last.id) %>
+                <%= link_to "#{p.visits.last.created_at.strftime("%d %B %Y")}", edit_visit_path(p.visits.last.id) %>
               <% end %>
             </td>
             <td>

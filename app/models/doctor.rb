@@ -1,5 +1,3 @@
-require 'httparty'
-
 module Doctor
 
   def self.get_lat_and_long(city, state)

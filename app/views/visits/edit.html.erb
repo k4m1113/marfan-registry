@@ -1,9 +1,8 @@
-<link rel="import" href="bower_components/myscript-text-web/myscript-text-web.html">
-
 <script>
   let allTopics = <%= @sorted_topics.html_safe %>
   let visit = <%= @jvisit.html_safe %>
 </script>
+<div id="ms" data-mskey="<%= ENV['MYSCRIPT_KEY'] %>" data-mshmac="<%= ENV['MYSCRIPT_HMAC'] %>"></div>
 <%= form_for @visit, class: "visit_form" do |f| %>
   <div class="row">
     <div class="col-sm-12" style="margin-bottom:-16px;">
@@ -27,7 +26,10 @@
   </div>
 <% end %>
 <script>
-  $('#nestedListHook').append(nestedList(allTopics, visit))
+  const mskey = $('#ms').data('mskey')
+  const mshmac = $('#ms').data('mshmac')
+
+  $('#nestedListHook').append(nestedList(allTopics, visit, mskey, mshmac))
 
   // initialize jQuery UI tabbing
   $(function () {
@@ -81,6 +83,7 @@
   $("input.pres_abs").change(function() {
     $row_form = $(this).parent().parent().parent().next('tr.row_form')
     $row_form.find("input[type='number']").addKeyboard()
+    $row_form.find("button.scribble").parent().parent().append(renderScribbleButton(mskey, mshmac))
     if ($(this).val() == "true") {
       $row_form.show()
     } else if ($(this).val() == "false") {
