@@ -1,0 +1,22 @@
+$legal-pad-yellow: #FAF2AD;
+$legal-pad-grey: #F5F6F7;
+
+myscript-math-web {
+  min-width: 768px;
+  width: calc(100% - 54px);
+  height: 384px;
+}
+.input-group > select.form-control {
+  border-radius: 0px !important;
+}
+
+.scribble {
+  background-color: $legal-pad-yellow;
+  color: $legal-pad-grey;
+  &.btn {
+    border-left: 2px solid $legal-pad-grey;
+  }
+  &:hover {
+    color: $bootstrap-blue;
+  }
+}

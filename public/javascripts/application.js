@@ -154,7 +154,7 @@ module.exports = function renderDurationField(topic, parameterizedPlural) {
 
 
 module.exports = function renderNoteField(topic, parameterizedPlural) {
-  var returnStatement = "<textarea\n    placeholder='note'\n    name='visit[" + parameterizedPlural + "_attributes][" + topic.id + "][note]'\n    id='visit_" + parameterizedPlural + "_attributes_" + topic.id + "_note'\n    class='form-control'\n    value=\"\"\n    rows=\"4\"></textarea>";
+  var returnStatement = "<textarea\n    placeholder='note'\n    name='visit[" + parameterizedPlural + "_attributes][" + topic.id + "][note]'\n    id='visit_" + parameterizedPlural + "_attributes_" + topic.id + "_note'\n    class='form-control'\n    value=\"\"\n    rows=\"2\"></textarea>\n    <button class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#row_" + topic.id + "_scribble_modal\" type=\"button\">\n      <i class=\"fa fa-pencil\"></i>\n    </button>";
   return returnStatement;
 };
 
@@ -5597,7 +5597,7 @@ module.exports = function nestedList(arr, visit) {
 
 
 module.exports = function renderScribbleButton(title, mskey, mshmac) {
-  var returnStatement = "\n    <myscript-math-web\n      applicationkey=\"" + mskey + "\"\n      hmackey=\"" + mshmac + "\"\n      protocol=\"REST\"\n      hideresult=\"true\"\n      hidebuttons=\"true\"\n      class=\"scribble\"\n      id=\"" + title + "_scribble\">\n    </myscript-math-web>\n    <div class=\"btn-group-vertical\">\n      <button type=\"button\" class=\"btn btn-primary accept\">\n        <i class=\"fa fa-check\"></i>\n      </button>\n      <button type=\"button\" class=\"btn btn-primary undo\">\n        <i class=\"fa fa-undo\"></i>\n      </button>\n      <button type=\"button\" class=\"btn btn-primary redo\">\n        <i class=\"fa fa-repeat\"></i>\n      </button>\n      <button type=\"button\" class=\"btn btn-primary destroy\">\n        <i class=\"fa fa-trash\"></i>\n      </button>\n    </div>";
+  var returnStatement = "\n    <div class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\" id=\"" + title + "_scribble_modal\">\n      <div class=\"modal-dialog modal-xl\">\n        <div class=\"modal-content scribble\">\n          <div class=\"form-inline\">\n            <myscript-math-web\n              applicationkey=\"" + mskey + "\"\n              hmackey=\"" + mshmac + "\"\n              protocol=\"REST\"\n              hideresult=\"true\"\n              hidebuttons=\"true\"\n              timeout=\"1000\"\n              class=\"scribble\"\n              id=\"" + title + "_scribble\">\n            </myscript-math-web>\n            <div class=\"btn-group-vertical\">\n              <button type=\"button\" class=\"btn btn-primary accept\">\n                <i class=\"fa fa-check\"></i>\n              </button>\n              <button type=\"button\" class=\"btn btn-primary undo\">\n                <i class=\"fa fa-undo\"></i>\n              </button>\n              <button type=\"button\" class=\"btn btn-primary redo\">\n                <i class=\"fa fa-repeat\"></i>\n              </button>\n              <button type=\"button\" class=\"btn btn-primary destroy\">\n                <i class=\"fa fa-trash\"></i>\n              </button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>";
   return returnStatement;
 };
 

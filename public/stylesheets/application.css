@@ -12086,7 +12086,9 @@ div[data-toggle="buttons"] label:active, div[data-toggle="buttons"] label.active
   box-shadow: none; }
 
 myscript-math-web {
-  min-width: 500px; }
+  min-width: 768px;
+  width: calc(100% - 54px);
+  height: 384px; }
 
 .input-group > select.form-control {
   border-radius: 0px !important; }
@@ -12097,7 +12099,7 @@ myscript-math-web {
   .scribble.btn {
     border-left: 2px solid #F5F6F7; }
   .scribble:hover {
-    color: #025AA5; }
+    color: #0275D8; }
 
 td {
   vertical-align: middle !important; }

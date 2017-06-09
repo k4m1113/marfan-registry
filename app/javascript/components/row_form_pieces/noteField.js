@@ -5,6 +5,9 @@ module.exports = function renderNoteField(topic, parameterizedPlural) {
     id='visit_${parameterizedPlural}_attributes_${topic.id}_note'
     class='form-control'
     value=""
-    rows="4"></textarea>`;
+    rows="2"></textarea>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#row_${topic.id}_scribble_modal" type="button">
+      <i class="fa fa-pencil"></i>
+    </button>`;
   return returnStatement;
 }
