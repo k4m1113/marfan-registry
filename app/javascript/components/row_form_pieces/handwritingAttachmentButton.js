@@ -4,16 +4,18 @@ module.exports = function renderScribbleButton(title, mskey, mshmac) {
       <div class="modal-dialog modal-xl">
         <div class="modal-content scribble">
           <div class="form-inline">
-            <myscript-math-web
-              applicationkey="${mskey}"
-              hmackey="${mshmac}"
-              protocol="REST"
-              hideresult="true"
-              hidebuttons="true"
-              timeout="1000"
-              class="scribble"
-              id="${title}_scribble">
-            </myscript-math-web>
+            <div touch-action="none">
+              <myscript-math-web
+                applicationkey="${mskey}"
+                hmackey="${mshmac}"
+                protocol="REST"
+                hideresult="true"
+                hidebuttons="true"
+                timeout="1000"
+                class="scribble"
+                id="${title}_scribble">
+              </myscript-math-web>
+            </div>
             <div class="btn-group-vertical">
               <button type="button" class="btn btn-primary accept">
                 <i class="fa fa-check"></i>
