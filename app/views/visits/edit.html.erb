@@ -84,7 +84,8 @@
     $row_form = $(this).parent().parent().parent().next('tr.row_form')
     // add keyboard and scribble widgets on row display
     $row_form.find("input[type='number']").addKeyboard()
-    $row_form.find("input[type='textarea']").parent().append(renderScribbleButton(mskey, mshmac))
+    // add scribble area
+    $row_form.find("textarea").parent().append(renderScribbleButton($row_form[0].id, mskey, mshmac))
     if ($(this).val() == "true") {
       $row_form.show()
     } else if ($(this).val() == "false") {
@@ -92,9 +93,27 @@
     } else {
       $row_form.hide()
     }
+    $('.btn-group-vertical > button').click(function(e){
+      var classes = $(this)[0].classList.value
+      $current_row = $(this).parent().parent().parent().parent().parent()
+      $current_scribble = $current_row.find('myscript-math-web')[0]
+      $note_field = $current_row.find("textarea")[0]
+
+      if (classes.includes('accept')) {
+        if ($current_scribble.result) {
+          var result = $current_scribble.result['LATEX']
+          $note_field.value += result
+        }
+      } else if (classes.includes('undo')) {
+        $current_scribble.undo()
+      } else if (classes.includes('redo')) {
+        $current_scribble.redo()
+      } else if (classes.includes('destroy')) {
+        $current_scribble.clear()
+      } else {
+        console.log('error')
+      }
+
+    });
   });
-
-  // append scribble result to note field
-  $('myscript-math-web').result['LATEX']
-
 </script>

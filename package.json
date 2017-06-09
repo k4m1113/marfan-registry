@@ -92,7 +92,7 @@
     "mocha": "^3.2.0"
   },
   "description": "none",
-  "main": "index.js",
+  "main": "",
   "repository": "git+https://github.com/kamillamagna/NMF_Tool.git",
   "author": "Kamille Delgardo <kamilledelgardo@gmail.com>",
   "license": "ISC",

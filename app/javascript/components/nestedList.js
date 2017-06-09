@@ -1,4 +1,5 @@
 import nestedListPane from './nestedListPane'
+import renderEpicAddForm from './epicAddForm.js'
 
 function keyify(str) {
   [' ', '/'].forEach(function (x) {
@@ -45,6 +46,10 @@ module.exports = function nestedList(arr, visit) {
         break;
       case 'aortic imaging':
         panes += 'AORTIC IMAGING</div>'
+        break;
+      case 'medication':
+        panes += 'EPIC ADD FORM'
+        panes += `${nestedListPane(children, visit)}</div>`
         break;
       default:
         panes += `${nestedListPane(children, visit)}</div>`

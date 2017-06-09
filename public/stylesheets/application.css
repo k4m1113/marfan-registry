@@ -12086,8 +12086,18 @@ div[data-toggle="buttons"] label:active, div[data-toggle="buttons"] label.active
   box-shadow: none; }
 
 myscript-math-web {
-  background: #FAF2AD;
   min-width: 500px; }
+
+.input-group > select.form-control {
+  border-radius: 0px !important; }
+
+.scribble {
+  background-color: #FAF2AD;
+  color: #F5F6F7; }
+  .scribble.btn {
+    border-left: 2px solid #F5F6F7; }
+  .scribble:hover {
+    color: #025AA5; }
 
 td {
   vertical-align: middle !important; }

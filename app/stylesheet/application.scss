@@ -8,12 +8,28 @@
 $bootstrap-grey: #F7F7F7;
 $bootstrap-dark-grey: #cccccc;
 $bootstrap-light-grey: white;
+$bootstrap-blue: #025AA5;
 $legal-pad-yellow: #FAF2AD;
+$legal-pad-grey: #F5F6F7;
 
 myscript-math-web {
-  background: $legal-pad-yellow;
   min-width: 500px;
 }
+.input-group > select.form-control {
+  border-radius: 0px !important;
+}
+
+.scribble {
+  background-color: $legal-pad-yellow;
+  color: $legal-pad-grey;
+  &.btn {
+    border-left: 2px solid $legal-pad-grey;
+  }
+  &:hover {
+    color: $bootstrap-blue;
+  }
+}
+
 td {
   vertical-align: middle !important;
 }
