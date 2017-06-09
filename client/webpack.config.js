@@ -63,10 +63,6 @@ module.exports = {
           presets: ['es2015', 'react']
         }
       },
-      // {
-      //   test: /\.html$/,
-      //   use: ["html-loader"]
-      // },
       {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
