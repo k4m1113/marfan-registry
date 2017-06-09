@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get 'hello_world', to: 'hello_world#index'
+  get 'auth/familysearch/complete', to: 'visits#index'
   resources :galleries do
     resources :attachments, only: [:create, :destroy]
   end

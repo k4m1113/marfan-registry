@@ -12101,6 +12101,31 @@ myscript-math-web {
   .scribble:hover {
     color: #0275D8; }
 
+table.family-tree {
+  border: 0;
+  padding: 0;
+  border-spacing: 0;
+  border-collapse: separate; }
+
+.person_name {
+  vertical-align: bottom;
+  border-bottom: solid 2px black;
+  margin: 0;
+  padding: 10px 10px 5px 10px; }
+
+.date {
+  vertical-align: top;
+  font-size: .85em;
+  color: #777;
+  margin: 0;
+  padding: 2px 10px 10px 10px; }
+
+.leftborder {
+  border-left: solid 2px black; }
+
+.rightborder {
+  border-right: solid 2px black; }
+
 td {
   vertical-align: middle !important; }
 

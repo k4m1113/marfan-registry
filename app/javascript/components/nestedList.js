@@ -1,5 +1,6 @@
 import nestedListPane from './nestedListPane'
 import renderEpicAddForm from './epicAddForm.js'
+import renderFamilyTree from './row_form_pieces/assembledFamilyMemberForm'
 
 function keyify(str) {
   [' ', '/'].forEach(function (x) {
@@ -39,7 +40,7 @@ module.exports = function nestedList(arr, visit) {
     panes += `${updateButton}`
     switch (groupName) {
       case 'family history':
-        panes += 'FAMILY TREE</div>'
+        panes += `${renderFamilyTree(patient)}</div>`
         break;
       case 'vitals':
         panes += 'VITALS</div>'

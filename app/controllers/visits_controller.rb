@@ -72,6 +72,7 @@ class VisitsController < ApplicationController
     # @visit.diagnoses.build
     @sorted_topics = Topic.roots.map { |t| [t.name, t.descendants.leaves] }.to_json
     @jvisit = @visit.to_json
+    @jpatient = @patient.to_json
     respond_to do |format|
       format.html
       format.json

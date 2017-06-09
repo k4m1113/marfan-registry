@@ -455,7 +455,15 @@ module.exports = function renderDiagnosisForm(topic) {
 "use strict";
 
 
-module.exports = function renderFamilyMemberForm(topic) {};
+module.exports = function renderFamilyTree(patient) {
+  console.log(patient);
+  var date = new Date(patient.date_of_birth);
+  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var date_str = date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+
+  var returnStatement = "<table class=\"family-tree\">\n    <tr>\n      <td width=\"30%\" class=\"person_name\">\n        CHILD 1 NAME\n      </td>\n      <td rowspan=\"2\" class=\"person_name\" width=\"30%\">\n        " + patient.first_name + " " + patient.last_name + "\n      </td>\n      <td width=\"30%\" class=\"person_name\">\n        PARENT 1 NAME\n      </td>\n    </tr>\n    <tr>\n      <td class=\"date rightborder\">\n        CHILD 1 LIFESPAN\n        <br />\n        CHILD 1 LOCATION\n      </td>\n      <td class=\"date leftborder\">\n        PARENT 1 LIFESPAN\n        <br />\n        PARENT 1 LOCATION\n      </td>\n    </tr>\n    <tr>\n      <td class=\"person_name rightborder\">\n        CHILD 2 NAME\n      </td>\n      <td rowspan=\"2\" class=\"date\">\n        " + date_str + "\n        <br />\n        " + patient.city + ", " + patient.state + "\n      </td>\n      <td class=\"person_name leftborder\">\n        PARENT 2 NAME\n      </td>\n    </tr>\n    <tr>\n      <td class=\"date\">\n        CHILD 2 LIFESPAN\n        <br />\n        CHILD 2 LOCATION\n      </td>\n      <td class=\"date\">\n        PARENT 2 LIFESPAN\n        <br />\n        PARENT 2 LOCATION\n      </td>\n    </tr>\n  </table>";
+  return returnStatement;
+};
 
 /***/ }),
 /* 16 */
@@ -2715,6 +2723,10 @@ var _epicAddForm = __webpack_require__(12);
 
 var _epicAddForm2 = _interopRequireDefault(_epicAddForm);
 
+var _assembledFamilyMemberForm = __webpack_require__(15);
+
+var _assembledFamilyMemberForm2 = _interopRequireDefault(_assembledFamilyMemberForm);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function keyify(str) {
@@ -2750,7 +2762,7 @@ module.exports = function nestedList(arr, visit) {
     panes += '' + updateButton;
     switch (_groupName) {
       case 'family history':
-        panes += 'FAMILY TREE</div>';
+        panes += (0, _assembledFamilyMemberForm2.default)(patient) + '</div>';
         break;
       case 'vitals':
         panes += 'VITALS</div>';
@@ -5532,6 +5544,10 @@ var _epicAddForm = __webpack_require__(12);
 
 var _epicAddForm2 = _interopRequireDefault(_epicAddForm);
 
+var _assembledFamilyMemberForm = __webpack_require__(15);
+
+var _assembledFamilyMemberForm2 = _interopRequireDefault(_assembledFamilyMemberForm);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function keyify(str) {
@@ -5567,7 +5583,7 @@ module.exports = function nestedList(arr, visit) {
     panes += '' + updateButton;
     switch (_groupName) {
       case 'family history':
-        panes += 'FAMILY TREE</div>';
+        panes += (0, _assembledFamilyMemberForm2.default)(patient) + '</div>';
         break;
       case 'vitals':
         panes += 'VITALS</div>';
