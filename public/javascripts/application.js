@@ -133,7 +133,7 @@ return $.ui.version = "1.12.1";
 "use strict";
 
 
-var _selectConstructor = __webpack_require__(6);
+var _selectConstructor = __webpack_require__(7);
 
 var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
 
@@ -165,7 +165,7 @@ module.exports = function renderNoteField(topic, parameterizedPlural) {
 "use strict";
 
 
-var _selectConstructor = __webpack_require__(6);
+var _selectConstructor = __webpack_require__(7);
 
 var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
 
@@ -185,6 +185,23 @@ module.exports = function renderTimeAgoField(topic, parameterizedPlural) {
 "use strict";
 
 
+module.exports = function renderFamilyTree(patient) {
+  console.log(patient);
+  var date = new Date(patient.date_of_birth);
+  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  var date_str = date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+
+  var returnStatement = "<table class=\"family-tree\">\n    <tr>\n      <td width=\"30%\" class=\"person_name\">\n        CHILD 1 NAME\n      </td>\n      <td rowspan=\"2\" class=\"person_name\" width=\"30%\">\n        " + patient.first_name + " " + patient.last_name + "\n      </td>\n      <td width=\"30%\" class=\"person_name\">\n        PARENT 1 NAME\n      </td>\n    </tr>\n    <tr>\n      <td class=\"date rightborder\">\n        CHILD 1 LIFESPAN\n        <br />\n        CHILD 1 LOCATION\n      </td>\n      <td class=\"date leftborder\">\n        PARENT 1 LIFESPAN\n        <br />\n        PARENT 1 LOCATION\n      </td>\n    </tr>\n    <tr>\n      <td class=\"person_name rightborder\">\n        CHILD 2 NAME\n      </td>\n      <td rowspan=\"2\" class=\"date\">\n        " + date_str + "\n        <br />\n        " + patient.city + ", " + patient.state + "\n      </td>\n      <td class=\"person_name leftborder\">\n        PARENT 2 NAME\n      </td>\n    </tr>\n    <tr>\n      <td class=\"date\">\n        CHILD 2 LIFESPAN\n        <br />\n        CHILD 2 LOCATION\n      </td>\n      <td class=\"date\">\n        PARENT 2 LIFESPAN\n        <br />\n        PARENT 2 LOCATION\n      </td>\n    </tr>\n  </table>";
+  return returnStatement;
+};
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 // turn an array into html select options
 module.exports = function selectConstructor(array, title) {
   var returnStatement = ['<option value="" selected disabled>' + title + '</option>'];
@@ -196,7 +213,7 @@ module.exports = function selectConstructor(array, title) {
 };
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -208,13 +225,13 @@ module.exports = function renderFileButton(topic, parameterizedPlural) {
 };
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _selectConstructor = __webpack_require__(6);
+var _selectConstructor = __webpack_require__(7);
 
 var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
 
@@ -228,7 +245,7 @@ module.exports = function renderFrequencyField(topic, parameterizedPlural) {
 };
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -247,13 +264,13 @@ module.exports = function renderKeywords(topic, parameterizedPlural) {
 };
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed: ModuleBuildError: Module build failed: \n@import \"family-tree\";\n^\n      File to import not found or unreadable: family-tree.\nParent style sheet: stdin\n      in /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/app/stylesheet/application.scss (line 8, column 1)\n    at runLoaders (/Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/client/node_modules/webpack/lib/NormalModule.js:192:19)\n    at /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/client/node_modules/loader-runner/lib/LoaderRunner.js:364:11\n    at /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/client/node_modules/loader-runner/lib/LoaderRunner.js:230:18\n    at context.callback (/Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/client/node_modules/loader-runner/lib/LoaderRunner.js:111:13)\n    at Object.asyncSassJobQueue.push [as callback] (/Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/node_modules/sass-loader/lib/loader.js:57:13)\n    at Object.<anonymous> (/Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/node_modules/async/dist/async.js:2243:31)\n    at Object.callback (/Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/node_modules/async/dist/async.js:906:16)\n    at options.error (/Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/node_modules/node-sass/lib/index.js:294:32)");
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -294,7 +311,7 @@ module.exports = function renderKeywords(topic, parameterizedPlural) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -388,7 +405,7 @@ function parseMed(str) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -410,7 +427,7 @@ module.exports = function nestedListPane(arr, visit) {
 };
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -424,11 +441,11 @@ var _durationField = __webpack_require__(3);
 
 var _durationField2 = _interopRequireDefault(_durationField);
 
-var _frequencyField = __webpack_require__(8);
+var _frequencyField = __webpack_require__(9);
 
 var _frequencyField2 = _interopRequireDefault(_frequencyField);
 
-var _keywords = __webpack_require__(9);
+var _keywords = __webpack_require__(10);
 
 var _keywords2 = _interopRequireDefault(_keywords);
 
@@ -436,7 +453,7 @@ var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
-var _fileAttachmentButton = __webpack_require__(7);
+var _fileAttachmentButton = __webpack_require__(8);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -445,23 +462,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 module.exports = function renderDiagnosisForm(topic) {
   var parameterizedPlural = 'diagnoses';
   var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + topic.id + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class=\'form-inline\'>\n      <div class=\'input-group\'>\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _durationField2.default)(topic, parameterizedPlural) + '\n        ,\n        ' + (0, _frequencyField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n    <div class=\'form-inline\'>\n      <div class=\'input-group\'>\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n  </td></tr>\n  ';
-  return returnStatement;
-};
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function renderFamilyTree(patient) {
-  console.log(patient);
-  var date = new Date(patient.date_of_birth);
-  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  var date_str = date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
-
-  var returnStatement = "<table class=\"family-tree\">\n    <tr>\n      <td width=\"30%\" class=\"person_name\">\n        CHILD 1 NAME\n      </td>\n      <td rowspan=\"2\" class=\"person_name\" width=\"30%\">\n        " + patient.first_name + " " + patient.last_name + "\n      </td>\n      <td width=\"30%\" class=\"person_name\">\n        PARENT 1 NAME\n      </td>\n    </tr>\n    <tr>\n      <td class=\"date rightborder\">\n        CHILD 1 LIFESPAN\n        <br />\n        CHILD 1 LOCATION\n      </td>\n      <td class=\"date leftborder\">\n        PARENT 1 LIFESPAN\n        <br />\n        PARENT 1 LOCATION\n      </td>\n    </tr>\n    <tr>\n      <td class=\"person_name rightborder\">\n        CHILD 2 NAME\n      </td>\n      <td rowspan=\"2\" class=\"date\">\n        " + date_str + "\n        <br />\n        " + patient.city + ", " + patient.state + "\n      </td>\n      <td class=\"person_name leftborder\">\n        PARENT 2 NAME\n      </td>\n    </tr>\n    <tr>\n      <td class=\"date\">\n        CHILD 2 LIFESPAN\n        <br />\n        CHILD 2 LOCATION\n      </td>\n      <td class=\"date\">\n        PARENT 2 LIFESPAN\n        <br />\n        PARENT 2 LOCATION\n      </td>\n    </tr>\n  </table>";
   return returnStatement;
 };
 
@@ -480,15 +480,15 @@ var _durationField = __webpack_require__(3);
 
 var _durationField2 = _interopRequireDefault(_durationField);
 
-var _frequencyField = __webpack_require__(8);
+var _frequencyField = __webpack_require__(9);
 
 var _frequencyField2 = _interopRequireDefault(_frequencyField);
 
-var _fileAttachmentButton = __webpack_require__(7);
+var _fileAttachmentButton = __webpack_require__(8);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
-var _keywords = __webpack_require__(9);
+var _keywords = __webpack_require__(10);
 
 var _keywords2 = _interopRequireDefault(_keywords);
 
@@ -550,7 +550,7 @@ var _durationField = __webpack_require__(3);
 
 var _durationField2 = _interopRequireDefault(_durationField);
 
-var _keywords = __webpack_require__(9);
+var _keywords = __webpack_require__(10);
 
 var _keywords2 = _interopRequireDefault(_keywords);
 
@@ -558,7 +558,7 @@ var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
-var _fileAttachmentButton = __webpack_require__(7);
+var _fileAttachmentButton = __webpack_require__(8);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -601,11 +601,11 @@ var _assembledProcedureForm = __webpack_require__(18);
 
 var _assembledProcedureForm2 = _interopRequireDefault(_assembledProcedureForm);
 
-var _assembledDiagnosisForm = __webpack_require__(14);
+var _assembledDiagnosisForm = __webpack_require__(15);
 
 var _assembledDiagnosisForm2 = _interopRequireDefault(_assembledDiagnosisForm);
 
-var _assembledFamilyMemberForm = __webpack_require__(15);
+var _assembledFamilyMemberForm = __webpack_require__(6);
 
 var _assembledFamilyMemberForm2 = _interopRequireDefault(_assembledFamilyMemberForm);
 
@@ -2523,7 +2523,7 @@ __webpack_require__(26);
 
 __webpack_require__(25);
 
-__webpack_require__(11);
+__webpack_require__(12);
 
 __webpack_require__(27);
 
@@ -2550,7 +2550,7 @@ global.Tether = _tether2.default;
 
 
 // EXPOSING JS TO BE USED IN RAILS
-__webpack_require__(10);
+__webpack_require__(11);
 __webpack_require__(40);
 __webpack_require__(45);
 __webpack_require__(42);
@@ -2715,15 +2715,15 @@ module.exports = function mapMed(name, commonName, medsObj) {
 "use strict";
 
 
-var _nestedListPane = __webpack_require__(13);
+var _nestedListPane = __webpack_require__(14);
 
 var _nestedListPane2 = _interopRequireDefault(_nestedListPane);
 
-var _epicAddForm = __webpack_require__(12);
+var _epicAddForm = __webpack_require__(13);
 
 var _epicAddForm2 = _interopRequireDefault(_epicAddForm);
 
-var _assembledFamilyMemberForm = __webpack_require__(15);
+var _assembledFamilyMemberForm = __webpack_require__(6);
 
 var _assembledFamilyMemberForm2 = _interopRequireDefault(_assembledFamilyMemberForm);
 
@@ -2791,11 +2791,11 @@ module.exports = function nestedList(arr, visit) {
 "use strict";
 
 
-var _selectConstructor = __webpack_require__(6);
+var _selectConstructor = __webpack_require__(7);
 
 var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
 
-var _frequencyField = __webpack_require__(8);
+var _frequencyField = __webpack_require__(9);
 
 var _frequencyField2 = _interopRequireDefault(_frequencyField);
 
@@ -2811,7 +2811,7 @@ var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
-var _addKeyboard = __webpack_require__(11);
+var _addKeyboard = __webpack_require__(12);
 
 var _addKeyboard2 = _interopRequireDefault(_addKeyboard);
 
@@ -5536,15 +5536,15 @@ module.exports = function mapMed(name, commonName, medsObj) {
 "use strict";
 
 
-var _nestedListPane = __webpack_require__(13);
+var _nestedListPane = __webpack_require__(14);
 
 var _nestedListPane2 = _interopRequireDefault(_nestedListPane);
 
-var _epicAddForm = __webpack_require__(12);
+var _epicAddForm = __webpack_require__(13);
 
 var _epicAddForm2 = _interopRequireDefault(_epicAddForm);
 
-var _assembledFamilyMemberForm = __webpack_require__(15);
+var _assembledFamilyMemberForm = __webpack_require__(6);
 
 var _assembledFamilyMemberForm2 = _interopRequireDefault(_assembledFamilyMemberForm);
 
@@ -5628,11 +5628,11 @@ var _assembledProcedureForm = __webpack_require__(18);
 
 var _assembledProcedureForm2 = _interopRequireDefault(_assembledProcedureForm);
 
-var _assembledDiagnosisForm = __webpack_require__(14);
+var _assembledDiagnosisForm = __webpack_require__(15);
 
 var _assembledDiagnosisForm2 = _interopRequireDefault(_assembledDiagnosisForm);
 
-var _assembledFamilyMemberForm = __webpack_require__(15);
+var _assembledFamilyMemberForm = __webpack_require__(6);
 
 var _assembledFamilyMemberForm2 = _interopRequireDefault(_assembledFamilyMemberForm);
 
@@ -26014,7 +26014,7 @@ http://www.opensource.org/licenses/mit-license.php
 
 __webpack_require__(0);
 __webpack_require__(22);
-__webpack_require__(10);
+__webpack_require__(11);
 module.exports = __webpack_require__(23);
 
 
