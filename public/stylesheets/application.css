@@ -11750,6 +11750,31 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   overflow: visible;
   clip: auto;
 }
+#ink-paper {
+    position: relative;
+}
+
+canvas[id^=ms-capture-canvas] {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    top: 0;
+    right: 0;
+}
+
+canvas[id^=ms-rendering-canvas] {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+    top: 0;
+    right: 0;
+    background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij4gIDxnIGlkPSJQYWdlLTEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+ICAgIDxnIGlkPSJHcm91cCIgc3Ryb2tlPSIjRjVGNkY3Ij4gICAgICA8cGF0aCBpZD0iU2hhcGUiIGQ9Ik02LjUsMCBMNi41LDE4IE0wLDYuNSBMMTgsNi41Ii8+ICAgIDwvZz4gIDwvZz48L3N2Zz4=) 0 0/18px 18px;
+
+}
+
+
 /* keyboard - jQuery UI Widget */
 .ui-keyboard {
   padding: .3em;
@@ -12085,7 +12110,7 @@ div[data-toggle="buttons"] label:hover {
 div[data-toggle="buttons"] label:active, div[data-toggle="buttons"] label.active {
   box-shadow: none; }
 
-myscript-math-web {
+myscript-text-web {
   min-width: 768px;
   width: calc(100% - 54px);
   height: 384px; }

@@ -30,7 +30,7 @@ import '../components/htmlTest'
 import '../components/addKeyboard'
 import '../components/nestedList'
 import '../components/row_form_pieces/rowForm'
-
+// import 'myscript-text-web/myscript-text-web.html'
 
 // EXPOSING JS TO BE USED IN RAILS
 require('../../stylesheet/application.scss');

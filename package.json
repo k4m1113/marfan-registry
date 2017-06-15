@@ -9,7 +9,7 @@
   "scripts": {
     "development": "webpack --config client/webpack.config.js",
     "webpack:deploy": "webpack --config client/webpack.config.js -p",
-    "postinstall": "bower install && cd client && yarn install",
+    "postinstall": "cd client && yarn install && cd .. && bower install",
     "heroku-postbuild": "yarn run webpack:deploy",
     "rails-server": "echo 'visit http://localhost:3000/hello_world' && foreman start -f Procfile.dev",
     "test": "rspec"
@@ -29,6 +29,7 @@
     "bootstrap-loader": "^2.1.0",
     "bootstrap-sass": "^3.3.7",
     "bower": "^1.8.0",
+    "bower-webpack-plugin": "^0.1.9",
     "coffee-loader": "^0.7.3",
     "coffee-script": "^1.12.6",
     "compression-webpack-plugin": "^0.4.0",
@@ -71,6 +72,8 @@
     "tether": "^1.4.0",
     "url-loader": "^0.5.8",
     "virtual-keyboard": "^1.26.23",
+    "wc-loader": "^1.1.4",
+    "webcomponents-loader": "^1.0.1",
     "webpack": "^2.6.1",
     "webpack-dev-server": "^2.4.5",
     "webpack-manifest-plugin": "^1.1.0",

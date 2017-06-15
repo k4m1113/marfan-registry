@@ -5,6 +5,7 @@
 const fs = require('fs');
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const BowerWebpackPlugin = require("bower-webpack-plugin");
 const Dotenv = require("dotenv-webpack")
 var path = require("path");
 var node_dir = path.join(__dirname, '/node_modules');
@@ -12,6 +13,7 @@ var bower_dir = path.join(__dirname, '/bower_components');
 const prod = process.argv.indexOf('-p') !== -1;
 const css_output_template = prod ? "stylesheets/[name]-[hash].css" : "stylesheets/[name].css";
 const js_output_template = prod ? "javascripts/[name]-[hash].js" : "javascripts/[name].js";
+require('lodash')
 
 
 module.exports = {
@@ -25,15 +27,16 @@ module.exports = {
     alias: {
       'add-keyboard': path.resolve(
         './javascript/addKeyboard.js'
-      )
+      ),
+      "lodash$": "lodash/lodash.min"
     },
     modules: [
-      "node_modules",
-      "bower_components"
+      "bower_components",
+      "node_modules"
     ],
     descriptionFiles: [
-      'package.json',
-      'bower.json'
+      'bower.json',
+      'package.json'
     ],
     extensions: ['.js', '.jsx', '.erb', '.css', '.scss', '.woff2', '.svg', '.tff', '.eot', '.jsx.erb', '.html'],
   },
@@ -72,14 +75,19 @@ module.exports = {
       },
       {
         test: /\.(woff2?|svg)$/,
-        loader: 'url-loader?limit=10000&name=/fonts/[name].[ext]'
+        loader: 'url-loader?limit=10000&mimetype=image/svg+xml&name=/fonts/[name].[ext]'
       },
       {
         test: /\.(ttf|eot)$/,
         loader: 'file-loader?name=/fonts/[name].[ext]'
       },
       {
-        test: /bootstrap-sass\/assets\/javascripts\//, loader: 'imports-loader?jQuery=jquery'
+        test: /bootstrap-sass\/assets\/javascripts\//,
+        loader: 'imports-loader?jQuery=jquery'
+      },
+      {
+        test: /\.html$/,
+        loader: 'url-loader!wc-loader'
       },
       {
         test: require.resolve('jquery'),
@@ -102,10 +110,6 @@ module.exports = {
   },
 
   plugins: [
-    // new webpack.DefinePlugin({
-    //   'process.env.MYSCRIPT_KEY': ,
-    //   'process.env.MYSCRIPT_HMAC':
-    // }),
     new webpack.ProvidePlugin({
       $: "jquery",
       jQuery: "jquery",

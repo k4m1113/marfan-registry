@@ -4,6 +4,18 @@
   let patient = <%= @jpatient.html_safe %>
 </script>
 <div id="ms" data-mskey="<%= ENV['MYSCRIPT_KEY'] %>" data-mshmac="<%= ENV['MYSCRIPT_HMAC'] %>"></div>
+<myscript-text-web
+  applicationkey="<%= ENV['MYSCRIPT_KEY'] %>"
+  hmackey="<%= ENV['MYSCRIPT_HMAC'] %>"
+  language="en_US"
+  protocol="REST"
+  hideresult="true"
+  hidebuttons="true"
+  timeout="1000"
+  class="scribble"
+  recognitioncandidates="3"
+  id="kks">
+</myscript-text-web>
 <%= form_for @visit, class: "visit_form" do |f| %>
   <div class="row">
     <div class="col-sm-12" style="margin-bottom:-16px;">
@@ -97,7 +109,7 @@
     $('.btn-group-vertical > button').click(function(e){
       var classes = $(this)[0].classList.value
       $current_row = $(this).closest('tr')
-      $current_scribble = $current_row.find('myscript-math-web')[0]
+      $current_scribble = $current_row.find('myscript-text-web')[0]
       $note_field = $current_row.find("textarea")[0]
       $current_modal = $('.modal.show')
 
