@@ -5,7 +5,6 @@
 const fs = require('fs');
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const BowerWebpackPlugin = require("bower-webpack-plugin");
 const Dotenv = require("dotenv-webpack")
 var path = require("path");
 var node_dir = path.join(__dirname, '/node_modules');
@@ -75,7 +74,7 @@ module.exports = {
       },
       {
         test: /\.(woff2?|svg)$/,
-        loader: 'url-loader?limit=10000&mimetype=image/svg+xml&name=/fonts/[name].[ext]'
+        loader: 'url-loader?limit=10000&name=/fonts/[name].[ext]'
       },
       {
         test: /\.(ttf|eot)$/,
@@ -84,10 +83,6 @@ module.exports = {
       {
         test: /bootstrap-sass\/assets\/javascripts\//,
         loader: 'imports-loader?jQuery=jquery'
-      },
-      {
-        test: /\.html$/,
-        loader: 'url-loader!wc-loader'
       },
       {
         test: require.resolve('jquery'),
