@@ -46,7 +46,6 @@ module.exports = function renderRowForm(topic, visit) {
       returnStatement += `${renderMedicationForm(topic)}`;
       break;
     default:
-      console.log('default');
   };
   return returnStatement;
 }

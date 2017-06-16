@@ -12345,10 +12345,13 @@ table.family-tree {
   font-size: 16px;
   padding: 8px 12px; }
 
-label.fontawesome-icon {
-  height: 20px; }
-  label.fontawesome-icon:hover {
-    cursor: pointer; }
+button.file-attachment {
+  padding: 0px; }
+  button.file-attachment label.fontawesome-icon {
+    border: 1px solid #025AA5;
+    padding: 8px 16px; }
+    button.file-attachment label.fontawesome-icon:hover {
+      cursor: pointer; }
 
 input[type=date] {
   padding-top: 6px !important;

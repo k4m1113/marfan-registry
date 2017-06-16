@@ -21,11 +21,14 @@ $bootstrap-blue: #025AA5;
   font-size: 16px;
   padding: 8px 12px;
 }
-
-label.fontawesome-icon {
-  height: 20px;
-  &:hover {
-    cursor: pointer;
+button.file-attachment {
+  padding: 0px;
+  label.fontawesome-icon {
+    border: 1px solid $bootstrap-blue;
+    padding: 8px 16px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }
 input[type=date] {

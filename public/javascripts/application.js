@@ -206,7 +206,7 @@ module.exports = function renderTimeAgoField(topic, parameterizedPlural) {
 
 
 module.exports = function renderFamilyTree(patient) {
-  console.log(patient);
+  // console.log(patient)
   var date = new Date(patient.date_of_birth);
   var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   var date_str = date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
@@ -240,7 +240,7 @@ module.exports = function selectConstructor(array, title) {
 
 
 module.exports = function renderFileButton(topic, parameterizedPlural) {
-  var returnStatement = "\n    <input  name=\"visit[" + parameterizedPlural + "_attributes][" + topic.id + "][attachment]\" id=\"visit_" + parameterizedPlural + "_attributes_" + topic.id + "_attachment\" multiple=\"multiple\" style=\"display:none\" type=\"file\">\n      <button class=\"btn btn-primary\" type=\"button\">\n      <label for=\"visit_" + parameterizedPlural + "_attributes_" + topic.id + "_attachment\" class=\"fontawesome-icon\">\n      <i class=\"fa fa-camera\"></i>\n    </label>\n  </button>\n  ";
+  var returnStatement = "\n    <input  name=\"visit[" + parameterizedPlural + "_attributes][" + topic.id + "][attachment]\" id=\"visit_" + parameterizedPlural + "_attributes_" + topic.id + "_attachment\" multiple=\"multiple\" style=\"display:none\" type=\"file\">\n      <button class=\"btn btn-primary file-attachment\" type=\"button\">\n      <label for=\"visit_" + parameterizedPlural + "_attributes_" + topic.id + "_attachment\" class=\"fontawesome-icon\">\n      <i class=\"fa fa-camera\"></i>\n    </label>\n  </button>\n  ";
   return returnStatement;
 };
 
@@ -684,7 +684,6 @@ module.exports = function renderRowForm(topic, visit) {
       returnStatement += '' + (0, _assembledMedicationForm2.default)(topic);
       break;
     default:
-      console.log('default');
   };
   return returnStatement;
 };
@@ -5714,7 +5713,6 @@ module.exports = function renderRowForm(topic, visit) {
       returnStatement += '' + (0, _assembledMedicationForm2.default)(topic);
       break;
     default:
-      console.log('default');
   };
   return returnStatement;
 };
