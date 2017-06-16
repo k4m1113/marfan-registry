@@ -59,7 +59,7 @@ module.exports = function renderMedFormBody(topic){
   </div>
 
   <div class='form-inline'>
-    TIME AGO
+    NOTE
     ${renderNoteField(topic, 'medications')}
   </div>`
   return returnStatement

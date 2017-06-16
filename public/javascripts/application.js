@@ -133,7 +133,7 @@ return $.ui.version = "1.12.1";
 "use strict";
 
 
-var _selectConstructor = __webpack_require__(10);
+var _selectConstructor = __webpack_require__(7);
 
 var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
 
@@ -165,7 +165,7 @@ module.exports = function renderNoteField(topic, parameterizedPlural) {
 "use strict";
 
 
-var _selectConstructor = __webpack_require__(10);
+var _selectConstructor = __webpack_require__(7);
 
 var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
 
@@ -222,9 +222,14 @@ module.exports = function renderFamilyTree(patient) {
 "use strict";
 
 
-module.exports = function renderFileButton(topic, parameterizedPlural) {
-  var returnStatement = "\n    <input  name=\"visit[" + parameterizedPlural + "_attributes][" + topic.id + "][attachment]\" id=\"visit_" + parameterizedPlural + "_attributes_" + topic.id + "_attachment\" multiple=\"multiple\" style=\"display:none\" type=\"file\">\n      <button class=\"btn btn-primary\" type=\"button\">\n      <label for=\"visit_" + parameterizedPlural + "_attributes_" + topic.id + "_attachment\" class=\"fontawesome-icon\">\n      <i class=\"fa fa-camera\"></i>\n    </label>\n  </button>\n  ";
-  return returnStatement;
+// turn an array into html select options
+module.exports = function selectConstructor(array, title) {
+  var returnStatement = ['<option value="" selected disabled>' + title + '</option>'];
+  array.map(function (item) {
+    var optionized = '<option>' + item + '</option>';
+    returnStatement.push(optionized);
+  });
+  return returnStatement.join('');
 };
 
 /***/ }),
@@ -234,7 +239,19 @@ module.exports = function renderFileButton(topic, parameterizedPlural) {
 "use strict";
 
 
-var _selectConstructor = __webpack_require__(10);
+module.exports = function renderFileButton(topic, parameterizedPlural) {
+  var returnStatement = "\n    <input  name=\"visit[" + parameterizedPlural + "_attributes][" + topic.id + "][attachment]\" id=\"visit_" + parameterizedPlural + "_attributes_" + topic.id + "_attachment\" multiple=\"multiple\" style=\"display:none\" type=\"file\">\n      <button class=\"btn btn-primary\" type=\"button\">\n      <label for=\"visit_" + parameterizedPlural + "_attributes_" + topic.id + "_attachment\" class=\"fontawesome-icon\">\n      <i class=\"fa fa-camera\"></i>\n    </label>\n  </button>\n  ";
+  return returnStatement;
+};
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _selectConstructor = __webpack_require__(7);
 
 var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
 
@@ -248,7 +265,7 @@ module.exports = function renderFrequencyField(topic, parameterizedPlural) {
 };
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -264,23 +281,6 @@ module.exports = function renderKeywords(topic, parameterizedPlural) {
     returnStatement += '</div>';
   }
   return returnStatement;
-};
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// turn an array into html select options
-module.exports = function selectConstructor(array, title) {
-  var returnStatement = ['<option value="" selected disabled>' + title + '</option>'];
-  array.map(function (item) {
-    var optionized = '<option>' + item + '</option>';
-    returnStatement.push(optionized);
-  });
-  return returnStatement.join('');
 };
 
 /***/ }),
@@ -461,11 +461,11 @@ var _durationField = __webpack_require__(3);
 
 var _durationField2 = _interopRequireDefault(_durationField);
 
-var _frequencyField = __webpack_require__(8);
+var _frequencyField = __webpack_require__(9);
 
 var _frequencyField2 = _interopRequireDefault(_frequencyField);
 
-var _keywords = __webpack_require__(9);
+var _keywords = __webpack_require__(10);
 
 var _keywords2 = _interopRequireDefault(_keywords);
 
@@ -473,7 +473,7 @@ var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
-var _fileAttachmentButton = __webpack_require__(7);
+var _fileAttachmentButton = __webpack_require__(8);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -500,15 +500,15 @@ var _durationField = __webpack_require__(3);
 
 var _durationField2 = _interopRequireDefault(_durationField);
 
-var _frequencyField = __webpack_require__(8);
+var _frequencyField = __webpack_require__(9);
 
 var _frequencyField2 = _interopRequireDefault(_frequencyField);
 
-var _fileAttachmentButton = __webpack_require__(7);
+var _fileAttachmentButton = __webpack_require__(8);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
-var _keywords = __webpack_require__(9);
+var _keywords = __webpack_require__(10);
 
 var _keywords2 = _interopRequireDefault(_keywords);
 
@@ -570,7 +570,7 @@ var _durationField = __webpack_require__(3);
 
 var _durationField2 = _interopRequireDefault(_durationField);
 
-var _keywords = __webpack_require__(9);
+var _keywords = __webpack_require__(10);
 
 var _keywords2 = _interopRequireDefault(_keywords);
 
@@ -578,7 +578,7 @@ var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
-var _fileAttachmentButton = __webpack_require__(7);
+var _fileAttachmentButton = __webpack_require__(8);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -2814,11 +2814,11 @@ module.exports = function nestedList(arr, visit) {
 "use strict";
 
 
-var _selectConstructor = __webpack_require__(10);
+var _selectConstructor = __webpack_require__(7);
 
 var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
 
-var _frequencyField = __webpack_require__(8);
+var _frequencyField = __webpack_require__(9);
 
 var _frequencyField2 = _interopRequireDefault(_frequencyField);
 
@@ -2845,7 +2845,7 @@ var unitsOfMeas = ['mcg', 'mg', 'mL', 'mm', 'g', 'L', 'IU'];
 var dosageForms = ['tablet', 'capsule', 'pill', 'liquid solution', 'inhaler', 'cream', 'drops', 'suppository'];
 
 module.exports = function renderMedFormBody(topic) {
-  var returnStatement = '\n  <div class=\'form-inline\'>\n    DOSE\n    <input type=\'number\' name=\'visit[medications_attributes][' + topic.id + '][dose]\' id=\'visit_medications_attributes_' + topic.id + '_dose\' class=\'form-control calculator\' placeholder=\'dose\'>\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-primary calculator\' type=\'button\' id=\'medications_' + topic.id + '_dose_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n    </span>\n    <select name=\'visit[medications_attributes][' + topic.id + '][dose_unit_of_measurement]\' id=\'visit_medications_attributes_' + topic.id + '_dose_unit_of_measurement\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(unitsOfMeas, 'dose units') + '\n    </select>\n  </div>\n\n  <div class=\'form-inline\'>\n    DOSAGE FORM\n    <input type=\'number\' name=\'visit[medications_attributes][' + topic.id + '][dosage_form_units]\' id=\'visit_medications_attributes_' + topic.id + '_dosage_form_units\' class=\'form-control calculator\' placeholder=\'dosage form units\'>\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-primary calculator\' type=\'button\' id=\'medications_' + topic.id + '_dose_units_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n    </span>\n    <select name=\'visit[medications_attributes][' + topic.id + '][dosage_form_units]\' id=\'visit_medications_attributes_' + topic.id + '_dosage_form_units\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(unitsOfMeas, 'dose form units') + '\n    </select>\n    <select name=\'visit[medications_attributes][' + topic.id + '][dosage_form]\' id=\'visit_medications_attributes_' + topic.id + '_dosage_form\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(dosageForms, 'dose form') + '\n    </select>\n  </div>\n\n  <div class=\'form-inline\'>\n    METHOD OF INGESTION\n    <select name=\'visit[medications_attributes][' + topic.id + '][ingestion_method]\' id=\'visit_medications_attributes_' + topic.id + '_ingestion_method\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(ingestionMethods, 'MOI') + '\n    </select>\n  </div>\n\n  <div class=\'form-inline\'>\n    DURATION\n    ' + (0, _durationField2.default)(topic, 'medications') + '\n  </div>\n\n  <div class=\'form-inline\'>\n    FREQUENCY\n    ' + (0, _frequencyField2.default)(topic, 'medications') + '\n  </div>\n\n  <div class=\'form-inline\'>\n    TIME AGO\n    ' + (0, _timeAgoField2.default)(topic, 'medications') + '\n  </div>\n\n  <div class=\'form-inline\'>\n    TIME AGO\n    ' + (0, _noteField2.default)(topic, 'medications') + '\n  </div>';
+  var returnStatement = '\n  <div class=\'form-inline\'>\n    DOSE\n    <input type=\'number\' name=\'visit[medications_attributes][' + topic.id + '][dose]\' id=\'visit_medications_attributes_' + topic.id + '_dose\' class=\'form-control calculator\' placeholder=\'dose\'>\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-primary calculator\' type=\'button\' id=\'medications_' + topic.id + '_dose_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n    </span>\n    <select name=\'visit[medications_attributes][' + topic.id + '][dose_unit_of_measurement]\' id=\'visit_medications_attributes_' + topic.id + '_dose_unit_of_measurement\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(unitsOfMeas, 'dose units') + '\n    </select>\n  </div>\n\n  <div class=\'form-inline\'>\n    DOSAGE FORM\n    <input type=\'number\' name=\'visit[medications_attributes][' + topic.id + '][dosage_form_units]\' id=\'visit_medications_attributes_' + topic.id + '_dosage_form_units\' class=\'form-control calculator\' placeholder=\'dosage form units\'>\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-primary calculator\' type=\'button\' id=\'medications_' + topic.id + '_dose_units_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n    </span>\n    <select name=\'visit[medications_attributes][' + topic.id + '][dosage_form_units]\' id=\'visit_medications_attributes_' + topic.id + '_dosage_form_units\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(unitsOfMeas, 'dose form units') + '\n    </select>\n    <select name=\'visit[medications_attributes][' + topic.id + '][dosage_form]\' id=\'visit_medications_attributes_' + topic.id + '_dosage_form\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(dosageForms, 'dose form') + '\n    </select>\n  </div>\n\n  <div class=\'form-inline\'>\n    METHOD OF INGESTION\n    <select name=\'visit[medications_attributes][' + topic.id + '][ingestion_method]\' id=\'visit_medications_attributes_' + topic.id + '_ingestion_method\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(ingestionMethods, 'MOI') + '\n    </select>\n  </div>\n\n  <div class=\'form-inline\'>\n    DURATION\n    ' + (0, _durationField2.default)(topic, 'medications') + '\n  </div>\n\n  <div class=\'form-inline\'>\n    FREQUENCY\n    ' + (0, _frequencyField2.default)(topic, 'medications') + '\n  </div>\n\n  <div class=\'form-inline\'>\n    TIME AGO\n    ' + (0, _timeAgoField2.default)(topic, 'medications') + '\n  </div>\n\n  <div class=\'form-inline\'>\n    NOTE\n    ' + (0, _noteField2.default)(topic, 'medications') + '\n  </div>';
   return returnStatement;
 };
 

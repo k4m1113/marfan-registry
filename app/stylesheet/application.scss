@@ -18,11 +18,15 @@ $bootstrap-blue: #025AA5;
   background: #025AA5 !important;
 }
 .bootstrap-switch .bootstrap-switch-handle-on, .bootstrap-switch .bootstrap-switch-handle-off, .bootstrap-switch .bootstrap-switch-label {
-  font-size: 16px !important;
+  font-size: 16px;
+  padding: 8px 12px;
 }
 
 label.fontawesome-icon {
   height: 20px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 input[type=date] {
   padding-top: 6px !important;
