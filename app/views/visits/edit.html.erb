@@ -4,6 +4,7 @@
   let patient = <%= @jpatient.html_safe %>
 </script>
 <div id="ms" data-mskey="<%= ENV['MYSCRIPT_KEY'] %>" data-mshmac="<%= ENV['MYSCRIPT_HMAC'] %>"></div>
+<div id="invisible" data-rubyvar="<%= @all_meds.map{|t| [t.name.downcase, t.id]}.to_h.to_json %>"></div>
 <%= form_for @visit, class: "visit_form" do |f| %>
   <div class="row">
     <div class="col-sm-12" style="margin-bottom:-16px;">
@@ -27,117 +28,5 @@
   </div>
 <% end %>
 <script>
-  const mskey = $('#ms').data('mskey')
-  const mshmac = $('#ms').data('mshmac')
-
-  $('#nestedListHook').append(nestedList(allTopics, visit, mskey, mshmac))
-
-  // initialize jQuery UI tabbing
-  $(function () {
-     $("#mainNestedList").tabs()
-  });
-
-  // click on either 'bar' or tab 'nav-link'
-  $('a.open-tab').on("click", function(){
-    // accordion-style collapse
-    $("ul.summary-bar").find(".active").removeClass("active");
-    $('#tabs').tabs("option", "active", $(this).data("tab-index"));
-    $('.summary-body').hide();
-    $(this).next(".summary-body").toggle();
-    // scroll to new content
-    $('html, body').animate({
-      scrollTop: ($('.tab-pane.active').offset().top)
-    }, 350);
-  });
-
-  // click on tab 'nav-link'
-  $('a.nav-link').on("click", function(){
-    $(".nav").find(".active").removeClass("active");
-    $(this).parent().addClass("active");
-  });
-
-  // toggle all negative on current pane
-  $('h6.all-neg-toggler').click(function toggleAllAbsent() {
-    $('.tab-pane.active').find("input[value='false']").prop("checked", "checked")
-  });
-
-  // calc button clicked
-  $('button.calculator').click(function(e){
-    $targetInput =  $(this).closest('.input-group').children("input[type='number']")
-    e.stopImmediatePropagation();
-    var kb = $targetInput.getkeyboard();
-    // close the keyboard if the keyboard is visible and the button is clicked a second time
-    if ( kb.isOpen ) {
-      kb.close();
-    } else {
-      kb.reveal();
-    }
-  });
-
-  // append file name to attachment button on change
-  $("input[type='file']").on('change', function() {
-    var file_name = $(this).val().split("\\").pop().split("/").pop()
-    $(this).next('button').find('label').append(file_name)
-  });
-
-
-  // hide or display row form based on 'present' or 'absent' checked
-  $("input.pres_abs").change(function() {
-    $row_form = $(this).parent().parent().parent().next('tr.row_form')
-    // add keyboard and scribble widgets on row display
-    $row_form.find("input[type='number']").addKeyboard()
-    // add time ago approx/exact toggle
-    $row_form.find(".time_ago_toggle").bootstrapSwitch({
-      onText: 'Approx',
-      offText: 'Exact',
-      labelText: 'when?',
-      onColor: 'primary'
-    });
-    // toggle approximate or exact time ago
-    $(".time_ago_toggle").on('switchChange.bootstrapSwitch', function (event, state) {
-      $inputgroup = $(this).parent().parent().parent()
-      if (state == true) {
-        $inputgroup.find('.approximate').show()
-        $inputgroup.find('.exact').hide()
-      }
-      else {
-        $inputgroup.find('.approximate').hide()
-        $inputgroup.find('.exact').show()
-      }
-    })
-
-    // add scribble area
-    $row_form.find("textarea").parent().append(renderScribbleButton($row_form[0].id, mskey, mshmac))
-    if ($(this).val() == "true") {
-      $row_form.show()
-    } else if ($(this).val() == "false") {
-      $row_form.hide()
-    } else {
-      $row_form.hide()
-    }
-    $('.btn-group-vertical > button').click(function(e){
-      var classes = $(this)[0].classList.value
-      $current_row = $(this).closest('tr')
-      $current_scribble = $current_row.find('myscript-math-web')[0]
-      $note_field = $current_row.find("textarea")[0]
-      $current_modal = $('.modal.show')
-
-      if (classes.includes('accept')) {
-        if ($current_scribble.result) {
-          var result = $current_scribble.result['LATEX']
-          $note_field.value += result
-          $current_modal.modal('hide')
-        }
-      } else if (classes.includes('undo')) {
-        $current_scribble.undo()
-      } else if (classes.includes('redo')) {
-        $current_scribble.redo()
-      } else if (classes.includes('destroy')) {
-        $current_scribble.clear()
-      } else {
-        console.log('error')
-      }
-
-    });
-  });
+  <%= render 'edit.js' %>
 </script>

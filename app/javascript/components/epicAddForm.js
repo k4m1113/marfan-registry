@@ -4,142 +4,67 @@ module.exports = function renderEpicAddForm() {
       <div class="input-group">
           <input type="text" class="form-control" id="epicMed" placeholder="Epic users: .MEDSCURRENT"/>
           <span class="input-group-btn">
-            <button type="button" class="btn btn-primary" data-animation="false" data-toggle="modal" data-target="#medModal" onclick="parseMed($('#epicMed').val());">
-              Add Medication
+            <button type="button"
+              id="medParse"
+              class="btn btn-primary"
+              data-animation="false"
+              data-toggle="modal"
+              data-target="#medModal">
+              .MEDSCURRENT
             </button>
           </span>
       </div>
     </div>
   </div>
-  <div id="invisible" data-rubyvar="<%= @all_meds.map{|t| [t.name.downcase, t.id]}.to_h.to_json %>"></div>
 
-  <!-- Modal -->
   <div class="modal fade" id="medModal" tabindex="-1" role="dialog" aria-labelledby="medModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="medModalLabel">Add Medication</h5>
+          <h5 class="modal-title" id="medModalLabel">
+            Bulk Add Medication
+          </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <i class="fa fa-times" aria-hidden="true"></i>
           </button>
         </div>
-        <%= f.fields_for :medications, @nested_scope.medications.build do |ff| %>
           <div class="modal-body">
-            <%= render 'medications/med_form_body', ff: ff %>
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    Name
+                  </th>
+                  <th>
+                    Dose
+                  </th>
+                  <th>
+                    MOI
+                  </th>
+                  <th>
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="parsedMeds">
+
+              </tbody>
+            </table>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <%= ff.submit "Add Medications", class: "btn btn-primary" %>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              Close
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Add Medications
+            </button>
           </div>
-        <% end %>
       </div>
     </div>
   </div>`;
+  return returnStatement
 }
-function parseMed(str) {
-  var medsArr = str.split("•  ");
-  medsArr.shift();
-  var medsJSON = []
-  for (var i = 0; i < medsArr.length; i++) {
-    commas = splitNoParen(medsArr[i])
-    commas = commas.map(function(x) { return x.trim() });
-    console.log(commas)
-    if (commas[0].includes('(')) {
-      firstParen = commas[0].indexOf('(')
-      secondParen = commas[0].indexOf(')')
-      doseSpace = commas[1].indexOf(' ')
-      lastSpace = commas[1].indexOf(' ', doseSpace + 1)
-      medsJSON.push(
-        {
-          "name": commas[0].slice(0, firstParen - 1),
-          "commonName": commas[0].slice(firstParen + 1, secondParen),
-          "dose": commas[1].slice(0, doseSpace),
-          "doseUnitOfMeas": commas[1].slice(doseSpace + 1, lastSpace),
-          "dosageForm": commas[1].slice(lastSpace + 1, commas[0].length),
-          "ingestionMethod": commas[2],
-          "topicID": mapMed(commas[0].slice(0, firstParen - 1), commas[0].slice(firstParen + 1, secondParen), $('#invisible').data('rubyvar'))
-        }
-      )
-    }
-    else {
-      medsJSON.push(
-        {
-          "medicationFormat": commas[0],
-          "ingestionMethod": commas[1],
-          "topicID": mapMed(commas[0], commas[0], $('#invisible').data('rubyvar'))
-        }
-      )
-    }
-  }
-  for (var i = 0; i < medsJSON.length; i++) {
-    if (medsJSON[i]['medicationFormat']) {
-      $('#unParsedMedsTable').append(
-        `<tr>
-          <td>
-            <input value="${medsJSON[i]["medicationFormat"]}" class="form-control" type="text" name="visit[medications_attributes][${i}][name]" id="visit_medications_attributes_${i}_name" />
-          </td>
-          <td>
-            <input value="${medsJSON[i]["ingestionMethod"]}" class="form-control" type="text" name="visit[medications_attributes][${i}][ingestion_method]" id="visit_medications_attributes_${i}_ingestion_method" />
-          </td>
-          <td>
-            <div class="form-check form-check-inline">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_true" value="true"> Continue
-              </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_false" value="false"> Discontinue
-              </label>
-            </div>
-            <input value="<%= @visit.id %>" class="form-control" type="hidden" name="visit[medications_attributes][${i}][visit_id]" id="visit_medications_attributes_${i}_visit_id" />
-            <input value="<%= @patient.id %>" class="form-control" type="hidden" name="visit[medications_attributes][${i}][patient_id]" id="visit_medications_attributes_${i}_visit_id" />
-            <input value="${medsJSON[i]["topicID"]}" class="form-control" type="hidden" name="visit[medications_attributes][${i}][topic_id]" id="visit_medications_attributes_${i}_topic_id" />
-          </td>
-        </tr>`
-      )
-    }
-    else {
-      $('#parsedMedsTable').append(
-        `<tr>
-          <td>
-            <div class="form-inline">
-              <input value="${medsJSON[i]["name"]}" class="form-control" type="text" name="visit[medications_attributes][${i}][name]" id="visit_medications_attributes_${i}_name" style=
-              "max-width:8em;" />
-              <input value="${medsJSON[i]["commonName"]}" class="form-control" type="text" name="visit[medications_attributes][${i}][common_name]" id="visit_medications_attributes_${i}_common_name" style=
-              "max-width:8em;" />
-            </div>
-          </td>
-          <td>
-            <div class="form-inline">
-              <input value="${medsJSON[i]["dose"]}" class="form-control" style="max-width:6em;" type="number" name="visit[medications_attributes][${i}][dose]" id="visit_medications_attributes_${i}_dose" />
-              <input value="${medsJSON[i]["doseUnitOfMeas"]}" class="form-control" style="max-width:6em;" type="text" name="visit[medications_attributes][${i}][dose_unit_of_measurement]" id="visit_medications_attributes_${i}_dose_unit_of_measurement" />
-              <input value="${medsJSON[i]["dosageForm"]}" class="form-control" type="text" name="visit[medications_attributes][${i}][dosage_form]" id="visit_medications_attributes_${i}_dosage_form" />
-            </div>
-          </td>
-          <td>
-            <input value="${medsJSON[i]["ingestionMethod"]}" class="form-control" type="text" name="visit[medications_attributes][${i}][ingestion_method]" id="visit_medications_attributes_${i}_ingestion_method" />
-          </td>
-          <td>
-            <div class="form-check form-check-inline">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_true" value="true"> Continue
-              </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_false" value="false"> Discontinue
-              </label>
-            </div>
-            <input value="<%= @visit.id %>" class="form-control" type="hidden" name="visit[medications_attributes][${i}][visit_id]" id="visit_medications_attributes_${i}_visit_id" />
-            <input value="<%= @patient.id %>" class="form-control" type="hidden" name="visit[medications_attributes][${i}][patient_id]" id="visit_medications_attributes_${i}_visit_id" />
-            <input value="${medsJSON[i]["topicID"]}" class="form-control" type="hidden" name="visit[medications_attributes][${i}][topic_id]" id="visit_medications_attributes_${i}_topic_id" />
-          </td>
-        </tr>`
-      );
-    }
-  }
-};
+
 
 // Current Outpatient Prescriptions:
 // •  acetaminophen (TYLENOL) 500 mg tablet, take 500 mg by mouth every 6 hours as needed (migraine headaches), Disp: , Rfl:

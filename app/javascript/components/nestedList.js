@@ -12,11 +12,11 @@ function keyify(str) {
   return str
 }
 
-module.exports = function nestedList(arr, visit) {
+module.exports = function nestedList(allTopics, visit) {
   let updateButton = `<input type="submit" name="commit" value="Update Visit" class="col-centered form-control-label btn btn-secondary btn-lg" style="width:100%;">`
   let topBar = `<ul class="nav nav-tabs flex-column" role="tablist">`
-  for (var i = 0; i < arr.length; i++) {
-    let groupName = arr[i][0]
+  for (let i = 0; i < allTopics.length; i++) {
+    let groupName = allTopics[i][0]
     let key = keyify(groupName)
     topBar += `<li class="nav-item" style="width:60px;">
       <a class="nav-link open-tab" data-tab-index="${i}" data-toggle="tab" href="#${key}" role="tab">
@@ -27,9 +27,9 @@ module.exports = function nestedList(arr, visit) {
   topBar += '</ul>'
 
   let panes = `<div class="tab-content">`
-  for (var i = 0; i < arr.length; i++) {
-    const groupName = arr[i][0]
-    const children = arr[i][1]
+  for (var i = 0; i < allTopics.length; i++) {
+    const groupName = allTopics[i][0]
+    const children = allTopics[i][1]
     const key = keyify(groupName)
     if (i == 0) {
       panes += `<div class="tab-pane fade show in" role="tabpanel" id="${key}" data-tab-index="${i}">`
@@ -49,7 +49,7 @@ module.exports = function nestedList(arr, visit) {
         panes += 'AORTIC IMAGING</div>'
         break;
       case 'medication':
-        panes += 'EPIC ADD FORM'
+        panes += `${renderEpicAddForm()}`
         panes += `${nestedListPane(children, visit)}</div>`
         break;
       default:
