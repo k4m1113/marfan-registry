@@ -4,18 +4,6 @@
   let patient = <%= @jpatient.html_safe %>
 </script>
 <div id="ms" data-mskey="<%= ENV['MYSCRIPT_KEY'] %>" data-mshmac="<%= ENV['MYSCRIPT_HMAC'] %>"></div>
-<myscript-text-web
-  applicationkey="<%= ENV['MYSCRIPT_KEY'] %>"
-  hmackey="<%= ENV['MYSCRIPT_HMAC'] %>"
-  language="en_US"
-  protocol="REST"
-  hideresult="true"
-  hidebuttons="true"
-  timeout="1000"
-  class="scribble"
-  recognitioncandidates="3"
-  id="kks">
-</myscript-text-web>
 <%= form_for @visit, class: "visit_form" do |f| %>
   <div class="row">
     <div class="col-sm-12" style="margin-bottom:-16px;">
@@ -92,11 +80,32 @@
     $(this).next('button').find('label').append(file_name)
   });
 
+
   // hide or display row form based on 'present' or 'absent' checked
   $("input.pres_abs").change(function() {
     $row_form = $(this).parent().parent().parent().next('tr.row_form')
     // add keyboard and scribble widgets on row display
     $row_form.find("input[type='number']").addKeyboard()
+    // add time ago approx/exact toggle
+    $row_form.find(".time_ago_toggle").bootstrapSwitch({
+      onText: 'Approx',
+      offText: 'Exact',
+      labelText: 'when?',
+      onColor: 'primary'
+    });
+    // toggle approximate or exact time ago
+    $(".time_ago_toggle").on('switchChange.bootstrapSwitch', function (event, state) {
+      $inputgroup = $(this).parent().parent().parent()
+      if (state == true) {
+        $inputgroup.find('.approximate').show()
+        $inputgroup.find('.exact').hide()
+      }
+      else {
+        $inputgroup.find('.approximate').hide()
+        $inputgroup.find('.exact').show()
+      }
+    })
+
     // add scribble area
     $row_form.find("textarea").parent().append(renderScribbleButton($row_form[0].id, mskey, mshmac))
     if ($(this).val() == "true") {
@@ -109,7 +118,7 @@
     $('.btn-group-vertical > button').click(function(e){
       var classes = $(this)[0].classList.value
       $current_row = $(this).closest('tr')
-      $current_scribble = $current_row.find('myscript-text-web')[0]
+      $current_scribble = $current_row.find('myscript-math-web')[0]
       $note_field = $current_row.find("textarea")[0]
       $current_modal = $('.modal.show')
 

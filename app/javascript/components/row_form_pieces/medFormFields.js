@@ -11,7 +11,7 @@ const dosageForms = ['tablet', 'capsule', 'pill', 'liquid solution', 'inhaler', 
 
 module.exports = function renderMedFormBody(topic){
   const returnStatement = `
-  <div class='input-group'>
+  <div class='form-inline'>
     DOSE
     <input type='number' name='visit[medications_attributes][${topic.id}][dose]' id='visit_medications_attributes_${topic.id}_dose' class='form-control calculator' placeholder='dose'>
     <span class='input-group-btn'>
@@ -22,7 +22,7 @@ module.exports = function renderMedFormBody(topic){
     </select>
   </div>
 
-  <div class='input-group'>
+  <div class='form-inline'>
     DOSAGE FORM
     <input type='number' name='visit[medications_attributes][${topic.id}][dosage_form_units]' id='visit_medications_attributes_${topic.id}_dosage_form_units' class='form-control calculator' placeholder='dosage form units'>
     <span class='input-group-btn'>
@@ -36,29 +36,29 @@ module.exports = function renderMedFormBody(topic){
     </select>
   </div>
 
-  <div class='input-group'>
+  <div class='form-inline'>
     METHOD OF INGESTION
     <select name='visit[medications_attributes][${topic.id}][ingestion_method]' id='visit_medications_attributes_${topic.id}_ingestion_method' class='form-control'>
       ${selectConstructor(ingestionMethods, 'MOI')}
     </select>
   </div>
 
-  <div class='input-group'>
+  <div class='form-inline'>
     DURATION
     ${renderDurationField(topic, 'medications')}
   </div>
 
-  <div class='input-group'>
+  <div class='form-inline'>
     FREQUENCY
     ${renderFrequencyField(topic, 'medications')}
   </div>
 
-  <div class='input-group'>
+  <div class='form-inline'>
     TIME AGO
     ${renderTimeAgoField(topic, 'medications')}
   </div>
 
-  <div class='input-group'>
+  <div class='form-inline'>
     TIME AGO
     ${renderNoteField(topic, 'medications')}
   </div>`

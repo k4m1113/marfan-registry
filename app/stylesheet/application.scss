@@ -2,6 +2,7 @@
 @import "~jquery-ui/themes/base/core.css";
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~font-awesome/css/font-awesome.css";
+@import "~bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css";
 @import "~myscript/dist/myscript.css";
 @import "keyboard";
 @import "radio-buttons";
@@ -13,6 +14,20 @@ $bootstrap-dark-grey: #cccccc;
 $bootstrap-light-grey: white;
 $bootstrap-blue: #025AA5;
 
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary {
+  background: #025AA5 !important;
+}
+.bootstrap-switch .bootstrap-switch-handle-on, .bootstrap-switch .bootstrap-switch-handle-off, .bootstrap-switch .bootstrap-switch-label {
+  font-size: 16px !important;
+}
+
+label.fontawesome-icon {
+  height: 20px;
+}
+input[type=date] {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+}
 td {
   vertical-align: middle !important;
 }

@@ -7,9 +7,8 @@ module.exports = function renderMedicationForm(topic) {
   let parameterizedPlural = 'medications'
   const returnStatement = `
   <tr class='row_form' id='row_${topic.id}' style='display:none'><td colspan='3'>
-    <div class='form-inline'>
-      ${renderMedFormBody(topic)}
-    </div>
+
+    ${renderMedFormBody(topic)}
   </td></tr>
   `
   return returnStatement

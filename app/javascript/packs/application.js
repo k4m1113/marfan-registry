@@ -22,6 +22,7 @@ global.Tether = tether;
 import 'virtual-keyboard/dist/js/jquery.keyboard.js'
 
 import 'bootstrap'
+import 'bootstrap-switch/dist/js/bootstrap-switch.js'
 import 'font-awesome-webpack'
 import 'webcomponentsjs/webcomponents-lite.js'
 import '../components/epicMeds'

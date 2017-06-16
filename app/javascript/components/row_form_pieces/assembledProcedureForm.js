@@ -9,17 +9,12 @@ module.exports = function renderProcedureForm(topic) {
   const returnStatement = `
   <tr class='row_form' id='row_${topic.id}' style='display:none'><td colspan='3'>
     <div class='form-inline'>
-      <div class='input-group'>
-        ${renderTimeAgoField(topic, parameterizedPlural)}
-        ${renderDurationField(topic, parameterizedPlural)}
-      </div>
+      ${renderTimeAgoField(topic, parameterizedPlural)}
+      ${renderDurationField(topic, parameterizedPlural)}
     </div>
     ${renderKeywords(topic, parameterizedPlural)}
     <div class='form-inline'>
-      <div class='input-group'>
-        ${renderNoteField(topic, parameterizedPlural)}
-        ${renderFileButton(topic, parameterizedPlural)}
-      </div>
+      ${renderNoteField(topic, parameterizedPlural)}        ${renderFileButton(topic, parameterizedPlural)}
     </div>
   </td></tr>
   `
