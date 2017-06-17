@@ -1,6 +1,6 @@
 require 'report'
 require 'json'
-require 'pry-remote'
+# require 'pry-remote'
 
 # visits controller
 class VisitsController < ApplicationController
