@@ -6,7 +6,7 @@ import renderKeywords from './keywords'
 import renderNoteField from './noteField'
 
 module.exports = function renderHospitalizationForm(topic) {
-  let parameterizedPlural = 'hospitalizations'
+  const parameterizedPlural = 'hospitalizations'
   const returnStatement = `
   <tr class='row_form' id='row_${topic.id}' style='display:none'><td colspan='3'>
     <div class='form-inline'>

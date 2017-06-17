@@ -16,7 +16,6 @@ const parameterizedPlurals = {
 // runs formRender function according to topic type
 module.exports = function renderRowForm(topic, visit) {
   const pp = parameterizedPlurals[topic.topic_type];
-
   let returnStatement = ``
 
   switch (topic.topic_type) {

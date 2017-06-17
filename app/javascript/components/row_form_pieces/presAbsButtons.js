@@ -1,3 +1,4 @@
+import renderInfoHover from './infoHover'
 const parameterizedPlurals = {
   'diagnosis': 'diagnoses',
   'family member': 'family_members',
@@ -7,13 +8,21 @@ const parameterizedPlurals = {
 }
 module.exports = function renderButtons(topic, visit) {
   var parameterizedPlural = parameterizedPlurals[topic.topic_type]
+  const discussedConcerns = visit.concerns.map(x => x.topic_id)
+  const discussed = discussedConcerns.includes(topic.id) ? ' red' : ''
   var returnStatement = `
-  <tr class="main_row">
+  <tr class="main_row${discussed}">
     <input value="${visit.patient_id}" name="visit[${parameterizedPlural}_attributes][${topic.id}][patient_id]" id="visit_${parameterizedPlural}_attributes_${topic.id}_patient_id" type="hidden">
     <input value="${visit.id}" name="visit[${parameterizedPlural}_attributes][${topic.id}][visit_id]" id="visit_${parameterizedPlural}_attributes_${topic.id}_visit_id" type="hidden">
     <input value="${topic.id}" name="visit[${parameterizedPlural}_attributes][${topic.id}][topic_id]" id="visit_${parameterizedPlural}_attributes_${topic.id}_topic_id" class="topic_id" type="hidden">
     <td>
-      ${topic['name']}
+      ${topic.name}
+      `
+      if (discussed) {
+        let existing = visit.concerns.filter(x => x.topic_id == topic.id)
+        returnStatement += `${renderInfoHover(existing)}`
+      }
+      returnStatement += `
     </td>
     <div class="btn-group" data-toggle="buttons">
     <td>

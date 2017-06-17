@@ -1,6 +1,7 @@
 <script>
   let allTopics = <%= @sorted_topics.html_safe %>
   let visit = <%= @jvisit.html_safe %>
+  let concerns = <%= @jconcerns.html_safe %>
   let patient = <%= @jpatient.html_safe %>
 </script>
 <div id="ms" data-mskey="<%= ENV['MYSCRIPT_KEY'] %>" data-mshmac="<%= ENV['MYSCRIPT_HMAC'] %>"></div>

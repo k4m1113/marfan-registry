@@ -640,7 +640,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 module.exports = function renderMedicationForm(topic) {
   var parameterizedPlural = 'medications';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + topic.id + '\' style=\'display:none\'><td colspan=\'3\'>\n\n    ' + (0, _medFormFields2.default)(topic) + '\n  </td></tr>\n  ';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + topic.id + '\' style=\'display:none\'><td colspan=\'3\'>\n    ' + (0, _medFormFields2.default)(topic) + '\n  </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -686,6 +686,12 @@ module.exports = function renderProcedureForm(topic) {
 "use strict";
 
 
+var _infoHover = __webpack_require__(96);
+
+var _infoHover2 = _interopRequireDefault(_infoHover);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var parameterizedPlurals = {
   'diagnosis': 'diagnoses',
   'family member': 'family_members',
@@ -695,7 +701,18 @@ var parameterizedPlurals = {
 };
 module.exports = function renderButtons(topic, visit) {
   var parameterizedPlural = parameterizedPlurals[topic.topic_type];
-  var returnStatement = '\n  <tr class="main_row">\n    <input value="' + visit.patient_id + '" name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][patient_id]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_patient_id" type="hidden">\n    <input value="' + visit.id + '" name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][visit_id]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_visit_id" type="hidden">\n    <input value="' + topic.id + '" name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][topic_id]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_topic_id" class="topic_id" type="hidden">\n    <td>\n      ' + topic['name'] + '\n    </td>\n    <div class="btn-group" data-toggle="buttons">\n    <td>\n      <label class="btn">\n        <input name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][present]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_present_true" class="pres_abs" type="radio" value="true"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>\n      </label>\n    </td>\n    <td>\n      <label class="btn">\n        <input name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][present]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_present_false" class="pres_abs" type="radio" value="false"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>\n      </label>\n    </td>\n    </div>\n  </tr>\n  ';
+  var discussedConcerns = visit.concerns.map(function (x) {
+    return x.topic_id;
+  });
+  var discussed = discussedConcerns.includes(topic.id) ? ' red' : '';
+  var returnStatement = '\n  <tr class="main_row' + discussed + '">\n    <input value="' + visit.patient_id + '" name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][patient_id]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_patient_id" type="hidden">\n    <input value="' + visit.id + '" name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][visit_id]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_visit_id" type="hidden">\n    <input value="' + topic.id + '" name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][topic_id]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_topic_id" class="topic_id" type="hidden">\n    <td>\n      ' + topic.name + '\n      ';
+  if (discussed) {
+    var existing = visit.concerns.filter(function (x) {
+      return x.topic_id == topic.id;
+    });
+    returnStatement += '' + (0, _infoHover2.default)(existing);
+  }
+  returnStatement += '\n    </td>\n    <div class="btn-group" data-toggle="buttons">\n    <td>\n      <label class="btn">\n        <input name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][present]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_present_true" class="pres_abs" type="radio" value="true"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>\n      </label>\n    </td>\n    <td>\n      <label class="btn">\n        <input name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][present]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_present_false" class="pres_abs" type="radio" value="false"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>\n      </label>\n    </td>\n    </div>\n  </tr>\n  ';
   return returnStatement;
 };
 
@@ -743,7 +760,6 @@ var parameterizedPlurals = {
 // runs formRender function according to topic type
 module.exports = function renderRowForm(topic, visit) {
   var pp = parameterizedPlurals[topic.topic_type];
-
   var returnStatement = '';
 
   switch (topic.topic_type) {
@@ -5705,7 +5721,6 @@ var parameterizedPlurals = {
 // runs formRender function according to topic type
 module.exports = function renderRowForm(topic, visit) {
   var pp = parameterizedPlurals[topic.topic_type];
-
   var returnStatement = '';
 
   switch (topic.topic_type) {
@@ -26861,6 +26876,43 @@ __webpack_require__(24);
 __webpack_require__(11);
 module.exports = __webpack_require__(25);
 
+
+/***/ }),
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */,
+/* 80 */,
+/* 81 */,
+/* 82 */,
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function renderInfoHover(concerns) {
+  console.log(concerns);
+  var tooltipTitle = JSON.stringify(concerns).replace(/"/ig, "'");
+  var returnStatement = "\n  <button\n    type=\"button\"\n    class=\"btn btn-secondary\"\n    data-toggle=\"tooltip\"\n    data-html=\"true\"\n    title=\"" + tooltipTitle + "\">\n    <i class=\"fa fa-question\" aria-hidden=\"true\"></i>\n  </button>";
+  return returnStatement;
+};
 
 /***/ })
 /******/ ]);

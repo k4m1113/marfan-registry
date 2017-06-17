@@ -8,6 +8,12 @@ $('#medParse').click(function() {
   var table_rows = parseMed($('#epicMed').val(), visit, $('#invisible').data('rubyvar'))
   $('tbody#parsedMeds').append(table_rows)
 })
+
+//initialize tooltips
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
 // initialize jQuery UI tabbing
 $(function () {
    $("#mainNestedList").tabs()

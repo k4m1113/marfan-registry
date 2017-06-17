@@ -6,7 +6,7 @@ import renderNoteField from './noteField'
 import renderFileButton from './fileAttachmentButton'
 
 module.exports = function renderDiagnosisForm(topic) {
-  let parameterizedPlural = 'diagnoses'
+  const parameterizedPlural = 'diagnoses'
   const returnStatement = `
   <tr class='row_form' id='row_${topic.id}' style='display:none'><td colspan='3'>
     <div class='form-inline'>
