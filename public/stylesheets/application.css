@@ -12338,6 +12338,16 @@ table.family-tree {
 .rightborder {
   border-right: solid 2px black; }
 
+.tooltip-trigger {
+  border-radius: 20px;
+  padding: 1px 6px 0px 6px;
+  border: 2px solid #cccccc;
+  border-corner-shape: bevel;
+  color: #B1242C; }
+  .tooltip-trigger:hover {
+    color: #782F5A;
+    cursor: help; }
+
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary {
   background: #025AA5 !important; }
 
@@ -12402,10 +12412,10 @@ button:hover {
   display: inline; }
 
 .purple {
-  color: #3B144A !important; }
+  color: #782F5A !important; }
 
 .red {
-  color: #B00713 !important; }
+  color: #B1242C !important; }
 
 .enlarge {
   -ms-transform: scale(1.3);

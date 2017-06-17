@@ -8,7 +8,7 @@ const parameterizedPlurals = {
 }
 module.exports = function renderButtons(topic, visit) {
   var parameterizedPlural = parameterizedPlurals[topic.topic_type]
-  const discussedConcerns = visit.concerns.map(x => x.topic_id)
+  const discussedConcerns = JSON.parse(visit.concerns).map(x => x.topic_id)
   const discussed = discussedConcerns.includes(topic.id) ? ' red' : ''
   var returnStatement = `
   <tr class="main_row${discussed}">
@@ -19,7 +19,7 @@ module.exports = function renderButtons(topic, visit) {
       ${topic.name}
       `
       if (discussed) {
-        let existing = visit.concerns.filter(x => x.topic_id == topic.id)
+        let existing = JSON.parse(visit.concerns).filter(x => x.topic_id == topic.id)
         returnStatement += `${renderInfoHover(existing)}`
       }
       returnStatement += `

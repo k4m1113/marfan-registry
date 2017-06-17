@@ -70,12 +70,17 @@ class VisitsController < ApplicationController
     # @visit.family_members.build
     # @visit.medications.build
     # @visit.diagnoses.build
+    conc = []
+    @visit.concerns.each do |obj|
+      k = obj.as_json.merge!({summary: obj.generate_summary})
+      conc << k
+    end
+    @jconcerns = conc.to_json
     @sorted_topics = Topic.roots.map { |t| [t.name, t.descendants.leaves] }.to_json
     @jvisit = @visit.as_json
-    @jvisit.merge!({concerns: @visit.concerns})
+    @jvisit.merge!({concerns: @jconcerns})
     @jvisit = @jvisit.to_json
     @jpatient = @patient.to_json
-    @jconcerns = @visit.concerns.to_json
     respond_to do |format|
       format.html
       format.json

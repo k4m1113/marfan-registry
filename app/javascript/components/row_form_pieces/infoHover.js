@@ -1,10 +1,10 @@
 module.exports = function renderInfoHover(concerns) {
   console.log(concerns)
-  const tooltipTitle = JSON.stringify(concerns).replace(/"/ig, "'")
+  const tooltipTitle = concerns.map(x => x.summary)
   let returnStatement = `
   <button
     type="button"
-    class="btn btn-secondary"
+    class="btn btn-secondary tooltip-trigger"
     data-toggle="tooltip"
     data-html="true"
     title="${tooltipTitle}">
