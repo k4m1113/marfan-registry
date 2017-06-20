@@ -1,6 +1,7 @@
-import nestedListPane from './nestedListPane'
-import renderEpicAddForm from './epicAddForm.js'
-import renderFamilyTree from './row_form_pieces/assembledFamilyMemberForm'
+import nestedListPane from './nestedListPane';
+import renderEpicAddForm from './epicAddForm';
+import renderFamilyTree from './panes/familyTree';
+import renderVitalFields from './panes/vitals';
 
 function keyify(str) {
   [' ', '/'].forEach(function (x) {
@@ -29,7 +30,7 @@ module.exports = function nestedList(allTopics, visit) {
   let panes = `<div class="tab-content">`
   for (var i = 0; i < allTopics.length; i++) {
     const groupName = allTopics[i][0]
-    const children = allTopics[i][1]
+    const topics = allTopics[i][1]
     const key = keyify(groupName)
     if (i == 0) {
       panes += `<div class="tab-pane fade show in" role="tabpanel" id="${key}" data-tab-index="${i}">`
@@ -43,17 +44,17 @@ module.exports = function nestedList(allTopics, visit) {
         panes += `${renderFamilyTree(patient)}</div>`
         break;
       case 'vitals':
-        panes += 'VITALS</div>'
+        panes += `${renderVitalFields(topics, visit)}</div>`
         break;
       case 'aortic imaging':
         panes += 'AORTIC IMAGING</div>'
         break;
       case 'medication':
         panes += `${renderEpicAddForm()}`
-        panes += `${nestedListPane(children, visit)}</div>`
+        panes += `${nestedListPane(topics, visit)}</div>`
         break;
       default:
-        panes += `${nestedListPane(children, visit)}</div>`
+        panes += `${nestedListPane(topics, visit)}</div>`
 
     }
   }

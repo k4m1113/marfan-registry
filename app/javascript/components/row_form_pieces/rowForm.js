@@ -1,6 +1,6 @@
 import renderProcedureForm from './assembledProcedureForm';
 import renderDiagnosisForm from './assembledDiagnosisForm';
-import renderFamilyMemberForm from './assembledFamilyMemberForm';
+import renderFamilyTree from '../panes/familyTree';
 import renderHospitalizationForm from './assembledHospitalizationForm';
 import renderMedicationForm from './assembledMedicationForm';
 import renderButtons from './presAbsButtons'

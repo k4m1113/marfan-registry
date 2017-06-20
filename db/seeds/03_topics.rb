@@ -255,6 +255,22 @@ vitals = Topic.create!(
   topic_type: 'root category'
 )
 Topic.create!(
+  name: 'weight',
+  topic_type: 'stat',
+  min_value: 0,
+  max_value: 500,
+  step: 0.1,
+  units_of_measurement: %w[kg lb]
+).move_to_child_of(vitals)
+Topic.create!(
+  name: 'height',
+  topic_type: 'stat',
+  min_value: 0,
+  max_value: 250,
+  step: 0.01,
+  units_of_measurement: %w[m in]
+).move_to_child_of(vitals)
+Topic.create!(
   name: 'SBP',
   topic_type: 'stat',
   min_value: 0,
@@ -293,22 +309,6 @@ morphology = Topic.create!(
   name: 'morphology/physical findings',
   topic_type: 'root category'
 )
-Topic.create!(
-  name: 'weight',
-  topic_type: 'stat',
-  min_value: 0,
-  max_value: 500,
-  step: 0.1,
-  units_of_measurement: %w[kg lb]
-).move_to_child_of(morphology)
-Topic.create!(
-  name: 'height',
-  topic_type: 'stat',
-  min_value: 0,
-  max_value: 250,
-  step: 0.01,
-  units_of_measurement: %w[m in]
-).move_to_child_of(morphology)
 Topic.create!(
   name: 'arm span',
   topic_type: 'measurement',
