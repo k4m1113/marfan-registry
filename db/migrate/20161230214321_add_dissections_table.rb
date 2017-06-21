@@ -1,4 +1,4 @@
-class AddDissectionsTable < ActiveRecord::Migration
+class AddDissectionsTable < ActiveRecord::Migration[5.0]
   def change
     create_table :dissections do |t|
       t.belongs_to :patient, null: false

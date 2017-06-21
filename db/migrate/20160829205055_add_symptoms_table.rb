@@ -1,4 +1,4 @@
-class AddSymptomsTable < ActiveRecord::Migration
+class AddSymptomsTable < ActiveRecord::Migration[5.0]
   def change
     create_table :symptoms do |t|
       t.belongs_to :seeded_symptom, null: false

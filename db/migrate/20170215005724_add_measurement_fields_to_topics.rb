@@ -1,4 +1,4 @@
-class AddMeasurementFieldsToTopics < ActiveRecord::Migration
+class AddMeasurementFieldsToTopics < ActiveRecord::Migration[5.0]
   def change
     change_table :topics do |t|
       t.float :min_value

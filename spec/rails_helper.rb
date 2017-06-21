@@ -11,7 +11,7 @@ require 'spec_helper'
 require 'capybara/webkit/matchers'
 require 'rails/all'
 
-ActiveRecord::Migration.maintain_test_schema!
+ActiveRecord::Migration[5.0].maintain_test_schema!
 
 RSpec.configure do |config|
   # Ensure that if we are running js tests, we are using latest webpack assets

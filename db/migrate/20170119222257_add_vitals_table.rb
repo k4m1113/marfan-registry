@@ -1,4 +1,4 @@
-class AddVitalsTable < ActiveRecord::Migration
+class AddVitalsTable < ActiveRecord::Migration[5.0]
   def change
     create_table :vitals do |t|
       t.belongs_to :patient, null: false

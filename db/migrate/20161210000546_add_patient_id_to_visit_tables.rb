@@ -1,4 +1,4 @@
-class AddPatientIdToVisitTables < ActiveRecord::Migration
+class AddPatientIdToVisitTables < ActiveRecord::Migration[5.0]
   def change
     remove_reference :family_members, :visit
     remove_reference :hospitalizations, :visit

@@ -1,4 +1,4 @@
-class AddTopicIdToReasons < ActiveRecord::Migration
+class AddTopicIdToReasons < ActiveRecord::Migration[5.0]
   def change
     create_table :procedures do |p|
       p.belongs_to :topic, null: false

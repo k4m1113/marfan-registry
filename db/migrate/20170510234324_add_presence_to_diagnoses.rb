@@ -1,4 +1,4 @@
-class AddPresenceToDiagnoses < ActiveRecord::Migration
+class AddPresenceToDiagnoses < ActiveRecord::Migration[5.0]
   def change
     remove_column :diagnoses, :time_ago_scale, :string
     change_column :diagnoses, :time_ago, :string

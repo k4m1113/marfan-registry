@@ -1,4 +1,4 @@
-class AddNoteToTopicTypes < ActiveRecord::Migration
+class AddNoteToTopicTypes < ActiveRecord::Migration[5.0]
   def change
     add_column :complications, :note, :string
     add_column :diagnoses, :note, :string

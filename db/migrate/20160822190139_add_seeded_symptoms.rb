@@ -1,4 +1,4 @@
-class AddSeededSymptoms < ActiveRecord::Migration
+class AddSeededSymptoms < ActiveRecord::Migration[5.0]
   def change
     create_table :seeded_symptoms do |t|
       t.string :name, presence: true

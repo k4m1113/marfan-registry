@@ -1,4 +1,4 @@
-class AddTopicIdToTests < ActiveRecord::Migration
+class AddTopicIdToTests < ActiveRecord::Migration[5.0]
   def change
     change_table :tests do |t|
       t.belongs_to :topic, null: false

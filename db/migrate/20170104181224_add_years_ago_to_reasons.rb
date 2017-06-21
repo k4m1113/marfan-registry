@@ -1,4 +1,4 @@
-class AddYearsAgoToReasons < ActiveRecord::Migration
+class AddYearsAgoToReasons < ActiveRecord::Migration[5.0]
   def change
     change_table :hospitalizations do |t|
       t.integer :time_ago

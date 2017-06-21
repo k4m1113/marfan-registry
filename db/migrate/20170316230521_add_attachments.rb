@@ -1,4 +1,4 @@
-class AddAttachments < ActiveRecord::Migration
+class AddAttachments < ActiveRecord::Migration[5.0]
   def up
     add_column :complications, :attachments, :json
     add_column :diagnoses, :attachments, :json

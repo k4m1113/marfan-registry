@@ -1,4 +1,4 @@
-class ChangeAttachmentsFromArrays < ActiveRecord::Migration
+class ChangeAttachmentsFromArrays < ActiveRecord::Migration[5.0]
   def up
     remove_column :complications, :attachments, :json
     remove_column :diagnoses, :attachments, :json

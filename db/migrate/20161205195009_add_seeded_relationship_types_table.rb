@@ -1,4 +1,4 @@
-class AddSeededRelationshipTypesTable < ActiveRecord::Migration
+class AddSeededRelationshipTypesTable < ActiveRecord::Migration[5.0]
   def change
     create_table :seeded_relationship_types, { id: false } do |t|
       t.integer :ahnentafel_id, null: false

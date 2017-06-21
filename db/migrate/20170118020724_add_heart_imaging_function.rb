@@ -1,4 +1,4 @@
-class AddHeartImagingFunction < ActiveRecord::Migration
+class AddHeartImagingFunction < ActiveRecord::Migration[5.0]
   def change
     create_table :heart_imagings do |t|
       t.belongs_to :patient, null: false

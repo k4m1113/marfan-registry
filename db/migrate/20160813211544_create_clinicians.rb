@@ -1,4 +1,4 @@
-class CreateClinicians < ActiveRecord::Migration
+class CreateClinicians < ActiveRecord::Migration[5.0]
   def change
     create_table :clinicians do |t|
       t.string :first_name, null: false

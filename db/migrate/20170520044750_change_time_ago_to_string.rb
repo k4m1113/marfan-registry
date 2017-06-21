@@ -1,4 +1,4 @@
-class ChangeTimeAgoToString < ActiveRecord::Migration
+class ChangeTimeAgoToString < ActiveRecord::Migration[5.0]
   def change
     change_column :hospitalizations, :time_ago, :string
     change_column :medications, :time_ago, :string

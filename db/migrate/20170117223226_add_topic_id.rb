@@ -1,4 +1,4 @@
-class AddTopicId < ActiveRecord::Migration
+class AddTopicId < ActiveRecord::Migration[5.0]
   def change
     change_table :hospitalizations do |t|
       t.belongs_to :topic_id, null: false

@@ -1,4 +1,4 @@
-class AddParametersToPatients < ActiveRecord::Migration
+class AddParametersToPatients < ActiveRecord::Migration[5.0]
   def change
     change_table :patients do |t|
       t.string :phone_1, null: false

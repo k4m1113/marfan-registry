@@ -1,4 +1,4 @@
-class EditPatientAttributes < ActiveRecord::Migration
+class EditPatientAttributes < ActiveRecord::Migration[5.0]
   def change
     change_column_null :patients, :first_name, true
     change_column_null :patients, :last_name, true

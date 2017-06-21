@@ -1,4 +1,4 @@
-class FixBelongsToMistake < ActiveRecord::Migration
+class FixBelongsToMistake < ActiveRecord::Migration[5.0]
   def change
     change_table :hospitalizations do |t|
       t.remove :topic_id_id

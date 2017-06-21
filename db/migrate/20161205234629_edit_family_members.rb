@@ -1,4 +1,4 @@
-class EditFamilyMembers < ActiveRecord::Migration
+class EditFamilyMembers < ActiveRecord::Migration[5.0]
   def change
     remove_column :family_members, :relationship, :string
     remove_column :family_members, :name, :string

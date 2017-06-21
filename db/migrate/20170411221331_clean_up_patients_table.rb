@@ -1,4 +1,4 @@
-class CleanUpPatientsTable < ActiveRecord::Migration
+class CleanUpPatientsTable < ActiveRecord::Migration[5.0]
   def change
     change_column_default :patients, :deceased, false
     change_column_null :patients, :first_name, false
