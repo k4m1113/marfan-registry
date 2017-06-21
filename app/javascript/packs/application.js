@@ -43,4 +43,6 @@ require('expose-loader?mapMed!../components/medMapper.js');
 require('expose-loader?splitNoParen!../components/epicMeds.js');
 require('expose-loader?nestedList!../components/nestedList');
 require('expose-loader?renderRowForm!../components/row_form_pieces/rowForm');
+require('expose-loader?unitConverter!../components/unitConverter');
+
 require('expose-loader?$!expose-loader?jQuery!jquery');

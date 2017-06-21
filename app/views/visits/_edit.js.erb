@@ -9,6 +9,17 @@ $('#medParse').click(function() {
   $('tbody#parsedMeds').append(table_rows)
 })
 
+// initialize vitals pane
+$(function() {
+  $('.tab-pane#vitals').find("input[type='number']").addKeyboard()
+  // convert between vitals units
+  $('select[id^=visit_vitals_attributes]').on('change', function () {
+    $targetField = $(this).parent().children('input[type=number]')
+    result = unitConverter($(this).val(), $targetField.val())
+    $targetField.val(result)
+  })
+})
+
 //initialize tooltips
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
