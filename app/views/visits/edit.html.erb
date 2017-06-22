@@ -6,16 +6,33 @@
   let patient = <%= @jpatient.html_safe %>
 </script>
 
+<% content_for :navbar do %>
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+      <a class="nav-link" href="/patients/<%= @patient.id %>">
+        <%= "#{@patient.last_name}, #{@patient.first_name} (MRN: #{@patient.id})" %>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled" href="#">
+        <%= "#{@patient.age} y/o" %> -
+        <% if @patient.primary_diagnosis %>
+          <%= @patient.primary_diagnosis %>
+        <% else %>
+          undiagnosed
+        <% end %>
+      </a>
+    </li>
+  </ul>
+<% end %>
+
 <div id="ms" data-mskey="<%= ENV['MYSCRIPT_KEY'] %>" data-mshmac="<%= ENV['MYSCRIPT_HMAC'] %>"></div>
 <div id="invisible" data-rubyvar="<%= @all_meds.map{|t| [t.name.downcase, t.id]}.to_h.to_json %>"></div>
 <%= form_for @visit, class: "visit_form" do |f| %>
   <%= f.fields_for :patient do |ff| %>
     <div class="row">
       <div class="col-sm-12">
-        Primary Diagnosis:
-        <% if @patient.primary_diagnosis %>
-          <%= @patient.primary_diagnosis %>
-        <% else %>
+        <% if !@patient.primary_diagnosis %>
           <% PRIMARY_DIAGNOSES.each do |d| %>
             <label class="btn btn-primary">
               <input type="radio" autocomplete="off" name="visit[patient_attributes][primary_diagnosis]" value="<%= d %>"> <%= d %>

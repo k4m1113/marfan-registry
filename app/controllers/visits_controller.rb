@@ -1,6 +1,6 @@
 require 'report'
 require 'json'
-require 'pry-remote'
+# require 'pry-remote'
 
 # visits controller
 class VisitsController < ApplicationController
@@ -107,7 +107,7 @@ class VisitsController < ApplicationController
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient.id)
     @form_action = 'Update'
-    binding.remote_pry
+    # binding.remote_pry
     if @visit.update(visit_params)
       visit_params.keys.each do |vp|
         flash[:success] = "Successfully updated visit with #{vp}"

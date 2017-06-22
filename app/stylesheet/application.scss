@@ -71,19 +71,6 @@ button:hover{
 
   .active { display: block; }
 }
-.nav-link {
-  width: 200px;
-  border-radius: 0px !important;
-  border: 0 !important;
-  &:hover {
-    background-color: $bootstrap-dark-grey !important;
-    border: 0 !important;
-  }
-  &.active {
-    background-color: $bootstrap-light-grey !important;
-    border: 0 !important;
-  }
-}
 
 .nav-tabs {
   float: left;

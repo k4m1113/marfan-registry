@@ -2,7 +2,7 @@ class Patient < ApplicationRecord
   include PgSearch
   include CommonContent
 
-  attr_reader :object_pronoun, :subject_pronoun, :possessive_pronoun, :vitals_show_header, :vitals_by_date
+  attr_reader :object_pronoun, :subject_pronoun, :possessive_pronoun, :vitals_show_header, :vitals_by_date, :age
 
   scope :sorted, (-> { order(last_name: :asc) })
 
@@ -74,6 +74,10 @@ class Patient < ApplicationRecord
     else
       Patient.all
     end.sorted
+  end
+
+  def age
+    (((Date.today - date_of_birth.to_date)/365).to_f).round()
   end
 
   def object_pronoun

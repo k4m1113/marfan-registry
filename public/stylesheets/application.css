@@ -12385,17 +12385,6 @@ button:hover {
   .tab-content .active {
     display: block; }
 
-.nav-link {
-  width: 200px;
-  border-radius: 0px !important;
-  border: 0 !important; }
-  .nav-link:hover {
-    background-color: #cccccc !important;
-    border: 0 !important; }
-  .nav-link.active {
-    background-color: white !important;
-    border: 0 !important; }
-
 .nav-tabs {
   float: left;
   padding-right: 8px !important;
