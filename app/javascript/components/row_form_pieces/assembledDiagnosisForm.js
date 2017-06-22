@@ -1,9 +1,10 @@
-import renderTimeAgoField from './timeAgoField'
-import renderDurationField from './durationField'
-import renderFrequencyField from './frequencyField'
-import renderKeywords from './keywords'
-import renderNoteField from './noteField'
-import renderFileButton from './fileAttachmentButton'
+import renderTimeAgoField from './timeAgoField';
+import renderDurationField from './durationField';
+import renderFrequencyField from './frequencyField';
+import renderKeywords from './keywords';
+import renderNoteField from './noteField';
+import renderFileButton from './fileAttachmentButton';
+import findRelated from './findRelated'
 
 module.exports = function renderDiagnosisForm(topic) {
   const parameterizedPlural = 'diagnoses'
@@ -20,6 +21,7 @@ module.exports = function renderDiagnosisForm(topic) {
       ${renderNoteField(topic, parameterizedPlural)}
       ${renderFileButton(topic, parameterizedPlural)}
     </div>
+    ${findRelated(topic)}
   </td></tr>
   `
   return returnStatement

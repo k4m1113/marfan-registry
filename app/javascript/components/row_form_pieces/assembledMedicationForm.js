@@ -1,7 +1,5 @@
-import renderTimeAgoField from './timeAgoField'
-import renderDurationField from './durationField'
 import renderMedFormBody from './medFormFields'
-import renderNoteField from './noteField'
+import findRelated from './findRelated'
 
 module.exports = function renderMedicationForm(topic) {
   let parameterizedPlural = 'medications'

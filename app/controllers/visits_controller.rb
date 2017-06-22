@@ -76,7 +76,8 @@ class VisitsController < ApplicationController
       conc << k
     end
     @jconcerns = conc.to_json
-    @sorted_topics = Topic.roots.map { |t| [t.name, t.descendants.leaves] }.to_json
+    @topics = Topic.all.to_json
+    @sorted_topics = Topic.roots.map { |t| [t.name, t.descendants] }.to_json
     @jvisit = @visit.as_json
     @jvisit.merge!({concerns: @jconcerns})
     @jvisit = @jvisit.to_json

@@ -7,20 +7,11 @@ module.exports = function renderTimeAgoField(topic, parameterizedPlural) {
     case 'test':
       absoluteTime = 'test_date'
       break;
-    case 'diagnosis':
-      absoluteTime = 'absolute_start_date'
-      break;
-    case 'procedure':
-      absoluteTime = 'absolute_start_date'
-      break;
     case 'hospitalization':
       absoluteTime = 'admission_date'
       break;
-    case 'medication':
-      absoluteTime = 'absolute_start_date'
-      break;
     default:
-      absoluteTime = ''
+      absoluteTime = 'absolute_start_date'
   }
   const returnStatement = `<input type="checkbox" class="time_ago_toggle" id="time_ago_${topic.id}_toggle" checked>
   <br />

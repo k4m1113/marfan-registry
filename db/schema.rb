@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170520044750) do
+ActiveRecord::Schema.define(version: 20170621205030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,24 @@ ActiveRecord::Schema.define(version: 20170520044750) do
     t.string "duration"
     t.string "frequency"
     t.string "attachment"
+  end
+
+  create_table "dissections", force: :cascade do |t|
+    t.bigint "patient_id", null: false
+    t.bigint "visit_id"
+    t.string "location", null: false
+    t.string "perfusion"
+    t.string "direction"
+    t.string "lumen"
+    t.datetime "absolute_start_date"
+    t.string "time_ago_scale"
+    t.integer "time_ago_amount"
+    t.string "note"
+    t.string "attachment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["patient_id"], name: "index_dissections_on_patient_id"
+    t.index ["visit_id"], name: "index_dissections_on_visit_id"
   end
 
   create_table "family_members", force: :cascade do |t|
@@ -252,6 +270,7 @@ ActiveRecord::Schema.define(version: 20170520044750) do
     t.float "step"
     t.string "units_of_measurement", array: true
     t.string "descriptors", array: true
+    t.integer "related", array: true
     t.index ["lft"], name: "index_topics_on_lft"
     t.index ["parent_id"], name: "index_topics_on_parent_id"
     t.index ["rgt"], name: "index_topics_on_rgt"

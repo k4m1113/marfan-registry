@@ -27,13 +27,19 @@ import 'font-awesome-webpack'
 import 'webcomponentsjs/webcomponents-lite.js'
 import '../components/epicMeds'
 import '../components/medMapper'
-import '../components/htmlTest'
 import '../components/addKeyboard'
 import '../components/nestedList'
 import '../components/row_form_pieces/rowForm'
 // import 'myscript-text-web/myscript-text-web.html'
 
 require('expose-loader?parseMed!../components/parseMed');
+
+// ROW FORM TYPES
+require('expose-loader?renderProcedureForm!../components/row_form_pieces/assembledProcedureForm.js');
+require('expose-loader?renderDiagnosisForm!../components/row_form_pieces/assembledDiagnosisForm.js');
+require('expose-loader?renderDissectionForm!../components/row_form_pieces/assembledDissectionForm.js');
+require('expose-loader?renderHospitalizationForm!../components/row_form_pieces/assembledHospitalizationForm.js');
+require('expose-loader?renderMedicationForm!../components/row_form_pieces/assembledMedicationForm.js');
 
 // EXPOSING JS TO BE USED IN RAILS
 require('../../stylesheet/application.scss');

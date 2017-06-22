@@ -1,16 +1,17 @@
 import renderProcedureForm from './assembledProcedureForm';
 import renderDiagnosisForm from './assembledDiagnosisForm';
-import renderFamilyTree from '../panes/familyTree';
 import renderHospitalizationForm from './assembledHospitalizationForm';
 import renderMedicationForm from './assembledMedicationForm';
 import renderButtons from './presAbsButtons'
+import renderDissectionForm from './assembledDissectionForm'
 
 const parameterizedPlurals = {
   'diagnosis': 'diagnoses',
   'family member': 'family_members',
   'procedure': 'procedures',
   'medication': 'medications',
-  'hospitalization': 'hospitalizations'
+  'hospitalization': 'hospitalizations',
+  'dissection': 'dissections'
 }
 
 // runs formRender function according to topic type
@@ -19,16 +20,24 @@ module.exports = function renderRowForm(topic, visit) {
   let returnStatement = ``
 
   switch (topic.topic_type) {
-    case "family member":
-      returnStatement += `${renderFamilyMemberForm(topic)}`;
-      break;
     case "diagnosis":
       returnStatement += `${renderButtons(topic, visit)}`;
       returnStatement += `${renderDiagnosisForm(topic)}`;
       break;
+    case "dissection":
+    returnStatement += `${renderButtons(topic, visit)}`;
+      returnStatement += `${renderDissectionForm(topic, visit)}`;
+      break;
+    case "family member":
+      returnStatement += `FAMILY MEMBER FORM`;
+      break;
     case "hospitalization":
       returnStatement += `${renderButtons(topic, visit)}`;
       returnStatement += `${renderHospitalizationForm(topic)}`;
+      break;
+    case "medication":
+      returnStatement += `${renderButtons(topic, visit)}`;
+      returnStatement += `${renderMedicationForm(topic)}`;
       break;
     case "procedure":
       returnStatement += `${renderButtons(topic, visit)}`;
@@ -38,11 +47,7 @@ module.exports = function renderRowForm(topic, visit) {
       "kat"
       break;
     case "heart_measurement":
-      "kat"
-      break;
-    case "medication":
-      returnStatement += `${renderButtons(topic, visit)}`;
-      returnStatement += `${renderMedicationForm(topic)}`;
+      "brian"
       break;
     default:
   };

@@ -14,6 +14,7 @@ class Visit < ApplicationRecord
   has_many :family_members, dependent: :destroy
   has_many :hospitalizations, dependent: :destroy
   has_many :tests, dependent: :destroy
+  has_many :dissections, dependent: :destroy
 
   has_many :vitals, dependent: :destroy
   has_many :diagnoses, dependent: :destroy

@@ -664,93 +664,96 @@ Topic.create!(
 ## END SHALLOW TOPICS (xls 147) %>
 
 ## BEGIN SHALLOW DISSECTIONS (xls 149) ##
-aortic_dissection = Topic.create!(
-  name: 'aortic dissection',
-  topic_type: 'diagnosis'
+# aortic_dissection = Topic.create!(
+#   name: 'aortic dissection',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(cardio)
+# Topic.create!(
+#   name: 'aortic root',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(aortic_dissection)
+# Topic.create!(
+#   name: 'ascending aorta',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(aortic_dissection)
+# Topic.create!(
+#   name: 'arch',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(aortic_dissection)
+# Topic.create!(
+#   name: 'descending thoracic',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(aortic_dissection)
+# Topic.create!(
+#   name: 'suprarenal abdominal',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(aortic_dissection)
+# Topic.create!(
+#   name: 'infrarenal abdominal',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(aortic_dissection)
+# ## END SHALLOW DISSECTIONS (xls 154) ##
+#
+# iliac = Topic.create!(
+#   name: 'iliac',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(aortic_dissection)
+#
+# Topic.create!(
+#   name: 'right',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(iliac)
+#
+# Topic.create!(
+#   name: 'left',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(iliac)
+#
+# renal = Topic.create!(
+#   name: 'renal',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(aortic_dissection)
+#
+# Topic.create!(
+#   name: 'right',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(renal)
+#
+# Topic.create!(
+#   name: 'left',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(renal)
+#
+# ## BEGIN SMA DISSECTION (xls 161) ##
+# sma = Topic.create!(
+#   name: 'SMA',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(aortic_dissection)
+#
+# celiac = Topic.create!(
+#   name: 'celiac',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(aortic_dissection)
+#
+# innominate = Topic.create!(
+#   name: 'innominate',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(aortic_dissection)
+#
+#
+# left_carotid = Topic.create!(
+#   name: 'left carotid',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(aortic_dissection)
+#
+# left_subclavian = Topic.create!(
+#   name: 'left subclavian',
+#   topic_type: 'diagnosis'
+# ).move_to_child_of(aortic_dissection)
+dissection = Topic.create!(
+  name: 'dissection',
+  topic_type: 'dissection'
 ).move_to_child_of(cardio)
-Topic.create!(
-  name: 'aortic root',
-  topic_type: 'diagnosis'
-).move_to_child_of(aortic_dissection)
-Topic.create!(
-  name: 'ascending aorta',
-  topic_type: 'diagnosis'
-).move_to_child_of(aortic_dissection)
-Topic.create!(
-  name: 'arch',
-  topic_type: 'diagnosis'
-).move_to_child_of(aortic_dissection)
-Topic.create!(
-  name: 'descending thoracic',
-  topic_type: 'diagnosis'
-).move_to_child_of(aortic_dissection)
-Topic.create!(
-  name: 'suprarenal abdominal',
-  topic_type: 'diagnosis'
-).move_to_child_of(aortic_dissection)
-Topic.create!(
-  name: 'infrarenal abdominal',
-  topic_type: 'diagnosis'
-).move_to_child_of(aortic_dissection)
-## END SHALLOW DISSECTIONS (xls 154) ##
-
-iliac = Topic.create!(
-  name: 'iliac',
-  topic_type: 'diagnosis'
-).move_to_child_of(aortic_dissection)
-
-Topic.create!(
-  name: 'right',
-  topic_type: 'diagnosis'
-).move_to_child_of(iliac)
-
-Topic.create!(
-  name: 'left',
-  topic_type: 'diagnosis'
-).move_to_child_of(iliac)
-
-renal = Topic.create!(
-  name: 'renal',
-  topic_type: 'diagnosis'
-).move_to_child_of(aortic_dissection)
-
-Topic.create!(
-  name: 'right',
-  topic_type: 'diagnosis'
-).move_to_child_of(renal)
-
-Topic.create!(
-  name: 'left',
-  topic_type: 'diagnosis'
-).move_to_child_of(renal)
-
-## BEGIN SMA DISSECTION (xls 161) ##
-sma = Topic.create!(
-  name: 'SMA',
-  topic_type: 'diagnosis'
-).move_to_child_of(aortic_dissection)
-
-celiac = Topic.create!(
-  name: 'celiac',
-  topic_type: 'diagnosis'
-).move_to_child_of(aortic_dissection)
-
-innominate = Topic.create!(
-  name: 'innominate',
-  topic_type: 'diagnosis'
-).move_to_child_of(aortic_dissection)
-
-
-left_carotid = Topic.create!(
-  name: 'left carotid',
-  topic_type: 'diagnosis'
-).move_to_child_of(aortic_dissection)
-
-left_subclavian = Topic.create!(
-  name: 'left subclavian',
-  topic_type: 'diagnosis'
-).move_to_child_of(aortic_dissection)
-
 ## BEGIN ROOT REPLACEMENT (xls 177) ##
 aortic_surgery = Topic.create!(
   name: 'aortic surgery',
@@ -1159,15 +1162,6 @@ lumbar = Topic.create!(
   topic_type: 'procedure',
   descriptors: ['bracing', 'Harrington rods', 'physical therapy', 'fusion']
 ).move_to_child_of(scoliosis)
-
-dural_ectasia = Topic.create!(
-  name: 'dural ectasia',
-  topic_type: 'diagnosis'
-).move_to_child_of(back)
-Topic.create!(
-  name: 'blood patch',
-  topic_type: 'procedure'
-).move_to_child_of(dural_ectasia)
 ## END ORTHOPEDIC BACK (xls 253) ##
 
 ## BEGIN PECTUS (xls 254) ##
@@ -1648,8 +1642,12 @@ Topic.create!(
   name: 'chronic',
   topic_type: 'diagnosis'
 ).move_to_child_of(dural_ectasia)
-Topic.create!(
+blood_patch = Topic.create!(
   name: 'blood patch',
+  topic_type: 'procedure'
+).move_to_child_of(dural_ectasia)
+fibrin = Topic.create!(
+  name: 'fibrin glue',
   topic_type: 'procedure'
 ).move_to_child_of(dural_ectasia)
 ## END NEUROLOGIC LOW ICP (xls 333) ##
@@ -1699,3 +1697,7 @@ Topic.create!(
   topic_type: 'diagnosis'
 ).move_to_child_of(gastrointestinal)
 ## END GASTROINTESTINAL (xls 348) ##
+
+## RELATED TOPICS
+dural_ectasia.update(related: [blood_patch.id, fibrin.id, headache.id])
+dissection.update(related: [root_replacement.id])

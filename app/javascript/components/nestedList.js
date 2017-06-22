@@ -46,6 +46,9 @@ module.exports = function nestedList(allTopics, visit) {
       case 'vitals':
         panes += `${renderVitalFields(topics, visit)}</div>`
         break;
+      case 'cardiovascular':
+        panes += `${nestedListPane(topics, visit)}</div>`
+        break;
       case 'aortic imaging':
         panes += 'AORTIC IMAGING</div>'
         break;

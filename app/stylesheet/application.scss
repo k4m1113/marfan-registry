@@ -45,8 +45,10 @@ button.file-attachment {
     &:hover {
       cursor: pointer;
     }
+    margin-bottom: 0 !important;
   }
 }
+
 input[type=date] {
   padding-top: 6px !important;
   padding-bottom: 6px !important;

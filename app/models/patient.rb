@@ -18,6 +18,7 @@ class Patient < ApplicationRecord
 
   has_many :heart_imagings, dependent: :destroy
   has_many :vitals, dependent: :destroy
+  has_many :dissections, dependent: :destroy
 
   has_many :family_members, dependent: :destroy
   has_many :hospitalizations, dependent: :destroy

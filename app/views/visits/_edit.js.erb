@@ -9,6 +9,25 @@ $('#medParse').click(function() {
   $('tbody#parsedMeds').append(table_rows)
 })
 
+// click 'related' button
+$(function() {
+  $('button.related').click(function(){
+    var data = $(this).data('topic')
+    $currentRow = $(this).parent().parent().parent()
+    var highestInd = parseInt($('.row_form').last().attr('id').match(/\d+/g)[0])
+    required = `<tr><td colspan="3">${data.name}</td></tr>`
+    switch (data.topic_type) {
+      case 'procedure':
+        required += `${renderProcedureForm(data, highestInd + 1)}`
+        break;
+      default:
+    }
+    debugger
+    $currentRow.after(required)
+    $('body').find("#row_" + (highestInd + 1)).show()
+  })
+})
+
 // initialize vitals pane
 $(function() {
   $('.tab-pane#vitals').find("input[type='number']").addKeyboard()
@@ -18,6 +37,12 @@ $(function() {
     result = unitConverter($(this).val(), $targetField.val())
     $targetField.val(result)
   })
+})
+
+// initialize cardiovascular pane
+$(function() {
+  $('.tab-pane#cardiovascular').find("input[type='number']").addKeyboard()
+
 })
 
 //initialize tooltips
@@ -72,7 +97,6 @@ $("input[type='file']").on('change', function() {
   var file_name = $(this).val().split("\\").pop().split("/").pop()
   $(this).next('button').find('label').append(file_name)
 });
-
 
 // hide or display row form based on 'present' or 'absent' checked
 $("input.pres_abs").change(function() {

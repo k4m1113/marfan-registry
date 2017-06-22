@@ -1,9 +1,11 @@
 <script>
   let allTopics = <%= @sorted_topics.html_safe %>
+  let unsortedTopics = <%= @topics.html_safe %>
   let visit = <%= @jvisit.html_safe %>
   let concerns = <%= @jconcerns.html_safe %>
   let patient = <%= @jpatient.html_safe %>
 </script>
+
 <div id="ms" data-mskey="<%= ENV['MYSCRIPT_KEY'] %>" data-mshmac="<%= ENV['MYSCRIPT_HMAC'] %>"></div>
 <div id="invisible" data-rubyvar="<%= @all_meds.map{|t| [t.name.downcase, t.id]}.to_h.to_json %>"></div>
 <%= form_for @visit, class: "visit_form" do |f| %>
