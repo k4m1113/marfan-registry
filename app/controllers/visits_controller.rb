@@ -1,6 +1,6 @@
 require 'report'
 require 'json'
-# require 'pry-remote'
+require 'pry-remote'
 
 # visits controller
 class VisitsController < ApplicationController
@@ -11,8 +11,6 @@ class VisitsController < ApplicationController
   respond_to :html, :js
 
   before_action :common_content
-
-  # after_filter :set_gallery, only: :create
 
   def index
     @visits = Visit.all
@@ -109,7 +107,7 @@ class VisitsController < ApplicationController
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient.id)
     @form_action = 'Update'
-    # binding.remote_pry
+    binding.remote_pry
     if @visit.update(visit_params)
       visit_params.keys.each do |vp|
         flash[:success] = "Successfully updated visit with #{vp}"
@@ -135,10 +133,6 @@ class VisitsController < ApplicationController
 
   private
 
-  # def set_gallery
-  #   Gallery.create(visit_id: @visit.id, patient_id: @patient.id) unless @visit.gallery
-  # end
-
   def visit_params
     params.require(:visit).permit(
       :id,
@@ -155,9 +149,8 @@ class VisitsController < ApplicationController
       :secondary_reason,
       :vital,
       :test,
-      :gallery,
-      gallery_attributes:
-        %i[id gallery title visit_id patient_id attachment],
+      patient_attributes:
+        %i[id primary_diagnosis],
       vitals_attributes:
         %i[visit_id patient_id topic_id vital test_amount sbp dbp test_unit_of_meas measurement note attachment],
       medications_attributes:

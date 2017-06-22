@@ -1,5 +1,16 @@
 ADMINISTRATION_METHODS = ['orally', 'intravenously', 'intramuscularly', 'subcutaneously', 'sublingually', 'buccally', 'rectally', 'vaginally', 'by the ocular route', 'by the otic route', 'nasally', 'by nebulization', 'cutaneously', 'transdermally', 'intrathecally'].freeze
-
+PRIMARY_DIAGNOSES = [
+  'Marfan Syndrome',
+  'Loeys-Dietz Syndrome',
+  'Ehlers-Danlos Syndrome',
+  'Beals Syndrome',
+  'familial thoracic aneurysm and dissection',
+  'ectopia lentis',
+  'mass phenotype',
+  'bicuspid aortic valve',
+  'Stickler Syndrome',
+  'Shprintzen-Goldberg Syndrome'
+].freeze
 DOSAGE_FORMS = ['tablet', 'capsule', 'pill', 'liquid solution', 'inhaler', 'cream', 'drops', 'suppository'].freeze
 
 TIME_SCALES = %w[seconds minutes hours days weeks months years].freeze

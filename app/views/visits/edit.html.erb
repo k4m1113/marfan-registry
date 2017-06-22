@@ -9,6 +9,25 @@
 <div id="ms" data-mskey="<%= ENV['MYSCRIPT_KEY'] %>" data-mshmac="<%= ENV['MYSCRIPT_HMAC'] %>"></div>
 <div id="invisible" data-rubyvar="<%= @all_meds.map{|t| [t.name.downcase, t.id]}.to_h.to_json %>"></div>
 <%= form_for @visit, class: "visit_form" do |f| %>
+  <%= f.fields_for :patient do |ff| %>
+    <div class="row">
+      <div class="col-sm-12">
+        Primary Diagnosis:
+        <% if @patient.primary_diagnosis %>
+          <%= @patient.primary_diagnosis %>
+        <% else %>
+          <% PRIMARY_DIAGNOSES.each do |d| %>
+            <label class="btn btn-primary">
+              <input type="radio" autocomplete="off" name="visit[patient_attributes][primary_diagnosis]" value="<%= d %>"> <%= d %>
+            </label>
+          <% end %>
+          <button type="submit" class="btn btn-success btn-sm" id="primary_diagnosis_confirm">
+            <i class="fa fa-check" aria-hidden="true"></i>
+          </button>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
   <div class="row">
     <div class="col-sm-12" style="margin-bottom:-16px;">
       <%= render 'visits/show_accordion',

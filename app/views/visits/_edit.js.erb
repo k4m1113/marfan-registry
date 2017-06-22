@@ -9,6 +9,12 @@ $('#medParse').click(function() {
   $('tbody#parsedMeds').append(table_rows)
 })
 
+// update primary diagnosis
+$('#primary_diagnosis_confirm').click(function() {
+  selected = $('input[name*=primary_diagnosis]:checked').val()
+  return confirm("Update patient diagnosis to " + selected + "?");
+})
+
 // click 'related' button
 $(function() {
   $('button.related').click(function(){
@@ -22,7 +28,6 @@ $(function() {
         break;
       default:
     }
-    debugger
     $currentRow.after(required)
     $('body').find("#row_" + (highestInd + 1)).show()
   })

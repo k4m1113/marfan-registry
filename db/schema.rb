@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170621205030) do
+ActiveRecord::Schema.define(version: 20170622185044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -271,6 +271,7 @@ ActiveRecord::Schema.define(version: 20170621205030) do
     t.string "units_of_measurement", array: true
     t.string "descriptors", array: true
     t.integer "related", array: true
+    t.string "part_of_speech"
     t.index ["lft"], name: "index_topics_on_lft"
     t.index ["parent_id"], name: "index_topics_on_parent_id"
     t.index ["rgt"], name: "index_topics_on_rgt"
@@ -280,14 +281,8 @@ ActiveRecord::Schema.define(version: 20170621205030) do
     t.integer "patient_id", null: false
     t.integer "clinician_id", null: false
     t.string "general_health"
-    t.float "height"
-    t.float "weight"
-    t.float "z_score"
     t.string "primary_reason"
     t.string "secondary_reason"
-    t.float "upper_segment"
-    t.float "lower_segment"
-    t.float "arm_span"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

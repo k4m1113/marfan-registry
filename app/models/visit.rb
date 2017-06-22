@@ -21,9 +21,8 @@ class Visit < ApplicationRecord
   has_many :medications, dependent: :destroy
   has_many :procedures, dependent: :destroy
 
-  accepts_nested_attributes_for :gallery
-
-  accepts_nested_attributes_for :vitals
+  accepts_nested_attributes_for :patient
+  accepts_nested_attributes_for :vitals, reject_if: proc { |att| att['measurement'].nil? }
   accepts_nested_attributes_for :diagnoses, reject_if: proc { |att| att['present'].nil? }
   accepts_nested_attributes_for :medications, reject_if: proc { |att| att['current'].nil? }
   accepts_nested_attributes_for :procedures, reject_if: proc { |att| att['time_ago'].nil? && att['note'].blank? && att['attachment'].nil? }
