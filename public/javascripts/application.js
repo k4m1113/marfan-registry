@@ -6125,12 +6125,12 @@ var primaryDiagnoses = ['Marfan Syndrome', 'Loeys-Dietz Syndrome', 'Ehlers-Danlo
 module.exports = function renderDiagnosisHeader(patient, visit) {
   var returnStatement = '';
   if (!patient.primary_diagnosis) {
-    returnStatement += 'Primary Diagnosis: ';
+    returnStatement += '<div class="alert alert-warning alert-dismissible fade show" role="alert">\n      <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>Primary Diagnosis: ';
     var options = primaryDiagnoses.map(function (d) {
-      return '<label class="btn btn-primary">\n        <input type="radio" autocomplete="off" name="visit[patient_attributes][primary_diagnosis]" value="' + d + '">\n        ' + d + '\n      </label>';
+      return '<label class="btn btn-secondary">\n          <input type="radio" autocomplete="off" name="visit[patient_attributes][primary_diagnosis]" value="' + d + '">\n          ' + d + '\n        </label>';
     }).join('');
     returnStatement += options;
-    returnStatement += '<button type="submit" class="btn btn-success btn-sm confirm-submit" data-attr="primary_diagnosis">\n      <i class="fa fa-check" aria-hidden="true"></i>\n    </button>';
+    returnStatement += '<button type="submit" class="btn btn-success confirm-submit" data-attr="primary_diagnosis">\n        <i class="fa fa-check" aria-hidden="true"></i>\n      </button>\n    </div>';
   }
   return returnStatement;
 };
@@ -27342,12 +27342,13 @@ var reasonsForVisit = ['flu', 'checkup', 'initial visit', 'family history', 'aor
 module.exports = function renderReasonForVisitHeader(visit) {
   var returnStatement = '';
   if (!visit.primary_reason) {
+    returnStatement += '<div class="alert alert-warning alert-dismissible fade show" role="alert">\n      <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>';
     returnStatement += 'Reason for Visit: ';
     var options = reasonsForVisit.map(function (r) {
-      return '<label class="btn btn-primary">\n        <input type="radio" autocomplete="off" name="visit[primary_reason]" value="' + r + '">\n        ' + r + '\n      </label>';
+      return '<label class="btn btn-secondary">\n          <input type="radio" autocomplete="off" name="visit[primary_reason]" value="' + r + '">\n          ' + r + '\n        </label>';
     }).join('');
     returnStatement += options;
-    returnStatement += '<button type="submit" class="btn btn-success btn-sm confirm-submit" data-attr="reason_for_visit">\n      <i class="fa fa-check" aria-hidden="true"></i>\n    </button>';
+    returnStatement += '<button type="submit" class="btn btn-success confirm-submit" data-attr="reason_for_visit">\n        <i class="fa fa-check" aria-hidden="true"></i>\n      </button>\n    </div>';
   }
   return returnStatement;
 };

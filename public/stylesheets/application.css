@@ -12348,6 +12348,13 @@ table.family-tree {
     color: #782F5A;
     cursor: help; }
 
+input[type='radio'] {
+  visibility: hidden;
+  width: 0px; }
+
+label.btn-secondary {
+  padding: 8px; }
+
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary {
   background: #025AA5 !important; }
 
