@@ -19,8 +19,15 @@ $('.confirm-submit').click(function() {
   return confirm(`Update ${humanData} to ${selected}?`);
 })
 $('button[type=submit]').click(function(){
-  console.log('floppy clicked')
   $('form').submit()
+})
+
+// toggle radio button label color
+$(function() {
+  $("input[type='radio']").change(function() {
+    $(this).parent().parent().find($("input[type='radio']")).parent().css('background-color', 'white')
+    $(this).parent().css('background-color', 'rgba(0,0,0,0.3)')
+  })
 })
 
 // click 'related' button
