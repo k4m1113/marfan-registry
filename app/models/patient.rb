@@ -77,7 +77,12 @@ class Patient < ApplicationRecord
   end
 
   def age
-    (((Date.today - date_of_birth.to_date)/365).to_f).round()
+    if deceased?
+      'deceased'
+    else
+      age = (((Date.today - date_of_birth.to_date)/365).to_f).round()
+      "#{age} y/o"
+    end
   end
 
   def object_pronoun

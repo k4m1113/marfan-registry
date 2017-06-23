@@ -1,6 +1,8 @@
 const mskey = $('#ms').data('mskey')
 const mshmac = $('#ms').data('mshmac')
 
+$('#diagnosisHeader').append(renderDiagnosisHeader(patient, visit))
+$('#reasonsForVisitHeader').append(renderReasonForVisitHeader(visit))
 $('#nestedListHook').append(nestedList(allTopics, visit, mskey, mshmac))
 
 // click medParse button
@@ -9,10 +11,16 @@ $('#medParse').click(function() {
   $('tbody#parsedMeds').append(table_rows)
 })
 
-// update primary diagnosis
-$('#primary_diagnosis_confirm').click(function() {
-  selected = $('input[name*=primary_diagnosis]:checked').val()
-  return confirm("Update patient diagnosis to " + selected + "?");
+// click submit button
+$('.confirm-submit').click(function() {
+  data = $(this).data('attr')
+  humanData = data.replace(/_/ig, ' ')
+  selected = $(`input[name*=${data}]:checked`).val()
+  return confirm(`Update ${humanData} to ${selected}?`);
+})
+$('button[type=submit]').click(function(){
+  console.log('floppy clicked')
+  $('form').submit()
 })
 
 // click 'related' button
@@ -105,6 +113,7 @@ $("input[type='file']").on('change', function() {
 
 // hide or display row form based on 'present' or 'absent' checked
 $("input.pres_abs").change(function() {
+  $('#floppy').addClass('text-primary')
   $row_form = $(this).parent().parent().parent().next('tr.row_form')
   // add keyboard and scribble widgets on row display
   $row_form.find("input[type='number']").addKeyboard()
@@ -113,7 +122,7 @@ $("input.pres_abs").change(function() {
     onText: 'Approx',
     offText: 'Exact',
     labelText: 'when?',
-    onColor: 'primary'
+    onColor: 'secondary'
   });
   // toggle approximate or exact time ago
   $(".time_ago_toggle").on('switchChange.bootstrapSwitch', function (event, state) {

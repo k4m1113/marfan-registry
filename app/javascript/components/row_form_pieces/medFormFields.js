@@ -15,7 +15,7 @@ module.exports = function renderMedFormBody(topic){
     DOSE
     <input type='number' name='visit[medications_attributes][${topic.id}][dose]' id='visit_medications_attributes_${topic.id}_dose' class='form-control calculator' placeholder='dose'>
     <span class='input-group-btn'>
-      <button class='btn btn-primary calculator' type='button' id='medications_${topic.id}_dose_calc_button'><i class='fa fa-calculator'></i></button>
+      <button class='btn btn-secondary calculator' type='button' id='medications_${topic.id}_dose_calc_button'><i class='fa fa-calculator'></i></button>
     </span>
     <select name='visit[medications_attributes][${topic.id}][dose_unit_of_measurement]' id='visit_medications_attributes_${topic.id}_dose_unit_of_measurement' class='form-control'>
       ${selectConstructor(unitsOfMeas, 'dose units')}
@@ -26,7 +26,7 @@ module.exports = function renderMedFormBody(topic){
     DOSAGE FORM
     <input type='number' name='visit[medications_attributes][${topic.id}][dosage_form_units]' id='visit_medications_attributes_${topic.id}_dosage_form_units' class='form-control calculator' placeholder='dosage form units'>
     <span class='input-group-btn'>
-      <button class='btn btn-primary calculator' type='button' id='medications_${topic.id}_dose_units_calc_button'><i class='fa fa-calculator'></i></button>
+      <button class='btn btn-secondary calculator' type='button' id='medications_${topic.id}_dose_units_calc_button'><i class='fa fa-calculator'></i></button>
     </span>
     <select name='visit[medications_attributes][${topic.id}][dosage_form_units]' id='visit_medications_attributes_${topic.id}_dosage_form_units' class='form-control'>
       ${selectConstructor(unitsOfMeas, 'dose form units')}

@@ -10,7 +10,8 @@
 @import "family-tree";
 
 $bootstrap-grey: #F7F7F7;
-$bootstrap-dark-grey: #cccccc;
+$bootstrap-dark-grey: rgba(0,0,0,0.7);
+$bootstrap-med-grey: rgba(0,0,0,0.5);
 $bootstrap-light-grey: white;
 $bootstrap-blue: #025AA5;
 $nmf-red: #B1242C;
@@ -71,6 +72,21 @@ button:hover{
 
   .active { display: block; }
 }
+a.nav-link.open-tab {
+  color: $bootstrap-dark-grey;
+  width: 200px;
+  border-radius: 0px !important;
+  border: 0 !important;
+  &:hover {
+    background-color: $bootstrap-light-grey !important;
+    border: 0 !important;
+  }
+  &.active {
+    background-color: $bootstrap-light-grey !important;
+    border: 0 !important;
+  }
+}
+
 
 .nav-tabs {
   float: left;
@@ -84,6 +100,28 @@ button:hover{
       border: 0;
     }
   }
+}
+
+a.navbar-brand {
+  padding: 0;
+}
+
+a.nav-link {
+  color: $bootstrap-dark-grey !important;
+}
+
+a.nav-link.disabled {
+  color: $bootstrap-med-grey !important;
+  cursor: default;
+}
+
+button.nav-icon {
+  @extend .nav-link;
+  color: rgba(0, 0, 0, 0.5);
+  background-color: inherit;
+  border: none;
+  padding: 0px 8px !important;
+  font-size: 30px;
 }
 
 .down-eight {

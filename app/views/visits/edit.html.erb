@@ -8,14 +8,18 @@
 
 <% content_for :navbar do %>
   <ul class="navbar-nav mr-auto">
-    <li class="nav-item">
+    <li class="nav-item" title="history for <%= "#{@patient.last_name}, #{@patient.first_name}" %>">
       <a class="nav-link" href="/patients/<%= @patient.id %>">
         <%= "#{@patient.last_name}, #{@patient.first_name} (MRN: #{@patient.id})" %>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" title="born <%= @patient.date_of_birth.strftime('%d %B %Y') %>">
       <a class="nav-link disabled" href="#">
-        <%= "#{@patient.age} y/o" %> -
+        <%= @patient.age %>
+      </a>
+    </li>
+    <li class="nav-item" title="<%= @patient.primary_diagnosis %>">
+      <a class="nav-link disabled" href="#">
         <% if @patient.primary_diagnosis %>
           <%= @patient.primary_diagnosis %>
         <% else %>
@@ -23,28 +27,62 @@
         <% end %>
       </a>
     </li>
+    <% if @visit.primary_reason %>
+      <li class="nav-item" title="<%= @visit.primary_reason %>">
+        <a class="nav-link disabled" href="#">
+          for <%= @visit.primary_reason %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+  <ul class="nav navbar-nav ml-auto justify-content-end">
+    <li class="nav-item" title="save and update visit">
+      <button class="nav-icon" id="floppy" type="submit">
+        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+      </button>
+    </li>
+    <li class="nav-item" title="generate after-visit letter">
+      <button class="nav-icon" type="button" data-toggle="modal" data-target="#reportModal">
+        <i class="fa fa-file-text-o" aria-hidden="true"></i>
+      </button>
+    </li>
   </ul>
 <% end %>
-
-<div id="ms" data-mskey="<%= ENV['MYSCRIPT_KEY'] %>" data-mshmac="<%= ENV['MYSCRIPT_HMAC'] %>"></div>
-<div id="invisible" data-rubyvar="<%= @all_meds.map{|t| [t.name.downcase, t.id]}.to_h.to_json %>"></div>
-<%= form_for @visit, class: "visit_form" do |f| %>
-  <%= f.fields_for :patient do |ff| %>
-    <div class="row">
-      <div class="col-sm-12">
-        <% if !@patient.primary_diagnosis %>
-          <% PRIMARY_DIAGNOSES.each do |d| %>
-            <label class="btn btn-primary">
-              <input type="radio" autocomplete="off" name="visit[patient_attributes][primary_diagnosis]" value="<%= d %>"> <%= d %>
-            </label>
-          <% end %>
-          <button type="submit" class="btn btn-success btn-sm" id="primary_diagnosis_confirm">
-            <i class="fa fa-check" aria-hidden="true"></i>
-          </button>
-        <% end %>
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reportModalLabel">
+          After-visit Letter
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" style="min-height:50em;">
+          <%= @visit.report %>
+        </textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
       </div>
     </div>
-  <% end %>
+  </div>
+</div>
+<div id="ms" data-mskey="<%= ENV['MYSCRIPT_KEY'] %>" data-mshmac="<%= ENV['MYSCRIPT_HMAC'] %>"></div>
+<div id="invisible" data-rubyvar="<%= @all_meds.map{|t| [t.name.downcase, t.id]}.to_h.to_json %>"></div>
+<%= form_for @visit, class: "visit_form", id: 'visit_form' do |f| %>
+  <div class="row">
+    <div class="col-sm-12">
+      <%= f.fields_for :patient do |ff| %>
+        <div id="diagnosisHeader"></div>
+      <% end %>
+      <div id="reasonsForVisitHeader"
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-sm-12" style="margin-bottom:-16px;">
       <%= render 'visits/show_accordion',

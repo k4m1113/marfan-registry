@@ -7,7 +7,7 @@ module.exports = function renderMeasurementField(topic, parameterizedPlural) {
   <div class='input-group'>
     <input type='number' name='visit[${parameterizedPlural}_attributes][${topic.id}][test_amount]' id='visit_${parameterizedPlural}_attributes_${topic.id}_test_amount' class='form-control calculator' placeholder='${topic.name}' value=''>
     <span class='input-group-btn'>
-      <button class='btn btn-primary calculator' type='button' id='${parameterizedPlural}_${topic.id}_test_calc_button'>
+      <button class='btn btn-secondary calculator' type='button' id='${parameterizedPlural}_${topic.id}_test_calc_button'>
         <i class='fa fa-calculator'></i>
       </button>
     </span>

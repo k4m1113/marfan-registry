@@ -1,4 +1,4 @@
-$bootstrap-blue: #025AA5;
+$bootstrap-dark-grey: rgba(0,0,0,0.6);
 
 input.pres_abs {
   display: none;
@@ -19,11 +19,11 @@ label input[type="radio"]:checked ~ i.fa.fa-circle-o {
 display: none;
 }
 label input[type="radio"]:checked ~ i.fa.fa-check-circle-o {
-color: $bootstrap-blue;
+color: $bootstrap-dark-grey;
 display: inline;
 }
 label:hover input[type="radio"] ~ i.fa {
-color: $bootstrap-blue;
+color: $bootstrap-dark-grey;
 cursor: pointer;
 }
 div[data-toggle="buttons"] label.active {
@@ -37,7 +37,7 @@ user-select: none;
 }
 div[data-toggle="buttons"] label:hover {
 cursor: pointer;
-color: #7AA3CC;
+color: black;
 }
 div[data-toggle="buttons"] label:active, div[data-toggle="buttons"] label.active {
 box-shadow: none;

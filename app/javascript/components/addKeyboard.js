@@ -22,7 +22,7 @@
            input: 'form-control input-sm',
            container: 'center-block dropdown-menu',
            buttonDefault: 'btn btn-default',
-           buttonHover: 'btn-primary',
+           buttonHover: 'btn-secondary',
            // used when disabling the decimal button {dec}
            // when a decimal exists in the input area
            buttonDisabled: 'enabled'

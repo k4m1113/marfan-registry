@@ -14,7 +14,6 @@ function keyify(str) {
 }
 
 module.exports = function nestedList(allTopics, visit) {
-  let updateButton = `<input type="submit" name="commit" value="Update Visit" class="col-centered form-control-label btn btn-secondary btn-lg" style="width:100%;">`
   let topBar = `<ul class="nav nav-tabs flex-column" role="tablist">`
   for (let i = 0; i < allTopics.length; i++) {
     let groupName = allTopics[i][0]
@@ -38,7 +37,6 @@ module.exports = function nestedList(allTopics, visit) {
     else {
       panes += `<div class="tab-pane fade" role="tabpanel" id="${key}" data-tab-index="${i}">`
     }
-    panes += `${updateButton}`
     switch (groupName) {
       case 'family history':
         panes += `${renderFamilyTree(patient)}</div>`

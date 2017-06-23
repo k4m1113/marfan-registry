@@ -12274,11 +12274,11 @@ label input[type="radio"]:checked ~ i.fa.fa-circle-o {
   display: none; }
 
 label input[type="radio"]:checked ~ i.fa.fa-check-circle-o {
-  color: #025AA5;
+  color: rgba(0, 0, 0, 0.6);
   display: inline; }
 
 label:hover input[type="radio"] ~ i.fa {
-  color: #025AA5;
+  color: rgba(0, 0, 0, 0.6);
   cursor: pointer; }
 
 div[data-toggle="buttons"] label.active {
@@ -12292,7 +12292,7 @@ div[data-toggle="buttons"] label {
 
 div[data-toggle="buttons"] label:hover {
   cursor: pointer;
-  color: #7AA3CC; }
+  color: black; }
 
 div[data-toggle="buttons"] label:active, div[data-toggle="buttons"] label.active {
   box-shadow: none; }
@@ -12311,7 +12311,7 @@ myscript-math-web {
   .scribble.btn {
     border-left: 2px solid #F5F6F7; }
   .scribble:hover {
-    color: #025AA5; }
+    color: rgba(0, 0, 0, 0.6); }
 
 table.family-tree {
   border: 0;
@@ -12341,7 +12341,7 @@ table.family-tree {
 .tooltip-trigger {
   border-radius: 20px;
   padding: 1px 6px 0px 6px;
-  border: 2px solid #cccccc;
+  border: 2px solid rgba(0, 0, 0, 0.7);
   border-corner-shape: bevel;
   color: #B1242C; }
   .tooltip-trigger:hover {
@@ -12385,6 +12385,18 @@ button:hover {
   .tab-content .active {
     display: block; }
 
+a.nav-link.open-tab {
+  color: rgba(0, 0, 0, 0.7);
+  width: 200px;
+  border-radius: 0px !important;
+  border: 0 !important; }
+  a.nav-link.open-tab:hover {
+    background-color: white !important;
+    border: 0 !important; }
+  a.nav-link.open-tab.active {
+    background-color: white !important;
+    border: 0 !important; }
+
 .nav-tabs {
   float: left;
   padding-right: 8px !important;
@@ -12394,6 +12406,23 @@ button:hover {
     float: none; }
     .nav-tabs li a {
       border: 0; }
+
+a.navbar-brand {
+  padding: 0; }
+
+a.nav-link {
+  color: rgba(0, 0, 0, 0.7) !important; }
+
+a.nav-link.disabled {
+  color: rgba(0, 0, 0, 0.5) !important;
+  cursor: default; }
+
+button.nav-icon {
+  color: rgba(0, 0, 0, 0.5);
+  background-color: inherit;
+  border: none;
+  padding: 0px 8px !important;
+  font-size: 30px; }
 
 .down-eight {
   margin-top: -8px; }
