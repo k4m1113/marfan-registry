@@ -1,10 +1,13 @@
 import renderInfoHover from './infoHover'
+import renderHiddenFields from './hiddenFields'
 const parameterizedPlurals = {
   'diagnosis': 'diagnoses',
   'family member': 'family_members',
   'procedure': 'procedures',
   'medication': 'medications',
-  'hospitalization': 'hospitalizations'
+  'hospitalization': 'hospitalizations',
+  'vital': 'vitals',
+  'dissection': 'dissections'
 }
 module.exports = function renderButtons(topic, visit) {
   var parameterizedPlural = parameterizedPlurals[topic.topic_type]

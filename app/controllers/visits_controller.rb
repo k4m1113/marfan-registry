@@ -1,6 +1,6 @@
 require 'report'
 require 'json'
-# require 'pry-remote'
+require 'pry-remote'
 
 # visits controller
 class VisitsController < ApplicationController
@@ -107,7 +107,7 @@ class VisitsController < ApplicationController
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient.id)
     @form_action = 'Update'
-    # binding.remote_pry
+    binding.remote_pry
     if @visit.update(visit_params)
       # visit_params.keys.each do |vp|
       #   flash[:success] = "Successfully updated visit with #{vp}"
@@ -131,7 +131,7 @@ class VisitsController < ApplicationController
     redirect_to new_visit_path(clinician: @clinician, patient: @patient)
   end
 
-  private
+  # private
 
   def visit_params
     params.require(:visit).permit(
@@ -165,6 +165,6 @@ class VisitsController < ApplicationController
         [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, :family_member, :attachment,  future_patient_data_hash:
           %i[first_name last_name born_years_ago date_of_birth deceased death_time_ago death_time_ago_scale death_date cause_of_death note],
       tests_attributes:
-        %i[visit_id topic_id patient_id test test_date time_ago test_amount test_unit_of_meas time_ago_scale result note attachment]])
+        %i[visit_id topic_id patient_id test test_date time_ago test_amount test_unit_of_meas time_ago_scale result note attachment]]).to_h
   end
 end

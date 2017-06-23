@@ -55,7 +55,7 @@ class Visit < ApplicationRecord
   end
 
   def concerns
-    tests + procedures + diagnoses + hospitalizations + family_members + medications + vitals
+    tests + procedures + diagnoses + hospitalizations + family_members + medications
   end
 
   def letter_sort_by_topic
@@ -106,22 +106,22 @@ class Visit < ApplicationRecord
   end
 
   def vitals_paragraph
-    patient = Patient.find(patient_id)
-    vitals = self.vitals
-
-    phrases = []
-
-    phrases << "a blood pressure of #{vitals.select { |v| v.topic.name == 'SBP' }[0].measurement}/#{vitals.select { |v| v.topic.name == 'DBP' }[0].measurement}" if vitals.select { |v| v.topic.name == 'SBP' }[0]
-    phrases << "a pulse of #{vitals.select { |v| v.topic.name == 'heart rate' }[0].measurement}" if vitals.select { |v| v.topic.name == 'heart rate' }[0]
-    phrases << "a height of #{vitals.select { |v| v.topic.name == 'height' }[0].measurement.to_f.round(2)}m" if vitals.select { |v| v.topic.name == 'height' }[0]
-    phrases << "a weight of #{vitals.select { |v| v.topic.name == 'weight' }[0].measurement.to_f.round(2)}kg" if vitals.select { |v| v.topic.name == 'weight' }[0]
-    phrases << "a temperature of #{vitals.select { |v| v.topic.name == 'temperature' }[0].measurement.to_f.round(1)}°C" if vitals.select { |v| v.topic.name == 'temperature' }[0]
-
-    if phrases.empty?
-      %(#{patient.first_name} had no vitals measured during this visit.)
-    else
-      %(#{patient.first_name} was in good health when I saw #{patient.object_pronoun} with #{list_constructor(phrases)}.)
-    end
+    # patient = Patient.find(patient_id)
+    # vitals = self.vitals
+    #
+    # phrases = []
+    #
+    # phrases << "a blood pressure of #{vitals.select { |v| v.topic.name == 'SBP' }[0].measurement}/#{vitals.select { |v| v.topic.name == 'DBP' }[0].measurement}" if vitals.select { |v| v.topic.name == 'SBP' }[0]
+    # phrases << "a pulse of #{vitals.select { |v| v.topic.name == 'heart rate' }[0].measurement}" if vitals.select { |v| v.topic.name == 'heart rate' }[0]
+    # phrases << "a height of #{vitals.select { |v| v.topic.name == 'height' }[0].measurement.to_f.round(2)}m" if vitals.select { |v| v.topic.name == 'height' }[0]
+    # phrases << "a weight of #{vitals.select { |v| v.topic.name == 'weight' }[0].measurement.to_f.round(2)}kg" if vitals.select { |v| v.topic.name == 'weight' }[0]
+    # phrases << "a temperature of #{vitals.select { |v| v.topic.name == 'temperature' }[0].measurement.to_f.round(1)}°C" if vitals.select { |v| v.topic.name == 'temperature' }[0]
+    #
+    # if phrases.empty?
+    #   %(#{patient.first_name} had no vitals measured during this visit.)
+    # else
+    #   %(#{patient.first_name} was in good health when I saw #{patient.object_pronoun} with #{list_constructor(phrases)}.)
+    # end
   end
 
   def family_paragraph

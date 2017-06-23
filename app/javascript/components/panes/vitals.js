@@ -1,9 +1,8 @@
-import renderMeasurementField from '../row_form_pieces/measurementField'
+import renderVitalForm from '../row_form_pieces/assembledVitalForm'
 
 module.exports = function renderVitalsFields(topics, visit) {
-  let returnStatement = `<br />`
   const parameterizedPlural = 'vitals'
-  let fields = topics.map(t => renderMeasurementField(t, parameterizedPlural))
-  returnStatement += fields.join('')
+  const fields = topics.map(t => renderVitalForm(t, visit))
+  let returnStatement = `${fields.join('')}`
   return returnStatement
 }

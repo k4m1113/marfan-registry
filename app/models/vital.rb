@@ -9,11 +9,11 @@ class Vital < ApplicationRecord
   accepts_nested_attributes_for :gallery
 
   belongs_to :topic
-  belongs_to :patient, inverse_of: :vitals
+  belongs_to :patient, inverse_of: :vitals, required: true
   belongs_to :visit, inverse_of: :vitals, required: false
 
   def generate_summary
-    "#{topic.name} was #{measurement}#{topic.units_of_measurement[0]}"
+    # "#{topic.name} was #{measurement}#{topic.units_of_measurement[0]}"
   end
 
   def generate_full_summary
@@ -21,7 +21,7 @@ class Vital < ApplicationRecord
   end
 
   def calculate_metric
-    if ['height', 'weight'].include? self.topic.name
+    if ['height', 'weight'].include? topic.name
       unless self.test_amount.blank? || self.test_unit_of_meas.blank?
         unit = Unit.new("#{self.test_amount} #{self.test_unit_of_meas}")
         self.measurement = unit.base.scalar.to_f.round(3)

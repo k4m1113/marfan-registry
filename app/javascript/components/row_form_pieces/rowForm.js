@@ -11,6 +11,7 @@ const parameterizedPlurals = {
   'procedure': 'procedures',
   'medication': 'medications',
   'hospitalization': 'hospitalizations',
+  'vital': 'vitals',
   'dissection': 'dissections'
 }
 
