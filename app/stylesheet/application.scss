@@ -39,6 +39,9 @@ label.btn-secondary {
   padding: 8px;
 
 }
+.bootstrap-switch {
+  width: 200px;
+}
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary {
   background: #025AA5 !important;
 }
@@ -78,20 +81,27 @@ button:hover{
     overflow-y: auto;
   }
 
-  .active { display: block; }
+  .active {
+    display: block;
+  }
 }
 a.nav-link.open-tab {
   color: $bootstrap-dark-grey;
   width: 200px;
   border-radius: 0px !important;
   border: 0 !important;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 16px;
   &:hover {
     background-color: $bootstrap-light-grey !important;
     border: 0 !important;
+    padding: 8px 16px;
   }
   &.active {
     background-color: $bootstrap-light-grey !important;
     border: 0 !important;
+    padding: 8px 16px;
   }
 }
 
@@ -214,13 +224,13 @@ img{
 }
 
 .summary-bar {
+  color: $bootstrap-dark-grey;
   &.card-header {
-    padding: 0;
+    padding: 0px 8px;
   }
-  &.card {
-  }
-  &h6 {
-    color: orange;
+  &:hover {
+    text-decoration: none;
+    background-color: white;
   }
 }
 

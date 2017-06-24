@@ -14,16 +14,28 @@ module.exports = function renderDissectionForm(topic, visit) {
   returnStatement += `
     <tr class='row_form' id='row_${topic.id}' style='display:none'><td colspan='3'>
       <div class="form-inline">
-        <select>
-        ${selectConstructor(locations, 'location')}
+        <select
+          name="visit[dissections_attributes][${topic.id}][location]"
+          id="visit_dissections_attributes_${topic.id}_location"
+          class="form-control">
+          ${selectConstructor(locations, 'location')}
         </select>
-        <select>
-        ${selectConstructor(directions, 'direction')}
+        <select
+          name="visit[dissections_attributes][${topic.id}][direction]"
+          id="visit_dissections_attributes_${topic.id}_direction"
+          class="form-control">
+          ${selectConstructor(directions, 'direction')}
         </select>
-        <select>
+        <select
+          name="visit[dissections_attributes][${topic.id}][lumen]"
+          id="visit_dissections_attributes_${topic.id}_lumen"
+          class="form-control">
           ${selectConstructor(lumens, 'lumen')}
         </select>
-        <select>
+        <select
+          name="visit[dissections_attributes][${topic.id}][perfusion]"
+          id="visit_dissections_attributes_${topic.id}_perfusion"
+          class="form-control">
           ${selectConstructor(perfused, 'perfusion')}
         </select>
       </div>

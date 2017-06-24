@@ -19,11 +19,12 @@ module.exports = function nestedList(allTopics, visit) {
   for (let i = 0; i < allTopics.length; i++) {
     let groupName = allTopics[i][0]
     let key = keyify(groupName)
-    topBar += `<li class="nav-item" style="width:60px;">
+    topBar += `<h6 class=""><li class="nav-item" style="width:60px;">
       <a class="nav-link open-tab" data-tab-index="${i}" data-toggle="tab" href="#${key}" role="tab">
         ${groupName}
       </a>
-    </li>`
+    </li>
+    </h6>`
   }
   topBar += '</ul>'
 

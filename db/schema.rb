@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20170623222158) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "clinicians", force: :cascade do |t|
+  create_table "clinicians", id: :serial, force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.string "practice_name", null: false
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "complications", force: :cascade do |t|
+  create_table "complications", id: :serial, force: :cascade do |t|
     t.integer "topic_id", null: false
     t.integer "patient_id", null: false
     t.string "time_ago"
@@ -41,9 +41,11 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.datetime "updated_at", null: false
     t.string "note"
     t.string "attachment"
+    t.index ["patient_id"], name: "index_complications_on_patient_id"
+    t.index ["topic_id"], name: "index_complications_on_topic_id"
   end
 
-  create_table "delayed_jobs", force: :cascade do |t|
+  create_table "delayed_jobs", id: :serial, force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
     t.text "handler", null: false
@@ -58,7 +60,7 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
-  create_table "diagnoses", force: :cascade do |t|
+  create_table "diagnoses", id: :serial, force: :cascade do |t|
     t.integer "topic_id", null: false
     t.integer "patient_id", null: false
     t.string "time_ago"
@@ -71,11 +73,14 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.string "duration"
     t.string "frequency"
     t.string "attachment"
+    t.index ["patient_id"], name: "index_diagnoses_on_patient_id"
+    t.index ["topic_id"], name: "index_diagnoses_on_topic_id"
   end
 
   create_table "dissections", force: :cascade do |t|
     t.bigint "patient_id", null: false
     t.bigint "visit_id"
+    t.bigint "topic_id", null: false
     t.string "location", null: false
     t.string "perfusion"
     t.string "direction"
@@ -88,12 +93,13 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["patient_id"], name: "index_dissections_on_patient_id"
+    t.index ["topic_id"], name: "index_dissections_on_topic_id"
     t.index ["visit_id"], name: "index_dissections_on_visit_id"
   end
 
-  create_table "family_members", force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "family_members", id: :serial, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.jsonb "future_patient_data_hash"
     t.integer "claimed_patient_id"
     t.integer "patient_id", null: false
@@ -105,9 +111,11 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.datetime "death_date"
     t.integer "topic_id", null: false
     t.string "attachment"
+    t.index ["patient_id"], name: "index_family_members_on_patient_id"
+    t.index ["topic_id"], name: "index_family_members_on_topic_id"
   end
 
-  create_table "galleries", force: :cascade do |t|
+  create_table "galleries", id: :serial, force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -121,6 +129,15 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.integer "hospitalization_id"
     t.integer "family_member_id"
     t.integer "diagnosis_id"
+    t.index ["diagnosis_id"], name: "index_galleries_on_diagnosis_id"
+    t.index ["family_member_id"], name: "index_galleries_on_family_member_id"
+    t.index ["hospitalization_id"], name: "index_galleries_on_hospitalization_id"
+    t.index ["medication_id"], name: "index_galleries_on_medication_id"
+    t.index ["patient_id"], name: "index_galleries_on_patient_id"
+    t.index ["procedure_id"], name: "index_galleries_on_procedure_id"
+    t.index ["symptom_id"], name: "index_galleries_on_symptom_id"
+    t.index ["test_id"], name: "index_galleries_on_test_id"
+    t.index ["visit_id"], name: "index_galleries_on_visit_id"
   end
 
   create_table "heart_measurements", force: :cascade do |t|
@@ -140,14 +157,14 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.index ["visit_id"], name: "index_heart_measurements_on_visit_id"
   end
 
-  create_table "hospitalizations", force: :cascade do |t|
+  create_table "hospitalizations", id: :serial, force: :cascade do |t|
     t.datetime "admission_date"
     t.integer "length_of_stay"
     t.string "hosp_type"
     t.string "description"
     t.string "location"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "patient_id", null: false
     t.integer "visit_id"
     t.string "time_ago"
@@ -156,9 +173,11 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.string "note"
     t.integer "topic_id", null: false
     t.string "attachment"
+    t.index ["patient_id"], name: "index_hospitalizations_on_patient_id"
+    t.index ["topic_id"], name: "index_hospitalizations_on_topic_id"
   end
 
-  create_table "medications", force: :cascade do |t|
+  create_table "medications", id: :serial, force: :cascade do |t|
     t.integer "patient_id", null: false
     t.integer "visit_id"
     t.decimal "dose"
@@ -184,9 +203,10 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.integer "topic_id"
     t.boolean "current"
     t.string "attachment"
+    t.index ["patient_id"], name: "index_medications_on_patient_id"
   end
 
-  create_table "patients", force: :cascade do |t|
+  create_table "patients", id: :serial, force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name", null: false
     t.string "address_line_1", null: false
@@ -211,16 +231,16 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.string "attachment"
   end
 
-  create_table "pg_search_documents", force: :cascade do |t|
+  create_table "pg_search_documents", id: :serial, force: :cascade do |t|
     t.text "content"
-    t.integer "searchable_id"
     t.string "searchable_type"
+    t.integer "searchable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id"
   end
 
-  create_table "procedures", force: :cascade do |t|
+  create_table "procedures", id: :serial, force: :cascade do |t|
     t.integer "topic_id", null: false
     t.integer "patient_id", null: false
     t.integer "clinician_id"
@@ -232,9 +252,12 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.string "time_ago_scale"
     t.datetime "absolute_start_date"
     t.string "attachment"
+    t.index ["clinician_id"], name: "index_procedures_on_clinician_id"
+    t.index ["patient_id"], name: "index_procedures_on_patient_id"
+    t.index ["topic_id"], name: "index_procedures_on_topic_id"
   end
 
-  create_table "seeded_symptoms", force: :cascade do |t|
+  create_table "seeded_symptoms", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "common_name"
     t.string "article"
@@ -244,23 +267,25 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.string "systemic_category"
   end
 
-  create_table "symptoms", force: :cascade do |t|
+  create_table "symptoms", id: :serial, force: :cascade do |t|
     t.boolean "presence"
     t.float "measurement"
     t.datetime "start_date"
     t.string "frequency"
     t.text "note"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "patient_id", null: false
     t.integer "visit_id"
     t.string "time_ago"
     t.integer "time_ago_scale"
     t.integer "topic_id", null: false
     t.string "attachment"
+    t.index ["patient_id"], name: "index_symptoms_on_patient_id"
+    t.index ["topic_id"], name: "index_symptoms_on_topic_id"
   end
 
-  create_table "tests", force: :cascade do |t|
+  create_table "tests", id: :serial, force: :cascade do |t|
     t.string "result"
     t.datetime "test_date"
     t.integer "patient_id", null: false
@@ -272,9 +297,11 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "attachment"
+    t.index ["patient_id"], name: "index_tests_on_patient_id"
+    t.index ["topic_id"], name: "index_tests_on_topic_id"
   end
 
-  create_table "topics", force: :cascade do |t|
+  create_table "topics", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "parent_id"
     t.integer "lft", null: false
@@ -294,7 +321,7 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.index ["rgt"], name: "index_topics_on_rgt"
   end
 
-  create_table "visits", force: :cascade do |t|
+  create_table "visits", id: :serial, force: :cascade do |t|
     t.integer "patient_id", null: false
     t.integer "clinician_id", null: false
     t.string "general_health"
@@ -302,9 +329,11 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.string "secondary_reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["clinician_id"], name: "index_visits_on_clinician_id"
+    t.index ["patient_id"], name: "index_visits_on_patient_id"
   end
 
-  create_table "vitals", force: :cascade do |t|
+  create_table "vitals", id: :serial, force: :cascade do |t|
     t.integer "patient_id", null: false
     t.integer "topic_id", null: false
     t.integer "visit_id"
@@ -312,6 +341,8 @@ ActiveRecord::Schema.define(version: 20170623222158) do
     t.string "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["patient_id"], name: "index_vitals_on_patient_id"
+    t.index ["topic_id"], name: "index_vitals_on_topic_id"
   end
 
 end

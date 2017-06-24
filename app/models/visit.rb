@@ -38,6 +38,10 @@ class Visit < ApplicationRecord
     proc { |att|
       att['time_ago'].nil? && att['note'].blank? && att['attachment'].nil?
     }
+  accepts_nested_attributes_for :dissections, reject_if:
+    proc { |att|
+      att['location'].blank?
+    }
   accepts_nested_attributes_for :hospitalizations
   accepts_nested_attributes_for :tests, reject_if:
     proc { |t|
@@ -77,7 +81,7 @@ class Visit < ApplicationRecord
   end
 
   def concerns
-    tests + procedures + diagnoses + hospitalizations + family_members + medications + vitals + heart_measurements
+    tests + procedures + diagnoses + hospitalizations + family_members + medications + dissections + vitals
   end
 
   def letter_sort_by_topic

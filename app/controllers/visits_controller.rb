@@ -157,6 +157,8 @@ class VisitsController < ApplicationController
         %i[visit_id patient_id topic_id present dose dose_unit_of_measurement nested_med_id nested_med_category duration_amount duration_scale ingestion_method frequency frequency_scale common_name medication_format time_ago time_ago_scale absolute_start_date note name dosage_form dosage_form_units current attachment],
       heart_measurements_attributes:
         [:visit_id, :topic_id, :patient_id, :time_ago_amount, :time_ago_scale, :absolute_start_date, :test_amount, :test_unit_of_meas, :note, :attachment, descriptors: []],
+      dissections_attributes:
+        %i[patient_id visit_id topic_id location perfusion direction lumen absolute_start_date time_ago_amount time_ago_scale attachment note],
       diagnoses_attributes:
         [:visit_id, :topic_id, :patient_id, :present, :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale, :absolute_start_date, :note, :attachment, descriptors: []],
       procedures_attributes:
@@ -167,6 +169,6 @@ class VisitsController < ApplicationController
         [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, :family_member, :attachment,  future_patient_data_hash:
           %i[first_name last_name born_years_ago date_of_birth deceased death_time_ago death_time_ago_scale death_date cause_of_death note],
       tests_attributes:
-        %i[visit_id topic_id patient_id test test_date time_ago test_amount test_unit_of_meas time_ago_scale result note attachment]]).to_h
+        %i[visit_id topic_id patient_id test test_date time_ago test_amount test_unit_of_meas time_ago_scale result note attachment]])
   end
 end

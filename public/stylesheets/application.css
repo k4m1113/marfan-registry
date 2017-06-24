@@ -12355,6 +12355,9 @@ input[type='radio'] {
 label.btn-secondary {
   padding: 8px; }
 
+.bootstrap-switch {
+  width: 200px; }
+
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary {
   background: #025AA5 !important; }
 
@@ -12396,13 +12399,18 @@ a.nav-link.open-tab {
   color: rgba(0, 0, 0, 0.7);
   width: 200px;
   border-radius: 0px !important;
-  border: 0 !important; }
+  border: 0 !important;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 16px; }
   a.nav-link.open-tab:hover {
     background-color: white !important;
-    border: 0 !important; }
+    border: 0 !important;
+    padding: 8px 16px; }
   a.nav-link.open-tab.active {
     background-color: white !important;
-    border: 0 !important; }
+    border: 0 !important;
+    padding: 8px 16px; }
 
 .nav-tabs {
   float: left;
@@ -12507,11 +12515,13 @@ img {
 .summary-body {
   background-color: white; }
 
-.summary-bar.card-header {
-  padding: 0; }
-
-.summary-barh6 {
-  color: orange; }
+.summary-bar {
+  color: rgba(0, 0, 0, 0.7); }
+  .summary-bar.card-header {
+    padding: 0px 8px; }
+  .summary-bar:hover {
+    text-decoration: none;
+    background-color: white; }
 
 @media (min-width: 768px) {
   .modal-xl {

@@ -175,7 +175,7 @@ module.exports = function renderTimeAgoField(topic, parameterizedPlural) {
     default:
       absoluteTime = 'absolute_start_date';
   }
-  var returnStatement = '<input type="checkbox" class="time_ago_toggle" id="time_ago_' + topic.id + '_toggle" checked>\n  <br />\n  <div class="approximate">\n    <div class=\'input-group\'>\n      <input type=\'number\' name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][time_ago_amount]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_time_ago_amount\' class=\'form-control calculator\' placeholder=\'time ago\'>\n      <span class=\'input-group-btn\'>\n        <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'' + parameterizedPlural + '_' + topic.id + '_time_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n      </span>\n      <select name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][time_ago_scale]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_time_ago_scale\' class=\'form-control\'>\n        ' + (0, _selectConstructor2.default)(options, 'time ago') + '\n      </select>\n    </div>\n  </div>\n  <div class="exact" style="display: none">\n    <input type=\'date\' name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][' + absoluteTime + ']\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_' + absoluteTime + '\' class=\'form-control\'>\n  </div>';
+  var returnStatement = '<input type="checkbox" class="time_ago_toggle" id="time_ago_' + topic.id + '_toggle" checked>\n  <br />\n  <div class="approximate" >\n    <div class=\'form-inline\'>\n      <input type=\'number\' name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][time_ago_amount]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_time_ago_amount\' class=\'form-control calculator\' placeholder=\'time ago\'>\n      <span class=\'input-group-btn\'>\n        <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'' + parameterizedPlural + '_' + topic.id + '_time_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n      </span>\n      <select name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][time_ago_scale]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_time_ago_scale\' class=\'form-control\'>\n        ' + (0, _selectConstructor2.default)(options, 'time ago') + '\n      </select>\n    </div>\n  </div>\n  <div class="exact" style="display: none">\n    <input type=\'date\' name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][' + absoluteTime + ']\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_' + absoluteTime + '\' class=\'form-control\'>\n  </div>';
   return returnStatement;
 };
 
@@ -195,7 +195,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var options = ['second(s)', 'minute(s)', 'hour(s)', 'day(s)', 'week(s)', 'month(s)', 'year(s)'];
 
 module.exports = function renderDurationField(topic, parameterizedPlural) {
-  var returnStatement = '<div class=\'input-group\'>\n    <input type=\'number\' name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][duration_amount]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_duration_amount\' class=\'form-control calculator\' placeholder=\'duration\'>\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'' + parameterizedPlural + '_' + topic.id + '_duration_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n    </span>\n    <select name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][duration_scale]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_duration_scale\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(options, 'for how long') + '\n    </select>\n  </div>';
+  var returnStatement = '<div class=\'form-inline\'>\n    <input type=\'number\' name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][duration_amount]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_duration_amount\' class=\'form-control calculator\' placeholder=\'duration\'>\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'' + parameterizedPlural + '_' + topic.id + '_duration_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n    </span>\n    <select name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][duration_scale]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_duration_scale\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(options, 'for how long') + '\n    </select>\n  </div>';
   return returnStatement;
 };
 
@@ -283,7 +283,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var options = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
 
 module.exports = function renderFrequencyField(topic, parameterizedPlural) {
-  var returnStatement = '\n  <div class=\'input-group\'>\n    <input\n      type=\'number\'\n      name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][frequency_amount]\'\n      id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_frequency_amount\'\n      class=\'form-control calculator\'\n      placeholder=\'frequency\'\n    >\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'' + parameterizedPlural + '_' + topic.id + '_freq_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n    </span>\n      <select name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][frequency_scale]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_frequency_scale\' class=\'form-control\'>\n        ' + (0, _selectConstructor2.default)(options, 'times per') + '\n      </select>\n  </div>\n  ';
+  var returnStatement = '\n  <div class=\'form-inline\'>\n    <input\n      type=\'number\'\n      name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][frequency_amount]\'\n      id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_frequency_amount\'\n      class=\'form-control calculator\'\n      placeholder=\'frequency\'\n    >\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'' + parameterizedPlural + '_' + topic.id + '_freq_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n    </span>\n      <select name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][frequency_scale]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_frequency_scale\' class=\'form-control\'>\n        ' + (0, _selectConstructor2.default)(options, 'times per') + '\n      </select>\n  </div>\n  ';
   return returnStatement;
 };
 
@@ -581,7 +581,7 @@ module.exports = function renderAorticImagingFields(topics, visit) {
   var fields = topics.map(function (t) {
     return (0, _assembledHeartMeasurementForm2.default)(t, visit);
   });
-  var returnStatement = '<div class="form-group">';
+  var returnStatement = '<div class="row">';
   returnStatement += '' + fields.join('');
   returnStatement += '</div>';
   return returnStatement;
@@ -704,7 +704,7 @@ module.exports = function renderDissectionForm(topic, visit) {
   var directions = ['right', 'left', 'N/A'];
   var parameterizedPlural = 'dissections';
   var returnStatement = void 0;
-  returnStatement += '\n    <tr class=\'row_form\' id=\'row_' + topic.id + '\' style=\'display:none\'><td colspan=\'3\'>\n      <div class="form-inline">\n        <select>\n        ' + (0, _selectConstructor2.default)(locations, 'location') + '\n        </select>\n        <select>\n        ' + (0, _selectConstructor2.default)(directions, 'direction') + '\n        </select>\n        <select>\n          ' + (0, _selectConstructor2.default)(lumens, 'lumen') + '\n        </select>\n        <select>\n          ' + (0, _selectConstructor2.default)(perfused, 'perfusion') + '\n        </select>\n      </div>\n      <div class="form-inline">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n\n        What type of intervention was performed?\n      </div>\n    </td></tr>\n  ';
+  returnStatement += '\n    <tr class=\'row_form\' id=\'row_' + topic.id + '\' style=\'display:none\'><td colspan=\'3\'>\n      <div class="form-inline">\n        <select\n          name="visit[dissections_attributes][' + topic.id + '][location]"\n          id="visit_dissections_attributes_' + topic.id + '_location"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(locations, 'location') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + topic.id + '][direction]"\n          id="visit_dissections_attributes_' + topic.id + '_direction"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(directions, 'direction') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + topic.id + '][lumen]"\n          id="visit_dissections_attributes_' + topic.id + '_lumen"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(lumens, 'lumen') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + topic.id + '][perfusion]"\n          id="visit_dissections_attributes_' + topic.id + '_perfusion"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(perfused, 'perfusion') + '\n        </select>\n      </div>\n      <div class="form-inline">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n\n        What type of intervention was performed?\n      </div>\n    </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -833,7 +833,7 @@ module.exports = function renderMeasurementField(topic, parameterizedPlural) {
   var title = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'units';
 
   var options = topic.units_of_measurement;
-  var returnStatement = '\n  <div class=\'input-group\'>\n    <input type=\'number\' name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][test_amount]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_test_amount\' class=\'form-control calculator\' placeholder=\'' + topic.name + '\' value=\'\'>\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'' + parameterizedPlural + '_' + topic.id + '_test_calc_button\'>\n        <i class=\'fa fa-calculator\'></i>\n      </button>\n    </span>\n      <select\n        name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][test_unit_of_meas]\'\n        id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_test_unit_of_meas\'\n        class=\'form-control\'' + multiSelect + '>\n        ' + (0, _selectConstructor2.default)(options, title) + '\n      </select>\n  </div>\n  ';
+  var returnStatement = '\n  <div class=\'form-inline\'>\n    <input type=\'number\' name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][test_amount]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_test_amount\' class=\'form-control calculator\' placeholder=\'' + topic.name + '\' value=\'\'>\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'' + parameterizedPlural + '_' + topic.id + '_test_calc_button\'>\n        <i class=\'fa fa-calculator\'></i>\n      </button>\n    </span>\n      <select\n        name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][test_unit_of_meas]\'\n        id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_test_unit_of_meas\'\n        class=\'form-control\'' + multiSelect + '>\n        ' + (0, _selectConstructor2.default)(options, title) + '\n      </select>\n  </div>\n  ';
   return returnStatement;
 };
 
@@ -2962,7 +2962,7 @@ module.exports = function nestedList(allTopics, visit) {
   for (var _i = 0; _i < allTopics.length; _i++) {
     var groupName = allTopics[_i][0];
     var key = keyify(groupName);
-    topBar += '<li class="nav-item" style="width:60px;">\n      <a class="nav-link open-tab" data-tab-index="' + _i + '" data-toggle="tab" href="#' + key + '" role="tab">\n        ' + groupName + '\n      </a>\n    </li>';
+    topBar += '<h6 class=""><li class="nav-item" style="width:60px;">\n      <a class="nav-link open-tab" data-tab-index="' + _i + '" data-toggle="tab" href="#' + key + '" role="tab">\n        ' + groupName + '\n      </a>\n    </li>\n    </h6>';
   }
   topBar += '</ul>';
 
@@ -3034,17 +3034,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 module.exports = function renderHeartMeasurementForm(topic, visit) {
   var parameterizedPlural = 'heart_measurements';
-  var returnStatement = '<div class="well"><div class="form-inline">' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural);
+  var returnStatement = '<div class="col-sm-12"><div class="card">\n  <div class="card-header">\n    ' + topic.name + '\n  </div>\n  <div class="form-inline">' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural);
   if (topic.units_of_measurement.length == 1 || !topic.name.includes('morphology')) {
     returnStatement += '<div class="form-inline">\n      ' + (0, _measurementField2.default)(topic, parameterizedPlural, null, 'severity') + '\n    </div>';
   } else {
     returnStatement += '' + (0, _measurementField2.default)(topic, parameterizedPlural, ' multiple', 'morphology');
   }
-  returnStatement += '</div><div class="form-inline">';
   if (topic.descriptors) {
     returnStatement += '' + (0, _keywords2.default)(topic, parameterizedPlural);
   }
-  returnStatement += '' + (0, _noteField2.default)(topic, parameterizedPlural) + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '</div></div>';
+  returnStatement += '' + (0, _noteField2.default)(topic, parameterizedPlural) + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '</div></div></div>';
   return returnStatement;
 };
 
@@ -5835,7 +5834,7 @@ module.exports = function nestedList(allTopics, visit) {
   for (var _i = 0; _i < allTopics.length; _i++) {
     var groupName = allTopics[_i][0];
     var key = keyify(groupName);
-    topBar += '<li class="nav-item" style="width:60px;">\n      <a class="nav-link open-tab" data-tab-index="' + _i + '" data-toggle="tab" href="#' + key + '" role="tab">\n        ' + groupName + '\n      </a>\n    </li>';
+    topBar += '<h6 class=""><li class="nav-item" style="width:60px;">\n      <a class="nav-link open-tab" data-tab-index="' + _i + '" data-toggle="tab" href="#' + key + '" role="tab">\n        ' + groupName + '\n      </a>\n    </li>\n    </h6>';
   }
   topBar += '</ul>';
 
@@ -6037,7 +6036,7 @@ module.exports = function renderDissectionForm(topic, visit) {
   var directions = ['right', 'left', 'N/A'];
   var parameterizedPlural = 'dissections';
   var returnStatement = void 0;
-  returnStatement += '\n    <tr class=\'row_form\' id=\'row_' + topic.id + '\' style=\'display:none\'><td colspan=\'3\'>\n      <div class="form-inline">\n        <select>\n        ' + (0, _selectConstructor2.default)(locations, 'location') + '\n        </select>\n        <select>\n        ' + (0, _selectConstructor2.default)(directions, 'direction') + '\n        </select>\n        <select>\n          ' + (0, _selectConstructor2.default)(lumens, 'lumen') + '\n        </select>\n        <select>\n          ' + (0, _selectConstructor2.default)(perfused, 'perfusion') + '\n        </select>\n      </div>\n      <div class="form-inline">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n\n        What type of intervention was performed?\n      </div>\n    </td></tr>\n  ';
+  returnStatement += '\n    <tr class=\'row_form\' id=\'row_' + topic.id + '\' style=\'display:none\'><td colspan=\'3\'>\n      <div class="form-inline">\n        <select\n          name="visit[dissections_attributes][' + topic.id + '][location]"\n          id="visit_dissections_attributes_' + topic.id + '_location"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(locations, 'location') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + topic.id + '][direction]"\n          id="visit_dissections_attributes_' + topic.id + '_direction"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(directions, 'direction') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + topic.id + '][lumen]"\n          id="visit_dissections_attributes_' + topic.id + '_lumen"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(lumens, 'lumen') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + topic.id + '][perfusion]"\n          id="visit_dissections_attributes_' + topic.id + '_perfusion"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(perfused, 'perfusion') + '\n        </select>\n      </div>\n      <div class="form-inline">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n\n        What type of intervention was performed?\n      </div>\n    </td></tr>\n  ';
   return returnStatement;
 };
 

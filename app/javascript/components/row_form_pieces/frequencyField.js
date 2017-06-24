@@ -3,7 +3,7 @@ const options = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year']
 
 module.exports = function renderFrequencyField(topic, parameterizedPlural) {
   const returnStatement = `
-  <div class='input-group'>
+  <div class='form-inline'>
     <input
       type='number'
       name='visit[${parameterizedPlural}_attributes][${topic.id}][frequency_amount]'
