@@ -16,7 +16,6 @@ class Patient < ApplicationRecord
 
   has_many :visits, inverse_of: :patient
 
-  has_many :heart_imagings, dependent: :destroy
   has_many :vitals, dependent: :destroy
   has_many :dissections, dependent: :destroy
 
@@ -34,7 +33,6 @@ class Patient < ApplicationRecord
   accepts_nested_attributes_for :diagnoses
   accepts_nested_attributes_for :medications
   accepts_nested_attributes_for :procedures
-  accepts_nested_attributes_for :heart_imagings
 
   accepts_nested_attributes_for :hospitalizations
   accepts_nested_attributes_for :tests

@@ -2,8 +2,8 @@ import renderTimeAgoField from './timeAgoField';
 import renderDurationField from './durationField';
 import renderFrequencyField from './frequencyField';
 import renderKeywords from './keywords';
-import renderNoteField from './noteField';
-import renderFileButton from './fileAttachmentButton';
+import noteField from './noteField';
+import fileAttachmentButton from './fileAttachmentButton';
 import findRelated from './findRelated'
 
 module.exports = function renderDiagnosisForm(topic) {
@@ -18,8 +18,8 @@ module.exports = function renderDiagnosisForm(topic) {
     </div>
     ${renderKeywords(topic, parameterizedPlural)}
     <div class='form-inline'>
-      ${renderNoteField(topic, parameterizedPlural)}
-      ${renderFileButton(topic, parameterizedPlural)}
+      ${noteField(topic, parameterizedPlural)}
+      ${fileAttachmentButton(topic, parameterizedPlural)}
     </div>
     ${findRelated(topic)}
   </td></tr>

@@ -2,7 +2,7 @@ import selectConstructor from './selectConstructor'
 import renderFrequencyField from './frequencyField'
 import renderTimeAgoField from './timeAgoField'
 import renderDurationField from './durationField'
-import renderNoteField from './noteField'
+import noteField from './noteField'
 import addKeyboard from '../addKeyboard'
 
 const ingestionMethods = ['orally', 'intravenously', 'intramuscularly', 'subcutaneously', 'sublingually', 'buccally', 'rectally', 'vaginally', 'by the ocular route', 'by the otic route', 'nasally', 'by nebulization', 'cutaneously', 'transdermally', 'intrathecally']
@@ -60,7 +60,7 @@ module.exports = function renderMedFormBody(topic){
 
   <div class='form-inline'>
     NOTE
-    ${renderNoteField(topic, 'medications')}
+    ${noteField(topic, 'medications')}
   </div>`
   return returnStatement
 }

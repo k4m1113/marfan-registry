@@ -20,6 +20,10 @@ class Vital < ApplicationRecord
 
   end
 
+  def abbreviated
+    "#{topic.name}: #{measurement.to_f.round(1)} #{topic.units_of_measurement[0]}"
+  end
+
   def calculate_metric
     if ['height', 'weight'].include? topic.name
       unless self.test_amount.blank? || self.test_unit_of_meas.blank?

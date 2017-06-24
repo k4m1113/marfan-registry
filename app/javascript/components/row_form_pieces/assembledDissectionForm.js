@@ -1,7 +1,7 @@
 import selectConstructor from './selectConstructor';
-import renderFileButton from './fileAttachmentButton';
+import fileAttachmentButton from './fileAttachmentButton';
 import renderTimeAgoField from './timeAgoField';
-import renderNoteField from './noteField';
+import noteField from './noteField';
 import findRelated from './findRelated';
 
 module.exports = function renderDissectionForm(topic, visit) {
@@ -29,8 +29,8 @@ module.exports = function renderDissectionForm(topic, visit) {
       </div>
       <div class="form-inline">
         ${renderTimeAgoField(topic, parameterizedPlural)}
-        ${renderNoteField(topic, parameterizedPlural)}
-        ${renderFileButton(topic, parameterizedPlural)}
+        ${noteField(topic, parameterizedPlural)}
+        ${fileAttachmentButton(topic, parameterizedPlural)}
 
         What type of intervention was performed?
       </div>

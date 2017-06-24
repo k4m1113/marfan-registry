@@ -2,8 +2,18 @@
   <div class="col-sm-12 col-centered">
     <h1><%= "#{@patient.first_name} #{@patient.last_name}" %></h1>
     <hr>
-    <div class="btn-group" role="group">
-      <%= link_to "New Visit", new_visit_path(patient: @patient.id), type: "button", method: :get, class: "btn btn-success" %>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12 col-centered">
+    <div class="form-inline">
+      <form class='button_to' method='post' action='/visits'>
+        <input type="hidden" id="visit_patient_id" name="visit[patient_id]" value="<%= @patient.id %>"/>
+        <input type="hidden" id="visit_clinician_id" name="visit[clinician_id]" value="1"/>
+        <button class='btn btn-success' type='submit'>
+          New Visit
+        </button>
+      </form>
       <%= link_to "Edit Patient", edit_patient_path(id: @patient.id), type: "button", method: :get, class: "btn btn-secondary" %>
       <%= link_to "Destroy Records", patient_path(id: @patient.id), method: :delete, type: "button", class: "btn btn-secondary", data: { confirm: "Are you sure you want to delete Patient #{@patient.id} and all associated records?" } %>
     </div>

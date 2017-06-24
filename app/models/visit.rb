@@ -15,21 +15,43 @@ class Visit < ApplicationRecord
   has_many :hospitalizations, dependent: :destroy
   has_many :tests, dependent: :destroy
   has_many :dissections, dependent: :destroy
-
+  has_many :heart_measurements, dependent: :destroy
   has_many :vitals, dependent: :destroy
   has_many :diagnoses, dependent: :destroy
   has_many :medications, dependent: :destroy
   has_many :procedures, dependent: :destroy
 
   accepts_nested_attributes_for :patient
-  accepts_nested_attributes_for :vitals, reject_if: proc { |att| att['measurement'].nil? }
-  accepts_nested_attributes_for :diagnoses, reject_if: proc { |att| att['present'].nil? }
-  accepts_nested_attributes_for :medications, reject_if: proc { |att| att['current'].nil? }
-  accepts_nested_attributes_for :procedures, reject_if: proc { |att| att['time_ago'].nil? && att['note'].blank? && att['attachment'].nil? }
-
+  accepts_nested_attributes_for :vitals, reject_if:
+    proc { |att|
+      att['test_amount'].nil?
+    }
+  accepts_nested_attributes_for :diagnoses, reject_if:
+    proc { |att|
+      att['present'].nil?
+    }
+  accepts_nested_attributes_for :medications, reject_if:
+    proc { |att|
+      att['current'].nil?
+    }
+  accepts_nested_attributes_for :procedures, reject_if:
+    proc { |att|
+      att['time_ago'].nil? && att['note'].blank? && att['attachment'].nil?
+    }
   accepts_nested_attributes_for :hospitalizations
-  accepts_nested_attributes_for :tests, reject_if: proc { |t| (t['test_date'].nil? && t['time_ago'].nil?) || (t['result'].blank?) }
-  accepts_nested_attributes_for :family_members, reject_if: proc { |att| (att['future_patient_data_hash']['first_name'].blank? && att['date_of_birth'].blank? && att['future_patient_data_hash']['cause_of_death'].blank?) }
+  accepts_nested_attributes_for :tests, reject_if:
+    proc { |t|
+      (t['test_date'].nil? && t['time_ago'].nil?) || t['result'].blank?
+    }
+  accepts_nested_attributes_for :family_members, reject_if:
+    proc { |att|
+      att['future_patient_data_hash']['first_name'].blank? && att['date_of_birth'].blank? && att['future_patient_data_hash']['cause_of_death'].blank?
+    }
+  accepts_nested_attributes_for :heart_measurements, reject_if:
+    proc { |att|
+      att['test_unit_of_meas'].blank? ||
+      (att['test_amount'].blank? && ['%', 'cm', 'cm2', 'mmHg'].include?(att['test_unit_of_meas']))
+    }
 
   self.per_page = 10
 
@@ -55,7 +77,7 @@ class Visit < ApplicationRecord
   end
 
   def concerns
-    tests + procedures + diagnoses + hospitalizations + family_members + medications
+    tests + procedures + diagnoses + hospitalizations + family_members + medications + vitals + heart_measurements
   end
 
   def letter_sort_by_topic
@@ -77,7 +99,8 @@ class Visit < ApplicationRecord
     letter_sort_by_topic.merge(
       'family history': concerns.select { |c| c.topic.root.name == 'family history' },
       'medication': concerns.select { |c| c.topic.root.name == 'medication' },
-      'vitals': concerns.select { |c| c.topic.root.name == 'vitals' }
+      'vitals': concerns.select { |c| c.topic.root.name == 'vitals' },
+      'heart_measurements': concerns.select { |c| c.topic.topic_type == 'heart_measurement'}
     )
   end
 

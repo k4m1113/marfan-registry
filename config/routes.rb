@@ -1,21 +1,7 @@
 Rails.application.routes.draw do
   get 'hello_world', to: 'hello_world#index'
   get 'auth/familysearch/complete', to: 'visits#index'
-  resources :galleries do
-    resources :attachments, only: [:create, :destroy]
-  end
-  # resources :visits do
-  #   resources :heart_imagings
-  #   resources :hospitalizations
-  #   resources :symptoms
-  #   resources :family_members
-  #   resources :tests
-  #   resources :medications
-  #   resources :procedures
-  #   resources :complications
-  #   resources :diagnoses
-  #   resources :vitals
-  # end
+
   resources :visits
 
   resources :visits do
@@ -37,6 +23,7 @@ Rails.application.routes.draw do
   resources :medications
   resources :complications
   resources :images
+  resources :heart_measurements
 
   root "patients#index"
 

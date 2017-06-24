@@ -1,6 +1,6 @@
 require 'report'
 require 'json'
-require 'pry-remote'
+# require 'pry-remote'
 
 # visits controller
 class VisitsController < ApplicationController
@@ -107,7 +107,7 @@ class VisitsController < ApplicationController
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient.id)
     @form_action = 'Update'
-    binding.remote_pry
+    # binding.remote_pry
     if @visit.update(visit_params)
       # visit_params.keys.each do |vp|
       #   flash[:success] = "Successfully updated visit with #{vp}"
@@ -155,6 +155,8 @@ class VisitsController < ApplicationController
         %i[visit_id patient_id topic_id vital test_amount sbp dbp test_unit_of_meas measurement note attachment],
       medications_attributes:
         %i[visit_id patient_id topic_id present dose dose_unit_of_measurement nested_med_id nested_med_category duration_amount duration_scale ingestion_method frequency frequency_scale common_name medication_format time_ago time_ago_scale absolute_start_date note name dosage_form dosage_form_units current attachment],
+      heart_measurements_attributes:
+        [:visit_id, :topic_id, :patient_id, :time_ago_amount, :time_ago_scale, :absolute_start_date, :test_amount, :test_unit_of_meas, :note, :attachment, descriptors: []],
       diagnoses_attributes:
         [:visit_id, :topic_id, :patient_id, :present, :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale, :absolute_start_date, :note, :attachment, descriptors: []],
       procedures_attributes:

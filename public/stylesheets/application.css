@@ -12365,7 +12365,7 @@ label.btn-secondary {
 button.file-attachment {
   padding: 0px; }
   button.file-attachment label.fontawesome-icon {
-    border: 1px solid #025AA5;
+    border: 1px solid #F7F7F7;
     padding: 8px 16px;
     margin-bottom: 0 !important; }
     button.file-attachment label.fontawesome-icon:hover {

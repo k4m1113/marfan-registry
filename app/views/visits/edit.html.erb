@@ -34,31 +34,34 @@
         </a>
       </li>
     <% end %>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <% if @visit.vitals.length != 0 %>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="vitalNavbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Vitals
         </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <li class="dropdown-item">
-            <strong>
-              BP:
-            </strong>
-            
-          </li>
-          <li class="dropdown-item">
-            <strong>
-              HR:
-            </strong>
-
-          </li>
-          <li class="dropdown-item">
-            <strong>
-              Temp:
-            </strong>
-
-          </li>
+        <ul class="dropdown-menu" aria-labelledby="vitalNavbarDropdownMenuLink">
+          <% @visit.vitals.each do |v| %>
+            <li class="dropdown-item">
+              <%= v.abbreviated %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </li>
+    <% if @visit.heart_measurements.length > 0 %>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="heartNavbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Imaging
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="heartNavbarDropdownMenuLink">
+          <% @visit.heart_measurements.each do |m| %>
+            <li class="dropdown-item">
+              <%= m.abbreviated %>
+            </li>
+          <% end %>
         </ul>
       </li>
+    <% end %>
   </ul>
   <ul class="nav navbar-nav ml-auto justify-content-end">
     <li class="nav-item" title="save and update visit">

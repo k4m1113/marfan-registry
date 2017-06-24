@@ -1,4 +1,4 @@
-module.exports = function renderNoteField(topic, parameterizedPlural) {
+module.exports = function noteField(topic, parameterizedPlural) {
   const returnStatement = `<textarea
     placeholder='note'
     name='visit[${parameterizedPlural}_attributes][${topic.id}][note]'

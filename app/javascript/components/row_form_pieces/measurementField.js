@@ -1,7 +1,5 @@
 import selectConstructor from './selectConstructor'
-`%i[visit_id patient_id topic_id vital test_amount sbp dbp test_unit_of_meas measurement note attachment],
-`
-module.exports = function renderMeasurementField(topic, parameterizedPlural) {
+module.exports = function renderMeasurementField(topic, parameterizedPlural, multiSelect = '', title = 'units') {
   const options = topic.units_of_measurement
   const returnStatement = `
   <div class='input-group'>
@@ -11,8 +9,11 @@ module.exports = function renderMeasurementField(topic, parameterizedPlural) {
         <i class='fa fa-calculator'></i>
       </button>
     </span>
-      <select name='visit[${parameterizedPlural}_attributes][${topic.id}][test_unit_of_meas]' id='visit_${parameterizedPlural}_attributes_${topic.id}_test_unit_of_meas' class='form-control'>
-        ${selectConstructor(options, 'units')}
+      <select
+        name='visit[${parameterizedPlural}_attributes][${topic.id}][test_unit_of_meas]'
+        id='visit_${parameterizedPlural}_attributes_${topic.id}_test_unit_of_meas'
+        class='form-control'${multiSelect}>
+        ${selectConstructor(options, title)}
       </select>
   </div>
   `;

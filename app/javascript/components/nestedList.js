@@ -2,6 +2,7 @@ import nestedListPane from './nestedListPane';
 import renderEpicAddForm from './epicAddForm';
 import renderFamilyTree from './panes/familyTree';
 import renderVitalFields from './panes/vitals';
+import renderAorticImagingFields from './panes/aorticImaging'
 
 function keyify(str) {
   [' ', '/'].forEach(function (x) {
@@ -48,7 +49,7 @@ module.exports = function nestedList(allTopics, visit) {
         panes += `${nestedListPane(topics, visit)}</div>`
         break;
       case 'aortic imaging':
-        panes += 'AORTIC IMAGING</div>'
+        panes += `${renderAorticImagingFields(topics, visit)}</div>`
         break;
       case 'medication':
         panes += `${renderEpicAddForm()}`

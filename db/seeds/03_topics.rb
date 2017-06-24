@@ -558,7 +558,7 @@ cardio = Topic.create!(
 Topic.create!(
   name: 'systolic function',
   topic_type: 'heart_measurement',
-  descriptors: %w[normal mild moderate severe]
+  units_of_measurement: %w[normal mild moderate severe]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'LVIDd',
@@ -598,8 +598,8 @@ Topic.create!(
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'mitral valve morphology',
-  topic_type: 'diagnosis',
-  descriptors: ['prolapse (anterior)', 'prolapse (posterior)', 'myxomatous']
+  topic_type: 'heart_measurement',
+  units_of_measurement: ['prolapse (anterior)', 'prolapse (posterior)', 'myxomatous']
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'mitral regurgitation severity',
@@ -614,19 +614,20 @@ Topic.create!(
 ## BEGIN SHALLOW TOPICS (xls 142) ##
 aortic_valve_morph = Topic.create!(
   name: 'aortic valve morphology',
-  topic_type: 'diagnosis',
-  descriptors: %w[trileaflet bicuspid unicuspid Sievers-0 Sievers-1 Sievers-2]
+  topic_type: 'heart_measurement',
+  units_of_measurement: %w[trileaflet bicuspid unicuspid Sievers-0 Sievers-1 Sievers-2]
 ).move_to_child_of(cardio)
 
 Topic.create!(
   name: 'regurgitation',
-  topic_type: 'diagnosis',
-  descriptors: %w[none mild moderate severe]
+  topic_type: 'heart_measurement',
+  units_of_measurement: %w[none mild moderate severe]
 ).move_to_child_of(aortic_valve_morph)
 
 aortic_stenosis = Topic.create!(
   name: 'aortic stenosis',
-  topic_type: 'diagnosis'
+  topic_type: 'heart_measurement',
+  units_of_measurement: %w[none mild moderate severe]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'mean gradient',
