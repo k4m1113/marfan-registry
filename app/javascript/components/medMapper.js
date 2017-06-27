@@ -2,7 +2,7 @@
 // returns:
 //  (1)'topic id' integer or
 //  (2) nil
-module.exports = function mapMed(name, commonName, medsObj) {
+module.exports = function medMapper(name, commonName, medsObj) {
   if (!!(name.match(/metoprolol/gi) || commonName.match(/toprol/gi) || commonName.match(/lopressor/) || commonName.match(/metoprolol/gi))) {
     return medsObj["metoprolol"]
   }

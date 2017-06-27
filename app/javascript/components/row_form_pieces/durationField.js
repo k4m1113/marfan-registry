@@ -1,7 +1,7 @@
 import selectConstructor from './selectConstructor'
 const options = ['second(s)', 'minute(s)', 'hour(s)', 'day(s)', 'week(s)', 'month(s)', 'year(s)']
 
-module.exports = function renderDurationField(topic, parameterizedPlural) {
+module.exports = function durationField(topic, parameterizedPlural) {
   const returnStatement = `<div class='form-inline'>
     <input type='number' name='visit[${parameterizedPlural}_attributes][${topic.id}][duration_amount]' id='visit_${parameterizedPlural}_attributes_${topic.id}_duration_amount' class='form-control calculator' placeholder='duration'>
     <span class='input-group-btn'>

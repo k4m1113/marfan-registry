@@ -1,19 +1,19 @@
-import renderTimeAgoField from './timeAgoField';
-import renderDurationField from './durationField';
-import renderKeywords from './keywords';
+import timeAgoField from './timeAgoField';
+import durationField from './durationField';
+import keywords from './keywords';
 import noteField from './noteField';
 import fileAttachmentButton from './fileAttachmentButton';
 import findRelated from './findRelated';
 
-module.exports = function renderProcedureForm(topic, rowID = topic.id) {
+module.exports = function assembledProcedureForm(topic, rowID = topic.id) {
   let parameterizedPlural = 'procedures'
   const returnStatement = `
   <tr class='row_form' id='row_${rowID}' style='display:none'><td colspan='3'>
     <div class='form-inline'>
-      ${renderTimeAgoField(topic, parameterizedPlural)}
-      ${renderDurationField(topic, parameterizedPlural)}
+      ${timeAgoField(topic, parameterizedPlural)}
+      ${durationField(topic, parameterizedPlural)}
     </div>
-    ${renderKeywords(topic, parameterizedPlural)}
+    ${keywords(topic, parameterizedPlural)}
     <div class='form-inline'>
       ${noteField(topic, parameterizedPlural)}        ${fileAttachmentButton(topic, parameterizedPlural)}
     </div>

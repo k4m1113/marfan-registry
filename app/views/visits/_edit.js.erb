@@ -1,8 +1,8 @@
 const mskey = $('#ms').data('mskey')
 const mshmac = $('#ms').data('mshmac')
 
-$('#diagnosisHeader').append(renderDiagnosisHeader(patient, visit))
-$('#reasonsForVisitHeader').append(renderReasonForVisitHeader(visit))
+$('#diagnosisHeader').append(visitHeader(patient, visit))
+$('#reasonsForVisitHeader').append(reasonForVisitHeader(visit))
 $('#nestedListHook').append(nestedList(allTopics, visit, mskey, mshmac))
 $(function() {
   // click medParse button
@@ -38,7 +38,7 @@ $(function() {
     required = `<tr><td colspan="3">${data.name}</td></tr>`
     switch (data.topic_type) {
       case 'procedure':
-        required += `${renderProcedureForm(data, highestInd + 1)}`
+        required += `${assembledProcedureForm(data, highestInd + 1)}`
         break;
       default:
     }
@@ -134,7 +134,7 @@ $(function() {
     })
 
     // add scribble area
-    $row_form.find("textarea").parent().append(renderScribbleButton($row_form[0].id, mskey, mshmac))
+    $row_form.find("textarea").parent().append(scribbleButton($row_form[0].id, mskey, mshmac))
     if ($(this).val() == "true") {
       $row_form.show()
     } else if ($(this).val() == "false") {

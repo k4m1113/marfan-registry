@@ -1,5 +1,5 @@
 import selectConstructor from './selectConstructor'
-module.exports = function renderMeasurementField(topic, parameterizedPlural, multiSelect = '', title = 'units') {
+module.exports = function measurementField(topic, parameterizedPlural, multiSelect = '', title = 'units') {
   const options = topic.units_of_measurement
   const returnStatement = `
   <div class='form-inline'>

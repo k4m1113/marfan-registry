@@ -1,8 +1,8 @@
 import nestedListPane from './nestedListPane';
-import renderEpicAddForm from './epicAddForm';
-import renderFamilyTree from './panes/familyTree';
-import renderVitalFields from './panes/vitals';
-import renderAorticImagingFields from './panes/aorticImaging'
+import epicAddForm from './epicAddForm';
+import familyTree from './panes/familyTree';
+import vitals from './panes/vitals';
+import aorticImaging from './panes/aorticImaging'
 
 function keyify(str) {
   [' ', '/'].forEach(function (x) {
@@ -41,19 +41,19 @@ module.exports = function nestedList(allTopics, visit) {
     }
     switch (groupName) {
       case 'family history':
-        panes += `${renderFamilyTree(patient)}</div>`
+        panes += `${familyTree(patient)}</div>`
         break;
       case 'vitals':
-        panes += `${renderVitalFields(topics, visit)}</div>`
+        panes += `${vitals(topics, visit)}</div>`
         break;
       case 'cardiovascular':
         panes += `${nestedListPane(topics, visit)}</div>`
         break;
       case 'aortic imaging':
-        panes += `${renderAorticImagingFields(topics, visit)}</div>`
+        panes += `${aorticImaging(topics, visit)}</div>`
         break;
       case 'medication':
-        panes += `${renderEpicAddForm()}`
+        panes += `${epicAddForm()}`
         panes += `${nestedListPane(topics, visit)}</div>`
         break;
       default:

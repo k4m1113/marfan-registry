@@ -3,7 +3,7 @@ function parseMed(str) {
   medsArr.shift();
   var medsJSON = []
   for (var i = 0; i < medsArr.length; i++) {
-    commas = splitNoParen(medsArr[i])
+    commas = epicMeds(medsArr[i])
     commas = commas.map(function(x) { return x.trim() });
     console.log(commas)
     if (commas[0].includes('(')) {
@@ -19,7 +19,7 @@ function parseMed(str) {
           "doseUnitOfMeas": commas[1].slice(doseSpace + 1, lastSpace),
           "dosageForm": commas[1].slice(lastSpace + 1, commas[0].length),
           "ingestionMethod": commas[2],
-          "topicID": mapMed(commas[0].slice(0, firstParen - 1), commas[0].slice(firstParen + 1, secondParen), $('#invisible').data('rubyvar'))
+          "topicID": medMapper(commas[0].slice(0, firstParen - 1), commas[0].slice(firstParen + 1, secondParen), $('#invisible').data('rubyvar'))
         }
       )
     }
@@ -28,7 +28,7 @@ function parseMed(str) {
         {
           "medicationFormat": commas[0],
           "ingestionMethod": commas[1],
-          "topicID": mapMed(commas[0], commas[0], $('#invisible').data('rubyvar'))
+          "topicID": medMapper(commas[0], commas[0], $('#invisible').data('rubyvar'))
         }
       )
     }

@@ -1,10 +1,10 @@
-import renderHiddenFields from './hiddenFields'
-import renderMeasurementField from './measurementField'
+import hiddenFields from './hiddenFields'
+import measurementField from './measurementField'
 
-module.exports = function renderVitalForm(topic, visit) {
+module.exports = function assembledVitalForm(topic, visit) {
   const parameterizedPlural = 'vitals'
-  let returnStatement = `${renderHiddenFields(visit, topic, parameterizedPlural)}`
-  returnStatement += `${renderMeasurementField(topic, parameterizedPlural)}`
+  let returnStatement = `${hiddenFields(visit, topic, parameterizedPlural)}`
+  returnStatement += `${measurementField(topic, parameterizedPlural)}`
 
   return returnStatement
 }

@@ -1,7 +1,7 @@
 import selectConstructor from './selectConstructor'
 const options = ['second(s)', 'minute(s)', 'hour(s)', 'day(s)', 'week(s)', 'month(s)', 'year(s)']
 
-module.exports = function renderTimeAgoField(topic, parameterizedPlural) {
+module.exports = function timeAgoField(topic, parameterizedPlural) {
   let absoluteTime = ''
   switch (topic.topic_type) {
     case 'test':

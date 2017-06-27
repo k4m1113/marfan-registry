@@ -1,9 +1,9 @@
-import renderProcedureForm from './assembledProcedureForm';
-import renderDiagnosisForm from './assembledDiagnosisForm';
+import assembledProcedureForm from './assembledProcedureForm';
+import assembledDiagnosisForm from './assembledDiagnosisForm';
 import renderHospitalizationForm from './assembledHospitalizationForm';
-import renderMedicationForm from './assembledMedicationForm';
-import renderButtons from './presAbsButtons'
-import renderDissectionForm from './assembledDissectionForm'
+import assembledMedicationForm from './assembledMedicationForm';
+import presAbsButtons from './presAbsButtons'
+import assembledDissectionForm from './assembledDissectionForm'
 
 const parameterizedPlurals = {
   'diagnosis': 'diagnoses',
@@ -16,33 +16,33 @@ const parameterizedPlurals = {
 }
 
 // runs formRender function according to topic type
-module.exports = function renderRowForm(topic, visit) {
+module.exports = function rowForm(topic, visit) {
   const pp = parameterizedPlurals[topic.topic_type];
   let returnStatement = ``
 
   switch (topic.topic_type) {
     case "diagnosis":
-      returnStatement += `${renderButtons(topic, visit)}`;
-      returnStatement += `${renderDiagnosisForm(topic)}`;
+      returnStatement += `${presAbsButtons(topic, visit)}`;
+      returnStatement += `${assembledDiagnosisForm(topic)}`;
       break;
     case "dissection":
-    returnStatement += `${renderButtons(topic, visit)}`;
-      returnStatement += `${renderDissectionForm(topic, visit)}`;
+    returnStatement += `${presAbsButtons(topic, visit)}`;
+      returnStatement += `${assembledDissectionForm(topic, visit)}`;
       break;
     case "family member":
       returnStatement += `FAMILY MEMBER FORM`;
       break;
     case "hospitalization":
-      returnStatement += `${renderButtons(topic, visit)}`;
+      returnStatement += `${presAbsButtons(topic, visit)}`;
       returnStatement += `${renderHospitalizationForm(topic)}`;
       break;
     case "medication":
-      returnStatement += `${renderButtons(topic, visit)}`;
-      returnStatement += `${renderMedicationForm(topic)}`;
+      returnStatement += `${presAbsButtons(topic, visit)}`;
+      returnStatement += `${assembledMedicationForm(topic)}`;
       break;
     case "procedure":
-      returnStatement += `${renderButtons(topic, visit)}`;
-      returnStatement += `${renderProcedureForm(topic)}`;
+      returnStatement += `${presAbsButtons(topic, visit)}`;
+      returnStatement += `${assembledProcedureForm(topic)}`;
       break;
     case "vital":
       "kat"

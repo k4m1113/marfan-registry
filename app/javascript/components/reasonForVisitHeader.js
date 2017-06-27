@@ -6,7 +6,7 @@ const reasonsForVisit = [
   'aortic imaging',
   'chest pain'
 ]
-module.exports = function renderReasonForVisitHeader(visit) {
+module.exports = function reasonForVisitHeader(visit) {
   let returnStatement = ''
   if (!visit.primary_reason) {
     returnStatement += `<div class="alert alert-warning alert-dismissible fade show" role="alert">

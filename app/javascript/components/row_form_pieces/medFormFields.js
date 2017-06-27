@@ -1,7 +1,7 @@
 import selectConstructor from './selectConstructor'
-import renderFrequencyField from './frequencyField'
-import renderTimeAgoField from './timeAgoField'
-import renderDurationField from './durationField'
+import frequencyField from './frequencyField'
+import timeAgoField from './timeAgoField'
+import durationField from './durationField'
 import noteField from './noteField'
 import addKeyboard from '../addKeyboard'
 
@@ -9,7 +9,7 @@ const ingestionMethods = ['orally', 'intravenously', 'intramuscularly', 'subcuta
 const unitsOfMeas = ['mcg', 'mg', 'mL', 'mm', 'g', 'L', 'IU']
 const dosageForms = ['tablet', 'capsule', 'pill', 'liquid solution', 'inhaler', 'cream', 'drops', 'suppository']
 
-module.exports = function renderMedFormBody(topic){
+module.exports = function medFormFields(topic){
   const returnStatement = `
   <div class='form-inline'>
     DOSE
@@ -45,17 +45,17 @@ module.exports = function renderMedFormBody(topic){
 
   <div class='form-inline'>
     DURATION
-    ${renderDurationField(topic, 'medications')}
+    ${durationField(topic, 'medications')}
   </div>
 
   <div class='form-inline'>
     FREQUENCY
-    ${renderFrequencyField(topic, 'medications')}
+    ${frequencyField(topic, 'medications')}
   </div>
 
   <div class='form-inline'>
     TIME AGO
-    ${renderTimeAgoField(topic, 'medications')}
+    ${timeAgoField(topic, 'medications')}
   </div>
 
   <div class='form-inline'>

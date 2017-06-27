@@ -1,5 +1,5 @@
-import splitNoParen from './epicMeds';
-import mapMed from './medMapper';
+import epicMeds from './epicMeds';
+import medMapper from './medMapper';
 
 module.exports = function parseMed(str, visit, allMeds) {
   let returnStatement = []
@@ -7,7 +7,7 @@ module.exports = function parseMed(str, visit, allMeds) {
   medsArr.shift();
   const medsJSON = []
   for (let i = 0; i < medsArr.length; i++) {
-    let commas = splitNoParen(medsArr[i])
+    let commas = epicMeds(medsArr[i])
     commas = commas.map(x => x.trim());
     console.log(commas)
     if (commas[0].includes('(')) {
@@ -23,7 +23,7 @@ module.exports = function parseMed(str, visit, allMeds) {
           doseUnitOfMeas: commas[1].slice(doseSpace + 1, lastSpace),
           dosageForm: commas[1].slice(lastSpace + 1, commas[0].length),
           ingestionMethod: commas[2],
-          topicID: mapMed(commas[0].slice(0, firstParen - 1), commas[0].slice(firstParen + 1, secondParen), allMeds)
+          topicID: medMapper(commas[0].slice(0, firstParen - 1), commas[0].slice(firstParen + 1, secondParen), allMeds)
         }
       )
     } else {
@@ -31,7 +31,7 @@ module.exports = function parseMed(str, visit, allMeds) {
         {
           medicationFormat: commas[0],
           ingestionMethod: commas[1],
-          topicID: mapMed(commas[0], commas[0], allMeds)
+          topicID: medMapper(commas[0], commas[0], allMeds)
         }
       )
     }

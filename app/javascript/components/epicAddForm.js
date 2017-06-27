@@ -1,4 +1,4 @@
-module.exports = function renderEpicAddForm() {
+module.exports = function epicAddForm() {
   const returnStatement = `<div class="row">
     <div class="col-sm">
       <div class="input-group">

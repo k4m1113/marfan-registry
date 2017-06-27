@@ -1,4 +1,4 @@
-module.exports = function renderKeywords(topic, parameterizedPlural) {
+module.exports = function keywords(topic, parameterizedPlural) {
   let returnStatement = ``
   if (topic.descriptors) {
     returnStatement += `<div class='form-inline'>`

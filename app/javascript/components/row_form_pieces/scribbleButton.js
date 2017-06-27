@@ -1,4 +1,4 @@
-module.exports = function renderScribbleButton(title, mskey, mshmac) {
+module.exports = function scribbleButton(title, mskey, mshmac) {
   const returnStatement = `
     <div class="modal" tabindex="-1" role="dialog" aria-hidden="true" id="${title}_scribble_modal">
       <div class="modal-dialog modal-xl">

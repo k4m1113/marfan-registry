@@ -6,8 +6,8 @@ import noteField from './noteField';
 import fileAttachmentButton from './fileAttachmentButton';
 import findRelated from './findRelated'
 
-module.exports = function assembledDiagnosisForm(topic) {
-  const parameterizedPlural = 'diagnoses'
+module.exports = function assembledGeneticTestForm(topic) {
+  const parameterizedPlural = 'genetic_tests'
   const returnStatement = `
   <tr class='row_form' id='row_${topic.id}' style='display:none'><td colspan='3'>
     <div class='form-inline'>

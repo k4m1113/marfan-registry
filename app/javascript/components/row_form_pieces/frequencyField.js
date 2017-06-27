@@ -1,7 +1,7 @@
 import selectConstructor from './selectConstructor'
 const options = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year']
 
-module.exports = function renderFrequencyField(topic, parameterizedPlural) {
+module.exports = function frequencyField(topic, parameterizedPlural) {
   const returnStatement = `
   <div class='form-inline'>
     <input

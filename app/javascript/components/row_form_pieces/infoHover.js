@@ -1,4 +1,4 @@
-module.exports = function renderInfoHover(concerns) {
+module.exports = function infoHover(concerns) {
   const tooltipTitle = concerns.map(x => x.summary)
   let returnStatement = `
   <button

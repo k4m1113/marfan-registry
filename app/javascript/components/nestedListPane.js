@@ -1,4 +1,4 @@
-import renderRowForm from './row_form_pieces/rowForm';
+import rowForm from './row_form_pieces/rowForm';
 
 module.exports = function nestedListPane(topics, visit) {
   let returnStatement = `<table class="table table-sm">
@@ -17,7 +17,7 @@ module.exports = function nestedListPane(topics, visit) {
     </thead>
     <tbody>`
     for (var i = 0; i < topics.length; i++) {
-      returnStatement += `${renderRowForm(topics[i], visit)}`
+      returnStatement += `${rowForm(topics[i], visit)}`
     }
     returnStatement += `</tbody>
   </table>`;

@@ -1,5 +1,5 @@
-import renderInfoHover from './infoHover'
-import renderHiddenFields from './hiddenFields'
+import infoHover from './infoHover'
+import hiddenFields from './hiddenFields'
 const parameterizedPlurals = {
   'diagnosis': 'diagnoses',
   'family member': 'family_members',
@@ -9,7 +9,7 @@ const parameterizedPlurals = {
   'vital': 'vitals',
   'dissection': 'dissections'
 }
-module.exports = function renderButtons(topic, visit) {
+module.exports = function presAbsButtons(topic, visit) {
   var parameterizedPlural = parameterizedPlurals[topic.topic_type]
   const discussedConcerns = JSON.parse(visit.concerns).map(x => x.topic_id)
   const discussed = discussedConcerns.includes(topic.id) ? ' red' : ''
@@ -23,7 +23,7 @@ module.exports = function renderButtons(topic, visit) {
       `
       if (discussed) {
         let existing = JSON.parse(visit.concerns).filter(x => x.topic_id == topic.id)
-        returnStatement += `${renderInfoHover(existing)}`
+        returnStatement += `${infoHover(existing)}`
       }
       returnStatement += `
     </td>

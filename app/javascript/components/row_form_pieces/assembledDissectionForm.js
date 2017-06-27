@@ -1,10 +1,10 @@
 import selectConstructor from './selectConstructor';
 import fileAttachmentButton from './fileAttachmentButton';
-import renderTimeAgoField from './timeAgoField';
+import timeAgoField from './timeAgoField';
 import noteField from './noteField';
 import findRelated from './findRelated';
 
-module.exports = function renderDissectionForm(topic, visit) {
+module.exports = function assembledDissectionForm(topic, visit) {
   const locations = ['aortic root', 'ascending aorta', 'arch', 'descending thoracic', 'suprarenal abdominal', 'infrarenal abdominal', 'iliac', 'renal', 'SMA', 'celiac', 'innominate', 'left carotid', 'left subclavian'];
   const perfused = ['perfused', 'ischemic'];
   const lumens = ['true lumen', 'false lumen', 'dissected'];
@@ -40,7 +40,7 @@ module.exports = function renderDissectionForm(topic, visit) {
         </select>
       </div>
       <div class="form-inline">
-        ${renderTimeAgoField(topic, parameterizedPlural)}
+        ${timeAgoField(topic, parameterizedPlural)}
         ${noteField(topic, parameterizedPlural)}
         ${fileAttachmentButton(topic, parameterizedPlural)}
 

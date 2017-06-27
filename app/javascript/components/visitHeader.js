@@ -11,7 +11,7 @@ const primaryDiagnoses = [
   'Shprintzen-Goldberg Syndrome'
 ]
 
-module.exports = function renderDiagnosisHeader(patient, visit) {
+module.exports = function visitHeader(patient, visit) {
   let returnStatement = ''
   if (!patient.primary_diagnosis) {
     returnStatement += `<div class="alert alert-warning alert-dismissible fade show" role="alert">

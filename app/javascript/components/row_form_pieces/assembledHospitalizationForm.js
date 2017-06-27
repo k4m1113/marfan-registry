@@ -1,8 +1,8 @@
-import renderTimeAgoField from './timeAgoField';
-import renderDurationField from './durationField';
-import renderFrequencyField from './frequencyField';
+import timeAgoField from './timeAgoField';
+import durationField from './durationField';
+import frequencyField from './frequencyField';
 import fileAttachmentButton from './fileAttachmentButton';
-import renderKeywords from './keywords';
+import keywords from './keywords';
 import noteField from './noteField';
 import findRelated from './findRelated';
 
@@ -11,10 +11,10 @@ module.exports = function renderHospitalizationForm(topic) {
   const returnStatement = `
   <tr class='row_form' id='row_${topic.id}' style='display:none'><td colspan='3'>
     <div class='form-inline'>
-      ${renderTimeAgoField(topic, parameterizedPlural)}
-      ${renderDurationField(topic, parameterizedPlural)}
+      ${timeAgoField(topic, parameterizedPlural)}
+      ${durationField(topic, parameterizedPlural)}
     </div>
-    ${renderKeywords(topic, parameterizedPlural)}
+    ${keywords(topic, parameterizedPlural)}
     <div class='form-inline'>
       ${noteField(topic, parameterizedPlural)}        ${fileAttachmentButton(topic, parameterizedPlural)}
     </div>

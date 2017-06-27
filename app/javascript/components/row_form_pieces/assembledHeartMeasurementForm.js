@@ -1,6 +1,6 @@
-import renderHiddenFields from './hiddenFields'
-import renderMeasurementField from './measurementField'
-import renderKeywords from './keywords'
+import hiddenFields from './hiddenFields'
+import measurementField from './measurementField'
+import keywords from './keywords'
 import noteField from './noteField'
 import fileAttachmentButton from './fileAttachmentButton'
 
@@ -10,16 +10,16 @@ module.exports = function renderHeartMeasurementForm(topic, visit) {
   <div class="card-header">
     ${topic.name}
   </div>
-  <div class="form-inline">${renderHiddenFields(visit, topic, parameterizedPlural)}`
+  <div class="form-inline">${hiddenFields(visit, topic, parameterizedPlural)}`
   if (topic.units_of_measurement.length == 1 || !topic.name.includes('morphology')) {
     returnStatement += `<div class="form-inline">
-      ${renderMeasurementField(topic, parameterizedPlural, null, 'severity')}
+      ${measurementField(topic, parameterizedPlural, null, 'severity')}
     </div>`
   } else {
-    returnStatement += `${renderMeasurementField(topic, parameterizedPlural, ' multiple', 'morphology')}`
+    returnStatement += `${measurementField(topic, parameterizedPlural, ' multiple', 'morphology')}`
   }
   if (topic.descriptors) {
-    returnStatement += `${renderKeywords(topic, parameterizedPlural)}`
+    returnStatement += `${keywords(topic, parameterizedPlural)}`
   }
   returnStatement += `${noteField(topic, parameterizedPlural)}${fileAttachmentButton(topic, parameterizedPlural)}</div></div></div>`
   return returnStatement

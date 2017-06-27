@@ -1,8 +1,8 @@
-import renderVitalForm from '../row_form_pieces/assembledVitalForm'
+import assembledVitalForm from '../row_form_pieces/assembledVitalForm'
 
-module.exports = function renderVitalsFields(topics, visit) {
+module.exports = function vitals(topics, visit) {
   const parameterizedPlural = 'vitals'
-  const fields = topics.map(t => renderVitalForm(t, visit))
+  const fields = topics.map(t => assembledVitalForm(t, visit))
   const returnStatement = `${fields.join('')}`
   return returnStatement
 }

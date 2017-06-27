@@ -1,6 +1,6 @@
 import renderHeartMeasurementForm from '../row_form_pieces/assembledHeartMeasurementForm'
 
-module.exports = function renderAorticImagingFields(topics, visit){
+module.exports = function aorticImaging(topics, visit){
   const parameterizedPlural = 'heart_measurements'
   const fields = topics.map(t => renderHeartMeasurementForm(t, visit))
   let returnStatement = '<div class="row">'

@@ -113,7 +113,7 @@ module.exports = {
       "window.Tether": 'tether',
       Tether: 'tether',
       tether: 'tether'
-      // ADD splitNoParen, etc?
+      // ADD epicMeds, etc?
     }),
     new ExtractTextPlugin(css_output_template),
 

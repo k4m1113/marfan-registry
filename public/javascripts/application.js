@@ -163,7 +163,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var options = ['second(s)', 'minute(s)', 'hour(s)', 'day(s)', 'week(s)', 'month(s)', 'year(s)'];
 
-module.exports = function renderTimeAgoField(topic, parameterizedPlural) {
+module.exports = function timeAgoField(topic, parameterizedPlural) {
   var absoluteTime = '';
   switch (topic.topic_type) {
     case 'test':
@@ -194,7 +194,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var options = ['second(s)', 'minute(s)', 'hour(s)', 'day(s)', 'week(s)', 'month(s)', 'year(s)'];
 
-module.exports = function renderDurationField(topic, parameterizedPlural) {
+module.exports = function durationField(topic, parameterizedPlural) {
   var returnStatement = '<div class=\'form-inline\'>\n    <input type=\'number\' name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][duration_amount]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_duration_amount\' class=\'form-control calculator\' placeholder=\'duration\'>\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'' + parameterizedPlural + '_' + topic.id + '_duration_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n    </span>\n    <select name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][duration_scale]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_duration_scale\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(options, 'for how long') + '\n    </select>\n  </div>';
   return returnStatement;
 };
@@ -206,7 +206,7 @@ module.exports = function renderDurationField(topic, parameterizedPlural) {
 "use strict";
 
 
-module.exports = function renderKeywords(topic, parameterizedPlural) {
+module.exports = function keywords(topic, parameterizedPlural) {
   var returnStatement = '';
   if (topic.descriptors) {
     returnStatement += '<div class=\'form-inline\'>';
@@ -282,7 +282,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var options = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
 
-module.exports = function renderFrequencyField(topic, parameterizedPlural) {
+module.exports = function frequencyField(topic, parameterizedPlural) {
   var returnStatement = '\n  <div class=\'form-inline\'>\n    <input\n      type=\'number\'\n      name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][frequency_amount]\'\n      id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_frequency_amount\'\n      class=\'form-control calculator\'\n      placeholder=\'frequency\'\n    >\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'' + parameterizedPlural + '_' + topic.id + '_freq_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n    </span>\n      <select name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][frequency_scale]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_frequency_scale\' class=\'form-control\'>\n        ' + (0, _selectConstructor2.default)(options, 'times per') + '\n      </select>\n  </div>\n  ';
   return returnStatement;
 };
@@ -303,7 +303,7 @@ var parameterizedPlurals = {
   'vital': 'vitals',
   'dissection': 'dissections'
 };
-module.exports = function renderHiddenFields(visit, topic) {
+module.exports = function hiddenFields(visit, topic) {
   var parameterizedPlural = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : parameterizedPlurals[topic.topic_type];
 
   var returnStatement = '';
@@ -365,7 +365,7 @@ module.exports = function renderHiddenFields(visit, topic) {
 "use strict";
 
 
-module.exports = function renderEpicAddForm() {
+module.exports = function epicAddForm() {
   var returnStatement = "<div class=\"row\">\n    <div class=\"col-sm\">\n      <div class=\"input-group\">\n          <input type=\"text\" class=\"form-control\" id=\"epicMed\" placeholder=\"Epic users: .MEDSCURRENT\"/>\n          <span class=\"input-group-btn\">\n            <button type=\"button\"\n              id=\"medParse\"\n              class=\"btn btn-secondary\"\n              data-animation=\"false\"\n              data-toggle=\"modal\"\n              data-target=\"#medModal\">\n              .MEDSCURRENT\n            </button>\n          </span>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"modal fade\" id=\"medModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"medModalLabel\" aria-hidden=\"true\">\n    <div class=\"modal-dialog modal-xl\" role=\"document\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n          <h5 class=\"modal-title\" id=\"medModalLabel\">\n            Bulk Add Medication\n          </h5>\n          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <i class=\"fa fa-times\" aria-hidden=\"true\"></i>\n          </button>\n        </div>\n          <div class=\"modal-body\">\n            <table>\n              <thead>\n                <tr>\n                  <th>\n                    Name\n                  </th>\n                  <th>\n                    Dose\n                  </th>\n                  <th>\n                    MOI\n                  </th>\n                  <th>\n                    Actions\n                  </th>\n                </tr>\n              </thead>\n              <tbody id=\"parsedMeds\">\n\n              </tbody>\n            </table>\n          </div>\n          <div class=\"modal-footer\">\n            <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">\n              Close\n            </button>\n            <button type=\"submit\" class=\"btn btn-primary\">\n              Add Medications\n            </button>\n          </div>\n      </div>\n    </div>\n  </div>";
   return returnStatement;
 };
@@ -419,7 +419,7 @@ module.exports = function renderEpicAddForm() {
 "use strict";
 
 
-module.exports = function splitNoParen(s) {
+module.exports = function epicMeds(s) {
     var left = 0,
         right = 0,
         A = [],
@@ -453,7 +453,7 @@ module.exports = function splitNoParen(s) {
 // returns:
 //  (1)'topic id' integer or
 //  (2) nil
-module.exports = function mapMed(name, commonName, medsObj) {
+module.exports = function medMapper(name, commonName, medsObj) {
   if (!!(name.match(/metoprolol/gi) || commonName.match(/toprol/gi) || commonName.match(/lopressor/) || commonName.match(/metoprolol/gi))) {
     return medsObj["metoprolol"];
   } else if (!!(name.match(/atenolol/gi) || commonName.match(/tenormin/gi) || name.match(/tenormin/gi) || commonName.match(/tenormin/gi))) {
@@ -576,7 +576,7 @@ var _assembledHeartMeasurementForm2 = _interopRequireDefault(_assembledHeartMeas
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function renderAorticImagingFields(topics, visit) {
+module.exports = function aorticImaging(topics, visit) {
   var parameterizedPlural = 'heart_measurements';
   var fields = topics.map(function (t) {
     return (0, _assembledHeartMeasurementForm2.default)(t, visit);
@@ -594,7 +594,7 @@ module.exports = function renderAorticImagingFields(topics, visit) {
 "use strict";
 
 
-module.exports = function renderFamilyTree(patient) {
+module.exports = function familyTree(patient) {
   var date = new Date(patient.date_of_birth);
   var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   var date_str = date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
@@ -616,7 +616,7 @@ var _assembledVitalForm2 = _interopRequireDefault(_assembledVitalForm);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function renderVitalsFields(topics, visit) {
+module.exports = function vitals(topics, visit) {
   var parameterizedPlural = 'vitals';
   var fields = topics.map(function (t) {
     return (0, _assembledVitalForm2.default)(t, visit);
@@ -662,7 +662,7 @@ var _findRelated2 = _interopRequireDefault(_findRelated);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function renderDiagnosisForm(topic) {
+module.exports = function assembledDiagnosisForm(topic) {
   var parameterizedPlural = 'diagnoses';
   var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + topic.id + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class=\'form-inline\'>\n      ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n      ' + (0, _durationField2.default)(topic, parameterizedPlural) + '\n      ,\n      ' + (0, _frequencyField2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n    <div class=\'form-inline\'>\n      ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n      ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _findRelated2.default)(topic) + '\n  </td></tr>\n  ';
   return returnStatement;
@@ -697,7 +697,7 @@ var _findRelated2 = _interopRequireDefault(_findRelated);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function renderDissectionForm(topic, visit) {
+module.exports = function assembledDissectionForm(topic, visit) {
   var locations = ['aortic root', 'ascending aorta', 'arch', 'descending thoracic', 'suprarenal abdominal', 'infrarenal abdominal', 'iliac', 'renal', 'SMA', 'celiac', 'innominate', 'left carotid', 'left subclavian'];
   var perfused = ['perfused', 'ischemic'];
   var lumens = ['true lumen', 'false lumen', 'dissected'];
@@ -768,7 +768,7 @@ var _findRelated2 = _interopRequireDefault(_findRelated);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function renderMedicationForm(topic) {
+module.exports = function assembledMedicationForm(topic) {
   var parameterizedPlural = 'medications';
   var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + topic.id + '\' style=\'display:none\'><td colspan=\'3\'>\n    ' + (0, _medFormFields2.default)(topic) + '\n  </td></tr>\n  ';
   return returnStatement;
@@ -807,7 +807,7 @@ var _findRelated2 = _interopRequireDefault(_findRelated);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function renderProcedureForm(topic) {
+module.exports = function assembledProcedureForm(topic) {
   var rowID = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : topic.id;
 
   var parameterizedPlural = 'procedures';
@@ -828,7 +828,7 @@ var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function renderMeasurementField(topic, parameterizedPlural) {
+module.exports = function measurementField(topic, parameterizedPlural) {
   var multiSelect = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
   var title = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'units';
 
@@ -874,7 +874,7 @@ var ingestionMethods = ['orally', 'intravenously', 'intramuscularly', 'subcutane
 var unitsOfMeas = ['mcg', 'mg', 'mL', 'mm', 'g', 'L', 'IU'];
 var dosageForms = ['tablet', 'capsule', 'pill', 'liquid solution', 'inhaler', 'cream', 'drops', 'suppository'];
 
-module.exports = function renderMedFormBody(topic) {
+module.exports = function medFormFields(topic) {
   var returnStatement = '\n  <div class=\'form-inline\'>\n    DOSE\n    <input type=\'number\' name=\'visit[medications_attributes][' + topic.id + '][dose]\' id=\'visit_medications_attributes_' + topic.id + '_dose\' class=\'form-control calculator\' placeholder=\'dose\'>\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'medications_' + topic.id + '_dose_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n    </span>\n    <select name=\'visit[medications_attributes][' + topic.id + '][dose_unit_of_measurement]\' id=\'visit_medications_attributes_' + topic.id + '_dose_unit_of_measurement\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(unitsOfMeas, 'dose units') + '\n    </select>\n  </div>\n\n  <div class=\'form-inline\'>\n    DOSAGE FORM\n    <input type=\'number\' name=\'visit[medications_attributes][' + topic.id + '][dosage_form_units]\' id=\'visit_medications_attributes_' + topic.id + '_dosage_form_units\' class=\'form-control calculator\' placeholder=\'dosage form units\'>\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'medications_' + topic.id + '_dose_units_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n    </span>\n    <select name=\'visit[medications_attributes][' + topic.id + '][dosage_form_units]\' id=\'visit_medications_attributes_' + topic.id + '_dosage_form_units\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(unitsOfMeas, 'dose form units') + '\n    </select>\n    <select name=\'visit[medications_attributes][' + topic.id + '][dosage_form]\' id=\'visit_medications_attributes_' + topic.id + '_dosage_form\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(dosageForms, 'dose form') + '\n    </select>\n  </div>\n\n  <div class=\'form-inline\'>\n    METHOD OF INGESTION\n    <select name=\'visit[medications_attributes][' + topic.id + '][ingestion_method]\' id=\'visit_medications_attributes_' + topic.id + '_ingestion_method\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(ingestionMethods, 'MOI') + '\n    </select>\n  </div>\n\n  <div class=\'form-inline\'>\n    DURATION\n    ' + (0, _durationField2.default)(topic, 'medications') + '\n  </div>\n\n  <div class=\'form-inline\'>\n    FREQUENCY\n    ' + (0, _frequencyField2.default)(topic, 'medications') + '\n  </div>\n\n  <div class=\'form-inline\'>\n    TIME AGO\n    ' + (0, _timeAgoField2.default)(topic, 'medications') + '\n  </div>\n\n  <div class=\'form-inline\'>\n    NOTE\n    ' + (0, _noteField2.default)(topic, 'medications') + '\n  </div>';
   return returnStatement;
 };
@@ -905,7 +905,7 @@ var parameterizedPlurals = {
   'vital': 'vitals',
   'dissection': 'dissections'
 };
-module.exports = function renderButtons(topic, visit) {
+module.exports = function presAbsButtons(topic, visit) {
   var parameterizedPlural = parameterizedPlurals[topic.topic_type];
   var discussedConcerns = JSON.parse(visit.concerns).map(function (x) {
     return x.topic_id;
@@ -966,7 +966,7 @@ var parameterizedPlurals = {
 };
 
 // runs formRender function according to topic type
-module.exports = function renderRowForm(topic, visit) {
+module.exports = function rowForm(topic, visit) {
   var pp = parameterizedPlurals[topic.topic_type];
   var returnStatement = '';
 
@@ -2889,22 +2889,22 @@ global.Tether = _tether2.default;
 __webpack_require__(62);
 
 // ROW FORM TYPES
-__webpack_require__(68);
-__webpack_require__(63);
-__webpack_require__(65);
+__webpack_require__(121);
+__webpack_require__(120);
+__webpack_require__(123);
 __webpack_require__(66);
-__webpack_require__(67);
+__webpack_require__(122);
 
 // EXPOSING JS TO BE USED IN RAILS
 __webpack_require__(12);
 __webpack_require__(58);
-__webpack_require__(71);
-__webpack_require__(60);
-__webpack_require__(72);
+__webpack_require__(124);
+__webpack_require__(127);
+__webpack_require__(126);
 __webpack_require__(61);
-__webpack_require__(70);
-__webpack_require__(64);
-__webpack_require__(69);
+__webpack_require__(125);
+__webpack_require__(129);
+__webpack_require__(128);
 __webpack_require__(73);
 
 __webpack_require__(56);
@@ -3064,7 +3064,7 @@ var _measurementField2 = _interopRequireDefault(_measurementField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function renderVitalForm(topic, visit) {
+module.exports = function assembledVitalForm(topic, visit) {
   var parameterizedPlural = 'vitals';
   var returnStatement = '' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural);
   returnStatement += '' + (0, _measurementField2.default)(topic, parameterizedPlural);
@@ -3079,7 +3079,7 @@ module.exports = function renderVitalForm(topic, visit) {
 "use strict";
 
 
-module.exports = function renderInfoHover(concerns) {
+module.exports = function infoHover(concerns) {
   var tooltipTitle = concerns.map(function (x) {
     return x.summary;
   });
@@ -5668,7 +5668,7 @@ window.CustomElements.addModule(function (scope) {
 "use strict";
 
 
-module.exports = function splitNoParen(s) {
+module.exports = function epicMeds(s) {
     var left = 0,
         right = 0,
         A = [],
@@ -5702,7 +5702,7 @@ module.exports = function splitNoParen(s) {
 // returns:
 //  (1)'topic id' integer or
 //  (2) nil
-module.exports = function mapMed(name, commonName, medsObj) {
+module.exports = function medMapper(name, commonName, medsObj) {
   if (!!(name.match(/metoprolol/gi) || commonName.match(/toprol/gi) || commonName.match(/lopressor/) || commonName.match(/metoprolol/gi))) {
     return medsObj["metoprolol"];
   } else if (!!(name.match(/atenolol/gi) || commonName.match(/tenormin/gi) || name.match(/tenormin/gi) || commonName.match(/tenormin/gi))) {
@@ -5937,25 +5937,9 @@ module.exports = function parseMed(str, visit, allMeds) {
 
 /***/ }),
 /* 43 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-var reasonsForVisit = ['flu', 'checkup', 'initial visit', 'family history', 'aortic imaging', 'chest pain'];
-module.exports = function renderReasonForVisitHeader(visit) {
-  var returnStatement = '';
-  if (!visit.primary_reason) {
-    returnStatement += '<div class="alert alert-warning alert-dismissible fade show" role="alert">\n      <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>';
-    returnStatement += 'Reason for Visit: ';
-    var options = reasonsForVisit.map(function (r) {
-      return '<label class="btn btn-secondary">\n          <input type="radio" autocomplete="off" name="visit[primary_reason]" value="' + r + '">\n          ' + r + '\n        </label>';
-    }).join('');
-    returnStatement += options;
-    returnStatement += '<button type="submit" class="btn btn-success confirm-submit" data-attr="reason_for_visit">\n        <i class="fa fa-check" aria-hidden="true"></i>\n      </button>\n    </div>';
-  }
-  return returnStatement;
-};
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/Andromeda/Kamillamagna/NMF_Tool/app/javascript/components/reasonForVisit.js'");
 
 /***/ }),
 /* 44 */
@@ -5994,7 +5978,7 @@ var _findRelated2 = _interopRequireDefault(_findRelated);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function renderDiagnosisForm(topic) {
+module.exports = function assembledDiagnosisForm(topic) {
   var parameterizedPlural = 'diagnoses';
   var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + topic.id + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class=\'form-inline\'>\n      ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n      ' + (0, _durationField2.default)(topic, parameterizedPlural) + '\n      ,\n      ' + (0, _frequencyField2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n    <div class=\'form-inline\'>\n      ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n      ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _findRelated2.default)(topic) + '\n  </td></tr>\n  ';
   return returnStatement;
@@ -6029,7 +6013,7 @@ var _findRelated2 = _interopRequireDefault(_findRelated);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function renderDissectionForm(topic, visit) {
+module.exports = function assembledDissectionForm(topic, visit) {
   var locations = ['aortic root', 'ascending aorta', 'arch', 'descending thoracic', 'suprarenal abdominal', 'infrarenal abdominal', 'iliac', 'renal', 'SMA', 'celiac', 'innominate', 'left carotid', 'left subclavian'];
   var perfused = ['perfused', 'ischemic'];
   var lumens = ['true lumen', 'false lumen', 'dissected'];
@@ -6100,7 +6084,7 @@ var _findRelated2 = _interopRequireDefault(_findRelated);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function renderMedicationForm(topic) {
+module.exports = function assembledMedicationForm(topic) {
   var parameterizedPlural = 'medications';
   var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + topic.id + '\' style=\'display:none\'><td colspan=\'3\'>\n    ' + (0, _medFormFields2.default)(topic) + '\n  </td></tr>\n  ';
   return returnStatement;
@@ -6139,7 +6123,7 @@ var _findRelated2 = _interopRequireDefault(_findRelated);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function renderProcedureForm(topic) {
+module.exports = function assembledProcedureForm(topic) {
   var rowID = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : topic.id;
 
   var parameterizedPlural = 'procedures';
@@ -6149,15 +6133,10 @@ module.exports = function renderProcedureForm(topic) {
 
 /***/ }),
 /* 49 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 "use strict";
-
-
-module.exports = function renderScribbleButton(title, mskey, mshmac) {
-  var returnStatement = "\n    <div class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\" id=\"" + title + "_scribble_modal\">\n      <div class=\"modal-dialog modal-xl\">\n        <div class=\"modal-content scribble\">\n          <div class=\"form-inline\">\n            <div touch-action=\"none\">\n              <myscript-math-web\n                applicationkey=\"" + mskey + "\"\n                hmackey=\"" + mshmac + "\"\n                protocol=\"REST\"\n                hideresult=\"true\"\n                hidebuttons=\"true\"\n                timeout=\"1000\"\n                class=\"scribble\"\n                id=\"" + title + "_scribble\">\n              </myscript-math-web>\n            </div>\n            <div class=\"btn-group-vertical\">\n              <button type=\"button\" class=\"btn btn-primary accept\">\n                <i class=\"fa fa-check\"></i>\n              </button>\n              <button type=\"button\" class=\"btn btn-primary undo\">\n                <i class=\"fa fa-undo\"></i>\n              </button>\n              <button type=\"button\" class=\"btn btn-primary redo\">\n                <i class=\"fa fa-repeat\"></i>\n              </button>\n              <button type=\"button\" class=\"btn btn-primary destroy\">\n                <i class=\"fa fa-trash\"></i>\n              </button>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>";
-  return returnStatement;
-};
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open '/Users/Andromeda/Kamillamagna/NMF_Tool/app/javascript/components/row_form_pieces/handwritingAttachmentButton.js'");
 
 /***/ }),
 /* 50 */
@@ -6203,7 +6182,7 @@ var parameterizedPlurals = {
 };
 
 // runs formRender function according to topic type
-module.exports = function renderRowForm(topic, visit) {
+module.exports = function rowForm(topic, visit) {
   var pp = parameterizedPlurals[topic.topic_type];
   var returnStatement = '';
 
@@ -6277,7 +6256,7 @@ module.exports = function unitConverter(desiredUnit, amount) {
 
 var primaryDiagnoses = ['Marfan Syndrome', 'Loeys-Dietz Syndrome', 'Ehlers-Danlos Syndrome', 'Beals Syndrome', 'familial thoracic aneurysm and dissection', 'ectopia lentis', 'mass phenotype', 'bicuspid aortic valve', 'Stickler Syndrome', 'Shprintzen-Goldberg Syndrome'];
 
-module.exports = function renderDiagnosisHeader(patient, visit) {
+module.exports = function visitHeader(patient, visit) {
   var returnStatement = '';
   if (!patient.primary_diagnosis) {
     returnStatement += '<div class="alert alert-warning alert-dismissible fade show" role="alert">\n      <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>Primary Diagnosis: ';
@@ -10661,13 +10640,7 @@ var Popover = function ($) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 60 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["mapMed"] = __webpack_require__(40);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
+/* 60 */,
 /* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10682,27 +10655,9 @@ var Popover = function ($) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 63 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["renderDiagnosisForm"] = __webpack_require__(44);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 64 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["renderDiagnosisHeader"] = __webpack_require__(52);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 65 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["renderDissectionForm"] = __webpack_require__(45);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
+/* 63 */,
+/* 64 */,
+/* 65 */,
 /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10710,48 +10665,12 @@ var Popover = function ($) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 67 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["renderMedicationForm"] = __webpack_require__(47);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 68 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["renderProcedureForm"] = __webpack_require__(48);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 69 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["renderReasonForVisitHeader"] = __webpack_require__(43);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 70 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["renderRowForm"] = __webpack_require__(50);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 71 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["renderScribbleButton"] = __webpack_require__(49);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 72 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["splitNoParen"] = __webpack_require__(39);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
 /* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27468,6 +27387,99 @@ __webpack_require__(31);
 __webpack_require__(12);
 module.exports = __webpack_require__(32);
 
+
+/***/ }),
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["assembledDiagnosisForm"] = __webpack_require__(44);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 121 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["assembledProcedureForm"] = __webpack_require__(48);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 122 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["assembledMedicationForm"] = __webpack_require__(47);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 123 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["assembledDissectionForm"] = __webpack_require__(45);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 124 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["scribbleButton"] = __webpack_require__(49);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 125 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["rowForm"] = __webpack_require__(50);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 126 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["epicMeds"] = __webpack_require__(39);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 127 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["medMapper"] = __webpack_require__(40);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 128 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["reasonForVisitHeader"] = __webpack_require__(43);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 129 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["visitHeader"] = __webpack_require__(52);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ })
 /******/ ]);
