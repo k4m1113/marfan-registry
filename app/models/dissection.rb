@@ -17,7 +17,7 @@ class Dissection < ApplicationRecord
 
   def timeify
     if absolute_start_date == nil && (time_ago && time_ago_scale)
-      self.absolute_start_date = find_date(time_ago, time_ago_scale, created_at)
+      self.absolute_start_date = find_date(time_ago, time_ago_scale, Date.today)
     else
       self.absolute_start_date = created_at
     end

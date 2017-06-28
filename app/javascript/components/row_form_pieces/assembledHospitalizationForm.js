@@ -1,12 +1,11 @@
 import timeAgoField from './timeAgoField';
 import durationField from './durationField';
-import frequencyField from './frequencyField';
 import fileAttachmentButton from './fileAttachmentButton';
 import keywords from './keywords';
 import noteField from './noteField';
 import findRelated from './findRelated';
 
-module.exports = function renderHospitalizationForm(topic) {
+module.exports = function assembledHospitalizationForm(topic) {
   const parameterizedPlural = 'hospitalizations'
   const returnStatement = `
   <tr class='row_form' id='row_${topic.id}' style='display:none'><td colspan='3'>

@@ -53,76 +53,63 @@ genetics = Topic.create!(
 )
 clinical_diagnosis = Topic.create!(
   name: 'clinical diagnosis',
-  topic_type: 'genetic_test'
+  topic_type: 'genetic test'
 ).move_to_child_of(genetics)
 mutation = Topic.create!(
   name: 'mutation',
-  topic_type: 'genetic_test'
+  topic_type: 'genetic test'
 ).move_to_child_of(genetics)
 fbn1 = Topic.create!(
   name: 'FBN1',
-  topic_type: 'genetic_test',
-  descriptors: %w[benign pathogenic VUS]
+  topic_type: 'genetic test'
 ).move_to_child_of(mutation)
 Topic.create!(
   name: 'TGFBR1',
-  topic_type: 'genetic_test',
-  descriptors: %w[benign pathogenic VUS]
+  topic_type: 'genetic test'
 ).move_to_child_of(mutation)
 Topic.create!(
   name: 'TGFBR2',
-  topic_type: 'genetic_test',
-  descriptors: %w[benign pathogenic VUS]
+  topic_type: 'genetic test'
 ).move_to_child_of(mutation)
 Topic.create!(
   name: 'SMAD3',
-  topic_type: 'genetic_test',
-  descriptors: %w[benign pathogenic VUS]
+  topic_type: 'genetic test'
 ).move_to_child_of(mutation)
 Topic.create!(
   name: 'TGFB2',
-  topic_type: 'genetic_test',
-  descriptors: %w[benign pathogenic VUS]
+  topic_type: 'genetic test'
 ).move_to_child_of(mutation)
 Topic.create!(
   name: 'prkg1',
-  topic_type: 'genetic_test',
-  descriptors: %w[benign pathogenic VUS]
+  topic_type: 'genetic test'
 ).move_to_child_of(mutation)
 Topic.create!(
   name: 'ACTA2',
-  topic_type: 'genetic_test',
-  descriptors: %w[benign pathogenic VUS]
+  topic_type: 'genetic test'
 ).move_to_child_of(mutation)
 Topic.create!(
   name: 'PRKG1',
-  topic_type: 'genetic_test',
-  descriptors: %w[benign pathogenic VUS]
+  topic_type: 'genetic test'
 ).move_to_child_of(mutation)
 Topic.create!(
   name: 'MYH11',
-  topic_type: 'genetic_test',
-  descriptors: %w[benign pathogenic VUS]
+  topic_type: 'genetic test'
 ).move_to_child_of(mutation)
 Topic.create!(
   name: 'MYLK',
-  topic_type: 'genetic_test',
-  descriptors: %w[benign pathogenic VUS]
+  topic_type: 'genetic test'
 ).move_to_child_of(mutation)
 Topic.create!(
   name: 'col3a1',
-  topic_type: 'genetic_test',
-  descriptors: %w[benign pathogenic VUS]
+  topic_type: 'genetic test'
 ).move_to_child_of(mutation)
 Topic.create!(
   name: 'FBLN4',
-  topic_type: 'genetic_test',
-  descriptors: %w[benign pathogenic VUS]
+  topic_type: 'genetic test'
 ).move_to_child_of(mutation)
 Topic.create!(
   name: 'COL3A1',
-  topic_type: 'genetic_test',
-  descriptors: %w[benign pathogenic VUS]
+  topic_type: 'genetic test'
 ).move_to_child_of(mutation)
 ## END GENETICS (xls 28) ##
 

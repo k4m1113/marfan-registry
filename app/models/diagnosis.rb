@@ -7,8 +7,6 @@ class Diagnosis < ApplicationRecord
 
   before_save :concat_duration, :concat_time_ago, :concat_frequency, :descriptors_to_note
 
-  has_one :gallery
-
   belongs_to :topic
   belongs_to :visit, inverse_of: :diagnoses, required: false
   belongs_to :patient, inverse_of: :diagnoses

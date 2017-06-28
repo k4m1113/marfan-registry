@@ -1,7 +1,6 @@
 # require 'pry'
 # Visit Class is where it all happens
 class Visit < ApplicationRecord
-  include HeartImaging
   include ActiveSupport::NumberHelper
   include CommonContent
   include ApplicationHelper
@@ -9,27 +8,40 @@ class Visit < ApplicationRecord
   belongs_to :patient, inverse_of: :visits
   belongs_to :clinician, inverse_of: :visits
 
-  has_one :gallery, inverse_of: :visit
-
-  has_many :family_members, dependent: :destroy
-  has_many :hospitalizations, dependent: :destroy
-  has_many :tests, dependent: :destroy
-  has_many :dissections, dependent: :destroy
-  has_many :heart_measurements, dependent: :destroy
-  has_many :vitals, dependent: :destroy
   has_many :diagnoses, dependent: :destroy
+  has_many :dissections, dependent: :destroy
+  has_many :family_members, dependent: :destroy
+  has_many :genetic_tests, dependent: :destroy
+  has_many :heart_measurements, dependent: :destroy
+  has_many :hospitalizations, dependent: :destroy
   has_many :medications, dependent: :destroy
   has_many :procedures, dependent: :destroy
+  has_many :tests, dependent: :destroy
+  has_many :vitals, dependent: :destroy
 
   accepts_nested_attributes_for :patient
-  accepts_nested_attributes_for :vitals, reject_if:
-    proc { |att|
-      att['test_amount'].nil?
-    }
   accepts_nested_attributes_for :diagnoses, reject_if:
     proc { |att|
       att['present'].nil?
     }
+  accepts_nested_attributes_for :dissections, reject_if:
+    proc { |att|
+      att['location'].blank?
+    }
+  accepts_nested_attributes_for :family_members, reject_if:
+    proc { |att|
+      att['future_patient_data_hash']['first_name'].blank? && att['date_of_birth'].blank? && att['future_patient_data_hash']['cause_of_death'].blank?
+    }
+  accepts_nested_attributes_for :genetic_tests, reject_if:
+    proc { |att|
+      att['present'].blank?
+    }
+  accepts_nested_attributes_for :heart_measurements, reject_if:
+    proc { |att|
+      att['test_unit_of_meas'].blank? ||
+      (att['test_amount'].blank? && ['%', 'cm', 'cm2', 'mmHg'].include?(att['test_unit_of_meas']))
+    }
+  accepts_nested_attributes_for :hospitalizations
   accepts_nested_attributes_for :medications, reject_if:
     proc { |att|
       att['current'].nil?
@@ -38,23 +50,13 @@ class Visit < ApplicationRecord
     proc { |att|
       att['time_ago'].nil? && att['note'].blank? && att['attachment'].nil?
     }
-  accepts_nested_attributes_for :dissections, reject_if:
-    proc { |att|
-      att['location'].blank?
-    }
-  accepts_nested_attributes_for :hospitalizations
   accepts_nested_attributes_for :tests, reject_if:
     proc { |t|
       (t['test_date'].nil? && t['time_ago'].nil?) || t['result'].blank?
     }
-  accepts_nested_attributes_for :family_members, reject_if:
+  accepts_nested_attributes_for :vitals, reject_if:
     proc { |att|
-      att['future_patient_data_hash']['first_name'].blank? && att['date_of_birth'].blank? && att['future_patient_data_hash']['cause_of_death'].blank?
-    }
-  accepts_nested_attributes_for :heart_measurements, reject_if:
-    proc { |att|
-      att['test_unit_of_meas'].blank? ||
-      (att['test_amount'].blank? && ['%', 'cm', 'cm2', 'mmHg'].include?(att['test_unit_of_meas']))
+      att['test_amount'].nil?
     }
 
   self.per_page = 10
@@ -81,7 +83,7 @@ class Visit < ApplicationRecord
   end
 
   def concerns
-    tests + procedures + diagnoses + hospitalizations + family_members + medications + dissections + vitals
+    tests + procedures + diagnoses + hospitalizations + family_members + medications + dissections + vitals + genetic_tests
   end
 
   def letter_sort_by_topic

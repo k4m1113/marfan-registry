@@ -1,19 +1,12 @@
+import presAbsButtons from './presAbsButtons'
 import assembledProcedureForm from './assembledProcedureForm';
 import assembledDiagnosisForm from './assembledDiagnosisForm';
-import renderHospitalizationForm from './assembledHospitalizationForm';
+import assembledHospitalizationForm from './assembledHospitalizationForm';
 import assembledMedicationForm from './assembledMedicationForm';
-import presAbsButtons from './presAbsButtons'
 import assembledDissectionForm from './assembledDissectionForm'
+import assembledGeneticTestForm from './assembledGeneticTestForm'
 
-const parameterizedPlurals = {
-  'diagnosis': 'diagnoses',
-  'family member': 'family_members',
-  'procedure': 'procedures',
-  'medication': 'medications',
-  'hospitalization': 'hospitalizations',
-  'vital': 'vitals',
-  'dissection': 'dissections'
-}
+const parameterizedPlurals = require('./parameterizedPlurals')
 
 // runs formRender function according to topic type
 module.exports = function rowForm(topic, visit) {
@@ -32,9 +25,13 @@ module.exports = function rowForm(topic, visit) {
     case "family member":
       returnStatement += `FAMILY MEMBER FORM`;
       break;
+    case "genetic test":
+      returnStatement += `${presAbsButtons(topic, visit)}`;
+      returnStatement += `${assembledGeneticTestForm(topic)}`;
+      break;
     case "hospitalization":
       returnStatement += `${presAbsButtons(topic, visit)}`;
-      returnStatement += `${renderHospitalizationForm(topic)}`;
+      returnStatement += `${assembledHospitalizationForm(topic)}`;
       break;
     case "medication":
       returnStatement += `${presAbsButtons(topic, visit)}`;

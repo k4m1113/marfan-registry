@@ -5,8 +5,6 @@ class Hospitalization < ApplicationRecord
   attr_reader :table_headings, :table_body
   attr_accessor :time_ago_scale, :time_ago_amount, :duration_amount, :duration_scale, :absolute_start_date
 
-  has_one :gallery
-
   belongs_to :topic
   belongs_to :patient,
     inverse_of: :hospitalizations

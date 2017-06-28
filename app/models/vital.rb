@@ -4,10 +4,6 @@ class Vital < ApplicationRecord
   before_save :calculate_metric
   after_save { |v| v.destroy if v.measurement.blank? }
 
-  has_one :gallery
-
-  accepts_nested_attributes_for :gallery
-
   belongs_to :topic
   belongs_to :patient, inverse_of: :vitals, required: true
   belongs_to :visit, inverse_of: :vitals, required: false

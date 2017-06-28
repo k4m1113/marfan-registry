@@ -9,8 +9,6 @@ class Procedure < ApplicationRecord
 
   after_save { |p| p.destroy if (p.time_ago.nil? && p.note.blank? && p.attachment.nil?) }
 
-  has_one :gallery
-
   belongs_to :topic
   belongs_to :visit,
     inverse_of: :procedures

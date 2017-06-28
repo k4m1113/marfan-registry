@@ -15,7 +15,7 @@ class HeartMeasurement < ApplicationRecord
     if absolute_start_date != nil
       self.test_date = absolute_start_date
     elsif time_ago && time_ago_scale
-      self.test_date = find_date(time_ago, time_ago_scale, created_at)
+      self.test_date = find_date(time_ago, time_ago_scale, Date.today)
     else
       self.test_date = created_at
     end

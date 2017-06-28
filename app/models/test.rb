@@ -11,10 +11,6 @@ class Test < ApplicationRecord
   belongs_to :visit, inverse_of: :tests, required: false
   belongs_to :patient, inverse_of: :tests
 
-  has_one :gallery
-
-  accepts_nested_attributes_for :gallery
-
   after_save { |t| t.destroy if (t.test_date.nil? && t.time_ago.nil?) || (t.result.blank?) }
 
   def concat_result

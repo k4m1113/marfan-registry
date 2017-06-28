@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :diagnoses
   resources :dissections
   resources :family_members
+  resources :genetic_tests
   resources :heart_measurements
   resources :hospitalizations
   resources :images

@@ -32,9 +32,6 @@ class FamilyMember < ApplicationRecord
     end.sorted
   end
 
-  has_one :gallery,
-    inverse_of: :family_member
-
   belongs_to :patient,
     inverse_of: :family_members
   belongs_to :topic

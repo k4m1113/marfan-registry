@@ -8,8 +8,6 @@ class Medication < ApplicationRecord
 
   before_save :current_or_not
 
-  has_one :gallery
-
   belongs_to :topic
   belongs_to :patient,
     inverse_of: :medications

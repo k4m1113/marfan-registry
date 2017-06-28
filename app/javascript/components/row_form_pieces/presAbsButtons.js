@@ -1,14 +1,7 @@
 import infoHover from './infoHover'
 import hiddenFields from './hiddenFields'
-const parameterizedPlurals = {
-  'diagnosis': 'diagnoses',
-  'family member': 'family_members',
-  'procedure': 'procedures',
-  'medication': 'medications',
-  'hospitalization': 'hospitalizations',
-  'vital': 'vitals',
-  'dissection': 'dissections'
-}
+const parameterizedPlurals = require('./parameterizedPlurals');
+
 module.exports = function presAbsButtons(topic, visit) {
   var parameterizedPlural = parameterizedPlurals[topic.topic_type]
   const discussedConcerns = JSON.parse(visit.concerns).map(x => x.topic_id)
