@@ -2,10 +2,10 @@ class Dissection < ApplicationRecord
   include ApplicationHelper
   mount_uploader :attachment, AttachmentUploader
 
-  before_save :timeify
+  before_validation :timeify
 
   # attr_reader :table_headings, :table_body
-  attr_accessor :time_ago_amount, :time_ago_scale, :absolute_start_date
+  attr_accessor :time_ago_amount, :time_ago_scale
 
   belongs_to :topic
   belongs_to :visit, inverse_of: :dissections, required: false
@@ -15,16 +15,10 @@ class Dissection < ApplicationRecord
 
   end
 
-  def timeify
-    if absolute_start_date == nil && (time_ago && time_ago_scale)
-      self.absolute_start_date = find_date(time_ago, time_ago_scale, Date.today)
-    else
-      self.absolute_start_date = created_at
-    end
-  end
   def self.table_headings
     %w[Date Location Direction Pefusion Lumen Note Attachment Actions]
   end
+
   def table_body
     action_view = ActionView::Base.new(Rails.configuration.paths["app/views"])
     action_view.class_eval do
@@ -50,5 +44,18 @@ class Dissection < ApplicationRecord
         partial: 'dissections/link_buttons', format: :txt,
         locals: { d: self})}".html_safe
     }
+  end
+
+  private
+
+  def timeify
+    if !time_ago_amount.nil? && !time_ago_scale.nil?
+      self.absolute_start_date ||= find_date(time_ago_amount, time_ago_scale, Date.today)
+      true
+    else
+      self.absolute_start_date = created_at
+      true
+    end
+    true
   end
 end

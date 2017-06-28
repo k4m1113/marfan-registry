@@ -14,15 +14,6 @@ class GeneticTest < ApplicationRecord
 
   end
 
-  def timeify
-    if absolute_start_date.blank? && (!time_ago_amount.blank? && !time_ago_scale.blank?)
-      dat = find_date(time_ago_amount, time_ago_scale, Date.today)
-    else
-      dat = created_at
-    end
-    self.date = dat
-  end
-
   def self.table_headings
     %w[Date Location Pathogenicity Type Note Attachment Actions]
   end
@@ -51,5 +42,20 @@ class GeneticTest < ApplicationRecord
         partial: 'genetic_tests/link_buttons', format: :txt,
         locals: { t: self})}".html_safe
     }
+  end
+
+  private
+
+  def timeify
+    if !absolute_start_date.empty?
+      self.date = absolute_start_date
+    elsif !time_ago_amount.nil? && !time_ago_scale.nil?
+      self.date ||= find_date(time_ago_amount, time_ago_scale, Date.today)
+      true
+    else
+      self.date = created_at
+      true
+    end
+    true
   end
 end
