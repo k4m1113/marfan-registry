@@ -22,9 +22,15 @@ class HeartMeasurement < ApplicationRecord
     "#{topic.name}: #{measurement}"
   end
 
-  def generate_summary; end
+  def generate_summary
+    "#{topic.name} was #{measurement.squish} in #{created_at.strftime('%b %Y')}"
+  end
 
-  def generate_full_summary; end
+  def generate_full_summary
+    details = [generate_summary]
+    details << "(#{note.squish})" if note
+    details.join(' ')
+  end
 
   def self.table_headings
     %w[Date Name Measurement Note Attachments Actions]

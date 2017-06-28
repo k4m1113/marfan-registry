@@ -31,13 +31,13 @@ module.exports = function assembledGeneticTestForm(topic) {
       ${timeAgoField(topic, parameterizedPlural)}
     </div>
     <div class="form-inline">
-      <select name="visit[genetic_tests_attributes][${topic.id}][test_type]" id="visit_genetic_tests_attributes_${topic.id}_test_type" class="form-control">
+      <select name="visit[genetic_tests_attributes][${topic.id}][test_type]" id="visit_genetic_tests_attributes_${topic.id}_test_type" class="form-control" required="true">
         ${selectConstructor(testTypes, 'type')}
       </select>
-      <select name="visit[genetic_tests_attributes][${topic.id}][pathogenicity]" id="visit_genetic_tests_attributes_${topic.id}_pathogenicity" class="form-control">
+      <select name="visit[genetic_tests_attributes][${topic.id}][pathogenicity]" id="visit_genetic_tests_attributes_${topic.id}_pathogenicity" class="form-control" required="true">
         ${selectConstructor(pathogenicities, 'pathogenic?')}
       </select>
-      <select name="visit[genetic_tests_attributes][${topic.id}][company]" id="visit_genetic_tests_attributes_${topic.id}_company" class="form-control">
+      <select name="visit[genetic_tests_attributes][${topic.id}][company]" id="visit_genetic_tests_attributes_${topic.id}_company" class="form-control" required="true">
 
         ${selectConstructor(locations, 'company')}
       </select>

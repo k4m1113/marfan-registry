@@ -1,19 +1,60 @@
+# class for genetic test result
 class GeneticTest < ApplicationRecord
   include ApplicationHelper
   mount_uploader :attachment, AttachmentUploader
 
   before_save :timeify
 
+  # ATTRIBUTES
   attr_accessor :time_ago_amount, :time_ago_scale, :absolute_start_date, :present
 
+  # RELATIONSHIPS
   belongs_to :topic
   belongs_to :visit, inverse_of: :genetic_tests, required: false
-  belongs_to :patient, inverse_of: :genetic_tests
+  belongs_to :patient, inverse_of: :genetic_tests, required: true
 
+  # VALIDATIONS
+  validates :topic, presence: true
+  validates :patient, presence: true
+  validates :visit_id,
+            numericality: { only_integer: true },
+            allow_nil: true
+  validates :pathogenicity,
+            inclusion: {
+              in: %w[benign pathogenic VUS],
+              message: 'should be benign, pathogenic, or variant of uncertain significance (VUS)'
+            }
+
+  validates :test_type,
+            inclusion: {
+              in: [
+                'diagnostic',
+                'newborn',
+                'carrier',
+                'prenatal',
+                'preimplantation',
+                'predictive',
+                'forensic',
+                'clinical diagnosis'
+              ],
+              message: 'genetic testing must include test type'
+            }
+
+  # INSTANCE METHODS
   def generate_summary
-
+    "positive diagnosis for #{pathogenicity} variant of #{topic.name} gene"
   end
 
+  def generate_full_summary;
+    details = ["genetic diagnosis of"]
+    details << "#{pathogenicity} variant of #{topic.name} gene"
+    details << "by #{company}" if company
+    details << "in #{date.strftime('%b %Y')}" if date
+    details << "(#{note})" if note
+    details.join(' ')
+  end
+
+  # TABLE VIEW ATTRIBUTES
   def self.table_headings
     %w[Date Location Pathogenicity Type Note Attachment Actions]
   end
@@ -46,6 +87,7 @@ class GeneticTest < ApplicationRecord
 
   private
 
+  # BEFORE SAVE: hard-code fuzzy date data
   def timeify
     if !absolute_start_date.empty?
       self.date = absolute_start_date
