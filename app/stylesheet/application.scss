@@ -8,16 +8,10 @@
 @import "radio-buttons";
 @import "scribble";
 @import "family-tree";
-
-$bootstrap-grey: #F7F7F7;
-$bootstrap-dark-grey: rgba(0,0,0,0.7);
-$bootstrap-med-grey: rgba(0,0,0,0.5);
-$bootstrap-light-grey: white;
-$bootstrap-blue: #025AA5;
-$nmf-red: #B1242C;
-$nmf-dark-red: #9B2026;
-$nmf-purple: #782F5A;
-$nmf-dark-purple: #532942;
+@import "bootstrap-switch";
+@import "navbar";
+@import "visit-edit";
+@import "colors";
 
 .tooltip-trigger {
   border-radius: 20px;
@@ -31,130 +25,40 @@ $nmf-dark-purple: #532942;
   }
 }
 
-input[type='radio'] {
-  visibility: hidden;
-  width: 0px;
-}
-
 label.btn-secondary {
   padding: 4px 8px;
 
-}
-.bootstrap-switch {
-  width: 200px;
-}
-.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary {
-  background: #025AA5 !important;
-}
-.bootstrap-switch .bootstrap-switch-handle-on, .bootstrap-switch .bootstrap-switch-handle-off, .bootstrap-switch .bootstrap-switch-label {
-  font-size: 16px;
-  padding: 8px 12px;
-}
-button.file-attachment {
-  padding: 0px;
-  label.fontawesome-icon {
-    border: 1px solid $bootstrap-grey;
-    padding: 8px 16px;
-    &:hover {
-      cursor: pointer;
-    }
-    margin-bottom: 0 !important;
-  }
 }
 
 input[type=date] {
   padding-top: 6px !important;
   padding-bottom: 6px !important;
 }
+
 td {
   vertical-align: middle !important;
 }
+
 button:hover{
   cursor: pointer;
-}
-.tab-content {
-  margin-left: 200px;
-  width: calc(100% - 200px);
-  background-color: $bootstrap-light-grey !important;
-  padding: 8px !important;
-  .tab-pane {
-    display: none;
-    overflow-y: auto;
-  }
-
-  .active {
-    display: block;
-  }
-}
-a.nav-link.open-tab {
-  color: $bootstrap-dark-grey;
-  width: 200px;
-  border-radius: 0px !important;
-  border: 0 !important;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 8px 16px;
-  &:hover {
-    background-color: $bootstrap-light-grey !important;
-    border: 0 !important;
-    padding: 8px 16px;
-  }
-  &.active {
-    background-color: $bootstrap-light-grey !important;
-    border: 0 !important;
-    padding: 8px 16px;
-  }
-}
-
-
-.nav-tabs {
-  float: left;
-  padding-right: 8px !important;
-  width: 200px;
-  background: $bootstrap-grey !important;
-  li {
-    float: none;
-
-    a {
-      border: 0;
-    }
-  }
-}
-
-a.navbar-brand {
-  padding: 0;
-}
-
-a.nav-link {
-  color: $bootstrap-dark-grey !important;
-}
-
-a.nav-link.disabled {
-  color: $bootstrap-med-grey !important;
-  cursor: default;
-}
-
-button.nav-icon {
-  @extend .nav-link;
-  color: rgba(0, 0, 0, 0.5);
-  background-color: inherit;
-  border: none;
-  padding: 0px 8px !important;
-  font-size: 30px;
 }
 
 .down-eight {
   margin-top: -8px;
 }
+
 .inl {
   display: inline;
 }
+
 .purple {
   color: $nmf-purple !important;
 }
+
 .red {
   color: $nmf-red !important;
 }
+
 .enlarge {
   -ms-transform: scale(1.3); /* IE 9 */
   -webkit-transform: scale(1.3); /* Chrome, Safari, Opera */
@@ -185,10 +89,6 @@ input:focus {
   box-shadow: 0 0 5px rgba(207, 220, 0, 0.4);
 }
 
-tr.row_form {
-  background-color: #F7F7F7
-}
-
 .center-block {
   display: block;
   margin-left: auto;
@@ -206,33 +106,13 @@ tr.row_form {
   right:20%;
 }
 
-.jumbotron {
-  background-image: url("https://github.com/Kamilleski/NMF_Tool/blob/master/app/assets/images/Stanford_Medical_Center.jpeg?raw=true");
-  background-size: cover;
-  height: 100%;
-}
-
-img{
+img {
   max-height:100%;
   max-width:100%;
 }
 
 .center-text {
   text-align: center;
-}
-.summary-body {
-  background-color: white;
-}
-
-.summary-bar {
-  color: $bootstrap-dark-grey;
-  &.card-header {
-    padding: 0px 8px;
-  }
-  &:hover {
-    text-decoration: none;
-    background-color: white;
-  }
 }
 
 @media (min-width: 768px) {

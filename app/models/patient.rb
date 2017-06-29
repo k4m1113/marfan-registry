@@ -15,10 +15,11 @@ class Patient < ApplicationRecord
   has_one :gallery, inverse_of: :patient
 
   has_many :visits, inverse_of: :patient
-
   has_many :vitals, dependent: :destroy
+
   has_many :dissections, dependent: :destroy
   has_many :genetic_tests, dependent: :destroy
+  has_many :heart_measurements, dependent: :destroy
 
   has_many :family_members, dependent: :destroy
   has_many :hospitalizations, dependent: :destroy
@@ -118,28 +119,13 @@ class Patient < ApplicationRecord
     ['Date', 'Height (m)', 'Weight (kg)', 'BP (mmHG)', 'HR (bpm)', 'Temp (°C)']
   end
 
+  def heart_measurements_by_date
+    result = heart_measurements.group_by { |m| m.created_at.to_date }
+    result
+  end
+
   def vitals_by_date
-    all = vitals.group_by(&:visit_id).values
-    structured = []
-    unless all.empty?
-      all.each do |vital_set|
-        sbp = vital_set.select { |t| t.topic.name == 'SBP' }[0]
-        dbp = vital_set.select { |t| t.topic.name == 'DBP' }[0]
-        tmp = vital_set.select { |t| t.topic.name == 'temperature' }[0]
-        wt = vital_set.select { |t| t.topic.name == 'weight' }[0]
-        ht = vital_set.select { |t| t.topic.name == 'height' }[0]
-        hr = vital_set.select { |t| t.topic.name == 'heart rate' }[0]
-        bp = "#{sbp.measurement}/#{dbp.measurement}"
-        structured << {
-          'date': vital_set.first.created_at.strftime('%e %b %Y'),
-          'height': ht.measurement,
-          'weight': wt.measurement,
-          'blood_pressure': bp,
-          'heart_rate': hr.measurement,
-          'temperature': tmp.measurement
-        }
-      end
-    end
-    structured
+    result = vitals.group_by(&:visit_id)
+    result
   end
 end

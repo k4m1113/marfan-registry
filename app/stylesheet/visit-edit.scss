@@ -1,0 +1,72 @@
+@import "colors";
+
+input[type='radio'] {
+  visibility: hidden;
+  width: 0px;
+}
+
+.tab-content {
+  margin-left: 200px;
+  width: calc(100% - 200px);
+  background-color: $bootstrap-light-grey !important;
+  padding: 8px !important;
+  .tab-pane {
+    display: none;
+    overflow-y: auto;
+  }
+
+  .active {
+    display: block;
+  }
+}
+a.nav-link.open-tab {
+  color: $bootstrap-dark-grey;
+  width: 200px;
+  border-radius: 0px !important;
+  border: 0 !important;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 16px;
+  &:hover {
+    background-color: $bootstrap-light-grey !important;
+    border: 0 !important;
+    padding: 8px 16px;
+  }
+  &.active {
+    background-color: $bootstrap-light-grey !important;
+    border: 0 !important;
+    padding: 8px 16px;
+  }
+}
+
+.nav-tabs {
+  float: left;
+  padding-right: 8px !important;
+  width: 200px;
+  background: $bootstrap-grey !important;
+  li {
+    float: none;
+
+    a {
+      border: 0;
+    }
+  }
+}
+
+tr.row_form {
+  background-color: #F7F7F7
+}
+.summary-body {
+  background-color: white;
+}
+
+.summary-bar {
+  color: $bootstrap-dark-grey;
+  &.card-header {
+    padding: 0px 8px;
+  }
+  &:hover {
+    text-decoration: none;
+    background-color: white;
+  }
+}

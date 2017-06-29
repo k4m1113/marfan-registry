@@ -1,0 +1,23 @@
+@import "colors";
+
+button.nav-icon {
+  @extend .nav-link;
+  color: rgba(0, 0, 0, 0.5);
+  background-color: inherit;
+  border: none;
+  padding: 0px 8px !important;
+  font-size: 30px;
+}
+
+a.navbar-brand {
+  padding: 0;
+}
+
+a.nav-link {
+  color: $bootstrap-dark-grey !important;
+}
+
+a.nav-link.disabled {
+  color: $bootstrap-med-grey !important;
+  cursor: default;
+}

@@ -1,0 +1,78 @@
+<ul class="navbar-nav mr-auto">
+  <li class="nav-item" title="history for <%= "#{patient.last_name}, #{patient.first_name}" %>">
+    <a class="nav-link" href="/patients/<%= patient.id %>">
+      <%= "#{patient.last_name}, #{patient.first_name} (MRN: #{patient.id})" %>
+    </a>
+  </li>
+  <li class="nav-item" title="born <%= patient.date_of_birth.strftime('%d %B %Y') %>">
+    <a class="nav-link disabled" href="#">
+      <%= patient.age %>
+    </a>
+  </li>
+  <li class="nav-item" title="<%= patient.primary_diagnosis %>">
+    <a class="nav-link disabled" href="#">
+      <% if patient.primary_diagnosis %>
+        <%= patient.primary_diagnosis %>
+      <% else %>
+        undiagnosed
+      <% end %>
+    </a>
+  </li>
+  <% if visit.primary_reason %>
+    <li class="nav-item" title="<%= visit.primary_reason %>">
+      <a class="nav-link disabled" href="#">
+        for <%= visit.primary_reason %>
+      </a>
+    </li>
+  <% end %>
+  <% if visit.vitals.length != 0 %>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="vitalNavbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Vitals
+      </a>
+      <% vits = patient.vitals_by_date %>
+      <div class="dropdown-menu" aria-labelledby="vitalNavbarDropdownMenuLink">
+        <% vits.each do |key, value| %>
+          <h5 class="dropdown-header">
+            <%= value[0].created_at.strftime('%d %b %Y') %>
+            <% if key == visit.id %>
+              <small>(current)</small>
+            <% end %>
+          </h5>
+          <% value.each do |vital| %>
+            <a class="dropdown-item">
+              <%= vital.abbreviated %>
+            </a>
+          <% end %>
+          <div class="dropdown-divider"></div>
+        <% end %>
+      </div>
+    <% end %>
+  </li>
+  <% if visit.heart_measurements.length > 0 %>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="heartNavbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Imaging
+      </a>
+      <div class="dropdown-menu" aria-labelledby="heartNavbarDropdownMenuLink" style="float:left">
+        <% visit.heart_measurements.each do |m| %>
+          <p class="dropdown-item">
+            <%= m.abbreviated %>
+          </p>
+        <% end %>
+      </div>
+    </li>
+  <% end %>
+</ul>
+<ul class="nav navbar-nav ml-auto justify-content-end">
+  <li class="nav-item" title="save and update visit">
+    <button class="nav-icon" id="floppy" type="submit">
+      <i class="fa fa-floppy-o" aria-hidden="true"></i>
+    </button>
+  </li>
+  <li class="nav-item" title="generate after-visit letter">
+    <button class="nav-icon" type="button" data-toggle="modal" data-target="#reportModal">
+      <i class="fa fa-file-text-o" aria-hidden="true"></i>
+    </button>
+  </li>
+</ul>

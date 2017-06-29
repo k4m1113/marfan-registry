@@ -12338,23 +12338,6 @@ table.family-tree {
 .rightborder {
   border-right: solid 2px black; }
 
-.tooltip-trigger {
-  border-radius: 20px;
-  padding: 1px 6px 0px 6px;
-  border: 2px solid rgba(0, 0, 0, 0.7);
-  border-corner-shape: bevel;
-  color: #B1242C; }
-  .tooltip-trigger:hover {
-    color: #782F5A;
-    cursor: help; }
-
-input[type='radio'] {
-  visibility: hidden;
-  width: 0px; }
-
-label.btn-secondary {
-  padding: 4px 8px; }
-
 .bootstrap-switch {
   width: 200px; }
 
@@ -12374,15 +12357,26 @@ button.file-attachment {
     button.file-attachment label.fontawesome-icon:hover {
       cursor: pointer; }
 
-input[type=date] {
-  padding-top: 6px !important;
-  padding-bottom: 6px !important; }
+button.nav-icon {
+  color: rgba(0, 0, 0, 0.5);
+  background-color: inherit;
+  border: none;
+  padding: 0px 8px !important;
+  font-size: 30px; }
 
-td {
-  vertical-align: middle !important; }
+a.navbar-brand {
+  padding: 0; }
 
-button:hover {
-  cursor: pointer; }
+a.nav-link {
+  color: rgba(0, 0, 0, 0.7) !important; }
+
+a.nav-link.disabled {
+  color: rgba(0, 0, 0, 0.5) !important;
+  cursor: default; }
+
+input[type='radio'] {
+  visibility: hidden;
+  width: 0px; }
 
 .tab-content {
   margin-left: 200px;
@@ -12422,22 +12416,42 @@ a.nav-link.open-tab {
     .nav-tabs li a {
       border: 0; }
 
-a.navbar-brand {
-  padding: 0; }
+tr.row_form {
+  background-color: #F7F7F7; }
 
-a.nav-link {
-  color: rgba(0, 0, 0, 0.7) !important; }
+.summary-body {
+  background-color: white; }
 
-a.nav-link.disabled {
-  color: rgba(0, 0, 0, 0.5) !important;
-  cursor: default; }
+.summary-bar {
+  color: rgba(0, 0, 0, 0.7); }
+  .summary-bar.card-header {
+    padding: 0px 8px; }
+  .summary-bar:hover {
+    text-decoration: none;
+    background-color: white; }
 
-button.nav-icon {
-  color: rgba(0, 0, 0, 0.5);
-  background-color: inherit;
-  border: none;
-  padding: 0px 8px !important;
-  font-size: 30px; }
+.tooltip-trigger {
+  border-radius: 20px;
+  padding: 1px 6px 0px 6px;
+  border: 2px solid rgba(0, 0, 0, 0.7);
+  border-corner-shape: bevel;
+  color: #B1242C; }
+  .tooltip-trigger:hover {
+    color: #782F5A;
+    cursor: help; }
+
+label.btn-secondary {
+  padding: 4px 8px; }
+
+input[type=date] {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important; }
+
+td {
+  vertical-align: middle !important; }
+
+button:hover {
+  cursor: pointer; }
 
 .down-eight {
   margin-top: -8px; }
@@ -12483,9 +12497,6 @@ input:focus {
   border-color: #cfdc00;
   box-shadow: 0 0 5px rgba(207, 220, 0, 0.4); }
 
-tr.row_form {
-  background-color: #F7F7F7; }
-
 .center-block {
   display: block;
   margin-left: auto;
@@ -12500,28 +12511,12 @@ tr.row_form {
   bottom: 5%;
   right: 20%; }
 
-.jumbotron {
-  background-image: url("https://github.com/Kamilleski/NMF_Tool/blob/master/app/assets/images/Stanford_Medical_Center.jpeg?raw=true");
-  background-size: cover;
-  height: 100%; }
-
 img {
   max-height: 100%;
   max-width: 100%; }
 
 .center-text {
   text-align: center; }
-
-.summary-body {
-  background-color: white; }
-
-.summary-bar {
-  color: rgba(0, 0, 0, 0.7); }
-  .summary-bar.card-header {
-    padding: 0px 8px; }
-  .summary-bar:hover {
-    text-decoration: none;
-    background-color: white; }
 
 @media (min-width: 768px) {
   .modal-xl {

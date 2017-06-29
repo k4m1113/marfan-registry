@@ -1,0 +1,23 @@
+@import "colors";
+
+.bootstrap-switch {
+  width: 200px;
+}
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary {
+  background: #025AA5 !important;
+}
+.bootstrap-switch .bootstrap-switch-handle-on, .bootstrap-switch .bootstrap-switch-handle-off, .bootstrap-switch .bootstrap-switch-label {
+  font-size: 16px;
+  padding: 8px 12px;
+}
+button.file-attachment {
+  padding: 0px;
+  label.fontawesome-icon {
+    border: 1px solid $bootstrap-grey;
+    padding: 8px 16px;
+    &:hover {
+      cursor: pointer;
+    }
+    margin-bottom: 0 !important;
+  }
+}
