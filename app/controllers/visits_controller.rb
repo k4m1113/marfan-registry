@@ -155,7 +155,7 @@ class VisitsController < ApplicationController
         [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, :family_member, :attachment,  future_patient_data_hash:
           %i[first_name last_name born_years_ago date_of_birth deceased death_time_ago death_time_ago_scale death_date cause_of_death note]],
       genetic_tests_attributes:
-        %i[visit_id topic_id patient_id present time_ago_amount time_ago_scale test_type absolute_start_date company pathogenicity note attachment],
+        %i[visit_id topic_id patient_id present time_ago_amount time_ago_scale absolute_start_date transcript protein variant exons lab_name lab_classification clinical_classification predictive_testing_recommended note attachment],
       hospitalizations_attributes:
         %i[visit_id patient_id topic_id present hospitalization admission_date time_ago time_ago_scale length_of_stay length_of_stay_scale hosp_type description location note attachment],
       medications_attributes:

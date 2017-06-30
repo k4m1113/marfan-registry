@@ -80,10 +80,6 @@ Topic.create!(
   topic_type: 'genetic test'
 ).move_to_child_of(mutation)
 Topic.create!(
-  name: 'prkg1',
-  topic_type: 'genetic test'
-).move_to_child_of(mutation)
-Topic.create!(
   name: 'ACTA2',
   topic_type: 'genetic test'
 ).move_to_child_of(mutation)
@@ -97,10 +93,6 @@ Topic.create!(
 ).move_to_child_of(mutation)
 Topic.create!(
   name: 'MYLK',
-  topic_type: 'genetic test'
-).move_to_child_of(mutation)
-Topic.create!(
-  name: 'col3a1',
   topic_type: 'genetic test'
 ).move_to_child_of(mutation)
 Topic.create!(

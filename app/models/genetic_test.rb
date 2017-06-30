@@ -3,10 +3,10 @@ class GeneticTest < ApplicationRecord
   include ApplicationHelper
   mount_uploader :attachment, AttachmentUploader
 
-  before_save :timeify
+  before_save :timeify, :concat_transcript, :concat_protein, :concat_variant
 
   # ATTRIBUTES
-  attr_accessor :time_ago_amount, :time_ago_scale, :absolute_start_date, :present
+  attr_accessor :time_ago_amount, :time_ago_scale, :absolute_start_date, :present, :concat_note
 
   # RELATIONSHIPS
   belongs_to :topic
@@ -19,48 +19,38 @@ class GeneticTest < ApplicationRecord
   validates :visit_id,
             numericality: { only_integer: true },
             allow_nil: true
-  validates :pathogenicity,
+  validates :lab_classification,
+            presence: true,
             inclusion: {
-              in: %w[benign pathogenic VUS],
-              message: 'should be benign, pathogenic, or variant of uncertain significance (VUS)'
+              in: ['pathogenic', 'likely pathogenic', 'VUS likely disease-causing', 'VUS', 'VUS likely benign', 'likely benign', 'benign', 'consistent with clinical diagnosis']
             }
-
-  validates :test_type,
+  validates :clinical_classification,
+            allow_nil: true,
             inclusion: {
-              in: [
-                'diagnostic',
-                'newborn',
-                'carrier',
-                'prenatal',
-                'preimplantation',
-                'predictive',
-                'forensic',
-                'clinical diagnosis'
-              ],
-              message: 'genetic testing must include test type'
+              in: ['pathogenic', 'likely pathogenic', 'VUS likely disease-causing', 'VUS', 'VUS likely benign', 'likely benign', 'benign', 'consistent with clinical diagnosis']
             }
 
   # INSTANCE METHODS
   def generate_summary
-    "positive diagnosis for #{pathogenicity} variant of #{topic.name} gene"
+    "positive diagnosis for #{lab_classification} variant of #{topic.name} gene"
   end
 
-  def generate_full_summary;
-    details = ["genetic diagnosis of"]
-    details << "#{pathogenicity} variant of #{topic.name} gene"
-    details << "by #{company}" if company
+  def generate_full_summary
+    details = ['genetic diagnosis for']
+    details << "#{lab_classification} variant of #{topic.name} gene"
+    details << "by #{lab_name}" if lab_name
     details << "in #{date.strftime('%b %Y')}" if date
-    details << "(#{note})" if note
+    details << "(#{concatted_note})" if concatted_note
     details.join(' ')
   end
 
   # TABLE VIEW ATTRIBUTES
   def self.table_headings
-    %w[Date Location Pathogenicity Type Note Attachment Actions]
+    %w[Date Gene Lab Classification Note Attachment Actions]
   end
 
   def table_body
-    action_view = ActionView::Base.new(Rails.configuration.paths["app/views"])
+    action_view = ActionView::Base.new(Rails.configuration.paths['app/views'])
     action_view.class_eval do
       include Rails.application.routes.url_helpers
       include ApplicationHelper
@@ -72,10 +62,10 @@ class GeneticTest < ApplicationRecord
 
     return {
       'date': print_if_present(self.date),
-      'location': print_if_present(company),
-      'pathogenicity': print_if_present(pathogenicity),
-      'type': print_if_present(test_type),
-      'note': print_if_present(note),
+      'gene': topic.name,
+      'lab': print_if_present(lab_name),
+      'classification': print_if_present(lab_classification),
+      'note': print_if_present(concatted_note),
       'attachment': "#{action_view.render(
         partial: 'layouts/attachment_thumbnails', format: :txt,
         locals: { model: self })}".html_safe,
@@ -87,7 +77,8 @@ class GeneticTest < ApplicationRecord
 
   private
 
-  # BEFORE SAVE: hard-code fuzzy date data
+  # BEFORE SAVE
+  # hard-code fuzzy date data
   def timeify
     if !absolute_start_date.empty?
       self.date = absolute_start_date
@@ -99,5 +90,31 @@ class GeneticTest < ApplicationRecord
       true
     end
     true
+  end
+
+  # add 'NM_' to beginning of transcript
+  def concat_transcript
+    self.transcript = transcript.insert(0, 'NM_') if transcript
+  end
+
+  # add 'p.' to beginning of protein
+  def concat_protein
+    self.protein = protein.insert(0, 'p.') if protein
+  end
+
+  # add 'c.' to beginning of variant
+  def concat_variant
+    self.variant = variant.insert(0, 'c.') if variant
+  end
+
+  # add predictive testing recommendation to note
+  def concatted_note
+    if note && predictive_testing_recommended
+      "#{note}; predictive testing recommended"
+    elsif note && predictive_testing_recommended.nil?
+      note
+    elsif note.nil? && predictive_testing_recommended
+      'predictive testing recommended'
+    end
   end
 end

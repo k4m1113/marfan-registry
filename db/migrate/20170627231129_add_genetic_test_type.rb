@@ -4,12 +4,17 @@ class AddGeneticTestType < ActiveRecord::Migration[5.1]
       t.belongs_to :topic, null: false
       t.belongs_to :patient, null: false
       t.belongs_to :visit
-      t.string :company
-      t.string :test_type
-      t.string :pathogenicity
+      t.string :transcript
+      t.string :protein
+      t.string :variant
+      t.integer :exons
+      t.string :lab_classification
+      t.string :clinical_classification
+      t.boolean :predictive_testing_recommended
+      t.string :lab_name
       t.date :date
       t.string :attachment
-      t.string :note
+      t.text :note
 
       t.timestamps null: false
     end

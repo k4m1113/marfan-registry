@@ -144,12 +144,17 @@ ActiveRecord::Schema.define(version: 20170627231129) do
     t.bigint "topic_id", null: false
     t.bigint "patient_id", null: false
     t.bigint "visit_id"
-    t.string "company"
-    t.string "test_type"
-    t.string "pathogenicity"
+    t.string "transcript"
+    t.string "protein"
+    t.string "variant"
+    t.integer "exons"
+    t.string "lab_classification"
+    t.string "clinical_classification"
+    t.boolean "predictive_testing_recommended"
+    t.string "lab_name"
     t.date "date"
     t.string "attachment"
-    t.string "note"
+    t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["patient_id"], name: "index_genetic_tests_on_patient_id"
