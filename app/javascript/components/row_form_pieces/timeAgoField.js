@@ -13,6 +13,7 @@ module.exports = function timeAgoField(topic, parameterizedPlural) {
     default:
       absoluteTime = 'absolute_start_date'
   }
+  const selectTitle = 'time_ago_scale'
   const returnStatement = `<input type="checkbox" class="time_ago_toggle" id="time_ago_${topic.id}_toggle" checked>
   <br />
   <div class="approximate" >
@@ -22,7 +23,7 @@ module.exports = function timeAgoField(topic, parameterizedPlural) {
         <button class='btn btn-secondary calculator' type='button' id='${parameterizedPlural}_${topic.id}_time_calc_button'><i class='fa fa-calculator'></i></button>
       </span>
       <select name='visit[${parameterizedPlural}_attributes][${topic.id}][time_ago_scale]' id='visit_${parameterizedPlural}_attributes_${topic.id}_time_ago_scale' class='form-control'>
-        ${selectConstructor(options, 'time ago')}
+        ${selectConstructor(options, 'time ago', { topic, parameterizedPlural, selectTitle })}
       </select>
     </div>
   </div>

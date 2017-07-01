@@ -33,8 +33,9 @@ module.exports = function assembledGeneticTestForm(topic) {
       <div class="col-sm-3">
         Lab
         <select name="visit[genetic_tests_attributes][${topic.id}][lab_name]" id="visit_genetic_tests_attributes_${topic.id}_lab_name" class="form-control" required="true">
-        ${selectConstructor(locations, 'lab name')}
+        ${selectConstructor(locations, 'lab name', true)}
         </select>
+        <input type="text" class="form-control" name="visit[${parameterizedPlural}_attributes][${topic.id}][lab_name]" id="visit_${parameterizedPlural}_attributes_${topic.id}" style="display:none"/>
       </div>
       <div class="col-sm-3">
         Lab Classification

@@ -5,6 +5,9 @@ $('#diagnosisHeader').append(visitHeader(patient, visit))
 $('#reasonsForVisitHeader').append(reasonForVisitHeader(visit))
 $('#nestedListHook').append(nestedList(allTopics, visit, mskey, mshmac))
 $(function() {
+  // select 'other' from list to append text input
+  
+
   // click medParse button
   $('#medParse').click(function() {
     var table_rows = parseMed($('#epicMed').val(), visit, $('#invisible').data('rubyvar'))
