@@ -17,22 +17,22 @@ function keyify(str) {
 module.exports = function nestedList(allTopics, visit) {
   let topBar = `<ul class="nav nav-tabs flex-column" role="tablist">`
   for (let i = 0; i < allTopics.length; i++) {
-    let groupName = allTopics[i][0]
-    let key = keyify(groupName)
+    const group = allTopics[i][0]
+    const k = keyify(group)
     topBar += `<h6 class=""><li class="nav-item" style="width:60px;">
-      <a class="nav-link open-tab" data-tab-index="${i}" data-toggle="tab" href="#${key}" role="tab">
-        ${groupName}
+      <a class="nav-link open-tab" data-tab-index="${i}" data-toggle="tab" href="#${k}" role="tab">
+        ${group}
       </a>
     </li>
     </h6>`
   }
   topBar += '</ul>'
 
-  let panes = `<div class="tab-content">`
-  for (var i = 0; i < allTopics.length; i++) {
-    const groupName = allTopics[i][0]
-    const topics = allTopics[i][1]
-    const key = keyify(groupName)
+  let panes =   '<div class="tab-content">'
+  for (let i = 0; i < allTopics.length; i++) {
+    const groupName = allTopics[i][0];
+    const topicsByType = allTopics[i][1];
+    const key = keyify(groupName);
     if (i == 0) {
       panes += `<div class="tab-pane fade show in" role="tabpanel" id="${key}" data-tab-index="${i}">`
     }
@@ -44,20 +44,20 @@ module.exports = function nestedList(allTopics, visit) {
         panes += `${familyTree(patient)}</div>`
         break;
       case 'vitals':
-        panes += `${vitals(topics, visit)}</div>`
+        panes += `${vitals(topicsByType.stat, visit)}</div>`
         break;
       case 'cardiovascular':
-        panes += `${nestedListPane(topics, visit)}</div>`
+        panes += `${nestedListPane(topicsByType, visit)}</div>`
         break;
       case 'aortic imaging':
-        panes += `${aorticImaging(topics, visit)}</div>`
+        panes += `${aorticImaging(topicsByType.heart_measurement, visit)}</div>`
         break;
       case 'medication':
         panes += `${epicAddForm()}`
-        panes += `${nestedListPane(topics, visit)}</div>`
+        panes += `${nestedListPane(topicsByType.medication, visit)}</div>`
         break;
       default:
-        panes += `${nestedListPane(topics, visit)}</div>`
+        panes += `${nestedListPane(topicsByType, visit)}</div>`
 
     }
   }

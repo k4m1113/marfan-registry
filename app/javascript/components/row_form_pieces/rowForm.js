@@ -1,10 +1,11 @@
 import presAbsButtons from './presAbsButtons'
-import assembledProcedureForm from './assembledProcedureForm';
 import assembledDiagnosisForm from './assembledDiagnosisForm';
-import assembledHospitalizationForm from './assembledHospitalizationForm';
-import assembledMedicationForm from './assembledMedicationForm';
 import assembledDissectionForm from './assembledDissectionForm'
 import assembledGeneticTestForm from './assembledGeneticTestForm'
+import assembledHospitalizationForm from './assembledHospitalizationForm';
+import assembledMeasurementForm from './assembledMeasurementForm'
+import assembledMedicationForm from './assembledMedicationForm';
+import assembledProcedureForm from './assembledProcedureForm';
 
 const parameterizedPlurals = require('./parameterizedPlurals')
 
@@ -32,6 +33,10 @@ module.exports = function rowForm(topic, visit) {
     case "hospitalization":
       returnStatement += `${presAbsButtons(topic, visit)}`;
       returnStatement += `${assembledHospitalizationForm(topic)}`;
+      break;
+    case "measurement":
+      returnStatement += `${presAbsButtons(topic, visit)}`;
+      returnStatement += `${assembledMeasurementForm(topic)}`;
       break;
     case "medication":
       returnStatement += `${presAbsButtons(topic, visit)}`;

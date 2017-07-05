@@ -283,6 +283,7 @@ module.exports = {
   'family member': 'family_members',
   'genetic test': 'genetic_tests',
   'hospitalization': 'hospitalizations',
+  'measurement': 'tests',
   'medication': 'medications',
   'procedure': 'procedures',
   'vital': 'vitals'
@@ -567,12 +568,16 @@ var _rowForm2 = _interopRequireDefault(_rowForm);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function nestedListPane(topics, visit) {
-  var returnStatement = '<table class="table table-sm">\n    <thead>\n      <tr>\n        <th>\n          <h6 class="btn btn-sm all-neg-toggler">All Absent</button>\n        </th>\n        <th>\n          Present\n        </th>\n        <th>\n          Absent\n        </th>\n      </tr>\n    </thead>\n    <tbody>';
-  for (var i = 0; i < topics.length; i++) {
-    returnStatement += '' + (0, _rowForm2.default)(topics[i], visit);
+module.exports = function nestedListPane(topicsByType, visit) {
+  var returnStatement = '';
+  for (var topicGroup in topicsByType) {
+    returnStatement += '<h1>' + topicGroup + '</h1>';
+    returnStatement += '<table class="table table-sm">\n    <thead>\n      <tr>\n        <th>\n          <h6 class="btn btn-sm all-neg-toggler">All Absent</button>\n        </th>\n        <th>\n          Present\n        </th>\n        <th>\n          Absent\n        </th>\n      </tr>\n    </thead>\n    <tbody>';
+    for (var i = 0; i < topicsByType[topicGroup].length; i++) {
+      returnStatement += '' + (0, _rowForm2.default)(topicsByType[topicGroup][i], visit);
+    }
+    returnStatement += '</tbody>\n    </table>';
   }
-  returnStatement += '</tbody>\n  </table>';
   return returnStatement;
 };
 
@@ -970,21 +975,9 @@ var _presAbsButtons = __webpack_require__(30);
 
 var _presAbsButtons2 = _interopRequireDefault(_presAbsButtons);
 
-var _assembledProcedureForm = __webpack_require__(27);
-
-var _assembledProcedureForm2 = _interopRequireDefault(_assembledProcedureForm);
-
 var _assembledDiagnosisForm = __webpack_require__(22);
 
 var _assembledDiagnosisForm2 = _interopRequireDefault(_assembledDiagnosisForm);
-
-var _assembledHospitalizationForm = __webpack_require__(25);
-
-var _assembledHospitalizationForm2 = _interopRequireDefault(_assembledHospitalizationForm);
-
-var _assembledMedicationForm = __webpack_require__(26);
-
-var _assembledMedicationForm2 = _interopRequireDefault(_assembledMedicationForm);
 
 var _assembledDissectionForm = __webpack_require__(23);
 
@@ -993,6 +986,22 @@ var _assembledDissectionForm2 = _interopRequireDefault(_assembledDissectionForm)
 var _assembledGeneticTestForm = __webpack_require__(24);
 
 var _assembledGeneticTestForm2 = _interopRequireDefault(_assembledGeneticTestForm);
+
+var _assembledHospitalizationForm = __webpack_require__(25);
+
+var _assembledHospitalizationForm2 = _interopRequireDefault(_assembledHospitalizationForm);
+
+var _assembledMeasurementForm = __webpack_require__(122);
+
+var _assembledMeasurementForm2 = _interopRequireDefault(_assembledMeasurementForm);
+
+var _assembledMedicationForm = __webpack_require__(26);
+
+var _assembledMedicationForm2 = _interopRequireDefault(_assembledMedicationForm);
+
+var _assembledProcedureForm = __webpack_require__(27);
+
+var _assembledProcedureForm2 = _interopRequireDefault(_assembledProcedureForm);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1022,6 +1031,10 @@ module.exports = function rowForm(topic, visit) {
     case "hospitalization":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
       returnStatement += '' + (0, _assembledHospitalizationForm2.default)(topic);
+      break;
+    case "measurement":
+      returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
+      returnStatement += '' + (0, _assembledMeasurementForm2.default)(topic);
       break;
     case "medication":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
@@ -2996,42 +3009,42 @@ function keyify(str) {
 
 module.exports = function nestedList(allTopics, visit) {
   var topBar = '<ul class="nav nav-tabs flex-column" role="tablist">';
-  for (var _i = 0; _i < allTopics.length; _i++) {
-    var groupName = allTopics[_i][0];
-    var key = keyify(groupName);
-    topBar += '<h6 class=""><li class="nav-item" style="width:60px;">\n      <a class="nav-link open-tab" data-tab-index="' + _i + '" data-toggle="tab" href="#' + key + '" role="tab">\n        ' + groupName + '\n      </a>\n    </li>\n    </h6>';
+  for (var i = 0; i < allTopics.length; i++) {
+    var group = allTopics[i][0];
+    var k = keyify(group);
+    topBar += '<h6 class=""><li class="nav-item" style="width:60px;">\n      <a class="nav-link open-tab" data-tab-index="' + i + '" data-toggle="tab" href="#' + k + '" role="tab">\n        ' + group + '\n      </a>\n    </li>\n    </h6>';
   }
   topBar += '</ul>';
 
   var panes = '<div class="tab-content">';
-  for (var i = 0; i < allTopics.length; i++) {
-    var _groupName = allTopics[i][0];
-    var topics = allTopics[i][1];
-    var _key = keyify(_groupName);
-    if (i == 0) {
-      panes += '<div class="tab-pane fade show in" role="tabpanel" id="' + _key + '" data-tab-index="' + i + '">';
+  for (var _i = 0; _i < allTopics.length; _i++) {
+    var groupName = allTopics[_i][0];
+    var topicsByType = allTopics[_i][1];
+    var key = keyify(groupName);
+    if (_i == 0) {
+      panes += '<div class="tab-pane fade show in" role="tabpanel" id="' + key + '" data-tab-index="' + _i + '">';
     } else {
-      panes += '<div class="tab-pane fade" role="tabpanel" id="' + _key + '" data-tab-index="' + i + '">';
+      panes += '<div class="tab-pane fade" role="tabpanel" id="' + key + '" data-tab-index="' + _i + '">';
     }
-    switch (_groupName) {
+    switch (groupName) {
       case 'family history':
         panes += (0, _familyTree2.default)(patient) + '</div>';
         break;
       case 'vitals':
-        panes += (0, _vitals2.default)(topics, visit) + '</div>';
+        panes += (0, _vitals2.default)(topicsByType.stat, visit) + '</div>';
         break;
       case 'cardiovascular':
-        panes += (0, _nestedListPane2.default)(topics, visit) + '</div>';
+        panes += (0, _nestedListPane2.default)(topicsByType, visit) + '</div>';
         break;
       case 'aortic imaging':
-        panes += (0, _aorticImaging2.default)(topics, visit) + '</div>';
+        panes += (0, _aorticImaging2.default)(topicsByType.heart_measurement, visit) + '</div>';
         break;
       case 'medication':
         panes += '' + (0, _epicAddForm2.default)();
-        panes += (0, _nestedListPane2.default)(topics, visit) + '</div>';
+        panes += (0, _nestedListPane2.default)(topicsByType.medication, visit) + '</div>';
         break;
       default:
-        panes += (0, _nestedListPane2.default)(topics, visit) + '</div>';
+        panes += (0, _nestedListPane2.default)(topicsByType, visit) + '</div>';
 
     }
   }
@@ -3069,7 +3082,7 @@ var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function renderHeartMeasurementForm(topic, visit) {
+module.exports = function assembledHeartMeasurementForm(topic, visit) {
   var parameterizedPlural = 'heart_measurements';
   var returnStatement = '<div class="col-sm-12"><div class="card">\n  <div class="card-header">\n    ' + topic.name + '\n  </div>\n  <div class="form-inline">' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural);
   if (topic.units_of_measurement.length == 1 || !topic.name.includes('morphology')) {
@@ -5868,42 +5881,42 @@ function keyify(str) {
 
 module.exports = function nestedList(allTopics, visit) {
   var topBar = '<ul class="nav nav-tabs flex-column" role="tablist">';
-  for (var _i = 0; _i < allTopics.length; _i++) {
-    var groupName = allTopics[_i][0];
-    var key = keyify(groupName);
-    topBar += '<h6 class=""><li class="nav-item" style="width:60px;">\n      <a class="nav-link open-tab" data-tab-index="' + _i + '" data-toggle="tab" href="#' + key + '" role="tab">\n        ' + groupName + '\n      </a>\n    </li>\n    </h6>';
+  for (var i = 0; i < allTopics.length; i++) {
+    var group = allTopics[i][0];
+    var k = keyify(group);
+    topBar += '<h6 class=""><li class="nav-item" style="width:60px;">\n      <a class="nav-link open-tab" data-tab-index="' + i + '" data-toggle="tab" href="#' + k + '" role="tab">\n        ' + group + '\n      </a>\n    </li>\n    </h6>';
   }
   topBar += '</ul>';
 
   var panes = '<div class="tab-content">';
-  for (var i = 0; i < allTopics.length; i++) {
-    var _groupName = allTopics[i][0];
-    var topics = allTopics[i][1];
-    var _key = keyify(_groupName);
-    if (i == 0) {
-      panes += '<div class="tab-pane fade show in" role="tabpanel" id="' + _key + '" data-tab-index="' + i + '">';
+  for (var _i = 0; _i < allTopics.length; _i++) {
+    var groupName = allTopics[_i][0];
+    var topicsByType = allTopics[_i][1];
+    var key = keyify(groupName);
+    if (_i == 0) {
+      panes += '<div class="tab-pane fade show in" role="tabpanel" id="' + key + '" data-tab-index="' + _i + '">';
     } else {
-      panes += '<div class="tab-pane fade" role="tabpanel" id="' + _key + '" data-tab-index="' + i + '">';
+      panes += '<div class="tab-pane fade" role="tabpanel" id="' + key + '" data-tab-index="' + _i + '">';
     }
-    switch (_groupName) {
+    switch (groupName) {
       case 'family history':
         panes += (0, _familyTree2.default)(patient) + '</div>';
         break;
       case 'vitals':
-        panes += (0, _vitals2.default)(topics, visit) + '</div>';
+        panes += (0, _vitals2.default)(topicsByType.stat, visit) + '</div>';
         break;
       case 'cardiovascular':
-        panes += (0, _nestedListPane2.default)(topics, visit) + '</div>';
+        panes += (0, _nestedListPane2.default)(topicsByType, visit) + '</div>';
         break;
       case 'aortic imaging':
-        panes += (0, _aorticImaging2.default)(topics, visit) + '</div>';
+        panes += (0, _aorticImaging2.default)(topicsByType.heart_measurement, visit) + '</div>';
         break;
       case 'medication':
         panes += '' + (0, _epicAddForm2.default)();
-        panes += (0, _nestedListPane2.default)(topics, visit) + '</div>';
+        panes += (0, _nestedListPane2.default)(topicsByType.medication, visit) + '</div>';
         break;
       default:
-        panes += (0, _nestedListPane2.default)(topics, visit) + '</div>';
+        panes += (0, _nestedListPane2.default)(topicsByType, visit) + '</div>';
 
     }
   }
@@ -6191,21 +6204,9 @@ var _presAbsButtons = __webpack_require__(30);
 
 var _presAbsButtons2 = _interopRequireDefault(_presAbsButtons);
 
-var _assembledProcedureForm = __webpack_require__(27);
-
-var _assembledProcedureForm2 = _interopRequireDefault(_assembledProcedureForm);
-
 var _assembledDiagnosisForm = __webpack_require__(22);
 
 var _assembledDiagnosisForm2 = _interopRequireDefault(_assembledDiagnosisForm);
-
-var _assembledHospitalizationForm = __webpack_require__(25);
-
-var _assembledHospitalizationForm2 = _interopRequireDefault(_assembledHospitalizationForm);
-
-var _assembledMedicationForm = __webpack_require__(26);
-
-var _assembledMedicationForm2 = _interopRequireDefault(_assembledMedicationForm);
 
 var _assembledDissectionForm = __webpack_require__(23);
 
@@ -6214,6 +6215,22 @@ var _assembledDissectionForm2 = _interopRequireDefault(_assembledDissectionForm)
 var _assembledGeneticTestForm = __webpack_require__(24);
 
 var _assembledGeneticTestForm2 = _interopRequireDefault(_assembledGeneticTestForm);
+
+var _assembledHospitalizationForm = __webpack_require__(25);
+
+var _assembledHospitalizationForm2 = _interopRequireDefault(_assembledHospitalizationForm);
+
+var _assembledMeasurementForm = __webpack_require__(122);
+
+var _assembledMeasurementForm2 = _interopRequireDefault(_assembledMeasurementForm);
+
+var _assembledMedicationForm = __webpack_require__(26);
+
+var _assembledMedicationForm2 = _interopRequireDefault(_assembledMedicationForm);
+
+var _assembledProcedureForm = __webpack_require__(27);
+
+var _assembledProcedureForm2 = _interopRequireDefault(_assembledProcedureForm);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6243,6 +6260,10 @@ module.exports = function rowForm(topic, visit) {
     case "hospitalization":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
       returnStatement += '' + (0, _assembledHospitalizationForm2.default)(topic);
+      break;
+    case "measurement":
+      returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
+      returnStatement += '' + (0, _assembledMeasurementForm2.default)(topic);
       break;
     case "medication":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
@@ -27501,6 +27522,68 @@ __webpack_require__(33);
 __webpack_require__(13);
 module.exports = __webpack_require__(34);
 
+
+/***/ }),
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _timeAgoField = __webpack_require__(5);
+
+var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
+
+var _fileAttachmentButton = __webpack_require__(3);
+
+var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
+
+var _keywords = __webpack_require__(8);
+
+var _keywords2 = _interopRequireDefault(_keywords);
+
+var _measurementField = __webpack_require__(28);
+
+var _measurementField2 = _interopRequireDefault(_measurementField);
+
+var _noteField = __webpack_require__(2);
+
+var _noteField2 = _interopRequireDefault(_noteField);
+
+var _findRelated = __webpack_require__(4);
+
+var _findRelated2 = _interopRequireDefault(_findRelated);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = function assembledMeasurementForm(topic) {
+  var parameterizedPlural = 'hospitalizations';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + topic.id + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class=\'form-inline\'>\n      ' + (0, _measurementField2.default)(topic, parameterizedPlural) + '\n      ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n    </div>\n    <div class=\'form-inline\'>\n      ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n    </div>\n    <div class=\'form-inline\'>\n      ' + (0, _noteField2.default)(topic, parameterizedPlural) + '        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _findRelated2.default)(topic) + '\n  </td></tr>\n  ';
+  return returnStatement;
+};
 
 /***/ })
 /******/ ]);

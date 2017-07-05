@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: Visit
+  
+    &mdash; Documentation by YARD 0.9.9
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  pathId = "Visit";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (V)</a> &raquo;
+    
+    
+    <span class="title">Visit</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: Visit
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName"><span class='object_link'><a href="ApplicationRecord.html" title="ApplicationRecord (class)">ApplicationRecord</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ActiveRecord::Base</li>
+          
+            <li class="next"><span class='object_link'><a href="ApplicationRecord.html" title="ApplicationRecord (class)">ApplicationRecord</a></span></li>
+          
+            <li class="next">Visit</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd>ActiveSupport::NumberHelper, <span class='object_link'><a href="ApplicationHelper.html" title="ApplicationHelper (module)">ApplicationHelper</a></span>, <span class='object_link'><a href="CommonContent.html" title="CommonContent (module)">CommonContent</a></span></dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>app/models/visit.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>require &#39;pry&#39; Visit Class is where it all happens</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+  <h2>Instance Attribute Summary</h2>
+  
+  <h3 class="inherited">Attributes included from <span class='object_link'><a href="CommonContent.html" title="CommonContent (module)">CommonContent</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="CommonContent.html#ais-instance_method" title="CommonContent#ais (method)">#ais</a></span>, <span class='object_link'><a href="CommonContent.html#all_meds-instance_method" title="CommonContent#all_meds (method)">#all_meds</a></span>, <span class='object_link'><a href="CommonContent.html#annulus-instance_method" title="CommonContent#annulus (method)">#annulus</a></span>, <span class='object_link'><a href="CommonContent.html#asc-instance_method" title="CommonContent#asc (method)">#asc</a></span>, <span class='object_link'><a href="CommonContent.html#cardiovascular-instance_method" title="CommonContent#cardiovascular (method)">#cardiovascular</a></span>, <span class='object_link'><a href="CommonContent.html#child-instance_method" title="CommonContent#child (method)">#child</a></span>, <span class='object_link'><a href="CommonContent.html#dbp-instance_method" title="CommonContent#dbp (method)">#dbp</a></span>, <span class='object_link'><a href="CommonContent.html#desc-instance_method" title="CommonContent#desc (method)">#desc</a></span>, <span class='object_link'><a href="CommonContent.html#family_history-instance_method" title="CommonContent#family_history (method)">#family_history</a></span>, <span class='object_link'><a href="CommonContent.html#family_member_ids-instance_method" title="CommonContent#family_member_ids (method)">#family_member_ids</a></span>, <span class='object_link'><a href="CommonContent.html#genetics-instance_method" title="CommonContent#genetics (method)">#genetics</a></span>, <span class='object_link'><a href="CommonContent.html#heart_imaging_locations-instance_method" title="CommonContent#heart_imaging_locations (method)">#heart_imaging_locations</a></span>, <span class='object_link'><a href="CommonContent.html#infra-instance_method" title="CommonContent#infra (method)">#infra</a></span>, <span class='object_link'><a href="CommonContent.html#lvidd-instance_method" title="CommonContent#lvidd (method)">#lvidd</a></span>, <span class='object_link'><a href="CommonContent.html#lvids-instance_method" title="CommonContent#lvids (method)">#lvids</a></span>, <span class='object_link'><a href="CommonContent.html#mean_gradient-instance_method" title="CommonContent#mean_gradient (method)">#mean_gradient</a></span>, <span class='object_link'><a href="CommonContent.html#medication-instance_method" title="CommonContent#medication (method)">#medication</a></span>, <span class='object_link'><a href="CommonContent.html#mitral_regurge-instance_method" title="CommonContent#mitral_regurge (method)">#mitral_regurge</a></span>, <span class='object_link'><a href="CommonContent.html#ophthalmo-instance_method" title="CommonContent#ophthalmo (method)">#ophthalmo</a></span>, <span class='object_link'><a href="CommonContent.html#ortho-instance_method" title="CommonContent#ortho (method)">#ortho</a></span>, <span class='object_link'><a href="CommonContent.html#parent-instance_method" title="CommonContent#parent (method)">#parent</a></span>, <span class='object_link'><a href="CommonContent.html#pulmonary-instance_method" title="CommonContent#pulmonary (method)">#pulmonary</a></span>, <span class='object_link'><a href="CommonContent.html#root-instance_method" title="CommonContent#root (method)">#root</a></span>, <span class='object_link'><a href="CommonContent.html#root_topics-instance_method" title="CommonContent#root_topics (method)">#root_topics</a></span>, <span class='object_link'><a href="CommonContent.html#sbp-instance_method" title="CommonContent#sbp (method)">#sbp</a></span>, <span class='object_link'><a href="CommonContent.html#sibling-instance_method" title="CommonContent#sibling (method)">#sibling</a></span>, <span class='object_link'><a href="CommonContent.html#stats-instance_method" title="CommonContent#stats (method)">#stats</a></span>, <span class='object_link'><a href="CommonContent.html#supra-instance_method" title="CommonContent#supra (method)">#supra</a></span>, <span class='object_link'><a href="CommonContent.html#transv-instance_method" title="CommonContent#transv (method)">#transv</a></span>, <span class='object_link'><a href="CommonContent.html#tricuspid_regurge-instance_method" title="CommonContent#tricuspid_regurge (method)">#tricuspid_regurge</a></span>, <span class='object_link'><a href="CommonContent.html#valve_area-instance_method" title="CommonContent#valve_area (method)">#valve_area</a></span></p>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#concerns-instance_method" title="#concerns (instance method)">#<strong>concerns</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#concerns_body-instance_method" title="#concerns_body (instance method)">#<strong>concerns_body</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Concerns = anything discussed in a visit not incl: family history, vitals,
+heart imagery, meds.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#family_paragraph-instance_method" title="#family_paragraph (instance method)">#<strong>family_paragraph</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#header-instance_method" title="#header (instance method)">#<strong>header</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#imagery_paragraph-instance_method" title="#imagery_paragraph (instance method)">#<strong>imagery_paragraph</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#letter_sort_by_topic-instance_method" title="#letter_sort_by_topic (instance method)">#<strong>letter_sort_by_topic</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#meds_paragraph-instance_method" title="#meds_paragraph (instance method)">#<strong>meds_paragraph</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#recommendations-instance_method" title="#recommendations (instance method)">#<strong>recommendations</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#report-instance_method" title="#report (instance method)">#<strong>report</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#signature-instance_method" title="#signature (instance method)">#<strong>signature</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sort_by_topic-instance_method" title="#sort_by_topic (instance method)">#<strong>sort_by_topic</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#sort_by_topic_then_type-instance_method" title="#sort_by_topic_then_type (instance method)">#<strong>sort_by_topic_then_type</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#tags_for_form-instance_method" title="#tags_for_form (instance method)">#<strong>tags_for_form</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#topic_types-instance_method" title="#topic_types (instance method)">#<strong>topic_types</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#vitals_paragraph-instance_method" title="#vitals_paragraph (instance method)">#<strong>vitals_paragraph</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="ApplicationHelper.html" title="ApplicationHelper (module)">ApplicationHelper</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ApplicationHelper.html#blank_unless_present-instance_method" title="ApplicationHelper#blank_unless_present (method)">#blank_unless_present</a></span>, <span class='object_link'><a href="ApplicationHelper.html#button_color-instance_method" title="ApplicationHelper#button_color (method)">#button_color</a></span>, <span class='object_link'><a href="ApplicationHelper.html#create_select-instance_method" title="ApplicationHelper#create_select (method)">#create_select</a></span>, <span class='object_link'><a href="ApplicationHelper.html#death_info-instance_method" title="ApplicationHelper#death_info (method)">#death_info</a></span>, <span class='object_link'><a href="ApplicationHelper.html#display_date-instance_method" title="ApplicationHelper#display_date (method)">#display_date</a></span>, <span class='object_link'><a href="ApplicationHelper.html#display_test_date-instance_method" title="ApplicationHelper#display_test_date (method)">#display_test_date</a></span>, <span class='object_link'><a href="ApplicationHelper.html#find_date-instance_method" title="ApplicationHelper#find_date (method)">#find_date</a></span>, <span class='object_link'><a href="ApplicationHelper.html#find_pretty_trail-instance_method" title="ApplicationHelper#find_pretty_trail (method)">#find_pretty_trail</a></span>, <span class='object_link'><a href="ApplicationHelper.html#find_trail-instance_method" title="ApplicationHelper#find_trail (method)">#find_trail</a></span>, <span class='object_link'><a href="ApplicationHelper.html#fingerprinted_asset-instance_method" title="ApplicationHelper#fingerprinted_asset (method)">#fingerprinted_asset</a></span>, <span class='object_link'><a href="ApplicationHelper.html#keyify-instance_method" title="ApplicationHelper#keyify (method)">#keyify</a></span>, <span class='object_link'><a href="ApplicationHelper.html#list_constructor-instance_method" title="ApplicationHelper#list_constructor (method)">#list_constructor</a></span>, <span class='object_link'><a href="ApplicationHelper.html#print_if_present-instance_method" title="ApplicationHelper#print_if_present (method)">#print_if_present</a></span>, <span class='object_link'><a href="ApplicationHelper.html#render_form_button-instance_method" title="ApplicationHelper#render_form_button (method)">#render_form_button</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <span class='object_link'><a href="CommonContent.html" title="CommonContent (module)">CommonContent</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="CommonContent.html#common_content-instance_method" title="CommonContent#common_content (method)">#common_content</a></span></p>
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="concerns-instance_method">
+  
+    #<strong>concerns</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+85
+86
+87</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/visit.rb', line 85</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_concerns'>concerns</span>
+  <span class='id identifier rubyid_tests'>tests</span> <span class='op'>+</span> <span class='id identifier rubyid_procedures'>procedures</span> <span class='op'>+</span> <span class='id identifier rubyid_diagnoses'>diagnoses</span> <span class='op'>+</span> <span class='id identifier rubyid_hospitalizations'>hospitalizations</span> <span class='op'>+</span> <span class='id identifier rubyid_family_members'>family_members</span> <span class='op'>+</span> <span class='id identifier rubyid_medications'>medications</span> <span class='op'>+</span> <span class='id identifier rubyid_dissections'>dissections</span> <span class='op'>+</span> <span class='id identifier rubyid_vitals'>vitals</span> <span class='op'>+</span> <span class='id identifier rubyid_genetic_tests'>genetic_tests</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="concerns_body-instance_method">
+  
+    #<strong>concerns_body</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Concerns = anything discussed in a visit not incl: family history, vitals,
+heart imagery, meds.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/visit.rb', line 232</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_concerns_body'>concerns_body</span>
+  <span class='id identifier rubyid_patient'>patient</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Patient.html" title="Patient (class)">Patient</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_patient_id'>patient_id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_concerns'>concerns</span> <span class='op'>=</span> <span class='id identifier rubyid_letter_sort_by_topic'>letter_sort_by_topic</span>
+
+  <span class='id identifier rubyid_body'>body</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_no_instances'>no_instances</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_concerns'>concerns</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_topic'>topic</span><span class='comma'>,</span> <span class='id identifier rubyid_instances'>instances</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_instances'>instances</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+      <span class='id identifier rubyid_no_instances'>no_instances</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_topic'>topic</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_body'>body</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> had </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_instances'>instances</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_topic'>topic</span><span class='embexpr_end'>}</span><span class='tstring_content'>: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_list_constructor'>list_constructor</span><span class='lparen'>(</span><span class='id identifier rubyid_instances'>instances</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:generate_summary</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='tstring'><span class='tstring_beg'>%(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_body'>body</span><span class='embexpr_end'>}</span><span class='tstring_content'>
+  \nAntoine reported no </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_list_constructor'>list_constructor</span><span class='lparen'>(</span><span class='id identifier rubyid_no_instances'>no_instances</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>nor</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>)</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="family_paragraph-instance_method">
+  
+    #<strong>family_paragraph</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/visit.rb', line 156</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_family_paragraph'>family_paragraph</span>
+  <span class='id identifier rubyid_patient'>patient</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Patient.html" title="Patient (class)">Patient</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_patient_id'>patient_id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_family_members'>family_members</span> <span class='op'>=</span> <span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_family_members'>family_members</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_family_members'>family_members</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+    <span class='tstring'><span class='tstring_beg'>%(</span><span class='tstring_content'>A family history was not completed for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> during </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_possessive_pronoun'>possessive_pronoun</span><span class='embexpr_end'>}</span><span class='tstring_content'> visit.</span><span class='tstring_end'>)</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_bios'>bios</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_family_members'>family_members</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_fm'>fm</span><span class='op'>|</span>
+      <span class='id identifier rubyid_bios'>bios</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>\n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_fm'>fm</span><span class='period'>.</span><span class='id identifier rubyid_generate_summary'>generate_summary</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='tstring'><span class='tstring_beg'>%(</span><span class='tstring_content'>As part of </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;s comprehensive visit we gathered the following family history: \n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_bios'>bios</span><span class='embexpr_end'>}</span><span class='tstring_end'>)</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="header-instance_method">
+  
+    #<strong>header</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/visit.rb', line 122</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_header'>header</span>
+  <span class='id identifier rubyid_patient'>patient</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Patient.html" title="Patient (class)">Patient</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_patient_id'>patient_id</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_address'>address</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>%(</span><span class='tstring_content'>\n</span><span class='embexpr_beg'>#{</span><span class='const'>Date</span><span class='period'>.</span><span class='id identifier rubyid_today'>today</span><span class='period'>.</span><span class='id identifier rubyid_strftime'>strftime</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>%m %B %Y</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>\n\n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_address_line_1'>address_line_1</span> <span class='kw'>unless</span> <span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_address_line_1'>address_line_1</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span><span class='embexpr_end'>}</span><span class='tstring_end'>)</span></span>
+  <span class='lbracket'>[</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_address_line_2'>address_line_2</span><span class='comma'>,</span> <span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_address_line_3'>address_line_3</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_line'>line</span><span class='op'>|</span>
+    <span class='id identifier rubyid_address'>address</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>%(</span><span class='tstring_content'>\n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_line'>line</span><span class='embexpr_end'>}</span><span class='tstring_end'>)</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_line'>line</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_address'>address</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>%(</span><span class='tstring_content'>\n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_city'>city</span><span class='embexpr_end'>}</span><span class='tstring_content'>, </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_state'>state</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_country'>country</span><span class='embexpr_end'>}</span><span class='tstring_content'>\n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_postal_code'>postal_code</span><span class='embexpr_end'>}</span><span class='tstring_end'>)</span></span>
+  <span class='id identifier rubyid_greeting'>greeting</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>%(</span><span class='tstring_content'>\nTo whom it may concern,
+  \nI had the pleasure of meeting </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> in Atlanta at the 33rd annual Marfan Foundation Conference in Atlanta, GA on August 3rd and 4th, 2017 in clinic for a comprehensive patient assessment.</span><span class='tstring_end'>)</span></span>
+
+  <span class='tstring'><span class='tstring_beg'>%(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_address'>address</span><span class='embexpr_end'>}</span><span class='tstring_content'>
+  </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_greeting'>greeting</span><span class='embexpr_end'>}</span><span class='tstring_end'>)</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="imagery_paragraph-instance_method">
+  
+    #<strong>imagery_paragraph</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/visit.rb', line 184</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_imagery_paragraph'>imagery_paragraph</span>
+  <span class='id identifier rubyid_common_content'>common_content</span>
+  <span class='id identifier rubyid_heart_imaging_locations'>heart_imaging_locations</span> <span class='op'>=</span> <span class='id identifier rubyid_heart_imaging_locations'>heart_imaging_locations</span>
+
+  <span class='id identifier rubyid_patient'>patient</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Patient.html" title="Patient (class)">Patient</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_patient_id'>patient_id</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_imagery'>imagery</span> <span class='op'>=</span> <span class='id identifier rubyid_tests'>tests</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_t'>t</span><span class='op'>|</span> <span class='id identifier rubyid_heart_imaging_locations'>heart_imaging_locations</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_imagery'>imagery</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_results'>results</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> did not undergo any heart imagery as part of our visit.</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_echo'>echo</span> <span class='op'>=</span> <span class='id identifier rubyid_imagery'>imagery</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_i'>i</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>echo</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_mri'>mri</span> <span class='op'>=</span> <span class='id identifier rubyid_imagery'>imagery</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_i'>i</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>MRI</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_ct'>ct</span> <span class='op'>=</span> <span class='id identifier rubyid_imagery'>imagery</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_i'>i</span><span class='op'>|</span> <span class='id identifier rubyid_i'>i</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>CT</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+    <span class='id identifier rubyid_other_meas'>other_meas</span> <span class='op'>=</span> <span class='id identifier rubyid_imagery'>imagery</span> <span class='op'>-</span> <span class='id identifier rubyid_ct'>ct</span> <span class='op'>-</span> <span class='id identifier rubyid_mri'>mri</span> <span class='op'>-</span> <span class='id identifier rubyid_echo'>echo</span>
+    <span class='kw'>unless</span> <span class='id identifier rubyid_echo'>echo</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_echos'>echos</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_echo'>echo</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span>
+        <span class='id identifier rubyid_echos'>echos</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> was </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_result'>result</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>end</span>
+      <span class='id identifier rubyid_results'>results</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> underwent an echocardiogram in which </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_possessive_pronoun'>possessive_pronoun</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_list_constructor'>list_constructor</span><span class='lparen'>(</span><span class='id identifier rubyid_echos'>echos</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>. </span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='kw'>unless</span> <span class='id identifier rubyid_mri'>mri</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_mris'>mris</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_mri'>mri</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_m'>m</span><span class='op'>|</span>
+        <span class='id identifier rubyid_mris'>mris</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_m'>m</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> was </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_m'>m</span><span class='period'>.</span><span class='id identifier rubyid_result'>result</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>end</span>
+      <span class='id identifier rubyid_results'>results</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> underwent an MRI in which </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_possessive_pronoun'>possessive_pronoun</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_list_constructor'>list_constructor</span><span class='lparen'>(</span><span class='id identifier rubyid_mris'>mris</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>. </span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='kw'>unless</span> <span class='id identifier rubyid_ct'>ct</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_cts'>cts</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_ct'>ct</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span>
+        <span class='id identifier rubyid_cts'>cts</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> was </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_result'>result</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>end</span>
+      <span class='id identifier rubyid_results'>results</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> underwent a CT scan in which </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_possessive_pronoun'>possessive_pronoun</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_list_constructor'>list_constructor</span><span class='lparen'>(</span><span class='id identifier rubyid_cts'>cts</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>. </span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='kw'>unless</span> <span class='id identifier rubyid_other_meas'>other_meas</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_others'>others</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+      <span class='id identifier rubyid_other_meas'>other_meas</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_o'>o</span><span class='op'>|</span>
+        <span class='id identifier rubyid_others'>others</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='embexpr_end'>}</span><span class='tstring_content'> of </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_result'>result</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>end</span>
+      <span class='id identifier rubyid_results'>results</span> <span class='op'>+=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_subject_pronoun'>subject_pronoun</span><span class='period'>.</span><span class='id identifier rubyid_capitalize'>capitalize</span><span class='embexpr_end'>}</span><span class='tstring_content'> had a </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_list_constructor'>list_constructor</span><span class='lparen'>(</span><span class='id identifier rubyid_others'>others</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>. </span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_results'>results</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="letter_sort_by_topic-instance_method">
+  
+    #<strong>letter_sort_by_topic</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/visit.rb', line 89</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_letter_sort_by_topic'>letter_sort_by_topic</span>
+  <span class='lbrace'>{</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>genetic concerns</span><span class='label_end'>&#39;:</span> <span class='id identifier rubyid_concerns'>concerns</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>genetics</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>cardiovascular concerns</span><span class='label_end'>&#39;:</span> <span class='id identifier rubyid_concerns'>concerns</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>cardiovascular</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>morphology/physical findings</span><span class='label_end'>&#39;:</span> <span class='id identifier rubyid_concerns'>concerns</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>morphology/physical findings</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pulmonary concerns</span><span class='label_end'>&#39;:</span> <span class='id identifier rubyid_concerns'>concerns</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>pulmonary</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>orthopedic concerns</span><span class='label_end'>&#39;:</span> <span class='id identifier rubyid_concerns'>concerns</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>orthopedic</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ophthalmologic concerns</span><span class='label_end'>&#39;:</span> <span class='id identifier rubyid_concerns'>concerns</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>ophthalmologic</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>gynecologic/urologic concerns</span><span class='label_end'>&#39;:</span> <span class='id identifier rubyid_concerns'>concerns</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>gynecologic/urologic</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>obstetric concerns</span><span class='label_end'>&#39;:</span> <span class='id identifier rubyid_concerns'>concerns</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>obstetric (pregnancy)</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>neurologic concerns</span><span class='label_end'>&#39;:</span> <span class='id identifier rubyid_concerns'>concerns</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>neurologic</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>gastrointestinal concerns</span><span class='label_end'>&#39;:</span> <span class='id identifier rubyid_concerns'>concerns</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>gastrointestinal</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="meds_paragraph-instance_method">
+  
+    #<strong>meds_paragraph</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/visit.rb', line 171</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_meds_paragraph'>meds_paragraph</span>
+  <span class='id identifier rubyid_patient'>patient</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Patient.html" title="Patient (class)">Patient</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_patient_id'>patient_id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_meds'>meds</span> <span class='op'>=</span> <span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_medications'>medications</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:current?</span><span class='rparen'>)</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_meds'>meds</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+    <span class='tstring'><span class='tstring_beg'>%(</span><span class='tstring_content'>I did not discuss any medications with </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> during our visit.</span><span class='tstring_end'>)</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_all_meds'>all_meds</span> <span class='op'>=</span> <span class='id identifier rubyid_meds'>meds</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:generate_full_summary</span><span class='rparen'>)</span>
+    <span class='tstring'><span class='tstring_beg'>%(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='period'>.</span><span class='id identifier rubyid_capitalize'>capitalize</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;s medications consist of:
+    \n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_list_constructor'>list_constructor</span><span class='lparen'>(</span><span class='id identifier rubyid_all_meds'>all_meds</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>)</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="recommendations-instance_method">
+  
+    #<strong>recommendations</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/visit.rb', line 249</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_recommendations'>recommendations</span>
+  <span class='id identifier rubyid_patient'>patient</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Patient.html" title="Patient (class)">Patient</a></span></span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_patient_id'>patient_id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_recs'>recs</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_medications'>medications</span>
+    <span class='id identifier rubyid_continue'>continue</span> <span class='op'>=</span> <span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_medications'>medications</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:current?</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_discontinue'>discontinue</span> <span class='op'>=</span> <span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_medications'>medications</span> <span class='op'>-</span> <span class='id identifier rubyid_continue'>continue</span>
+    <span class='kw'>unless</span> <span class='id identifier rubyid_continue'>continue</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_summ'>summ</span> <span class='op'>=</span> <span class='id identifier rubyid_list_constructor'>list_constructor</span><span class='lparen'>(</span><span class='id identifier rubyid_continue'>continue</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:generate_summary</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>;\n* </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_recs'>recs</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> \nWe advise </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> continue to take\n*  </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_summ'>summ</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+    <span class='kw'>unless</span> <span class='id identifier rubyid_discontinue'>discontinue</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+      <span class='id identifier rubyid_summ'>summ</span> <span class='op'>=</span> <span class='id identifier rubyid_list_constructor'>list_constructor</span><span class='lparen'>(</span><span class='id identifier rubyid_discontinue'>discontinue</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:generate_summary</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>;\n* </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_recs'>recs</span> <span class='op'>&lt;&lt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> \nWe advise him to discontinue taking </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_summ'>summ</span><span class='embexpr_end'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='id identifier rubyid_summ'>summ</span> <span class='op'>=</span> <span class='id identifier rubyid_recs'>recs</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>We have no recommendations for further care at this time.</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='id identifier rubyid_recs'>recs</span>
+  <span class='tstring'><span class='tstring_beg'>%(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_summ'>summ</span><span class='embexpr_end'>}</span><span class='tstring_end'>)</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="report-instance_method">
+  
+    #<strong>report</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/visit.rb', line 276</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_report'>report</span>
+  <span class='tstring'><span class='tstring_beg'>%(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_header'>header</span><span class='embexpr_end'>}</span><span class='tstring_content'>
+  \n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_vitals_paragraph'>vitals_paragraph</span><span class='embexpr_end'>}</span><span class='tstring_content'>
+  \n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_meds_paragraph'>meds_paragraph</span><span class='embexpr_end'>}</span><span class='tstring_content'>
+  \n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_imagery_paragraph'>imagery_paragraph</span><span class='embexpr_end'>}</span><span class='tstring_content'>
+  \n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_family_paragraph'>family_paragraph</span><span class='embexpr_end'>}</span><span class='tstring_content'>
+  \n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_concerns_body'>concerns_body</span><span class='embexpr_end'>}</span><span class='tstring_content'>
+  \n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_recommendations'>recommendations</span><span class='embexpr_end'>}</span><span class='tstring_content'>
+  \n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_signature'>signature</span><span class='embexpr_end'>}</span><span class='tstring_end'>)</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="signature-instance_method">
+  
+    #<strong>signature</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+268
+269
+270
+271
+272
+273
+274</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/visit.rb', line 268</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_signature'>signature</span>
+  <span class='tstring'><span class='tstring_beg'>%(</span><span class='tstring_content'>I have assured </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> that the whole clinic team will be available to </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_object_pronoun'>object_pronoun</span><span class='embexpr_end'>}</span><span class='tstring_content'> in case there are any issues that arise in the future. I encouraged </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_object_pronoun'>object_pronoun</span><span class='embexpr_end'>}</span><span class='tstring_content'> to contact me if </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_subject_pronoun'>subject_pronoun</span><span class='embexpr_end'>}</span><span class='tstring_content'> has any problems with or is intolerant of any changes we recommended.
+  \nIt has been a pleasure to participate in </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_patient'>patient</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='period'>.</span><span class='id identifier rubyid_capitalize'>capitalize</span><span class='embexpr_end'>}</span><span class='tstring_content'>&#39;s care. If there are any questions or concerns, please don&#39;t hesitate contact us.
+  \nSincerely,
+  \n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_clinician'>clinician</span><span class='period'>.</span><span class='id identifier rubyid_first_name'>first_name</span><span class='embexpr_end'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_clinician'>clinician</span><span class='period'>.</span><span class='id identifier rubyid_last_name'>last_name</span><span class='embexpr_end'>}</span><span class='tstring_content'>
+  \n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_clinician'>clinician</span><span class='period'>.</span><span class='id identifier rubyid_practice_name'>practice_name</span><span class='embexpr_end'>}</span><span class='tstring_end'>)</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sort_by_topic-instance_method">
+  
+    #<strong>sort_by_topic</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+104
+105
+106
+107
+108
+109
+110
+111</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/visit.rb', line 104</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sort_by_topic'>sort_by_topic</span>
+  <span class='id identifier rubyid_letter_sort_by_topic'>letter_sort_by_topic</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>family history</span><span class='label_end'>&#39;:</span> <span class='id identifier rubyid_concerns'>concerns</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>family history</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>medication</span><span class='label_end'>&#39;:</span> <span class='id identifier rubyid_concerns'>concerns</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>medication</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>vitals</span><span class='label_end'>&#39;:</span> <span class='id identifier rubyid_concerns'>concerns</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_root'>root</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>vitals</span><span class='tstring_end'>&#39;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span>
+    <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>heart_measurements</span><span class='label_end'>&#39;:</span> <span class='id identifier rubyid_concerns'>concerns</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_topic'>topic</span><span class='period'>.</span><span class='id identifier rubyid_topic_type'>topic_type</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>heart_measurement</span><span class='tstring_end'>&#39;</span></span><span class='rbrace'>}</span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="sort_by_topic_then_type-instance_method">
+  
+    #<strong>sort_by_topic_then_type</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+113
+114
+115
+116
+117
+118
+119
+120</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/visit.rb', line 113</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_sort_by_topic_then_type'>sort_by_topic_then_type</span>
+  <span class='id identifier rubyid_all'>all</span> <span class='op'>=</span> <span class='id identifier rubyid_sort_by_topic'>sort_by_topic</span>
+  <span class='id identifier rubyid_all'>all</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_group_by'>group_by</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:class</span><span class='rparen'>)</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_to_h'>to_h</span>
+  <span class='id identifier rubyid_k'>k</span> <span class='op'>=</span> <span class='id identifier rubyid_all'>all</span><span class='period'>.</span><span class='id identifier rubyid_transform_values'>transform_values</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_arr'>arr</span><span class='op'>|</span>
+    <span class='id identifier rubyid_arr'>arr</span><span class='period'>.</span><span class='id identifier rubyid_group_by'>group_by</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:class</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_transform_keys'>transform_keys</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='op'>|</span> <span class='id identifier rubyid_key'>key</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_pluralize'>pluralize</span> <span class='rbrace'>}</span>
+  <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_k'>k</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="tags_for_form-instance_method">
+  
+    #<strong>tags_for_form</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+80
+81
+82
+83</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/visit.rb', line 80</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_tags_for_form'>tags_for_form</span>
+  <span class='id identifier rubyid_gallery'>gallery</span> <span class='op'>=</span> <span class='const'>Gallery</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='label'>visit_id:</span> <span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_gallery'>gallery</span><span class='period'>.</span><span class='id identifier rubyid_any?'>any?</span> <span class='op'>?</span> <span class='id identifier rubyid_gallery'>gallery</span> <span class='op'>:</span> <span class='id identifier rubyid_gallery'>gallery</span><span class='period'>.</span><span class='id identifier rubyid_build'>build</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="topic_types-instance_method">
+  
+    #<strong>topic_types</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+72
+73
+74
+75
+76
+77
+78</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/visit.rb', line 72</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_topic_types'>topic_types</span>
+  <span class='id identifier rubyid_k'>k</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
+  <span class='const'><span class='object_link'><a href="Topic.html" title="Topic (class)">Topic</a></span></span><span class='period'>.</span><span class='id identifier rubyid_all'>all</span><span class='period'>.</span><span class='id identifier rubyid_order'>order</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id ASC</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_t'>t</span><span class='op'>|</span>
+    <span class='id identifier rubyid_k'>k</span><span class='lbracket'>[</span><span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_t'>t</span><span class='period'>.</span><span class='id identifier rubyid_topic_type'>topic_type</span>
+  <span class='kw'>end</span>
+  <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_generate'>generate</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="vitals_paragraph-instance_method">
+  
+    #<strong>vitals_paragraph</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'app/models/visit.rb', line 137</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_vitals_paragraph'>vitals_paragraph</span>
+  <span class='comment'># patient = Patient.find(patient_id)
+</span>  <span class='comment'># vitals = self.vitals
+</span>  <span class='comment'>#
+</span>  <span class='comment'># phrases = []
+</span>  <span class='comment'>#
+</span>  <span class='comment'># phrases &lt;&lt; &quot;a blood pressure of #{vitals.select { |v| v.topic.name == &#39;SBP&#39; }[0].measurement}/#{vitals.select { |v| v.topic.name == &#39;DBP&#39; }[0].measurement}&quot; if vitals.select { |v| v.topic.name == &#39;SBP&#39; }[0]
+</span>  <span class='comment'># phrases &lt;&lt; &quot;a pulse of #{vitals.select { |v| v.topic.name == &#39;heart rate&#39; }[0].measurement}&quot; if vitals.select { |v| v.topic.name == &#39;heart rate&#39; }[0]
+</span>  <span class='comment'># phrases &lt;&lt; &quot;a height of #{vitals.select { |v| v.topic.name == &#39;height&#39; }[0].measurement.to_f.round(2)}m&quot; if vitals.select { |v| v.topic.name == &#39;height&#39; }[0]
+</span>  <span class='comment'># phrases &lt;&lt; &quot;a weight of #{vitals.select { |v| v.topic.name == &#39;weight&#39; }[0].measurement.to_f.round(2)}kg&quot; if vitals.select { |v| v.topic.name == &#39;weight&#39; }[0]
+</span>  <span class='comment'># phrases &lt;&lt; &quot;a temperature of #{vitals.select { |v| v.topic.name == &#39;temperature&#39; }[0].measurement.to_f.round(1)}°C&quot; if vitals.select { |v| v.topic.name == &#39;temperature&#39; }[0]
+</span>  <span class='comment'>#
+</span>  <span class='comment'># if phrases.empty?
+</span>  <span class='comment'>#   %(#{patient.first_name} had no vitals measured during this visit.)
+</span>  <span class='comment'># else
+</span>  <span class='comment'>#   %(#{patient.first_name} was in good health when I saw #{patient.object_pronoun} with #{list_constructor(phrases)}.)
+</span>  <span class='comment'># end
+</span><span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Sun Jul  2 14:59:09 2017 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.9 (ruby-2.3.4).
+</div>
+
+    </div>
+  </body>
+</html>
