@@ -110,6 +110,26 @@ meds = Topic.create!(
   name: 'medication',
   topic_type: 'root category'
 )
+triptans = Topic.create!(
+  name: 'triptans',
+  topic_type: 'medication'
+).move_to_child_of(meds)
+prophylaxis = Topic.create!(
+  name: 'prophylaxis',
+  topic_type: 'medication'
+).move_to_child_of(meds)
+antiepileptics = Topic.create!(
+  name: 'antiepileptics',
+  topic_type: 'medication'
+).move_to_child_of(prophylaxis)
+calcium_channel_blocker = Topic.create!(
+  name: 'Ca-blockers',
+  topic_type: 'medication'
+).move_to_child_of(prophylaxis)
+tricyclics = Topic.create!(
+  name: 'tricyclics',
+  topic_type: 'medication'
+).move_to_child_of(prophylaxis)
 beta_blockers = Topic.create!(
   name: 'beta-blockers',
   topic_type: 'medication'
@@ -1521,74 +1541,15 @@ common_migraine = Topic.create!(
   name: 'common migraine',
   topic_type: 'diagnosis'
 ).move_to_child_of(headache)
-Topic.create!(
-  name: 'triptans',
-  topic_type: 'medication'
-).move_to_child_of(common_migraine)
-prophylaxis_common = Topic.create!(
-  name: 'prophylaxis',
-  topic_type: 'medication'
-).move_to_child_of(common_migraine)
-Topic.create!(
-  name: 'antiepileptics',
-  topic_type: 'medication'
-).move_to_child_of(prophylaxis_common)
-Topic.create!(
-  name: 'Ca-blockers',
-  topic_type: 'medication'
-).move_to_child_of(prophylaxis_common)
-Topic.create!(
-  name: 'tricyclics',
-  topic_type: 'medication'
-).move_to_child_of(prophylaxis_common)
 classic_migraine = Topic.create!(
   name: 'classic migraine',
   topic_type: 'diagnosis'
 ).move_to_child_of(neuro)
-Topic.create!(
-  name: 'triptans',
-  topic_type: 'medication'
-).move_to_child_of(classic_migraine)
-prophylaxis_classic = Topic.create!(
-  name: 'prophylaxis',
-  topic_type: 'medication'
-).move_to_child_of(classic_migraine)
-Topic.create!(
-  name: 'antiepileptics',
-  topic_type: 'medication'
-).move_to_child_of(prophylaxis_classic)
-Topic.create!(
-  name: 'Ca-blockers',
-  topic_type: 'medication'
-).move_to_child_of(prophylaxis_classic)
-Topic.create!(
-  name: 'tricyclics',
-  topic_type: 'medication'
-).move_to_child_of(prophylaxis_classic)
+
 complex_migraine = Topic.create!(
   name: 'complex migraine',
   topic_type: 'diagnosis'
 ).move_to_child_of(neuro)
-Topic.create!(
-  name: 'triptans',
-  topic_type: 'medication'
-).move_to_child_of(complex_migraine)
-prophylaxis_complex = Topic.create!(
-  name: 'prophylaxis',
-  topic_type: 'medication'
-).move_to_child_of(complex_migraine)
-Topic.create!(
-  name: 'antiepileptics',
-  topic_type: 'medication'
-).move_to_child_of(prophylaxis_complex)
-Topic.create!(
-  name: 'Ca-blockers',
-  topic_type: 'medication'
-).move_to_child_of(prophylaxis_complex)
-Topic.create!(
-  name: 'tricyclics',
-  topic_type: 'medication'
-).move_to_child_of(prophylaxis_complex)
 ## END NEUROLOGIC MIGRAINES (xls 329) ##
 
 ## BEGIN NEUROLOGIC LOW ICP (xls 330) ##
@@ -1679,5 +1640,44 @@ Topic.create!(
 ## END GASTROINTESTINAL (xls 348) ##
 
 ## RELATED TOPICS
-dural_ectasia.update(related: [blood_patch.id, fibrin.id, headache.id])
+dural_ectasia.update(
+  related: [
+    blood_patch.id,
+    fibrin.id,
+    headache.id
+  ]
+)
 dissection.update(related: [root_replacement.id])
+classic_migraine.update(
+  related: [
+    triptans.id,
+    antiepileptics.id,
+    calcium_channel_blocker.id,
+    tricyclics.id
+  ]
+)
+complex_migraine.update(
+  related: [
+    triptans.id,
+    antiepileptics.id,
+    calcium_channel_blocker.id,
+    tricyclics.id
+  ]
+)
+common_migraine.update(
+  related: [
+    triptans.id,
+    antiepileptics.id,
+    calcium_channel_blocker.id,
+    tricyclics.id
+  ]
+)
+Topic.all.each do |t|
+  kids = t.children.map(&:id)
+  if t.related
+    t.related += kids
+    t.related_will_change!
+  else
+    t.update(related: kids)
+  end
+end

@@ -4,7 +4,7 @@ module.exports = function findRelated(topic) {
     let nextStep = topic.related.map(ind => unsortedTopics.find(obj => obj.id === ind))
     for (let i = 0; i < nextStep.length; i++) {
       let data = JSON.stringify(nextStep[i])
-      returnStatement += `<button type="button" class="btn btn-primary related" data-topic='${data}'>
+      returnStatement += `<button type="button" class="btn btn-sm btn-secondary related" data-topic='${data}'>
         ${nextStep[i].name} &nbsp
         <i class="fa fa-plus-circle" aria-hidden="true"></i>
       </button>`
