@@ -10,7 +10,7 @@ module.exports = function assembledDissectionForm(topic, visit) {
   const lumens = ['true lumen', 'false lumen', 'dissected'];
   const directions = ['right', 'left', 'N/A'];
   const parameterizedPlural = 'dissections';
-  let returnStatement
+  let returnStatement = ''
   returnStatement += `
     <tr class='row_form' id='row_${topic.id}' style='display:none'><td colspan='3'>
       <div class="form-inline">

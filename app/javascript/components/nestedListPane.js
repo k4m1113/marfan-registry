@@ -1,9 +1,18 @@
 import rowForm from './row_form_pieces/rowForm';
+import keyify from './keyify';
 
-module.exports = function nestedListPane(topicsByType, visit) {
-  let returnStatement = ''
+module.exports = function nestedListPane(topicsByType, visit, paneKey) {
+  let returnStatement = '<div class="row topicButtons">'
+  for (var tg in topicsByType) {
+    const topicTypeKey = keyify(tg)
+    returnStatement += `<button class="paneTopicGroup btn btn-secondary" data-target="${paneKey}_${topicTypeKey}" type="button">
+      ${tg}
+    </button>`
+  }
+  returnStatement += '</div>'
   for (var topicGroup in topicsByType) {
-    returnStatement += `<h1>${topicGroup}</h1>`
+    const typeKey = keyify(topicGroup)
+    returnStatement += `<div id="${paneKey}_${typeKey}" class="tabbable">`
     returnStatement += `<table class="table table-sm">
     <thead>
       <tr>
@@ -23,7 +32,8 @@ module.exports = function nestedListPane(topicsByType, visit) {
       returnStatement += `${rowForm(topicsByType[topicGroup][i], visit)}`
     }
     returnStatement += `</tbody>
-    </table>`;
+    </table>
+    </div>`;
   }
   return returnStatement;
 };

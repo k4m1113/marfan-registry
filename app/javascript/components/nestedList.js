@@ -3,16 +3,7 @@ import epicAddForm from './epicAddForm';
 import familyTree from './panes/familyTree';
 import vitals from './panes/vitals';
 import aorticImaging from './panes/aorticImaging'
-
-function keyify(str) {
-  [' ', '/'].forEach(function (x) {
-    str = str.replace(x, '_')
-  });
-  ['(', ')'].forEach(function (y) {
-    str = str.replace(y, '')
-  });
-  return str
-}
+import keyify from './keyify'
 
 module.exports = function nestedList(allTopics, visit) {
   let topBar = `<ul class="nav nav-tabs flex-column" role="tablist">`
@@ -47,17 +38,17 @@ module.exports = function nestedList(allTopics, visit) {
         panes += `${vitals(topicsByType.stat, visit)}</div>`
         break;
       case 'cardiovascular':
-        panes += `${nestedListPane(topicsByType, visit)}</div>`
+        panes += `${nestedListPane(topicsByType, visit, key)}</div>`
         break;
       case 'aortic imaging':
         panes += `${aorticImaging(topicsByType.heart_measurement, visit)}</div>`
         break;
       case 'medication':
         panes += `${epicAddForm()}`
-        panes += `${nestedListPane(topicsByType.medication, visit)}</div>`
+        panes += `${nestedListPane(topicsByType.medication, visit, key)}</div>`
         break;
       default:
-        panes += `${nestedListPane(topicsByType, visit)}</div>`
+        panes += `${nestedListPane(topicsByType, visit, key)}</div>`
 
     }
   }

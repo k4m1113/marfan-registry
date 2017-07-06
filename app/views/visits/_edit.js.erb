@@ -5,6 +5,15 @@ $('#diagnosisHeader').append(visitHeader(patient, visit))
 $('#reasonsForVisitHeader').append(reasonForVisitHeader(visit))
 $('#nestedListHook').append(nestedList(allTopics, visit, mskey, mshmac))
 $(function() {
+  // body group pane topic type tabs
+  $('button.paneTopicGroup').click(function() {
+    $('button.paneTopicGroup').removeClass('active')
+    $(this).addClass('active')
+    $target = $(this).data('target')
+    $('div.tabbable').hide()
+    $(`div.tabbable#${$target}`).show()
+  })
+
   // select 'other' from list to append text input
   $('select').change(function() {
     var opt = $(this).find("option:selected").val()
@@ -70,14 +79,10 @@ $(function() {
   //initialize tooltips
   $('[data-toggle="tooltip"]').tooltip()
 
-  // initialize jQuery UI tabbing
-  $("#mainNestedList").tabs()
-
   // click on either 'bar' or tab 'nav-link'
   $('a.open-tab').on("click", function(){
     // accordion-style collapse
     $("ul.summary-bar").find(".active").removeClass("active");
-    $('#tabs').tabs("option", "active", $(this).data("tab-index"));
     $('.summary-body').hide();
     $(this).next(".summary-body").toggle();
     // scroll to new content
@@ -90,6 +95,11 @@ $(function() {
   $('a.nav-link').on("click", function(){
     $(".nav").find(".active").removeClass("active");
     $(this).parent().addClass("active");
+    index = $(this).data('tab-index')
+    $targetPane = $(`.tab-pane[data-tab-index='${index}']`)
+    console.log($targetPane)
+    $targetPane.find('.tabbable').first().show()
+    $targetPane.find('button.paneTopicGroup').first().addClass('active')
   });
 
   // toggle all negative on current pane

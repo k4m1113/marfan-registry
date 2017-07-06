@@ -70,3 +70,23 @@ tr.row_form {
     background-color: white;
   }
 }
+
+.tabbable {
+  display: none;
+}
+
+.btn.paneTopicGroup {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  background-color: $bootstrap-grey;
+  &.active {
+    border-bottom: 0px;
+    background-color: $bootstrap-light-grey;
+    box-shadow: none;
+  }
+}
+
+.row.topicButtons {
+  margin-left: 5px;
+  padding-bottom: 2px;
+}

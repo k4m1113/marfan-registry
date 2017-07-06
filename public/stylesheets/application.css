@@ -12430,6 +12430,22 @@ tr.row_form {
     text-decoration: none;
     background-color: white; }
 
+.tabbable {
+  display: none; }
+
+.btn.paneTopicGroup {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  background-color: #F7F7F7; }
+  .btn.paneTopicGroup.active {
+    border-bottom: 0px;
+    background-color: white;
+    box-shadow: none; }
+
+.row.topicButtons {
+  margin-left: 5px;
+  padding-bottom: 2px; }
+
 .tooltip-trigger {
   border-radius: 20px;
   padding: 1px 6px 0px 6px;
