@@ -67,23 +67,20 @@ $(function() {
       case 'genetic test':
         required += `${assembledGeneticTestForm(data, unsortedTopics, highestInd + 1)}`
         break;
-      case 'heart measurement':
-        required += `${assembledHeartMeasurementForm(data, highestInd + 1)}`
-        break;
       case 'measurement':
         required += `${assembledMeasurementForm(data, unsortedTopics, highestInd + 1)}`
         break;
       case 'procedure':
         required += `${assembledProcedureForm(data, unsortedTopics, highestInd + 1)}`
       break;
-      debugger
-
-        required += `${assembledProcedureForm(data, highestInd + 1)}`
-        break;
       case 'stat':
         required += `${assembledVitalForm(data, highestInd + 1)}`
         break;
+        case 'heart_measurement':
+        'brian'
+        break;
       default:
+      'kat'
     }
     $currentRow.after(required)
     $('body').find("#row_" + (highestInd + 1)).show()

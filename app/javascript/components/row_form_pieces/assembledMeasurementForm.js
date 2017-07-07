@@ -6,7 +6,7 @@ import noteField from './noteField';
 import findRelated from './findRelated';
 
 module.exports = function assembledMeasurementForm(topic, unsortedTopics, rowID = topic.id) {
-  const parameterizedPlural = 'hospitalizations';
+  const parameterizedPlural = 'tests';
   const returnStatement = `
   <tr class='row_form' id='row_${rowID}' style='display:none'><td colspan='3'>
     <div class='form-inline'>

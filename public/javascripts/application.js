@@ -885,7 +885,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 module.exports = function assembledMeasurementForm(topic, unsortedTopics) {
   var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
 
-  var parameterizedPlural = 'hospitalizations';
+  var parameterizedPlural = 'tests';
   var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class=\'form-inline\'>\n      ' + (0, _measurementField2.default)(topic, parameterizedPlural) + '\n      ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n    </div>\n    <div class=\'form-inline\'>\n      ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n    </div>\n    <div class=\'form-inline\'>\n      ' + (0, _noteField2.default)(topic, parameterizedPlural) + '        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n  </td></tr>\n  ';
   return returnStatement;
 };
@@ -6222,7 +6222,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 module.exports = function assembledMeasurementForm(topic, unsortedTopics) {
   var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
 
-  var parameterizedPlural = 'hospitalizations';
+  var parameterizedPlural = 'tests';
   var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class=\'form-inline\'>\n      ' + (0, _measurementField2.default)(topic, parameterizedPlural) + '\n      ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n    </div>\n    <div class=\'form-inline\'>\n      ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n    </div>\n    <div class=\'form-inline\'>\n      ' + (0, _noteField2.default)(topic, parameterizedPlural) + '        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n  </td></tr>\n  ';
   return returnStatement;
 };
