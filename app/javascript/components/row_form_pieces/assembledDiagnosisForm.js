@@ -6,7 +6,7 @@ import noteField from './noteField';
 import fileAttachmentButton from './fileAttachmentButton';
 import findRelated from './findRelated'
 
-module.exports = function assembledDiagnosisForm(topic) {
+module.exports = function assembledDiagnosisForm(topic, allTopics) {
   const parameterizedPlural = 'diagnoses'
   const returnStatement = `
   <tr class='row_form' id='row_${topic.id}' style='display:none'><td colspan='3'>
@@ -21,7 +21,7 @@ module.exports = function assembledDiagnosisForm(topic) {
       ${noteField(topic, parameterizedPlural)}
       ${fileAttachmentButton(topic, parameterizedPlural)}
     </div>
-    ${findRelated(topic)}
+    ${findRelated(topic, allTopics)}
   </td></tr>
   `
   return returnStatement

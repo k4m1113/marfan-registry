@@ -1,5 +1,6 @@
 import infoHover from './infoHover';
 import hiddenFields from './hiddenFields';
+
 const parameterizedPlurals = require('./parameterizedPlurals');
 
 module.exports = function presAbsButtons(topic, visit) {
@@ -7,7 +8,7 @@ module.exports = function presAbsButtons(topic, visit) {
   const discussedConcerns = JSON.parse(visit.concerns).map(x => x.topic_id)
   const discussed = discussedConcerns.includes(topic.id) ? ' red' : ''
   var returnStatement = `
-  <tr class="main_row${discussed}">
+  <tr class="main_Form(topic, allTopics)${discussed}">
     <input value="${visit.patient_id}" name="visit[${parameterizedPlural}_attributes][${topic.id}][patient_id]" id="visit_${parameterizedPlural}_attributes_${topic.id}_patient_id" type="hidden">
     <input value="${visit.id}" name="visit[${parameterizedPlural}_attributes][${topic.id}][visit_id]" id="visit_${parameterizedPlural}_attributes_${topic.id}_visit_id" type="hidden">
     <input value="${topic.id}" name="visit[${parameterizedPlural}_attributes][${topic.id}][topic_id]" id="visit_${parameterizedPlural}_attributes_${topic.id}_topic_id" class="topic_id" type="hidden">

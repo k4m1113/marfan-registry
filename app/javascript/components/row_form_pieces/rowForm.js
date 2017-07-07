@@ -10,14 +10,14 @@ import assembledProcedureForm from './assembledProcedureForm';
 const parameterizedPlurals = require('./parameterizedPlurals')
 
 // runs formRender function according to topic type
-module.exports = function rowForm(topic, visit) {
+module.exports = function rowForm(topic, unsortedTopics, visit) {
   const pp = parameterizedPlurals[topic.topic_type];
   let returnStatement = ``
 
   switch (topic.topic_type) {
     case "diagnosis":
       returnStatement += `${presAbsButtons(topic, visit)}`;
-      returnStatement += `${assembledDiagnosisForm(topic)}`;
+      returnStatement += `${assembledDiagnosisForm(topic, unsortedTopics)}`;
       break;
     case "dissection":
     returnStatement += `${presAbsButtons(topic, visit)}`;
@@ -32,11 +32,11 @@ module.exports = function rowForm(topic, visit) {
       break;
     case "hospitalization":
       returnStatement += `${presAbsButtons(topic, visit)}`;
-      returnStatement += `${assembledHospitalizationForm(topic)}`;
+      returnStatement += `${assembledHospitalizationForm(topic, unsortedTopics)}`;
       break;
     case "measurement":
       returnStatement += `${presAbsButtons(topic, visit)}`;
-      returnStatement += `${assembledMeasurementForm(topic)}`;
+      returnStatement += `${assembledMeasurementForm(topic, unsortedTopics)}`;
       break;
     case "medication":
       returnStatement += `${presAbsButtons(topic, visit)}`;
@@ -44,7 +44,7 @@ module.exports = function rowForm(topic, visit) {
       break;
     case "procedure":
       returnStatement += `${presAbsButtons(topic, visit)}`;
-      returnStatement += `${assembledProcedureForm(topic)}`;
+      returnStatement += `${assembledProcedureForm(topic, unsortedTopics)}`;
       break;
     case "vital":
       "kat"

@@ -5,7 +5,7 @@ import vitals from './panes/vitals';
 import aorticImaging from './panes/aorticImaging'
 import keyify from './keyify'
 
-module.exports = function nestedList(allTopics, visit) {
+module.exports = function nestedList(allTopics, unsortedTopics, visit) {
   let topBar = `<ul class="nav nav-tabs flex-column" role="tablist">`
   for (let i = 0; i < allTopics.length; i++) {
     const group = allTopics[i][0]
@@ -38,17 +38,17 @@ module.exports = function nestedList(allTopics, visit) {
         panes += `${vitals(topicsByType.stat, visit)}</div>`
         break;
       case 'cardiovascular':
-        panes += `${nestedListPane(topicsByType, visit, key)}</div>`
+        panes += `${nestedListPane(topicsByType, unsortedTopics, visit, key)}</div>`
         break;
       case 'aortic imaging':
         panes += `${aorticImaging(topicsByType.heart_measurement, visit)}</div>`
         break;
       case 'medication':
         panes += `${epicAddForm()}`
-        panes += `${nestedListPane(topicsByType.medication, visit, key)}</div>`
+        panes += `${nestedListPane(topicsByType.medication, unsortedTopics, visit, key)}</div>`
         break;
       default:
-        panes += `${nestedListPane(topicsByType, visit, key)}</div>`
+        panes += `${nestedListPane(topicsByType, unsortedTopics, visit, key)}</div>`
 
     }
   }

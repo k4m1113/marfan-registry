@@ -41,7 +41,10 @@ class Visit < ApplicationRecord
       att['test_unit_of_meas'].blank? ||
       (att['test_amount'].blank? && ['%', 'cm', 'cm2', 'mmHg'].include?(att['test_unit_of_meas']))
     }
-  accepts_nested_attributes_for :hospitalizations
+  accepts_nested_attributes_for :hospitalizations, reject_if:
+    proc { |att|
+      att['patient_id'].nil?
+    }
   accepts_nested_attributes_for :medications, reject_if:
     proc { |att|
       att['current'].nil?

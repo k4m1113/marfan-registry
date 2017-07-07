@@ -5,10 +5,10 @@ import measurementField from './measurementField';
 import noteField from './noteField';
 import findRelated from './findRelated';
 
-module.exports = function assembledMeasurementForm(topic) {
-  const parameterizedPlural = 'hospitalizations'
+module.exports = function assembledMeasurementForm(topic, unsortedTopics, rowID = topic.id) {
+  const parameterizedPlural = 'hospitalizations';
   const returnStatement = `
-  <tr class='row_form' id='row_${topic.id}' style='display:none'><td colspan='3'>
+  <tr class='row_form' id='row_${rowID}' style='display:none'><td colspan='3'>
     <div class='form-inline'>
       ${measurementField(topic, parameterizedPlural)}
       ${keywords(topic, parameterizedPlural)}
@@ -19,8 +19,8 @@ module.exports = function assembledMeasurementForm(topic) {
     <div class='form-inline'>
       ${noteField(topic, parameterizedPlural)}        ${fileAttachmentButton(topic, parameterizedPlural)}
     </div>
-    ${findRelated(topic)}
+    ${findRelated(topic, unsortedTopics)}
   </td></tr>
-  `
-  return returnStatement
-}
+  `;
+  return returnStatement;
+};

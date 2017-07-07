@@ -1,4 +1,4 @@
-module.exports = function findRelated(topic) {
+module.exports = function findRelated(topic, unsortedTopics) {
   let returnStatement = '<div class="btn-group" role="group" aria-label="RELATED">'
   if (topic.related) {
     let nextStep = topic.related.map(ind => unsortedTopics.find(obj => obj.id === ind))

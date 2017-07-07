@@ -1,3 +1,24 @@
+pain_descriptors = [
+  'burning',
+  'aching',
+  'stinging',
+  'throbbing',
+  'itching',
+  'numbing',
+  'pins and needles',
+  'pulling',
+  'sharp',
+  'jabbing',
+  'shooting',
+  'electric',
+  'mechanical',
+  'thermal',
+  'abrupt',
+  'increasing',
+  'decreasing',
+  'with exercise',
+  'with movement'
+]
 family_history = Topic.create!(
   name: 'family history',
   topic_type: 'root category'
@@ -493,7 +514,7 @@ cardio_meas = Topic.create!(
 )
 Topic.create!(
   name: 'aortic root',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 1.0,
   max_value: 7.0,
   step: 0.1,
@@ -501,7 +522,7 @@ Topic.create!(
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'ascending aortic',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 1.0,
   max_value: 7.0,
   step: 0.1,
@@ -509,7 +530,7 @@ Topic.create!(
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'transverse arch',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 1.0,
   max_value: 7.0,
   step: 0.1,
@@ -517,7 +538,7 @@ Topic.create!(
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'descending thoracic aorta',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 1.0,
   max_value: 7.0,
   step: 0.1,
@@ -525,7 +546,7 @@ Topic.create!(
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'suprarenal abdominal aorta',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 1.0,
   max_value: 7.0,
   step: 0.1,
@@ -533,7 +554,7 @@ Topic.create!(
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'infrarenal abdominal aorta',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 1.0,
   max_value: 7.0,
   step: 0.1,
@@ -541,7 +562,7 @@ Topic.create!(
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'aortic annulus',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 1.0,
   max_value: 7.0,
   step: 0.1,
@@ -556,12 +577,12 @@ cardio = Topic.create!(
 ## BEGIN 1-DEPTH TOPICS (xls 134) ##
 Topic.create!(
   name: 'systolic function',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   units_of_measurement: %w[normal mild moderate severe]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'LVIDd',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 1.0,
   max_value: 10.0,
   step: 0.1,
@@ -570,7 +591,7 @@ Topic.create!(
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'LVIDs',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 1.0,
   max_value: 8.0,
   step: 0.1,
@@ -579,7 +600,7 @@ Topic.create!(
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'EF',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 20.0,
   max_value: 100.0,
   step: 1.0,
@@ -588,7 +609,7 @@ Topic.create!(
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'FS',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 0.0,
   max_value: 100.0,
   step: 1.0,
@@ -597,12 +618,12 @@ Topic.create!(
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'mitral valve morphology',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   units_of_measurement: ['prolapse (anterior)', 'prolapse (posterior)', 'myxomatous']
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'mitral regurgitation severity',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 0,
   max_value: 100,
   step: 1,
@@ -613,24 +634,24 @@ Topic.create!(
 ## BEGIN SHALLOW TOPICS (xls 142) ##
 aortic_valve_morph = Topic.create!(
   name: 'aortic valve morphology',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   units_of_measurement: %w[trileaflet bicuspid unicuspid Sievers-0 Sievers-1 Sievers-2]
 ).move_to_child_of(cardio)
 
 Topic.create!(
   name: 'regurgitation',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   units_of_measurement: %w[none mild moderate severe]
 ).move_to_child_of(aortic_valve_morph)
 
 aortic_stenosis = Topic.create!(
   name: 'aortic stenosis',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   units_of_measurement: %w[none mild moderate severe]
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'mean gradient',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 20,
   max_value: 100,
   step: 1,
@@ -638,7 +659,7 @@ Topic.create!(
 ).move_to_child_of(aortic_stenosis)
 Topic.create!(
   name: 'valve area',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 0.5,
   max_value: 3.0,
   step: 0.1,
@@ -647,7 +668,7 @@ Topic.create!(
 
 Topic.create!(
   name: 'aortic insufficiency severity',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 0,
   max_value: 100,
   step: 1,
@@ -655,7 +676,7 @@ Topic.create!(
 ).move_to_child_of(cardio_meas)
 Topic.create!(
   name: 'tricuspid regurgitation severity',
-  topic_type: 'heart_measurement',
+  topic_type: 'heart measurement',
   min_value: 0,
   max_value: 100,
   step: 1,
@@ -1006,7 +1027,7 @@ symptoms = Topic.create!(
 Topic.create!(
   name: 'chest pain',
   topic_type: 'diagnosis',
-  descriptors: ['sharp', 'burning', 'abrupt', 'increasing', 'decreasing', 'with exercise', 'with movement']
+  descriptors: pain_descriptors
 ).move_to_child_of(symptoms)
 Topic.create!(
   name: 'dyspnea on exertion',
@@ -1289,7 +1310,8 @@ ortho_symptoms = Topic.create!(
 ).move_to_child_of(ortho)
 ortho_pain = Topic.create!(
   name: 'pain',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: pain_descriptors
 ).move_to_child_of(ortho_symptoms)
 Topic.create!(
   name: 'upper back',
@@ -1326,15 +1348,30 @@ Topic.create!(
 ## END SYMPTOMS (xls 283) ##
 
 ## BEGIN OPHTHALMOLOGIC (xls 285) ##
-opthalmo = Topic.create!(
+ophthalmo = Topic.create!(
   name: 'ophthalmologic',
   topic_type: 'root category'
 )
+phak = Topic.create!(
+  name: 'phakectomy',
+  topic_type: 'procedure',
+  descriptors: %w[left right both]
+).move_to_child_of(ophthalmo)
+iol = Topic.create!(
+  name: 'IOL',
+  topic_type: 'procedure',
+  descriptors: %w[left right both]
+).move_to_child_of(ophthalmo)
+irido = Topic.create!(
+  name: 'iridodensis',
+  topic_type: 'measurement',
+  descriptors: %w[left right both]
+).move_to_child_of(ophthalmo)
 myopia = Topic.create!(
   name: 'myopia',
   topic_type: 'diagnosis',
   descriptors: %w[left right both]
-).move_to_child_of(opthalmo)
+).move_to_child_of(ophthalmo)
 Topic.create!(
   name: 'severity',
   topic_type: 'measurement',
@@ -1349,55 +1386,32 @@ Topic.create!(
   name: 'amblyopia',
   topic_type: 'diagnosis',
   descriptors: %w[left right both]
-).move_to_child_of(opthalmo)
+).move_to_child_of(ophthalmo)
 ectopia_lentis = Topic.create!(
   name: 'ectopia lentis',
   topic_type: 'diagnosis',
   descriptors: %w[left right both]
-).move_to_child_of(opthalmo)
-Topic.create!(
-  name: 'iridodensis',
-  topic_type: 'measurement',
-  units_of_measurement: %w[left right both]
-).move_to_child_of(ectopia_lentis)
-Topic.create!(
-  name: 'phakectomy',
-  topic_type: 'procedure',
-  units_of_measurement: %w[left right both]
-).move_to_child_of(ectopia_lentis)
-Topic.create!(
-  name: 'IOL',
-  topic_type: 'procedure',
-  units_of_measurement: %w[left right both]
-).move_to_child_of(ectopia_lentis)
+).move_to_child_of(ophthalmo)
 cataract = Topic.create!(
   name: 'cataract',
   topic_type: 'procedure',
-  descriptors: %w['IOL', 'phakectomy']
-).move_to_child_of(opthalmo)
-Topic.create!(
-  name: 'phakectomy',
-  topic_type: 'procedure',
-  units_of_measurement: %w[left right both]
-).move_to_child_of(cataract)
-Topic.create!(
-  name: 'IOL',
-  topic_type: 'procedure',
-  units_of_measurement: %w[left right both]
-).move_to_child_of(cataract)
+  descriptors: %w[left right both]
+).move_to_child_of(ophthalmo)
 Topic.create!(
   name: 'glaucoma',
-  topic_type: 'diagnosis'
-).move_to_child_of(opthalmo)
+  topic_type: 'diagnosis',
+  descriptors: %w[left right both]
+).move_to_child_of(ophthalmo)
 Topic.create!(
   name: 'retinal thinning/holes',
-  topic_type: 'diagnosis'
-).move_to_child_of(opthalmo)
+  topic_type: 'diagnosis',
+  descriptors: %w[left right both]
+).move_to_child_of(ophthalmo)
 retinal_detachment = Topic.create!(
   name: 'retinal detachment',
   topic_type: 'procedure',
   descriptors: %w[buckle laser]
-).move_to_child_of(opthalmo)
+).move_to_child_of(ophthalmo)
 ## END OPHTHALMOLOGIC (xls 297) ##
 
 ## BEGIN GYNECOLOGIC/UROLOGIC (xls 299) ##
@@ -1672,12 +1686,25 @@ common_migraine.update(
     tricyclics.id
   ]
 )
-Topic.all.each do |t|
-  kids = t.children.map(&:id)
-  if t.related
-    t.related += kids
-    t.related_will_change!
+cataract.update(
+  related: [
+    phak.id,
+    iol.id
+  ]
+)
+ectopia_lentis.update(
+  related: [
+    phak.id,
+    iol.id,
+    irido.id
+  ]
+)
+Topic.all.each do |topic|
+  parents = topic.ancestors.reject { |t| t.topic_type == 'root category' }.map(&:id)
+  if topic.related
+    topic.related += parents
+    topic.related_will_change!
   else
-    t.update(related: kids)
+    topic.update(related: parents)
   end
 end

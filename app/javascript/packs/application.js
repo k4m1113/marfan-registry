@@ -35,11 +35,12 @@ import '../components/row_form_pieces/rowForm'
 require('expose-loader?parseMed!../components/parseMed');
 
 // ROW FORM TYPES
-require('expose-loader?assembledProcedureForm!../components/row_form_pieces/assembledProcedureForm.js');
 require('expose-loader?assembledDiagnosisForm!../components/row_form_pieces/assembledDiagnosisForm.js');
 require('expose-loader?assembledDissectionForm!../components/row_form_pieces/assembledDissectionForm.js');
 require('expose-loader?assembledHospitalizationForm!../components/row_form_pieces/assembledHospitalizationForm.js');
+require('expose-loader?assembledMeasurementForm!../components/row_form_pieces/assembledMeasurementForm.js');
 require('expose-loader?assembledMedicationForm!../components/row_form_pieces/assembledMedicationForm.js');
+require('expose-loader?assembledProcedureForm!../components/row_form_pieces/assembledProcedureForm.js');
 
 // EXPOSING JS TO BE USED IN RAILS
 require('../../stylesheet/application.scss');

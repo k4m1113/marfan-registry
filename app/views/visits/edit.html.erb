@@ -5,7 +5,6 @@
   let concerns = <%= @jconcerns.html_safe %>
   let patient = <%= @jpatient.html_safe %>
 </script>
-
 <% content_for :navbar do %>
   <%= render 'visits/edit_nav.html.erb', patient: @patient, visit: @visit %>
 <% end %>
@@ -34,7 +33,7 @@
 </div>
 <div id="ms" data-mskey="<%= ENV['MYSCRIPT_KEY'] %>" data-mshmac="<%= ENV['MYSCRIPT_HMAC'] %>"></div>
 <div id="invisible" data-rubyvar="<%= @all_meds.map{|t| [t.name.downcase, t.id]}.to_h.to_json %>"></div>
-<%= form_for @visit, class: "visit_form", id: 'visit_form' do |f| %>
+<%= form_for @visit, class: "visit_form", id: 'visit_form', html: { multipart: true } do |f| %>
   <div class="row">
     <div class="col-sm-12">
       <%= f.fields_for :patient do |ff| %>

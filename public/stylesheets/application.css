@@ -12362,7 +12362,8 @@ button.nav-icon {
   background-color: inherit;
   border: none;
   padding: 0px 8px !important;
-  font-size: 30px; }
+  font-size: 30px;
+  box-shadow: none; }
 
 a.navbar-brand {
   padding: 0; }
