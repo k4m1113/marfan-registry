@@ -128,4 +128,40 @@ class Patient < ApplicationRecord
     result = vitals.group_by(&:visit_id)
     result
   end
+  def concerns
+    tests + procedures + diagnoses + hospitalizations + family_members + medications + dissections + vitals + genetic_tests
+  end
+
+  def letter_sort_by_topic
+    {
+      'genetic concerns': concerns.select { |c| c.topic.root.name == 'genetics' },
+      'cardiovascular concerns': concerns.select { |c| c.topic.root.name == 'cardiovascular' },
+      'morphology/physical findings': concerns.select { |c| c.topic.root.name == 'morphology/physical findings' },
+      'pulmonary concerns': concerns.select { |c| c.topic.root.name == 'pulmonary' },
+      'orthopedic concerns': concerns.select { |c| c.topic.root.name == 'orthopedic' },
+      'ophthalmologic concerns': concerns.select { |c| c.topic.root.name == 'ophthalmologic' },
+      'gynecologic/urologic concerns': concerns.select { |c| c.topic.root.name == 'gynecologic/urologic' },
+      'obstetric concerns': concerns.select { |c| c.topic.root.name == 'obstetric (pregnancy)' },
+      'neurologic concerns': concerns.select { |c| c.topic.root.name == 'neurologic' },
+      'gastrointestinal concerns': concerns.select { |c| c.topic.root.name == 'gastrointestinal' }
+    }
+  end
+
+  def sort_by_topic
+    letter_sort_by_topic.merge(
+      'family history': concerns.select { |c| c.topic.root.name == 'family history' },
+      'medication': concerns.select { |c| c.topic.root.name == 'medication' },
+      'vitals': concerns.select { |c| c.topic.root.name == 'vitals' },
+      'heart_measurements': concerns.select { |c| c.topic.topic_type == 'heart_measurement'}
+    )
+  end
+
+  def sort_by_topic_then_type
+    all = sort_by_topic
+    all.map { |k, v| [k, v.group_by(&:class)] }.to_h
+    k = all.transform_values { |arr|
+      arr.group_by(&:class).transform_keys { |key| key.name.pluralize }
+    }
+    k
+  end
 end

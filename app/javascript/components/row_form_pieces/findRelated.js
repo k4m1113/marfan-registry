@@ -12,7 +12,7 @@ module.exports = function findRelated(topic, unsortedTopics) {
         let data = JSON.stringify(nextStep[i])
         returnStatement += `<button type="button" class="btn btn-secondary related" data-topic='${data}'>
         ${nextStep[i].name} &nbsp
-        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        <i class="fa fa-plus" aria-hidden="true"></i>
         </button>`
       }
     }

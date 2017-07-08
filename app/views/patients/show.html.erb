@@ -18,4 +18,9 @@
       <%= link_to "Destroy Records", patient_path(id: @patient.id), method: :delete, type: "button", class: "btn btn-secondary", data: { confirm: "Are you sure you want to delete Patient #{@patient.id} and all associated records?" } %>
     </div>
     <br /><br />
-    <%= render 'patients/show',family_members: FamilyMember.where(patient_id: @patient.id).where(visit_id: nil), vitals: Vital.where(patient_id: @patient.id).where(visit_id: nil), imagery: Test.where(patient_id: @patient.id), tests: Test.where(patient_id: @patient.id).where(visit_id: nil), hospitalizations: Hospitalization.where(patient_id: @patient.id).where(visit_id: nil), medications: Medication.where(patient_id: @patient.id), diagnoses: Diagnosis.where(patient_id: @patient.id).where(visit_id: nil), procedures: Procedure.where(patient_id: @patient.id).where(visit_id: nil) %>
+
+<div class="row">
+  <div class="col-12">
+    <%= render 'patients/show', concerns: @concerns %>
+  </div>
+</div>

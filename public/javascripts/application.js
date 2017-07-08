@@ -143,7 +143,7 @@ module.exports = function findRelated(topic, unsortedTopics) {
     for (var i = 0; i < nextStep.length; i++) {
       if (nextStep[i]) {
         var data = JSON.stringify(nextStep[i]);
-        returnStatement += '<button type="button" class="btn btn-secondary related" data-topic=\'' + data + '\'>\n        ' + nextStep[i].name + ' &nbsp\n        <i class="fa fa-plus-circle" aria-hidden="true"></i>\n        </button>';
+        returnStatement += '<button type="button" class="btn btn-secondary related" data-topic=\'' + data + '\'>\n        ' + nextStep[i].name + ' &nbsp\n        <i class="fa fa-plus" aria-hidden="true"></i>\n        </button>';
       }
     }
     returnStatement += '</div></div>';
