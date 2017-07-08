@@ -2,7 +2,7 @@ import rowForm from './row_form_pieces/rowForm';
 import keyify from './keyify';
 
 module.exports = function nestedListPane(topicsByType, unsortedTopics, visit, paneKey) {
-  let returnStatement = '<div class="row topicButtons">'
+  let returnStatement = '<div class="topicButtons btn-group" role="group">'
   for (var tg in topicsByType) {
     const topicTypeKey = keyify(tg)
     returnStatement += `<button class="paneTopicGroup btn btn-secondary" data-target="${paneKey}_${topicTypeKey}" type="button">

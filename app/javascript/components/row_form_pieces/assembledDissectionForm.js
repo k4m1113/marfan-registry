@@ -4,7 +4,7 @@ import timeAgoField from './timeAgoField';
 import noteField from './noteField';
 import findRelated from './findRelated';
 
-module.exports = function assembledDissectionForm(topic, visit, rowID = topic.id) {
+module.exports = function assembledDissectionForm(topic, unsortedTopics, visit, rowID = topic.id) {
   const locations = ['aortic root', 'ascending aorta', 'arch', 'descending thoracic', 'suprarenal abdominal', 'infrarenal abdominal', 'iliac', 'renal', 'SMA', 'celiac', 'innominate', 'left carotid', 'left subclavian'];
   const perfused = ['perfused', 'ischemic'];
   const lumens = ['true lumen', 'false lumen', 'dissected'];
@@ -46,6 +46,7 @@ module.exports = function assembledDissectionForm(topic, visit, rowID = topic.id
 
         What type of intervention was performed?
       </div>
+      ${findRelated(topic, unsortedTopics)}
     </td></tr>
   `
   return returnStatement

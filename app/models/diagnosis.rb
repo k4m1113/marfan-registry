@@ -5,7 +5,7 @@ class Diagnosis < ApplicationRecord
   attr_reader :table_headings, :table_body
   attr_accessor :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale, :descriptors
 
-  before_save :concat_duration, :concat_time_ago, :concat_frequency, :descriptors_to_note
+  before_save :concat_duration, :concat_time_ago, :concat_frequency, :descriptors_to_note, :timeify
 
   belongs_to :topic
   belongs_to :visit, inverse_of: :diagnoses, required: false
@@ -54,7 +54,7 @@ class Diagnosis < ApplicationRecord
     end
 
     {
-      'date': created_at.strftime('%b %Y'),
+      'date': absolute_start_date.strftime('%b %Y'),
       'description': find_trail(topic_id),
       'present': present,
       'note': blank_unless_present(note),
@@ -74,8 +74,8 @@ class Diagnosis < ApplicationRecord
 
   def times
     clause = ''
-    clause << " #{time_ago} ago" unless time_ago.blank?
-    clause << " for #{duration}" unless duration.blank?
+    clause << " #{time_ago}" unless time_ago.blank?
+    clause << " #{duration}" unless duration.blank?
     clause
   end
 

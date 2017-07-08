@@ -9,15 +9,29 @@ module.exports = function assembledMeasurementForm(topic, unsortedTopics, rowID 
   const parameterizedPlural = 'tests';
   const returnStatement = `
   <tr class='row_form' id='row_${rowID}' style='display:none'><td colspan='3'>
-    <div class='form-inline'>
-      ${measurementField(topic, parameterizedPlural)}
-      ${keywords(topic, parameterizedPlural)}
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Measurement</label>
+      <div class="form-inline col-10">
+        ${measurementField(topic, parameterizedPlural)}
+      </div>
     </div>
-    <div class='form-inline'>
-      ${timeAgoField(topic, parameterizedPlural)}
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Descriptors</label>
+      <div class="form-inline col-10">
+        ${keywords(topic, parameterizedPlural)}
+      </div>
     </div>
-    <div class='form-inline'>
-      ${noteField(topic, parameterizedPlural)}        ${fileAttachmentButton(topic, parameterizedPlural)}
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Date</label>
+      <div class="form-inline col-10">
+        ${timeAgoField(topic, parameterizedPlural)}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-2 col-form-label">Note</label>
+      <div class="form-inline col-10">
+        ${noteField(topic, parameterizedPlural)}        ${fileAttachmentButton(topic, parameterizedPlural)}
+      </div>
     </div>
     ${findRelated(topic, unsortedTopics)}
   </td></tr>

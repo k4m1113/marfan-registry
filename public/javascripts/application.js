@@ -134,7 +134,7 @@ module.exports = function fileAttachmentButton(topic, parameterizedPlural) {
 module.exports = function findRelated(topic, unsortedTopics) {
   var returnStatement = '<div aria-label="RELATED">';
   if (topic.related.length) {
-    returnStatement += '<hr/>Related: ';
+    returnStatement += '<div class="form-group row">\n      <label class="col-2 col-form-label">\n        Related:\n      </label>\n    <div class="col-10">';
     var nextStep = topic.related.map(function (ind) {
       return unsortedTopics.find(function (obj) {
         return obj.id === ind;
@@ -146,7 +146,7 @@ module.exports = function findRelated(topic, unsortedTopics) {
         returnStatement += '<button type="button" class="btn btn-secondary related" data-topic=\'' + data + '\'>\n        ' + nextStep[i].name + ' &nbsp\n        <i class="fa fa-plus-circle" aria-hidden="true"></i>\n        </button>';
       }
     }
-    returnStatement += '</div>';
+    returnStatement += '</div></div>';
   }
   return returnStatement;
 };
@@ -198,6 +198,8 @@ module.exports = function keywords(topic, parameterizedPlural) {
       returnStatement += '\n        <div class=\'form-check form-check-inline\'>\n          <label class=\'form-check-label\'>\n            <input class=\'form-check-input\' type=\'checkbox\' name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][descriptors][]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_descriptors_' + topic.descriptors[i] + '\' value=\'' + topic.descriptors[i] + '\'>\n            ' + topic.descriptors[i] + '\n          </label>\n        </div>\n      ';
     };
     returnStatement += '</div>';
+  } else {
+    returnStatement += '<input class="form-control" type="text" name=visit[' + parameterizedPlural + '_attributes][' + topic.id + '][descriptors][] id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_descriptors}\'>';
   }
   return returnStatement;
 };
@@ -615,7 +617,7 @@ var _keyify2 = _interopRequireDefault(_keyify);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = function nestedListPane(topicsByType, unsortedTopics, visit, paneKey) {
-  var returnStatement = '<div class="row topicButtons">';
+  var returnStatement = '<div class="topicButtons btn-group" role="group">';
   for (var tg in topicsByType) {
     var topicTypeKey = (0, _keyify2.default)(tg);
     returnStatement += '<button class="paneTopicGroup btn btn-secondary" data-target="' + paneKey + '_' + topicTypeKey + '" type="button">\n      ' + tg + '\n    </button>';
@@ -736,7 +738,7 @@ module.exports = function assembledDiagnosisForm(topic, allTopics) {
   var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
 
   var parameterizedPlural = 'diagnoses';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class=\'form-inline\'>\n      ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n      ' + (0, _durationField2.default)(topic, parameterizedPlural) + '\n      ,\n      ' + (0, _frequencyField2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n    <div class=\'form-inline\'>\n      ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n      ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _findRelated2.default)(topic, allTopics) + '\n  </td></tr>\n  ';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Date</label>\n      <div class=\'form-inline col-10\'>\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Duration</label>\n      <div class="form-inline col-10">\n        ' + (0, _durationField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Frequency</label>\n      <div class="form-inline col-10">\n        ' + (0, _frequencyField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Note</label>\n      <div class="form-inline col-10">\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    ' + (0, _findRelated2.default)(topic, allTopics) + '\n  </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -769,8 +771,8 @@ var _findRelated2 = _interopRequireDefault(_findRelated);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function assembledDissectionForm(topic, visit) {
-  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
+module.exports = function assembledDissectionForm(topic, unsortedTopics, visit) {
+  var rowID = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : topic.id;
 
   var locations = ['aortic root', 'ascending aorta', 'arch', 'descending thoracic', 'suprarenal abdominal', 'infrarenal abdominal', 'iliac', 'renal', 'SMA', 'celiac', 'innominate', 'left carotid', 'left subclavian'];
   var perfused = ['perfused', 'ischemic'];
@@ -778,7 +780,7 @@ module.exports = function assembledDissectionForm(topic, visit) {
   var directions = ['right', 'left', 'N/A'];
   var parameterizedPlural = 'dissections';
   var returnStatement = '';
-  returnStatement += '\n    <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n      <div class="form-inline">\n        <select\n          name="visit[dissections_attributes][' + rowID + '][location]"\n          id="visit_dissections_attributes_' + rowID + '_location"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(locations, 'location') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][direction]"\n          id="visit_dissections_attributes_' + rowID + '_direction"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(directions, 'direction') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][lumen]"\n          id="visit_dissections_attributes_' + rowID + '_lumen"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(lumens, 'lumen') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][perfusion]"\n          id="visit_dissections_attributes_' + rowID + '_perfusion"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(perfused, 'perfusion') + '\n        </select>\n      </div>\n      <div class="form-inline">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n\n        What type of intervention was performed?\n      </div>\n    </td></tr>\n  ';
+  returnStatement += '\n    <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n      <div class="form-inline">\n        <select\n          name="visit[dissections_attributes][' + rowID + '][location]"\n          id="visit_dissections_attributes_' + rowID + '_location"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(locations, 'location') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][direction]"\n          id="visit_dissections_attributes_' + rowID + '_direction"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(directions, 'direction') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][lumen]"\n          id="visit_dissections_attributes_' + rowID + '_lumen"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(lumens, 'lumen') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][perfusion]"\n          id="visit_dissections_attributes_' + rowID + '_perfusion"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(perfused, 'perfusion') + '\n        </select>\n      </div>\n      <div class="form-inline">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n\n        What type of intervention was performed?\n      </div>\n      ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n    </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -856,7 +858,7 @@ module.exports = function assembledHospitalizationForm(topic, unsortedTopics) {
   var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
 
   var parameterizedPlural = 'hospitalizations';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class=\'form-inline\'>\n      ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n      ' + (0, _durationField2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n    <div class=\'form-inline\'>\n      ' + (0, _noteField2.default)(topic, parameterizedPlural) + '        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n  </td></tr>\n  ';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n  <div class="form-group row">\n    <label class="col-2 col-form-label">Admission Date</label>\n    <div class="form-inline col-10">\n      ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Length of Stay</label>\n      <div class="form-inline col-10">\n        ' + (0, _durationField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n  </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -897,7 +899,7 @@ module.exports = function assembledMeasurementForm(topic, unsortedTopics) {
   var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
 
   var parameterizedPlural = 'tests';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class=\'form-inline\'>\n      ' + (0, _measurementField2.default)(topic, parameterizedPlural) + '\n      ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n    </div>\n    <div class=\'form-inline\'>\n      ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n    </div>\n    <div class=\'form-inline\'>\n      ' + (0, _noteField2.default)(topic, parameterizedPlural) + '        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n  </td></tr>\n  ';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Measurement</label>\n      <div class="form-inline col-10">\n        ' + (0, _measurementField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Date</label>\n      <div class="form-inline col-10">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Note</label>\n      <div class="form-inline col-10">\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n  </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -963,7 +965,7 @@ module.exports = function assembledProcedureForm(topic, unsortedTopics) {
   var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
 
   var parameterizedPlural = 'procedures';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class=\'form-inline\'>\n      ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n    <div class=\'form-inline\'>\n      ' + (0, _noteField2.default)(topic, parameterizedPlural) + '        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n  </td></tr>\n  ';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Date</label>\n      <div class=\'form-inline col-10\'>\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Note</label>\n      <div class="form-inline col-10">\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n  </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -1005,7 +1007,7 @@ var unitsOfMeas = ['mcg', 'mg', 'mL', 'mm', 'g', 'L', 'IU'];
 var dosageForms = ['tablet', 'capsule', 'pill', 'liquid solution', 'inhaler', 'cream', 'drops', 'suppository'];
 
 module.exports = function medFormFields(topic) {
-  var returnStatement = '\n  <div class=\'form-inline\'>\n    DOSE\n    <input type=\'number\' name=\'visit[medications_attributes][' + topic.id + '][dose]\' id=\'visit_medications_attributes_' + topic.id + '_dose\' class=\'form-control calculator\' placeholder=\'dose\'>\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'medications_' + topic.id + '_dose_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n    </span>\n    <select name=\'visit[medications_attributes][' + topic.id + '][dose_unit_of_measurement]\' id=\'visit_medications_attributes_' + topic.id + '_dose_unit_of_measurement\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(unitsOfMeas, 'dose units') + '\n    </select>\n  </div>\n\n  <div class=\'form-inline\'>\n    DOSAGE FORM\n    <input type=\'number\' name=\'visit[medications_attributes][' + topic.id + '][dosage_form_units]\' id=\'visit_medications_attributes_' + topic.id + '_dosage_form_units\' class=\'form-control calculator\' placeholder=\'dosage form units\'>\n    <span class=\'input-group-btn\'>\n      <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'medications_' + topic.id + '_dose_units_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n    </span>\n    <select name=\'visit[medications_attributes][' + topic.id + '][dosage_form_units]\' id=\'visit_medications_attributes_' + topic.id + '_dosage_form_units\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(unitsOfMeas, 'dose form units') + '\n    </select>\n    <select name=\'visit[medications_attributes][' + topic.id + '][dosage_form]\' id=\'visit_medications_attributes_' + topic.id + '_dosage_form\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(dosageForms, 'dose form') + '\n    </select>\n  </div>\n\n  <div class=\'form-inline\'>\n    METHOD OF INGESTION\n    <select name=\'visit[medications_attributes][' + topic.id + '][ingestion_method]\' id=\'visit_medications_attributes_' + topic.id + '_ingestion_method\' class=\'form-control\'>\n      ' + (0, _selectConstructor2.default)(ingestionMethods, 'MOI') + '\n    </select>\n  </div>\n\n  <div class=\'form-inline\'>\n    DURATION\n    ' + (0, _durationField2.default)(topic, 'medications') + '\n  </div>\n\n  <div class=\'form-inline\'>\n    FREQUENCY\n    ' + (0, _frequencyField2.default)(topic, 'medications') + '\n  </div>\n\n  <div class=\'form-inline\'>\n    TIME AGO\n    ' + (0, _timeAgoField2.default)(topic, 'medications') + '\n  </div>\n\n  <div class=\'form-inline\'>\n    NOTE\n    ' + (0, _noteField2.default)(topic, 'medications') + '\n  </div>';
+  var returnStatement = '\n  <div class="form-group row">\n    <label class="col-2 col-form-label">Dose</label>\n    <div class="form-inline col-10">\n      <input type=\'number\' name=\'visit[medications_attributes][' + topic.id + '][dose]\' id=\'visit_medications_attributes_' + topic.id + '_dose\' class=\'form-control calculator\' placeholder=\'dose\'>\n      <span class=\'input-group-btn\'>\n        <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'medications_' + topic.id + '_dose_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n      </span>\n      <select name=\'visit[medications_attributes][' + topic.id + '][dose_unit_of_measurement]\' id=\'visit_medications_attributes_' + topic.id + '_dose_unit_of_measurement\' class=\'form-control\'>\n        ' + (0, _selectConstructor2.default)(unitsOfMeas, 'dose units') + '\n      </select>\n    </div>\n  </div>\n\n  <div class="form-group row">\n    <label class="col-2 col-form-label">Dosage Form</label>\n    <div class="form-inline col-10">\n      <input type=\'number\' name=\'visit[medications_attributes][' + topic.id + '][dosage_form_units]\' id=\'visit_medications_attributes_' + topic.id + '_dosage_form_units\' class=\'form-control calculator\' placeholder=\'dosage form units\'>\n      <span class=\'input-group-btn\'>\n        <button class=\'btn btn-secondary calculator\' type=\'button\' id=\'medications_' + topic.id + '_dose_units_calc_button\'><i class=\'fa fa-calculator\'></i></button>\n      </span>\n      <select name=\'visit[medications_attributes][' + topic.id + '][dosage_form_units]\' id=\'visit_medications_attributes_' + topic.id + '_dosage_form_units\' class=\'form-control\'>\n        ' + (0, _selectConstructor2.default)(unitsOfMeas, 'dose form units') + '\n      </select>\n      <select name=\'visit[medications_attributes][' + topic.id + '][dosage_form]\' id=\'visit_medications_attributes_' + topic.id + '_dosage_form\' class=\'form-control\'>\n        ' + (0, _selectConstructor2.default)(dosageForms, 'dose form') + '\n      </select>\n    </div>\n  </div>\n\n  <div class="form-group row">\n    <label class="col-2 col-form-label">Method of Ingestion</label>\n    <div class="form-inline col-10">\n      <select name=\'visit[medications_attributes][' + topic.id + '][ingestion_method]\' id=\'visit_medications_attributes_' + topic.id + '_ingestion_method\' class=\'form-control\'>\n        ' + (0, _selectConstructor2.default)(ingestionMethods, 'MOI') + '\n      </select>\n    </div>\n  </div>\n\n  <div class="form-group row">\n    <label class="col-2 col-form-label">Duration</label>\n    <div class="form-inline col-10">\n      ' + (0, _durationField2.default)(topic, 'medications') + '\n    </div>\n  </div>\n\n  <div class="form-group row">\n    <label class="col-2 col-form-label">Frequency</label>\n    <div class="form-inline col-10">\n      ' + (0, _frequencyField2.default)(topic, 'medications') + '\n    </div>\n  </div>\n\n  <div class="form-group row">\n    <label class="col-2 col-form-label">When</label>\n    <div class="form-inline col-10">\n      ' + (0, _timeAgoField2.default)(topic, 'medications') + '\n    </div>\n  </div>\n\n  <div class="form-group row">\n    <label class="col-2 col-form-label">Note</label>\n    <div class="form-inline col-10">\n      ' + (0, _noteField2.default)(topic, 'medications') + '\n    </div>\n  </div>';
   return returnStatement;
 };
 
@@ -1034,14 +1036,14 @@ module.exports = function presAbsButtons(topic, visit) {
     return x.topic_id;
   });
   var discussed = discussedConcerns.includes(topic.id) ? ' red' : '';
-  var returnStatement = '\n  <tr class="main_Form(topic, allTopics)' + discussed + '">\n    <input value="' + visit.patient_id + '" name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][patient_id]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_patient_id" type="hidden">\n    <input value="' + visit.id + '" name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][visit_id]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_visit_id" type="hidden">\n    <input value="' + topic.id + '" name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][topic_id]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_topic_id" class="topic_id" type="hidden">\n    <td>\n      ' + topic.name + '\n      ';
+  var returnStatement = '\n  <tr class="main_Form(topic, allTopics)' + discussed + '">\n    <input value="' + visit.patient_id + '" name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][patient_id]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_patient_id" type="hidden">\n    <input value="' + visit.id + '" name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][visit_id]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_visit_id" type="hidden">\n    <input value="' + topic.id + '" name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][topic_id]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_topic_id" class="topic_id" type="hidden">\n    <td class="w-50">\n      ' + topic.name + '\n      ';
   if (discussed) {
     var existing = JSON.parse(visit.concerns).filter(function (x) {
       return x.topic_id == topic.id;
     });
     returnStatement += '' + (0, _infoHover2.default)(existing);
   }
-  returnStatement += '\n    </td>\n    <div class="btn-group" data-toggle="buttons">\n    <td>\n      <label class="btn">\n        <input name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][present]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_present_true" class="pres_abs" type="radio" value="true"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>\n      </label>\n    </td>\n    <td>\n      <label class="btn">\n        <input name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][present]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_present_false" class="pres_abs" type="radio" value="false"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>\n      </label>\n    </td>\n    </div>\n  </tr>\n  ';
+  returnStatement += '\n    </td>\n    <div class="btn-group" data-toggle="buttons">\n    <td class="w-25">\n      <label class="btn">\n        <input name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][present]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_present_true" class="pres_abs" type="radio" value="true"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>\n      </label>\n    </td>\n    <td class="w-25">\n      <label class="btn">\n        <input name="visit[' + parameterizedPlural + '_attributes][' + topic.id + '][present]" id="visit_' + parameterizedPlural + '_attributes_' + topic.id + '_present_false" class="pres_abs" type="radio" value="false"><i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>\n      </label>\n    </td>\n    </div>\n  </tr>\n  ';
   return returnStatement;
 };
 
@@ -1100,7 +1102,7 @@ module.exports = function rowForm(topic, unsortedTopics, visit) {
       break;
     case "dissection":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
-      returnStatement += '' + (0, _assembledDissectionForm2.default)(topic, visit);
+      returnStatement += '' + (0, _assembledDissectionForm2.default)(topic, unsortedTopics, visit);
       break;
     case "family member":
       returnStatement += 'FAMILY MEMBER FORM';
@@ -3193,9 +3195,9 @@ var _measurementField2 = _interopRequireDefault(_measurementField);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = function assembledVitalForm(topic, visit) {
+  var returnStatement = '';
   var parameterizedPlural = 'vitals';
-  var returnStatement = '' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural);
-  returnStatement += '' + (0, _measurementField2.default)(topic, parameterizedPlural);
+  returnStatement += '<div class="form-group row">\n      <label class="col-2 col-form-label">' + topic.name + '</label>\n      <div class="form-inline col-10">\n        ' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural) + '\n        ' + (0, _measurementField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>';
 
   return returnStatement;
 };
@@ -6120,7 +6122,7 @@ module.exports = function assembledDiagnosisForm(topic, allTopics) {
   var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
 
   var parameterizedPlural = 'diagnoses';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class=\'form-inline\'>\n      ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n      ' + (0, _durationField2.default)(topic, parameterizedPlural) + '\n      ,\n      ' + (0, _frequencyField2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n    <div class=\'form-inline\'>\n      ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n      ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _findRelated2.default)(topic, allTopics) + '\n  </td></tr>\n  ';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Date</label>\n      <div class=\'form-inline col-10\'>\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Duration</label>\n      <div class="form-inline col-10">\n        ' + (0, _durationField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Frequency</label>\n      <div class="form-inline col-10">\n        ' + (0, _frequencyField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Note</label>\n      <div class="form-inline col-10">\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    ' + (0, _findRelated2.default)(topic, allTopics) + '\n  </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -6153,8 +6155,8 @@ var _findRelated2 = _interopRequireDefault(_findRelated);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function assembledDissectionForm(topic, visit) {
-  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
+module.exports = function assembledDissectionForm(topic, unsortedTopics, visit) {
+  var rowID = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : topic.id;
 
   var locations = ['aortic root', 'ascending aorta', 'arch', 'descending thoracic', 'suprarenal abdominal', 'infrarenal abdominal', 'iliac', 'renal', 'SMA', 'celiac', 'innominate', 'left carotid', 'left subclavian'];
   var perfused = ['perfused', 'ischemic'];
@@ -6162,7 +6164,7 @@ module.exports = function assembledDissectionForm(topic, visit) {
   var directions = ['right', 'left', 'N/A'];
   var parameterizedPlural = 'dissections';
   var returnStatement = '';
-  returnStatement += '\n    <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n      <div class="form-inline">\n        <select\n          name="visit[dissections_attributes][' + rowID + '][location]"\n          id="visit_dissections_attributes_' + rowID + '_location"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(locations, 'location') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][direction]"\n          id="visit_dissections_attributes_' + rowID + '_direction"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(directions, 'direction') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][lumen]"\n          id="visit_dissections_attributes_' + rowID + '_lumen"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(lumens, 'lumen') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][perfusion]"\n          id="visit_dissections_attributes_' + rowID + '_perfusion"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(perfused, 'perfusion') + '\n        </select>\n      </div>\n      <div class="form-inline">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n\n        What type of intervention was performed?\n      </div>\n    </td></tr>\n  ';
+  returnStatement += '\n    <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n      <div class="form-inline">\n        <select\n          name="visit[dissections_attributes][' + rowID + '][location]"\n          id="visit_dissections_attributes_' + rowID + '_location"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(locations, 'location') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][direction]"\n          id="visit_dissections_attributes_' + rowID + '_direction"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(directions, 'direction') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][lumen]"\n          id="visit_dissections_attributes_' + rowID + '_lumen"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(lumens, 'lumen') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][perfusion]"\n          id="visit_dissections_attributes_' + rowID + '_perfusion"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(perfused, 'perfusion') + '\n        </select>\n      </div>\n      <div class="form-inline">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n\n        What type of intervention was performed?\n      </div>\n      ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n    </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -6203,7 +6205,7 @@ module.exports = function assembledHospitalizationForm(topic, unsortedTopics) {
   var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
 
   var parameterizedPlural = 'hospitalizations';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class=\'form-inline\'>\n      ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n      ' + (0, _durationField2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n    <div class=\'form-inline\'>\n      ' + (0, _noteField2.default)(topic, parameterizedPlural) + '        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n  </td></tr>\n  ';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n  <div class="form-group row">\n    <label class="col-2 col-form-label">Admission Date</label>\n    <div class="form-inline col-10">\n      ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Length of Stay</label>\n      <div class="form-inline col-10">\n        ' + (0, _durationField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n  </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -6244,7 +6246,7 @@ module.exports = function assembledMeasurementForm(topic, unsortedTopics) {
   var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
 
   var parameterizedPlural = 'tests';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class=\'form-inline\'>\n      ' + (0, _measurementField2.default)(topic, parameterizedPlural) + '\n      ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n    </div>\n    <div class=\'form-inline\'>\n      ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n    </div>\n    <div class=\'form-inline\'>\n      ' + (0, _noteField2.default)(topic, parameterizedPlural) + '        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n  </td></tr>\n  ';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Measurement</label>\n      <div class="form-inline col-10">\n        ' + (0, _measurementField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Date</label>\n      <div class="form-inline col-10">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Note</label>\n      <div class="form-inline col-10">\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n  </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -6310,7 +6312,7 @@ module.exports = function assembledProcedureForm(topic, unsortedTopics) {
   var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
 
   var parameterizedPlural = 'procedures';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class=\'form-inline\'>\n      ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n    <div class=\'form-inline\'>\n      ' + (0, _noteField2.default)(topic, parameterizedPlural) + '        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n    </div>\n    ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n  </td></tr>\n  ';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Date</label>\n      <div class=\'form-inline col-10\'>\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    <div class="form-group row">\n      <label class="col-2 col-form-label">Note</label>\n      <div class="form-inline col-10">\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n    ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n  </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -6369,7 +6371,7 @@ module.exports = function rowForm(topic, unsortedTopics, visit) {
       break;
     case "dissection":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
-      returnStatement += '' + (0, _assembledDissectionForm2.default)(topic, visit);
+      returnStatement += '' + (0, _assembledDissectionForm2.default)(topic, unsortedTopics, visit);
       break;
     case "family member":
       returnStatement += 'FAMILY MEMBER FORM';

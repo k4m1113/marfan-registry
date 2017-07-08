@@ -13,6 +13,7 @@ input[type='radio'] {
   .tab-pane {
     display: none;
     overflow-y: auto;
+
   }
 
   .active {
@@ -89,4 +90,8 @@ tr.row_form {
 .row.topicButtons {
   margin-left: 5px;
   padding-bottom: 2px;
+}
+.summary-accordion {
+  margin-bottom: -16px;
+  padding: 0px;
 }

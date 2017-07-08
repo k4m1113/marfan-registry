@@ -1,7 +1,11 @@
 module.exports = function findRelated(topic, unsortedTopics) {
   let returnStatement = '<div aria-label="RELATED">'
   if (topic.related.length) {
-    returnStatement += '<hr/>Related: '
+    returnStatement += `<div class="form-group row">
+      <label class="col-2 col-form-label">
+        Related:
+      </label>
+    <div class="col-10">`
     let nextStep = topic.related.map(ind => unsortedTopics.find(obj => obj.id === ind))
     for (let i = 0; i < nextStep.length; i++) {
       if (nextStep[i]) {
@@ -12,7 +16,7 @@ module.exports = function findRelated(topic, unsortedTopics) {
         </button>`
       }
     }
-    returnStatement += '</div>'
+    returnStatement += '</div></div>'
   }
   return returnStatement;
 }

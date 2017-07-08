@@ -21,7 +21,7 @@ module.exports = function rowForm(topic, unsortedTopics, visit) {
       break;
     case "dissection":
     returnStatement += `${presAbsButtons(topic, visit)}`;
-      returnStatement += `${assembledDissectionForm(topic, visit)}`;
+      returnStatement += `${assembledDissectionForm(topic, unsortedTopics, visit)}`;
       break;
     case "family member":
       returnStatement += `FAMILY MEMBER FORM`;

@@ -19,7 +19,7 @@ class Procedure < ApplicationRecord
 
 
   def self.table_headings
-    return %w[Date Name Note When Attachment Actions]
+    %w[Date Name Note When Attachment Actions]
   end
 
   def table_body
@@ -34,16 +34,16 @@ class Procedure < ApplicationRecord
     end
 
     return {
-      'date': display_date(self),
-      'description': find_trail(self.topic_id),
-      'note': print_if_present(self.note),
-      'when': print_if_present(self.time_ago),
+      'date': absolute_start_date.strftime('%b %Y'),
+      'description': find_trail(topic_id),
+      'note': print_if_present(note),
+      'when': print_if_present(time_ago),
       'attachment': "#{action_view.render(
         partial: 'layouts/attachment_thumbnails', format: :txt,
-        locals: { model: self})}".html_safe,
+        locals: { model: self })}".html_safe,
       'actions': "#{action_view.render(
         partial: 'procedures/link_buttons', format: :txt,
-        locals: { p: self})}".html_safe
+        locals: { p: self })}".html_safe
     }
   end
 
@@ -79,5 +79,8 @@ class Procedure < ApplicationRecord
       details << " (#{self.note})"
     end
     return details
+  end
+  def generate_full_summary
+    generate_summary
   end
 end

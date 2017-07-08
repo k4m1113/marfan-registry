@@ -13,7 +13,8 @@ module.exports = function keywords(topic, parameterizedPlural) {
       `
     };
     returnStatement += '</div>'
-
+  } else {
+    returnStatement += `<input class="form-control" type="text" name=visit[${parameterizedPlural}_attributes][${topic.id}][descriptors][] id='visit_${parameterizedPlural}_attributes_${topic.id}_descriptors}'>`;
   }
   return returnStatement;
 }

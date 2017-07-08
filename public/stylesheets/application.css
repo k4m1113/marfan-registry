@@ -12447,6 +12447,10 @@ tr.row_form {
   margin-left: 5px;
   padding-bottom: 2px; }
 
+.summary-accordion {
+  margin-bottom: -16px;
+  padding: 0px; }
+
 .tooltip-trigger {
   border-radius: 20px;
   padding: 1px 6px 0px 6px;
@@ -12542,3 +12546,6 @@ img {
 
 .card-group .card {
   min-width: 50%; }
+
+.row {
+  max-width: 95%; }

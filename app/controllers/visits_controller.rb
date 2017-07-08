@@ -70,7 +70,7 @@ class VisitsController < ApplicationController
     # @visit.diagnoses.build
     conc = []
     @visit.concerns.each do |obj|
-      k = obj.as_json.merge!({summary: obj.generate_summary})
+      k = obj.as_json.merge!({summary: obj.generate_full_summary})
       conc << k
     end
     @jconcerns = conc.to_json
