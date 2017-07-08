@@ -6,19 +6,21 @@ import fileAttachmentButton from './fileAttachmentButton';
 import findRelated from './findRelated';
 
 module.exports = function assembledProcedureForm(topic, unsortedTopics, rowID = topic.id) {
-  let parameterizedPlural = 'procedures'
-  const returnStatement = `
-  <tr class='row_form' id='row_${rowID}' style='display:none'><td colspan='3'>
-    <div class="form-group row">
-      <label class="col-2 col-form-label">Date</label>
-      <div class='form-inline col-10'>
-        ${timeAgoField(topic, parameterizedPlural)}
-      </div>
-    </div>
-    <div class="form-group row">
+  const parameterizedPlural = 'procedures'
+  let returnStatement = `
+  <tr class='row_form' id='row_${rowID}' style='display:none'><td colspan='3'>`
+  if (topic.descriptors) {
+    returnStatement += `<div class="form-group row">
       <label class="col-2 col-form-label">Descriptors</label>
       <div class="form-inline col-10">
         ${keywords(topic, parameterizedPlural)}
+      </div>
+    </div>`
+  }
+  returnStatement += `<div class="form-group row">
+      <label class="col-2 col-form-label">Date</label>
+      <div class='form-inline col-10'>
+        ${timeAgoField(topic, parameterizedPlural)}
       </div>
     </div>
     <div class="form-group row">

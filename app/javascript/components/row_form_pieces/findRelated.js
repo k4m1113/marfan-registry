@@ -1,7 +1,7 @@
 module.exports = function findRelated(topic, unsortedTopics) {
   let returnStatement = '<div aria-label="RELATED">'
   if (topic.related.length) {
-    returnStatement += `<div class="form-group row">
+    returnStatement += `<hr/><div class="form-group row">
       <label class="col-2 col-form-label">
         Related:
       </label>
