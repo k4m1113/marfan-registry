@@ -5,7 +5,7 @@ class Diagnosis < ApplicationRecord
   attr_reader :table_headings, :table_body
   attr_accessor :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale, :descriptors
 
-  before_save :concat_duration, :concat_time_ago, :concat_frequency, :descriptors_to_note, :timeify
+  before_save :concat_duration, :concat_time_ago, :concat_frequency, :descriptors_to_note
 
   belongs_to :topic
   belongs_to :visit, inverse_of: :diagnoses, required: false
@@ -83,7 +83,7 @@ class Diagnosis < ApplicationRecord
     ap = present? ? 'presence' : 'absence'
     "#{ap.with_indefinite_article} of #{find_pretty_trail(topic_id)}"
   end
-  
+
   def generate_full_summary
     generate_summary << times
   end
