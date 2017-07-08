@@ -1,0 +1,27 @@
+@import "colors";
+
+label.descriptor {
+  border: 1px solid $bootstrap-border-grey;
+  color: $bootstrap-dark-grey;
+  background-color: $bootstrap-light-grey;
+  padding: 6px 12px 6px 12px !important;
+  font-size: 16px;
+  input {
+    margin-top: 1px !important;
+    width:18px;
+    height: 18px;
+  }
+}
+.descriptors {
+  label.descriptor:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+  label.descriptor:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+  label.descriptor:not(:first-child) {
+    border-left: 0px;
+  }
+}

@@ -193,13 +193,11 @@ module.exports = function timeAgoField(topic, parameterizedPlural) {
 module.exports = function keywords(topic, parameterizedPlural) {
   var returnStatement = '';
   if (topic.descriptors) {
-    returnStatement += '<div class=\'form-inline\'>';
+    returnStatement += '<div class=\'form-inline descriptors\'>';
     for (var i = 0; i < topic.descriptors.length; i++) {
-      returnStatement += '\n        <div class=\'form-check form-check-inline\'>\n          <label class=\'form-check-label\'>\n            <input class=\'form-check-input\' type=\'checkbox\' name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][descriptors][]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_descriptors_' + topic.descriptors[i] + '\' value=\'' + topic.descriptors[i] + '\'>\n            ' + topic.descriptors[i] + '\n          </label>\n        </div>\n      ';
-    };
+      returnStatement += '\n          <label class=\'form-check-label descriptor\'>\n            <input class=\'form-check-input\' type=\'checkbox\' name=\'visit[' + parameterizedPlural + '_attributes][' + topic.id + '][descriptors][]\' id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_descriptors_' + topic.descriptors[i] + '\' value=\'' + topic.descriptors[i] + '\'>\n            ' + topic.descriptors[i] + '\n          </label>\n      ';
+    }
     returnStatement += '</div>';
-  } else {
-    returnStatement += '<input class="form-control" type="text" name=visit[' + parameterizedPlural + '_attributes][' + topic.id + '][descriptors][] id=\'visit_' + parameterizedPlural + '_attributes_' + topic.id + '_descriptors}\'>';
   }
   return returnStatement;
 };
