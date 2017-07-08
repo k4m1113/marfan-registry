@@ -6,7 +6,7 @@ import fileAttachmentButton from './fileAttachmentButton'
 
 module.exports = function assembledHeartMeasurementForm(topic, visit, rowID = topic.id) {
   const parameterizedPlural = 'heart_measurements'
-  let returnStatement = `<div class="col-sm-12"><div class="card">
+  let returnStatement = `<div class="card">
   <div class="card-header">
     ${topic.name}
   </div>
@@ -21,6 +21,6 @@ module.exports = function assembledHeartMeasurementForm(topic, visit, rowID = to
   if (topic.descriptors) {
     returnStatement += `${keywords(topic, parameterizedPlural)}`
   }
-  returnStatement += `${noteField(topic, parameterizedPlural)}${fileAttachmentButton(topic, parameterizedPlural)}</div></div></div>`
+  returnStatement += `${noteField(topic, parameterizedPlural)}${fileAttachmentButton(topic, parameterizedPlural)}</div></div>`
   return returnStatement
 }

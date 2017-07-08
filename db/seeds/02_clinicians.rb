@@ -17,5 +17,5 @@ lucky_victim.update(
 Visit.create!(
   clinician_id: Clinician.first.id,
   patient_id: lucky_victim.id,
-  primary_reason: 'for checkup'
+  primary_reason: 'checkup'
 )

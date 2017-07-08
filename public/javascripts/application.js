@@ -651,7 +651,7 @@ module.exports = function aorticImaging(topics, visit) {
   var fields = topics.map(function (t) {
     return (0, _assembledHeartMeasurementForm2.default)(t, visit);
   });
-  var returnStatement = '<div class="row">';
+  var returnStatement = '<div class="card-group">';
   returnStatement += '' + fields.join('');
   returnStatement += '</div>';
   return returnStatement;
@@ -3117,7 +3117,7 @@ module.exports = function nestedList(allTopics, unsortedTopics, visit) {
         break;
       case 'medication':
         panes += '' + (0, _epicAddForm2.default)();
-        panes += (0, _nestedListPane2.default)(topicsByType.medication, unsortedTopics, visit, key) + '</div>';
+        panes += (0, _nestedListPane2.default)(topicsByType, unsortedTopics, visit, key) + '</div>';
         break;
       default:
         panes += (0, _nestedListPane2.default)(topicsByType, unsortedTopics, visit, key) + '</div>';
@@ -3162,7 +3162,7 @@ module.exports = function assembledHeartMeasurementForm(topic, visit) {
   var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
 
   var parameterizedPlural = 'heart_measurements';
-  var returnStatement = '<div class="col-sm-12"><div class="card">\n  <div class="card-header">\n    ' + topic.name + '\n  </div>\n  <div class="form-inline">' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural);
+  var returnStatement = '<div class="card">\n  <div class="card-header">\n    ' + topic.name + '\n  </div>\n  <div class="form-inline">' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural);
   if (topic.units_of_measurement.length == 1 || !topic.name.includes('morphology')) {
     returnStatement += '<div class="form-inline">\n      ' + (0, _measurementField2.default)(topic, parameterizedPlural, null, 'severity') + '\n    </div>';
   } else {
@@ -3171,7 +3171,7 @@ module.exports = function assembledHeartMeasurementForm(topic, visit) {
   if (topic.descriptors) {
     returnStatement += '' + (0, _keywords2.default)(topic, parameterizedPlural);
   }
-  returnStatement += '' + (0, _noteField2.default)(topic, parameterizedPlural) + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '</div></div></div>';
+  returnStatement += '' + (0, _noteField2.default)(topic, parameterizedPlural) + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '</div></div>';
   return returnStatement;
 };
 
@@ -5985,7 +5985,7 @@ module.exports = function nestedList(allTopics, unsortedTopics, visit) {
         break;
       case 'medication':
         panes += '' + (0, _epicAddForm2.default)();
-        panes += (0, _nestedListPane2.default)(topicsByType.medication, unsortedTopics, visit, key) + '</div>';
+        panes += (0, _nestedListPane2.default)(topicsByType, unsortedTopics, visit, key) + '</div>';
         break;
       default:
         panes += (0, _nestedListPane2.default)(topicsByType, unsortedTopics, visit, key) + '</div>';

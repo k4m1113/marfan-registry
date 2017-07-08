@@ -45,7 +45,7 @@ module.exports = function nestedList(allTopics, unsortedTopics, visit) {
         break;
       case 'medication':
         panes += `${epicAddForm()}`
-        panes += `${nestedListPane(topicsByType.medication, unsortedTopics, visit, key)}</div>`
+        panes += `${nestedListPane(topicsByType, unsortedTopics, visit, key)}</div>`
         break;
       default:
         panes += `${nestedListPane(topicsByType, unsortedTopics, visit, key)}</div>`

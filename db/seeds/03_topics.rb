@@ -774,7 +774,8 @@ Topic.create!(
 ## BEGIN ASCENDING REPLACEMENT (xls 185) ##
 asc_repl = Topic.create!(
   name: 'ascending replacement',
-  topic_type: 'procedure'
+  topic_type: 'procedure',
+  descriptors: ['clamped', 'open distal anstomosis']
 ).move_to_child_of(aortic_surgery)
 Topic.create!(
   name: 'clamped',
@@ -810,37 +811,11 @@ Topic.create!(
 
 
 ## BEGIN STENT GRAFT (xls 194) ##
-stent_graft = Topic.create!(
+Topic.create!(
   name: 'stent graft',
   topic_type: 'procedure',
   descriptors: ['thoracic', 'endoleak', 'suprarenal', 'infrarenal', 'right iliac', 'left iliac', 'right subclavian', 'left sublcavian']
 ).move_to_child_of(cardio)
-thoracic_stent = Topic.create!(
-  name: 'thoracic',
-  topic_type: 'procedure'
-).move_to_child_of(stent_graft)
-Topic.create!(
-  name: 'endoleak',
-  topic_type: 'procedure'
-).move_to_child_of(thoracic_stent)
-Topic.create!(
-  name: 'suprarenal',
-  topic_type: 'procedure'
-).move_to_child_of(stent_graft)
-Topic.create!(
-  name: 'infrarenal',
-  topic_type: 'procedure'
-).move_to_child_of(stent_graft)
-iliac_stent = Topic.create!(
-  name: 'iliac',
-  topic_type: 'procedure',
-  descriptors: %w[right left]
-).move_to_child_of(stent_graft)
-subclavian_stent = Topic.create!(
-  name: 'subclavian',
-  topic_type: 'procedure',
-  descriptors: %w[right left]
-).move_to_child_of(stent_graft)
 ## END STENT GRAFT (xls 200) ##
 
 ## BEGIN MITRAL VALVE SURGERY (xls 202) ##
@@ -850,28 +825,14 @@ mitral_valve_surgery = Topic.create!(
 ).move_to_child_of(cardio)
 mitral_valve_repair = Topic.create!(
   name: 'mitral valve repair',
-  topic_type: 'procedure'
+  topic_type: 'procedure',
+  descriptors: ['ring only', 'leaflet repair']
 ).move_to_child_of(mitral_valve_surgery)
-Topic.create!(
-  name: 'ring only',
-  topic_type: 'procedure'
-).move_to_child_of(mitral_valve_repair)
-Topic.create!(
-  name: 'leaflet repair',
-  topic_type: 'procedure'
-).move_to_child_of(mitral_valve_repair)
 mitral_valve_replacement = Topic.create!(
   name: 'mitral valve replacement',
-  topic_type: 'procedure'
+  topic_type: 'procedure',
+  descriptors: ['mechanical prosthesis', 'bioprosthetic']
 ).move_to_child_of(mitral_valve_surgery)
-Topic.create!(
-  name: 'mechanical prosthesis',
-  topic_type: 'procedure'
-).move_to_child_of(mitral_valve_replacement)
-Topic.create!(
-  name: 'bioprosthetic',
-  topic_type: 'procedure'
-).move_to_child_of(mitral_valve_replacement)
 ## END MITRAL VALVE SURGERY (xls 205) ##
 
 Topic.create!(
@@ -1210,16 +1171,17 @@ ortho_symptoms = Topic.create!(
 ).move_to_child_of(ortho)
 ortho_pain = Topic.create!(
   name: 'pain',
-  topic_type: 'diagnosis',
-  descriptors: pain_descriptors
+  topic_type: 'middle'
 ).move_to_child_of(ortho_symptoms)
 Topic.create!(
-  name: 'upper back',
-  topic_type: 'diagnosis'
+  name: 'upper back pain ',
+  topic_type: 'diagnosis',
+  descriptors: pain_descriptors
 ).move_to_child_of(ortho_pain)
 Topic.create!(
-  name: 'lower back',
-  topic_type: 'diagnosis'
+  name: 'lower back pain',
+  topic_type: 'diagnosis',
+  descriptors: pain_descriptors
 ).move_to_child_of(ortho_pain)
 Topic.create!(
   name: 'hip',
@@ -1478,20 +1440,20 @@ chiari = Topic.create!(
   topic_type: 'diagnosis'
 ).move_to_child_of(low_icp)
 Topic.create!(
-  name: 'MRI',
+  name: 'MRI for Chiari Malformation',
   topic_type: 'measurement',
   units_of_measurement: %w[I II III IV]
-).move_to_child_of(chiari)
+).move_to_child_of(neuro)
 dural_ectasia = Topic.create!(
   name: 'dural ectasia',
   topic_type: 'diagnosis',
   descriptors: %w[chronic acute]
 ).move_to_child_of(low_icp)
 Topic.create!(
-  name: 'MRI',
+  name: 'MRI for dural ectasia',
   topic_type: 'measurement',
   units_of_measurement: ['scalloping', 'dural sac ratio', 'nerve root sleeve diameter', 'sagittal dural sac width']
-).move_to_child_of(dural_ectasia)
+).move_to_child_of(neuro)
 blood_patch = Topic.create!(
   name: 'blood patch',
   topic_type: 'procedure'
