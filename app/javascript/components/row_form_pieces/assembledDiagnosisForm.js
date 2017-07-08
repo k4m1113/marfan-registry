@@ -6,10 +6,10 @@ import noteField from './noteField';
 import fileAttachmentButton from './fileAttachmentButton';
 import findRelated from './findRelated'
 
-module.exports = function assembledDiagnosisForm(topic, allTopics) {
+module.exports = function assembledDiagnosisForm(topic, allTopics, rowID = topic.id) {
   const parameterizedPlural = 'diagnoses'
   const returnStatement = `
-  <tr class='row_form' id='row_${topic.id}' style='display:none'><td colspan='3'>
+  <tr class='row_form' id='row_${rowID}' style='display:none'><td colspan='3'>
     <div class='form-inline'>
       ${timeAgoField(topic, parameterizedPlural)}
       ${durationField(topic, parameterizedPlural)}

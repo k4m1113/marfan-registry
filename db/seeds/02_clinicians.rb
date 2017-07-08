@@ -10,3 +10,7 @@ Clinician.create!(
   country: "USA",
   postal_code: 94305
 )
+Visit.create!(
+  clinician_id: Clinician.first.id,
+  patient_id: Patient.find(rand(Patient.count)).id
+)

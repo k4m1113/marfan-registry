@@ -4,7 +4,7 @@ import keywords from './keywords'
 import noteField from './noteField'
 import fileAttachmentButton from './fileAttachmentButton'
 
-module.exports = function assembledHeartMeasurementForm(topic, visit) {
+module.exports = function assembledHeartMeasurementForm(topic, visit, rowID = topic.id) {
   const parameterizedPlural = 'heart_measurements'
   let returnStatement = `<div class="col-sm-12"><div class="card">
   <div class="card-header">

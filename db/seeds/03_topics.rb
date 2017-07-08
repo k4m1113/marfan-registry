@@ -434,44 +434,28 @@ Topic.create!(
   topic_type: 'diagnosis'
 ).move_to_child_of(morphology)
 
-Topic.create!(
+pe_morph = Topic.create!(
   name: 'pectus excavatum',
   topic_type: 'diagnosis'
 ).move_to_child_of(morphology)
-Topic.create!(
+pc_morph = Topic.create!(
   name: 'pectus carinatum',
   topic_type: 'diagnosis'
 ).move_to_child_of(morphology)
-Topic.create!(
+ap_morph = Topic.create!(
   name: 'asymmetric pectus',
   topic_type: 'diagnosis'
 ).move_to_child_of(morphology)
-Topic.create!(
-  name: 'pectus surgery',
-  topic_type: 'procedure'
-).move_to_child_of(morphology)
 kypho = Topic.create!(
-  name: 'kyphoscoliosis',
-  topic_type: 'diagnosis'
+  name: 'lumbar kyphoscoliosis',
+  topic_type: 'measurement',
+  units_of_measurement: %w[degrees]
 ).move_to_child_of(morphology)
 thoracic_kypho = Topic.create!(
-  name: 'thoracic',
-  topic_type: 'diagnosis'
-).move_to_child_of(kypho)
-Topic.create!(
-  name: 'degree',
-  topic_type: 'measurement',
+  name: 'thoracic kyphoscoliosis',
+  topic_type: 'diagnosis',
   units_of_measurement: %w[degrees]
-).move_to_child_of(thoracic_kypho)
-lumbar_kypho = Topic.create!(
-  name: 'lumbar',
-  topic_type: 'diagnosis'
 ).move_to_child_of(kypho)
-Topic.create!(
-  name: 'degree',
-  topic_type: 'measurement',
-  units_of_measurement: %w[degrees]
-).move_to_child_of(lumbar_kypho)
 Topic.create!(
   name: 'spondylolisthesis',
   topic_type: 'diagnosis'
@@ -1167,44 +1151,63 @@ ortho = Topic.create!(
 )
 back = Topic.create!(
   name: 'back',
-  topic_type: 'diagnosis'
+  topic_type: 'middle'
 ).move_to_child_of(ortho)
-scoliosis = Topic.create!(
+scolio = Topic.create!(
   name: 'scoliosis',
-  topic_type: 'diagnosis'
+  topic_type: 'middle'
 ).move_to_child_of(back)
 Topic.create!(
-  name: 'thoracic',
-  topic_type: 'procedure',
-  descriptors: ['bracing', 'Harrington rods', 'physical therapy', 'fusion']
-).move_to_child_of(scoliosis)
-lumbar = Topic.create!(
-  name: 'lumbar',
-  topic_type: 'procedure',
-  descriptors: ['bracing', 'Harrington rods', 'physical therapy', 'fusion']
-).move_to_child_of(scoliosis)
+  name: 'thoracic scoliosis',
+  topic_type: 'diagnosis'
+).move_to_child_of(scolio)
+Topic.create!(
+  name: 'lumbar scoliosis',
+  topic_type: 'diagnosis'
+).move_to_child_of(scolio)
+bracing = Topic.create!(
+  name: 'bracing',
+  topic_type: 'procedure'
+).move_to_child_of(back)
+harr = Topic.create!(
+  name: 'Harrington Rods',
+  topic_type: 'procedure'
+).move_to_child_of(back)
+physio = Topic.create!(
+  name: 'physical therapy',
+  topic_type: 'procedure'
+).move_to_child_of(back)
+fusion = Topic.create!(
+  name: 'fusion',
+  topic_type: 'procedure'
+).move_to_child_of(back)
 ## END ORTHOPEDIC BACK (xls 253) ##
 
 ## BEGIN PECTUS (xls 254) ##
 pectus = Topic.create!(
   name: 'pectus',
-  topic_type: 'diagnosis'
+  topic_type: 'middle'
 ).move_to_child_of(ortho)
 Topic.create!(
-  name: 'excavatum',
-  topic_type: 'procedure',
-  descriptors: ['Ravitch procedure', 'Nuss bar']
+  name: 'pectus excavatum',
+  topic_type: 'diagnosis'
 ).move_to_child_of(pectus)
 Topic.create!(
-  name: 'carinatum',
-  topic_type: 'procedure',
-  descriptors: ['Ravitch procedure', 'Nuss bar']
+  name: 'pectus carinatum',
+  topic_type: 'diagnosis'
 ).move_to_child_of(pectus)
 Topic.create!(
-  name: 'asymmetric',
-  topic_type: 'procedure',
-  descriptors: ['Ravitch procedure', 'Nuss bar']
+  name: 'asymmetric pectus',
+  topic_type: 'diagnosis'
 ).move_to_child_of(pectus)
+ravitch = Topic.create!(
+  name: 'Ravitch procedure',
+  topic_type: 'procedure'
+).move_to_child_of(ortho)
+nuss = Topic.create!(
+  name: 'Nuss Bar',
+  topic_type: 'procedure'
+).move_to_child_of(ortho)
 ## END PECTUS (xls 256) ##
 
 ## BEGIN SHALLOW ORTHOPEDIC (xls 258) ##
@@ -1323,19 +1326,23 @@ Topic.create!(
 ).move_to_child_of(ortho_pain)
 Topic.create!(
   name: 'hip',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: ['osteoarthritis', 'deep socket', 'dysplasia']
 ).move_to_child_of(ortho_pain)
 Topic.create!(
   name: 'knee',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: ['osteoarthritis', 'patellar instability', 'dysplasia', 'subluxation']
 ).move_to_child_of(ortho_pain)
 Topic.create!(
   name: 'ankle',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: %w[osteoarthritis dislocation subluxation instability]
 ).move_to_child_of(ortho_pain)
 Topic.create!(
   name: 'foot',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: %w[osteoarthritis dislocation subluxation instability]
 ).move_to_child_of(ortho_pain)
 Topic.create!(
   name: 'sciataca',
@@ -1370,14 +1377,10 @@ irido = Topic.create!(
 ).move_to_child_of(ophthalmo)
 myopia = Topic.create!(
   name: 'myopia',
-  topic_type: 'diagnosis',
+  topic_type: 'measurement',
+  units_of_measurement: %w[diopters],
   descriptors: %w[left right both]
 ).move_to_child_of(ophthalmo)
-Topic.create!(
-  name: 'severity',
-  topic_type: 'measurement',
-  units_of_measurement: %w[diopters]
-).move_to_child_of(myopia)
 Topic.create!(
   name: 'globe length',
   topic_type: 'measurement',
@@ -1395,7 +1398,7 @@ ectopia_lentis = Topic.create!(
 ).move_to_child_of(ophthalmo)
 cataract = Topic.create!(
   name: 'cataract',
-  topic_type: 'procedure',
+  topic_type: 'diagnosis',
   descriptors: %w[left right both]
 ).move_to_child_of(ophthalmo)
 Topic.create!(
@@ -1410,7 +1413,7 @@ Topic.create!(
 ).move_to_child_of(ophthalmo)
 retinal_detachment = Topic.create!(
   name: 'retinal detachment',
-  topic_type: 'procedure',
+  topic_type: 'diagnosis',
   descriptors: %w[buckle laser]
 ).move_to_child_of(ophthalmo)
 ## END OPHTHALMOLOGIC (xls 297) ##
@@ -1522,7 +1525,7 @@ Topic.create!(
 ).move_to_child_of(preg_anesthesia)
 
 preg_diagnosiss = Topic.create!(
-  name: 'diagnosiss',
+  name: 'diagnosis',
   topic_type: 'medication'
 ).move_to_child_of(pregnancy)
 Topic.create!(
@@ -1583,20 +1586,13 @@ Topic.create!(
 ).move_to_child_of(chiari)
 dural_ectasia = Topic.create!(
   name: 'dural ectasia',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: %w[chronic acute]
 ).move_to_child_of(low_icp)
 Topic.create!(
   name: 'MRI',
   topic_type: 'measurement',
   units_of_measurement: ['scalloping', 'dural sac ratio', 'nerve root sleeve diameter', 'sagittal dural sac width']
-).move_to_child_of(dural_ectasia)
-Topic.create!(
-  name: 'acute',
-  topic_type: 'diagnosis'
-).move_to_child_of(dural_ectasia)
-Topic.create!(
-  name: 'chronic',
-  topic_type: 'diagnosis'
 ).move_to_child_of(dural_ectasia)
 blood_patch = Topic.create!(
   name: 'blood patch',
@@ -1700,12 +1696,48 @@ ectopia_lentis.update(
     irido.id
   ]
 )
+kypho.update(
+  related: [
+    fusion.id,
+    harr.id,
+    bracing.id,
+    physio.id
+  ]
+)
+thoracic_kypho.update(
+  related: [
+    fusion.id,
+    harr.id,
+    bracing.id,
+    physio.id
+  ]
+)
+pc_morph.update(
+  related: [
+    ravitch.id,
+    nuss.id
+  ]
+)
+pe_morph.update(
+  related: [
+    ravitch.id,
+    nuss.id
+  ]
+)
+ap_morph.update(
+  related: [
+    ravitch.id,
+    nuss.id
+  ]
+)
 Topic.all.each do |topic|
   parents = topic.ancestors.reject { |t| t.topic_type == 'root category' }.map(&:id)
+  aunts = topic.aunts.map(&:id)
+  fam = (parents + aunts).uniq
   if topic.related
-    topic.related += parents
+    topic.related += fam
     topic.related_will_change!
   else
-    topic.update(related: parents)
+    topic.update(related: fam)
   end
 end

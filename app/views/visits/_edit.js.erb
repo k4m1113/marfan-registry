@@ -52,29 +52,30 @@ $(function() {
   $('button.related').click(function(){
     var data = $(this).data('topic')
     $currentRow = $(this).parent().parent().parent()
-    var highestInd = parseInt($('.row_form').last().attr('id').match(/\d+/g)[0])
+    var targetInd = data.id + 1000
     required = `<tr><td colspan="3">${data.name}</td></tr>`
     switch (data.topic_type) {
       case 'diagnosis':
-        required += `${assembledDiagnosisForm(data, unsortedTopics, highestInd + 1)}`
+        required += `${assembledDiagnosisForm(data, unsortedTopics, targetInd)}`
+        debugger
         break;
       case 'dissection':
-        required += `${assembledDissectionForm(data, highestInd + 1)}`
+        required += `${assembledDissectionForm(data, targetInd)}`
         break;
       case 'family_member':
-        required += `${assembledFamilyForm(data, highestInd + 1)}`
+        required += `${assembledFamilyForm(data, targetInd)}`
         break;
       case 'genetic test':
-        required += `${assembledGeneticTestForm(data, unsortedTopics, highestInd + 1)}`
+        required += `${assembledGeneticTestForm(data, unsortedTopics, targetInd)}`
         break;
       case 'measurement':
-        required += `${assembledMeasurementForm(data, unsortedTopics, highestInd + 1)}`
+        required += `${assembledMeasurementForm(data, unsortedTopics, targetInd)}`
         break;
       case 'procedure':
-        required += `${assembledProcedureForm(data, unsortedTopics, highestInd + 1)}`
+        required += `${assembledProcedureForm(data, unsortedTopics, targetInd)}`
       break;
       case 'stat':
-        required += `${assembledVitalForm(data, highestInd + 1)}`
+        required += `${assembledVitalForm(data, targetInd)}`
         break;
         case 'heart_measurement':
         'brian'
@@ -83,7 +84,7 @@ $(function() {
       'kat'
     }
     $currentRow.after(required)
-    $('body').find("#row_" + (highestInd + 1)).show()
+    $('body').find("#row_" + (targetInd)).show()
   })
 
   // initialize vitals pane

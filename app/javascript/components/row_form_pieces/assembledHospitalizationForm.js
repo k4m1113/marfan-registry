@@ -5,10 +5,10 @@ import keywords from './keywords';
 import noteField from './noteField';
 import findRelated from './findRelated';
 
-module.exports = function assembledHospitalizationForm(topic, unsortedTopics) {
+module.exports = function assembledHospitalizationForm(topic, unsortedTopics, rowID = topic.id) {
   const parameterizedPlural = 'hospitalizations'
   const returnStatement = `
-  <tr class='row_form' id='row_${topic.id}' style='display:none'><td colspan='3'>
+  <tr class='row_form' id='row_${rowID}' style='display:none'><td colspan='3'>
     <div class='form-inline'>
       ${timeAgoField(topic, parameterizedPlural)}
       ${durationField(topic, parameterizedPlural)}
