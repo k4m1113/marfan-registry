@@ -902,7 +902,7 @@ Topic.create!(
 Topic.create!(
   name: 'palpitations',
   topic_type: 'diagnosis',
-  descriptors: ['lightheaded', 'shortness of breath', 'syncope', 'skipped beats', 'strong beats', 'heart racing']
+  descriptors: ['lightheaded', 'shortness of breath', 'syncope', 'skipped beats', 'strong beats', 'heart racing', 'extra beats', 'constant', 'fainting']
 ).move_to_child_of(symptoms)
 Topic.create!(
   name: 'lightheadedness',
@@ -910,7 +910,8 @@ Topic.create!(
 ).move_to_child_of(symptoms)
 Topic.create!(
   name: 'edema',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: ['at night', 'left leg', 'right leg', 'left arm', 'right arm', 'face', 'better in AM', 'provoked by salt', 'provoked by dependence']
 ).move_to_child_of(symptoms)
 ## END SYMPTOMS (xls 226) ##
 
@@ -922,7 +923,7 @@ pulmonary = Topic.create!(
 Topic.create!(
   name: 'shortness of breath',
   topic_type: 'diagnosis',
-  descriptors: ['at rest', 'walking', 'running', 'up stairs']
+  descriptors: ['at rest', 'walking', 'running', 'up stairs', 'fainting', 'cough', 'wheezing']
 ).move_to_child_of(pulmonary)
 Topic.create!(
   name: 'emphysema',
