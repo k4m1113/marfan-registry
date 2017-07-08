@@ -57,7 +57,6 @@ $(function() {
     switch (data.topic_type) {
       case 'diagnosis':
         required += `${assembledDiagnosisForm(data, unsortedTopics, targetInd)}`
-        debugger
         break;
       case 'dissection':
         required += `${assembledDissectionForm(data, targetInd)}`
@@ -70,6 +69,9 @@ $(function() {
         break;
       case 'measurement':
         required += `${assembledMeasurementForm(data, unsortedTopics, targetInd)}`
+        break;
+      case 'medication':
+        required += `${assembledMedicationForm(data, targetInd)}`
         break;
       case 'procedure':
         required += `${assembledProcedureForm(data, unsortedTopics, targetInd)}`

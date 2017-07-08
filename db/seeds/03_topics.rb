@@ -375,40 +375,19 @@ Topic.create!(
 ).move_to_child_of(morphology)
 high_arched_palate = Topic.create!(
   name: 'high arched palate',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: ['palate spreader', 'no palate spreader']
 ).move_to_child_of(morphology)
-Topic.create!(
-  name: 'palate spreader',
-  topic_type: 'procedure'
-).move_to_child_of(high_arched_palate)
-Topic.create!(
-  name: 'no palate spreader',
-  topic_type: 'diagnosis'
-).move_to_child_of(high_arched_palate)
 narrow_palate = Topic.create!(
   name: 'narrow palate',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: ['repaired', 'not repaired']
 ).move_to_child_of(morphology)
-Topic.create!(
-  name: 'repaired',
-  topic_type: 'procedure'
-).move_to_child_of(narrow_palate)
-Topic.create!(
-  name: 'not repaired',
-  topic_type: 'diagnosis'
-).move_to_child_of(narrow_palate)
 cleft_palate = Topic.create!(
   name: 'cleft palate',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: ['repaired', 'not repaired']
 ).move_to_child_of(morphology)
-Topic.create!(
-  name: 'repaired',
-  topic_type: 'procedure'
-).move_to_child_of(cleft_palate)
-Topic.create!(
-  name: 'not repaired',
-  topic_type: 'diagnosis'
-).move_to_child_of(cleft_palate)
 Topic.create!(
   name: 'bifid uvula',
   topic_type: 'diagnosis'
@@ -424,11 +403,11 @@ dental_crowding = Topic.create!(
 Topic.create!(
   name: 'orthodontia',
   topic_type: 'procedure'
-).move_to_child_of(dental_crowding)
+).move_to_child_of(morphology)
 Topic.create!(
   name: 'teeth extraction',
   topic_type: 'procedure'
-).move_to_child_of(dental_crowding)
+).move_to_child_of(morphology)
 Topic.create!(
   name: 'craniosynostosis',
   topic_type: 'diagnosis'
@@ -770,36 +749,14 @@ root_replacement = Topic.create!(
 ).move_to_child_of(aortic_surgery)
 cvg = Topic.create!(
   name: 'CVG',
-  topic_type: 'procedure'
+  topic_type: 'procedure',
+  descriptors: ['mechanical prosthesis', 'bioprosthesis']
 ).move_to_child_of(root_replacement)
-Topic.create!(
-  name: 'mechanical prosthesis',
-  topic_type: 'procedure'
-).move_to_child_of(cvg)
-Topic.create!(
-  name: 'bioprosthesis',
-  topic_type: 'procedure'
-).move_to_child_of(cvg)
 valve_sparing = Topic.create!(
   name: 'valve sparing',
-  topic_type: 'procedure'
+  topic_type: 'procedure',
+  descriptors: ['Tirone-David', 'TD-V Smod', 'Valsalva Graft', 'Yacoub']
 ).move_to_child_of(root_replacement)
-tirone_david = Topic.create!(
-  name: 'Tirone-David',
-  topic_type: 'procedure'
-).move_to_child_of(valve_sparing)
-Topic.create!(
-  name: 'TD-V Smod',
-  topic_type: 'procedure'
-).move_to_child_of(tirone_david)
-Topic.create!(
-  name: 'Valsalva Graft',
-  topic_type: 'procedure'
-).move_to_child_of(tirone_david)
-Topic.create!(
-  name: 'Yacoub',
-  topic_type: 'procedure'
-).move_to_child_of(valve_sparing)
 Topic.create!(
   name: 'supracoronary',
   topic_type: 'procedure'
@@ -855,7 +812,8 @@ Topic.create!(
 ## BEGIN STENT GRAFT (xls 194) ##
 stent_graft = Topic.create!(
   name: 'stent graft',
-  topic_type: 'procedure'
+  topic_type: 'procedure',
+  descriptors: ['thoracic', 'endoleak', 'suprarenal', 'infrarenal', 'right iliac', 'left iliac', 'right subclavian', 'left sublcavian']
 ).move_to_child_of(cardio)
 thoracic_stent = Topic.create!(
   name: 'thoracic',
@@ -875,28 +833,14 @@ Topic.create!(
 ).move_to_child_of(stent_graft)
 iliac_stent = Topic.create!(
   name: 'iliac',
-  topic_type: 'procedure'
+  topic_type: 'procedure',
+  descriptors: %w[right left]
 ).move_to_child_of(stent_graft)
-Topic.create!(
-  name: 'right',
-  topic_type: 'procedure'
-).move_to_child_of(iliac_stent)
-Topic.create!(
-  name: 'left',
-  topic_type: 'procedure'
-).move_to_child_of(iliac_stent)
 subclavian_stent = Topic.create!(
   name: 'subclavian',
-  topic_type: 'procedure'
+  topic_type: 'procedure',
+  descriptors: %w[right left]
 ).move_to_child_of(stent_graft)
-Topic.create!(
-  name: 'right',
-  topic_type: 'procedure'
-).move_to_child_of(subclavian_stent)
-Topic.create!(
-  name: 'left',
-  topic_type: 'procedure'
-).move_to_child_of(subclavian_stent)
 ## END STENT GRAFT (xls 200) ##
 
 ## BEGIN MITRAL VALVE SURGERY (xls 202) ##
@@ -930,52 +874,29 @@ Topic.create!(
 ).move_to_child_of(mitral_valve_replacement)
 ## END MITRAL VALVE SURGERY (xls 205) ##
 
-
-## BEGIN ARRHYTHMIA (xls 207) ##
-arrhythmia = Topic.create!(
+Topic.create!(
   name: 'arrhythmia',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: ['PVC', 'PAC', 'afib/aflutter', 'VT/VF', 'sudden death', 'AICD']
 ).move_to_child_of(cardio)
-Topic.create!(
-  name: 'PVC',
-  topic_type: 'diagnosis'
-).move_to_child_of(arrhythmia)
-Topic.create!(
-  name: 'PAC',
-  topic_type: 'diagnosis'
-).move_to_child_of(arrhythmia)
-Topic.create!(
-  name: 'afib/aflutter',
-  topic_type: 'diagnosis'
-).move_to_child_of(arrhythmia)
-Topic.create!(
-  name: 'VT/VF',
-  topic_type: 'diagnosis'
-).move_to_child_of(arrhythmia)
-Topic.create!(
-  name: 'sudden death',
-  topic_type: 'diagnosis'
-).move_to_child_of(arrhythmia)
-Topic.create!(
-  name: 'AICD',
-  topic_type: 'diagnosis'
-).move_to_child_of(arrhythmia)
-## END ARRHYTHMIA (xls 212) ##
-
 
 ## BEGIN VARICOSE VEINS (xls 214) ##
+legs = Topic.create!(
+  name: 'legs',
+  topic_type: 'middle'
+).move_to_child_of(cardio)
 varicose = Topic.create!(
   name: 'varicose veins',
   topic_type: 'diagnosis'
-).move_to_child_of(cardio)
+).move_to_child_of(legs)
 Topic.create!(
   name: 'edema',
   topic_type: 'diagnosis'
-).move_to_child_of(varicose)
+).move_to_child_of(legs)
 Topic.create!(
   name: 'sclerotherapy/stripping',
   topic_type: 'procedure'
-).move_to_child_of(varicose)
+).move_to_child_of(legs)
 ## END VARICOSE VEINS (xls 215) ##
 
 
@@ -1042,7 +963,7 @@ Topic.create!(
   topic_type: 'diagnosis',
   descriptors: ['at rest', 'walking', 'running', 'up stairs']
 ).move_to_child_of(pulmonary)
-emphysema = Topic.create!(
+Topic.create!(
   name: 'emphysema',
   topic_type: 'diagnosis'
 ).move_to_child_of(pulmonary)
@@ -1050,55 +971,35 @@ Topic.create!(
   name: 'CT/CXR',
   topic_type: 'measurement',
   units_of_measurement: %w[cm]
-).move_to_child_of(emphysema)
-pft_emphysema = Topic.create!(
-  name: 'PFT',
-  topic_type: 'measurement',
-  units_of_measurement: %w[cm]
-).move_to_child_of(emphysema)
-Topic.create!(
-  name: 'FEV1',
-  topic_type: 'measurement',
-  units_of_measurement: %w[cm]
-).move_to_child_of(pft_emphysema)
-restrictive_lung_disease = Topic.create!(
-  name: 'restrictive lung disease',
-  topic_type: 'diagnosis'
 ).move_to_child_of(pulmonary)
-pft_rld = Topic.create!(
-  name: 'PFT',
-  topic_type: 'measurement',
-  units_of_measurement: %w[cm]
-).move_to_child_of(restrictive_lung_disease)
-Topic.create!(
-  name: 'FVC',
-  topic_type: 'measurement',
-  units_of_measurement: %w[cm]
-).move_to_child_of(pft_rld)
 Topic.create!(
   name: 'TLC',
   topic_type: 'measurement',
   units_of_measurement: %w[cm]
-).move_to_child_of(pft_rld)
-asthma = Topic.create!(
-  name: 'asthma',
-  topic_type: 'diagnosis'
 ).move_to_child_of(pulmonary)
-pft_asthma = Topic.create!(
+Topic.create!(
   name: 'PFT',
   topic_type: 'measurement',
   units_of_measurement: %w[cm]
-).move_to_child_of(asthma)
+).move_to_child_of(pulmonary)
 Topic.create!(
   name: 'FEV1',
   topic_type: 'measurement',
   units_of_measurement: %w[cm]
-).move_to_child_of(pft_asthma)
+).move_to_child_of(pulmonary)
+Topic.create!(
+  name: 'restrictive lung disease',
+  topic_type: 'diagnosis'
+).move_to_child_of(pulmonary)
+Topic.create!(
+  name: 'asthma',
+  topic_type: 'diagnosis'
+).move_to_child_of(pulmonary)
 Topic.create!(
   name: 'bronchodilator response',
   topic_type: 'measurement',
   units_of_measurement: %w[cm]
-).move_to_child_of(pft_asthma)
+).move_to_child_of(pulmonary)
 ## END SHALLOW PULMONARY (xls 233) ##
 
 ## BEGIN PNEUMOTHORAX (xls 234)##
@@ -1121,27 +1022,19 @@ sleep_apnea = Topic.create!(
 Topic.create!(
   name: 'CPAP',
   topic_type: 'medication'
-).move_to_child_of(sleep_apnea)
-Topic.create!(
-  name: 'surgery',
-  topic_type: 'procedure'
-).move_to_child_of(sleep_apnea)
-pulm_meds = Topic.create!(
-  name: 'medications',
-  topic_type: 'diagnosis'
 ).move_to_child_of(pulmonary)
 Topic.create!(
   name: 'bronchodilators',
   topic_type: 'medication'
-).move_to_child_of(pulm_meds)
+).move_to_child_of(pulmonary)
 Topic.create!(
   name: 'inhaled steroids',
   topic_type: 'medication'
-).move_to_child_of(pulm_meds)
+).move_to_child_of(pulmonary)
 Topic.create!(
   name: 'systemic steroids',
   topic_type: 'medication'
-).move_to_child_of(pulm_meds)
+).move_to_child_of(pulmonary)
 ## END SHALLOW PULMONARY LAST (xls 243) ##
 
 ## BEGIN ORTHOPEDIC BACK (xls 245) ##
@@ -1156,6 +1049,10 @@ back = Topic.create!(
 scolio = Topic.create!(
   name: 'scoliosis',
   topic_type: 'middle'
+).move_to_child_of(back)
+Topic.create!(
+  name: 'spondylolisthesis',
+  topic_type: 'diagnosis'
 ).move_to_child_of(back)
 Topic.create!(
   name: 'thoracic scoliosis',
@@ -1425,7 +1322,8 @@ gyno = Topic.create!(
 )
 Topic.create!(
   name: 'pelvic floor weakness',
-  topic_type: 'diagnosis'
+  topic_type: 'diagnosis',
+  descriptors: ['Kegel exercises']
 ).move_to_child_of(gyno)
 Topic.create!(
   name: 'bladder prolapse',
