@@ -6,7 +6,7 @@ class Medication < ApplicationRecord
 
   attr_accessor :present
 
-  before_save :current_or_not
+  before_create :current_or_not
 
   belongs_to :topic
   belongs_to :patient,
