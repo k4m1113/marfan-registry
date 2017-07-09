@@ -10,7 +10,6 @@ class DiagnosesController < ApplicationController
   def update
     @diagnosis = Diagnosis.find(params[:id])
     if @diagnosis.update(diagnosis_params)
-      binding.remote_pry
       flash[:success] = "#{@diagnosis.generate_summary} updated for patient #{@diagnosis.patient.full_name}"
       redirect_to edit_visit_path(@diagnosis.visit_id)
     else
