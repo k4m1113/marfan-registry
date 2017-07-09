@@ -30,7 +30,8 @@ class DiagnosesController < ApplicationController
   def update
     @diagnosis = Diagnosis.find(params[:id])
     if @diagnosis.update(diagnosis_params)
-      flash[:success] = "#{@diagnosis.note} of #{find_trail(@diagnosis.topic_id)} added to visit"
+      binding.remote_pry
+      flash[:success] = "#{@diagnosis.generate_summary} updated for patient #{@diagnosis.patient.full_name}"
       redirect_to edit_visit_path(@diagnosis.visit_id)
     else
       flash[:error]
@@ -46,10 +47,14 @@ class DiagnosesController < ApplicationController
     redirect_to :back
   end
 
+  def back_url
+    request.referer
+  end
+
   private
 
   def diagnosis_params
-    params.permit(
+    params.require(:diagnosis).permit(
       :topic_id,
       :patient_id,
       :time_ago_amount,
@@ -58,10 +63,13 @@ class DiagnosesController < ApplicationController
       :duration_scale,
       :frequency_amount,
       :frequency_scale,
+      :frequency,
+      :time_ago,
       :absolute_start_date,
       :visit_id,
       :present,
-      :note
+      :note,
+      :attachment
     )
   end
 end

@@ -2,7 +2,7 @@ class Patient < ApplicationRecord
   include PgSearch
   include CommonContent
 
-  attr_reader :object_pronoun, :subject_pronoun, :possessive_pronoun, :vitals_show_header, :vitals_by_date, :age
+  attr_reader :object_pronoun, :subject_pronoun, :possessive_pronoun, :vitals_show_header, :vitals_by_date, :age, :full_name
 
   scope :sorted, (-> { order(last_name: :asc) })
 
@@ -113,6 +113,10 @@ class Patient < ApplicationRecord
     else
       'their'
     end
+  end
+
+  def full_name
+    "#{last_name}, #{first_name} #{middle_name unless middle_name.nil?}"
   end
 
   def vitals_show_header

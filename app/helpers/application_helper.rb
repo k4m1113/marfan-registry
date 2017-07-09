@@ -73,18 +73,18 @@ module ApplicationHelper
   def blank_unless_present(attribute)
     case attribute
     when attribute.class === 'String'
-      attribute.empty? ? '-' : attribute
+      attribute.blank? ? '-' : attribute
     when attribute.class === 'Fixnum'
       attribute.nil? ? '-' : attribute
     else
-      attribute.nil? ? '-' : attribute
+      attribute.blank? ? '-' : attribute
     end
   end
 
   def print_if_present(attribute)
     case attribute
     when attribute.class === 'String'
-      attribute.empty? ? 'not noted' : attribute
+      attribute.blank? ? 'not noted' : attribute
     when attribute.class === 'Fixnum'
       attribute.nil? ? 'not noted' : attribute
     else

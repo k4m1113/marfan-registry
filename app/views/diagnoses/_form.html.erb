@@ -1,34 +1,57 @@
-<%= form_for(@diagnosis) do |f| %>
-  <%= render 'layouts/file_attachment_row', f: f %>
-  <div class="field">
-    <%= f.label :topic_id %><br>
-    <%= f.text_field :topic_id %>
+<%= form_for @diagnosis  do |f| %>
+  <div class="row">
+    <div class="form-group col-4">
+      <%= f.label :topic_id, "Topic ID: #{find_trail(@diagnosis.topic_id)}" %>
+      <%= f.text_field :topic_id, class: "form-control", disabled: true %>
+    </div>
+
+    <div class="form-group col-4">
+      <%= f.label :patient_id %>
+      <%= f.text_field :patient_id, class: "form-control", disabled: true %>
+    </div>
+
+    <div class="form-group col-4">
+      <%= f.label :visit_id %>
+      <%= f.text_field :visit_id, class: "form-control", disabled: true %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :patient_id %><br>
-    <%= f.text_field :patient_id %>
+  <div class="form-group">
+    <%= f.label :present %><br>
+    <%= f.text_field :present, class: "form-control" %>
   </div>
-  <div class="field">
+
+  <div class="form-group">
     <%= f.label :time_ago %><br>
-    <%= f.text_field :time_ago %>
+    <%= f.text_field :time_ago, class: "form-control" %>
   </div>
-  <div class="field">
-    <%= f.label :time_ago_scale %><br>
-    <%= f.text_field :time_ago_scale %>
-  </div>
-  <div class="field">
+
+  <div class="form-group">
     <%= f.label :absolute_start_date %><br>
-    <%= f.text_field :absolute_start_date %>
+    <%= f.date_field :absolute_start_date, class: "form-control" %>
   </div>
-  <div class="field">
-    <%= f.label :visit_id %><br>
-    <%= f.text_field :visit_id %>
+
+  <div class="form-group">
+    <%= f.label :duration %><br>
+    <%= f.text_field :duration, class: "form-control" %>
   </div>
-  <div class="field">
+
+  <div class="form-group">
+    <%= f.label :frequency %><br>
+    <%= f.text_field :frequency, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
     <%= f.label :note %><br>
-    <%= f.text_field :note %>
+    <%= f.text_field :note, class: "form-control" %>
   </div>
+
+  <div class="form-group">
+    <%= f.label :attachment %><br>
+    <%= f.file_field :attachment, class: "form-control-file" %>
+    <%= image_tag @diagnosis.attachment.url %>
+  </div>
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Update", class: "form-control" %>
   </div>
 <% end %>
