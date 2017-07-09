@@ -1,8 +1,8 @@
+import fileAttachmentButton from './fileAttachmentButton'
 import hiddenFields from './hiddenFields'
 import measurementField from './measurementField'
 import keywords from './keywords'
 import noteField from './noteField'
-import fileAttachmentButton from './fileAttachmentButton'
 
 module.exports = function assembledHeartMeasurementForm(topic, visit, rowID = topic.id) {
   const parameterizedPlural = 'heart_measurements'

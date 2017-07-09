@@ -1,7 +1,7 @@
 import hiddenFields from './hiddenFields'
 import measurementField from './measurementField'
 
-module.exports = function assembledVitalForm(topic, visit) {
+module.exports = function assembledVitalForm(topic, visit, rowID = topic.id) {
   let returnStatement = ``
   const parameterizedPlural = 'vitals'
   returnStatement += `<div class="form-group row">

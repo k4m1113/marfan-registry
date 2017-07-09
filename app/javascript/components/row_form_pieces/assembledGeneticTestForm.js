@@ -1,7 +1,8 @@
-import timeAgoField from './timeAgoField';
-import selectConstructor from './selectConstructor';
-import noteField from './noteField';
 import fileAttachmentButton from './fileAttachmentButton';
+import hiddenFields from './hiddenFields'
+import noteField from './noteField';
+import selectConstructor from './selectConstructor';
+import timeAgoField from './timeAgoField';
 
 const classifications = [
   'pathogenic',
@@ -25,10 +26,11 @@ const locations = [
   'Tulane'
 ];
 
-module.exports = function assembledGeneticTestForm(topic, rowID = topic.id) {
+module.exports = function assembledGeneticTestForm(topic, visit, rowID = topic.id) {
   const parameterizedPlural = 'genetic_tests'
   const returnStatement = `
   <tr class='row_form' id='row_${rowID}' style='display:none'><td colspan='3'>
+  ${hiddenFields(visit, topic, parameterizedPlural)}
     <div class="form-group row no-gutters">
       <div class="col-sm-3">
         Lab

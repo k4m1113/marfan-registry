@@ -44,7 +44,6 @@ class ProceduresController < ApplicationController
     @procedure = Procedure.find(params[:id])
     @procedure.destroy
     flash[:success] = "Procedure #{@procedure.id} for #{find_trail(@procedure.topic_id)} deleted from record"
-    redirect_to :back
   end
 
   private

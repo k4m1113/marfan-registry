@@ -17,7 +17,7 @@ module.exports = function rowForm(topic, unsortedTopics, visit) {
   switch (topic.topic_type) {
     case "diagnosis":
       returnStatement += `${presAbsButtons(topic, visit)}`;
-      returnStatement += `${assembledDiagnosisForm(topic, unsortedTopics)}`;
+      returnStatement += `${assembledDiagnosisForm(topic, unsortedTopics, visit)}`;
       break;
     case "dissection":
     returnStatement += `${presAbsButtons(topic, visit)}`;
@@ -28,23 +28,23 @@ module.exports = function rowForm(topic, unsortedTopics, visit) {
       break;
     case "genetic test":
       returnStatement += `${presAbsButtons(topic, visit)}`;
-      returnStatement += `${assembledGeneticTestForm(topic)}`;
+      returnStatement += `${assembledGeneticTestForm(topic, visit)}`;
       break;
     case "hospitalization":
       returnStatement += `${presAbsButtons(topic, visit)}`;
-      returnStatement += `${assembledHospitalizationForm(topic, unsortedTopics)}`;
+      returnStatement += `${assembledHospitalizationForm(topic, unsortedTopics, visit)}`;
       break;
     case "measurement":
       returnStatement += `${presAbsButtons(topic, visit)}`;
-      returnStatement += `${assembledMeasurementForm(topic, unsortedTopics)}`;
+      returnStatement += `${assembledMeasurementForm(topic, unsortedTopics, visit)}`;
       break;
     case "medication":
       returnStatement += `${presAbsButtons(topic, visit)}`;
-      returnStatement += `${assembledMedicationForm(topic)}`;
+      returnStatement += `${assembledMedicationForm(topic, visit)}`;
       break;
     case "procedure":
       returnStatement += `${presAbsButtons(topic, visit)}`;
-      returnStatement += `${assembledProcedureForm(topic, unsortedTopics)}`;
+      returnStatement += `${assembledProcedureForm(topic, unsortedTopics, visit)}`;
       break;
     case "vital":
       "kat"

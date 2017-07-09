@@ -56,9 +56,9 @@
       </a>
       <div class="dropdown-menu" aria-labelledby="heartNavbarDropdownMenuLink" style="float:left">
         <% visit.heart_measurements.each do |m| %>
-          <p class="dropdown-item">
+          <a class="dropdown-item">
             <%= m.abbreviated %>
-          </p>
+          </a>
         <% end %>
       </div>
     </li>

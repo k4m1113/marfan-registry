@@ -51,33 +51,33 @@ $(function() {
   // click 'related' button
   $('button.related').click(function(){
     var data = $(this).data('topic')
-    $currentRow = $(this).parent().parent().parent()
+    $currentRow = $(this).parent().parent()
     var targetInd = data.id + 1000
     required = `<tr><td colspan="3">${data.name}</td></tr>`
     switch (data.topic_type) {
       case 'diagnosis':
-        required += `${assembledDiagnosisForm(data, unsortedTopics, targetInd)}`
+        required += `${assembledDiagnosisForm(data, unsortedTopics, visit, targetInd)}`
         break;
       case 'dissection':
-        required += `${assembledDissectionForm(data, targetInd)}`
+        required += `${assembledDissectionForm(data, unsortedTopics, visit, targetInd)}`
         break;
       case 'family_member':
         required += `${assembledFamilyForm(data, targetInd)}`
         break;
       case 'genetic test':
-        required += `${assembledGeneticTestForm(data, unsortedTopics, targetInd)}`
+        required += `${assembledGeneticTestForm(data, unsortedTopics, visit, targetInd)}`
         break;
       case 'measurement':
-        required += `${assembledMeasurementForm(data, unsortedTopics, targetInd)}`
+        required += `${assembledMeasurementForm(data, unsortedTopics, visit, targetInd)}`
         break;
       case 'medication':
-        required += `${assembledMedicationForm(data, targetInd)}`
+        required += `${assembledMedicationForm(data, visit, targetInd)}`
         break;
       case 'procedure':
-        required += `${assembledProcedureForm(data, unsortedTopics, targetInd)}`
+        required += `${assembledProcedureForm(data, unsortedTopics, visit, targetInd)}`
       break;
       case 'stat':
-        required += `${assembledVitalForm(data, targetInd)}`
+        required += `${assembledVitalForm(data, visit, targetInd)}`
         break;
         case 'heart_measurement':
         'brian'

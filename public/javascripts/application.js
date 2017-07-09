@@ -702,25 +702,9 @@ module.exports = function vitals(topics, visit) {
 "use strict";
 
 
-var _timeAgoField = __webpack_require__(5);
-
-var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
-
 var _durationField = __webpack_require__(8);
 
 var _durationField2 = _interopRequireDefault(_durationField);
-
-var _frequencyField = __webpack_require__(13);
-
-var _frequencyField2 = _interopRequireDefault(_frequencyField);
-
-var _keywords = __webpack_require__(6);
-
-var _keywords2 = _interopRequireDefault(_keywords);
-
-var _noteField = __webpack_require__(2);
-
-var _noteField2 = _interopRequireDefault(_noteField);
 
 var _fileAttachmentButton = __webpack_require__(3);
 
@@ -730,13 +714,33 @@ var _findRelated = __webpack_require__(4);
 
 var _findRelated2 = _interopRequireDefault(_findRelated);
 
+var _frequencyField = __webpack_require__(13);
+
+var _frequencyField2 = _interopRequireDefault(_frequencyField);
+
+var _hiddenFields = __webpack_require__(14);
+
+var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
+
+var _keywords = __webpack_require__(6);
+
+var _keywords2 = _interopRequireDefault(_keywords);
+
+var _noteField = __webpack_require__(2);
+
+var _noteField2 = _interopRequireDefault(_noteField);
+
+var _timeAgoField = __webpack_require__(5);
+
+var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function assembledDiagnosisForm(topic, allTopics) {
-  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
+module.exports = function assembledDiagnosisForm(topic, allTopics, visit) {
+  var rowID = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : topic.id;
 
   var parameterizedPlural = 'diagnoses';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n  ' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural);
   if (topic.descriptors) {
     returnStatement += '<div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>';
   }
@@ -751,25 +755,29 @@ module.exports = function assembledDiagnosisForm(topic, allTopics) {
 "use strict";
 
 
-var _selectConstructor = __webpack_require__(7);
-
-var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
-
 var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
-var _timeAgoField = __webpack_require__(5);
+var _findRelated = __webpack_require__(4);
 
-var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
+var _findRelated2 = _interopRequireDefault(_findRelated);
+
+var _hiddenFields = __webpack_require__(14);
+
+var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
 
 var _noteField = __webpack_require__(2);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
-var _findRelated = __webpack_require__(4);
+var _timeAgoField = __webpack_require__(5);
 
-var _findRelated2 = _interopRequireDefault(_findRelated);
+var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
+
+var _selectConstructor = __webpack_require__(7);
+
+var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -782,7 +790,7 @@ module.exports = function assembledDissectionForm(topic, unsortedTopics, visit) 
   var directions = ['right', 'left', 'N/A'];
   var parameterizedPlural = 'dissections';
   var returnStatement = '';
-  returnStatement += '\n    <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n      <div class="form-inline">\n        <select\n          name="visit[dissections_attributes][' + rowID + '][location]"\n          id="visit_dissections_attributes_' + rowID + '_location"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(locations, 'location') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][direction]"\n          id="visit_dissections_attributes_' + rowID + '_direction"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(directions, 'direction') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][lumen]"\n          id="visit_dissections_attributes_' + rowID + '_lumen"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(lumens, 'lumen') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][perfusion]"\n          id="visit_dissections_attributes_' + rowID + '_perfusion"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(perfused, 'perfusion') + '\n        </select>\n      </div>\n      <div class="form-inline">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n\n        What type of intervention was performed?\n      </div>\n      ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n    </td></tr>\n  ';
+  returnStatement += '\n    <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    ' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural) + '\n      <div class="form-inline">\n        <select\n          name="visit[dissections_attributes][' + rowID + '][location]"\n          id="visit_dissections_attributes_' + rowID + '_location"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(locations, 'location') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][direction]"\n          id="visit_dissections_attributes_' + rowID + '_direction"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(directions, 'direction') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][lumen]"\n          id="visit_dissections_attributes_' + rowID + '_lumen"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(lumens, 'lumen') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][perfusion]"\n          id="visit_dissections_attributes_' + rowID + '_perfusion"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(perfused, 'perfusion') + '\n        </select>\n      </div>\n      <div class="form-inline">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n\n        What type of intervention was performed?\n      </div>\n      ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n    </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -793,21 +801,25 @@ module.exports = function assembledDissectionForm(topic, unsortedTopics, visit) 
 "use strict";
 
 
-var _timeAgoField = __webpack_require__(5);
+var _fileAttachmentButton = __webpack_require__(3);
 
-var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
+var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
-var _selectConstructor = __webpack_require__(7);
+var _hiddenFields = __webpack_require__(14);
 
-var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
+var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
 
 var _noteField = __webpack_require__(2);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
-var _fileAttachmentButton = __webpack_require__(3);
+var _selectConstructor = __webpack_require__(7);
 
-var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
+var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
+
+var _timeAgoField = __webpack_require__(5);
+
+var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -815,11 +827,11 @@ var classifications = ['pathogenic', 'likely pathogenic', 'VUS likely disease-ca
 
 var locations = ['Ambry', 'Collagen Diagnostic Laboratory', 'Connective Tissue Gene Tests', 'GeneDX', 'Invitae', 'Laboratory for Molecular Medicine', 'Matrix', 'Tulane'];
 
-module.exports = function assembledGeneticTestForm(topic) {
-  var rowID = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : topic.id;
+module.exports = function assembledGeneticTestForm(topic, visit) {
+  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
 
   var parameterizedPlural = 'genetic_tests';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    <div class="form-group row no-gutters">\n      <div class="col-sm-3">\n        Lab\n        <select name="visit[genetic_tests_attributes][' + rowID + '][lab_name]" id="visit_genetic_tests_attributes_' + rowID + '_lab_name" class="form-control" required="true">\n        ' + (0, _selectConstructor2.default)(locations, 'lab name', true) + '\n        </select>\n        <input type="text" class="form-control" name="visit[' + parameterizedPlural + '_attributes][' + rowID + '][lab_name]" id="visit_' + parameterizedPlural + '_attributes_' + rowID + '" style="display:none"/>\n      </div>\n      <div class="col-sm-3">\n        Lab Classification\n        <select name="visit[genetic_tests_attributes][' + rowID + '][lab_classification]" id="visit_genetic_tests_attributes_' + rowID + '_lab_classification" class="form-control" required="true">\n          ' + (0, _selectConstructor2.default)(classifications, 'lab classification') + '\n        </select>\n      </div>\n      <div class="col-sm-3">\n        Clinical Classification\n        <select name="visit[genetic_tests_attributes][' + rowID + '][clinical_classification]" id="visit_genetic_tests_attributes_' + rowID + '_clinical_classification" class="form-control">\n          ' + (0, _selectConstructor2.default)(classifications, 'clinical classification') + '\n        </select>\n      </div>\n      <div class="col-sm-3">\n        <div class="form-check">\n          <label class="form-check-label">\n            <input type="checkbox" value="true" name="visit[genetic_tests_attributes][' + rowID + '][predictive_testing_recommended]" id="visit_genetic_tests_attributes_' + rowID + '_predictive_testing_recommended" class="form-check-input"/>\n            Recommend predictive testing\n          </label>\n        </div>\n      </div>\n    </div>\n    <div class="form-group row no-gutters">\n      <div class="col-sm-4">\n        Transcript\n        <div class="input-group">\n          <span class="input-group-addon" id="transcript_' + rowID + '">NM_</span>\n          <input type=\'string\' placeholder=\'000138.4\' name=\'visit[' + parameterizedPlural + '_attributes][' + rowID + '][transcript]\' id=\'visit_' + parameterizedPlural + '_attributes_' + rowID + '_transcript\' class=\'form-control\' value="" aria-describedby="transcript_' + rowID + '"/>\n        </div>\n      </div>\n      <div class="col-sm-4">\n        Protein\n        <div class="input-group">\n          <span class="input-group-addon" id="protein_' + rowID + '">p.</span>\n          <input type=\'string\' placeholder=\'Gly931fsX10\' name=\'visit[' + parameterizedPlural + '_attributes][' + rowID + '][protein]\' id=\'visit_' + parameterizedPlural + '_attributes_' + rowID + '_protein\' class=\'form-control\' value="" aria-describedby="protein_' + rowID + '"/>\n        </div>\n      </div>\n      <div class="col-sm-3">\n        Variant\n        <div class="input-group">\n          <span class="input-group-addon" id="variant_' + rowID + '">c.</span>\n          <input type=\'string\' placeholder=\'2793delG\' name=\'visit[' + parameterizedPlural + '_attributes][' + rowID + '][variant]\' id=\'visit_' + parameterizedPlural + '_attributes_' + rowID + '_variant\' class=\'form-control\' value="" aria-describedby="variant_' + rowID + '"/>\n        </div>\n      </div>\n      <div class="col-sm-1">\n        Exons\n        <input type=\'number\' placeholder=\'23\' min="1" max="63" name=\'visit[' + parameterizedPlural + '_attributes][' + rowID + '][exons]\' id=\'visit_' + parameterizedPlural + '_attributes_' + rowID + '_exons\' class=\'form-control\' value="" />\n      </div>\n    </div>\n\n    <div class=\'row no-gutters\'>\n      <div class="form-inline col-sm-8">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n        </div>\n      <div class="form-inline col-sm-4">\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n  </td></tr>\n  ';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n  ' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural) + '\n    <div class="form-group row no-gutters">\n      <div class="col-sm-3">\n        Lab\n        <select name="visit[genetic_tests_attributes][' + rowID + '][lab_name]" id="visit_genetic_tests_attributes_' + rowID + '_lab_name" class="form-control" required="true">\n        ' + (0, _selectConstructor2.default)(locations, 'lab name', true) + '\n        </select>\n        <input type="text" class="form-control" name="visit[' + parameterizedPlural + '_attributes][' + rowID + '][lab_name]" id="visit_' + parameterizedPlural + '_attributes_' + rowID + '" style="display:none"/>\n      </div>\n      <div class="col-sm-3">\n        Lab Classification\n        <select name="visit[genetic_tests_attributes][' + rowID + '][lab_classification]" id="visit_genetic_tests_attributes_' + rowID + '_lab_classification" class="form-control" required="true">\n          ' + (0, _selectConstructor2.default)(classifications, 'lab classification') + '\n        </select>\n      </div>\n      <div class="col-sm-3">\n        Clinical Classification\n        <select name="visit[genetic_tests_attributes][' + rowID + '][clinical_classification]" id="visit_genetic_tests_attributes_' + rowID + '_clinical_classification" class="form-control">\n          ' + (0, _selectConstructor2.default)(classifications, 'clinical classification') + '\n        </select>\n      </div>\n      <div class="col-sm-3">\n        <div class="form-check">\n          <label class="form-check-label">\n            <input type="checkbox" value="true" name="visit[genetic_tests_attributes][' + rowID + '][predictive_testing_recommended]" id="visit_genetic_tests_attributes_' + rowID + '_predictive_testing_recommended" class="form-check-input"/>\n            Recommend predictive testing\n          </label>\n        </div>\n      </div>\n    </div>\n    <div class="form-group row no-gutters">\n      <div class="col-sm-4">\n        Transcript\n        <div class="input-group">\n          <span class="input-group-addon" id="transcript_' + rowID + '">NM_</span>\n          <input type=\'string\' placeholder=\'000138.4\' name=\'visit[' + parameterizedPlural + '_attributes][' + rowID + '][transcript]\' id=\'visit_' + parameterizedPlural + '_attributes_' + rowID + '_transcript\' class=\'form-control\' value="" aria-describedby="transcript_' + rowID + '"/>\n        </div>\n      </div>\n      <div class="col-sm-4">\n        Protein\n        <div class="input-group">\n          <span class="input-group-addon" id="protein_' + rowID + '">p.</span>\n          <input type=\'string\' placeholder=\'Gly931fsX10\' name=\'visit[' + parameterizedPlural + '_attributes][' + rowID + '][protein]\' id=\'visit_' + parameterizedPlural + '_attributes_' + rowID + '_protein\' class=\'form-control\' value="" aria-describedby="protein_' + rowID + '"/>\n        </div>\n      </div>\n      <div class="col-sm-3">\n        Variant\n        <div class="input-group">\n          <span class="input-group-addon" id="variant_' + rowID + '">c.</span>\n          <input type=\'string\' placeholder=\'2793delG\' name=\'visit[' + parameterizedPlural + '_attributes][' + rowID + '][variant]\' id=\'visit_' + parameterizedPlural + '_attributes_' + rowID + '_variant\' class=\'form-control\' value="" aria-describedby="variant_' + rowID + '"/>\n        </div>\n      </div>\n      <div class="col-sm-1">\n        Exons\n        <input type=\'number\' placeholder=\'23\' min="1" max="63" name=\'visit[' + parameterizedPlural + '_attributes][' + rowID + '][exons]\' id=\'visit_' + parameterizedPlural + '_attributes_' + rowID + '_exons\' class=\'form-control\' value="" />\n      </div>\n    </div>\n\n    <div class=\'row no-gutters\'>\n      <div class="form-inline col-sm-8">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n        </div>\n      <div class="form-inline col-sm-4">\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>\n  </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -830,10 +842,6 @@ module.exports = function assembledGeneticTestForm(topic) {
 "use strict";
 
 
-var _timeAgoField = __webpack_require__(5);
-
-var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
-
 var _durationField = __webpack_require__(8);
 
 var _durationField2 = _interopRequireDefault(_durationField);
@@ -841,6 +849,14 @@ var _durationField2 = _interopRequireDefault(_durationField);
 var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
+
+var _findRelated = __webpack_require__(4);
+
+var _findRelated2 = _interopRequireDefault(_findRelated);
+
+var _hiddenFields = __webpack_require__(14);
+
+var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
 
 var _keywords = __webpack_require__(6);
 
@@ -850,17 +866,17 @@ var _noteField = __webpack_require__(2);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
-var _findRelated = __webpack_require__(4);
+var _timeAgoField = __webpack_require__(5);
 
-var _findRelated2 = _interopRequireDefault(_findRelated);
+var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function assembledHospitalizationForm(topic, unsortedTopics) {
-  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
+module.exports = function assembledHospitalizationForm(topic, unsortedTopics, visit) {
+  var rowID = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : topic.id;
 
   var parameterizedPlural = 'hospitalizations';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n  ' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural);
   if (topic.descriptors) {
     returnStatement += '<div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>';
   }
@@ -883,6 +899,14 @@ var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
+var _findRelated = __webpack_require__(4);
+
+var _findRelated2 = _interopRequireDefault(_findRelated);
+
+var _hiddenFields = __webpack_require__(14);
+
+var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
+
 var _keywords = __webpack_require__(6);
 
 var _keywords2 = _interopRequireDefault(_keywords);
@@ -895,17 +919,13 @@ var _noteField = __webpack_require__(2);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
-var _findRelated = __webpack_require__(4);
-
-var _findRelated2 = _interopRequireDefault(_findRelated);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function assembledMeasurementForm(topic, unsortedTopics) {
-  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
+module.exports = function assembledMeasurementForm(topic, unsortedTopics, visit) {
+  var rowID = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : topic.id;
 
   var parameterizedPlural = 'tests';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n  ' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural);
   if (topic.descriptors) {
     returnStatement += '<div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>';
   }
@@ -920,21 +940,25 @@ module.exports = function assembledMeasurementForm(topic, unsortedTopics) {
 "use strict";
 
 
-var _medFormFields = __webpack_require__(31);
-
-var _medFormFields2 = _interopRequireDefault(_medFormFields);
-
 var _findRelated = __webpack_require__(4);
 
 var _findRelated2 = _interopRequireDefault(_findRelated);
 
+var _hiddenFields = __webpack_require__(14);
+
+var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
+
+var _medFormFields = __webpack_require__(31);
+
+var _medFormFields2 = _interopRequireDefault(_medFormFields);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function assembledMedicationForm(topic) {
-  var rowID = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : topic.id;
+module.exports = function assembledMedicationForm(topic, visit) {
+  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
 
   var parameterizedPlural = 'medications';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    ' + (0, _medFormFields2.default)(topic) + '\n  </td></tr>\n  ';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    ' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural) + '\n    ' + (0, _medFormFields2.default)(topic) + '\n  </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -945,13 +969,17 @@ module.exports = function assembledMedicationForm(topic) {
 "use strict";
 
 
-var _timeAgoField = __webpack_require__(5);
+var _fileAttachmentButton = __webpack_require__(3);
 
-var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
+var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
-var _durationField = __webpack_require__(8);
+var _findRelated = __webpack_require__(4);
 
-var _durationField2 = _interopRequireDefault(_durationField);
+var _findRelated2 = _interopRequireDefault(_findRelated);
+
+var _hiddenFields = __webpack_require__(14);
+
+var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
 
 var _keywords = __webpack_require__(6);
 
@@ -961,21 +989,17 @@ var _noteField = __webpack_require__(2);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
-var _fileAttachmentButton = __webpack_require__(3);
+var _timeAgoField = __webpack_require__(5);
 
-var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
-
-var _findRelated = __webpack_require__(4);
-
-var _findRelated2 = _interopRequireDefault(_findRelated);
+var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function assembledProcedureForm(topic, unsortedTopics) {
-  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
+module.exports = function assembledProcedureForm(topic, unsortedTopics, visit) {
+  var rowID = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : topic.id;
 
   var parameterizedPlural = 'procedures';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n  ' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural);
   if (topic.descriptors) {
     returnStatement += '<div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>';
   }
@@ -1112,7 +1136,7 @@ module.exports = function rowForm(topic, unsortedTopics, visit) {
   switch (topic.topic_type) {
     case "diagnosis":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
-      returnStatement += '' + (0, _assembledDiagnosisForm2.default)(topic, unsortedTopics);
+      returnStatement += '' + (0, _assembledDiagnosisForm2.default)(topic, unsortedTopics, visit);
       break;
     case "dissection":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
@@ -1123,23 +1147,23 @@ module.exports = function rowForm(topic, unsortedTopics, visit) {
       break;
     case "genetic test":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
-      returnStatement += '' + (0, _assembledGeneticTestForm2.default)(topic);
+      returnStatement += '' + (0, _assembledGeneticTestForm2.default)(topic, visit);
       break;
     case "hospitalization":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
-      returnStatement += '' + (0, _assembledHospitalizationForm2.default)(topic, unsortedTopics);
+      returnStatement += '' + (0, _assembledHospitalizationForm2.default)(topic, unsortedTopics, visit);
       break;
     case "measurement":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
-      returnStatement += '' + (0, _assembledMeasurementForm2.default)(topic, unsortedTopics);
+      returnStatement += '' + (0, _assembledMeasurementForm2.default)(topic, unsortedTopics, visit);
       break;
     case "medication":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
-      returnStatement += '' + (0, _assembledMedicationForm2.default)(topic);
+      returnStatement += '' + (0, _assembledMedicationForm2.default)(topic, visit);
       break;
     case "procedure":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
-      returnStatement += '' + (0, _assembledProcedureForm2.default)(topic, unsortedTopics);
+      returnStatement += '' + (0, _assembledProcedureForm2.default)(topic, unsortedTopics, visit);
       break;
     case "vital":
       "kat";
@@ -3152,6 +3176,10 @@ module.exports = function nestedList(allTopics, unsortedTopics, visit) {
 "use strict";
 
 
+var _fileAttachmentButton = __webpack_require__(3);
+
+var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
+
 var _hiddenFields = __webpack_require__(14);
 
 var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
@@ -3167,10 +3195,6 @@ var _keywords2 = _interopRequireDefault(_keywords);
 var _noteField = __webpack_require__(2);
 
 var _noteField2 = _interopRequireDefault(_noteField);
-
-var _fileAttachmentButton = __webpack_require__(3);
-
-var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3209,6 +3233,8 @@ var _measurementField2 = _interopRequireDefault(_measurementField);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 module.exports = function assembledVitalForm(topic, visit) {
+  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
+
   var returnStatement = '';
   var parameterizedPlural = 'vitals';
   returnStatement += '<div class="form-group row">\n      <label class="col-2 col-form-label">' + topic.name + '</label>\n      <div class="form-inline col-10">\n        ' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural) + '\n        ' + (0, _measurementField2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>';
@@ -6102,25 +6128,9 @@ module.exports = function reasonForVisitHeader(visit) {
 "use strict";
 
 
-var _timeAgoField = __webpack_require__(5);
-
-var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
-
 var _durationField = __webpack_require__(8);
 
 var _durationField2 = _interopRequireDefault(_durationField);
-
-var _frequencyField = __webpack_require__(13);
-
-var _frequencyField2 = _interopRequireDefault(_frequencyField);
-
-var _keywords = __webpack_require__(6);
-
-var _keywords2 = _interopRequireDefault(_keywords);
-
-var _noteField = __webpack_require__(2);
-
-var _noteField2 = _interopRequireDefault(_noteField);
 
 var _fileAttachmentButton = __webpack_require__(3);
 
@@ -6130,13 +6140,33 @@ var _findRelated = __webpack_require__(4);
 
 var _findRelated2 = _interopRequireDefault(_findRelated);
 
+var _frequencyField = __webpack_require__(13);
+
+var _frequencyField2 = _interopRequireDefault(_frequencyField);
+
+var _hiddenFields = __webpack_require__(14);
+
+var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
+
+var _keywords = __webpack_require__(6);
+
+var _keywords2 = _interopRequireDefault(_keywords);
+
+var _noteField = __webpack_require__(2);
+
+var _noteField2 = _interopRequireDefault(_noteField);
+
+var _timeAgoField = __webpack_require__(5);
+
+var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function assembledDiagnosisForm(topic, allTopics) {
-  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
+module.exports = function assembledDiagnosisForm(topic, allTopics, visit) {
+  var rowID = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : topic.id;
 
   var parameterizedPlural = 'diagnoses';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n  ' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural);
   if (topic.descriptors) {
     returnStatement += '<div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>';
   }
@@ -6151,25 +6181,29 @@ module.exports = function assembledDiagnosisForm(topic, allTopics) {
 "use strict";
 
 
-var _selectConstructor = __webpack_require__(7);
-
-var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
-
 var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
-var _timeAgoField = __webpack_require__(5);
+var _findRelated = __webpack_require__(4);
 
-var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
+var _findRelated2 = _interopRequireDefault(_findRelated);
+
+var _hiddenFields = __webpack_require__(14);
+
+var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
 
 var _noteField = __webpack_require__(2);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
-var _findRelated = __webpack_require__(4);
+var _timeAgoField = __webpack_require__(5);
 
-var _findRelated2 = _interopRequireDefault(_findRelated);
+var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
+
+var _selectConstructor = __webpack_require__(7);
+
+var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6182,7 +6216,7 @@ module.exports = function assembledDissectionForm(topic, unsortedTopics, visit) 
   var directions = ['right', 'left', 'N/A'];
   var parameterizedPlural = 'dissections';
   var returnStatement = '';
-  returnStatement += '\n    <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n      <div class="form-inline">\n        <select\n          name="visit[dissections_attributes][' + rowID + '][location]"\n          id="visit_dissections_attributes_' + rowID + '_location"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(locations, 'location') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][direction]"\n          id="visit_dissections_attributes_' + rowID + '_direction"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(directions, 'direction') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][lumen]"\n          id="visit_dissections_attributes_' + rowID + '_lumen"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(lumens, 'lumen') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][perfusion]"\n          id="visit_dissections_attributes_' + rowID + '_perfusion"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(perfused, 'perfusion') + '\n        </select>\n      </div>\n      <div class="form-inline">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n\n        What type of intervention was performed?\n      </div>\n      ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n    </td></tr>\n  ';
+  returnStatement += '\n    <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    ' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural) + '\n      <div class="form-inline">\n        <select\n          name="visit[dissections_attributes][' + rowID + '][location]"\n          id="visit_dissections_attributes_' + rowID + '_location"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(locations, 'location') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][direction]"\n          id="visit_dissections_attributes_' + rowID + '_direction"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(directions, 'direction') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][lumen]"\n          id="visit_dissections_attributes_' + rowID + '_lumen"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(lumens, 'lumen') + '\n        </select>\n        <select\n          name="visit[dissections_attributes][' + rowID + '][perfusion]"\n          id="visit_dissections_attributes_' + rowID + '_perfusion"\n          class="form-control">\n          ' + (0, _selectConstructor2.default)(perfused, 'perfusion') + '\n        </select>\n      </div>\n      <div class="form-inline">\n        ' + (0, _timeAgoField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _noteField2.default)(topic, parameterizedPlural) + '\n        ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n\n        What type of intervention was performed?\n      </div>\n      ' + (0, _findRelated2.default)(topic, unsortedTopics) + '\n    </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -6193,10 +6227,6 @@ module.exports = function assembledDissectionForm(topic, unsortedTopics, visit) 
 "use strict";
 
 
-var _timeAgoField = __webpack_require__(5);
-
-var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
-
 var _durationField = __webpack_require__(8);
 
 var _durationField2 = _interopRequireDefault(_durationField);
@@ -6204,6 +6234,14 @@ var _durationField2 = _interopRequireDefault(_durationField);
 var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
+
+var _findRelated = __webpack_require__(4);
+
+var _findRelated2 = _interopRequireDefault(_findRelated);
+
+var _hiddenFields = __webpack_require__(14);
+
+var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
 
 var _keywords = __webpack_require__(6);
 
@@ -6213,17 +6251,17 @@ var _noteField = __webpack_require__(2);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
-var _findRelated = __webpack_require__(4);
+var _timeAgoField = __webpack_require__(5);
 
-var _findRelated2 = _interopRequireDefault(_findRelated);
+var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function assembledHospitalizationForm(topic, unsortedTopics) {
-  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
+module.exports = function assembledHospitalizationForm(topic, unsortedTopics, visit) {
+  var rowID = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : topic.id;
 
   var parameterizedPlural = 'hospitalizations';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n  ' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural);
   if (topic.descriptors) {
     returnStatement += '<div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>';
   }
@@ -6246,6 +6284,14 @@ var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
+var _findRelated = __webpack_require__(4);
+
+var _findRelated2 = _interopRequireDefault(_findRelated);
+
+var _hiddenFields = __webpack_require__(14);
+
+var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
+
 var _keywords = __webpack_require__(6);
 
 var _keywords2 = _interopRequireDefault(_keywords);
@@ -6258,17 +6304,13 @@ var _noteField = __webpack_require__(2);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
-var _findRelated = __webpack_require__(4);
-
-var _findRelated2 = _interopRequireDefault(_findRelated);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function assembledMeasurementForm(topic, unsortedTopics) {
-  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
+module.exports = function assembledMeasurementForm(topic, unsortedTopics, visit) {
+  var rowID = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : topic.id;
 
   var parameterizedPlural = 'tests';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n  ' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural);
   if (topic.descriptors) {
     returnStatement += '<div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>';
   }
@@ -6283,21 +6325,25 @@ module.exports = function assembledMeasurementForm(topic, unsortedTopics) {
 "use strict";
 
 
-var _medFormFields = __webpack_require__(31);
-
-var _medFormFields2 = _interopRequireDefault(_medFormFields);
-
 var _findRelated = __webpack_require__(4);
 
 var _findRelated2 = _interopRequireDefault(_findRelated);
 
+var _hiddenFields = __webpack_require__(14);
+
+var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
+
+var _medFormFields = __webpack_require__(31);
+
+var _medFormFields2 = _interopRequireDefault(_medFormFields);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function assembledMedicationForm(topic) {
-  var rowID = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : topic.id;
+module.exports = function assembledMedicationForm(topic, visit) {
+  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
 
   var parameterizedPlural = 'medications';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    ' + (0, _medFormFields2.default)(topic) + '\n  </td></tr>\n  ';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n    ' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural) + '\n    ' + (0, _medFormFields2.default)(topic) + '\n  </td></tr>\n  ';
   return returnStatement;
 };
 
@@ -6308,13 +6354,17 @@ module.exports = function assembledMedicationForm(topic) {
 "use strict";
 
 
-var _timeAgoField = __webpack_require__(5);
+var _fileAttachmentButton = __webpack_require__(3);
 
-var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
+var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
-var _durationField = __webpack_require__(8);
+var _findRelated = __webpack_require__(4);
 
-var _durationField2 = _interopRequireDefault(_durationField);
+var _findRelated2 = _interopRequireDefault(_findRelated);
+
+var _hiddenFields = __webpack_require__(14);
+
+var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
 
 var _keywords = __webpack_require__(6);
 
@@ -6324,21 +6374,17 @@ var _noteField = __webpack_require__(2);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
-var _fileAttachmentButton = __webpack_require__(3);
+var _timeAgoField = __webpack_require__(5);
 
-var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
-
-var _findRelated = __webpack_require__(4);
-
-var _findRelated2 = _interopRequireDefault(_findRelated);
+var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = function assembledProcedureForm(topic, unsortedTopics) {
-  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
+module.exports = function assembledProcedureForm(topic, unsortedTopics, visit) {
+  var rowID = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : topic.id;
 
   var parameterizedPlural = 'procedures';
-  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>';
+  var returnStatement = '\n  <tr class=\'row_form\' id=\'row_' + rowID + '\' style=\'display:none\'><td colspan=\'3\'>\n  ' + (0, _hiddenFields2.default)(visit, topic, parameterizedPlural);
   if (topic.descriptors) {
     returnStatement += '<div class="form-group row">\n      <label class="col-2 col-form-label">Descriptors</label>\n      <div class="form-inline col-10">\n        ' + (0, _keywords2.default)(topic, parameterizedPlural) + '\n      </div>\n    </div>';
   }
@@ -6397,7 +6443,7 @@ module.exports = function rowForm(topic, unsortedTopics, visit) {
   switch (topic.topic_type) {
     case "diagnosis":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
-      returnStatement += '' + (0, _assembledDiagnosisForm2.default)(topic, unsortedTopics);
+      returnStatement += '' + (0, _assembledDiagnosisForm2.default)(topic, unsortedTopics, visit);
       break;
     case "dissection":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
@@ -6408,23 +6454,23 @@ module.exports = function rowForm(topic, unsortedTopics, visit) {
       break;
     case "genetic test":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
-      returnStatement += '' + (0, _assembledGeneticTestForm2.default)(topic);
+      returnStatement += '' + (0, _assembledGeneticTestForm2.default)(topic, visit);
       break;
     case "hospitalization":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
-      returnStatement += '' + (0, _assembledHospitalizationForm2.default)(topic, unsortedTopics);
+      returnStatement += '' + (0, _assembledHospitalizationForm2.default)(topic, unsortedTopics, visit);
       break;
     case "measurement":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
-      returnStatement += '' + (0, _assembledMeasurementForm2.default)(topic, unsortedTopics);
+      returnStatement += '' + (0, _assembledMeasurementForm2.default)(topic, unsortedTopics, visit);
       break;
     case "medication":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
-      returnStatement += '' + (0, _assembledMedicationForm2.default)(topic);
+      returnStatement += '' + (0, _assembledMedicationForm2.default)(topic, visit);
       break;
     case "procedure":
       returnStatement += '' + (0, _presAbsButtons2.default)(topic, visit);
-      returnStatement += '' + (0, _assembledProcedureForm2.default)(topic, unsortedTopics);
+      returnStatement += '' + (0, _assembledProcedureForm2.default)(topic, unsortedTopics, visit);
       break;
     case "vital":
       "kat";

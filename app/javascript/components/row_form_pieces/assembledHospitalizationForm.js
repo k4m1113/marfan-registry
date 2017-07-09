@@ -1,14 +1,16 @@
-import timeAgoField from './timeAgoField';
 import durationField from './durationField';
 import fileAttachmentButton from './fileAttachmentButton';
+import findRelated from './findRelated';
+import hiddenFields from './hiddenFields'
 import keywords from './keywords';
 import noteField from './noteField';
-import findRelated from './findRelated';
+import timeAgoField from './timeAgoField';
 
-module.exports = function assembledHospitalizationForm(topic, unsortedTopics, rowID = topic.id) {
+module.exports = function assembledHospitalizationForm(topic, unsortedTopics, visit, rowID = topic.id) {
   const parameterizedPlural = 'hospitalizations'
   let returnStatement = `
-  <tr class='row_form' id='row_${rowID}' style='display:none'><td colspan='3'>`
+  <tr class='row_form' id='row_${rowID}' style='display:none'><td colspan='3'>
+  ${hiddenFields(visit, topic, parameterizedPlural)}`
   if (topic.descriptors) {
     returnStatement += `<div class="form-group row">
       <label class="col-2 col-form-label">Descriptors</label>
