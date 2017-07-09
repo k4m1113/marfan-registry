@@ -46,7 +46,11 @@ class TestsController < ApplicationController
     @test.destroy
     message = "Test for #{find_trail(@test.topic_id)} deleted from record"
     flash[:success] = message
-    redirect_to :back
+    redirect_to edit_visit_path(@test.visit_id)
+  end
+
+  def back_url
+    request.referer
   end
 
   private

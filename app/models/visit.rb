@@ -55,7 +55,7 @@ class Visit < ApplicationRecord
     }
   accepts_nested_attributes_for :tests, reject_if:
     proc { |t|
-      (t['test_date'].nil? && t['time_ago'].nil?) || t['result'].blank?
+      t['present'].blank?
     }
   accepts_nested_attributes_for :vitals, reject_if:
     proc { |att|
@@ -185,50 +185,50 @@ class Visit < ApplicationRecord
   end
 
   def imagery_paragraph
-    common_content
-    heart_imaging_locations = heart_imaging_locations
-
-    patient = Patient.find(patient_id)
-
-    results = ''
-    imagery = tests.select { |t| heart_imaging_locations.include?(t.topic)}
-    if imagery.empty?
-      results += "#{patient.first_name} did not undergo any heart imagery as part of our visit."
-    else
-      echo = imagery.select { |i| i.topic.name == 'echo' }
-      mri = imagery.select { |i| i.topic.name == 'MRI' }
-      ct = imagery.select { |i| i.topic.name == 'CT' }
-      other_meas = imagery - ct - mri - echo
-      unless echo.empty?
-        echos = []
-        echo.each do |e|
-          echos << "#{e.topic.parent.name} was #{e.result}"
-        end
-        results += "#{patient.first_name} underwent an echocardiogram in which #{patient.possessive_pronoun} #{list_constructor(echos)}. "
-      end
-      unless mri.empty?
-        mris = []
-        mri.each do |m|
-          mris << "#{m.topic.parent.name} was #{m.result}"
-        end
-        results += "#{patient.first_name} underwent an MRI in which #{patient.possessive_pronoun} #{list_constructor(mris)}. "
-      end
-      unless ct.empty?
-        cts = []
-        ct.each do |c|
-          cts << "#{c.topic.parent.name} was #{c.result}"
-        end
-        results += "#{patient.first_name} underwent a CT scan in which #{patient.possessive_pronoun} #{list_constructor(cts)}. "
-      end
-      unless other_meas.empty?
-        others = []
-        other_meas.each do |o|
-          others << "#{o.topic.name} of #{o.result}"
-        end
-        results += "#{patient.subject_pronoun.capitalize} had a #{list_constructor(others)}. "
-      end
-      "#{results}"
-    end
+    # common_content
+    # heart_imaging_locations = heart_imaging_locations
+    #
+    # patient = Patient.find(patient_id)
+    #
+    # results = ''
+    # imagery = tests.select { |t| heart_imaging_locations.include?(t.topic)}
+    # if imagery.empty?
+    #   results += "#{patient.first_name} did not undergo any heart imagery as part of our visit."
+    # else
+    #   echo = imagery.select { |i| i.topic.name == 'echo' }
+    #   mri = imagery.select { |i| i.topic.name == 'MRI' }
+    #   ct = imagery.select { |i| i.topic.name == 'CT' }
+    #   other_meas = imagery - ct - mri - echo
+    #   unless echo.empty?
+    #     echos = []
+    #     echo.each do |e|
+    #       echos << "#{e.topic.parent.name} was #{e.result}"
+    #     end
+    #     results += "#{patient.first_name} underwent an echocardiogram in which #{patient.possessive_pronoun} #{list_constructor(echos)}. "
+    #   end
+    #   unless mri.empty?
+    #     mris = []
+    #     mri.each do |m|
+    #       mris << "#{m.topic.parent.name} was #{m.result}"
+    #     end
+    #     results += "#{patient.first_name} underwent an MRI in which #{patient.possessive_pronoun} #{list_constructor(mris)}. "
+    #   end
+    #   unless ct.empty?
+    #     cts = []
+    #     ct.each do |c|
+    #       cts << "#{c.topic.parent.name} was #{c.result}"
+    #     end
+    #     results += "#{patient.first_name} underwent a CT scan in which #{patient.possessive_pronoun} #{list_constructor(cts)}. "
+    #   end
+    #   unless other_meas.empty?
+    #     others = []
+    #     other_meas.each do |o|
+    #       others << "#{o.topic.name} of #{o.result}"
+    #     end
+    #     results += "#{patient.subject_pronoun.capitalize} had a #{list_constructor(others)}. "
+    #   end
+    #   "#{results}"
+    # end
   end
 
   ## Concerns = anything discussed in a visit not incl: family history, vitals, heart imagery, meds.

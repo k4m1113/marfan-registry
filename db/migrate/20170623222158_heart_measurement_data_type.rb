@@ -6,7 +6,7 @@ class HeartMeasurementDataType < ActiveRecord::Migration[5.1]
       t.belongs_to :visit
       t.string :measurement
       t.string :note
-      t.datetime :test_date
+      t.datetime :absolute_start_date
       t.integer :time_ago
       t.string :time_ago_scale
       t.string :attachment

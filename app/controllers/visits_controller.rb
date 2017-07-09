@@ -107,7 +107,7 @@ class VisitsController < ApplicationController
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient.id)
     @form_action = 'Update'
-    # binding.remote_pry
+    binding.remote_pry
     if @visit.update(visit_params)
       # visit_params.keys.each do |vp|
       #   flash[:success] = "Successfully updated visit with #{vp}"
@@ -163,7 +163,7 @@ class VisitsController < ApplicationController
       patient_attributes:
         %i[id primary_diagnosis],
       tests_attributes:
-        %i[visit_id topic_id patient_id test present test_date time_ago test_amount test_unit_of_meas time_ago_scale result note attachment],
+        %i[visit_id topic_id patient_id test present absolute_start_date time_ago test_amount test_unit_of_meas time_ago_amount time_ago_scale result note attachment],
       vitals_attributes:
         %i[visit_id patient_id topic_id vital present test_amount sbp dbp test_unit_of_meas measurement note attachment],
       diagnoses_attributes:

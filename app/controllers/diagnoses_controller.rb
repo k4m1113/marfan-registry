@@ -1,30 +1,10 @@
 class DiagnosesController < ApplicationController
-  def index
-    @diagnoses = Diagnosis.all
-  end
-
   def show
     @diagnosis = Diagnosis.find(params[:id])
   end
 
-  def new
-    @diagnosis = Diagnosis.new
-  end
-
   def edit
     @diagnosis = Diagnosis.find(params[:id])
-  end
-
-  def create
-    @diagnosis = Diagnosis.new(diagnosis_params)
-    if @diagnosis.save
-      flash[:success] = "#{@diagnosis.note} of #{find_trail(@diagnosis.topic_id)} added to visit"
-      redirect_to :back
-    else
-      flash[:error] = "Please re-check information: #{@diagnosis.errors.full_messages}"
-      Rails.logger.info(@diagnosis.errors.inspect)
-      render :back
-    end
   end
 
   def update
@@ -44,7 +24,7 @@ class DiagnosesController < ApplicationController
     @diagnosis = Diagnosis.find(params[:id])
     @diagnosis.destroy
     flash[:success] = "Diagnosis #{@diagnosis.id} for #{find_trail(@diagnosis.topic_id)} deleted from record"
-    redirect_to :back
+    redirect_to edit_visit_path(@diagnosis.visit_id)
   end
 
   def back_url

@@ -9,7 +9,7 @@
 
   <%= f.hidden_field :topic_id, value: topic.id, name: "visit[tests_attributes][#{@topic.id}][topic_id]", id: "visit_tests_attributes_#{@topic.id}_topic_id" %>
 
-  <%= f.hidden_field :test_date, value: test_date, name: "visit[tests_attributes][#{@topic.id}][test_date]", id: "visit_tests_attributes_#{@topic.id}_test_date" %>
+  <%= f.hidden_field :absolute_start_date, value: absolute_start_date, name: "visit[tests_attributes][#{@topic.id}][absolute_start_date]", id: "visit_tests_attributes_#{@topic.id}_absolute_start_date" %>
   <%= f.file_field :attachment, name: "visit[tests_attributes][#{@topic.id}][attachment]", id: "visit_tests_attributes_#{@topic.id}_attachment", style: "display:none" %>
   <div class="input-group">
     <% if @topic.units_of_measurement %>

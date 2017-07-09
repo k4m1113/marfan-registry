@@ -128,7 +128,7 @@ class PatientsController < ApplicationController
       hospitalizations_attributes:
         %i[visit_id patient_id topic_id hospitalization admission_date time_ago time_ago_scale length_of_stay length_of_stay_scale hosp_type description location note],
       tests_attributes:
-        %i[visit_id topic_idpatient_id test test_date time_ago time_ago_scale result note]
+        %i[visit_id topic_idpatient_id test absolute_start_date time_ago time_ago_scale result note]
       )
   end
 end

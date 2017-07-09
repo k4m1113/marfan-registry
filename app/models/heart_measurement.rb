@@ -48,7 +48,7 @@ class HeartMeasurement < ApplicationRecord
     end
 
     return {
-      'date': display_test_date(self),
+      'date': display_absolute_start_date(self),
       'name': find_trail(self.topic_id),
       'measurement': print_if_present(self.measurement),
       'note': print_if_present(self.note),
@@ -65,10 +65,10 @@ class HeartMeasurement < ApplicationRecord
 
   def timeify
     if !time_ago_amount.nil? && !time_ago_scale.nil?
-      self.test_date ||= find_date(time_ago_amount, time_ago_scale, Date.today)
+      self.absolute_start_date ||= find_date(time_ago_amount, time_ago_scale, Date.today)
       true
     else
-      self.test_date = created_at
+      self.absolute_start_date = created_at
       true
     end
     true

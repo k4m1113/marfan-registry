@@ -108,16 +108,6 @@ module ApplicationHelper
     end
   end
 
-  def display_test_date(t)
-    if t.test_date
-      return t.test_date.strftime('%d %B %Y')
-    elsif t.time_ago
-      return "#{t.time_ago} #{t.time_ago_scale} ago".downcase
-    else
-      return "not noted"
-    end
-  end
-
   def display_date(topic_type)
     if topic_type.absolute_start_date
       topic_type.absolute_start_date.strftime('%d %B %Y')

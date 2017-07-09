@@ -2,21 +2,33 @@ class Test < ApplicationRecord
   include ApplicationHelper
   mount_uploader :attachment, AttachmentUploader
 
-  attr_accessor :test_amount, :test_unit_of_meas
+  attr_accessor :test_amount, :test_unit_of_meas, :present, :time_ago_amount, :time_ago_scale
   attr_reader :table_headings, :table_body
 
-  before_save :concat_result
+  before_create :concat_result, :timeify
 
   belongs_to :topic
   belongs_to :visit, inverse_of: :tests, required: false
   belongs_to :patient, inverse_of: :tests
 
-  after_save { |t| t.destroy if (t.test_date.nil? && t.time_ago.nil?) || (t.result.blank?) }
-
   def concat_result
-    unless test_amount.blank? || test_unit_of_meas.blank?
-      self.result = "#{test_amount} #{test_unit_of_meas}"
+    if present === false
+      self.result = 'absence'
+    else
+      self.result = "#{test_amount unless test_amount.nil?} #{test_unit_of_meas unless test_amount.nil?}"
     end
+  end
+
+  def timeify
+    if !time_ago_amount.nil? && !time_ago_scale.nil?
+      self.absolute_start_date ||= find_date(time_ago_amount, time_ago_scale, Date.today)
+      self.time_ago = "#{time_ago_amount} #{time_ago_scale} ago"
+      true
+    else
+      self.absolute_start_date = created_at
+      true
+    end
+    true
   end
 
   def self.table_headings
@@ -35,8 +47,8 @@ class Test < ApplicationRecord
     end
 
     return {
-      'date': display_test_date(self),
-      'name': find_trail(self.topic_id),
+      'date': absolute_start_date.strftime('%b %Y'),
+      'name': find_trail(topic_id),
       'result': print_if_present(self.result),
       'attachment': "#{action_view.render(
         partial: 'layouts/attachment_thumbnails', format: :txt,
@@ -48,18 +60,16 @@ class Test < ApplicationRecord
   end
 
   def generate_summary
-    if self.test_date
-      test_date = self.test_date
+    if self.absolute_start_date
+      absolute_start_date = self.absolute_start_date
     elsif self.time_ago && self.time_ago_scale
-      test_date = find_date(self.time_ago, self.time_ago_scale, self.created_at)
+      absolute_start_date = find_date(self.time_ago, self.time_ago_scale, self.created_at)
     else
-      test_date = self.created_at
+      absolute_start_date = self.created_at
     end
-    if Topic.roots.include?(self.topic.parent)
-      descriptor = "#{self.topic.name}"
-    else
-      descriptor = "#{self.topic.name} for #{self.topic.parent.name}"
-    end
-    return "#{descriptor} was #{self.result}"
+    return "#{topic.name} was #{self.result}"
+  end
+  def generate_full_summary
+    generate_summary
   end
 end

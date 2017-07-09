@@ -5,7 +5,7 @@ module.exports = function timeAgoField(topic, parameterizedPlural) {
   let absoluteTime = ''
   switch (topic.topic_type) {
     case 'test':
-      absoluteTime = 'test_date'
+      absoluteTime = 'absolute_start_date'
       break;
     case 'hospitalization':
       absoluteTime = 'admission_date'

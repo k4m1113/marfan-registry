@@ -5,7 +5,7 @@ class CreateTests < ActiveRecord::Migration[5.0]
 
       t.string :test_type,         null: false
       t.string :result,       null: false
-      t.datetime :test_date
+      t.datetime :absolute_start_date
     end
   end
 end

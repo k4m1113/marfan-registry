@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170627231129) do
+ActiveRecord::Schema.define(version: 20170709022218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,7 +168,7 @@ ActiveRecord::Schema.define(version: 20170627231129) do
     t.bigint "visit_id"
     t.string "measurement"
     t.string "note"
-    t.datetime "test_date"
+    t.datetime "absolute_start_date"
     t.integer "time_ago"
     t.string "time_ago_scale"
     t.string "attachment"
@@ -309,7 +309,7 @@ ActiveRecord::Schema.define(version: 20170627231129) do
 
   create_table "tests", id: :serial, force: :cascade do |t|
     t.string "result"
-    t.datetime "test_date"
+    t.datetime "absolute_start_date"
     t.integer "patient_id", null: false
     t.integer "visit_id"
     t.string "time_ago"
