@@ -5,7 +5,7 @@ class Procedure < ApplicationRecord
   attr_reader :table_headings, :table_body
   attr_accessor :present, :time_ago_amount, :time_ago_scale, :descriptors
 
-  before_save :concat_time_ago, :descriptors_to_note
+  before_create :concat_time_ago, :descriptors_to_note
 
   after_save { |p| p.destroy if (p.time_ago.nil? && p.note.blank? && p.attachment.nil?) }
 

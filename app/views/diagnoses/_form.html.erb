@@ -1,17 +1,17 @@
-<%= form_for @diagnosis  do |f| %>
+<%= form_for @diagnosis do |f| %>
   <div class="row">
     <div class="form-group col-4">
-      <%= f.label :topic_id, "Topic ID: #{find_trail(@diagnosis.topic_id)}" %>
+      <%= f.label :topic_id, "Topic ID - #{@diagnosis.topic.name}" %>
       <%= f.text_field :topic_id, class: "form-control", disabled: true %>
     </div>
 
     <div class="form-group col-4">
-      <%= f.label :patient_id %>
+      <%= f.label :patient_id, "Patient ID - #{@patient.full_name}"%>
       <%= f.text_field :patient_id, class: "form-control", disabled: true %>
     </div>
 
     <div class="form-group col-4">
-      <%= f.label :visit_id %>
+      <%= f.label :visit_id, "Visit ID" %>
       <%= f.text_field :visit_id, class: "form-control", disabled: true %>
     </div>
   </div>
@@ -48,10 +48,10 @@
   <div class="form-group">
     <%= f.label :attachment %><br>
     <%= f.file_field :attachment, class: "form-control-file" %>
-    <%= image_tag @diagnosis.attachment.url %>
+    <%= image_tag @diagnosis.attachment.url unless @diagnosis.attachment.blank? %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Update", class: "form-control" %>
+    <%= f.submit "Update", class: "form-control btn-success" %>
   </div>
 <% end %>

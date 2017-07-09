@@ -46,6 +46,10 @@ class ProceduresController < ApplicationController
     flash[:success] = "Procedure #{@procedure.id} for #{find_trail(@procedure.topic_id)} deleted from record"
   end
 
+  def back_url
+    request.referer
+  end
+
   private
 
   def procedure_params
@@ -57,7 +61,8 @@ class ProceduresController < ApplicationController
       :time_ago,
       :time_ago_scale,
       :absolute_start_date,
-      :note)
-
+      :note,
+      :attachment
+    )
   end
 end

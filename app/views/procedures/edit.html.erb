@@ -1,5 +1,15 @@
-<h1>Editing Procedure</h1>
+<h3>
+  Editing Procedure <%= @procedure.id %>
+  &nbsp
+  <%= link_to '‹ Back', :back, class: "btn btn-secondary btn-sm" %>
+  <%= link_to procedure_path(@procedure.id), method: :delete, type: "button", class: "btn btn-danger btn-sm" do %>
+    <i class="fa fa-trash"></i>
+  <% end %>
+  <br />
+  <small>
+    <%= @procedure.generate_full_summary %>
+  </small>
+</h3>
+<hr />
 
 <%= render 'form' %>
-
-<%= link_to '‹ Back', :back, class: "btn btn-secondary" %>

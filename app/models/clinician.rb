@@ -1,6 +1,8 @@
 class Clinician < ApplicationRecord
   include Doctor
 
+  attr_reader :full_name
+
   has_many :patients
   has_many :visits,
     inverse_of: :clinician
@@ -40,4 +42,8 @@ class Clinician < ApplicationRecord
     format: {
       with: /\A[a-zA-Z ']+\z/
     }
+
+    def full_name
+      "#{last_name}, #{first_name}"
+    end
 end

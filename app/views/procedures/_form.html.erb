@@ -1,19 +1,17 @@
-<%= form_for(@procedure) do |f| %>
-  <div class="form-group">
-    <%= f.label :topic_id, "Topic ID: #{find_trail(@procedure.topic_id)}" %><br>
-    <%= f.text_field :topic_id, class: "form-control", disabled: true %>
-  </div>
-  <div class="form-group">
-    <%= f.label :patient_id %><br>
-    <%= f.text_field :patient_id, class: "form-control", disabled: true %>
-  </div>
-  <div class="form-group">
-    <%= f.label :visit_id %><br>
-    <%= f.text_field :visit_id, class: "form-control", disabled: true %>
-  </div>
-  <div class="form-group">
-    <%= f.label :clinician_id %><br>
-    <%= f.text_field :clinician_id, class: "form-control", value: @procedure.visit.clinician_id, disabled: true %>
+<%= form_for @procedure do |f| %>
+  <div class="row">
+    <div class="form-group col-4">
+      <%= f.label :topic_id, "Topic ID - #{@procedure.topic.name}" %>
+      <%= f.text_field :topic_id, class: "form-control", disabled: true %>
+    </div>
+    <div class="form-group col-4">
+      <%= f.label :patient_id, "Patient ID - #{@procedure.patient.full_name}" %><br>
+      <%= f.text_field :patient_id, class: "form-control", disabled: true %>
+    </div>
+    <div class="form-group col-4">
+      <%= f.label :visit_id %><br>
+      <%= f.text_field :visit_id, class: "form-control", disabled: true %>
+    </div>
   </div>
   <div class="form-group">
     <%= f.label :time_ago %><br>
@@ -28,6 +26,11 @@
     <%= f.text_field :note, class: "form-control" %>
   </div>
   <div class="form-group">
-    <%= f.submit "Update", class: "form-control" %>
+    <%= f.label :attachment %><br>
+    <%= f.file_field :attachment, class: "form-control-file" %>
+    <%= image_tag @procedure.attachment.url unless @procedure.attachment.blank? %>
+  </div>
+  <div class="form-group">
+    <%= f.submit "Update", class: "form-control btn-success" %>
   </div>
 <% end %>
