@@ -14,7 +14,7 @@ class Diagnosis < ApplicationRecord
   def self.attributes
     [:visit_id, :topic_id, :patient_id, :present, :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale, :absolute_start_date, :note, :attachment, descriptors: []]
   end
-  
+
   def self.table_headings
     %w[Date Description Present Note When Duration Frequency Attachment Actions]
   end
@@ -24,12 +24,14 @@ class Diagnosis < ApplicationRecord
   end
 
   def concat_time_ago
-    unless time_ago_amount.blank? || time_ago_scale.blank?
+    if !time_ago_amount.blank? && !time_ago_scale.blank?
       date = find_date(time_ago_amount.to_i, time_ago_scale, Date.today)
       self.time_ago = "#{time_ago_amount} #{time_ago_scale} ago"
       if absolute_start_date.nil?
         self.absolute_start_date = date
       end
+    else
+      self.absolute_start_date = Date.today
     end
   end
 
