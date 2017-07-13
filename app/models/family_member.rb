@@ -24,6 +24,11 @@ class FamilyMember < ApplicationRecord
   Patient.last.common_content
   fam = Patient.last.family_member_ids
 
+  def self.attributes
+    [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, :family_member, :attachment,  future_patient_data_hash:
+      %i[first_name last_name born_years_ago date_of_birth deceased death_time_ago death_time_ago_scale death_date cause_of_death note]]
+  end
+  
   def self.perform_search(keyword)
     if keyword.present?
       FamilyMember.search(keyword)

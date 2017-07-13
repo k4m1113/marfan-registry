@@ -43,6 +43,10 @@ class GeneticTest < ApplicationRecord
     details << "(#{concatted_note})" if concatted_note
     details.join(' ')
   end
+  
+  def self.attributes
+    %i[visit_id topic_id patient_id present time_ago_amount time_ago_scale absolute_start_date transcript protein variant exons lab_name lab_classification clinical_classification predictive_testing_recommended note attachment]
+  end
 
   # TABLE VIEW ATTRIBUTES
   def self.table_headings

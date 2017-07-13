@@ -17,6 +17,9 @@ class Procedure < ApplicationRecord
 
   after_save { |p| p.destroy if p.note.nil? }
 
+  def self.attributes
+    [:topic_id, :patient_id, :clinician_id, :present, :note, :attachment, :present, :time_ago_amount, :time_ago_scale, :absolute_start_date, descriptors: []]
+  end
 
   def self.table_headings
     %w[Date Name Note When Attachment Actions]

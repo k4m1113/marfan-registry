@@ -7,7 +7,7 @@ module.exports = function infoHover(concerns) {
     data-toggle="tooltip"
     data-html="true"
     title="${tooltipTitle}">
-    <i class="fa fa-question" aria-hidden="true"></i>
+    <i class="fa fa-history" aria-hidden="true"></i>
   </button>`
   return returnStatement
 }

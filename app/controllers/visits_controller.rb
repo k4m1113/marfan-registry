@@ -125,13 +125,51 @@ class VisitsController < ApplicationController
     redirect_to visits_path
   end
 
-  def find_and_create_clinician(query)
-    loc = Doctor.get_lat_and_long(@patient.city, @patient.state)
-    @clinician = Doctor.find_doctors(query, loc)
-    redirect_to new_visit_path(clinician: @clinician, patient: @patient)
+  private
+
+  def diagnoses_attributes
+    Diagnosis.attributes
   end
 
-  # private
+  def dissections_attributes
+    Dissection.attributes
+  end
+
+  def family_members_attributes
+    FamilyMember.attributes
+  end
+
+  def genetic_tests_attributes
+    GeneticTest.attributes
+  end
+
+  def heart_measurements_attributes
+    HeartMeasurement.attributes
+  end
+
+  def hospitalizations_attributes
+    Hospitalization.attributes
+  end
+
+  def medications_attributes
+    Medication.attributes
+  end
+
+  def patient_attributes
+    %i[id primary_diagnosis]
+  end
+
+  def procedures_attributes
+    Procedure.attributes
+  end
+
+  def tests_attributes
+    Test.attributes
+  end
+
+  def vitals_attributes
+    Vital.attributes
+  end
 
   def visit_params
     params.require(:visit).permit(
@@ -149,29 +187,17 @@ class VisitsController < ApplicationController
       :secondary_reason,
       :vital,
       :test,
-      dissections_attributes:
-        %i[patient_id visit_id topic_id location perfusion direction lumen absolute_start_date time_ago_amount time_ago_scale attachment note],
-      family_members_attributes:
-        [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, :family_member, :attachment,  future_patient_data_hash:
-          %i[first_name last_name born_years_ago date_of_birth deceased death_time_ago death_time_ago_scale death_date cause_of_death note]],
-      genetic_tests_attributes:
-        %i[visit_id topic_id patient_id present time_ago_amount time_ago_scale absolute_start_date transcript protein variant exons lab_name lab_classification clinical_classification predictive_testing_recommended note attachment],
-      hospitalizations_attributes:
-        %i[visit_id patient_id topic_id present hospitalization admission_date time_ago time_ago_scale length_of_stay length_of_stay_scale hosp_type description location note attachment],
-      medications_attributes:
-        %i[visit_id patient_id topic_id present dose dose_unit_of_measurement nested_med_id nested_med_category duration_amount duration_scale ingestion_method frequency frequency_scale common_name medication_format time_ago time_ago_scale absolute_start_date note name dosage_form dosage_form_units current attachment],
-      patient_attributes:
-        %i[id primary_diagnosis],
-      tests_attributes:
-        %i[visit_id topic_id patient_id test present absolute_start_date time_ago test_amount test_unit_of_meas time_ago_amount time_ago_scale result note attachment],
-      vitals_attributes:
-        %i[visit_id patient_id topic_id vital present test_amount sbp dbp test_unit_of_meas measurement note attachment],
-      diagnoses_attributes:
-        [:visit_id, :topic_id, :patient_id, :present, :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale, :absolute_start_date, :note, :attachment, descriptors: []],
-      heart_measurements_attributes:
-        [:visit_id, :topic_id, :patient_id, :present, :time_ago_amount, :time_ago_scale, :absolute_start_date, :test_amount, :test_unit_of_meas, :note, :attachment, descriptors: []],
-      procedures_attributes:
-        [:topic_id, :patient_id, :clinician_id, :present, :note, :attachment, :present, :time_ago_amount, :time_ago_scale, :absolute_start_date, descriptors: []]
+      dissections_attributes: dissections_attributes,
+      family_members_attributes: family_members_attributes,
+      genetic_tests_attributes: genetic_tests_attributes,
+      hospitalizations_attributes: hospitalizations_attributes,
+      medications_attributes: medications_attributes,
+      patient_attributes: patient_attributes,
+      tests_attributes: tests_attributes,
+      vitals_attributes: vitals_attributes,
+      diagnoses_attributes: diagnoses_attributes,
+      heart_measurements_attributes: heart_measurements_attributes,
+      procedures_attributes: procedures_attributes
     )
   end
 end

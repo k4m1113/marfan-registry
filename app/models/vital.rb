@@ -1,12 +1,16 @@
 class Vital < ApplicationRecord
   attr_accessor :test_amount, :test_unit_of_meas
 
-  before_save :calculate_metric
+  before_create :calculate_metric
   after_save { |v| v.destroy if v.measurement.blank? }
 
   belongs_to :topic
   belongs_to :patient, inverse_of: :vitals, required: true
   belongs_to :visit, inverse_of: :vitals, required: false
+
+  def self.attributes
+    %i[visit_id patient_id topic_id vital present test_amount sbp dbp test_unit_of_meas measurement note attachment]
+  end
 
   def generate_summary
     # "#{topic.name} was #{measurement}#{topic.units_of_measurement[0]}"

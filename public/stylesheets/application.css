@@ -11963,6 +11963,10 @@ canvas[id^=ms-rendering-canvas] {
 
 
 /* keyboard - jQuery UI Widget */
+.calculator {
+  min-height: 36px;
+  vertical-align: bottom; }
+
 .ui-keyboard {
   padding: .3em;
   position: absolute;
@@ -12380,8 +12384,8 @@ input[type='radio'] {
   width: 0px; }
 
 .tab-content {
-  margin-left: 200px;
-  width: calc(100% - 200px);
+  margin-left: 250px;
+  width: calc(100% - $sidebar-width);
   background-color: white !important;
   padding: 8px !important; }
   .tab-content .tab-pane {
@@ -12392,7 +12396,7 @@ input[type='radio'] {
 
 a.nav-link.open-tab {
   color: rgba(0, 0, 0, 0.7);
-  width: 200px;
+  width: 250px;
   border-radius: 0px !important;
   border: 0 !important;
   font-size: 16px;
@@ -12410,7 +12414,7 @@ a.nav-link.open-tab {
 .nav-tabs {
   float: left;
   padding-right: 8px !important;
-  width: 200px;
+  width: 250px;
   background: #F7F7F7 !important; }
   .nav-tabs li {
     float: none; }
@@ -12474,14 +12478,14 @@ label.descriptor {
   border-left: 0px; }
 
 .tooltip-trigger {
-  border-radius: 20px;
-  padding: 1px 6px 0px 6px;
+  border-radius: 30px;
+  padding: 2px 4px;
   border: 2px solid rgba(0, 0, 0, 0.7);
   border-corner-shape: bevel;
   color: #B1242C; }
   .tooltip-trigger:hover {
     color: #782F5A;
-    cursor: help; }
+    cursor: context-menu; }
 
 label.btn-secondary {
   padding: 4px 8px; }

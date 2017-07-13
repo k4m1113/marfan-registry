@@ -15,14 +15,14 @@
 @import "custom-check";
 
 .tooltip-trigger {
-  border-radius: 20px;
-  padding: 1px 6px 0px 6px;
+  border-radius: 30px;
+  padding: 2px 4px;
   border: 2px solid $bootstrap-dark-grey;
   border-corner-shape: bevel;
   color: $nmf-red;
   &:hover {
     color: $nmf-purple;
-    cursor: help;
+    cursor: context-menu;
   }
 }
 

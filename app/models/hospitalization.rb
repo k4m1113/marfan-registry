@@ -19,6 +19,10 @@ class Hospitalization < ApplicationRecord
     numericality: { greater_than: 0 },
     allow_nil: true
 
+  def self.attributes
+    %i[visit_id patient_id topic_id present hospitalization admission_date time_ago time_ago_scale length_of_stay length_of_stay_scale hosp_type description location note attachment]
+  end
+
   def self.table_headings
     return ['Date', 'Length of Stay', 'Name', 'Location', 'Description', 'Attachments', 'Actions']
   end

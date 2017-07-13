@@ -31,6 +31,10 @@ class Test < ApplicationRecord
     true
   end
 
+  def self.attributes
+    %i[visit_id topic_id patient_id test present absolute_start_date time_ago test_amount test_unit_of_meas time_ago_amount time_ago_scale result note attachment]
+  end
+
   def self.table_headings
     %w[Date Name Result Attachments Actions]
   end

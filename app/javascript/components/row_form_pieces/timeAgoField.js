@@ -19,9 +19,7 @@ module.exports = function timeAgoField(topic, parameterizedPlural) {
   <div class="approximate" >
     <div class='form-inline'>
       <input type='number' name='visit[${parameterizedPlural}_attributes][${topic.id}][time_ago_amount]' id='visit_${parameterizedPlural}_attributes_${topic.id}_time_ago_amount' class='form-control calculator' placeholder='time ago'>
-      <span class='input-group-btn'>
-        <button class='btn btn-secondary calculator' type='button' id='${parameterizedPlural}_${topic.id}_time_calc_button'><i class='fa fa-calculator'></i></button>
-      </span>
+      <button class='btn btn-secondary calculator' type='button' id='${parameterizedPlural}_${topic.id}_time_calc_button'><i class='fa fa-calculator'></i></button>
       <select name='visit[${parameterizedPlural}_attributes][${topic.id}][time_ago_scale]' id='visit_${parameterizedPlural}_attributes_${topic.id}_time_ago_scale' class='form-control'>
         ${selectConstructor(options, 'time ago', { topic, parameterizedPlural, selectTitle })}
       </select>

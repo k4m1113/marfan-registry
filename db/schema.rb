@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170709022218) do
+ActiveRecord::Schema.define(version: 20170712234931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,21 +28,6 @@ ActiveRecord::Schema.define(version: 20170709022218) do
     t.integer "postal_code", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "complications", id: :serial, force: :cascade do |t|
-    t.integer "topic_id", null: false
-    t.integer "patient_id", null: false
-    t.string "time_ago"
-    t.string "time_ago_scale"
-    t.datetime "absolute_start_date"
-    t.integer "visit_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "note"
-    t.string "attachment"
-    t.index ["patient_id"], name: "index_complications_on_patient_id"
-    t.index ["topic_id"], name: "index_complications_on_topic_id"
   end
 
   create_table "delayed_jobs", id: :serial, force: :cascade do |t|
@@ -113,31 +98,6 @@ ActiveRecord::Schema.define(version: 20170709022218) do
     t.string "attachment"
     t.index ["patient_id"], name: "index_family_members_on_patient_id"
     t.index ["topic_id"], name: "index_family_members_on_topic_id"
-  end
-
-  create_table "galleries", id: :serial, force: :cascade do |t|
-    t.string "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "attachments", default: [], array: true
-    t.integer "visit_id"
-    t.integer "test_id"
-    t.integer "symptom_id"
-    t.integer "procedure_id"
-    t.integer "patient_id"
-    t.integer "medication_id"
-    t.integer "hospitalization_id"
-    t.integer "family_member_id"
-    t.integer "diagnosis_id"
-    t.index ["diagnosis_id"], name: "index_galleries_on_diagnosis_id"
-    t.index ["family_member_id"], name: "index_galleries_on_family_member_id"
-    t.index ["hospitalization_id"], name: "index_galleries_on_hospitalization_id"
-    t.index ["medication_id"], name: "index_galleries_on_medication_id"
-    t.index ["patient_id"], name: "index_galleries_on_patient_id"
-    t.index ["procedure_id"], name: "index_galleries_on_procedure_id"
-    t.index ["symptom_id"], name: "index_galleries_on_symptom_id"
-    t.index ["test_id"], name: "index_galleries_on_test_id"
-    t.index ["visit_id"], name: "index_galleries_on_visit_id"
   end
 
   create_table "genetic_tests", force: :cascade do |t|
@@ -277,34 +237,6 @@ ActiveRecord::Schema.define(version: 20170709022218) do
     t.index ["clinician_id"], name: "index_procedures_on_clinician_id"
     t.index ["patient_id"], name: "index_procedures_on_patient_id"
     t.index ["topic_id"], name: "index_procedures_on_topic_id"
-  end
-
-  create_table "seeded_symptoms", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.string "common_name"
-    t.string "article"
-    t.string "plural"
-    t.integer "ghent_value"
-    t.integer "beighton_value"
-    t.string "systemic_category"
-  end
-
-  create_table "symptoms", id: :serial, force: :cascade do |t|
-    t.boolean "presence"
-    t.float "measurement"
-    t.datetime "start_date"
-    t.string "frequency"
-    t.text "note"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "patient_id", null: false
-    t.integer "visit_id"
-    t.string "time_ago"
-    t.integer "time_ago_scale"
-    t.integer "topic_id", null: false
-    t.string "attachment"
-    t.index ["patient_id"], name: "index_symptoms_on_patient_id"
-    t.index ["topic_id"], name: "index_symptoms_on_topic_id"
   end
 
   create_table "tests", id: :serial, force: :cascade do |t|

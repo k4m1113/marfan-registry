@@ -17,6 +17,10 @@ class Medication < ApplicationRecord
   validates :ingestion_method,
     presence: true
 
+  def self.attributes
+    %i[visit_id patient_id topic_id present dose dose_unit_of_measurement nested_med_id nested_med_category duration_amount duration_scale ingestion_method frequency frequency_scale common_name medication_format time_ago time_ago_scale absolute_start_date note name dosage_form dosage_form_units current attachment]
+  end
+
   def self.table_headings
     return ["Date", "Name", "Instructions", "Status", "Actions"]
   end

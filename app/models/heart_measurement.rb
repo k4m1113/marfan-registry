@@ -32,6 +32,10 @@ class HeartMeasurement < ApplicationRecord
     details.join(' ')
   end
 
+  def self.attributes
+    [:visit_id, :topic_id, :patient_id, :present, :time_ago_amount, :time_ago_scale, :absolute_start_date, :test_amount, :test_unit_of_meas, :note, :attachment, descriptors: []]
+  end
+
   def self.table_headings
     %w[Date Name Measurement Note Attachments Actions]
   end
