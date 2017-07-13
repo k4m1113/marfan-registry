@@ -63,20 +63,19 @@ class Procedure < ApplicationRecord
     if note.blank?
       self.note = list
     else
-      self.note += "#{list}"
+      self.note += "; #{list}"
     end
   end
 
   def generate_summary
-    details = "#{self.topic.name.with_indefinite_article} procedure for #{self.topic.parent.name}"
-    if self.absolute_start_date
-      adm = self.absolute_start_date
-      details << " on #{self.absolute_start_date.strftime('%B %Y')}"
-    elsif self.time_ago && self.time_ago_scale
-      adm = find_date(self.time_ago, self.time_ago_scale, self.created_at)
+    details = "#{topic.name.with_indefinite_article} procedure for #{topic.parent.name}"
+    if absolute_start_date
+      details << " in #{absolute_start_date.strftime('%B %Y')}"
+    elsif time_ago && time_ago_scale
+      adm = find_date(time_ago, time_ago_scale, created_at)
       details << " in #{adm.strftime('%B %Y')}"
     else
-      details << ""
+      details << ''
     end
     if self.note
       details << " (#{self.note})"

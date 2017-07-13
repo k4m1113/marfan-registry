@@ -23,7 +23,7 @@
           </thead>
           <% @visits.each do |v| %>
             <% @doctor = Clinician.where(id: v.clinician_id)[0] %>
-            <tr style="cursor:pointer;" onclick=<%= "location.href='/visits/" + "#{v.id}'" %>>
+            <tr style="cursor:pointer;" onclick=<%= "location.href='/visits/" + "#{v.id}" + "/edit'" %>>
               <td><%= v.created_at.strftime("%d %B %Y") %></td>
               <td><%= v.primary_reason %></td>
               <td><%= link_to "#{@doctor.first_name} #{@doctor.last_name}", clinician_path(@doctor.id) %></td>

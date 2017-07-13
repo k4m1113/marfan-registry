@@ -12379,13 +12379,16 @@ a.nav-link.disabled {
   color: rgba(0, 0, 0, 0.5) !important;
   cursor: default; }
 
+.tab-pane .row {
+  width: 95%; }
+
 .form-control.single-option {
   background-color: white;
   border: none;
   padding-left: 0.5rem;
-  max-width: 150px;
+  max-width: 75px;
   cursor: default;
-  color: black; }
+  color: #333333; }
 
 input[type='radio'] {
   visibility: hidden;
@@ -12580,6 +12583,3 @@ img {
 
 .card-group .card {
   min-width: 50%; }
-
-.row {
-  max-width: 95%; }

@@ -2,7 +2,7 @@ class Dissection < ApplicationRecord
   include ApplicationHelper
   mount_uploader :attachment, AttachmentUploader
 
-  before_validation :timeify
+  before_save :timeify
 
   attr_accessor :time_ago_amount, :time_ago_scale
 
@@ -14,7 +14,7 @@ class Dissection < ApplicationRecord
   def self.attributes
     %i[patient_id visit_id topic_id location perfusion direction lumen absolute_start_date time_ago_amount time_ago_scale attachment note]
   end
-  
+
   # TABLE METHODS
   def self.table_headings
     %w[Date Location Direction Pefusion Lumen Note Attachment Actions]
@@ -55,7 +55,7 @@ class Dissection < ApplicationRecord
     details << 'dissection'
     details << "(#{lumen})" unless lumen.nil?
     details << "(#{perfusion})" unless perfusion.nil?
-    details << "in #{absolute_start_date.strftime('%b %Y')}" if absolute_start_date
+    details << "in #{absolute_start_date.strftime('%B %Y')}" if absolute_start_date
     details.join(' ')
   end
 
@@ -69,8 +69,11 @@ class Dissection < ApplicationRecord
 
   # BEFORE_SAVE hard-code fuzzy date to absolute date
   def timeify
-    if !time_ago_amount.nil? && !time_ago_scale.nil?
-      self.absolute_start_date ||= find_date(time_ago_amount, time_ago_scale, Date.today)
+    if absolute_start_date
+      self.absolute_start_date = absolute_start_date
+      true
+    elsif !time_ago_amount.nil? && !time_ago_scale.nil?
+      self.absolute_start_date = find_date(time_ago_amount, time_ago_scale, Date.today)
       true
     else
       self.absolute_start_date = created_at

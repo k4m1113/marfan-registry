@@ -276,7 +276,7 @@ vitals = Topic.create!(
 )
 Topic.create!(
   name: 'weight',
-  topic_type: 'stat',
+  topic_type: 'vital',
   min_value: 0,
   max_value: 500,
   step: 0.1,
@@ -284,7 +284,7 @@ Topic.create!(
 ).move_to_child_of(vitals)
 Topic.create!(
   name: 'height',
-  topic_type: 'stat',
+  topic_type: 'vital',
   min_value: 0,
   max_value: 250,
   step: 0.01,
@@ -292,7 +292,7 @@ Topic.create!(
 ).move_to_child_of(vitals)
 Topic.create!(
   name: 'SBP',
-  topic_type: 'stat',
+  topic_type: 'vital',
   min_value: 0,
   max_value: 250,
   step: 1,
@@ -300,7 +300,7 @@ Topic.create!(
 ).move_to_child_of(vitals)
 Topic.create!(
   name: 'DBP',
-  topic_type: 'stat',
+  topic_type: 'vital',
   min_value: 0,
   max_value: 250,
   step: 1,
@@ -308,7 +308,7 @@ Topic.create!(
 ).move_to_child_of(vitals)
 Topic.create!(
   name: 'heart rate',
-  topic_type: 'stat',
+  topic_type: 'vital',
   min_value: 10,
   max_value: 200,
   step: 1,
@@ -316,7 +316,7 @@ Topic.create!(
 ).move_to_child_of(vitals)
 Topic.create!(
   name: 'temperature',
-  topic_type: 'stat',
+  topic_type: 'vital',
   min_value: 0.0,
   max_value: 120.0,
   step: 0.1,

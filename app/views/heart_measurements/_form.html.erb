@@ -1,57 +1,23 @@
-<%= form_for @heart_measurement do |f| %>
-  <div class="field">
-    <%= f.label :topic_id, class: "form-control" %><br>
-    <%= f.text_field :topic_id, disabled: true, class: "form-control" %>
-  </div>
-  <div class="field">
-    <%= f.label :patient_id, class: "form-control" %><br>
-    <%= f.text_field :patient_id, disabled: true, class: "form-control" %>
-  </div>
-  <div class="field">
-    <%= f.label :visit_id, class: "form-control" %><br>
-    <%= f.text_field :visit_id, disabled: true, class: "form-control" %>
-  </div>
-  <div class="field">
-    <%= f.label :hosp_type, class: "form-control" %><br>
-    <%= f.text_field :hosp_type, class: "form-control" %>
-  </div>
-  <div class="field">
-    <%= f.label :location, class: "form-control" %><br>
-    <%= f.text_field :location, class: "form-control" %>
-  </div>
-  <div class="field">
-    <%= f.label :admission_date, class: "form-control" %><br>
-    <%= f.date_field :admission_date, class: "form-control" %>
-  </div>
-  <div class="field">
-    <%= f.label :description, class: "form-control" %><br>
-    <%= f.text_field :description, class: "form-control" %>
-  </div>
-  <div class="field">
-    <%= f.label :length_of_stay, class: "form-control" %><br>
-    <%= f.text_field :length_of_stay, class: "form-control" %>
-  </div>
-  <div class="field">
-    <%= f.label :length_of_stay_scale, class: "form-control" %><br>
-    <%= f.text_field :length_of_stay_scale, class: "form-control" %>
-  </div>
-  <div class="field">
-    <%= f.label :time_ago, class: "form-control" %><br>
-    <%= f.text_field :time_ago, class: "form-control" %>
-  </div>
-  <div class="field">
-    <%= f.label :time_ago_scale, class: "form-control" %><br>
-    <%= f.text_field :time_ago_scale, class: "form-control" %>
-  </div>
-  <div class="field">
-    <%= f.label :note, class: "form-control" %><br>
-    <%= f.text_field :note, class: "form-control" %>
-  </div>
-  <div class="field">
-    <%= f.label :note, class: "form-control" %><br>
-    <%= f.file_field :attachment, class: "form-control" %>
-  </div>
-  <div class="actions">
-    <%= f.submit, class: "form-control" %>
-  </div>
-<% end %>
+<%= render 'layouts/form_header', concern: concern, f: f %>
+
+<div class="form-group">
+  <%= f.label :measurement, class: "form-control" %><br>
+  <%= f.text_field :measurement, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :time_ago, class: "form-control" %><br>
+  <%= f.text_field :time_ago, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :absolute_start_date, class: "form-control" %><br>
+  <%= f.date_field :absolute_start_date, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :note, class: "form-control" %><br>
+  <%= f.text_field :note, class: "form-control" %>
+</div>
+
+<%= render 'layouts/attachment_field', concern: concern, f: f %>

@@ -1,34 +1,31 @@
 <div class="row">
   <div class="col-sm-12">
-    <div class="card">
-      <div class="card-header">
-        <h5><%= find_trail(@topic) %></h5>
-      </div>
-      <table class="table table-striped table-responsive" cellspacing="0" width="100%">
+    <h5><%= find_trail(@topic.id) %></h5>
+    <h5></h5>
+    <table class="table table-striped">
+      <tr>
+        <th>Date Noted</th>
+        <th>Patient</th>
+      </tr>
+      <% @all.each do |a| %>
+      <% @patient = Patient.find(a.patient_id) %>
         <tr>
-          <th>Date</th>
-          <th>Patient</th>
-        </tr>
-        <% @all.each do |a| %>
-        <% @patient = Patient.find(a.patient_id) %>
-          <tr>
-            <% if a.visit_id %>
-              <td>
-                <a href="/visits/<%= a.visit_id %>">
-                  <%= a.created_at.strftime("%d %B %Y") %>
-                </a>
-              </td>
-            <% else %>
-              <td>
-                <%= a.created_at.strftime("%d %B %Y") %>
-              </td>
-            <% end %>
+          <% if a.visit_id %>
             <td>
-              <%= link_to "#{@patient.first_name} #{@patient.last_name}", patient_path(@patient.id) %>
+              <a href="/visits/<%= a.visit_id %>/edit">
+                <%= a.created_at.strftime("%d %B %Y") %>
+              </a>
             </td>
-          </tr>
-        <% end %>
-      </table>
-    </div>
+          <% else %>
+            <td>
+              <%= a.created_at.strftime("%d %B %Y") %>
+            </td>
+          <% end %>
+          <td>
+            <%= link_to "Patient Information", patient_path(@patient.id) %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
   </div>
 </div>

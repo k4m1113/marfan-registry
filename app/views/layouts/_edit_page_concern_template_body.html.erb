@@ -1,0 +1,22 @@
+<% keyified = keyify(concern.topic.topic_type) %>
+<h4>
+  Editing <%= "#{concern.topic.topic_type.titleize} #{concern.id}" %>
+  &nbsp
+  <a href="javascript:history.back()" class="btn btn-secondary btn-sm">
+    < Back
+  </a>
+
+  <button type="submit" class="btn btn-success btn-sm">
+    <i class="fa fa-floppy-o"></i>
+  </button>
+
+  <a class="btn btn-danger btn-sm" rel="nofollow" data-method="delete" href="/<%= keyified.pluralize %>/<%= concern.id %>">
+    <i class="fa fa-trash"></i>
+  </a>
+  <br />
+  <small>
+    <%= concern.generate_full_summary %>
+  </small>
+</h4>
+
+<%= render "#{keyified.pluralize}/form", concern: concern, f: f %>

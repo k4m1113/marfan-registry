@@ -35,7 +35,7 @@ module.exports = function nestedList(allTopics, unsortedTopics, visit) {
         panes += `${familyTree(patient)}</div>`
         break;
       case 'vitals':
-        panes += `${vitals(topicsByType.stat, visit)}</div>`
+        panes += `${vitals(topicsByType.vital, visit)}</div>`
         break;
       case 'cardiovascular':
         panes += `${nestedListPane(topicsByType, unsortedTopics, visit, key)}</div>`

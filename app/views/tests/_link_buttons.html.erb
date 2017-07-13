@@ -1,11 +1,11 @@
 <div class="btn-group" role="group">
-  <%= link_to test_path(id: t.id), type: "button", method: :get, class: "btn btn-secondary btn-sm" do %>
+  <%= link_to test_path(id: t.id), method: :get, class: "btn btn-secondary btn-sm" do %>
     <i class="fa fa-search"></i>
   <% end %>
-  <%= link_to edit_test_path(id: t.id), type: "button", method: :get, class: "btn btn-secondary btn-sm" do %>
+  <%= link_to edit_test_path(id: t.id), method: :get, class: "btn btn-secondary btn-sm" do %>
     <i class="fa fa-pencil"></i>
   <% end %>
-  <%= link_to test_path(id: t.id), method: :delete, type: "button", class: "btn btn-secondary btn-sm" do %>
+  <%= link_to test_path(id: t.id), method: :delete, class: "btn btn-secondary btn-sm" do %>
     <i class="fa fa-trash"></i>
   <% end %>
 </div>

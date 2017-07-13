@@ -1,0 +1,53 @@
+<%= render 'layouts/form_header', concern: concern, f: f %>
+
+<div class="form-group">
+  <%= f.label :transcript %><br>
+  <%= f.text_field :transcript, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :protein %><br>
+  <%= f.text_field :protein, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :variant %><br>
+  <%= f.text_field :variant, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :exons %><br>
+  <%= f.text_field :exons, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :lab_classification %><br>
+  <%= f.text_field :lab_classification, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :clinical_classification %><br>
+  <%= f.text_field :clinical_classification, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :predictive_testing_recommended %><br>
+  <%= f.text_field :predictive_testing_recommended, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :lab_name %><br>
+  <%= f.text_field :lab_name, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :date %><br>
+  <%= f.date_field :date, class: "form-control" %>
+</div>
+
+<div class="form-group">
+  <%= f.label :note %><br>
+  <%= f.text_field :note, class: "form-control" %>
+</div>
+
+<%= render 'layouts/attachment_field', concern: concern, f: f %>

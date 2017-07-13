@@ -1,0 +1,55 @@
+<%= render 'layouts/form_header', concern: concern, f: f %>
+
+<div class="form-group row">
+  <%= f.label :location, class: "col-3 col-form-label" %>
+  <div class="col-9">
+    <%= f.text_field :location, class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :perfusion, class: "col-3 col-form-label" %>
+  <div class="col-9">
+    <%= f.text_field :perfusion, class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :direction, class: "col-3 col-form-label" %>
+  <div class="col-9">
+    <%= f.text_field :direction, class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :lumen, class: "col-3 col-form-label" %>
+  <div class="col-9">
+    <%= f.text_field :lumen, class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :time_ago_amount, "Time Ago", class: "col-3 col-form-label" %>
+  <div class="col-4">
+    <%= f.number_field :time_ago_amount, min: 1, class: "form-control", placeholder: "amount" %>
+  </div>
+  <div class="col-5">
+    <%= f.text_field :time_ago_scale, class: "form-control", placeholder: "years, minutes" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :absolute_start_date, class: "col-3 col-form-label" %>
+  <div class="col-9">
+    <%= f.date_field :absolute_start_date, class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :note, class: "col-3 col-form-label" %>
+  <div class="col-9">
+    <%= f.text_field :note, class: "form-control" %>
+  </div>
+</div>
+
+<%= render 'layouts/attachment_field', concern: concern, f: f %>

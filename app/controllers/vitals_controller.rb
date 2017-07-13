@@ -42,7 +42,7 @@ class VitalsController < ApplicationController
     @vital = Vital.find(params[:id])
     @vital.destroy
     flash[:success] = "Vital #{@vital.id} for #{find_trail(@vital.topic_id)} deleted from record"
-    redirect_to :back
+    redirect_to edit_visit_path(@vital.visit_id)
   end
 
   private

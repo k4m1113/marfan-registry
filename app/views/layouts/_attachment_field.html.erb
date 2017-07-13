@@ -1,0 +1,9 @@
+<div class="form-group row">
+  <%= f.label :attachment, class: 'col-3 col-form-label' %>
+  <div class="col-3">
+    <%= f.file_field :attachment, class: "form-control-file" %>
+  </div>
+  <div class="col-6">
+    <%= image_tag concern.attachment.url unless concern.attachment.blank? %>
+  </div>
+</div>

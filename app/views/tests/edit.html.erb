@@ -1,15 +1,1 @@
-<h3>
-  Editing Test <%= @test.id %>
-  &nbsp
-  <%= link_to '‹ Back', :back, class: "btn btn-secondary btn-sm" %>
-  <%= link_to test_path(@test.id), method: :delete, type: "button", class: "btn btn-danger btn-sm" do %>
-    <i class="fa fa-trash"></i>
-  <% end %>
-  <br />
-  <small>
-    <%= @test.generate_full_summary %>
-  </small>
-</h3>
-<hr />
-
-<%= render 'form' %>
+<%= render 'layouts/edit_page_concern_template', concern: @test %>

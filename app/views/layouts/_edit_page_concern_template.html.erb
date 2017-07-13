@@ -1,0 +1,38 @@
+<% case concern.topic.topic_type
+  when 'diagnosis' %>
+  <%= form_for @diagnosis do |f| %>
+    <%= render 'layouts/edit_page_concern_template_body', concern: @diagnosis, f: f %>
+  <% end %>
+<% when 'dissection' %>
+  <%= form_for @dissection do |f| %>
+    <%= render 'layouts/edit_page_concern_template_body', concern: @dissection, f: f %>
+  <% end %>
+<% when 'family member' %>
+  <%= form_for @family_member do |f| %>
+    <%= render 'layouts/edit_page_concern_template_body', concern: @family_member, f: f %>
+  <% end %>
+<% when 'genetic test' %>
+  <%= form_for @genetic_test do |f| %>
+    <%= render 'layouts/edit_page_concern_template_body', concern: @genetic_test, f: f %>
+  <% end %>
+<% when 'heart_measurement' %>
+  <%= form_for @heart_measurement do |f| %>
+    <%= render 'layouts/edit_page_concern_template_body', concern: @heart_measurement, f: f %>
+  <% end %>
+<% when 'measurement' %>
+  <%= form_for @test do |f| %>
+    <%= render 'layouts/edit_page_concern_template_body', concern: @test, f: f %>
+  <% end %>
+<% when 'medication' %>
+  <%= form_for @medication do |f| %>
+    <%= render 'layouts/edit_page_concern_template_body', concern: @medication, f: f %>
+  <% end %>
+<% when 'procedure' %>
+  <%= form_for @procedure do |f| %>
+    <%= render 'layouts/edit_page_concern_template_body', concern: @procedure, f: f %>
+  <% end %>
+<% when 'vital' %>
+  <%= form_for @vital do |f| %>
+    <%= render 'layouts/edit_page_concern_template_body', concern: @vital, f: f %>
+  <% end %>
+<% end %>

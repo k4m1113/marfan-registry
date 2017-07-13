@@ -27,16 +27,14 @@ class Diagnosis < ApplicationRecord
     if !time_ago_amount.blank? && !time_ago_scale.blank?
       date = find_date(time_ago_amount.to_i, time_ago_scale, Date.today)
       self.time_ago = "#{time_ago_amount} #{time_ago_scale} ago"
-      if absolute_start_date.nil?
-        self.absolute_start_date = date
-      end
+      self.absolute_start_date = date
     else
       self.absolute_start_date = Date.today
     end
   end
 
   def concat_frequency
-    self.frequency = "#{frequency_amount} #{frequency_scale} ago" unless frequency_amount.blank? || frequency_scale.blank?
+    self.frequency = "#{frequency_amount} times per #{frequency_scale}" unless frequency_amount.blank? || frequency_scale.blank?
   end
 
   def descriptors_to_note

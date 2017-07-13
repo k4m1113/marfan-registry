@@ -1,53 +1,24 @@
-<%= form_for(@procedure) do |f| %>
-  <div class="field">
-    <%= f.label :topic_id %><br>
-    <%= f.text_field :topic_id %>
+<%= render 'layouts/form_header', concern: concern, f: f %>
+
+<div class="form-group row">
+  <%= f.label :time_ago, class: "col-3 col-form-label" %>
+  <div class="col-9">
+    <%= f.text_field :time_ago, class: "form-control" %>
   </div>
-  <div class="field">
-    <%= f.label :patient_id %><br>
-    <%= f.text_field :patient_id %>
+</div>
+
+<div class="form-group row">
+  <%= f.label :absolute_start_date, class: "col-3 col-form-label" %>
+  <div class="col-9">
+    <%= f.date_field :absolute_start_date, class: "form-control" %>
   </div>
-  <div class="field">
-    <%= f.label :visit_id %><br>
-    <%= f.text_field :visit_id %>
+</div>
+
+<div class="form-group row">
+  <%= f.label :note, class: "col-3 col-form-label" %>
+  <div class="col-9">
+    <%= f.text_field :note, class: "form-control" %>
   </div>
-  <div class="field">
-    <%= f.label :hosp_type %><br>
-    <%= f.text_field :hosp_type %>
-  </div>
-  <div class="field">
-    <%= f.label :location %><br>
-    <%= f.text_field :location %>
-  </div>
-  <div class="field">
-    <%= f.label :admission_date %><br>
-    <%= f.date_field :admission_date %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_field :description %>
-  </div>
-  <div class="field">
-    <%= f.label :length_of_stay %><br>
-    <%= f.text_field :length_of_stay %>
-  </div>
-  <div class="field">
-    <%= f.label :length_of_stay_scale %><br>
-    <%= f.text_field :length_of_stay_scale %>
-  </div>
-  <div class="field">
-    <%= f.label :time_ago %><br>
-    <%= f.text_field :time_ago %>
-  </div>
-  <div class="field">
-    <%= f.label :time_ago_scale %><br>
-    <%= f.text_field :time_ago_scale %>
-  </div>
-  <div class="field">
-    <%= f.label :note %><br>
-    <%= f.text_field :note %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>
+
+<%= render 'layouts/attachment_field', concern: concern, f: f %>

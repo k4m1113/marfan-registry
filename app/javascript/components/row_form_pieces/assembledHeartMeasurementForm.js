@@ -6,15 +6,14 @@ import noteField from './noteField'
 
 module.exports = function assembledHeartMeasurementForm(topic, visit, rowID = topic.id) {
   const parameterizedPlural = 'heart_measurements'
-  let returnStatement = `<div class="card">
-  <div class="card-header">
+  let returnStatement = `<div class="form-group row">
+  <div class="col-3 col-form-label">
     ${topic.name}
   </div>
-  <div class="form-inline">${hiddenFields(visit, topic, parameterizedPlural)}`
+  <div class="col-9 form-inline">
+    ${hiddenFields(visit, topic, parameterizedPlural)}`
   if (topic.units_of_measurement.length == 1 || !topic.name.includes('morphology')) {
-    returnStatement += `<div class="form-inline">
-      ${measurementField(topic, parameterizedPlural, null, 'severity')}
-    </div>`
+    returnStatement += `${measurementField(topic, parameterizedPlural, null, 'severity')}`
   } else {
     returnStatement += `${measurementField(topic, parameterizedPlural, ' multiple', 'morphology')}`
   }

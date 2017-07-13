@@ -156,7 +156,7 @@ module ApplicationHelper
 
     when 'medication'
       render html: "<button type='button' class='btn btn-info pull-right down-eight' value='#{category.id}' id='med-reason' onclick='renderMedTopicForm($(this).val());'>Add medication details</button>".html_safe
-    when 'stat'
+    when 'vital'
       render html: "<button type='button' class='btn btn-info pull-right down-eight' value='#{category.id}' id='stat-reason' onclick='renderStatTopicForm($(this).val());'>Add vitals details</button>".html_safe
     end
   end

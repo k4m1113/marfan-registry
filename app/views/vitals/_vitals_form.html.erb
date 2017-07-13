@@ -3,7 +3,7 @@
     <div class="col-sm-6">
       <%= render 'vitals/blood_pressure', ff: ff, sbp: @sbp[0], dbp: @dbp[0] %>
     </div>
-    <% @stats.each do |s| %>
+    <% @vitals.each do |s| %>
       <div class="col-sm-6">
         <%= render 'vitals/vital_form_body', ff: ff, s: s %>
       </div>

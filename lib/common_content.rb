@@ -11,10 +11,10 @@ module CommonContent
     @ortho = Topic.where(name: 'orthopedic')[0].self_and_descendants
     @ophthalmo = Topic.where(name: 'ophthalmologic')[0].self_and_descendants
 
-    @stats = Topic.where(topic_type: 'stat')
-    @sbp = @stats.select{|s| s.name === 'SBP' }
-    @dbp = @stats.select{|s| s.name === 'DBP' }
-    @stats -= (@sbp + @dbp)
+    @vitals = Topic.where(topic_type: 'vital')
+    @sbp = @vitals.select{|s| s.name === 'SBP' }
+    @dbp = @vitals.select{|s| s.name === 'DBP' }
+    @vitals -= (@sbp + @dbp)
 
     @all_meds = (Topic.leaves.where(topic_type: 'medication') + Topic.roots.where(name: 'medication'))
 

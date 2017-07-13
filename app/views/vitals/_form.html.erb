@@ -1,25 +1,16 @@
-<%= form_for(@vital) do |f| %>
-  <div class="field">
-    <%= f.label :topic_id %><br>
-    <%= f.text_field :topic_id %>
+<%= render 'layouts/form_header', concern: concern, f: f %>
+<div class="form-group row">
+  <%= f.label :measurement, class: "col-3 col-form-label" %>
+  <div class="col-7">
+    <%= f.text_field :measurement, class: "form-control" %>
   </div>
-  <div class="field">
-    <%= f.label :patient_id %><br>
-    <%= f.text_field :patient_id %>
+  <div class="col-2">
+    <%= @vital.topic.units_of_measurement[0] %>
   </div>
-  <div class="field">
-    <%= f.label :visit_id %><br>
-    <%= f.text_field :visit_id %>
+</div>
+<div class="form-group row">
+  <%= f.label :note, class: "col-3 col-form-label" %>
+  <div class="col-9">
+    <%= f.text_field :note, class: "form-control" %>
   </div>
-  <div class="field">
-    <%= f.label :measurement %><br>
-    <%= f.text_field :measurement %>
-  </div>
-  <div class="field">
-    <%= f.label :note %><br>
-    <%= f.text_field :note %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>

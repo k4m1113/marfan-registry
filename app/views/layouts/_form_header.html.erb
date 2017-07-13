@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="form-inline col-12">
+    <div class="form-group">
+      <a href="/visits/<%= concern.visit_id %>/edit" class="btn btn-secondary btn-sm">
+        Go to Visit <%= concern.visit_id %>
+        <i class="fa fa-user-md" aria-hidden="true"></i>
+      </a>
+      <%= f.hidden_field :visit_id %>
+    </div>
+    &nbsp
+    <div class="form-group">
+      <a href="/patients/<%= concern.patient_id %>" class="btn btn-secondary btn-sm">
+        <%= concern.patient.full_name %>
+        <i class="fa fa-user" aria-hidden="true"></i>
+      </a>
+      <%= f.hidden_field :patient_id %>
+    </div>
+    &nbsp
+    <div class="form-group">
+      <a href="/topics/<%= concern.topic_id %>" class="btn btn-secondary btn-sm">
+        See all <%= concern.topic.name %>
+        <i class="fa fa-list" aria-hidden="true"></i>
+      </a>
+      <%= f.hidden_field :topic_id %>
+    </div>
+  </div>
+</div>
+<hr />

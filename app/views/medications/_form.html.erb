@@ -1,81 +1,109 @@
-<%= form_for(@medication) do |f| %>
-  <div class="field">
-    <%= f.label :topic_id %><br>
-    <%= f.text_field :topic_id, disabled: "disabled"  %>
-  </div>
-  <div class="field">
-    <%= f.label :patient_id %><br>
-    <%= f.text_field :patient_id, disabled: "disabled"  %>
-  </div>
-  <div class="field">
-    <%= f.label :visit_id %><br>
-    <%= f.text_field :visit_id, disabled: "disabled" %>
-  </div>
-  <div class="field">
-    <%= f.label :name %><br>
+<%= render 'layouts/form_header', concern: concern, f: f %>
+
+<div class="form-group row">
+  <%= f.label :name, class: "col-3 col-form-label" %>
+  <div class="col-9">
     <%= f.text_field :name %>
   </div>
-  <div class="field">
-    <%= f.label :common_name %><br>
+</div>
+
+<div class="form-group row">
+  <%= f.label :common_name, class: "col-3 col-form-label" %>
+  <div class="col-9">
     <%= f.text_field :common_name %>
   </div>
-  <div class="field">
-    <%= f.label :medication_format %><br>
-    <%= f.text_field :medication_format %>
-  </div>
-  <div class="field">
-    <%= f.label :dose %><br>
-    <%= f.text_field :dose %>
-  </div>
-  <div class="field">
-    <%= f.label :dose_unit_of_measurement %><br>
-    <%= f.text_field :dose_unit_of_measurement %>
-  </div>
-  <div class="field">
-    <%= f.label :dosage_form %><br>
-    <%= f.text_field :dosage_form %>
-  </div>
-  <div class="field">
-    <%= f.label :dosage_form_units %><br>
-    <%= f.text_field :dosage_form_units %>
-  </div>
-  <div class="field">
-    <%= f.label :ingestion_method %><br>
-    <%= f.text_field :ingestion_method %>
-  </div>
-  <div class="field">
-    <%= f.label :frequency %><br>
-    <%= f.text_field :frequency %>
-  </div>
-  <div class="field">
-    <%= f.label :frequency_scale %><br>
-    <%= f.text_field :frequency_scale %>
-  </div>
-  <div class="field">
-    <%= f.label :time_ago %><br>
-    <%= f.text_field :time_ago %>
-  </div>
-  <div class="field">
-    <%= f.label :time_ago_scale %><br>
-    <%= f.text_field :time_ago_scale %>
-  </div>
-  <div class="field">
-    <%= f.label :absolute_start_date %><br>
-    <%= f.text_field :absolute_start_date %>
-  </div>
-  <div class="field">
-    <%= f.label :attachment %><br>
-    <%= f.file_field :attachment %>
-  </div>
-  <div class="field">
-    <%= f.label :current %><br>
+</div>
+
+<div class="form-group row">
+  <%= f.label :current, class: "col-3 col-form-label" %>
+  <div class="col-9">
     <%= f.text_field :current %>
   </div>
-  <div class="field">
-    <%= f.label :note %><br>
+</div>
+
+<div class="form-group row">
+  <%= f.label :dose, class: "col-3 col-form-label" %>
+  <div class="col-4">
+    <%= f.number_field :dose %>
+  </div>
+  <div class="col-5">
+    <%= f.text_field :dose_unit_of_measurement %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :dosage_form, class: "col-3 col-form-label" %>
+  <div class="col-4">
+    <%= f.number_field :dosage_form %>
+  </div>
+  <div class="col-5">
+    <%= f.text_field :dosage_form_units %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :medication_format, class: "col-3 col-form-label" %>
+  <div class="col-9">
+    <%= f.number_field :medication_format %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :nested_med_category, "Category", class: "col-3 col-form-label" %>
+  <div class="col-9">
+    <%= f.text_field :nested_med_category %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :duration_amount, "Duration", class: "col-3 col-form-label" %>
+  <div class="col-4">
+    <%= f.number_field :duration_amount %>
+  </div>
+  <div class="col-5">
+    <%= f.text_field :duration_scale %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :ingestion_method, class: "col-3 col-form-label" %>
+  <div class="col-9">
+    <%= f.text_field :ingestion_method %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :frequency, class: "col-3 col-form-label" %>
+  <div class="col-4">
+    <%= f.number_field :frequency %>
+  </div>
+  <div class="col-5">
+    <%= f.text_field :frequency_scale %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :time_ago %>
+  <div class="col-4">
+    <%= f.number_field :time_ago, class: "col-3 col-form-label" %>
+  </div>
+  <div class="col-5">
+    <%= f.text_field :time_ago_scale %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :absolute_start_date, class: "col-3 col-form-label" %>
+  <div class="col-9">
+    <%= f.date_field :absolute_start_date %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :note, class: "col-3 col-form-label" %>
+  <div class="col-9">
     <%= f.text_field :note %>
   </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+</div>
+
+<%= render 'layouts/attachment_field', concern: concern, f: f %>

@@ -34,22 +34,16 @@ module.exports = function assembledGeneticTestForm(topic, visit, rowID = topic.i
     <div class="form-group row no-gutters">
       <div class="col-sm-3">
         Lab
-        <select name="visit[genetic_tests_attributes][${rowID}][lab_name]" id="visit_genetic_tests_attributes_${rowID}_lab_name" class="form-control" required="true">
-        ${selectConstructor(locations, 'lab name', true)}
-        </select>
+        ${selectConstructor(locations, 'lab name', true, 'lab_name', parameterizedPlural, rowID)}
         <input type="text" class="form-control" name="visit[${parameterizedPlural}_attributes][${rowID}][lab_name]" id="visit_${parameterizedPlural}_attributes_${rowID}" style="display:none"/>
       </div>
       <div class="col-sm-3">
         Lab Classification
-        <select name="visit[genetic_tests_attributes][${rowID}][lab_classification]" id="visit_genetic_tests_attributes_${rowID}_lab_classification" class="form-control" required="true">
-          ${selectConstructor(classifications, 'lab classification')}
-        </select>
+        ${selectConstructor(classifications, 'lab classification', false, 'lab_classification', parameterizedPlural, rowID)}
       </div>
       <div class="col-sm-3">
         Clinical Classification
-        <select name="visit[genetic_tests_attributes][${rowID}][clinical_classification]" id="visit_genetic_tests_attributes_${rowID}_clinical_classification" class="form-control">
-          ${selectConstructor(classifications, 'clinical classification')}
-        </select>
+        ${selectConstructor(classifications, 'clinical classification', false, 'clinical_classification', parameterizedPlural, rowID)}
       </div>
       <div class="col-sm-3">
         <div class="form-check">
