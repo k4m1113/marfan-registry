@@ -5,9 +5,7 @@ module.exports = function durationField(topic, parameterizedPlural) {
   const returnStatement = `<div class='form-inline'>
     <input type='number' name='visit[${parameterizedPlural}_attributes][${topic.id}][duration_amount]' id='visit_${parameterizedPlural}_attributes_${topic.id}_duration_amount' class='form-control calculator' placeholder='duration'>
     <button class='btn btn-secondary calculator' type='button' id='${parameterizedPlural}_${topic.id}_duration_calc_button'><i class='fa fa-calculator'></i></button>
-    <select name='visit[${parameterizedPlural}_attributes][${topic.id}][duration_scale]' id='visit_${parameterizedPlural}_attributes_${topic.id}_duration_scale' class='form-control'>
-      ${selectConstructor(options, 'for how long')}
-    </select>
+    ${selectConstructor(options, 'for how long', false, 'duration_scale', parameterizedPlural, topic.id)}
   </div>`
   return returnStatement
 }

@@ -16,29 +16,10 @@ module.exports = function assembledDissectionForm(topic, unsortedTopics, visit, 
     <tr class='row_form' id='row_${rowID}' style='display:none'><td colspan='3'>
     ${hiddenFields(visit, topic, parameterizedPlural)}
       <div class="form-inline">
-        <select
-          name="visit[dissections_attributes][${rowID}][location]"
-          id="visit_dissections_attributes_${rowID}_location"
-          class="form-control">
-          ${selectConstructor(locations, 'location')}
-        </select>
-        <select
-          name="visit[dissections_attributes][${rowID}][direction]"
-          id="visit_dissections_attributes_${rowID}_direction"
-          class="form-control">
-          ${selectConstructor(directions, 'direction')}
-        </select>
-        <select
-          name="visit[dissections_attributes][${rowID}][lumen]"
-          id="visit_dissections_attributes_${rowID}_lumen"
-          class="form-control">
-          ${selectConstructor(lumens, 'lumen')}
-        </select>
-        <select
-          name="visit[dissections_attributes][${rowID}][perfusion]"
-          id="visit_dissections_attributes_${rowID}_perfusion"
-          class="form-control">
-          ${selectConstructor(perfused, 'perfusion')}
+        ${selectConstructor(locations, 'location', false, 'location', parameterizedPlural, rowID)}
+        ${selectConstructor(directions, 'direction', false, 'direction', parameterizedPlural, rowID)}
+        ${selectConstructor(lumens, 'lumen', false, 'lumen', parameterizedPlural, rowID)}
+        ${selectConstructor(perfused, 'perfusion', false, 'perfusion', parameterizedPlural, rowID)}
         </select>
       </div>
       <div class="form-inline">

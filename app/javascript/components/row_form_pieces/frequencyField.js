@@ -12,9 +12,7 @@ module.exports = function frequencyField(topic, parameterizedPlural) {
       placeholder='frequency'
     >
     <button class='btn btn-secondary calculator' type='button' id='${parameterizedPlural}_${topic.id}_freq_calc_button'><i class='fa fa-calculator'></i></button>
-    <select name='visit[${parameterizedPlural}_attributes][${topic.id}][frequency_scale]' id='visit_${parameterizedPlural}_attributes_${topic.id}_frequency_scale' class='form-control'>
-      ${selectConstructor(options, 'times per')}
-    </select>
+    ${selectConstructor(options, 'times per', false, 'frequency_scale', parameterizedPlural, topic.id)}
   </div>
   `;
   return returnStatement

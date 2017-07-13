@@ -12379,6 +12379,14 @@ a.nav-link.disabled {
   color: rgba(0, 0, 0, 0.5) !important;
   cursor: default; }
 
+.form-control.single-option {
+  background-color: white;
+  border: none;
+  padding-left: 0.5rem;
+  max-width: 150px;
+  cursor: default;
+  color: black; }
+
 input[type='radio'] {
   visibility: hidden;
   width: 0px; }

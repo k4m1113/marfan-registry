@@ -10,6 +10,7 @@ const unitsOfMeas = ['mcg', 'mg', 'mL', 'mm', 'g', 'L', 'IU']
 const dosageForms = ['tablet', 'capsule', 'pill', 'liquid solution', 'inhaler', 'cream', 'drops', 'suppository']
 
 module.exports = function medFormFields(topic){
+  const parameterizedPlural = 'medications'
   const returnStatement = `
   <div class="form-group row">
     <label class="col-2 col-form-label">Dose</label>
@@ -18,9 +19,7 @@ module.exports = function medFormFields(topic){
       <span class='input-group-btn'>
         <button class='btn btn-secondary calculator' type='button' id='medications_${topic.id}_dose_calc_button'><i class='fa fa-calculator'></i></button>
       </span>
-      <select name='visit[medications_attributes][${topic.id}][dose_unit_of_measurement]' id='visit_medications_attributes_${topic.id}_dose_unit_of_measurement' class='form-control'>
-        ${selectConstructor(unitsOfMeas, 'dose units')}
-      </select>
+      ${selectConstructor(unitsOfMeas, 'dose units', false, 'dose_unit_of_measurement', parameterizedPlural, topic.id)}
     </div>
   </div>
 
@@ -29,21 +28,15 @@ module.exports = function medFormFields(topic){
     <div class="form-inline col-10">
       <input type='number' name='visit[medications_attributes][${topic.id}][dosage_form_units]' id='visit_medications_attributes_${topic.id}_dosage_form_units' class='form-control calculator' placeholder='dosage form units'>
       <button class='btn btn-secondary calculator' type='button' id='medications_${topic.id}_dose_units_calc_button'><i class='fa fa-calculator'></i></button>
-      <select name='visit[medications_attributes][${topic.id}][dosage_form_units]' id='visit_medications_attributes_${topic.id}_dosage_form_units' class='form-control'>
-        ${selectConstructor(unitsOfMeas, 'dose form units')}
-      </select>
-      <select name='visit[medications_attributes][${topic.id}][dosage_form]' id='visit_medications_attributes_${topic.id}_dosage_form' class='form-control'>
-        ${selectConstructor(dosageForms, 'dose form')}
-      </select>
+      ${selectConstructor(unitsOfMeas, 'dose form units', false, 'dosage_form_units', parameterizedPlural, topic.id)}
+      ${selectConstructor(dosageForms, 'dose form', false, 'dosage_form', parameterizedPlural, topic.id)}
     </div>
   </div>
 
   <div class="form-group row">
     <label class="col-2 col-form-label">Method of Ingestion</label>
     <div class="form-inline col-10">
-      <select name='visit[medications_attributes][${topic.id}][ingestion_method]' id='visit_medications_attributes_${topic.id}_ingestion_method' class='form-control'>
-        ${selectConstructor(ingestionMethods, 'MOI')}
-      </select>
+      ${selectConstructor(ingestionMethods, 'MOI', false, 'ingestion_method', parameterizedPlural, topic.id)}
     </div>
   </div>
 
