@@ -21,7 +21,9 @@ $(function() {
   // open form when quick add selected
   $('select').on('select2:select', function (evt) {
     var topic = unsortedTopics.find(x => x.id == evt.params.data.id)
-    $('#quickAddHook').append(renderByTopicType(topic, allTopics, unsortedTopics, visit, 999))
+    $('#quickAddHook')
+      .append(renderByTopicType(topic, allTopics, unsortedTopics, visit, 999))
+      .initializeRow()
     $('#row_999').show()
     $('#quickAddModal').modal('show')
   });
@@ -107,7 +109,10 @@ $(function() {
       'kat'
     }
     $currentRow.after(required)
-    $('body').find("#row_" + (targetInd)).show()
+    let $newRow = $('body').find("#row_" + (targetInd))
+    console.log($newRow)
+    $newRow.initializeRow()
+    $newRow.show()
   })
 
   // initialize vitals pane
@@ -174,61 +179,6 @@ $(function() {
   // hide or display row form based on 'present' or 'absent' checked
   $("input.pres_abs").change(function() {
     $('#floppy').addClass('text-primary')
-    $row_form = $(this).parent().parent().parent().next('tr.row_form')
-    // add keyboard and scribble widgets on row display
-    $row_form.find("input[type='number']").addKeyboard()
-    // add time ago approx/exact toggle
-    $row_form.find(".time_ago_toggle").bootstrapSwitch({
-      onText: 'Approx',
-      offText: 'Exact',
-      labelText: 'when?',
-      onColor: 'secondary'
-    });
-    // toggle approximate or exact time ago
-    $(".time_ago_toggle").on('switchChange.bootstrapSwitch', function (event, state) {
-      $inputgroup = $(this).parent().parent().parent()
-      if (state == true) {
-        $inputgroup.find('.approximate').show()
-        $inputgroup.find('.exact').hide()
-      }
-      else {
-        $inputgroup.find('.approximate').hide()
-        $inputgroup.find('.exact').show()
-      }
-    })
-
-    // add scribble area
-    $row_form.find("textarea").parent().append(scribbleButton($row_form[0].id, mskey, mshmac))
-    if ($(this).val() == "true") {
-      $row_form.show()
-    } else if ($(this).val() == "false") {
-      $row_form.hide()
-    } else {
-      $row_form.hide()
-    }
-    $('.btn-group-vertical > button').click(function(e){
-      var classes = $(this)[0].classList.value
-      $current_row = $(this).closest('tr')
-      $current_scribble = $current_row.find('myscript-math-web')[0]
-      $note_field = $current_row.find("textarea")[0]
-      $current_modal = $('.modal.show')
-
-      if (classes.includes('accept')) {
-        if ($current_scribble.result) {
-          var result = $current_scribble.result['LATEX']
-          $note_field.value += result
-          $current_modal.modal('hide')
-        }
-      } else if (classes.includes('undo')) {
-        $current_scribble.undo()
-      } else if (classes.includes('redo')) {
-        $current_scribble.redo()
-      } else if (classes.includes('destroy')) {
-        $current_scribble.clear()
-      } else {
-        console.log('error')
-      }
-
-    });
+    $(this).initializeRow();
   });
 })

@@ -1,8 +1,8 @@
 const parameterizedPlurals = require('./parameterizedPlurals')
-module.exports = function hiddenFields(visit, topic, parameterizedPlural = parameterizedPlurals[topic.topic_type]) {
+module.exports = function hiddenFields(visit, topic, parameterizedPlural = parameterizedPlurals[topic.topic_type], rowID = rowID) {
   let returnStatement = ''
-  returnStatement += `<input value="${visit.patient_id}" name="visit[${parameterizedPlural}_attributes][${topic.id}][patient_id]" id="visit_${parameterizedPlural}_attributes_${topic.id}_patient_id" type="hidden">
-  <input value="${visit.id}" name="visit[${parameterizedPlural}_attributes][${topic.id}][visit_id]" id="visit_${parameterizedPlural}_attributes_${topic.id}_visit_id" type="hidden">
-  <input value="${topic.id}" name="visit[${parameterizedPlural}_attributes][${topic.id}][topic_id]" id="visit_${parameterizedPlural}_attributes_${topic.id}_topic_id" class="topic_id" type="hidden">`
+  returnStatement += `<input value="${visit.patient_id}" name="visit[${parameterizedPlural}_attributes][${rowID}][patient_id]" id="visit_${parameterizedPlural}_attributes_${rowID}_patient_id" type="hidden">
+  <input value="${visit.id}" name="visit[${parameterizedPlural}_attributes][${rowID}][visit_id]" id="visit_${parameterizedPlural}_attributes_${rowID}_visit_id" type="hidden">
+  <input value="${rowID}" name="visit[${parameterizedPlural}_attributes][${rowID}][topic_id]" id="visit_${parameterizedPlural}_attributes_${rowID}_topic_id" class="topic_id" type="hidden">`
   return returnStatement
 }

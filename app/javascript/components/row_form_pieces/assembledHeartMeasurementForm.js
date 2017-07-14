@@ -11,15 +11,15 @@ module.exports = function assembledHeartMeasurementForm(topic, visit, rowID = to
     ${topic.name}
   </div>
   <div class="col-9 form-inline">
-    ${hiddenFields(visit, topic, parameterizedPlural)}`
+    ${hiddenFields(visit, topic, parameterizedPlural, rowID)}`
   if (topic.units_of_measurement.length == 1 || !topic.name.includes('morphology')) {
-    returnStatement += `${measurementField(topic, parameterizedPlural, null, 'severity')}`
+    returnStatement += `${measurementField(topic, parameterizedPlural, null, 'severity', rowID)}`
   } else {
-    returnStatement += `${measurementField(topic, parameterizedPlural, ' multiple', 'morphology')}`
+    returnStatement += `${measurementField(topic, parameterizedPlural, ' multiple', 'morphology', rowID)}`
   }
   if (topic.descriptors) {
-    returnStatement += `${keywords(topic, parameterizedPlural)}`
+    returnStatement += `${keywords(topic, parameterizedPlural, rowID)}`
   }
-  returnStatement += `${noteField(topic, parameterizedPlural)}${fileAttachmentButton(topic, parameterizedPlural)}</div></div>`
+  returnStatement += `${noteField(topic, parameterizedPlural, rowID)}${fileAttachmentButton(topic, parameterizedPlural, rowID)}</div></div>`
   return returnStatement
 }

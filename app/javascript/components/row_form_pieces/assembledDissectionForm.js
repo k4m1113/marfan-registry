@@ -14,7 +14,7 @@ module.exports = function assembledDissectionForm(topic, unsortedTopics, visit, 
   let returnStatement = ''
   returnStatement += `
     <tr class='row_form' id='row_${rowID}' style='display:none'><td colspan='3'>
-    ${hiddenFields(visit, topic, parameterizedPlural)}
+    ${hiddenFields(visit, topic, parameterizedPlural, rowID)}
       <div class="form-inline">
         ${selectConstructor(locations, 'location', false, 'location', parameterizedPlural, rowID)}
         ${selectConstructor(directions, 'direction', false, 'direction', parameterizedPlural, rowID)}
@@ -23,9 +23,9 @@ module.exports = function assembledDissectionForm(topic, unsortedTopics, visit, 
         </select>
       </div>
       <div class="form-inline">
-        ${timeAgoField(topic, parameterizedPlural)}
-        ${noteField(topic, parameterizedPlural)}
-        ${fileAttachmentButton(topic, parameterizedPlural)}
+        ${timeAgoField(topic, parameterizedPlural, rowID)}
+        ${noteField(topic, parameterizedPlural, rowID)}
+        ${fileAttachmentButton(topic, parameterizedPlural, rowID)}
 
         What type of intervention was performed?
       </div>

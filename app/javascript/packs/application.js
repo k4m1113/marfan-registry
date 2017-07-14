@@ -48,6 +48,7 @@ require('expose-loader?renderByTopicType!../components/renderByTopicType.js');
 // EXPOSING JS TO BE USED IN RAILS
 require('../../stylesheet/application.scss');
 require('expose-loader?addKeyboard!../components/addKeyboard.js');
+require('expose-loader?initializeRow!../components/initializeRow.js');
 require('expose-loader?scribbleButton!../components/row_form_pieces/scribbleButton.js');
 require('expose-loader?medMapper!../components/medMapper.js');
 require('expose-loader?epicMeds!../components/epicMeds.js');

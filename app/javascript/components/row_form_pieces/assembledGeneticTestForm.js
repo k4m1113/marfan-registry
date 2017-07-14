@@ -30,7 +30,7 @@ module.exports = function assembledGeneticTestForm(topic, visit, rowID = topic.i
   const parameterizedPlural = 'genetic_tests'
   const returnStatement = `
   <tr class='row_form' id='row_${rowID}' style='display:none'><td colspan='3'>
-  ${hiddenFields(visit, topic, parameterizedPlural)}
+  ${hiddenFields(visit, topic, parameterizedPlural, rowID)}
     <div class="form-group row no-gutters">
       <div class="col-sm-3">
         Lab
@@ -84,11 +84,11 @@ module.exports = function assembledGeneticTestForm(topic, visit, rowID = topic.i
 
     <div class='row no-gutters'>
       <div class="form-inline col-sm-8">
-        ${timeAgoField(topic, parameterizedPlural)}
+        ${timeAgoField(topic, parameterizedPlural, rowID)}
         </div>
       <div class="form-inline col-sm-4">
-        ${noteField(topic, parameterizedPlural)}
-        ${fileAttachmentButton(topic, parameterizedPlural)}
+        ${noteField(topic, parameterizedPlural, rowID)}
+        ${fileAttachmentButton(topic, parameterizedPlural, rowID)}
       </div>
     </div>
   </td></tr>

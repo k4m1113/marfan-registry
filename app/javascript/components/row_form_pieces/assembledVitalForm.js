@@ -7,8 +7,8 @@ module.exports = function assembledVitalForm(topic, visit, rowID = topic.id) {
   returnStatement += `<div class="form-group row">
       <label class="col-2 col-form-label">${topic.name}</label>
       <div class="form-inline col-10">
-        ${hiddenFields(visit, topic, parameterizedPlural)}
-        ${measurementField(topic, parameterizedPlural)}
+        ${hiddenFields(visit, topic, parameterizedPlural, rowID)}
+        ${measurementField(topic, parameterizedPlural, null, topic.name, rowID)}
       </div>
     </div>`
 

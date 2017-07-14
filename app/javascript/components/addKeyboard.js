@@ -1,4 +1,4 @@
-(function( $ ){
+module.exports = (function( $ ){
    $.fn.addKeyboard = function() {
       return this.keyboard({
          openOn : null,

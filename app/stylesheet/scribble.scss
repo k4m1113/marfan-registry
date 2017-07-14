@@ -2,8 +2,8 @@ $legal-pad-yellow: #FAF2AD;
 $legal-pad-grey: #F5F6F7;
 
 myscript-math-web {
-  min-width: 768px;
-  width: calc(100% - 50px);
+  min-width: calc(90vw - 52px);
+  width: 100%;
   height: 384px;
 }
 .input-group > select.form-control {
