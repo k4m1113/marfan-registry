@@ -1,4 +1,7 @@
 @import "colors";
+.modal-body.quick-add {
+  background-color: $bootstrap-grey;
+}
 $sidebar-width: 250px;
 .tab-pane .row {
   width: 95%;

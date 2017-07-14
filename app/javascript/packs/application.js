@@ -17,6 +17,7 @@ import 'jquery-ujs'
 import 'jquery-ui/ui/core.js'
 import 'jquery-ui/ui/position.js'
 import 'jquery-ui/ui/widgets/tabs.js'
+import 'select2/dist/js/select2.full.js'
 import tether from 'tether'
 global.Tether = tether;
 import 'virtual-keyboard/dist/js/jquery.keyboard.js'
@@ -41,6 +42,8 @@ require('expose-loader?assembledHospitalizationForm!../components/row_form_piece
 require('expose-loader?assembledMeasurementForm!../components/row_form_pieces/assembledMeasurementForm.js');
 require('expose-loader?assembledMedicationForm!../components/row_form_pieces/assembledMedicationForm.js');
 require('expose-loader?assembledProcedureForm!../components/row_form_pieces/assembledProcedureForm.js');
+require('expose-loader?renderByTopicType!../components/renderByTopicType.js');
+
 
 // EXPOSING JS TO BE USED IN RAILS
 require('../../stylesheet/application.scss');

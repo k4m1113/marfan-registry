@@ -1,11 +1,25 @@
 @import "colors";
 
+span.select2 {
+  max-width: 150px;
+  border: 0.1rem solid rgba(0, 0, 0, 0.5);
+  background-color: white;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
+li.nav-item.with-select {
+  padding: 8px 4px 0px 4px !important;
+}
+span.select2-selection__rendered {
+  padding-top: 2px;
+}
 button.nav-icon {
   @extend .nav-link;
   color: rgba(0, 0, 0, 0.5);
   background-color: inherit;
   border: none;
-  padding: 0px 8px !important;
+  padding: 0px 4px !important;
   font-size: 30px;
   box-shadow: none;
 }

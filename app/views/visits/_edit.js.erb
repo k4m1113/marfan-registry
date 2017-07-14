@@ -5,6 +5,27 @@ $('#diagnosisHeader').append(visitHeader(patient, visit))
 $('#reasonsForVisitHeader').append(reasonForVisitHeader(visit))
 $('#nestedListHook').append(nestedList(allTopics.sort(), unsortedTopics.sort(), visit, mskey, mshmac))
 $(function() {
+  // initialize select2 for quick-add
+  var select2Data = unsortedTopics.map(function(obj) {
+     var rObj = {};
+     rObj['id'] = obj.id;
+     rObj['text'] = obj.name;
+     return rObj;
+  });
+  $('#quick-add').select2({
+    data: select2Data,
+    placeholder: "Quick Add",
+    theme: "bootstrap"
+  })
+
+  // open form when quick add selected
+  $('select').on('select2:select', function (evt) {
+    var topic = unsortedTopics.find(x => x.id == evt.params.data.id)
+    $('#quickAddHook').append(renderByTopicType(topic, allTopics, unsortedTopics, visit, 999))
+    $('#row_999').show()
+    $('#quickAddModal').modal('show')
+  });
+
   // body group pane topic type tabs
   $('button.paneTopicGroup').click(function() {
     $('button.paneTopicGroup').removeClass('active')

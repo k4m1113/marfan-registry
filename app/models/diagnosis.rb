@@ -28,6 +28,8 @@ class Diagnosis < ApplicationRecord
       date = find_date(time_ago_amount.to_i, time_ago_scale, Date.today)
       self.time_ago = "#{time_ago_amount} #{time_ago_scale} ago"
       self.absolute_start_date = date
+    elsif !absolute_start_date.blank?
+      self.absolute_start_date = absolute_start_date
     else
       self.absolute_start_date = Date.today
     end
