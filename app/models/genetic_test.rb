@@ -39,7 +39,7 @@ class GeneticTest < ApplicationRecord
     details = ['genetic diagnosis for']
     details << "#{lab_classification} variant of #{topic.name} gene"
     details << "by #{lab_name}" if lab_name
-    details << "in #{date.strftime('%b %Y')}" if date
+    details << "in #{date.strftime('%B %Y')}" if date
     details << "(#{concatted_note})" if concatted_note
     details.join(' ')
   end

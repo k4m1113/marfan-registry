@@ -30,7 +30,7 @@ class Symptom < ApplicationRecord
       end
 
       {
-        'date': created_at.strftime('%b %Y'),
+        'date': created_at.strftime('%B %Y'),
         'name': find_trail(topic_id),
         'present': presence,
         'measurement': print_if_present(measurement),

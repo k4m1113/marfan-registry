@@ -50,7 +50,7 @@ class Medication < ApplicationRecord
       name = "#{name}"
     end
     {
-      'date': created_at.strftime("%b %Y"),
+      'date': created_at.strftime("%B %Y"),
       'name': name,
       'instructions': ingestion_method,
       'status': status,

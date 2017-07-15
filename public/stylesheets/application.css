@@ -12845,6 +12845,10 @@ button.file-attachment {
     button.file-attachment label.fontawesome-icon:hover {
       cursor: pointer; }
 
+div#navbar-example {
+  display: inline-flex;
+  width: 100%; }
+
 span.select2 {
   max-width: 150px;
   border: 0.1rem solid rgba(0, 0, 0, 0.5);
@@ -12988,6 +12992,9 @@ label.descriptor {
 .descriptors label.descriptor:not(:first-child) {
   border-left: 0px; }
 
+div.patient-show {
+  position: relative; }
+
 .tooltip-trigger {
   border-radius: 30px;
   padding: 2px 4px;
@@ -13083,3 +13090,7 @@ img {
 
 .card-group .card {
   min-width: 50%; }
+
+.btn-left {
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important; }

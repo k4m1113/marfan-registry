@@ -25,10 +25,7 @@ module.exports = function visitHeader(patient, visit) {
         </label>`
       ).join('');
       returnStatement += options
-      returnStatement += `<button type="submit" class="btn btn-success confirm-submit" data-attr="primary_diagnosis">
-        <i class="fa fa-check" aria-hidden="true"></i>
-      </button>
-    </div>`
+      returnStatement += '</div>'
   }
   return returnStatement;
 };

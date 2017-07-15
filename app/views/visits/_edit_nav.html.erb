@@ -34,7 +34,7 @@
       <div class="dropdown-menu" aria-labelledby="vitalNavbarDropdownMenuLink">
         <% vits.each do |key, value| %>
           <h5 class="dropdown-header">
-            <%= value[0].created_at.strftime('%d %b %Y') %>
+            <%= value[0].created_at.strftime('%d %B %Y') %>
             <% if key == visit.id %>
               <small>(current)</small>
             <% end %>

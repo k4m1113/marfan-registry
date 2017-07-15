@@ -12,22 +12,14 @@ class PatientsController < ApplicationController
 
   def show
     @patient = Patient.find(params[:id])
-    case @patient.sex
-    when 'F'
-      @gender = 'Female'
-    when
-      @gender = 'Male'
-    else
-      @gender = 'Not noted'
-    end
-    @visits = Visit.where(patient_id: @patient.id)
 
     @concerns = @patient.sort_by_topic
     @sorted_concerns = @patient.sort_by_topic_then_type
-
-    unless @visits.length == 0
-      @primary_clinician = Clinician.where(id: @visits[0].clinician_id)[0]
-    end
+    @vitals = @patient.vitals_by_date
+    @imagery = @patient.heart_measurements_by_date
+  rescue ActiveRecord::RecordNotFound => e
+    flash[:error] = "Record Not Found"
+    redirect_to patients_path
   end
 
   def new
@@ -88,8 +80,17 @@ class PatientsController < ApplicationController
   end
 
   def destroy
-    Patient.find(params[:id]).destroy
+    @patient = Patient.find(params[:id])
+    if @patient.visits
+      Visit.where(patient_id: @patient.id).each(&:destroy)
+    end
+    @patient.destroy
+    flash[:success] = "Patient #{@patient.full_name} and all associated records destroyed"
     redirect_to patients_path
+  end
+
+  def back_url
+    request.referer
   end
 
   private

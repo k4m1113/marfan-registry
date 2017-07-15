@@ -37,7 +37,7 @@ class Procedure < ApplicationRecord
     end
 
     return {
-      'date': absolute_start_date.strftime('%b %Y'),
+      'date': absolute_start_date.strftime('%B %Y'),
       'description': find_trail(topic_id),
       'note': print_if_present(note),
       'when': print_if_present(time_ago),

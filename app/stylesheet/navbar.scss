@@ -1,5 +1,9 @@
 @import "colors";
 
+div#navbar-example {
+  display: inline-flex;
+  width: 100%;
+}
 span.select2 {
   max-width: 150px;
   border: 0.1rem solid rgba(0, 0, 0, 0.5);

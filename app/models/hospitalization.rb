@@ -39,7 +39,7 @@ class Hospitalization < ApplicationRecord
     end
 
     return {
-      'date': (self.admission_date ? self.admission_date.strftime("%b %Y") : "not noted"),
+      'date': (self.admission_date ? self.admission_date.strftime("%B %Y") : "not noted"),
       'length_of_stay': print_if_present(self.length_of_stay),
       'name': print_if_present(self.hosp_type),
       'location': print_if_present(self.location),

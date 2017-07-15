@@ -132,6 +132,7 @@ class Patient < ApplicationRecord
     result = vitals.group_by(&:visit_id)
     result
   end
+  
   def concerns
     tests + procedures + diagnoses + hospitalizations + family_members + medications + dissections + vitals + genetic_tests
   end

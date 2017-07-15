@@ -15,6 +15,11 @@
 @import "colors";
 @import "custom-check";
 
+// relative body positioning for scrollspy
+div.patient-show {
+  position: relative;
+}
+
 .tooltip-trigger {
   border-radius: 30px;
   padding: 2px 4px;
@@ -126,4 +131,9 @@ img {
 
 .card-group .card {
   min-width: 50%;
+}
+
+.btn-left {
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
 }

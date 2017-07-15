@@ -60,7 +60,7 @@ class Diagnosis < ApplicationRecord
     end
 
     {
-      'date': absolute_start_date.strftime('%b %Y'),
+      'date': absolute_start_date.strftime('%B %Y'),
       'description': find_trail(topic_id),
       'present': present,
       'note': blank_unless_present(note),

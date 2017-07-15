@@ -1,0 +1,36 @@
+<div id="navbar-example">
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item disabled">
+      <%= @patient.full_name %>
+    </li>
+    &nbsp
+    <li class="nav-item disabled">
+      <%= "(#{@patient.date_of_birth.strftime('%e %B %Y').strip})" %>
+    </li>
+    <% if @patient.primary_diagnosis %>
+    &nbsp
+    <li class="nav-item disabled">
+      <%= @patient.primary_diagnosis %>
+    </li>
+    <% end %>
+  </ul>
+  <ul class="nav navbar-nav ml-auto justify-content-end" role="tablist">
+    <li class="nav-item">
+      <div class="form-inline btn-group" role="group">
+        <form class='button_to' method='post' action='/visits'>
+          <input type="hidden" id="visit_patient_id" name="visit[patient_id]" value="<%= @patient.id %>"/>
+          <input type="hidden" id="visit_clinician_id" name="visit[clinician_id]" value="1"/>
+          <button class='btn btn-success btn-sm btn-left' type='submit' title="start new visit">
+            <i class="fa fa-stethoscope" aria-hidden="true"></i>
+          </button>
+        </form>
+        <a class='btn btn-warning btn-sm' href="/patients/<%= @patient.id %>/edit" title="edit demographic information">
+          <i class="fa fa-pencil" aria-hidden="true"></i>
+        </a>
+        <a class="btn btn-danger btn-sm" data-confirm="Are you sure you want to delete <%= @patient.full_name %> visit history and all associated records?" rel="nofollow" data-method="delete" href="/patients/<%= @patient.id %>" title="destroy patient records">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+        </a>
+      </div>
+    </li>
+  </ul>
+</div>

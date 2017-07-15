@@ -51,7 +51,7 @@ class Test < ApplicationRecord
     end
 
     return {
-      'date': absolute_start_date.strftime('%b %Y'),
+      'date': absolute_start_date.strftime('%B %Y'),
       'name': find_trail(topic_id),
       'result': print_if_present(self.result),
       'attachment': "#{action_view.render(

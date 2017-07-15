@@ -23,7 +23,7 @@ class HeartMeasurement < ApplicationRecord
   end
 
   def generate_summary
-    "#{topic.name} was #{measurement.squish} in #{created_at.strftime('%b %Y')}"
+    "#{topic.name} was #{measurement.squish} in #{created_at.strftime('%B %Y')}"
   end
 
   def generate_full_summary

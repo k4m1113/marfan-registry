@@ -1,5 +1,8 @@
-<h3>
-  Edit Demographic Information for <%= "#{@patient.last_name}, #{@patient.first_name} #{print_if_present(@patient.middle_name)}" %>
-</h3>
-<hr />
-<%= render 'form', action: "update" %>
+<%= form_for @patient do |f| %>
+  <h3>
+    Edit <%= @patient.full_name %>
+    <%= render 'link_buttons', patient: @patient %>
+  </h3>
+  <hr />
+  <%= render 'form', f: f, patient: @patient %>
+<% end %>

@@ -1,122 +1,115 @@
-<%= form_for @patient, action: action, class: "form-horizontal" do |f| %>
-  <% if @patient.errors.any? %>
-    <% @patient.errors.full_messages.each do |message| %>
-      <div class="alert alert-warning"><%= message %></div>
-    <% end %>
+<% if patient.errors.any? %>
+  <% patient.errors.full_messages.each do |message| %>
+    <div class="alert alert-warning"><%= message %></div>
   <% end %>
-
-  <div class="form-group row">
-    <%= f.label :first_name, class: "col-3 col-form-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :first_name, autofocus: true, placeholder: "First Name", class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :middle_name, class: "col-3 col-form-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :middle_name, placeholder: "Middle Name", class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :last_name, class: "col-3 col-form-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :last_name, placeholder: "Last Name", class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :phone_1, class: "col-3 col-form-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :phone_1, placeholder: "Primary Phone (ex: 800-555-1234)", class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :phone_2, class: "col-3 col-form-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :phone_2, placeholder: "Secondary Phone (ex: 800-555-1234)", class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :email, class: "col-3 col-form-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :email, placeholder: "Email Address", class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :date_of_birth, class: "col-3 col-form-label" %>
-    <div class="col-sm-9">
-      <%= f.date_field :date_of_birth, placeholder: "Date of Birth", class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :sex, "Female" %>
-    <%= f.radio_button :sex, "F", name: "patient[sex]", class: "form-check-input" %>
-
-    <%= f.label :sex, "Male" %>
-    <%= f.radio_button :sex, "M", name: "patient[sex]", class: "form-check-input" %>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :address_line_1, class: "col-3 col-form-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :address_line_1, placeholder: "Address Line 1", class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :address_line_2, class: "col-3 col-form-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :address_line_2, placeholder: "Address Line 2", class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :address_line_3, class: "col-3 col-form-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :address_line_3, placeholder: "Address Line 3", class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :city, class: "col-3 col-form-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :city, placeholder: "City", class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :state, class: "col-3 col-form-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :state, placeholder: "State", class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :country, class: "col-3 col-form-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :country, placeholder: "Country", class: "form-control" %>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <%= f.label :postal_code, class: "col-3 col-form-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :postal_code, placeholder: "Postal Code", class: "form-control" %>
-    </div>
-  </div>
-  <%= f.hidden_field :deceased %>
-  <%= f.hidden_field :cause_of_death %>
-  <%= f.hidden_field :note %>
-
-  <div class="form-group row">
-    <%= f.submit "#{action.capitalize} Patient", class: "btn btn-secondary" %>
-  </div>
 <% end %>
-<br />
+
+<div class="form-group row">
+  <%= f.label :first_name, class: "col-3 col-form-label" %>
+  <div class="col-sm-9">
+    <%= f.text_field :first_name, autofocus: true, placeholder: "First Name", class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :middle_name, class: "col-3 col-form-label" %>
+  <div class="col-sm-9">
+    <%= f.text_field :middle_name, placeholder: "Middle Name", class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :last_name, class: "col-3 col-form-label" %>
+  <div class="col-sm-9">
+    <%= f.text_field :last_name, placeholder: "Last Name", class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :phone_1, class: "col-3 col-form-label" %>
+  <div class="col-sm-9">
+    <%= f.text_field :phone_1, placeholder: "Primary Phone (ex: 800-555-1234)", class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :phone_2, class: "col-3 col-form-label" %>
+  <div class="col-sm-9">
+    <%= f.text_field :phone_2, placeholder: "Secondary Phone (ex: 800-555-1234)", class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :email, class: "col-3 col-form-label" %>
+  <div class="col-sm-9">
+    <%= f.text_field :email, placeholder: "Email Address", class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :date_of_birth, class: "col-3 col-form-label" %>
+  <div class="col-sm-9">
+    <%= f.date_field :date_of_birth, placeholder: "Date of Birth", class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :sex, "Female" %>
+  <%= f.radio_button :sex, "F", name: "patient[sex]", class: "form-check-input" %>
+
+  <%= f.label :sex, "Male" %>
+  <%= f.radio_button :sex, "M", name: "patient[sex]", class: "form-check-input" %>
+</div>
+
+<div class="form-group row">
+  <%= f.label :address_line_1, class: "col-3 col-form-label" %>
+  <div class="col-sm-9">
+    <%= f.text_field :address_line_1, placeholder: "Address Line 1", class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :address_line_2, class: "col-3 col-form-label" %>
+  <div class="col-sm-9">
+    <%= f.text_field :address_line_2, placeholder: "Address Line 2", class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :address_line_3, class: "col-3 col-form-label" %>
+  <div class="col-sm-9">
+    <%= f.text_field :address_line_3, placeholder: "Address Line 3", class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :city, class: "col-3 col-form-label" %>
+  <div class="col-sm-9">
+    <%= f.text_field :city, placeholder: "City", class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :state, class: "col-3 col-form-label" %>
+  <div class="col-sm-9">
+    <%= f.text_field :state, placeholder: "State", class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :country, class: "col-3 col-form-label" %>
+  <div class="col-sm-9">
+    <%= f.text_field :country, placeholder: "Country", class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group row">
+  <%= f.label :postal_code, class: "col-3 col-form-label" %>
+  <div class="col-sm-9">
+    <%= f.text_field :postal_code, placeholder: "Postal Code", class: "form-control" %>
+  </div>
+</div>
+<%= f.hidden_field :deceased %>
+<%= f.hidden_field :cause_of_death %>
+<%= f.hidden_field :note %>
 <br />

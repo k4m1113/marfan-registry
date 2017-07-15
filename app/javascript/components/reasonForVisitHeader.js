@@ -21,10 +21,7 @@ module.exports = function reasonForVisitHeader(visit) {
         </label>`
       ).join('');
       returnStatement += options
-      returnStatement += `<button type="submit" class="btn btn-success confirm-submit" data-attr="reason_for_visit">
-        <i class="fa fa-check" aria-hidden="true"></i>
-      </button>
-    </div>`
+      returnStatement += '</div>'
   }
   return returnStatement
 }

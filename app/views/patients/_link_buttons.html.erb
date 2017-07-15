@@ -1,0 +1,11 @@
+<a href="javascript:history.back()" class="btn btn-secondary btn-sm">
+  < Back
+</a>
+
+<button type="submit" class="btn btn-success btn-sm">
+  <i class="fa fa-floppy-o"></i>
+</button>
+
+<a class="btn btn-danger btn-sm" rel="nofollow" data-confirm="Are you sure you want to delete <%= patient.full_name %> visit history and all associated records?" data-method="delete" href="/patients/<%= patient.id %>">
+  <i class="fa fa-trash"></i>
+</a>
