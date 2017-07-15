@@ -4,19 +4,21 @@
   <% end %>
   <div class="row">
     <div class="col-12">
-      VISIT HISTORY
+      <%= render 'visit_history', patient: @patient %>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-12">
+      <%= render 'vitals_history', patient: @patient %>
     </div>
   </div>
   <div class="row">
     <div class="col-12">
-      IMAGERY HISTORY
+      <%= render 'imagery_history', patient: @patient %>
     </div>
   </div>
-  <div class="row">
-    <div class="col-12">
-      VITALS HISTORY
-    </div>
-  </div>
+  <hr />
   <div class="row">
     <div class="col-12">
       <h4 id="patient_show_accordion">

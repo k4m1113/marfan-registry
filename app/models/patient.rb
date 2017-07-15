@@ -120,19 +120,17 @@ class Patient < ApplicationRecord
   end
 
   def vitals_show_header
-    ['Date', 'Height (m)', 'Weight (kg)', 'BP (mmHG)', 'HR (bpm)', 'Temp (°C)']
+    ['Date', 'Height (m)', 'Weight (kg)', 'SBP (mmHG)', 'DBP (mmHG)', 'HR (bpm)', 'Temp (°C)']
   end
 
   def heart_measurements_by_date
-    result = heart_measurements.group_by { |m| m.created_at.to_date }
-    result
+    heart_measurements.group_by { |m| m.created_at.to_date }
   end
 
   def vitals_by_date
-    result = vitals.group_by(&:visit_id)
-    result
+    vitals.group_by(&:visit_id)
   end
-  
+
   def concerns
     tests + procedures + diagnoses + hospitalizations + family_members + medications + dissections + vitals + genetic_tests
   end

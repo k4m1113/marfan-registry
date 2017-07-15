@@ -1,0 +1,43 @@
+<h4>
+  Vitals by Visit
+</h4>
+<table class="table table-striped table-sm">
+  <tr>
+    <% patient.vitals_show_header.each do |title| %>
+      <th>
+        <%= title %>
+      </th>
+    <% end %>
+  </tr>
+  <% patient.vitals_by_date.each do |visit, vitals| %>
+    <tr>
+      <td>
+        <%= Visit.find(visit).created_at.strftime('%e %B %Y') %>
+      </td>
+      <td>
+        <% height = vitals.select {|vital| vital.topic.name == 'height'}[0] %>
+        <%= height.nil? ? '-' : height.measurement.to_f.round(2) %>
+      </td>
+      <td>
+        <% weight = vitals.select {|vital| vital.topic.name == 'weight'}[0] %>
+        <%= weight.nil? ? '-' : weight.measurement.to_f.round(1) %>
+      </td>
+      <td>
+        <% sbp = vitals.select {|vital| vital.topic.name == 'SBP'}[0] %>
+        <%= sbp.nil? ? '-' : sbp.measurement %>
+      </td>
+      <td>
+        <% dbp = vitals.select {|vital| vital.topic.name == 'DBP'}[0] %>
+        <%= dbp.nil? ? '-' : dbp.measurement %>
+      </td>
+      <td>
+        <% hr = vitals.select {|vital| vital.topic.name == 'heart rate'}[0] %>
+        <%= hr.nil? ? '-' : dbp.measurement %>
+      </td>
+      <td>
+        <% temp = vitals.select {|vital| vital.topic.name == 'temperature'}[0] %>
+        <%= temp.nil? ? '-' : temp.measurement.to_f.round(1) %>
+      </td>
+    </tr>
+  <% end %>
+</table>

@@ -154,50 +154,15 @@ class Visit < ApplicationRecord
   end
 
   def imagery_paragraph
-    # common_content
-    # heart_imaging_locations = heart_imaging_locations
-    #
-    # patient = Patient.find(patient_id)
-    #
-    # results = ''
-    # imagery = tests.select { |t| heart_imaging_locations.include?(t.topic)}
-    # if imagery.empty?
-    #   results += "#{patient.first_name} did not undergo any heart imagery as part of our visit."
-    # else
-    #   echo = imagery.select { |i| i.topic.name == 'echo' }
-    #   mri = imagery.select { |i| i.topic.name == 'MRI' }
-    #   ct = imagery.select { |i| i.topic.name == 'CT' }
-    #   other_meas = imagery - ct - mri - echo
-    #   unless echo.empty?
-    #     echos = []
-    #     echo.each do |e|
-    #       echos << "#{e.topic.parent.name} was #{e.result}"
-    #     end
-    #     results += "#{patient.first_name} underwent an echocardiogram in which #{patient.possessive_pronoun} #{list_constructor(echos)}. "
-    #   end
-    #   unless mri.empty?
-    #     mris = []
-    #     mri.each do |m|
-    #       mris << "#{m.topic.parent.name} was #{m.result}"
-    #     end
-    #     results += "#{patient.first_name} underwent an MRI in which #{patient.possessive_pronoun} #{list_constructor(mris)}. "
-    #   end
-    #   unless ct.empty?
-    #     cts = []
-    #     ct.each do |c|
-    #       cts << "#{c.topic.parent.name} was #{c.result}"
-    #     end
-    #     results += "#{patient.first_name} underwent a CT scan in which #{patient.possessive_pronoun} #{list_constructor(cts)}. "
-    #   end
-    #   unless other_meas.empty?
-    #     others = []
-    #     other_meas.each do |o|
-    #       others << "#{o.topic.name} of #{o.result}"
-    #     end
-    #     results += "#{patient.subject_pronoun.capitalize} had a #{list_constructor(others)}. "
-    #   end
-    #   "#{results}"
-    # end
+    visit = self
+    if !visit.heart_measurements.empty?
+      paragraph = 'The following heart imagery was gathered as part of our visit: '
+      results = list_constructor(visit.heart_measurements.map(&:generate_summary)) + "."
+      paragraph += results
+      paragraph
+    else
+      "No heart measurements were taken of #{patient.first_name} as part of our visit."
+    end
   end
 
   ## Concerns = anything discussed in a visit not incl: family history, vitals, heart imagery, meds.
@@ -211,11 +176,11 @@ class Visit < ApplicationRecord
       if instances.blank?
         no_instances << topic
       else
-        body << "\n#{patient.first_name} had #{instances.length} #{topic}: #{list_constructor(instances.map(&:generate_summary))}."
+        body << "\n#{patient.first_name} had #{instances.length} #{topic}: #{list_constructor(instances.map(&:generate_full_summary))}."
       end
     end
     %(#{body}
-    \nAntoine reported no #{list_constructor(no_instances, 'nor')}.)
+    \n#{patient.first_name} reported no #{list_constructor(no_instances, 'nor')}.)
   end
 
   def recommendations

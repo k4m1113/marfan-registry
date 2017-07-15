@@ -1,0 +1,41 @@
+<h4>
+  Visit History
+</h4>
+<% if !patient.visits.empty? %>
+  <table class="table table-striped table-sm">
+    <tr>
+      <th>
+        Date
+      </th>
+      <th>
+        Location
+      </th>
+      <th>
+        Clinician
+      </th>
+      <th>
+        Actions
+      </th>
+    </tr>
+    <% patient.visits.each do |visit| %>
+      <tr>
+        <td>
+          <%= visit.created_at.strftime('%e %B %Y') %>
+        </td>
+        <td>
+          <%= visit.clinician.practice_name %>
+        </td>
+        <td>
+          <%= visit.clinician.full_name %>
+        </td>
+        <td>
+          <div class="btn-group" role="group">
+            <%= render 'visits/link_buttons', v: visit %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  No visits on record
+<% end %>

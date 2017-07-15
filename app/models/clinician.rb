@@ -43,7 +43,7 @@ class Clinician < ApplicationRecord
       with: /\A[a-zA-Z ']+\z/
     }
 
-    def full_name
-      "#{last_name}, #{first_name}"
-    end
+  def full_name
+    "#{last_name}, #{first_name}"
+  end
 end

@@ -1,4 +1,5 @@
 class Vital < ApplicationRecord
+  include ApplicationHelper
   attr_accessor :test_amount, :test_unit_of_meas
 
   before_create :calculate_metric
@@ -18,6 +19,10 @@ class Vital < ApplicationRecord
 
   def generate_full_summary
 
+  end
+
+  def display
+    "#{measurement.to_f.round(1)} #{topic.units_of_measurement[0]}"
   end
 
   def abbreviated

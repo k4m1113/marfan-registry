@@ -68,7 +68,11 @@ class VisitsController < ApplicationController
   def destroy
     @visit = Visit.find(params[:id])
     @visit.destroy
-    redirect_to visits_path
+    redirect_to :back
+  end
+
+  def back_url
+    request.referer
   end
 
   private
