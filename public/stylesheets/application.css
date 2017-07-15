@@ -12937,7 +12937,8 @@ a.nav-link.open-tab, a.open-tab.nav-icon {
       border: 0; }
 
 tr.row_form {
-  background-color: #F7F7F7; }
+  background-color: #F7F7F7;
+  width: 100%; }
 
 .summary-body {
   background-color: white; }
@@ -12991,6 +12992,9 @@ label.descriptor {
 
 .descriptors label.descriptor:not(:first-child) {
   border-left: 0px; }
+
+table {
+  width: 100%; }
 
 div.patient-show {
   position: relative; }
