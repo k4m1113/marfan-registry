@@ -6,6 +6,7 @@ class Test < ApplicationRecord
   attr_reader :table_headings, :table_body
 
   before_create :concat_result, :timeify
+  after_save { |t| t.destroy if t.result.nil? }
 
   belongs_to :topic
   belongs_to :visit, inverse_of: :tests, required: false
@@ -14,8 +15,10 @@ class Test < ApplicationRecord
   def concat_result
     if present === false
       self.result = 'absence'
-    else
-      self.result = "#{test_amount unless test_amount.nil?} #{test_unit_of_meas unless test_amount.nil?}"
+    elsif present === true
+      if !test_amount.blank? && !test_unit_of_meas.blank?
+        self.result = "#{test_amount} #{test_unit_of_meas}"
+      end
     end
   end
 

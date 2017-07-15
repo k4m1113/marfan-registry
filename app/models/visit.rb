@@ -20,47 +20,16 @@ class Visit < ApplicationRecord
   has_many :vitals, dependent: :destroy
 
   accepts_nested_attributes_for :patient
-  accepts_nested_attributes_for :diagnoses, reject_if:
-    proc { |att|
-      att['present'].nil?
-    }
-  accepts_nested_attributes_for :dissections, reject_if:
-    proc { |att|
-      att['location'].blank?
-    }
-  accepts_nested_attributes_for :family_members, reject_if:
-    proc { |att|
-      att['future_patient_data_hash']['first_name'].blank? && att['date_of_birth'].blank? && att['future_patient_data_hash']['cause_of_death'].blank?
-    }
-  accepts_nested_attributes_for :genetic_tests, reject_if:
-    proc { |att|
-      att['present'].blank?
-    }
-  accepts_nested_attributes_for :heart_measurements, reject_if:
-    proc { |att|
-      att['test_unit_of_meas'].blank? ||
-      (att['test_amount'].blank? && ['%', 'cm', 'cm2', 'mmHg'].include?(att['test_unit_of_meas']))
-    }
-  accepts_nested_attributes_for :hospitalizations, reject_if:
-    proc { |att|
-      att['patient_id'].nil?
-    }
-  accepts_nested_attributes_for :medications, reject_if:
-    proc { |att|
-      att['current'].nil?
-    }
-  accepts_nested_attributes_for :procedures, reject_if:
-    proc { |att|
-      att['time_ago'].nil? && att['note'].blank? && att['attachment'].nil?
-    }
-  accepts_nested_attributes_for :tests, reject_if:
-    proc { |t|
-      t['present'].blank?
-    }
-  accepts_nested_attributes_for :vitals, reject_if:
-    proc { |att|
-      att['test_amount'].nil?
-    }
+  accepts_nested_attributes_for :diagnoses, reject_if: proc { |att| att.rejectable }
+  accepts_nested_attributes_for :dissections, reject_if: proc { |att| att.rejectable }
+  accepts_nested_attributes_for :family_members, reject_if: proc { |att| att.rejectable }
+  accepts_nested_attributes_for :genetic_tests, reject_if: proc { |att| att.rejectable }
+  accepts_nested_attributes_for :heart_measurements, reject_if: proc { |att| att.rejectable }
+  accepts_nested_attributes_for :hospitalizations, reject_if: proc { |att| att.rejectable }
+  accepts_nested_attributes_for :medications, reject_if: proc { |att| att.rejectable }
+  accepts_nested_attributes_for :procedures, reject_if: proc { |att| att.rejectable }
+  accepts_nested_attributes_for :tests, reject_if: proc { |att| att.rejectable }
+  accepts_nested_attributes_for :vitals, reject_if: proc { |att| att.rejectable }
 
   self.per_page = 10
 

@@ -1,5 +1,7 @@
 <%= render 'visits/show_accordion', concerns: @concerns %>
 <script>
+$('div.patient-show').scrollspy({ target: '#navbar-example' })
+
 $('a.open-tab').on("click", function(){
   // accordion-style collapse
   $("ul.summary-bar").find(".active").removeClass("active");

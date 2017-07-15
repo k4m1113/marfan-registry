@@ -1,7 +1,7 @@
-<% content_for :navbar do %>
-  <%= render 'show_nav.html.erb', patient: @patient %>
-<% end %>
-<div class="patient-show" data-spy="scroll" data-target="#navbar-example">
+<div class="patient-show" data-spy="scroll" data-target="#navbar-example" data-offset="0">
+  <% content_for :navbar do %>
+    <%= render 'show_nav.html.erb', patient: @patient %>
+  <% end %>
   <div class="row">
     <div class="col-12">
       VISIT HISTORY
@@ -19,7 +19,7 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <h4>
+      <h4 id="patient_show_accordion">
         Known Concerns
       </h4>
       <%= render 'patients/show', concerns: @concerns %>

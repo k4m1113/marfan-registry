@@ -18,7 +18,7 @@ module.exports = function selectConstructor(array, title, other = false, attribu
       class='form-control'
       ${multiSelect}>`
     let options = []
-    if (array.length > 2) {
+    if (array.length >= 2) {
       options.push(`<option value="" selected disabled>${title}</option>`)
     }
     array.map(function(item) {

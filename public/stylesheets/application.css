@@ -12862,7 +12862,7 @@ li.nav-item.with-select {
 span.select2-selection__rendered {
   padding-top: 2px; }
 
-button.nav-icon {
+.nav-icon {
   color: rgba(0, 0, 0, 0.5);
   background-color: inherit;
   border: none;
@@ -12873,10 +12873,10 @@ button.nav-icon {
 a.navbar-brand {
   padding: 0; }
 
-a.nav-link {
+a.nav-link, a.nav-icon {
   color: rgba(0, 0, 0, 0.7) !important; }
 
-a.nav-link.disabled {
+a.nav-link.disabled, a.disabled.nav-icon {
   color: rgba(0, 0, 0, 0.5) !important;
   cursor: default; }
 
@@ -12909,7 +12909,7 @@ input[type='radio'] {
   .tab-content .active {
     display: block; }
 
-a.nav-link.open-tab {
+a.nav-link.open-tab, a.open-tab.nav-icon {
   color: rgba(0, 0, 0, 0.7);
   width: 250px;
   border-radius: 0px !important;
@@ -12917,11 +12917,11 @@ a.nav-link.open-tab {
   font-size: 16px;
   font-weight: 500;
   padding: 8px 16px; }
-  a.nav-link.open-tab:hover {
+  a.nav-link.open-tab:hover, a.open-tab.nav-icon:hover {
     background-color: white !important;
     border: 0 !important;
     padding: 8px 16px; }
-  a.nav-link.open-tab.active {
+  a.nav-link.open-tab.active, a.open-tab.active.nav-icon {
     background-color: white !important;
     border: 0 !important;
     padding: 8px 16px; }

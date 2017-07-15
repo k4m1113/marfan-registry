@@ -65,7 +65,7 @@ class GeneticTest < ApplicationRecord
     end
 
     return {
-      'date': print_if_present(self.date),
+      'date': print_if_present(date.strftime('%B %Y')),
       'gene': topic.name,
       'lab': print_if_present(lab_name),
       'classification': print_if_present(lab_classification),
@@ -80,7 +80,6 @@ class GeneticTest < ApplicationRecord
   end
 
   private
-
   # BEFORE SAVE
   # hard-code fuzzy date data
   def timeify

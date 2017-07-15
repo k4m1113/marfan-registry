@@ -23,6 +23,7 @@ $(function() {
     var topic = unsortedTopics.find(x => x.id == evt.params.data.id)
     $('#quickAddHook')
       .append(renderByTopicType(topic, allTopics, unsortedTopics, visit, 999))
+      .find('.present_or_not').val("true")
       .initializeRow()
     $('#row_999').show()
     $('#quickAddModal').modal('show')

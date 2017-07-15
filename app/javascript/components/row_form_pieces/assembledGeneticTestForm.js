@@ -28,15 +28,15 @@ const locations = [
 
 module.exports = function assembledGeneticTestForm(topic, visit, rowID = topic.id) {
   const parameterizedPlural = 'genetic_tests'
-  const returnStatement = `
+  let returnStatement = `
   <tr class='row_form' id='row_${rowID}' style='display:none'><td colspan='3'>
   ${hiddenFields(visit, topic, parameterizedPlural, rowID)}
     <div class="form-group row no-gutters">
       <div class="col-sm-3">
         Lab
-        ${selectConstructor(locations, 'lab name', true, 'lab_name', parameterizedPlural, rowID)}
-        <input type="text" class="form-control" name="visit[${parameterizedPlural}_attributes][${rowID}][lab_name]" id="visit_${parameterizedPlural}_attributes_${rowID}" style="display:none"/>
-      </div>
+        ${selectConstructor(locations, 'lab name', true, 'lab_name', parameterizedPlural, rowID)}`
+        // <input type="text" class="form-control" name="visit[${parameterizedPlural}_attributes][${rowID}][lab_name]" id="visit_${parameterizedPlural}_attributes_${rowID}" style="display:none"/>
+      returnStatement += `</div>
       <div class="col-sm-3">
         Lab Classification
         ${selectConstructor(classifications, 'lab classification', false, 'lab_classification', parameterizedPlural, rowID)}

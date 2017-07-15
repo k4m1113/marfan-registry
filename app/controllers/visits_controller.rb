@@ -58,9 +58,6 @@ class VisitsController < ApplicationController
     @form_action = 'Update'
     # binding.remote_pry
     if @visit.update(visit_params)
-      # visit_params.keys.each do |vp|
-      #   flash[:success] = "Successfully updated visit with #{vp}"
-      # end
     else
       Rails.logger.info(@visit.errors.inspect)
       flash[:error] = "Error updating visit: #{@visit.errors.full_messages}"
