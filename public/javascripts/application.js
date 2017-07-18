@@ -999,12 +999,18 @@ module.exports = function aorticImaging(topics, visit) {
 "use strict";
 
 
+var _assembledFamilyMemberForm = __webpack_require__(41);
+
+var _assembledFamilyMemberForm2 = _interopRequireDefault(_assembledFamilyMemberForm);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 module.exports = function familyTree(patient) {
   var date = new Date(patient.date_of_birth);
   var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   var date_str = date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
 
-  var returnStatement = "<table class=\"family-tree\">\n    <tr>\n      <td width=\"30%\" class=\"person_name\">\n        CHILD 1 NAME\n      </td>\n      <td rowspan=\"2\" class=\"person_name\" width=\"30%\">\n        " + patient.first_name + " " + patient.last_name + "\n      </td>\n      <td width=\"30%\" class=\"person_name\">\n        PARENT 1 NAME\n      </td>\n    </tr>\n    <tr>\n      <td class=\"date rightborder\">\n        CHILD 1 LIFESPAN\n        <br />\n        CHILD 1 LOCATION\n      </td>\n      <td class=\"date leftborder\">\n        PARENT 1 LIFESPAN\n        <br />\n        PARENT 1 LOCATION\n      </td>\n    </tr>\n    <tr>\n      <td class=\"person_name rightborder\">\n        CHILD 2 NAME\n      </td>\n      <td rowspan=\"2\" class=\"date\">\n        " + date_str + "\n        <br />\n        " + patient.city + ", " + patient.state + "\n      </td>\n      <td class=\"person_name leftborder\">\n        PARENT 2 NAME\n      </td>\n    </tr>\n    <tr>\n      <td class=\"date\">\n        CHILD 2 LIFESPAN\n        <br />\n        CHILD 2 LOCATION\n      </td>\n      <td class=\"date\">\n        PARENT 2 LIFESPAN\n        <br />\n        PARENT 2 LOCATION\n      </td>\n    </tr>\n  </table>";
+  var returnStatement = "<table class=\"family-tree\">\n    <tr>\n      <td width=\"30%\" class=\"person_name child\" data-target=\"#childModal\" data-toggle=\"modal\">\n        CHILD 1\n      </td>\n      <td rowspan=\"2\" class=\"person_name\" width=\"30%\">\n        " + patient.first_name + " " + patient.last_name + "\n      </td>\n      <td width=\"30%\" class=\"person_name parent\" id=\"parent_1_name\">\n        PARENT 1 NAME\n      </td>\n    </tr>\n    <tr>\n      <td class=\"lifespan rightborder child\" id=\"child_2_lifespan\">\n        CHILD 1 LIFESPAN\n        <br />\n        CHILD 1 LOCATION\n      </td>\n      <td class=\"lifespan leftborder parent\" id=\"parent_1_lifespan\">\n        PARENT 1 LIFESPAN\n        <br />\n        PARENT 1 LOCATION\n      </td>\n    </tr>\n    <tr>\n      <td class=\"person_name rightborder child\" id=\"child_2_name\">\n        CHILD 2 NAME\n      </td>\n      <td rowspan=\"2\" class=\"lifespan\">\n        " + date_str + "\n        <br />\n        " + patient.city + ", " + patient.state + "\n      </td>\n      <td class=\"person_name leftborder parent\" id=\"parent_2_name\">\n        PARENT 2 NAME\n      </td>\n    </tr>\n    <tr>\n      <td class=\"lifespan\" id=\"child_2_lifespan\">\n        CHILD 2 LIFESPAN\n        <br />\n        CHILD 2 LOCATION\n      </td>\n      <td class=\"lifespan parent\" id=\"parent_2_lifespan\">\n        PARENT 2 LIFESPAN\n        <br />\n        PARENT 2 LOCATION\n      </td>\n    </tr>\n  </table>\n  <div class=\"modal fade\" id=\"childModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n    <div class=\"modal-dialog\" role=\"document\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n          <h5 class=\"modal-title\" id=\"exampleModalLabel\">Modal title</h5>\n          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n          </button>\n        </div>\n        <div class=\"modal-body\">\n          " + (0, _assembledFamilyMemberForm2.default)() + "\n        </div>\n        <div class=\"modal-footer\">\n          <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n          <button type=\"submit\" class=\"btn btn-primary\">Save changes</button>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  ";
   return returnStatement;
 };
 
@@ -4074,7 +4080,7 @@ module.exports = function nestedList(allTopics, unsortedTopics, visit) {
 
 
 module.exports = function assembledFamilyMemberForm() {
-  return '';
+  return 'FAMILY MEMBER FORM';
 };
 
 /***/ }),

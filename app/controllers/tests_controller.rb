@@ -25,7 +25,7 @@ class TestsController < ApplicationController
       redirect_to edit_visit_path(@test.visit_id)
     else
       message = "Please re-check information: #{@test.errors.full_messages}"
-      flash[:error] = message
+      flash[:danger] = message
     end
   end
 

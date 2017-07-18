@@ -21,7 +21,7 @@ class MedicationsController < ApplicationController
       flash[:success] = "#{@medication.note} of #{find_trail(@medication.topic_id)} added to visit"
       redirect_to :back
     else
-      flash[:error] = "Please re-check information: #{@medication.errors.full_messages}"
+      flash[:danger] = "Please re-check information: #{@medication.errors.full_messages}"
       Rails.logger.info(@medication.errors.inspect)
       render :back
     end
@@ -33,7 +33,7 @@ class MedicationsController < ApplicationController
       flash[:success] = "#{@medication.note} of #{find_trail(@medication.topic_id)} added to visit"
       redirect_to edit_visit_path(@medication.visit_id)
     else
-      flash[:error]
+      flash[:danger]
       render json: @medication.errors, status: :unprocessable_entity
       redirect_to edit_visit_path(@medication.visit_id)
     end

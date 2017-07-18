@@ -22,7 +22,7 @@ class ProceduresController < ApplicationController
       flash[:success] = "#{find_trail(print_if_present(@procedure.topic.name))}"
       redirect_to :back
     else
-      flash[:error] = "Please re-check information: #{@procedure.errors.full_messages}"
+      flash[:danger] = "Please re-check information: #{@procedure.errors.full_messages}"
     end
   end
 
@@ -34,7 +34,7 @@ class ProceduresController < ApplicationController
         flash[:success] = "Successfully updated procedure #{find_trail(@procedure.topic_id)}"
         redirect_to :back
       else
-        flash[:error] = "Error updating procedure: #{@procedure.errors.full_messages}"
+        flash[:danger] = "Error updating procedure: #{@procedure.errors.full_messages}"
         redirect_to edit_procedure_path(@procedure.id)
       end
     end

@@ -23,7 +23,7 @@ class DissectionsController < ApplicationController
       flash[:success] = "Successfully added #{find_trail(print_if_present(@dissection.topic.name))}"
       redirect_to :back
     else
-      flash[:error] = "Please re-check information: #{@dissection.errors.full_messages}"
+      flash[:danger] = "Please re-check information: #{@dissection.errors.full_messages}"
     end
   end
 
@@ -33,7 +33,7 @@ class DissectionsController < ApplicationController
       flash[:success] = "Successfully updated dissection #{find_trail(@dissection.topic_id)}"
       redirect_to :back
     else
-      flash[:error] = "Error updating dissection: #{@dissection.errors.full_messages}"
+      flash[:danger] = "Error updating dissection: #{@dissection.errors.full_messages}"
       redirect_to edit_dissection_path(@dissection.id)
     end
   end

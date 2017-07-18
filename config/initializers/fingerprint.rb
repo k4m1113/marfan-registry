@@ -1,1 +1,1 @@
-ASSET_FINGERPRINT = "f5fce2c7febd9e3fec67"
+ASSET_FINGERPRINT = "7f1c3b6d4feb1b0b5aa3"

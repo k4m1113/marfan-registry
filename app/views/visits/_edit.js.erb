@@ -155,7 +155,7 @@ $(function() {
 
   // toggle all negative on current pane
   $('h6.all-neg-toggler').click(function toggleAllAbsent() {
-    $('.tab-pane.active').find("input[value='false']").prop("checked", "checked")
+    $('.tab-pane.active').find('.tabbable:visible').find("input[value='false']").prop("checked", "checked")
   });
 
   // calc button clicked

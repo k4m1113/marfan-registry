@@ -13,7 +13,7 @@ class DiagnosesController < ApplicationController
       flash[:success] = "#{@diagnosis.generate_summary} updated for patient #{@diagnosis.patient.full_name}"
       redirect_to edit_visit_path(@diagnosis.visit_id)
     else
-      flash[:error]
+      flash[:danger]
       render json: @diagnosis.errors, status: :unprocessable_entity
       redirect_to edit_visit_path(@diagnosis.visit_id)
     end

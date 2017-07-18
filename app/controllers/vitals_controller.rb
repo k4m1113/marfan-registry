@@ -22,7 +22,7 @@ class VitalsController < ApplicationController
       flash[:success] = "#{@vital.note} of #{find_pretty_trail(Topic.find(@vital.topic_id))} added to visit"
       redirect_to edit_visit_path(@vital.visit_id)
     else
-      flash[:error] = "Please re-check information: #{@vital.errors.full_messages}"
+      flash[:danger] = "Please re-check information: #{@vital.errors.full_messages}"
     end
   end
 

@@ -19,7 +19,7 @@ class HospitalizationsController < ApplicationController
       flash[:success] = "Successfully added #{find_trail(print_if_present(@hospitalization.topic.name))}"
       redirect_to :back
     else
-      flash[:error] = "Please re-check information: #{@hospitalization.errors.full_messages}"
+      flash[:danger] = "Please re-check information: #{@hospitalization.errors.full_messages}"
     end
   end
 
@@ -29,7 +29,7 @@ class HospitalizationsController < ApplicationController
       flash[:success] = "Successfully updated hospitalization #{find_trail(@procedure.topic_id)}"
       redirect_to :back
     else
-      flash[:error] = "Error updating hospitalization: #{@hospitalization.errors.full_messages}"
+      flash[:danger] = "Error updating hospitalization: #{@hospitalization.errors.full_messages}"
       redirect_to edit_hospitalization_path(@hospitalization.id)
     end
   end

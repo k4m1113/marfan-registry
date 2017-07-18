@@ -18,7 +18,7 @@ class PatientsController < ApplicationController
     @vitals = @patient.vitals_by_date
     @imagery = @patient.heart_measurements_by_date
   rescue ActiveRecord::RecordNotFound => e
-    flash[:error] = "Record Not Found"
+    flash[:danger] = "Record Not Found"
     redirect_to patients_path
   end
 
@@ -74,7 +74,7 @@ class PatientsController < ApplicationController
       flash[:success] = "Patient #{@patient.first_name} #{@patient.last_name} updated successfully!"
       redirect_to patient_path(@patient.id)
     else
-      flash[:error] = "Please correct the following errors: #{@patient.errors.full_messages}"
+      flash[:danger] = "Please correct the following errors: #{@patient.errors.full_messages}"
       redirect_to edit_patient_path(@patient.id)
     end
   end

@@ -33,6 +33,10 @@ class VisitsController < ApplicationController
     @patient = Patient.find(@visit.patient.id)
 
     edit_visit_content
+
+  rescue ActiveRecord::RecordNotFound => e
+    flash[:danger] = 'Record Not Found'
+    redirect_to visits_path
   end
 
   def create
@@ -45,7 +49,7 @@ class VisitsController < ApplicationController
       redirect_to edit_visit_path(@visit.id)
       session[:current_visit] = @visit
     else
-      flash[:error] = "Please re-check values: #{@visit.errors.full_messages}"
+      flash[:danger] = "Please re-check values: #{@visit.errors.full_messages}"
       Rails.logger.info(@visit.errors.inspect)
       render 'new'
       @visit = session[:current_visit]
@@ -58,9 +62,15 @@ class VisitsController < ApplicationController
     @form_action = 'Update'
     # binding.remote_pry
     if @visit.update(visit_params)
+      message = []
+      @visit.new_concerns.each do |c|
+        message << c.generate_full_summary.to_s
+      end
+      flash[:success] = "#{message.join(' and ')} added to record"
+      binding.remote_pry
     else
       Rails.logger.info(@visit.errors.inspect)
-      flash[:error] = "Error updating visit: #{@visit.errors.full_messages}"
+      flash[:danger] = "Error updating visit: #{@visit.errors.full_messages}"
     end
     redirect_to edit_visit_path(@visit.id)
   end

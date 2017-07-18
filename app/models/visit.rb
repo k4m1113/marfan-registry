@@ -5,6 +5,8 @@ class Visit < ApplicationRecord
   include CommonContent
   include ApplicationHelper
 
+  attr_reader :new_concerns
+
   belongs_to :patient, inverse_of: :visits
   belongs_to :clinician, inverse_of: :visits
 
@@ -56,6 +58,11 @@ class Visit < ApplicationRecord
 
   def concerns
     tests + procedures + diagnoses + hospitalizations + family_members + medications + dissections + vitals + genetic_tests
+  end
+
+  def new_concerns
+    one_minute = 0.0006944442129629629
+    concerns.select { |t| DateTime.now - t.created_at.to_datetime < one_minute }
   end
 
   def letter_sort_by_topic

@@ -23,7 +23,7 @@ class CliniciansController < ApplicationController
 
       redirect_to :action => :index
     else
-      flash[:error] = "Please re-check information and/or fill required fields."
+      flash[:danger] = "Please re-check information and/or fill required fields."
       render 'new'
     end
   end

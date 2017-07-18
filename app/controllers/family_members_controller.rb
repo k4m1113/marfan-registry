@@ -48,7 +48,7 @@ class FamilyMembersController < ApplicationController
     if @family_member.update(family_member_params)
       flash[:success] = "Family Member #{@family_member.id} updated"
     else
-      flash[:error] = "Please correct the following errors: #{@family_member.errors.full_messages}"
+      flash[:danger] = "Please correct the following errors: #{@family_member.errors.full_messages}"
     end
     redirect_to edit_visit_path(@family_member.visit_id)
   end

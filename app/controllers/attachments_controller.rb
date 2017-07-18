@@ -4,13 +4,13 @@ class AttachmentsController < ApplicationController
   def create
     @gallery = Gallery.find(params[:gallery_id])
     add_more_attachments(attachments_params[:attachments])
-    flash[:error] = "Failed uploading attachments" unless @gallery.save
+    flash[:danger] = "Failed uploading attachments" unless @gallery.save
     redirect_to :back
   end
 
   def destroy
     remove_attachment_at_index(params[:id].to_i)
-    flash[:error] = "Failed deleting attachment" unless @gallery.save
+    flash[:danger] = "Failed deleting attachment" unless @gallery.save
     redirect_to :back
   end
 

@@ -23,7 +23,7 @@ class GeneticTestsController < ApplicationController
       flash[:success] = "Successfully added #{find_trail(print_if_present(@genetic_test.topic.name))}"
       redirect_to :back
     else
-      flash[:error] = "Please re-check information: #{@genetic_test.errors.full_messages}"
+      flash[:danger] = "Please re-check information: #{@genetic_test.errors.full_messages}"
     end
   end
 
@@ -33,7 +33,7 @@ class GeneticTestsController < ApplicationController
       flash[:success] = "Successfully updated genetic_test #{find_trail(@genetic_test.topic_id)}"
       redirect_to :back
     else
-      flash[:error] = "Error updating genetic_test: #{@genetic_test.errors.full_messages}"
+      flash[:danger] = "Error updating genetic_test: #{@genetic_test.errors.full_messages}"
       redirect_to edit_genetic_test_path(@genetic_test.id)
     end
   end
