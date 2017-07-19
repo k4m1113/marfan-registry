@@ -5,7 +5,7 @@ import vitals from './panes/vitals';
 import aorticImaging from './panes/aorticImaging'
 import keyify from './keyify'
 
-module.exports = function nestedList(allTopics, unsortedTopics, visit) {
+module.exports = function nestedList(allTopics, unsortedTopics, visit, mskey, mshmac, sortedConcerns) {
   let topBar = `<ul class="nav nav-tabs flex-column" role="tablist">`
   for (let i = 0; i < allTopics.length; i++) {
     const group = allTopics[i][0]
@@ -32,7 +32,7 @@ module.exports = function nestedList(allTopics, unsortedTopics, visit) {
     }
     switch (groupName) {
       case 'family history':
-        panes += `${familyTree(patient)}</div>`
+        panes += `${familyTree(patient, visit, unsortedTopics, sortedConcerns)}</div>`
         break;
       case 'vitals':
         panes += `${vitals(topicsByType.vital, visit)}</div>`

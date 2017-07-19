@@ -1,9 +1,1 @@
-<div class="row">
-  <div class="col-sm-12-col-md-4">
-    <%= form_for @family_member do |f| %>
-      <%= render 'family_member_form_body', f: f, topic: Topic.find(@family_member.topic_id), fm: @family_member %>
-      <%= f.submit 'Update', class: "btn btn-primary btn-lg" %>
-  </div>
-  <% end %>
-
-</div>
+<%= render 'layouts/edit_page_concern_template', concern: @family_member %>

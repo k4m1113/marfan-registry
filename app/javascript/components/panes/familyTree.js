@@ -1,37 +1,37 @@
 import assembledFamilyMemberForm from '../row_form_pieces/assembledFamilyMemberForm'
+import familyTreeBody from '../row_form_pieces/familyTreeBody'
+import familyUnit from '../row_form_pieces/familyUnit'
 
-module.exports = function familyTree(patient) {
+module.exports = function familyTree(patient, visit, unsortedTopics, sortedConcerns) {
   const date = new Date(patient.date_of_birth)
-  const months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
   const date_str = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`
-
+  const childTopic = unsortedTopics.find(obj => obj.name === 'child')
+  const parentTopic = unsortedTopics.find(obj => obj.name === 'parent')
+  const family = familyUnit(unsortedTopics, sortedConcerns, childTopic, parentTopic)
   const returnStatement = `<table class="family-tree">
     <tr>
-      <td width="30%" class="person_name child" data-target="#childModal" data-toggle="modal">
-        CHILD 1
+      <td width="30%" class="person_name child">
+        ${familyTreeBody(family.children[0], childTopic, 'name', 1, patient, visit)}
       </td>
       <td rowspan="2" class="person_name" width="30%">
         ${patient.first_name} ${patient.last_name}
       </td>
       <td width="30%" class="person_name parent" id="parent_1_name">
-        PARENT 1 NAME
+        ${familyTreeBody(family.parents[0], parentTopic, 'name', 1, patient, visit)}
       </td>
     </tr>
     <tr>
       <td class="lifespan rightborder child" id="child_2_lifespan">
-        CHILD 1 LIFESPAN
-        <br />
-        CHILD 1 LOCATION
+        ${familyTreeBody(family.children[1], childTopic, 'details', 2, patient, visit)}
       </td>
       <td class="lifespan leftborder parent" id="parent_1_lifespan">
-        PARENT 1 LIFESPAN
-        <br />
-        PARENT 1 LOCATION
+        ${familyTreeBody(family.parents[0], parentTopic, 'details', 1, patient, visit)}
       </td>
     </tr>
     <tr>
       <td class="person_name rightborder child" id="child_2_name">
-        CHILD 2 NAME
+        ${familyTreeBody(family.children[1], childTopic, 'name', 2, patient, visit)}
       </td>
       <td rowspan="2" class="lifespan">
         ${date_str}
@@ -39,42 +39,17 @@ module.exports = function familyTree(patient) {
         ${patient.city}, ${patient.state}
       </td>
       <td class="person_name leftborder parent" id="parent_2_name">
-        PARENT 2 NAME
+        ${familyTreeBody(family.parents[1], parentTopic, 'name', 2, patient, visit)}
       </td>
     </tr>
     <tr>
       <td class="lifespan" id="child_2_lifespan">
-        CHILD 2 LIFESPAN
-        <br />
-        CHILD 2 LOCATION
+        ${familyTreeBody(family.children[1], childTopic, 'details', 2, patient, visit)}
       </td>
       <td class="lifespan parent" id="parent_2_lifespan">
-        PARENT 2 LIFESPAN
-        <br />
-        PARENT 2 LOCATION
+        ${familyTreeBody(family.parents[1], parentTopic, 'details', 2, patient, visit)}
       </td>
     </tr>
-  </table>
-  <div class="modal fade" id="childModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ${assembledFamilyMemberForm()}
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  `;
+  </table>`;
   return returnStatement;
 };

@@ -1,0 +1,78 @@
+<div class="form-group">
+  <%= f.label :attachment, "Add Photos and Documents", class: "control-label" %>
+  <%= f.file_field :attachment, class: "form-control-file" %>
+
+  <%= f.fields_for :future_patient_data_hash do |ff| %>
+  <div class="row">
+    <div class="col-sm-6">
+      <%= ff.label "First Name:", class: "form-control-label" %><br />
+      <%= ff.text_field :first_name, class: "form-control" %>
+    </div>
+    <div class="col-sm-6">
+      <%= ff.label "Last Name:", class: "form-control-label" %><br />
+      <%= ff.text_field :last_name, class: "form-control" %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <%= ff.label "Age", class: "form-control-label" %><br />
+      <%= ff.number_field :born_years_ago, step: 1, in: 1..99, class: "form-control" %>
+    </div>
+    <div class="col-sm-6">
+      <%= ff.label "Check if deceased:", class: "form-control-label" %><br />
+      <%= ff.check_box :deceased, class: "form-control btn btn-secondary" %>
+    </div>
+  </div>
+
+  <div id="deceased" style="display: none">
+    <div class="row">
+      <div class="col-sm-12">
+        <%= ff.label "When did they die?", class: "form-control-label" %>
+        <br />
+      </div>
+      <div class="col-sm-5">
+        <div class="form-inline">
+          <div class="form-group" aria-describedby="relativeTime">
+            <%= ff.number_field :death_time_ago, step: 1, in: 1..99 %>
+            <%= ff.select :death_time_ago_scale, TIME_SCALES, {include_blank: true}, {class: "form-control"} %>
+          </div>
+          <p id="relativeTime" class="purple form-text text-muted">
+            relative date, e.g. "5 months ago"
+          </p>
+        </div>
+      </div>
+      <div class="col-sm-2" style="min-height:32px;">
+        <%= render 'layouts/col_2_OR_buttons' %>
+      </div>
+      <div class="col-sm-5">
+        <%= ff.month_field :death_date, class: "form-control", aria: { describedby: "absoluteTime" } %>
+        <p id="absoluteTime" class="purple form-text text-muted">
+          absolute date, e.g. "01/07/2016"
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <%= ff.label "What was their cause of death?", class: "form-control-label" %><br />
+        <div class="form-check">
+          <%= ff.select :cause_of_death, CAUSES_OF_DEATH, {include_blank: true}, {class: "form-control"} %>
+          <div class="input-group">
+            <span class="input-group-addon">
+              <input type="radio" aria-label="Radio button for following text input">
+            </span>
+            <input type="text" class="form-control" aria-label="Text input with radio button">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br />
+  <div class="row">
+    <div class="col-sm-12">
+      <%= ff.label "Anything else to add?", class: "form-control-label" %><br />
+      <%= ff.text_area :note, class: "form-control" %>
+    </div>
+  </div>
+  <% end %>
+</div>

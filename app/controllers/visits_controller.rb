@@ -67,7 +67,6 @@ class VisitsController < ApplicationController
         message << c.generate_full_summary.to_s
       end
       flash[:success] = "#{message.join(' and ')} added to record"
-      binding.remote_pry
     else
       Rails.logger.info(@visit.errors.inspect)
       flash[:danger] = "Error updating visit: #{@visit.errors.full_messages}"

@@ -1,9 +1,10 @@
 module EditVisitContent
   attr_reader :concerns, :sorted_concerns, :nested_scope, :clinician, :form_action, :jconcerns, :topics, :sorted_topics, :jvisit, :jpatient
-  
+
   def edit_visit_content
     @concerns = @visit.sort_by_topic
     @sorted_concerns = @visit.sort_by_topic_then_type
+    @jsorted_concerns = @sorted_concerns.to_json
     @nested_scope = @visit
     @clinician = Clinician.find(@visit.clinician_id)
     @form_action = "Update"

@@ -3,8 +3,17 @@ const mshmac = $('#ms').data('mshmac')
 
 $('#diagnosisHeader').append(visitHeader(patient, visit))
 $('#reasonsForVisitHeader').append(reasonForVisitHeader(visit))
-$('#nestedListHook').append(nestedList(allTopics.sort(), unsortedTopics.sort(), visit, mskey, mshmac))
+$('#nestedListHook').append(nestedList(allTopics.sort(), unsortedTopics.sort(), visit, mskey, mshmac, sortedConcerns))
 $(function() {
+  // toggle 'deceased' div visibility on checkbox value changes
+  $('.deceased').on('change', function() {
+    $deceased_form = $(this).parent().parent().parent().parent().find('.deceased_details')
+    if ($(this).prop('checked') == true) {
+      $deceased_form.show()
+    } else {
+      $deceased_form.hide()
+    }
+  })
   // initialize select2 for quick-add
   var select2Data = unsortedTopics.map(function(obj) {
      var rObj = {};
@@ -12,6 +21,7 @@ $(function() {
      rObj['text'] = obj.name;
      return rObj;
   });
+
   $('#quick-add').select2({
     data: select2Data,
     placeholder: "Quick Add",

@@ -1,10 +1,5 @@
-<%= form_for @family_member do |f| %>
+<%= form_for FamilyMember.new do |f| %>
     <%= render 'family_member_form_body', f: f %>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      <%= f.submit "Add Relationship", class: "btn btn-secondary" %>
-    </div>
-  </div>
-</div>
 
+      <%= f.submit "Add Relationship", class: "btn btn-secondary" %>
 <% end %>

@@ -1,11 +1,8 @@
 <div class="btn-group" role="group">
-  <%= link_to vital_path(v.id), method: :get, class: "btn btn-secondary btn-sm" do %>
-    <i class="fa fa-search"></i>
-  <% end %>
   <%= link_to edit_vital_path(v.id), method: :get, class: "btn btn-secondary btn-sm" do %>
     <i class="fa fa-pencil"></i>
   <% end %>
-  <%= link_to vital_path(v.id), method: :delete, class: "btn btn-secondary btn-sm" do %>
+  <%= link_to vital_path(v.id), method: :delete, class: "btn btn-secondary btn-sm", data: { confirm: "Are you sure you want to delete vital record #{v.id} for #{v.topic.name} from record of #{v.patient.full_name}?"} do %>
     <i class="fa fa-trash"></i>
   <% end %>
 </div>

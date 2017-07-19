@@ -12993,6 +12993,9 @@ label.descriptor {
 .descriptors label.descriptor:not(:first-child) {
   border-left: 0px; }
 
+.skinny {
+  width: 80%; }
+
 table {
   width: 100%; }
 
