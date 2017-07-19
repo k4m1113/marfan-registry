@@ -60,7 +60,7 @@ class VisitsController < ApplicationController
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient.id)
     @form_action = 'Update'
-    # binding.remote_pry
+    binding.remote_pry
     if @visit.update(visit_params)
       message = []
       @visit.new_concerns.each do |c|
