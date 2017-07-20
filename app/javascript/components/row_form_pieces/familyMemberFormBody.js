@@ -1,4 +1,6 @@
 import fileAttachmentButton from './fileAttachmentButton'
+const reasonsForDeath = ['', 'aortic dissection', 'heart attack', 'stroke', 'cancer', 'old age', 'Alzheimer\'s', 'dementia']
+
 module.exports = function familyMemberFormBody(topic, patient, rowID) {
   let minValue = ''
   let maxValue = ''
@@ -50,7 +52,9 @@ module.exports = function familyMemberFormBody(topic, patient, rowID) {
         Cause of Death
       </div>
       <div class="col-8">
-        <input type="text" id="visit_${parameterizedPlural}_attributes_${rowID}_future_patient_data_hash_cause_of_death" name="visit[${parameterizedPlural}_attributes][${rowID}][future_patient_data_hash][cause_of_death]" class="form-control">
+        <select id="visit_${parameterizedPlural}_attributes_${rowID}_future_patient_data_hash_cause_of_death" name="visit[${parameterizedPlural}_attributes][${rowID}][future_patient_data_hash][cause_of_death]" class="form-control">`
+        returnStatement += reasonsForDeath.map(x => `<option>${x}</option>`)
+        returnStatement += `</select>
       </div>
     </div>
   </div>
@@ -62,6 +66,9 @@ module.exports = function familyMemberFormBody(topic, patient, rowID) {
       <textarea placeholder='note' name='visit[${parameterizedPlural}_attributes][${rowID}][future_patient_data_hash][note]' id='visit_${parameterizedPlural}_attributes_${rowID}_future_patient_data_hash_note' class='form-control note' rows="1"></textarea>
       ${fileAttachmentButton(topic, parameterizedPlural, rowID)}
     </div>
+  </div>
+  <div class="form-group row">
+
   </div>
   `
   return returnStatement

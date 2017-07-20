@@ -1,6 +1,14 @@
 <div class="form-group">
-  <%= f.label :attachment, "Add Photos and Documents", class: "control-label" %>
-  <%= f.file_field :attachment, class: "form-control-file" %>
+  <div class="row">
+
+    <%= f.label :attachment %>
+    <div class="col-3">
+      <%= f.file_field :attachment, class: "form-control-file" %>
+    </div>
+    <div class="col-6">
+      <%= image_tag @family_member.attachment.url unless @family_member.attachment.blank? %>
+    </div>
+  </div>
 
   <%= f.fields_for :future_patient_data_hash do |ff| %>
   <div class="form-group row">

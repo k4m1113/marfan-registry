@@ -4,13 +4,17 @@ const mshmac = $('#ms').data('mshmac')
 $('#diagnosisHeader').append(visitHeader(patient, visit))
 $('#reasonsForVisitHeader').append(reasonForVisitHeader(visit))
 $('#nestedListHook').append(nestedList(allTopics.sort(), unsortedTopics.sort(), visit, mskey, mshmac, sortedConcerns))
+
 $(function() {
   // initialize existingPatient select2
-  $('.existingPatient').select2({
-    data: select2Patients,
-    placeholder: "Existing Patient?",
-    theme: "bootstrap",
-    dropdownParent: '#child1Modal'
+  $('.family.modal').on('show.bs.modal', function() {
+    targ = $(this).attr('id')
+    $(this).find('.existingPatient').select2({
+      data: select2Patients,
+      placeholder: "All Patients",
+      theme: "bootstrap",
+      dropdownParent: $(`#${targ}`)
+    })
   })
   // fill in family member form based on selected existing patient
   $('select.existingPatient').on('select2:select', function (evt) {
