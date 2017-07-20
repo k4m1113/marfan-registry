@@ -124,10 +124,10 @@ module.exports = function hiddenFields(visit, topic) {
 "use strict";
 
 
-module.exports = function noteField(topic, parameterizedPlural) {
-  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : rowID;
+module.exports = function fileAttachmentButton(topic, parameterizedPlural) {
+  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
 
-  var returnStatement = "<textarea\n    placeholder='note'\n    name='visit[" + parameterizedPlural + "_attributes][" + rowID + "][note]'\n    id='visit_" + parameterizedPlural + "_attributes_" + rowID + "_note'\n    class='form-control'\n    value=\"\"\n    rows=\"1\"></textarea>\n    <button class=\"btn btn-secondary\" data-toggle=\"modal\" data-target=\"#row_" + rowID + "_scribble_modal\" type=\"button\">\n      <i class=\"fa fa-pencil\"></i>\n    </button>";
+  var returnStatement = "\n    <input  name=\"visit[" + parameterizedPlural + "_attributes][" + rowID + "][attachment]\" id=\"visit_" + parameterizedPlural + "_attributes_" + rowID + "_attachment\" style=\"display:none\" type=\"file\">\n      <button class=\"btn btn-secondary file-attachment\" type=\"button\">\n      <label for=\"visit_" + parameterizedPlural + "_attributes_" + rowID + "_attachment\" class=\"fontawesome-icon\">\n      <i class=\"fa fa-camera\"></i>\n    </label>\n  </button>\n  ";
   return returnStatement;
 };
 
@@ -138,10 +138,10 @@ module.exports = function noteField(topic, parameterizedPlural) {
 "use strict";
 
 
-module.exports = function fileAttachmentButton(topic, parameterizedPlural) {
-  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : topic.id;
+module.exports = function noteField(topic, parameterizedPlural) {
+  var rowID = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : rowID;
 
-  var returnStatement = "\n    <input  name=\"visit[" + parameterizedPlural + "_attributes][" + rowID + "][attachment]\" id=\"visit_" + parameterizedPlural + "_attributes_" + rowID + "_attachment\" style=\"display:none\" type=\"file\">\n      <button class=\"btn btn-secondary file-attachment\" type=\"button\">\n      <label for=\"visit_" + parameterizedPlural + "_attributes_" + rowID + "_attachment\" class=\"fontawesome-icon\">\n      <i class=\"fa fa-camera\"></i>\n    </label>\n  </button>\n  ";
+  var returnStatement = "<textarea\n    placeholder='note'\n    name='visit[" + parameterizedPlural + "_attributes][" + rowID + "][note]'\n    id='visit_" + parameterizedPlural + "_attributes_" + rowID + "_note'\n    class='form-control'\n    value=\"\"\n    rows=\"1\"></textarea>\n    <button class=\"btn btn-secondary\" data-toggle=\"modal\" data-target=\"#row_" + rowID + "_scribble_modal\" type=\"button\">\n      <i class=\"fa fa-pencil\"></i>\n    </button>";
   return returnStatement;
 };
 
@@ -421,7 +421,7 @@ var _durationField = __webpack_require__(10);
 
 var _durationField2 = _interopRequireDefault(_durationField);
 
-var _fileAttachmentButton = __webpack_require__(4);
+var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -429,7 +429,7 @@ var _findRelated = __webpack_require__(5);
 
 var _findRelated2 = _interopRequireDefault(_findRelated);
 
-var _frequencyField = __webpack_require__(22);
+var _frequencyField = __webpack_require__(23);
 
 var _frequencyField2 = _interopRequireDefault(_frequencyField);
 
@@ -441,7 +441,7 @@ var _keywords = __webpack_require__(7);
 
 var _keywords2 = _interopRequireDefault(_keywords);
 
-var _noteField = __webpack_require__(3);
+var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
@@ -470,7 +470,7 @@ module.exports = function assembledDiagnosisForm(topic, allTopics, visit) {
 "use strict";
 
 
-var _fileAttachmentButton = __webpack_require__(4);
+var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -482,7 +482,7 @@ var _hiddenFields = __webpack_require__(2);
 
 var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
 
-var _noteField = __webpack_require__(3);
+var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
@@ -516,7 +516,35 @@ module.exports = function assembledDissectionForm(topic, unsortedTopics, visit) 
 "use strict";
 
 
-var _fileAttachmentButton = __webpack_require__(4);
+var _hiddenFields = __webpack_require__(2);
+
+var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
+
+var _familyMemberFormBody = __webpack_require__(42);
+
+var _familyMemberFormBody2 = _interopRequireDefault(_familyMemberFormBody);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = function assembledFamilyMemberForm(topic, person, visit, patient) {
+  var rowID = Math.floor(Math.random() * 1000) + 2000;
+  var returnStatement = '';
+  if (person) {
+    returnStatement = person.future_patient_data_hash.first_name;
+  } else {
+    returnStatement = '\n    ' + (0, _hiddenFields2.default)(visit, topic, 'family_members', rowID) + '\n    ' + (0, _familyMemberFormBody2.default)(topic, patient, rowID) + '\n    ';
+  }
+  return returnStatement;
+};
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -524,7 +552,7 @@ var _hiddenFields = __webpack_require__(2);
 
 var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
 
-var _noteField = __webpack_require__(3);
+var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
@@ -553,7 +581,7 @@ module.exports = function assembledGeneticTestForm(topic, visit) {
 };
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -563,7 +591,7 @@ var _durationField = __webpack_require__(10);
 
 var _durationField2 = _interopRequireDefault(_durationField);
 
-var _fileAttachmentButton = __webpack_require__(4);
+var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -579,7 +607,7 @@ var _keywords = __webpack_require__(7);
 
 var _keywords2 = _interopRequireDefault(_keywords);
 
-var _noteField = __webpack_require__(3);
+var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
@@ -602,7 +630,7 @@ module.exports = function assembledHospitalizationForm(topic, unsortedTopics, vi
 };
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -612,7 +640,7 @@ var _timeAgoField = __webpack_require__(6);
 
 var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
 
-var _fileAttachmentButton = __webpack_require__(4);
+var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -632,7 +660,7 @@ var _measurementField = __webpack_require__(11);
 
 var _measurementField2 = _interopRequireDefault(_measurementField);
 
-var _noteField = __webpack_require__(3);
+var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
@@ -651,7 +679,7 @@ module.exports = function assembledMeasurementForm(topic, unsortedTopics, visit)
 };
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -680,13 +708,13 @@ module.exports = function assembledMedicationForm(topic, visit) {
 };
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _fileAttachmentButton = __webpack_require__(4);
+var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -702,7 +730,7 @@ var _keywords = __webpack_require__(7);
 
 var _keywords2 = _interopRequireDefault(_keywords);
 
-var _noteField = __webpack_require__(3);
+var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
@@ -725,7 +753,7 @@ module.exports = function assembledProcedureForm(topic, unsortedTopics, visit) {
 };
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -745,13 +773,13 @@ module.exports = function frequencyField(topic, parameterizedPlural, rowID) {
 };
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -805,7 +833,7 @@ module.exports = function epicAddForm() {
 // •  ranitidine (ZANTAC) 300 mg tablet, take 300 mg by mouth Evening, Disp: 60 Tab, Rfl: 6
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -835,7 +863,7 @@ module.exports = function epicMeds(s) {
 };
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -934,7 +962,7 @@ module.exports = function medMapper(name, commonName, medsObj) {
 };
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -970,7 +998,7 @@ module.exports = function nestedListPane(topicsByType, unsortedTopics, visit, pa
 };
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -993,13 +1021,13 @@ module.exports = function aorticImaging(topics, visit) {
 };
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _assembledFamilyMemberForm = __webpack_require__(31);
+var _assembledFamilyMemberForm = __webpack_require__(17);
 
 var _assembledFamilyMemberForm2 = _interopRequireDefault(_assembledFamilyMemberForm);
 
@@ -1029,7 +1057,7 @@ module.exports = function familyTree(patient, visit, unsortedTopics, sortedConce
 };
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1051,41 +1079,13 @@ module.exports = function vitals(topics, visit) {
 };
 
 /***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _hiddenFields = __webpack_require__(2);
-
-var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
-
-var _familyMemberFormBody = __webpack_require__(42);
-
-var _familyMemberFormBody2 = _interopRequireDefault(_familyMemberFormBody);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-module.exports = function assembledFamilyMemberForm(topic, person, visit, patient) {
-  var rowID = Math.floor(Math.random() * 1000) + 2000;
-  var returnStatement = '';
-  if (person) {
-    returnStatement = person.future_patient_data_hash.first_name;
-  } else {
-    returnStatement = '\n    ' + (0, _hiddenFields2.default)(visit, topic, 'family_members', rowID) + '\n    ' + (0, _familyMemberFormBody2.default)(topic, patient, rowID) + '\n    ';
-  }
-  return returnStatement;
-};
-
-/***/ }),
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _fileAttachmentButton = __webpack_require__(4);
+var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -1101,7 +1101,7 @@ var _keywords = __webpack_require__(7);
 
 var _keywords2 = _interopRequireDefault(_keywords);
 
-var _noteField = __webpack_require__(3);
+var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
@@ -1162,7 +1162,7 @@ var _selectConstructor = __webpack_require__(8);
 
 var _selectConstructor2 = _interopRequireDefault(_selectConstructor);
 
-var _frequencyField = __webpack_require__(22);
+var _frequencyField = __webpack_require__(23);
 
 var _frequencyField2 = _interopRequireDefault(_frequencyField);
 
@@ -1174,7 +1174,7 @@ var _durationField = __webpack_require__(10);
 
 var _durationField2 = _interopRequireDefault(_durationField);
 
-var _noteField = __webpack_require__(3);
+var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
@@ -1251,23 +1251,23 @@ var _assembledDissectionForm = __webpack_require__(16);
 
 var _assembledDissectionForm2 = _interopRequireDefault(_assembledDissectionForm);
 
-var _assembledGeneticTestForm = __webpack_require__(17);
+var _assembledGeneticTestForm = __webpack_require__(18);
 
 var _assembledGeneticTestForm2 = _interopRequireDefault(_assembledGeneticTestForm);
 
-var _assembledHospitalizationForm = __webpack_require__(18);
+var _assembledHospitalizationForm = __webpack_require__(19);
 
 var _assembledHospitalizationForm2 = _interopRequireDefault(_assembledHospitalizationForm);
 
-var _assembledMeasurementForm = __webpack_require__(19);
+var _assembledMeasurementForm = __webpack_require__(20);
 
 var _assembledMeasurementForm2 = _interopRequireDefault(_assembledMeasurementForm);
 
-var _assembledMedicationForm = __webpack_require__(20);
+var _assembledMedicationForm = __webpack_require__(21);
 
 var _assembledMedicationForm2 = _interopRequireDefault(_assembledMedicationForm);
 
-var _assembledProcedureForm = __webpack_require__(21);
+var _assembledProcedureForm = __webpack_require__(22);
 
 var _assembledProcedureForm2 = _interopRequireDefault(_assembledProcedureForm);
 
@@ -3969,9 +3969,9 @@ __webpack_require__(92);
 
 __webpack_require__(47);
 
-__webpack_require__(25);
-
 __webpack_require__(26);
+
+__webpack_require__(27);
 
 __webpack_require__(13);
 
@@ -4012,7 +4012,7 @@ __webpack_require__(76);
 __webpack_require__(84);
 
 // EXPOSING JS TO BE USED IN RAILS
-__webpack_require__(23);
+__webpack_require__(24);
 __webpack_require__(70);
 __webpack_require__(78);
 __webpack_require__(86);
@@ -4042,23 +4042,23 @@ module.exports = __webpack_require__(66);
 "use strict";
 
 
-var _nestedListPane = __webpack_require__(27);
+var _nestedListPane = __webpack_require__(28);
 
 var _nestedListPane2 = _interopRequireDefault(_nestedListPane);
 
-var _epicAddForm = __webpack_require__(24);
+var _epicAddForm = __webpack_require__(25);
 
 var _epicAddForm2 = _interopRequireDefault(_epicAddForm);
 
-var _familyTree = __webpack_require__(29);
+var _familyTree = __webpack_require__(30);
 
 var _familyTree2 = _interopRequireDefault(_familyTree);
 
-var _vitals = __webpack_require__(30);
+var _vitals = __webpack_require__(31);
 
 var _vitals2 = _interopRequireDefault(_vitals);
 
-var _aorticImaging = __webpack_require__(28);
+var _aorticImaging = __webpack_require__(29);
 
 var _aorticImaging2 = _interopRequireDefault(_aorticImaging);
 
@@ -4121,7 +4121,7 @@ module.exports = function nestedList(allTopics, unsortedTopics, visit, mskey, ms
 "use strict";
 
 
-var _fileAttachmentButton = __webpack_require__(4);
+var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -4141,7 +4141,7 @@ module.exports = function familyMemberFormBody(topic, patient, rowID) {
     maxValue = patientAge;
   }
   var parameterizedPlural = 'family_members';
-  var returnStatement = '\n  <div class="form-group row">\n    <div class="col-4 col-form-label">\n      First Name\n    </div>\n    <div class="col-8">\n      <input type="text" id="visit_' + parameterizedPlural + '_attributes_' + rowID + '_future_patient_data_hash_first_name" name="visit[' + parameterizedPlural + '_attributes][' + rowID + '][future_patient_data_hash][first_name]" class="form-control">\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-4 col-form-label">\n      Last Name\n    </div>\n    <div class="col-8">\n      <input type="text" id="visit_' + parameterizedPlural + '_attributes_' + rowID + '_future_patient_data_hash_last_name" name="visit[' + parameterizedPlural + '_attributes][' + rowID + '][future_patient_data_hash][last_name]" class="form-control">\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-4 col-form-label">\n      Age\n    </div>\n    <div class="col-8 form-inline">\n      <input type="number" id="visit_' + parameterizedPlural + '_attributes_' + rowID + '_future_patient_data_hash_born_years_ago" name="visit[' + parameterizedPlural + '_attributes][' + rowID + '][future_patient_data_hash][born_years_ago]" class="form-control" min="' + minValue + '" max="' + maxValue + '" step="1">\n      &nbsp\n      <label>\n        <input type="checkbox" class="deceased"> Deceased\n      </label>\n    </div>\n  </div>\n\n  <div class="deceased_details" style="display:none">\n    <div class="form-group row">\n      <div class="col-4 col-form-label">\n        Cause of Death\n      </div>\n      <div class="col-8">\n        <input type="text" id="visit_' + parameterizedPlural + '_attributes_' + rowID + '_future_patient_data_hash_cause_of_death" name="visit[' + parameterizedPlural + '_attributes][' + rowID + '][future_patient_data_hash][cause_of_death]" class="form-control">\n      </div>\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-4 col-form-label">\n      Note\n    </div>\n    <div class="col-8 form-inline">\n      <textarea placeholder=\'note\' name=\'visit[' + parameterizedPlural + '_attributes][' + rowID + '][future_patient_data_hash][note]\' id=\'visit_' + parameterizedPlural + '_attributes_' + rowID + '_future_patient_data_hash_note\' class=\'form-control\' rows="1"></textarea>\n      ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural) + '\n    </div>\n  </div>\n  ';
+  var returnStatement = '\n  <div class="form-group row">\n    <div class="col-4 col-form-label">\n      First Name\n    </div>\n    <div class="col-8">\n      <input type="text" id="visit_' + parameterizedPlural + '_attributes_' + rowID + '_future_patient_data_hash_first_name" name="visit[' + parameterizedPlural + '_attributes][' + rowID + '][future_patient_data_hash][first_name]" class="form-control">\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-4 col-form-label">\n      Last Name\n    </div>\n    <div class="col-8">\n      <input type="text" id="visit_' + parameterizedPlural + '_attributes_' + rowID + '_future_patient_data_hash_last_name" name="visit[' + parameterizedPlural + '_attributes][' + rowID + '][future_patient_data_hash][last_name]" class="form-control">\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-4 col-form-label">\n      Age\n    </div>\n    <div class="col-8 form-inline">\n      <input type="number" id="visit_' + parameterizedPlural + '_attributes_' + rowID + '_future_patient_data_hash_born_years_ago" name="visit[' + parameterizedPlural + '_attributes][' + rowID + '][future_patient_data_hash][born_years_ago]" class="form-control" min="' + minValue + '" max="' + maxValue + '" step="1">\n      &nbsp\n      <label>\n        <input type="checkbox" class="deceased"> Deceased\n      </label>\n    </div>\n  </div>\n\n  <div class="deceased_details" style="display:none">\n    <div class="form-group row">\n      <div class="col-4 col-form-label">\n        Cause of Death\n      </div>\n      <div class="col-8">\n        <input type="text" id="visit_' + parameterizedPlural + '_attributes_' + rowID + '_future_patient_data_hash_cause_of_death" name="visit[' + parameterizedPlural + '_attributes][' + rowID + '][future_patient_data_hash][cause_of_death]" class="form-control">\n      </div>\n    </div>\n  </div>\n  <div class="form-group row">\n    <div class="col-4 col-form-label">\n      Note\n    </div>\n    <div class="col-8 form-inline">\n      <textarea placeholder=\'note\' name=\'visit[' + parameterizedPlural + '_attributes][' + rowID + '][future_patient_data_hash][note]\' id=\'visit_' + parameterizedPlural + '_attributes_' + rowID + '_future_patient_data_hash_note\' class=\'form-control\' rows="1"></textarea>\n      ' + (0, _fileAttachmentButton2.default)(topic, parameterizedPlural, rowID) + '\n    </div>\n  </div>\n  ';
   return returnStatement;
 };
 
@@ -4152,7 +4152,7 @@ module.exports = function familyMemberFormBody(topic, patient, rowID) {
 "use strict";
 
 
-var _assembledFamilyMemberForm = __webpack_require__(31);
+var _assembledFamilyMemberForm = __webpack_require__(17);
 
 var _assembledFamilyMemberForm2 = _interopRequireDefault(_assembledFamilyMemberForm);
 
@@ -7037,23 +7037,23 @@ module.exports = function medMapper(name, commonName, medsObj) {
 "use strict";
 
 
-var _nestedListPane = __webpack_require__(27);
+var _nestedListPane = __webpack_require__(28);
 
 var _nestedListPane2 = _interopRequireDefault(_nestedListPane);
 
-var _epicAddForm = __webpack_require__(24);
+var _epicAddForm = __webpack_require__(25);
 
 var _epicAddForm2 = _interopRequireDefault(_epicAddForm);
 
-var _familyTree = __webpack_require__(29);
+var _familyTree = __webpack_require__(30);
 
 var _familyTree2 = _interopRequireDefault(_familyTree);
 
-var _vitals = __webpack_require__(30);
+var _vitals = __webpack_require__(31);
 
 var _vitals2 = _interopRequireDefault(_vitals);
 
-var _aorticImaging = __webpack_require__(28);
+var _aorticImaging = __webpack_require__(29);
 
 var _aorticImaging2 = _interopRequireDefault(_aorticImaging);
 
@@ -7116,11 +7116,11 @@ module.exports = function nestedList(allTopics, unsortedTopics, visit, mskey, ms
 "use strict";
 
 
-var _epicMeds = __webpack_require__(25);
+var _epicMeds = __webpack_require__(26);
 
 var _epicMeds2 = _interopRequireDefault(_epicMeds);
 
-var _medMapper = __webpack_require__(26);
+var _medMapper = __webpack_require__(27);
 
 var _medMapper2 = _interopRequireDefault(_medMapper);
 
@@ -7206,11 +7206,11 @@ var _assembledDissectionForm = __webpack_require__(16);
 
 var _assembledDissectionForm2 = _interopRequireDefault(_assembledDissectionForm);
 
-var _assembledFamilyMemberForm = __webpack_require__(31);
+var _assembledFamilyMemberForm = __webpack_require__(17);
 
 var _assembledFamilyMemberForm2 = _interopRequireDefault(_assembledFamilyMemberForm);
 
-var _assembledGeneticTestForm = __webpack_require__(17);
+var _assembledGeneticTestForm = __webpack_require__(18);
 
 var _assembledGeneticTestForm2 = _interopRequireDefault(_assembledGeneticTestForm);
 
@@ -7218,19 +7218,19 @@ var _assembledHeartMeasurementForm = __webpack_require__(32);
 
 var _assembledHeartMeasurementForm2 = _interopRequireDefault(_assembledHeartMeasurementForm);
 
-var _assembledHospitalizationForm = __webpack_require__(18);
+var _assembledHospitalizationForm = __webpack_require__(19);
 
 var _assembledHospitalizationForm2 = _interopRequireDefault(_assembledHospitalizationForm);
 
-var _assembledMeasurementForm = __webpack_require__(19);
+var _assembledMeasurementForm = __webpack_require__(20);
 
 var _assembledMeasurementForm2 = _interopRequireDefault(_assembledMeasurementForm);
 
-var _assembledMedicationForm = __webpack_require__(20);
+var _assembledMedicationForm = __webpack_require__(21);
 
 var _assembledMedicationForm2 = _interopRequireDefault(_assembledMedicationForm);
 
-var _assembledProcedureForm = __webpack_require__(21);
+var _assembledProcedureForm = __webpack_require__(22);
 
 var _assembledProcedureForm2 = _interopRequireDefault(_assembledProcedureForm);
 
@@ -7289,7 +7289,7 @@ var _durationField = __webpack_require__(10);
 
 var _durationField2 = _interopRequireDefault(_durationField);
 
-var _fileAttachmentButton = __webpack_require__(4);
+var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -7297,7 +7297,7 @@ var _findRelated = __webpack_require__(5);
 
 var _findRelated2 = _interopRequireDefault(_findRelated);
 
-var _frequencyField = __webpack_require__(22);
+var _frequencyField = __webpack_require__(23);
 
 var _frequencyField2 = _interopRequireDefault(_frequencyField);
 
@@ -7309,7 +7309,7 @@ var _keywords = __webpack_require__(7);
 
 var _keywords2 = _interopRequireDefault(_keywords);
 
-var _noteField = __webpack_require__(3);
+var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
@@ -7338,7 +7338,7 @@ module.exports = function assembledDiagnosisForm(topic, allTopics, visit) {
 "use strict";
 
 
-var _fileAttachmentButton = __webpack_require__(4);
+var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -7350,7 +7350,7 @@ var _hiddenFields = __webpack_require__(2);
 
 var _hiddenFields2 = _interopRequireDefault(_hiddenFields);
 
-var _noteField = __webpack_require__(3);
+var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
@@ -7388,7 +7388,7 @@ var _durationField = __webpack_require__(10);
 
 var _durationField2 = _interopRequireDefault(_durationField);
 
-var _fileAttachmentButton = __webpack_require__(4);
+var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -7404,7 +7404,7 @@ var _keywords = __webpack_require__(7);
 
 var _keywords2 = _interopRequireDefault(_keywords);
 
-var _noteField = __webpack_require__(3);
+var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
@@ -7437,7 +7437,7 @@ var _timeAgoField = __webpack_require__(6);
 
 var _timeAgoField2 = _interopRequireDefault(_timeAgoField);
 
-var _fileAttachmentButton = __webpack_require__(4);
+var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -7457,7 +7457,7 @@ var _measurementField = __webpack_require__(11);
 
 var _measurementField2 = _interopRequireDefault(_measurementField);
 
-var _noteField = __webpack_require__(3);
+var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
@@ -7511,7 +7511,7 @@ module.exports = function assembledMedicationForm(topic, visit) {
 "use strict";
 
 
-var _fileAttachmentButton = __webpack_require__(4);
+var _fileAttachmentButton = __webpack_require__(3);
 
 var _fileAttachmentButton2 = _interopRequireDefault(_fileAttachmentButton);
 
@@ -7527,7 +7527,7 @@ var _keywords = __webpack_require__(7);
 
 var _keywords2 = _interopRequireDefault(_keywords);
 
-var _noteField = __webpack_require__(3);
+var _noteField = __webpack_require__(4);
 
 var _noteField2 = _interopRequireDefault(_noteField);
 
@@ -7568,23 +7568,23 @@ var _assembledDissectionForm = __webpack_require__(16);
 
 var _assembledDissectionForm2 = _interopRequireDefault(_assembledDissectionForm);
 
-var _assembledGeneticTestForm = __webpack_require__(17);
+var _assembledGeneticTestForm = __webpack_require__(18);
 
 var _assembledGeneticTestForm2 = _interopRequireDefault(_assembledGeneticTestForm);
 
-var _assembledHospitalizationForm = __webpack_require__(18);
+var _assembledHospitalizationForm = __webpack_require__(19);
 
 var _assembledHospitalizationForm2 = _interopRequireDefault(_assembledHospitalizationForm);
 
-var _assembledMeasurementForm = __webpack_require__(19);
+var _assembledMeasurementForm = __webpack_require__(20);
 
 var _assembledMeasurementForm2 = _interopRequireDefault(_assembledMeasurementForm);
 
-var _assembledMedicationForm = __webpack_require__(20);
+var _assembledMedicationForm = __webpack_require__(21);
 
 var _assembledMedicationForm2 = _interopRequireDefault(_assembledMedicationForm);
 
-var _assembledProcedureForm = __webpack_require__(21);
+var _assembledProcedureForm = __webpack_require__(22);
 
 var _assembledProcedureForm2 = _interopRequireDefault(_assembledProcedureForm);
 
@@ -34549,7 +34549,7 @@ http://www.opensource.org/licenses/mit-license.php
 
 __webpack_require__(1);
 __webpack_require__(39);
-__webpack_require__(23);
+__webpack_require__(24);
 module.exports = __webpack_require__(40);
 
 
