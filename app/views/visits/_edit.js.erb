@@ -5,6 +5,29 @@ $('#diagnosisHeader').append(visitHeader(patient, visit))
 $('#reasonsForVisitHeader').append(reasonForVisitHeader(visit))
 $('#nestedListHook').append(nestedList(allTopics.sort(), unsortedTopics.sort(), visit, mskey, mshmac, sortedConcerns))
 $(function() {
+  // initialize existingPatient select2
+  $('.existingPatient').select2({
+    data: select2Patients,
+    placeholder: "Existing Patient?",
+    theme: "bootstrap",
+    dropdownParent: '#child1Modal'
+  })
+  // fill in family member form based on selected existing patient
+  $('select.existingPatient').on('select2:select', function (evt) {
+    patientID = parseInt($(this).val())
+    existingPatient = allPatients.find(ob => ob.id == patientID)
+    now = new Date
+    born = new Date(Date.parse(existingPatient.date_of_birth))
+    age = now.getUTCFullYear() - born.getUTCFullYear()
+    $currentModal = $(this).parent().parent().parent()
+    $currentModal.find('.claimed_patient_id').val(patientID)
+    $currentModal.find('.first_name').val(existingPatient.first_name)
+    $currentModal.find('.last_name').val(existingPatient.last_name)
+    $currentModal.find('.age').val(age)
+    $currentModal.find('.note').val(existingPatient.note)
+  });
+
+
   // toggle 'deceased' div visibility on checkbox value changes
   $('.deceased').on('change', function() {
     $deceased_form = $(this).parent().parent().parent().parent().find('.deceased_details')
@@ -14,6 +37,7 @@ $(function() {
       $deceased_form.hide()
     }
   })
+
   // initialize select2 for quick-add
   var select2Data = unsortedTopics.map(function(obj) {
      var rObj = {};
@@ -21,7 +45,6 @@ $(function() {
      rObj['text'] = obj.name;
      return rObj;
   });
-
   $('#quick-add').select2({
     data: select2Data,
     placeholder: "Quick Add",
@@ -29,7 +52,7 @@ $(function() {
   })
 
   // open form when quick add selected
-  $('select').on('select2:select', function (evt) {
+  $('select#quick-add').on('select2:select', function (evt) {
     var topic = unsortedTopics.find(x => x.id == evt.params.data.id)
     $('#quickAddHook')
       .append(renderByTopicType(topic, allTopics, unsortedTopics, visit, 999))

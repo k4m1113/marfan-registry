@@ -23,6 +23,8 @@ module EditVisitContent
     @jvisit.merge!({concerns: @jconcerns})
     @jvisit = @jvisit.to_json
     @jpatient = @patient.to_json
+    @select2_patients = Patient.all.map { |t| { id: t.id, text: t.full_name } }.to_json
+    @all_patients = Patient.all.to_json
     respond_to do |format|
       format.html
       format.json

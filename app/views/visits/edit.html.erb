@@ -5,6 +5,8 @@
   let concerns = <%= @jconcerns.html_safe %>
   let sortedConcerns = <%= @jsorted_concerns.html_safe %>
   let patient = <%= @jpatient.html_safe %>
+  let select2Patients = <%= @select2_patients.html_safe %>
+  let allPatients = <%= @all_patients.html_safe %>
 </script>
 <% content_for :navbar do %>
   <%= render 'visits/edit_nav.html.erb', patient: @patient, visit: @visit %>

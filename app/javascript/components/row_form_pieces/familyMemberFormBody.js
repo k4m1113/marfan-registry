@@ -14,12 +14,13 @@ module.exports = function familyMemberFormBody(topic, patient, rowID) {
   }
   const parameterizedPlural = 'family_members';
   let returnStatement = `
+  <input type="hidden" id="visit_${parameterizedPlural}_attributes_${rowID}_claimed_patient_id" name="visit[${parameterizedPlural}_attributes][${rowID}][claimed_patient_id]" class="claimed_patient_id" value="">
   <div class="form-group row">
     <div class="col-4 col-form-label">
       First Name
     </div>
     <div class="col-8">
-      <input type="text" id="visit_${parameterizedPlural}_attributes_${rowID}_future_patient_data_hash_first_name" name="visit[${parameterizedPlural}_attributes][${rowID}][future_patient_data_hash][first_name]" class="form-control">
+      <input type="text" id="visit_${parameterizedPlural}_attributes_${rowID}_future_patient_data_hash_first_name" name="visit[${parameterizedPlural}_attributes][${rowID}][future_patient_data_hash][first_name]" class="form-control first_name">
     </div>
   </div>
   <div class="form-group row">
@@ -27,7 +28,7 @@ module.exports = function familyMemberFormBody(topic, patient, rowID) {
       Last Name
     </div>
     <div class="col-8">
-      <input type="text" id="visit_${parameterizedPlural}_attributes_${rowID}_future_patient_data_hash_last_name" name="visit[${parameterizedPlural}_attributes][${rowID}][future_patient_data_hash][last_name]" class="form-control">
+      <input type="text" id="visit_${parameterizedPlural}_attributes_${rowID}_future_patient_data_hash_last_name" name="visit[${parameterizedPlural}_attributes][${rowID}][future_patient_data_hash][last_name]" class="form-control last_name">
     </div>
   </div>
   <div class="form-group row">
@@ -35,7 +36,7 @@ module.exports = function familyMemberFormBody(topic, patient, rowID) {
       Age
     </div>
     <div class="col-8 form-inline">
-      <input type="number" id="visit_${parameterizedPlural}_attributes_${rowID}_future_patient_data_hash_born_years_ago" name="visit[${parameterizedPlural}_attributes][${rowID}][future_patient_data_hash][born_years_ago]" class="form-control" min="${minValue}" max="${maxValue}" step="1">
+      <input type="number" id="visit_${parameterizedPlural}_attributes_${rowID}_future_patient_data_hash_born_years_ago" name="visit[${parameterizedPlural}_attributes][${rowID}][future_patient_data_hash][born_years_ago]" class="form-control age" min="${minValue}" max="${maxValue}" step="1">
       &nbsp
       <label>
         <input type="checkbox" class="deceased"> Deceased
@@ -58,7 +59,7 @@ module.exports = function familyMemberFormBody(topic, patient, rowID) {
       Note
     </div>
     <div class="col-8 form-inline">
-      <textarea placeholder='note' name='visit[${parameterizedPlural}_attributes][${rowID}][future_patient_data_hash][note]' id='visit_${parameterizedPlural}_attributes_${rowID}_future_patient_data_hash_note' class='form-control' rows="1"></textarea>
+      <textarea placeholder='note' name='visit[${parameterizedPlural}_attributes][${rowID}][future_patient_data_hash][note]' id='visit_${parameterizedPlural}_attributes_${rowID}_future_patient_data_hash_note' class='form-control note' rows="1"></textarea>
       ${fileAttachmentButton(topic, parameterizedPlural, rowID)}
     </div>
   </div>
