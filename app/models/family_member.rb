@@ -4,7 +4,7 @@ class FamilyMember < ApplicationRecord
   include CommonContent
   mount_uploader :attachment, AttachmentUploader
 
-  attr_accessor :age, :concerns
+  attr_accessor :age, :concerns, :full_name
   attr_reader :table_headings, :table_body
 
   scope :sorted, (-> { order(created_at: :desc) })
@@ -95,6 +95,9 @@ class FamilyMember < ApplicationRecord
 
   end
 
+  def full_name
+    "#{future_patient_data_hash['first_name'] unless future_patient_data_hash['first_name'].blank?} #{future_patient_data_hash['last_name'] unless future_patient_data_hash['last_name'].blank?}"
+  end
   def concerns_to_note
     if !concerns.blank?
       topics = concerns.map{ |c| Topic.find(c.to_i).name }

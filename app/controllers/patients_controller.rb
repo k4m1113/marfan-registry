@@ -12,7 +12,8 @@ class PatientsController < ApplicationController
 
   def show
     @patient = Patient.find(params[:id])
-
+    @relationships_to = FamilyMember.select{ |fm| fm.claimed_patient_id == @patient.id }
+    @relationships_with = FamilyMember.select{ |fm| fm.patient_id == @patient.id }
     @concerns = @patient.sort_by_topic
     @sorted_concerns = @patient.sort_by_topic_then_type
     @vitals = @patient.vitals_by_date
@@ -49,7 +50,6 @@ class PatientsController < ApplicationController
     @patient = Patient.new(patient_params)
     if @patient.save
       if @patient.exists_as_family_member
-        binding.remote_pry
         FamilyMember.find(@patient.exists_as_family_member.id).update!(claimed_patient_id: @patient.id)
       end
       flash[:success] = "Patient #{@patient.last_name}, #{@patient.first_name} successfully added!"

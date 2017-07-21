@@ -61,7 +61,7 @@ class VisitsController < ApplicationController
     @patient = Patient.find(@visit.patient.id)
     @form_action = 'Update'
     if @visit.update(visit_params)
-      binding.remote_pry
+      # binding.remote_pry
       message = []
       @visit.new_concerns.each do |c|
         message << c.generate_full_summary.to_s
