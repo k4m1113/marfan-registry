@@ -1,1 +1,3 @@
-<%= render "patient_registration", action: "create" %>
+<%= form_for @patient do |f| %>
+  <%= render "form", action: "create", f: f %>
+<% end %>

@@ -58,7 +58,6 @@ class Patient < ApplicationRecord
     with: /\A[a-zA-Z ']+\z/
   }
   validates :sex, presence: true, inclusion: %w[F M N]
-  validates :deceased, inclusion: [true, false]
   validates :cause_of_death, allow_nil: true, allow_blank: true, format: {
     with: /\A[a-zA-Z ']+\z/
   }
@@ -74,6 +73,15 @@ class Patient < ApplicationRecord
     else
       Patient.all
     end.sorted
+  end
+
+  def exists_as_family_member
+    if FamilyMember.select{ |f| f.future_patient_data_hash["first_name"] =~ Regexp.new(first_name, 'i') && f.future_patient_data_hash["last_name"] =~ Regexp.new(last_name, 'i')}
+      output = FamilyMember.select{ |f| f.future_patient_data_hash["first_name"] =~ Regexp.new(first_name, 'i') && f.future_patient_data_hash["last_name"] =~ Regexp.new(last_name, 'i')}[0]
+    else
+      output = false
+    end
+    output
   end
 
   def age

@@ -33,14 +33,10 @@ class PatientsController < ApplicationController
       end
       @patient.first_name = @fpdh['first_name']
       @patient.last_name = @fpdh['last_name']
-      @patient.date_of_birth = @fpdh['date_of_birth'].to_date
+      @patient.date_of_birth = @fpdh['date_of_birth']
       @patient.note = @fpdh['note']
       @patient.cause_of_death = @fpdh['cause_of_death']
       @patient.deceased = @fpdh['deceased']
-      @patient.sex = SeededRelationshipType.find(@fm.seeded_relationship_type_id).gender
-    end
-    if params[:start_visit]
-
     end
   end
 
@@ -52,9 +48,14 @@ class PatientsController < ApplicationController
   def create
     @patient = Patient.new(patient_params)
     if @patient.save
+      if @patient.exists_as_family_member
+        binding.remote_pry
+        FamilyMember.find(@patient.exists_as_family_member.id).update!(claimed_patient_id: @patient.id)
+      end
       flash[:success] = "Patient #{@patient.last_name}, #{@patient.first_name} successfully added!"
-      redirect_to new_visit_path(patient: @patient)
+      redirect_to patient_path(@patient.id)
     else
+      flash[:danger] = "Please correct the following errors: #{@patient.errors.full_messages}"
       render 'new'
     end
   end

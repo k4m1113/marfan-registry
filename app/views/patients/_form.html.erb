@@ -1,9 +1,13 @@
-<% if patient.errors.any? %>
-  <% patient.errors.full_messages.each do |message| %>
-    <div class="alert alert-warning"><%= message %></div>
-  <% end %>
-<% end %>
+<div class="row">
+  <a href="javascript:history.back()" class="btn btn-secondary btn-sm">
+    < Back
+  </a>
 
+  <button type="submit" class="btn btn-success btn-sm">
+    <i class="fa fa-floppy-o"></i>
+  </button>
+</div>
+<%= f.hidden_field :deceased, value: false %>
 <div class="form-group row">
   <%= f.label :first_name, class: "col-3 col-form-label" %>
   <div class="col-sm-9">
@@ -54,11 +58,31 @@
 </div>
 
 <div class="form-group row">
-  <%= f.label :sex, "Female" %>
-  <%= f.radio_button :sex, "F", name: "patient[sex]", class: "form-check-input" %>
+  <label class="btn">
+    <%= radio_button_tag "patient[deceased]", "true" %>
+    Deceased
+    <i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>
+  </label>
 
-  <%= f.label :sex, "Male" %>
-  <%= f.radio_button :sex, "M", name: "patient[sex]", class: "form-check-input" %>
+  <label class="btn">
+    <%= radio_button_tag "patient[deceased]", "false" %>
+    Alive
+    <i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>
+  </label>
+</div>
+
+<div class="form-group row">
+  <label class="btn">
+    <%= radio_button_tag "patient[sex]", "F" %>
+    Female
+    <i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>
+  </label>
+
+  <label class="btn">
+    <%= radio_button_tag "patient[sex]", "M" %>
+    Male
+    <i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>
+  </label>
 </div>
 
 <div class="form-group row">
