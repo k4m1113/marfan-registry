@@ -57,7 +57,7 @@ class Visit < ApplicationRecord
   end
 
   def concerns
-    tests + procedures + diagnoses + hospitalizations + family_members + medications + dissections + vitals + genetic_tests
+    tests + procedures + diagnoses + hospitalizations + patient.family_members + medications + dissections + vitals + genetic_tests
   end
 
   def new_concerns
@@ -141,7 +141,7 @@ class Visit < ApplicationRecord
     else
       bios = ""
       family_members.each do |fm|
-        bios += "\n#{fm.generate_summary} "
+        bios += "\n#{fm.generate_full_summary} "
       end
       %(As part of #{patient.first_name}'s comprehensive visit we gathered the following family history: \n#{bios})
     end

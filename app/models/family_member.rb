@@ -119,6 +119,9 @@ class FamilyMember < ApplicationRecord
       end
     end
 
+    %(#{name})
+  end
+  def generate_full_summary
     def notes
       if !future_patient_data_hash['note'].blank?
         "(#{future_patient_data_hash['note']})"
@@ -126,10 +129,20 @@ class FamilyMember < ApplicationRecord
         nil
       end
     end
-
-    %(#{name})
-  end
-  def generate_full_summary
-    generate_summary
+    def death_info
+      dead = ''
+      if !future_patient_data_hash['cause_of_death'].blank?
+        dead = "deceased of #{future_patient_data_hash['cause_of_death']}"
+      end
+      if !future_patient_data_hash['born_years_ago'].blank?
+        if !dead.blank?
+          dead += " at #{future_patient_data_hash['born_years_ago']} years of age"
+        else
+          dead += "is approximately #{future_patient_data_hash['born_years_ago']} years old at time of visit"
+        end
+      end
+      dead
+    end
+    %(#{generate_summary}, #{death_info} #{notes}.)
   end
 end

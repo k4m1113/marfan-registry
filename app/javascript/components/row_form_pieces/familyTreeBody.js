@@ -8,7 +8,7 @@ module.exports = function familyTreeBody(person, topic, field, index, patient, v
         title = `${person.future_patient_data_hash.first_name}`
         break;
       case 'details':
-        title = `${person.future_patient_data_hash.note}`
+        title = `${person.note}`
         break;
       default:
 

@@ -5,7 +5,7 @@
 <ul>
   <% @relationships_with.each do |r| %>
     <li>
-      <%= "#{r.topic.name} to" %>
+      <%= "#{r.topic.name}:" %>
       <%= link_to "#{r.full_name}", family_member_path(r.id) %>
     </li>
   <% end %>
