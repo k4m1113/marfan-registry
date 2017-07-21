@@ -61,6 +61,7 @@ class VisitsController < ApplicationController
     @patient = Patient.find(@visit.patient.id)
     @form_action = 'Update'
     if @visit.update(visit_params)
+      binding.remote_pry
       message = []
       @visit.new_concerns.each do |c|
         message << c.generate_full_summary.to_s
@@ -103,7 +104,6 @@ class VisitsController < ApplicationController
       :vital,
       :test,
       dissections_attributes: dissections_attributes,
-      family_members_attributes: family_members_attributes,
       genetic_tests_attributes: genetic_tests_attributes,
       hospitalizations_attributes: hospitalizations_attributes,
       medications_attributes: medications_attributes,
@@ -112,6 +112,7 @@ class VisitsController < ApplicationController
       vitals_attributes: vitals_attributes,
       diagnoses_attributes: diagnoses_attributes,
       heart_measurements_attributes: heart_measurements_attributes,
+      family_members_attributes: family_members_attributes,
       procedures_attributes: procedures_attributes
     )
   end

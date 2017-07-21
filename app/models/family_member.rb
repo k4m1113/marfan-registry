@@ -4,12 +4,12 @@ class FamilyMember < ApplicationRecord
   include CommonContent
   mount_uploader :attachment, AttachmentUploader
 
-  attr_accessor :age
+  attr_accessor :age, :concerns
   attr_reader :table_headings, :table_body
 
   scope :sorted, (-> { order(created_at: :desc) })
 
-  before_save :age_calc
+  before_save :age_calc, :concerns_to_note
 
   after_save { |f| f.destroy if f[:future_patient_data_hash]['first_name'].blank? && f[:date_of_birth].blank? && f[:future_patient_data_hash]['cause_of_death'].blank? }
 
@@ -25,7 +25,7 @@ class FamilyMember < ApplicationRecord
   fam = Patient.last.family_member_ids
 
   def self.attributes
-    [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, :family_member, :claimed_patient_id,  :attachment,  future_patient_data_hash:
+    [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, :family_member, :claimed_patient_id,  :attachment, concerns: [], future_patient_data_hash:
       %i[first_name last_name born_years_ago date_of_birth deceased death_time_ago death_time_ago_scale death_date cause_of_death note]]
   end
 
@@ -81,7 +81,7 @@ class FamilyMember < ApplicationRecord
     return {
       'name': "#{print_if_present(future_patient_data_hash['first_name'])} #{print_if_present(future_patient_data_hash['last_name'])}",
       'relationship': topic.name,
-      'note': print_if_present(future_patient_data_hash['note']),
+      'note': "#{print_if_present(future_patient_data_hash['note'])}; #{print_if_present(note)}",
       'attachment': "#{action_view.render(
         partial: 'layouts/attachment_thumbnails', format: :txt,
         locals: { model: self})}".html_safe,
@@ -90,59 +90,43 @@ class FamilyMember < ApplicationRecord
         locals: { fm: self})}".html_safe
     }
   end
+
   def age_calc
 
   end
+
+  def concerns_to_note
+    if !concerns.blank?
+      topics = concerns.map{ |c| Topic.find(c.to_i).name }
+
+      self.note = topics.join(', ')
+    end
+  end
+
   def generate_summary
-    # def name
-    #   if !future_patient_data_hash["first_name"].blank?
-    #     if !future_patient_data_hash["last_name"].blank?
-    #       return "#{future_patient_data_hash['first_name'].capitalize} #{future_patient_data_hash['last_name'].capitalize} (#{patient.first_name}'s #{topic.name})"
-    #     else
-    #       return "#{future_patient_data_hash['first_name'].capitalize} (#{patient.first_name}'s #{topic.name})"
-    #     end
-    #   else
-    #     return "#{patient.first_name}'s unnamed #{topic.name}"
-    #   end
-    # end
-    #
-    # def living_info
-    #   if future_patient_data_hash['deceased'].blank?
-    #     dead = nil
-    #   elsif future_patient_data_hash['deceased'].to_i === 1
-    #     unless future_patient_data_hash['cause_of_death'].blank?
-    #       dead = "died of #{future_patient_data_hash['cause_of_death']}"
-    #     end
-    #     if !future_patient_data_hash['death_date'].blank?
-    #       # string interpolate '-01' to fit YYYY-MM-DD for Date with fuzzy data
-    #       death_date = (future_patient_data_hash['death_date'] + "-01").to_datetime
-    #     elsif !future_patient_data_hash['death_time_ago'].blank? && !future_patient_data_hash['death_time_ago_scale'].blank?
-    #       death_date = find_date(future_patient_data_hash['death_time_ago'], future_patient_data_hash['death_time_ago_scale'], created_at)
-    #     end
-    #     if future_patient_data_hash['born_years_ago']
-    #       age_at_death = death_date.year - (created_at - future_patient_data_hash['born_years_ago'].years).to_datetime.year
-    #     else
-    #       "unknown"
-    #     end
-    #
-    #   elsif future_patient_data_hash['deceased'].to_i === 0
-    #     age_at_death = Date.today.year - (future_patient_data_hash['date_of_birth'] + '-01').to_datetime.year
-    #     dead = 'is alive'
-    #   end
-    #   return dead + " at approximately #{age_at_death} years old"
-    # end
-    #
-    # def notes
-    #   if !future_patient_data_hash['note'].blank?
-    #     return "(#{future_patient_data_hash['note']})"
-    #   else
-    #     return nil
-    #   end
-    # end
-    #
-    # return %(#{name} #{living_info}. #{notes})
+    def name
+      if !future_patient_data_hash["first_name"].blank?
+        if !future_patient_data_hash["last_name"].blank?
+           "#{future_patient_data_hash['first_name'].capitalize} #{future_patient_data_hash['last_name'].capitalize} (#{patient.first_name}'s #{topic.name})"
+        else
+          "#{future_patient_data_hash['first_name'].capitalize} (#{patient.first_name}'s #{topic.name})"
+        end
+      else
+        "#{patient.first_name}'s unnamed #{topic.name}"
+      end
+    end
+
+    def notes
+      if !future_patient_data_hash['note'].blank?
+        "(#{future_patient_data_hash['note']})"
+      else
+        nil
+      end
+    end
+
+    %(#{name})
   end
   def generate_full_summary
-
+    generate_summary
   end
 end

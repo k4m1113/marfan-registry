@@ -6,12 +6,18 @@ $('#reasonsForVisitHeader').append(reasonForVisitHeader(visit))
 $('#nestedListHook').append(nestedList(allTopics.sort(), unsortedTopics.sort(), visit, mskey, mshmac, sortedConcerns))
 
 $(function() {
-  // initialize existingPatient select2
+  // initialize existingPatient select2 and knownConcerns select2
   $('.family.modal').on('show.bs.modal', function() {
     targ = $(this).attr('id')
     $(this).find('.existingPatient').select2({
       data: select2Patients,
       placeholder: "All Patients",
+      theme: "bootstrap",
+      dropdownParent: $(`#${targ}`)
+    })
+    $(this).find('.knownConcerns').select2({
+      data: select2Data,
+      placeholder: "Concerns",
       theme: "bootstrap",
       dropdownParent: $(`#${targ}`)
     })
@@ -30,7 +36,6 @@ $(function() {
     $currentModal.find('.age').val(age)
     $currentModal.find('.note').val(existingPatient.note)
   });
-
 
   // toggle 'deceased' div visibility on checkbox value changes
   $('.deceased').on('change', function() {

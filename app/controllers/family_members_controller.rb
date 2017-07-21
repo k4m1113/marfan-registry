@@ -58,6 +58,9 @@ class FamilyMembersController < ApplicationController
     flash[:success] = 'Relationship record destroyed.'
     redirect_to :back
   end
+  def back_url
+    request.referer
+  end
 
   private
 

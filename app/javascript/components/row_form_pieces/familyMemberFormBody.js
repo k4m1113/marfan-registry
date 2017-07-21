@@ -68,7 +68,14 @@ module.exports = function familyMemberFormBody(topic, patient, rowID) {
     </div>
   </div>
   <div class="form-group row">
-
+    <div class="col-4 col-form-label">
+      Known Concerns
+    </div>
+    <div class="col-8">
+      <select id="visit_${parameterizedPlural}_attributes_${rowID}_concerns" name="visit[${parameterizedPlural}_attributes][${rowID}][concerns][]" class="knownConcerns form-control" style="width: 100%" multiple>
+        <option></option>
+        </select>
+    </div>
   </div>
   `
   return returnStatement
