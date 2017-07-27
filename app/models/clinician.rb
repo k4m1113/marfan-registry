@@ -1,6 +1,4 @@
 class Clinician < ApplicationRecord
-  include Doctor
-
   attr_reader :full_name
 
   has_many :patients

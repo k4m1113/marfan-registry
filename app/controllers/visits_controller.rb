@@ -5,7 +5,6 @@ require 'json'
 # visits controller
 class VisitsController < ApplicationController
   include Report
-  include Doctor
   include CommonContent
   include EditVisitContent
   include NestedParams

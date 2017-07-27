@@ -1,4 +1,6 @@
 module EditVisitContent
+  include Report
+
   attr_reader :concerns, :sorted_concerns, :nested_scope, :clinician, :form_action, :jconcerns, :topics, :sorted_topics, :jvisit, :jpatient
 
   def edit_visit_content
@@ -29,5 +31,6 @@ module EditVisitContent
       format.html
       format.json
     end
+    @report = @visit.report
   end
 end

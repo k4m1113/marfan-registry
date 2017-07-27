@@ -14,7 +14,7 @@ class Vital < ApplicationRecord
   end
 
   def generate_summary
-    # "#{topic.name} was #{measurement}#{topic.units_of_measurement[0]}"
+    "#{topic.name} was #{measurement}#{topic.units_of_measurement[0]}"
   end
 
   def generate_full_summary
