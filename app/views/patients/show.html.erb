@@ -13,6 +13,7 @@
       <%= render 'vitals_history', patient: @patient %>
     </div>
   </div>
+  <br />
   <div class="row">
     <div class="col-12">
       <%= render 'imagery_history', patient: @patient %>
@@ -21,12 +22,10 @@
   <hr />
   <div class="row">
     <div class="col-12">
-      <h4 id="patient_show_accordion">
-        Known Concerns
-      </h4>
-      <%= render 'patients/show', concerns: @concerns %>
+      <%= render 'concerns', concerns: @concerns %>
     </div>
   </div>
+  <br />
   <div class="row">
     <div class="col-12">
       <%= render 'relationships', patient: @patient %>

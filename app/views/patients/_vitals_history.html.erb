@@ -1,15 +1,18 @@
 <h4>
   Vitals by Visit
 </h4>
-<table class="table table-striped table-sm">
-  <tr>
-    <% patient.vitals_show_header.each do |title| %>
+<% if patient.vitals_by_date.empty? %>
+  No vitals noted yet
+<% else %>
+  <table class="table table-striped table-sm">
+    <tr>
+      <% patient.vitals_show_header.each do |title| %>
       <th>
         <%= title %>
       </th>
-    <% end %>
-  </tr>
-  <% patient.vitals_by_date.each do |visit, vitals| %>
+      <% end %>
+    </tr>
+    <% patient.vitals_by_date.each do |visit, vitals| %>
     <tr>
       <td>
         <%= Visit.find(visit).created_at.strftime('%e %B %Y') %>
@@ -39,5 +42,6 @@
         <%= temp.nil? ? '-' : temp.measurement.to_f.round(1) %>
       </td>
     </tr>
-  <% end %>
-</table>
+    <% end %>
+  </table>
+<% end %>

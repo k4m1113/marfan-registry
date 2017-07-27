@@ -1,7 +1,12 @@
-<%= render 'visits/show_accordion', concerns: @concerns %>
+<h4>
+  Concerns
+</h4>
+<% if concerns.all? { |k,v| v.empty? } %>
+  No concerns noted yet
+<% else %>
+  <%= render 'visits/show_accordion', concerns: concerns %>
+<% end %>
 <script>
-$('div.patient-show').scrollspy({ target: '#navbar-example' })
-
 $('a.open-tab').on("click", function(){
   // accordion-style collapse
   $("ul.summary-bar").find(".active").removeClass("active");

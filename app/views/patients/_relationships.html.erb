@@ -1,19 +1,19 @@
-<% if @relationships_with %>
 <h4>
   Known Relationships
 </h4>
-<ul>
-  <% @relationships_with.each do |r| %>
-    <li>
-      <%= "#{r.topic.name}:" %>
-      <%= link_to "#{r.full_name}", family_member_path(r.id) %>
-    </li>
-  <% end %>
-  <% @relationships_to.each do |r| %>
-    <li>
-      <%= "#{r.topic.name} of" %>
-      <%= link_to "#{r.patient.full_name}", patient_path(r.patient_id) %>
-    </li>
-  <% end %>
-</ul>
+<% if !@relationships.empty? %>
+  <ul>
+    <% @relationships.each do |r| %>
+      <li>
+        <%= "#{r.topic.name}:" %>
+        <% if r.claimed_patient_id %>
+          <%= link_to "#{r.full_name}", patient_path(r.claimed_patient_id) %>
+        <% else %>
+          <%= link_to "#{r.full_name}", family_member_path(r.id) %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  No relationships noted yet
 <% end %>

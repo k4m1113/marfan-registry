@@ -12,8 +12,7 @@ class PatientsController < ApplicationController
 
   def show
     @patient = Patient.find(params[:id])
-    @relationships_to = FamilyMember.select{ |fm| fm.claimed_patient_id == @patient.id }
-    @relationships_with = FamilyMember.select{ |fm| fm.patient_id == @patient.id }
+    @relationships = FamilyMember.select{ |fm| fm.patient_id == @patient.id }
     @concerns = @patient.sort_by_topic
     @sorted_concerns = @patient.sort_by_topic_then_type
     @vitals = @patient.vitals_by_date
