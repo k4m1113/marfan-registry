@@ -2,7 +2,7 @@
   <ul class="navbar-nav mr-auto">
     <li class="nav-item disabled">
       <a class="nav-link diabled">
-        <%= @patient.full_name %>
+        <%= "#{@patient.full_name} (MRN: #{@patient.id})" %>
       </a>
     </li>
     &nbsp
@@ -12,12 +12,19 @@
       </a>
     </li>
     <% if @patient.primary_diagnosis %>
-    &nbsp
-    <li class="nav-item disabled">
-      <a class="nav-link disabled">
-        <%= @patient.primary_diagnosis %>
-      </a>
-    </li>
+      &nbsp
+      <li class="nav-item disabled">
+        <a class="nav-link disabled">
+          <%= @patient.primary_diagnosis %>
+        </a>
+      </li>
+    <% else %>
+      &nbsp
+      <li class="nav-item disabled">
+        <a class="nav-link disabled">
+          undiagnosed
+        </a>
+      </li>
     <% end %>
   </ul>
   <ul class="nav navbar-nav ml-auto justify-content-end" role="tablist">

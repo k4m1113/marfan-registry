@@ -1,16 +1,16 @@
   <div class="row">
-    <div class="col-sm-7">
+    <div class="col-sm-8">
       <%= form_tag "/patients", method: "get", id: "search-form" do %>
         <div class="input-group">
           <%= text_field_tag :search, params[:search], placeholder:  "ex: 'John', 'Jane Doe', 'Doe'", class: "form-control"%>
           <span class="input-group-btn">
-            <%= button_to "Search Patients", patients_path, class: "btn btn-primary", method: "get", id: "search", type: "button" %>
+            <%= button_to "Search Patients", patients_path, class: "btn btn-secondary", method: "get", id: "search", type: "button" %>
           </span>
         </div>
       <% end %>
     </div>
-    <div class="col-sm-5">
-      <%= button_to "Add New Patient", new_patient_path, method: "get", class: "btn btn-block btn-primary" %>
+    <div class="col-sm-4">
+      <%= button_to "Add New Patient", new_patient_path, method: "get", class: "btn btn-block btn-secondary" %>
     </div>
   </div>
   <hr />
@@ -21,15 +21,19 @@
     <div class="card">
       <div class="card-header">
         <% if !params[:search].blank? %>
-          <h1>All patients whose names include "<%= params[:search] %>"</h1>
+          <h4>
+            All patients whose names include "<%= params[:search] %>"
+          </h4>
         <% else %>
-          <h1>All Patients</h1>
+          <h4>
+            All Patients
+          </h4>
         <% end %>
       </div>
       <table class="table table-sm table-striped table-responsive">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>MRN</th>
             <th>Name</th>
             <th>Date of Birth</th>
             <th>Last Visit</th>
@@ -53,12 +57,13 @@
                 <form class='button_to' method='post' action='/visits'>
                   <input type="hidden" id="visit_patient_id" name="visit[patient_id]" value="<%= p.id %>"/>
                   <input type="hidden" id="visit_clinician_id" name="visit[clinician_id]" value="1"/>
-                  <button class='btn btn-secondary' type='submit'>
+                  <button class='btn btn-secondary btn-left' type='submit'>
                     New Visit
                   </button>
                 </form>
 
-                <%= link_to "Edit Patient", edit_patient_path(id: p.id), role: "button", method: :get, class: "btn btn-secondary" %>
+                <%= link_to "Edit", edit_patient_path(p.id), method: :get, class: "btn btn-secondary" %>
+                <%= link_to "Destroy", patient_path(p.id), method: :delete, data: { confirm: "Are you sure you want to delete all records for #{p.full_name}?"}, class: "btn btn-secondary" %>
               </div>
             </td>
           </tr>

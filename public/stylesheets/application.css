@@ -13100,4 +13100,5 @@ img {
 
 .btn-left {
   border-top-right-radius: 0px !important;
-  border-bottom-right-radius: 0px !important; }
+  border-bottom-right-radius: 0px !important;
+  border-right: 0px !important; }
