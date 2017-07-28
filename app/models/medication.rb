@@ -45,9 +45,9 @@ class Medication < ApplicationRecord
     end
 
     if !common_name.nil? && !dose.nil?
-      name = "#{name} (#{common_name.upcase}) #{sprintf('%g', dose)} #{dose_unit_of_measurement} #{dosage_form}"
+      name = "#{self.name} (#{common_name.upcase}) #{sprintf('%g', dose)} #{dose_unit_of_measurement} #{dosage_form}"
     else
-      name = "#{name}"
+      name = self.name.to_s
     end
     {
       'date': created_at.strftime("%B %Y"),
@@ -61,7 +61,9 @@ class Medication < ApplicationRecord
   end
 
   def current_or_not
-    self.current = present
+    if !present.blank?
+      self.current = present
+    end
   end
 
   def generate_summary

@@ -47,16 +47,16 @@ module.exports = function parseMed(str, visit, allMeds) {
             <input value="${medsJSON[i].ingestionMethod}" class="form-control" type="text" name="visit[medications_attributes][${i}][ingestion_method]" id="visit_medications_attributes_${i}_ingestion_method" />
           </td>
           <td>
-            <div class="form-check form-check-inline">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_true" value="true"> Continue
-              </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_false" value="false"> Discontinue
-              </label>
-            </div>
+            <label class="btn">
+              <input type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_true" value="true">
+              Continue
+              <i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>
+            </label>
+            <label class="btn">
+              <input type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_false" value="false">
+              Discontinue
+              <i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>
+            </label>
             <input value="${visit.id}" class="form-control" type="hidden" name="visit[medications_attributes][${i}][visit_id]" id="visit_medications_attributes_${i}_visit_id" />
             <input value="${visit.patient_id}" class="form-control" type="hidden" name="visit[medications_attributes][${i}][patient_id]" id="visit_medications_attributes_${i}_visit_id" />
             <input value="${medsJSON[i].topicID}" class="form-control" type="hidden" name="visit[medications_attributes][${i}][topic_id]" id="visit_medications_attributes_${i}_topic_id" />
@@ -85,16 +85,16 @@ module.exports = function parseMed(str, visit, allMeds) {
             <input value="${medsJSON[i].ingestionMethod}" class="form-control" type="text" name="visit[medications_attributes][${i}][ingestion_method]" id="visit_medications_attributes_${i}_ingestion_method" />
           </td>
           <td>
-            <div class="form-check form-check-inline">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_true" value="true"> Continue
-              </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_false" value="false"> Discontinue
-              </label>
-            </div>
+            <label class="btn">
+              <input type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_true" value="true">
+              Continue
+              <i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>
+            </label>
+            <label class="btn">
+              <input type="radio" name="visit[medications_attributes][${i}][current]" id="visit_medications_attributes_${i}_current_false" value="false">
+              Discontinue
+              <i class="fa fa-circle-o fa-2x"></i><i class="fa fa-check-circle-o fa-2x"></i>
+            </label>
             <input value="${visit.id}" class="form-control" type="hidden" name="visit[medications_attributes][${i}][visit_id]" id="visit_medications_attributes_${i}_visit_id" />
             <input value="${visit.patient_id}" class="form-control" type="hidden" name="visit[medications_attributes][${i}][patient_id]" id="visit_medications_attributes_${i}_visit_id" />
             <input value="${medsJSON[i].topicID}" class="form-control" type="hidden" name="visit[medications_attributes][${i}][topic_id]" id="visit_medications_attributes_${i}_topic_id" />

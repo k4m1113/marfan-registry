@@ -46,6 +46,10 @@ class MedicationsController < ApplicationController
     redirect_to :back
   end
 
+  def back_url
+    request.referer
+  end
+
   private
 
   def medication_params

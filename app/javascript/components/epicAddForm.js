@@ -42,7 +42,7 @@ module.exports = function epicAddForm() {
                     MOI
                   </th>
                   <th>
-                    Actions
+                    Current?
                   </th>
                 </tr>
               </thead>

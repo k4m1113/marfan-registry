@@ -36,7 +36,7 @@ class GeneticTest < ApplicationRecord
   end
 
   def generate_full_summary
-    details = ['genetic diagnosis for']
+    details = ['a genetic diagnosis for']
     details << "#{lab_classification} variant of #{topic.name} gene"
     details << "by #{lab_name}" if !lab_name.blank?
     details << "in #{date.strftime('%B %Y')}" if !date.blank?

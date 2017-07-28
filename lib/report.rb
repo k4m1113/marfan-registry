@@ -2,9 +2,11 @@ module Report
 
   attr_reader :report
 
-  def header
-    patient = Patient.find(patient_id)
+  def patient
+    Patient.find(patient_id)
+  end
 
+  def header
     address = %(\n#{Date.today.strftime('%m %B %Y')}\n\n#{patient.address_line_1 unless patient.address_line_1.blank?})
     [patient.address_line_2, patient.address_line_3].each do |line|
       address += %(\n#{line}) unless line.blank?
@@ -18,7 +20,6 @@ module Report
   end
 
   def vitals_paragraph
-    patient = Patient.find(patient_id)
     vitals = self.vitals
     phrases = []
 
@@ -47,21 +48,26 @@ module Report
       family_members.each do |fm|
         bios += "\n#{fm.generate_full_summary} "
       end
-      %(As part of #{patient.first_name}'s comprehensive visit we gathered the following family history: \n#{bios})
+      %(As part of #{patient.first_name}'s comprehensive visit we gathered the following family history: #{bios})
     end
   end
 
   def meds_paragraph
     patient = Patient.find(patient_id)
     meds = patient.medications.select(&:current?)
+    discont = patient.medications.select { |m| m.current === false }
 
     if meds.blank?
       %(I did not discuss any medications with #{patient.first_name} during our visit.)
     else
       all_meds = meds.map(&:generate_full_summary)
-      %(#{patient.first_name.capitalize}'s medications consist of:
-      \n#{list_constructor(all_meds, '', ';')})
+      summ = %(#{patient.first_name.capitalize}'s medications consist of:\n•  #{list_constructor(all_meds, '', "\n• ")})
     end
+    # unless discont.blank?
+    #   discontinued_meds = discont.map(&:generate_full_summary)
+    #   summ << %(\n\nWe discontinued:\n•  #{list_constructor(discontinued_meds, '', "\n•  ")}.)
+    # end
+    summ
   end
 
   def imagery_paragraph
@@ -90,8 +96,8 @@ module Report
         body << "\n#{patient.first_name} had #{instances.length} #{topic}: #{list_constructor(instances.map(&:generate_full_summary))}."
       end
     end
-    %(#{body}
-    \n#{patient.first_name} reported no #{list_constructor(no_instances, 'nor')}.)
+    "#{body}
+    \n#{patient.first_name} reported no #{list_constructor(no_instances, 'nor')}."
   end
 
   def recommendations
@@ -99,14 +105,21 @@ module Report
     recs = ''
     if patient.medications
       continue = patient.medications.select(&:current?)
-      discontinue = patient.medications - continue
+      discontinue = patient.medications.select { |m| m.current === false }
       unless continue.empty?
-        summ = list_constructor(continue.map(&:generate_summary), '', ";\n* ")
-        recs << " \nWe advise #{patient.first_name} continue to take\n*  #{summ}."
+        summ = list_constructor(continue.map(&:generate_full_summary), '', ";\n• ")
+        recs << "We advise #{patient.first_name} continue to take:\n•  #{summ};"
       end
       unless discontinue.empty?
-        summ = list_constructor(discontinue.map(&:generate_summary), '', ";\n* ")
-        recs << " \nWe advise him to discontinue taking #{summ}."
+        summ = list_constructor(discontinue.map(&:generate_summary), '', ";\n• ")
+        recs << "\nWe advise him to discontinue taking:\n•  #{summ};"
+      end
+    end
+    if genetic_tests
+      genetic_tests.each do |test|
+        if test.predictive_testing_recommended === true
+          recs << %(\n\nBased on #{patient.possessive_pronoun} genetic test results for #{test.topic.name} and the risk factors we discussed, we recommend that #{patient.first_name} undergo predictive genetic testing.)
+        end
       end
     end
     summ = recs.blank? ? 'We have no recommendations for further care at this time.' : recs
@@ -122,8 +135,7 @@ module Report
   end
 
   def report
-    %("KAMILLE"
-    #{header}
+    %(#{header}
     \n#{vitals_paragraph}
     \n#{meds_paragraph}
     \n#{imagery_paragraph}
