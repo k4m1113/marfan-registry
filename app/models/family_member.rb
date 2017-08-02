@@ -82,16 +82,19 @@ class FamilyMember < ApplicationRecord
       end
     end
 
-    return {
+    {
       'name': "#{print_if_present(future_patient_data_hash['first_name'])} #{print_if_present(future_patient_data_hash['last_name'])}",
       'relationship': topic.name,
       'note': "#{print_if_present(future_patient_data_hash['note'])}; #{print_if_present(note)}",
-      'attachment': "#{action_view.render(
+      'attachment': action_view.render(
         partial: 'layouts/attachment_thumbnails', format: :txt,
-        locals: { model: self})}".html_safe,
-      'actions': "#{action_view.render(
-        partial: 'family_members/link_buttons', format: :txt,
-        locals: { fm: self})}".html_safe
+        locals: { model: self }
+      ).to_s.html_safe,
+      'actions': action_view.render(
+        partial: 'family_members/link_buttons',
+        format: :txt,
+        locals: { fm: self }
+      ).to_s.html_safe
     }
   end
 

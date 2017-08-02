@@ -41,17 +41,21 @@ class Procedure < ApplicationRecord
       end
     end
 
-    return {
+    {
       'date': absolute_start_date.strftime('%B %Y'),
       'description': find_trail(topic_id),
       'note': print_if_present(note),
       'when': print_if_present(time_ago),
-      'attachment': "#{action_view.render(
-        partial: 'layouts/attachment_thumbnails', format: :txt,
-        locals: { model: self })}".html_safe,
-      'actions': "#{action_view.render(
-        partial: 'procedures/link_buttons', format: :txt,
-        locals: { p: self })}".html_safe
+      'attachment': action_view.render(
+        partial: 'layouts/attachment_thumbnails',
+        format: :txt,
+        locals: { model: self }
+      ).to_s.html_safe,
+      'actions': action_view.render(
+        partial: 'procedures/link_buttons',
+        format: :txt,
+        locals: { p: self }
+      ).to_s.html_safe
     }
   end
 

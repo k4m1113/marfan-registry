@@ -51,13 +51,15 @@ class Medication < ApplicationRecord
       name = self.name.to_s
     end
     {
-      'date': created_at.strftime("%B %Y"),
+      'date': created_at.strftime('%B %Y'),
       'name': name,
       'instructions': ingestion_method,
       'status': status,
-      'actions': "#{action_view.render(
-        partial: 'medications/link_buttons', format: :txt,
-        locals: { m: self})}".html_safe
+      'actions': action_view.render(
+        partial: 'medications/link_buttons',
+        format: :txt,
+        locals: { m: self }
+      ).to_s.html_safe
     }
   end
 

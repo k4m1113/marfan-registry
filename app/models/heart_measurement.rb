@@ -52,7 +52,7 @@ class HeartMeasurement < ApplicationRecord
   end
 
   def table_body
-    action_view = ActionView::Base.new(Rails.configuration.paths["app/views"])
+    action_view = ActionView::Base.new(Rails.configuration.paths['app/views'])
     action_view.class_eval do
       include Rails.application.routes.url_helpers
       include ApplicationHelper
@@ -67,12 +67,15 @@ class HeartMeasurement < ApplicationRecord
       'name': find_trail(self.topic_id),
       'measurement': print_if_present(self.measurement),
       'note': print_if_present(self.note),
-      'attachment': "#{action_view.render(
-        partial: 'layouts/attachment_thumbnails', format: :txt,
-        locals: { model: self})}".html_safe,
-      'actions': "#{action_view.render(
+      'attachment': action_view.render(
+        partial: 'layouts/attachment_thumbnails',
+        format: :txt,
+        locals: { model: self }
+      ).to_s.html_safe,
+      'actions': action_view.render(
         partial: 'heart_measurements/link_buttons', format: :txt,
-        locals: { h: self})}".html_safe
+        locals: { h: self }
+      ).to_s.html_safe
     }
   end
 

@@ -77,18 +77,21 @@ class GeneticTest < ApplicationRecord
       end
     end
 
-    return {
+    {
       'date': print_if_present(date.strftime('%B %Y')),
       'gene': topic.name,
       'lab': print_if_present(lab_name),
       'classification': print_if_present(lab_classification),
       'note': print_if_present(concatted_note),
-      'attachment': "#{action_view.render(
+      'attachment': action_view.render(
         partial: 'layouts/attachment_thumbnails', format: :txt,
-        locals: { model: self })}".html_safe,
-      'actions': "#{action_view.render(
-        partial: 'genetic_tests/link_buttons', format: :txt,
-        locals: { t: self})}".html_safe
+        locals: { model: self }
+      ).to_s.html_safe,
+      'actions': action_view.render(
+        partial: 'genetic_tests/link_buttons',
+        format: :txt,
+        locals: { t: self }
+      ).to_s.html_safe
     }
   end
 

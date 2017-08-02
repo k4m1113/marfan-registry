@@ -35,19 +35,23 @@ class Dissection < ApplicationRecord
       end
     end
 
-    return {
+    {
       'date': print_if_present(absolute_start_date),
       'location': print_if_present(location),
       'direction': print_if_present(direction),
       'perfusion': print_if_present(perfusion),
       'lumen': print_if_present(lumen),
       'note': print_if_present(note),
-      'attachment': "#{action_view.render(
-        partial: 'layouts/attachment_thumbnails', format: :txt,
-        locals: { model: self })}".html_safe,
-      'actions': "#{action_view.render(
-        partial: 'dissections/link_buttons', format: :txt,
-        locals: { d: self})}".html_safe
+      'attachment': action_view.render(
+        partial: 'layouts/attachment_thumbnails',
+        format: :txt,
+        locals: { model: self }
+      ).to_s.html_safe,
+      'actions': action_view.render(
+        partial: 'dissections/link_buttons',
+        format: :txt,
+        locals: { d: self }
+      ).to_s.html_safe
     }
   end
 

@@ -84,11 +84,11 @@ class Diagnosis < ApplicationRecord
       'attachment': action_view.render(
         partial: 'layouts/attachment_thumbnails', format: :txt,
         locals: { model: self }
-      ).html_safe,
+      ).to_s.html_safe,
       'actions': action_view.render(
         partial: 'diagnoses/link_buttons', format: :txt,
         locals: { d: self }
-      ).html_safe
+      ).to_s.html_safe
     }
   end
 

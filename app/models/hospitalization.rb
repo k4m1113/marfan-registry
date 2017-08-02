@@ -41,17 +41,20 @@ class Hospitalization < ApplicationRecord
     end
 
     return {
-      'date': (self.admission_date ? self.admission_date.strftime("%B %Y") : "not noted"),
+      'date': (self.admission_date ? self.admission_date.strftime('%B %Y') : 'not noted'),
       'length_of_stay': print_if_present(self.length_of_stay),
       'name': print_if_present(self.hosp_type),
       'location': print_if_present(self.location),
       'description': print_if_present(self.description),
-      'attachment': "#{action_view.render(
-        partial: 'layouts/attachment_thumbnails', format: :txt,
-        locals: { model: self})}".html_safe,
-      'actions': "#{action_view.render(
+      'attachment': action_view.render(
+        partial: 'layouts/attachment_thumbnails',
+        format: :txt,
+        locals: { model: self }
+      ).to_s.html_safe,
+      'actions': action_view.render(
         partial: 'hospitalizations/link_buttons', format: :txt,
-        locals: { h: self})}".html_safe
+        locals: { h: self }
+      ).to_s.html_safe
     }
   end
 
