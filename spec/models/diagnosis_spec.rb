@@ -3,38 +3,34 @@ require 'rails_helper'
 describe Diagnosis, type: :model do
   diagnosis = FactoryGirl.create :diagnosis
 
-  describe "Validations" do
-    it "is valid with valid attributes" do
+  describe 'Validations' do
+    it 'is valid with valid attributes' do
       expect(diagnosis).to be_valid
     end
 
-    it "is valid without visit" do
+    it 'is valid without visit' do
       diagnosis.visit_id = nil
       expect(diagnosis).to be_valid
     end
-
-    it "is invalid without note" do
-      diagnosis.note = nil
-      expect(diagnosis).to_not be_valid
-    end
-
   end
 
-  describe "Associations" do
+  describe 'Associations' do
     it { should belong_to :patient }
     it { should belong_to :topic }
   end
 
-  describe ".generate_summary" do
+  describe '.generate_summary' do
+    diagnosis = FactoryGirl.create :diagnosis
+
     summ = diagnosis.generate_summary
-    it "generates correct article" do
+    it 'generates correct article' do
       expect(summ).to start_with 'an absence'
-      diagnosis.note = 'presence'
+      diagnosis.present = 'presence'
       summ_2 = diagnosis.generate_summary
       expect(summ_2).to start_with 'a presence'
     end
-    it "finds pretty trail" do
-      expect(summ).to match /benign TGFBR1/
+    it 'finds pretty trail' do
+      expect(summ).to include 'osteoporosis'
     end
   end
 end

@@ -3,19 +3,32 @@ class GeneticTest < ApplicationRecord
   include ApplicationHelper
   mount_uploader :attachment, AttachmentUploader
 
-  before_create :timeify, :concat_transcript, :concat_protein, :concat_variant
+  before_create :timeify,
+                :concat_transcript,
+                :concat_protein,
+                :concat_variant
 
   # ATTRIBUTES
-  attr_accessor :time_ago_amount, :time_ago_scale, :absolute_start_date, :present, :concat_note
+  attr_accessor :time_ago_amount,
+                :time_ago_scale,
+                :absolute_start_date,
+                :present,
+                :concat_note
 
   # RELATIONSHIPS
   belongs_to :topic
-  belongs_to :visit, inverse_of: :genetic_tests, required: false
-  belongs_to :patient, inverse_of: :genetic_tests, required: true
+  belongs_to :visit,
+             inverse_of: :genetic_tests,
+             required: false
+  belongs_to :patient,
+             inverse_of: :genetic_tests,
+             required: true
 
   # VALIDATIONS
-  validates :topic, presence: true
-  validates :patient, presence: true
+  validates :topic,
+            presence: true
+  validates :patient,
+            presence: true
   validates :visit_id,
             numericality: { only_integer: true },
             allow_nil: true

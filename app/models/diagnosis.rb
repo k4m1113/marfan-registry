@@ -2,14 +2,28 @@ class Diagnosis < ApplicationRecord
   include ApplicationHelper
   mount_uploader :attachment, AttachmentUploader
 
-  attr_reader :table_headings, :table_body
-  attr_accessor :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale, :descriptors
+  attr_reader :table_headings,
+              :table_body
 
-  before_create :concat_duration, :concat_time_ago, :concat_frequency, :descriptors_to_note
+  attr_accessor :time_ago_amount,
+                :time_ago_scale,
+                :duration_amount,
+                :duration_scale,
+                :frequency_amount,
+                :frequency_scale,
+                :descriptors
+
+  before_create :concat_duration,
+                :concat_time_ago,
+                :concat_frequency,
+                :descriptors_to_note
 
   belongs_to :topic
-  belongs_to :visit, inverse_of: :diagnoses, required: false
-  belongs_to :patient, inverse_of: :diagnoses
+  belongs_to :visit,
+             inverse_of: :diagnoses,
+             required: false
+  belongs_to :patient,
+             inverse_of: :diagnoses
 
   def self.attributes
     [:visit_id, :topic_id, :patient_id, :present, :time_ago_amount, :time_ago_scale, :duration_amount, :duration_scale, :frequency_amount, :frequency_scale, :absolute_start_date, :note, :attachment, descriptors: []]

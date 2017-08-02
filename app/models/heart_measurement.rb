@@ -3,13 +3,22 @@ class HeartMeasurement < ApplicationRecord
 
   mount_uploader :attachment, AttachmentUploader
 
-  attr_accessor :test_amount, :test_unit_of_meas, :descriptors, :time_ago_scale, :time_ago_amount
+  attr_accessor :test_amount,
+                :test_unit_of_meas,
+                :descriptors,
+                :time_ago_scale,
+                :time_ago_amount
 
-  before_save :concat_result, :descriptors_to_note, :timeify
+  before_save :concat_result,
+              :descriptors_to_note,
+              :timeify
 
   belongs_to :topic
-  belongs_to :visit, inverse_of: :heart_measurements, required: false
-  belongs_to :patient, inverse_of: :heart_measurements
+  belongs_to :visit,
+             inverse_of: :heart_measurements,
+             required: false
+  belongs_to :patient,
+             inverse_of: :heart_measurements
 
   def descriptors_to_note
   end

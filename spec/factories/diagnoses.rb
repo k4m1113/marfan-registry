@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :diagnosis do
     patient
 
-    note "absence"
-    topic_id 21
+    present false
+    topic_id 200
   end
 end

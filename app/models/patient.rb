@@ -2,13 +2,23 @@ class Patient < ApplicationRecord
   include PgSearch
   include CommonContent
 
-  attr_reader :object_pronoun, :subject_pronoun, :possessive_pronoun, :vitals_show_header, :vitals_by_date, :age, :full_name
+  attr_reader :object_pronoun,
+              :subject_pronoun,
+              :possessive_pronoun,
+              :vitals_show_header,
+              :vitals_by_date,
+              :age,
+              :full_name
 
   scope :sorted, (-> { order(last_name: :asc) })
 
-  pg_search_scope :search, against: %i[first_name last_name date_of_birth], using: {
-    tsearch: { prefix: true }
-  }
+  pg_search_scope :search,
+                  against: %i[first_name last_name date_of_birth],
+                  using: {
+                    tsearch: {
+                      prefix: true
+                    }
+                  }
 
   self.per_page = 20
 
@@ -40,32 +50,53 @@ class Patient < ApplicationRecord
   accepts_nested_attributes_for :tests
   accepts_nested_attributes_for :family_members
 
-  validates :first_name, presence: true, format: {
-    with: /\A[a-zA-Z ']+\z/
-  }
-  validates :last_name, presence: true, format: {
-    with: /\A[a-zA-Z ']+\z/
-  }
-  validates :address_line_1, presence: true
-  validates :city, presence: true, format: {
-    with: /\A[a-zA-Z ']+\z/
-  }
-  validates :state, presence: true, format: {
-    with: /\A[a-zA-Z ']+\z/
-  }
-  validates :postal_code, presence: true, numericality: true
-  validates :country, presence: true, format: {
-    with: /\A[a-zA-Z ']+\z/
-  }
-  validates :sex, presence: true, inclusion: %w[F M N]
-  validates :cause_of_death, allow_nil: true, allow_blank: true, format: {
-    with: /\A[a-zA-Z ']+\z/
-  }
+  validates :first_name,
+            presence: true,
+            format: {
+              with: /\A[a-zA-Z ']+\z/
+            }
+  validates :last_name,
+            presence: true,
+            format: {
+              with: /\A[a-zA-Z ']+\z/
+            }
+  validates :address_line_1,
+            presence: true
+  validates :city,
+            presence: true,
+            format: {
+              with: /\A[a-zA-Z ']+\z/
+            }
+  validates :state,
+            presence: true,
+            format: {
+              with: /\A[a-zA-Z ']+\z/
+            }
+  validates :postal_code,
+            presence: true,
+            numericality: true
+  validates :country,
+            presence: true,
+            format: {
+              with: /\A[a-zA-Z ']+\z/
+            }
+  validates :sex,
+            presence: true,
+            inclusion: %w[F M N]
+  validates :cause_of_death,
+            allow_nil: true,
+            allow_blank: true,
+            format: {
+              with: /\A[a-zA-Z ']+\z/
+            }
 
-  validates :email, presence: true, format: {
-    with: /.+@.+\..+/i
-  }
-  validates :phone_1, presence: true
+  validates :email,
+            presence: true,
+            format: {
+              with: /.+@.+\..+/i
+            }
+  validates :phone_1,
+            presence: true
 
   def self.perform_search(keyword)
     if keyword.present?

@@ -4,20 +4,24 @@ class FamilyMember < ApplicationRecord
   include CommonContent
   mount_uploader :attachment, AttachmentUploader
 
-  attr_accessor :age, :concerns, :full_name
-  attr_reader :table_headings, :table_body
+  attr_accessor :age,
+                :concerns,
+                :full_name
+  attr_reader :table_headings,
+              :table_body
 
   scope :sorted, (-> { order(created_at: :desc) })
 
-  before_save :age_calc, :concerns_to_note
+  before_save :age_calc,
+              :concerns_to_note
 
-  after_save { |f| f.destroy if f[:future_patient_data_hash]['first_name'].blank? && f[:date_of_birth].blank? && f[:future_patient_data_hash]['cause_of_death'].blank? }
+  after_save { |f| f.destroy if                 f[:future_patient_data_hash]['first_name'].blank? && f[:date_of_birth].blank? && f[:future_patient_data_hash]['cause_of_death'].blank? }
 
   pg_search_scope :search,
-    against: [:future_patient_data_hash],
-    using: {
-      tsearch: { prefix: true }
-    }
+                  against: [:future_patient_data_hash],
+                  using: {
+                    tsearch: { prefix: true }
+                  }
 
   self.per_page = 10
 
@@ -38,30 +42,30 @@ class FamilyMember < ApplicationRecord
   end
 
   belongs_to :patient,
-    inverse_of: :family_members
+             inverse_of: :family_members
   belongs_to :topic
 
   belongs_to :visit,
-    inverse_of: :family_members,
-    required: false
+             inverse_of: :family_members,
+             required: false
   validates :topic_id,
-    numericality: {
-      only_integer: true
-    },
-    presence: true,
-    inclusion: fam
+            numericality: {
+              only_integer: true
+            },
+            presence: true,
+            inclusion: fam
   validates :claimed_patient_id,
-    numericality: {
-      only_integer: true,
-      greater_than: 0
-    },
-    allow_nil: true
+            numericality: {
+              only_integer: true,
+              greater_than: 0
+            },
+            allow_nil: true
   validates :born_years_ago,
-    numericality: {
-      only_integer: true,
-      greater_than: 0
-    },
-    allow_nil: true
+            numericality: {
+              only_integer: true,
+              greater_than: 0
+            },
+            allow_nil: true
 
   def self.table_headings
     ['Name', 'Relationship', 'Note', 'Attachments', 'Actions']

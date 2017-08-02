@@ -7,42 +7,89 @@ class Visit < ApplicationRecord
 
   attr_reader :new_concerns
 
-  belongs_to :patient, inverse_of: :visits
-  belongs_to :clinician, inverse_of: :visits
+  belongs_to :patient,
+             inverse_of: :visits
+  belongs_to :clinician,
+             inverse_of: :visits
 
-  has_many :diagnoses, dependent: :destroy
-  has_many :dissections, dependent: :destroy
-  has_many :family_members, dependent: :destroy
-  has_many :genetic_tests, dependent: :destroy
-  has_many :heart_measurements, dependent: :destroy
-  has_many :hospitalizations, dependent: :destroy
-  has_many :medications, dependent: :destroy
-  has_many :procedures, dependent: :destroy
-  has_many :tests, dependent: :destroy
-  has_many :vitals, dependent: :destroy
+  has_many :diagnoses,
+           dependent: :destroy
+  has_many :dissections,
+           dependent: :destroy
+  has_many :family_members,
+           dependent: :destroy
+  has_many :genetic_tests,
+           dependent: :destroy
+  has_many :heart_measurements,
+           dependent: :destroy
+  has_many :hospitalizations,
+           dependent: :destroy
+  has_many :medications,
+           dependent: :destroy
+  has_many :procedures,
+           dependent: :destroy
+  has_many :tests,
+           dependent: :destroy
+  has_many :vitals,
+           dependent: :destroy
 
   accepts_nested_attributes_for :patient
-  accepts_nested_attributes_for :diagnoses, reject_if: proc { |att| att.rejectable }
-  accepts_nested_attributes_for :dissections, reject_if: proc { |att| att.rejectable }
-  accepts_nested_attributes_for :family_members, reject_if: proc { |att| att.rejectable }
-  accepts_nested_attributes_for :genetic_tests, reject_if: proc { |att| att.rejectable }
-  accepts_nested_attributes_for :heart_measurements, reject_if: proc { |att| att.rejectable }
-  accepts_nested_attributes_for :hospitalizations, reject_if: proc { |att| att.rejectable }
-  accepts_nested_attributes_for :medications, reject_if: proc { |att| att.rejectable }
-  accepts_nested_attributes_for :procedures, reject_if: proc { |att| att.rejectable }
-  accepts_nested_attributes_for :tests, reject_if: proc { |att| att.rejectable }
-  accepts_nested_attributes_for :vitals, reject_if: proc { |att| att.rejectable }
+  accepts_nested_attributes_for :diagnoses,
+                                reject_if: proc { |att|
+                                  att.rejectable
+                                }
+  accepts_nested_attributes_for :dissections,
+                                reject_if: proc { |att|
+                                  att.rejectable
+                                }
+  accepts_nested_attributes_for :family_members,
+                                reject_if: proc { |att|
+                                  att.rejectable
+                                }
+  accepts_nested_attributes_for :genetic_tests,
+                                reject_if: proc { |att|
+                                  att.rejectable
+                                }
+  accepts_nested_attributes_for :heart_measurements,
+                                reject_if: proc { |att|
+                                  att.rejectable
+                                }
+  accepts_nested_attributes_for :hospitalizations,
+                                reject_if: proc { |att|
+                                  att.rejectable
+                                }
+  accepts_nested_attributes_for :medications,
+                                reject_if: proc { |att|
+                                  att.rejectable
+                                }
+  accepts_nested_attributes_for :procedures,
+                                reject_if: proc { |att|
+                                  att.rejectable
+                                }
+  accepts_nested_attributes_for :tests,
+                                reject_if: proc { |att|
+                                  att.rejectable
+                                }
+  accepts_nested_attributes_for :vitals,
+                                reject_if: proc { |att|
+                                  att.rejectable
+                                }
 
   self.per_page = 10
 
-  validates :patient_id, presence: true, numericality: {
-    greater_than: 0,
-    only_integer: true
-  }
-  validates :clinician_id, presence: true, numericality: {
-    greater_than: 0,
-    only_integer: true
-  }
+  validates :patient_id,
+            presence: true,
+            numericality: {
+              greater_than: 0,
+              only_integer: true
+            }
+  validates :clinician_id,
+            presence: true,
+            numericality: {
+              greater_than: 0,
+              only_integer: true
+            }
+
   def topic_types
     k = {}
     Topic.all.order('id ASC').each do |t|

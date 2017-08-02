@@ -10,14 +10,16 @@ class Hospitalization < ApplicationRecord
     inverse_of: :hospitalizations
 
   validates :visit_id,
-    numericality: {
-      only_integer: true,
-      greater_than: 0
-    },
-    allow_nil: true
+            numericality: {
+              only_integer: true,
+              greater_than: 0
+            },
+            allow_nil: true
   validates :length_of_stay,
-    numericality: { greater_than: 0 },
-    allow_nil: true
+            numericality: {
+              greater_than: 0
+            },
+            allow_nil: true
 
   def self.attributes
     %i[visit_id patient_id topic_id present hospitalization admission_date time_ago time_ago_scale length_of_stay length_of_stay_scale hosp_type description location note attachment]

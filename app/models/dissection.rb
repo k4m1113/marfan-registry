@@ -4,12 +4,16 @@ class Dissection < ApplicationRecord
 
   before_save :timeify
 
-  attr_accessor :time_ago_amount, :time_ago_scale
+  attr_accessor :time_ago_amount,
+                :time_ago_scale
 
   # RELATIONSHIPS
   belongs_to :topic
-  belongs_to :visit, inverse_of: :dissections, required: false
-  belongs_to :patient, inverse_of: :dissections
+  belongs_to :visit,
+             inverse_of: :dissections,
+             required: false
+  belongs_to :patient,
+             inverse_of: :dissections
 
   def self.attributes
     %i[patient_id visit_id topic_id location perfusion direction lumen absolute_start_date time_ago_amount time_ago_scale attachment note]

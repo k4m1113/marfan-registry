@@ -2,15 +2,24 @@ class Test < ApplicationRecord
   include ApplicationHelper
   mount_uploader :attachment, AttachmentUploader
 
-  attr_accessor :test_amount, :test_unit_of_meas, :present, :time_ago_amount, :time_ago_scale
-  attr_reader :table_headings, :table_body
+  attr_accessor :test_amount,
+                :test_unit_of_meas,
+                :present,
+                :time_ago_amount,
+                :time_ago_scale
+  attr_reader :table_headings,
+              :table_body
 
-  before_create :concat_result, :timeify
+  before_create :concat_result,
+                :timeify
   after_save { |t| t.destroy if t.result.nil? }
 
   belongs_to :topic
-  belongs_to :visit, inverse_of: :tests, required: false
-  belongs_to :patient, inverse_of: :tests
+  belongs_to :visit,
+             inverse_of: :tests,
+             required: false
+  belongs_to :patient,
+             inverse_of: :tests
 
   def concat_result
     if present === false

@@ -2,18 +2,23 @@ class Procedure < ApplicationRecord
   include ApplicationHelper
   mount_uploader :attachment, AttachmentUploader
 
-  attr_reader :table_headings, :table_body
-  attr_accessor :present, :time_ago_amount, :time_ago_scale, :descriptors
+  attr_reader :table_headings,
+              :table_body
+  attr_accessor :present,
+                :time_ago_amount,
+                :time_ago_scale,
+                :descriptors
 
-  before_create :concat_time_ago, :descriptors_to_note
+  before_create :concat_time_ago,
+                :descriptors_to_note
 
   after_save { |p| p.destroy if (p.time_ago.nil? && p.note.blank? && p.attachment.nil?) }
 
   belongs_to :topic
   belongs_to :visit,
-    inverse_of: :procedures
+             inverse_of: :procedures
   belongs_to :patient,
-    inverse_of: :procedures
+             inverse_of: :procedures
 
   after_save { |p| p.destroy if p.note.nil? }
 

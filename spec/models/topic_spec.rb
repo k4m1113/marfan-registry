@@ -1,4 +1,5 @@
 require 'rails_helper'
+include ApplicationHelper
 
 describe Topic, type: :model do
   topic = Topic.all[101]
@@ -22,19 +23,19 @@ describe Topic, type: :model do
     end
   end
 
-  describe '.keyify' do
+  describe '' do
     it 'pluralizes morphology' do
-      keyed = Topic.roots.where(name: 'morphology/physical findings')[0].keyify
+      keyed = keyify(Topic.roots.where(name: 'morphology/physical findings')[0])
       expect(/s$/).to match(keyed)
     end
 
     it 'pluralizes vitals' do
-      keyed = Topic.roots.where(name: 'vitals')[0].keyify
+      keyed = keyify(Topic.roots.where(name: 'vitals')[0])
       expect(/s$/).to match(keyed)
     end
 
     it 'removes spaces' do
-      keyed = Topic.first.keyify
+      keyed = keyify(Topic.first)
       expect(/\s/).to_not match(keyed)
     end
 

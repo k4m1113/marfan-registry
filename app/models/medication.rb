@@ -2,7 +2,8 @@ class Medication < ApplicationRecord
   include ActiveSupport::NumberHelper
   mount_uploader :attachment, AttachmentUploader
 
-  attr_reader :table_headings, :table_body
+  attr_reader :table_headings,
+              :table_body
 
   attr_accessor :present
 
@@ -10,12 +11,12 @@ class Medication < ApplicationRecord
 
   belongs_to :topic
   belongs_to :patient,
-    inverse_of: :medications
+             inverse_of: :medications
 
   validates :name,
-    presence: true
+            presence: true
   validates :ingestion_method,
-    presence: true
+            presence: true
 
   def self.attributes
     %i[visit_id patient_id topic_id present dose dose_unit_of_measurement nested_med_id nested_med_category duration_amount duration_scale ingestion_method frequency frequency_scale common_name medication_format time_ago time_ago_scale absolute_start_date note name dosage_form dosage_form_units current attachment]
