@@ -25,17 +25,17 @@ describe Topic, type: :model do
 
   describe '' do
     it 'pluralizes morphology' do
-      keyed = keyify(Topic.roots.where(name: 'morphology/physical findings')[0])
+      keyed = keyify(Topic.roots.where(name: 'morphology/physical findings')[0].name)
       expect(/s$/).to match(keyed)
     end
 
     it 'pluralizes vitals' do
-      keyed = keyify(Topic.roots.where(name: 'vitals')[0])
+      keyed = keyify(Topic.roots.where(name: 'vitals')[0].name)
       expect(/s$/).to match(keyed)
     end
 
     it 'removes spaces' do
-      keyed = keyify(Topic.first)
+      keyed = keyify(Topic.all.sample.name)
       expect(/\s/).to_not match(keyed)
     end
 

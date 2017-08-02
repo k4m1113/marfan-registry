@@ -6,7 +6,7 @@ FactoryGirl.define do
     test_unit_of_meas 'dural sac ratio'
     topic_id 273
 
-    present false
+    present true
     time_ago 3
     time_ago_scale 'years'
   end

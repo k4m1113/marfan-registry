@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory :medication do
     patient
     topic_id 40
+    current true
     name 'losartan'
     common_name 'COZAAR'
     dose 30.0

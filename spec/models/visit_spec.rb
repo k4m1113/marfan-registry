@@ -3,8 +3,8 @@ require 'rails_helper'
 describe Visit, type: :model do
   visit = FactoryGirl.create(:visit)
 
-  describe "Validations" do
-    it "is valid with valid attributes" do
+  describe 'Validations' do
+    it 'is valid with valid attributes' do
       expect(visit).to be_valid
     end
 
@@ -12,11 +12,10 @@ describe Visit, type: :model do
     it { should validate_presence_of :clinician_id }
   end
 
-  describe "Associations" do
+  describe 'Associations' do
     it { should belong_to :clinician }
     it { should belong_to :patient }
 
-    it { should have_many :complications }
     it { should have_many :diagnoses }
     it { should have_many :dissections }
     it { should have_many :family_members }
@@ -29,11 +28,11 @@ describe Visit, type: :model do
     it { should have_many :vitals }
   end
 
-  describe ".concerns" do
+  describe '.concerns' do
 
   end
 
-  describe ".sort_by_topic" do
+  describe '.sort_by_topic' do
 
   end
 end

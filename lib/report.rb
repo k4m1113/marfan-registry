@@ -58,28 +58,26 @@ module Report
     discont = patient.medications.select { |m| m.current === false }
 
     if meds.blank?
-      %(I did not discuss any medications with #{patient.first_name} during our visit.)
+      summ = %(I did not discuss any medications with #{patient.first_name} during our visit.)
     else
       all_meds = meds.map(&:generate_full_summary)
       summ = %(#{patient.first_name.capitalize}'s medications consist of:\n•  #{list_constructor(all_meds, '', "\n• ")})
     end
-    # unless discont.blank?
-    #   discontinued_meds = discont.map(&:generate_full_summary)
-    #   summ << %(\n\nWe discontinued:\n•  #{list_constructor(discontinued_meds, '', "\n•  ")}.)
-    # end
     summ
   end
 
   def imagery_paragraph
     visit = self
+    patient = Patient.find(visit.patient_id)
+
     if !visit.heart_measurements.empty?
       paragraph = 'The following heart imagery was gathered as part of our visit: '
       results = list_constructor(visit.heart_measurements.map(&:generate_summary)) + "."
       paragraph += results
-      paragraph
     else
-      "No heart measurements were taken of #{patient.first_name} as part of our visit."
+      paragraph = "No heart measurements were taken of #{patient.first_name} as part of our visit."
     end
+    paragraph
   end
 
   ## Concerns = anything discussed in a visit not incl: family history, vitals, heart imagery, meds.
