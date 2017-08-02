@@ -96,6 +96,7 @@ class Diagnosis < ApplicationRecord
     clause = ''
     clause << " #{time_ago}" unless time_ago.blank?
     clause << " #{duration}" unless duration.blank?
+    clause << " #{frequency}" unless frequency.blank?
     clause
   end
 

@@ -1,6 +1,11 @@
 require 'rails_helper'
+require 'date'
 
 describe Hospitalization do
-  it { should have_valid(:length_of_stay).when(1, 3, nil) }
-  it { should_not have_valid(:length_of_stay).when(-1, false, "Seven") }
+  hospitalization = FactoryGirl.create :hospitalization
+  
+  describe 'Associations' do
+    it { should belong_to :patient }
+    it { should belong_to :topic }
+  end
 end

@@ -2,21 +2,21 @@ class Hospitalization < ApplicationRecord
   include ApplicationHelper
   mount_uploader :attachment, AttachmentUploader
 
-  attr_reader :table_headings, :table_body
-  attr_accessor :time_ago_scale, :time_ago_amount, :duration_amount, :duration_scale, :absolute_start_date
+  attr_reader :table_headings,
+              :table_body
+  attr_accessor :time_ago_scale,
+                :time_ago_amount,
+                :duration_amount,
+                :duration_scale,
+                :absolute_start_date
 
   belongs_to :topic
   belongs_to :patient,
-    inverse_of: :hospitalizations
+             inverse_of: :hospitalizations
 
   validates :visit_id,
             numericality: {
               only_integer: true,
-              greater_than: 0
-            },
-            allow_nil: true
-  validates :length_of_stay,
-            numericality: {
               greater_than: 0
             },
             allow_nil: true
@@ -40,7 +40,7 @@ class Hospitalization < ApplicationRecord
       end
     end
 
-    return {
+    {
       'date': (self.admission_date ? self.admission_date.strftime('%B %Y') : 'not noted'),
       'length_of_stay': print_if_present(self.length_of_stay),
       'name': print_if_present(self.hosp_type),
@@ -52,7 +52,8 @@ class Hospitalization < ApplicationRecord
         locals: { model: self }
       ).to_s.html_safe,
       'actions': action_view.render(
-        partial: 'hospitalizations/link_buttons', format: :txt,
+        partial: 'hospitalizations/link_buttons',
+        format: :txt,
         locals: { h: self }
       ).to_s.html_safe
     }
