@@ -14,6 +14,14 @@ describe Diagnosis, type: :model do
       diagnosis.visit_id = nil
       expect(diagnosis).to be_valid
     end
+
+    it 'is rejected if empty' do
+      reject = FactoryGirl.build :diagnosis,
+                                 present: nil,
+                                 patient: nil
+
+      expect { reject.save }.to raise_error
+    end
   end
 
   describe 'Associations' do
@@ -67,8 +75,13 @@ describe Diagnosis, type: :model do
                                    time_ago_amount: 1,
                                    time_ago_scale: 'days'
 
-    it 'calculates absolute start date' do
+    it 'calculates absolute start date when applicable' do
       expect(time_diag.absolute_start_date.to_date).to eq Date.yesterday
+      expect(time_diag.generate_full_summary).to include 'ago'
+    end
+
+    it 'defaults to created_at if no time ago specified' do
+      expect(diagnosis.absolute_start_date.to_date).to eq Date.today
     end
   end
 
@@ -78,6 +91,11 @@ describe Diagnosis, type: :model do
                                     duration_scale: 'day(s)'
     it 'concatenates duration' do
       expect(durat_diag.duration).to eq 'for 1 day(s)'
+      expect(durat_diag.generate_full_summary).to include 'for'
+    end
+
+    it 'is blank if not specified' do
+      expect(diagnosis.duration).to eq nil
     end
   end
 
@@ -86,7 +104,12 @@ describe Diagnosis, type: :model do
                                    frequency_amount: 2,
                                    frequency_scale: 'year'
     it 'concatenates frequency' do
-      expect(freq_diag.duration).to eq '2 times per year'
+      expect(freq_diag.frequency).to eq '2 times per year'
+      expect(freq_diag.generate_full_summary).to include 'per'
+    end
+
+    it 'is blank if not specified' do
+      expect(diagnosis.frequency).to eq nil
     end
   end
 end
