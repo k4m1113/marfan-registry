@@ -16,7 +16,8 @@ class Procedure < ApplicationRecord
 
   belongs_to :topic
   belongs_to :visit,
-             inverse_of: :procedures
+             inverse_of: :procedures,
+             required: false
   belongs_to :patient,
              inverse_of: :procedures
 

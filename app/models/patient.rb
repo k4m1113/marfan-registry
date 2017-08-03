@@ -194,7 +194,8 @@ class Patient < ApplicationRecord
       'family history': concerns.select { |c| c.topic.root.name == 'family history' },
       'medication': concerns.select { |c| c.topic.root.name == 'medication' },
       'vitals': concerns.select { |c| c.topic.root.name == 'vitals' },
-      'heart_measurements': concerns.select { |c| c.topic.topic_type == 'heart_measurement'}
+      'heart_measurements': concerns.select { |c| c.topic.topic_type == 'heart_measurement'},
+      'lifestyle': concerns.select { |c| c.topic.root.name == 'lifestyle' },
     )
   end
 

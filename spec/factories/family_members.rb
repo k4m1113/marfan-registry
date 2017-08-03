@@ -1,3 +1,4 @@
+sibling = Topic.where(name: 'sibling')[0]
 FactoryGirl.define do
   factory :family_member do
     patient
@@ -12,6 +13,6 @@ FactoryGirl.define do
       "cause_of_death" => "aortic dissection",
       "note" => "Marfan"
     }}
-    topic_id 3
+    topic_id sibling.id
   end
 end

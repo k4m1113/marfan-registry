@@ -39,13 +39,13 @@ class Diagnosis < ApplicationRecord
 
   def concat_time_ago
     if !time_ago_amount.blank? && !time_ago_scale.blank?
-      date = find_date(time_ago_amount.to_i, time_ago_scale, Date.today)
+      date = find_date(time_ago_amount.to_i, time_ago_scale, DateTime.now)
       self.time_ago = "#{time_ago_amount} #{time_ago_scale} ago"
       self.absolute_start_date = date
     elsif !absolute_start_date.blank?
       self.absolute_start_date = absolute_start_date
     else
-      self.absolute_start_date = Date.today
+      self.absolute_start_date = DateTime.now
     end
   end
 

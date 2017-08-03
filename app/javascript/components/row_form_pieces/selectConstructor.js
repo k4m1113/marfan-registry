@@ -6,7 +6,7 @@ module.exports = function selectConstructor(array, title, other = false, attribu
       type="text"
       disabled="true"
       name="visit[${parameterizedPlural}_attributes][${rowID}][${attribute}]"
-      id="visit_${parameterizedPlural}_attributes_${rowID}_f${attribute}"
+      id="visit_${parameterizedPlural}_attributes_${rowID}_${attribute}"
       class="form-control single-option"
       value="${array[0]}"
       ${multiSelect}

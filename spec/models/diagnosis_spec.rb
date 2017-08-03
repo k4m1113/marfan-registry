@@ -76,6 +76,7 @@ describe Diagnosis, type: :model do
                                    time_ago_scale: 'days'
 
     it 'calculates absolute start date when applicable' do
+      binding.remote_pry
       expect(time_diag.absolute_start_date.to_date).to eq Date.yesterday
       expect(time_diag.generate_full_summary).to include 'ago'
     end
