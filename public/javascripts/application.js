@@ -244,7 +244,7 @@ module.exports = function selectConstructor(array, title) {
 
   var returnStatement = '';
   if (array.length === 1) {
-    returnStatement += '<input\n      type="text"\n      disabled="true"\n      name="visit[' + parameterizedPlural + '_attributes][' + rowID + '][' + attribute + ']"\n      id="visit_' + parameterizedPlural + '_attributes_' + rowID + '_f' + attribute + '"\n      class="form-control single-option"\n      value="' + array[0] + '"\n      ' + multiSelect + '\n    >';
+    returnStatement += '<input\n      type="text"\n      disabled="true"\n      name="visit[' + parameterizedPlural + '_attributes][' + rowID + '][' + attribute + ']"\n      id="visit_' + parameterizedPlural + '_attributes_' + rowID + '_' + attribute + '"\n      class="form-control single-option"\n      value="' + array[0] + '"\n      ' + multiSelect + '\n    >';
   } else {
     returnStatement += '<select\n      name=\'visit[' + parameterizedPlural + '_attributes][' + rowID + '][' + attribute + ']\'\n      id=\'visit_' + parameterizedPlural + '_attributes_' + rowID + '_' + attribute + '\'\n      class=\'form-control\'\n      ' + multiSelect + '>';
     var options = [];

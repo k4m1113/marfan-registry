@@ -56,6 +56,20 @@ class TestsController < ApplicationController
   private
 
   def test_params
-    params.fetch(:test, {})
+    params.require(:test).permit(
+      :patient_id,
+      :visit_id,
+      :topic_id,
+      :clinician_id,
+      :test_amount,
+      :test_unit_of_meas,
+      :present,
+      :result,
+      :time_ago,
+      :time_ago_scale,
+      :absolute_start_date,
+      :note,
+      :attachment
+    )
   end
 end

@@ -1,4 +1,4 @@
-extraction = Topic.where(name: 'teeth extraction')[0]
+# Topic.where(name: 'teeth extraction')[0].id
 
 FactoryGirl.define do
   factory :procedure do
@@ -8,6 +8,6 @@ FactoryGirl.define do
     time_ago_scale 'years'
 
     note 'general anesthesia'
-    topic_id extraction.id
+    topic_id 84
   end
 end

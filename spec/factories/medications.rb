@@ -1,9 +1,9 @@
-losartan = Topic.where(name: 'losartan')[0]
+# Topic.where(name: 'losartan')[0].id
 
 FactoryGirl.define do
   factory :medication do
     patient
-    topic_id losartan.id
+    topic_id 40
     current true
     name 'losartan'
     common_name 'COZAAR'

@@ -10,12 +10,12 @@ Clinician.create!(
   country: 'USA',
   postal_code: 94305
 )
-lucky_victim = Patient.find(rand(Patient.count))
-lucky_victim.update(
-  primary_diagnosis: 'Marfan Syndrome'
-)
-Visit.create!(
-  clinician_id: Clinician.first.id,
-  patient_id: lucky_victim.id,
-  primary_reason: 'checkup'
-)
+# lucky_victim = Patient.find(rand(Patient.count))
+# lucky_victim.update(
+#   primary_diagnosis: 'Marfan Syndrome'
+# )
+# Visit.create!(
+#   clinician_id: Clinician.first.id,
+#   patient_id: lucky_victim.id,
+#   primary_reason: 'checkup'
+# )

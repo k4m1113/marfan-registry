@@ -7,6 +7,7 @@ FactoryGirl.define do
     date_of_birth 50.year.ago
     sex 'M'
     deceased false
+    primary_diagnosis 'Loeys-Dietz Syndrome'
 
     address_line_1 '1500 Main Street'
     address_line_2 'Apartment 4'

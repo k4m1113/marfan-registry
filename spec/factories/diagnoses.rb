@@ -1,11 +1,11 @@
-osteoporosis = Topic.where(name: 'osteoporosis')[0]
+# Topic.where(name: 'osteoporosis')[0].id
 
 FactoryGirl.define do
   factory :diagnosis do
     patient
 
     present false
-    topic_id osteoporosis.id
+    topic_id 200
 
     time_ago_amount nil
     time_ago_scale nil

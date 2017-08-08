@@ -1,4 +1,4 @@
-root = Topic.where(name: 'aortic root')[0]
+# Topic.where(name: 'aortic root')[0].id
 
 FactoryGirl.define do
   factory :heart_measurement do
@@ -11,6 +11,6 @@ FactoryGirl.define do
     test_unit_of_meas 'cm'
 
     descriptors 'general anesthesia'
-    topic_id root.id
+    topic_id 100
   end
 end
