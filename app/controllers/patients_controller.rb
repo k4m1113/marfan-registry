@@ -3,9 +3,9 @@ class PatientsController < ApplicationController
 
   def index
     if params[:search].present?
-      @patients = Patient.perform_search(params[:search]).paginate(:page => params[:page])
+      @patients = Patient.perform_search(params[:search]).sorted.paginate(:page => params[:page])
     else
-      @patients = Patient.all.paginate(:page => params[:page])
+      @patients = Patient.all.sorted.paginate(:page => params[:page])
     end
 
   end

@@ -3,12 +3,14 @@ require 'spec_helper'
 require 'rspec/expectations'
 
 feature 'clinician can initiate appointment' do
+  Patient.all.each(&:destroy)
   let!(:liang) { FactoryGirl.create :clinician }
   let!(:kamille) { FactoryGirl.create :patient, primary_diagnosis: 'Malaise' }
 
   background do
+    Patient.find(1).update(primary_diagnosis: 'Malaise')
     visit '/patients'
-
+    save_and_open_page
     click_button 'New Visit', match: :first
   end
 
@@ -16,19 +18,10 @@ feature 'clinician can initiate appointment' do
     expect(page).to have_content 'Malaise'
   end
 
-  scenario 'patient is being seen for family history' do
-
-  end
-
-  scenario 'patient has had recent testing' do
-
-  end
-
-  scenario 'patient has had related symptoms' do
-
-  end
-
-  scenario 'patient has been hospitalized recently' do
+  scenario 'reason for visit added to visit' do
+    expect(page).to have_content 'Reason for Visit:'
+    binding.remote_pry
+    rfvs = page.querySelectorAll('div.alert-warning').children('label')
 
   end
 end

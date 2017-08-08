@@ -10,7 +10,7 @@ class Patient < ApplicationRecord
               :age,
               :full_name
 
-  scope :sorted, (-> { order(last_name: :asc) })
+  scope :sorted, (-> { order(id: :asc) })
 
   pg_search_scope :search,
                   against: %i[first_name last_name date_of_birth],

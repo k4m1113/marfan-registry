@@ -248,6 +248,8 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (1.8.6)
+    launchy (2.4.3)
+      addressable (~> 2.3)
     libv8 (5.3.332.38.5)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
@@ -423,6 +425,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   json
+  launchy
   mini_magick
   mini_racer
   pg

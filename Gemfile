@@ -42,6 +42,7 @@ end
 group :test do
   gem 'coveralls', require: false
   gem 'database_cleaner'
+  gem 'launchy'
 end
 
 gem 'puma'
