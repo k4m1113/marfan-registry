@@ -32,7 +32,5 @@ development:
 test:
   <<: *default
 
-  public_output_path: packs-test
-
 production:
   <<: *default

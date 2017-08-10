@@ -6,6 +6,7 @@ require 'database_cleaner'
 require 'rake'
 
 Capybara.javascript_driver = :webkit
+Capybara.asset_host = 'http://localhost:3000' 
 
 RSpec.configure do |config|
 

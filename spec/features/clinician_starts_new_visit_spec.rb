@@ -15,4 +15,11 @@ feature 'clinician can initiate appointment' do
   scenario 'patient has primary diagnosis' do
     expect(page).to have_content 'Malaise'
   end
+
+  scenario 'reason for visit added to visit', js: true do
+    # page.execute_script("$(body).append('KAMILLE')")
+    sleep(10)
+    expect(page).to have_content 'Reason for Visit: '
+    save_and_open_page
+  end
 end
