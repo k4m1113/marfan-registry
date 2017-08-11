@@ -15,7 +15,7 @@ module.exports = function reasonForVisitHeader(visit) {
       </button>`
       returnStatement += 'Reason for Visit: '
       const options = reasonsForVisit.map(r =>
-        `<label class="btn btn-secondary">
+        `<label class="btn btn-secondary" id="label_primary_reason_${r.replace(' ', '_')}">
           <input type="radio" autocomplete="off" name="visit[primary_reason]" value="${r}">
           ${r}
         </label>`

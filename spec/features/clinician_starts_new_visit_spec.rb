@@ -17,8 +17,13 @@ feature 'clinician can initiate appointment' do
   end
 
   scenario 'reason for visit added to visit', js: true, type: :feature do
-    sleep(10)
-    save_and_open_screenshot
     expect(page).to have_content 'Reason for Visit: '
+    page.find('#label_primary_reason_chest_pain').click()
+
+    page.find('button#floppy').click()
+
+    expect(page).to have_content 'for chest pain'
+
+    expect(page).to_not have_content 'Reason for Visit: '
   end
 end

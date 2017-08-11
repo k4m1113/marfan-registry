@@ -7189,7 +7189,7 @@ module.exports = function reasonForVisitHeader(visit) {
     returnStatement += '<div class="alert alert-warning alert-dismissible fade show" role="alert">\n      <button type="button" class="close" data-dismiss="alert" aria-label="Close">\n        <span aria-hidden="true">&times;</span>\n      </button>';
     returnStatement += 'Reason for Visit: ';
     var options = reasonsForVisit.map(function (r) {
-      return '<label class="btn btn-secondary">\n          <input type="radio" autocomplete="off" name="visit[primary_reason]" value="' + r + '">\n          ' + r + '\n        </label>';
+      return '<label class="btn btn-secondary" id="label_primary_reason_' + r.replace(' ', '_') + '">\n          <input type="radio" autocomplete="off" name="visit[primary_reason]" value="' + r + '">\n          ' + r + '\n        </label>';
     }).join('');
     returnStatement += options;
     returnStatement += '</div>';
