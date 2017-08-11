@@ -25,7 +25,7 @@ gem 'will_paginate-bootstrap'
 group :development, :test do
   gem 'byebug'
   gem 'capybara'
-  gem 'capybara-webkit'
+  gem 'capybara-selenium'
   gem 'factory_girl_rails'
   gem 'pry-rails'
   gem 'pry-remote'

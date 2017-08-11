@@ -9,7 +9,6 @@ require 'rack/utils'
 require 'capybara/rspec'
 require 'capybara/rails'
 require 'spec_helper'
-require 'capybara/webkit/matchers'
 require 'rails/all'
 require 'database_cleaner'
 
@@ -23,7 +22,6 @@ RSpec.configure do |config|
     # `bin/webpack --config client/webpack.config.js`
     `RAILS_ENV=test webpack --config client/webpack.config.js`
     Webpacker::Manifest.load
-    binding.remote_pry
     DatabaseCleaner.clean_with(:truncation)
     load "#{Rails.root}/db/seeds.rb"
   end
@@ -61,23 +59,3 @@ RSpec.configure do |config|
 
   config.include Capybara::DSL
 end
-
-Capybara.configure do |config|
-  config.javascript_driver = :webkit
-  config.run_server = true
-  config.default_max_wait_time = 30
-  config.always_include_port = true
-  config.default_host = 'http://localhost'
-  config.server_port = 3000
-  config.app_host = 'http://localhost:3000'
-  config.asset_host = 'http://localhost:3000'
-  config.app = Rack::ShowExceptions.new(NMFTool::Application)
-end
-
-Capybara::Webkit.configure do |config|
-  # config.debug = true
-  config.allow_url('https://cdn.rawgit.com/MyScript/myscript-math-web/12aedcb7/docs/components/myscript/dist/myscript.min.js')
-  config.allow_url('cdn.rawgit.com')
-  config.allow_url('https://cdn.rawgit.com/MyScript/myscript-math-web/12aedcb7/docs/components/KaTeX/dist/katex.min.css')
-  config.allow_url('https://s-media-cache-ak0.pinimg.com/236x/21/81/31/21813173e73abfbd07a0f83419a7093c.jpg')
- end

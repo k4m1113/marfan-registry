@@ -31,6 +31,7 @@
     "bootstrap-switch": "^3.3.4",
     "bower": "^1.8.0",
     "bower-webpack-plugin": "^0.1.9",
+    "chromedriver": "^2.31.0",
     "coffee-loader": "^0.7.3",
     "coffee-script": "^1.12.6",
     "compression-webpack-plugin": "^0.4.0",

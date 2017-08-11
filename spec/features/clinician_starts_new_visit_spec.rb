@@ -16,10 +16,9 @@ feature 'clinician can initiate appointment' do
     expect(page).to have_content 'Malaise'
   end
 
-  scenario 'reason for visit added to visit', js: true do
-    # page.execute_script("$(body).append('KAMILLE')")
+  scenario 'reason for visit added to visit', js: true, type: :feature do
     sleep(10)
+    save_and_open_screenshot
     expect(page).to have_content 'Reason for Visit: '
-    save_and_open_page
   end
 end

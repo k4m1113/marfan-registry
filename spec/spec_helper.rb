@@ -2,11 +2,9 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/dsl'
+require 'capybara_helper'
 require 'database_cleaner'
 require 'rake'
-
-Capybara.javascript_driver = :webkit
-Capybara.asset_host = 'http://localhost:3000' 
 
 RSpec.configure do |config|
 
