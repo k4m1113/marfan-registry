@@ -14,7 +14,7 @@ Capybara.register_driver :headless_chrome do |app|
                                  desired_capabilities: capabilities
 end
 
-Selenium::WebDriver::Chrome.driver_path = '/Users/Andromeda/.rubies/ruby-2.3.4/bin/chromedriver'
+Selenium::WebDriver::Chrome.driver_path = ENV['CHROME_DRIVER_PATH']
 
 Capybara.configure do |config|
   config.asset_host = 'http://localhost:3000'
