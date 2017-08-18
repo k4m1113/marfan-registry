@@ -28,3 +28,6 @@ node_modules
 /app/assets/javascripts/react_bundle.js
 /app/assets/stylesheets/react_bundle.css
 .env
+/public/packs
+/public/packs-test
+/node_modules

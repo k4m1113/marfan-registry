@@ -16,10 +16,16 @@ feature 'user adds diagnosis through visit', type: :feature do
     scenario 'from patient page' do
       visit patients_path
       click_link 'Marfan, Antoine'
+      expect(page).to have_current_path patient_path(current_visit.patient_id)
       expect(page).to_not have_content('No concerns noted yet
 ')
 
-      page.find('div.card-header.summary-bar').click
+      page.find('div.card-header.summary-bar', match: :first).click
+      save_and_open_page
+      expect(page).to have_content('Diagnoses')
+      edit_button = page.all('div.btn-group').last.find('a.btn', match: :first)
+      edit_button.click
+      expect(page).to have_current_path edit_diagnosis_path(diagnosis.id)
     end
   end
 end

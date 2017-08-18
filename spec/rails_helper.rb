@@ -21,7 +21,6 @@ RSpec.configure do |config|
     # RAILS_ENV=test webpack --config client/webpack.config.js
     # `bin/webpack --config client/webpack.config.js`
     `RAILS_ENV=test webpack --config client/webpack.config.js`
-    Webpacker::Manifest.load
     DatabaseCleaner.clean_with(:truncation)
     load "#{Rails.root}/db/seeds.rb"
   end
