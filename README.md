@@ -30,6 +30,8 @@ Built with the [National Marfan Foundation](https://www.marfan.org/) and the [Am
 * [Webpack](https://github.com/rails/webpacker) asset management with [Yarn](https://yarnpkg.com/) and [Bower](https://bower.io/) packages
 * [Carrierwave](https://github.com/carrierwaveuploader/carrierwave) photo and document uploading to [AWS](https://aws.amazon.com/)
 * Login/Registration functionality to be implemented with [Devise](https://github.com/plataformatec/devise/wiki)
+* [Foreman](https://theforeman.org/) management of [Puma](http://puma.io/) server
+* Deployment on [Heroku](https://www.heroku.com/home)
 
 ### Testing
 * Model testing with [RSpec](http://rspec.info/) and [FactoryGirl](https://github.com/thoughtbot/factory_girl)

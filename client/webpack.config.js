@@ -115,7 +115,11 @@ module.exports = {
       tether: 'tether'
       // ADD epicMeds, etc?
     }),
-    new ExtractTextPlugin(css_output_template),
+    new ExtractTextPlugin({
+      disable: false,
+      filename: css_output_template,
+      allChunks: true
+    }),
 
     function() {
       // delete previous outputs
