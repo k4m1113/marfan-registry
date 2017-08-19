@@ -60,7 +60,6 @@
     "myscriptjs": "^0.0.1",
     "node-sass": "^4.5.3",
     "path-complete-extname": "^0.1.0",
-    "phantomjs": "^2.1.7",
     "postcss-cssnext": "^3.0.2",
     "postcss-loader": "^2.0.6",
     "postcss-smart-import": "^0.7.5",
@@ -98,7 +97,8 @@
     "eslint-plugin-react": "^7.0.1",
     "expect": "^1.20.2",
     "history": "^4.6.0",
-    "mocha": "^3.2.0"
+    "mocha": "^3.2.0",
+    "phantomjs": "^2.1.7"
   },
   "description": "none",
   "main": "",
