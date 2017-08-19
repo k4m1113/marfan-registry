@@ -6912,10 +6912,10 @@ module.exports = function ($) {
     }
     $('.btn-group-vertical > button').click(function (e) {
       var classes = $(this)[0].classList.value;
-      $current_row = $(this).closest('tr');
-      $current_scribble = $current_row.find('myscript-math-web')[0];
-      $note_field = $current_row.find("textarea")[0];
-      $current_modal = $('.modal.show');
+      var $current_row = $(this).closest('tr');
+      var $current_scribble = $current_row.find('myscript-math-web')[0];
+      var $note_field = $current_row.find("textarea")[0];
+      var $current_modal = $('.modal.show');
 
       if (classes.includes('accept')) {
         if ($current_scribble.result) {

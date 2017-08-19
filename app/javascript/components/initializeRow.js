@@ -42,16 +42,16 @@ module.exports = function($) {
      } else {
        $rowForm.show()
      }
-     $('.btn-group-vertical > button').click(function(e){
-       var classes = $(this)[0].classList.value
-       $current_row = $(this).closest('tr')
-       $current_scribble = $current_row.find('myscript-math-web')[0]
-       $note_field = $current_row.find("textarea")[0]
-       $current_modal = $('.modal.show')
+     $('.btn-group-vertical > button').click(function(e) {
+       const classes = $(this)[0].classList.value
+       const $current_row = $(this).closest('tr')
+       const $current_scribble = $current_row.find('myscript-math-web')[0]
+       const $note_field = $current_row.find("textarea")[0]
+       const $current_modal = $('.modal.show')
 
        if (classes.includes('accept')) {
          if ($current_scribble.result) {
-           var result = $current_scribble.result['LATEX']
+           const result = $current_scribble.result['LATEX']
            $note_field.value += result
            $current_modal.modal('hide')
          }
