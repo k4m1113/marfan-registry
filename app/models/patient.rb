@@ -190,21 +190,27 @@ class Patient < ApplicationRecord
   end
 
   def sort_by_topic
-    letter_sort_by_topic.merge(
+    conc = letter_sort_by_topic.merge(
       'family history': concerns.select { |c| c.topic.root.name == 'family history' },
       'medication': concerns.select { |c| c.topic.root.name == 'medication' },
       'vitals': concerns.select { |c| c.topic.root.name == 'vitals' },
       'heart_measurements': concerns.select { |c| c.topic.topic_type == 'heart_measurement'},
       'lifestyle': concerns.select { |c| c.topic.root.name == 'lifestyle' },
     )
+    conc.all? { |_k, v| v.empty? } ? 'No concerns noted yet' : conc
   end
 
   def sort_by_topic_then_type
     all = sort_by_topic
-    all.map { |k, v| [k, v.group_by(&:class)] }.to_h
-    k = all.transform_values { |arr|
-      arr.group_by(&:class).transform_keys { |key| key.name.pluralize }
-    }
-    k
+    if all.class == Hash
+      all.map { |k, v| [k, v.group_by(&:class)] }.to_h
+      k = all.transform_values { |arr|
+        arr.group_by(&:class).transform_keys { |key| key.name.pluralize }
+      }
+      result = k
+    elsif all.class == String
+      result = 'No concerns noted yet'
+    end
+    result
   end
 end

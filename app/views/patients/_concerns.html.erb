@@ -1,11 +1,7 @@
 <h4>
   Concerns
 </h4>
-<% if concerns.all? { |k,v| v.empty? } %>
-  No concerns noted yet
-<% else %>
   <%= render 'visits/show_accordion', concerns: concerns %>
-<% end %>
 <script>
 $('a.open-tab').on("click", function(){
   // accordion-style collapse

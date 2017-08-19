@@ -19,7 +19,7 @@ module.exports = function familyTreeBody(person, topic, field, index, patient, v
   const returnStatement = `<div data-target="#${relationship}${index}Modal" data-toggle="modal">
     ${title}
   </div>
-  <div class="modal fade family" id="${relationship}${index}Modal" tabindex="-1" role="dialog" aria-labelledby="${relationship}${index}Label" aria-hidden="true">
+  <div class="modal family" id="${relationship}${index}Modal" tabindex="-1" role="dialog" aria-labelledby="${relationship}${index}Label" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">

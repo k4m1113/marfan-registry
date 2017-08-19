@@ -12,7 +12,6 @@ class Test < ApplicationRecord
 
   before_create :concat_result,
                 :timeify
-  after_save { |t| t.destroy if t.result.nil? }
 
   belongs_to :topic
   belongs_to :visit,

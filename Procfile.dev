@@ -1,2 +1,2 @@
-web: rails s -p 3000
+web: rails s -p 3000 -b 192.168.1.105
 client: sh -c 'rm public/javascripts/application.js || true && cd client && yarn run build:development'

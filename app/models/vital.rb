@@ -4,7 +4,6 @@ class Vital < ApplicationRecord
                 :test_unit_of_meas
 
   before_create :calculate_metric
-  after_save { |v| v.destroy if v.measurement.blank? }
 
   belongs_to :topic
   belongs_to :patient,

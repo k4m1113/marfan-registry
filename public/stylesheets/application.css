@@ -12826,6 +12826,9 @@ table.family-tree {
 .rightborder {
   border-right: solid 2px black; }
 
+.person_name, .lifespan {
+  cursor: pointer; }
+
 .bootstrap-switch {
   width: 200px; }
 

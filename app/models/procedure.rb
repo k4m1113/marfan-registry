@@ -12,16 +12,12 @@ class Procedure < ApplicationRecord
   before_create :concat_time_ago,
                 :descriptors_to_note
 
-  after_save { |p| p.destroy if (p.time_ago.nil? && p.note.blank? && p.attachment.nil?) }
-
   belongs_to :topic
   belongs_to :visit,
              inverse_of: :procedures,
              required: false
   belongs_to :patient,
              inverse_of: :procedures
-
-  after_save { |p| p.destroy if p.note.nil? }
 
   def self.attributes
     [:topic_id, :patient_id, :clinician_id, :present, :note, :attachment, :present, :time_ago_amount, :time_ago_scale, :absolute_start_date, descriptors: []]

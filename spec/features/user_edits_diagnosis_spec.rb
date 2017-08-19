@@ -5,24 +5,25 @@ feature 'user adds diagnosis through visit', type: :feature do
   context 'with positive osteoporosis diagnosis' do
     let!(:current_visit) {
       FactoryGirl.create(:visit,
-                         patient_id: 1)
+                         patient: Patient.last)
     }
     let!(:diagnosis) {
       FactoryGirl.create(:diagnosis,
-                         patient_id: 1,
-                         visit_id: current_visit.id)
+                         patient: Patient.last,
+                         visit: current_visit,
+                         note: 'taking calcium supplements')
     }
 
-    scenario 'from patient page' do
+    scenario 'from patient page', js: true do
       visit patients_path
-      click_link 'Marfan, Antoine'
-      expect(page).to have_current_path patient_path(current_visit.patient_id)
-      expect(page).to_not have_content('No concerns noted yet
-')
+      page.all("a[rel='next']").last.click
+      click_link 'Macbeth, Lady'
+      expect(page).to have_current_path patient_path(current_visit.patient.id)
+      # binding.remote_pry
+      expect(page).to_not have_content('No concerns noted yet')
 
-      page.find('div.card-header.summary-bar', match: :first).click
-      save_and_open_page
-      expect(page).to have_content('Diagnoses')
+      expect(page).to have_content('orthopedic concerns')
+      page.find('a.open-tab').click
       edit_button = page.all('div.btn-group').last.find('a.btn', match: :first)
       edit_button.click
       expect(page).to have_current_path edit_diagnosis_path(diagnosis.id)
