@@ -1,4 +1,3 @@
-require "spec_helper"
 require "rails_helper"
 
 feature "patient search returns list of patients" do
@@ -13,7 +12,7 @@ feature "patient search returns list of patients" do
   scenario "user does not query search" do
     expect(page).to have_content("All Patients")
     expect(page).to have_content("Antoine")
-    
+
     expect(page).to_not have_content("Liang")
   end
 

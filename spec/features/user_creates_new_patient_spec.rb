@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'spec_helper'
+
 
 feature 'user can add new patient' do
 

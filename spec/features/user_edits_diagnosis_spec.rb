@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'spec_helper'
+
 
 feature 'user adds diagnosis through visit', type: :feature do
   context 'with positive osteoporosis diagnosis' do

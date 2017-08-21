@@ -8,7 +8,8 @@ require 'support/factory_girl'
 require 'rack/utils'
 require 'capybara/rspec'
 require 'capybara/rails'
-require 'spec_helper'
+require 'capybara/dsl'
+require 'capybara_helper'
 require 'rails/all'
 require 'database_cleaner'
 
@@ -18,15 +19,9 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
-    # RAILS_ENV=test webpack --config client/webpack.config.js
-    # `bin/webpack --config client/webpack.config.js`
     `RAILS_ENV=test webpack --config client/webpack.config.js`
     DatabaseCleaner.clean_with(:truncation)
-    load "#{Rails.root}/db/seeds.rb"
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
+    Rails.application.load_seed
   end
 
   config.before(:each, type: :feature) do
@@ -34,6 +29,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.start
   end
 
@@ -48,4 +44,12 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
 
   config.include Capybara::DSL
+
+  config.expect_with :rspec do |expectations|
+    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+  end
+
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
+  end
 end

@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'spec_helper'
+
 require 'rspec/expectations'
 
 feature 'clinician can initiate appointment' do
