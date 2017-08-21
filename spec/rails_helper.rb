@@ -25,7 +25,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each, type: :feature) do
-    driver_shares_db_connection_with_specs = Capybara.current_driver == Capybara.javascript_driver
+    driver_shares_db_connection_with_specs = true
   end
 
   config.before(:each) do
@@ -33,7 +33,7 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.append_after(:each) do
     DatabaseCleaner.clean
   end
 
