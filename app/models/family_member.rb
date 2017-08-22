@@ -25,9 +25,6 @@ class FamilyMember < ApplicationRecord
 
   self.per_page = 10
 
-  Patient.last.common_content
-  fam = Patient.last.family_member_ids
-
   def self.attributes
     [:visit_id, :patient_id, :topic_id, :future_patient_data_hash, :family_member, :claimed_patient_id,  :attachment, concerns: [], future_patient_data_hash:
       %i[first_name last_name born_years_ago date_of_birth deceased death_time_ago death_time_ago_scale death_date cause_of_death note]]
@@ -50,10 +47,10 @@ class FamilyMember < ApplicationRecord
              required: false
   validates :topic_id,
             numericality: {
-              only_integer: true
+              only_integer: true,
+              greater_than: 0
             },
-            presence: true,
-            inclusion: fam
+            presence: true
   validates :claimed_patient_id,
             numericality: {
               only_integer: true,

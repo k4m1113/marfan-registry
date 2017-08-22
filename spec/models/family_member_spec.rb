@@ -3,8 +3,8 @@ include CommonContent
 
 describe FamilyMember, type: :model do
   context 'with valid attributes' do
-    let(:family_member) { FactoryGirl.create :family_member }
-    let(:bio) { family_member.generate_summary }
+    let!(:family_member) { FactoryGirl.create :family_member }
+    let!(:bio) { family_member.generate_summary }
 
     describe 'Validations' do
       it 'is valid with valid attributes' do

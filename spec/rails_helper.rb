@@ -19,7 +19,6 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
-    `RAILS_ENV=test webpack --config client/webpack.config.js`
     DatabaseCleaner.clean_with(:truncation)
     Rails.application.load_seed
   end
@@ -29,7 +28,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.strategy = :truncation, { except: %w[topics patients clinicians] }
     DatabaseCleaner.start
   end
 

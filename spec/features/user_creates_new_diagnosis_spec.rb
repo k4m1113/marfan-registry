@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-
 feature 'user adds diagnosis through visit', type: :feature do
   background do
     visit '/patients'
+    # save_and_open_page
     click_button 'New Visit', match: :first
   end
 

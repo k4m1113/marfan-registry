@@ -12,7 +12,7 @@
     "postinstall": "cd client && yarn install && cd .. && bower install",
     "heroku-postbuild": "yarn run webpack:deploy",
     "rails-server": "echo 'visit http://localhost:3000/hello_world' && foreman start -f Procfile.dev",
-    "test": "rspec"
+    "test": "RAILS_ENV=test webpack --config client/webpack.config.js"
   },
   "dependencies": {
     "autoprefixer": "^7.1.1",
