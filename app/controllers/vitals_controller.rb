@@ -31,6 +31,7 @@ class VitalsController < ApplicationController
     respond_to do |format|
       if @vital.update(vital_params)
         flash[:success] = "Vital #{@vital.id} for #{find_trail(@vital.topic_id)} updated record"
+        redirect_to session[:back_to] ||= request.referer
       else
         format.html { render :edit }
         format.json { render json: @vital.errors, status: :unprocessable_entity }

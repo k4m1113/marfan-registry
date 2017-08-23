@@ -17,6 +17,7 @@ class PatientsController < ApplicationController
     @sorted_concerns = @patient.sort_by_topic_then_type
     @vitals = @patient.vitals_by_date
     @imagery = @patient.heart_measurements_by_date
+    session[:back_to] = patient_path(@patient)
   rescue ActiveRecord::RecordNotFound => e
     flash[:danger] = "Record Not Found"
     redirect_to patients_path

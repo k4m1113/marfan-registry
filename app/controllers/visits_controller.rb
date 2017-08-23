@@ -30,7 +30,7 @@ class VisitsController < ApplicationController
   def edit
     @visit = Visit.find(params[:id])
     @patient = Patient.find(@visit.patient.id)
-
+    session[:back_to] = edit_visit_path(@visit)
     edit_visit_content
 
   rescue ActiveRecord::RecordNotFound => e

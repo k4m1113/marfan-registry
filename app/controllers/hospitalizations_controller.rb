@@ -27,7 +27,7 @@ class HospitalizationsController < ApplicationController
     @hospitalization = Hospitalization.find(params[:id])
     if @hospitalization.update(hospitalization_params)
       flash[:success] = "Successfully updated hospitalization #{find_trail(@procedure.topic_id)}"
-      redirect_to :back
+      redirect_to session[:back_to] ||= request.referer
     else
       flash[:danger] = "Error updating hospitalization: #{@hospitalization.errors.full_messages}"
       redirect_to edit_hospitalization_path(@hospitalization.id)

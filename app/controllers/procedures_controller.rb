@@ -32,7 +32,7 @@ class ProceduresController < ApplicationController
       @form_action = "Update"
       if @procedure.update(procedure_params)
         flash[:success] = "Successfully updated procedure #{find_trail(@procedure.topic_id)}"
-        redirect_to :back
+        redirect_to session[:back_to] ||= request.referer
       else
         flash[:danger] = "Error updating procedure: #{@procedure.errors.full_messages}"
         redirect_to edit_procedure_path(@procedure.id)

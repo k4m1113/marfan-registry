@@ -47,10 +47,11 @@ class FamilyMembersController < ApplicationController
     @family_member = FamilyMember.find(params[:id])
     if @family_member.update(family_member_params)
       flash[:success] = "Family Member #{@family_member.id} updated"
+      redirect_to session[:back_to] ||= request.referer
     else
       flash[:danger] = "Please correct the following errors: #{@family_member.errors.full_messages}"
+      redirect_to edit_family_member_path(@family_member)
     end
-    redirect_to edit_visit_path(@family_member.visit_id)
   end
 
   def destroy

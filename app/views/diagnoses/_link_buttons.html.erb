@@ -1,5 +1,5 @@
 <div class="btn-group" role="group">
-  <%= link_to edit_diagnosis_path(id: d.id), method: :get, class: "btn btn-secondary btn-sm" do %>
+  <%= link_to edit_diagnosis_path(d), method: :get, class: "btn btn-secondary btn-sm" do %>
     <i class="fa fa-pencil"></i>
   <% end %>
   <%= link_to diagnosis_path(id: d.id), method: :delete, class: "btn btn-secondary btn-sm", data: { confirm: "Are you sure you want to delete diagnosis #{d.id} for #{d.topic.name} from record of #{d.patient.full_name}?"} do %>

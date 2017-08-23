@@ -31,7 +31,7 @@ class DissectionsController < ApplicationController
     @dissection = Dissection.find(params[:id])
     if @dissection.update(dissection_params)
       flash[:success] = "Successfully updated dissection #{find_trail(@dissection.topic_id)}"
-      redirect_to :back
+      redirect_to session[:back_to] ||= request.referer
     else
       flash[:danger] = "Error updating dissection: #{@dissection.errors.full_messages}"
       redirect_to edit_dissection_path(@dissection.id)

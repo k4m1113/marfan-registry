@@ -31,7 +31,7 @@ class GeneticTestsController < ApplicationController
     @genetic_test = GeneticTest.find(params[:id])
     if @genetic_test.update(genetic_test_params)
       flash[:success] = "Successfully updated genetic_test #{find_trail(@genetic_test.topic_id)}"
-      redirect_to :back
+      redirect_to session[:back_to] ||= request.referer
     else
       flash[:danger] = "Error updating genetic_test: #{@genetic_test.errors.full_messages}"
       redirect_to edit_genetic_test_path(@genetic_test.id)

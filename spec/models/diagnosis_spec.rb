@@ -28,7 +28,7 @@ describe Diagnosis, type: :model do
                                    present: nil,
                                    patient: nil
 
-        expect { reject.save }.to raise_error
+        expect { reject.save }.to raise_error ActiveRecord::NotNullViolation
       end
     end
 

@@ -22,7 +22,7 @@ class TestsController < ApplicationController
     if @test.save
       message = "#{@test.note} of #{find_pretty_trail(@test.topic_id)} added"
       flash[:success] = message
-      redirect_to edit_visit_path(@test.visit_id)
+      redirect_to session[:back_to] ||= request.referer
     else
       message = "Please re-check information: #{@test.errors.full_messages}"
       flash[:danger] = message

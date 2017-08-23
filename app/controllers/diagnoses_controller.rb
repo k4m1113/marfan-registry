@@ -11,11 +11,10 @@ class DiagnosesController < ApplicationController
     @diagnosis = Diagnosis.find(params[:id])
     if @diagnosis.update(diagnosis_params)
       flash[:success] = "#{@diagnosis.generate_summary} updated for patient #{@diagnosis.patient.full_name}"
-      redirect_to edit_visit_path(@diagnosis.visit_id)
+      redirect_to session[:back_to] ||= request.referer
     else
-      flash[:danger]
-      render json: @diagnosis.errors, status: :unprocessable_entity
-      redirect_to edit_visit_path(@diagnosis.visit_id)
+      flash[:danger] = "Please re-check information: #{@diagnosis.errors.full_messages}"
+      redirect_to edit_diagnosis_path(@diagnosis.visit_id)
     end
   end
 

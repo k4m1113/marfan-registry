@@ -31,7 +31,7 @@ class MedicationsController < ApplicationController
     @medication = Medication.find(params[:id])
     if @medication.update(medication_params)
       flash[:success] = "#{@medication.note} of #{find_trail(@medication.topic_id)} added to visit"
-      redirect_to edit_visit_path(@medication.visit_id)
+      redirect_to session[:back_to] ||= request.referer
     else
       flash[:danger]
       render json: @medication.errors, status: :unprocessable_entity
