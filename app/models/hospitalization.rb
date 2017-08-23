@@ -10,7 +10,8 @@ class Hospitalization < ApplicationRecord
                 :duration_scale,
                 :absolute_start_date
 
-  belongs_to :topic
+  belongs_to :topic,
+             required: true
   belongs_to :patient,
              inverse_of: :hospitalizations
 

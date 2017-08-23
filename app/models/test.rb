@@ -13,7 +13,8 @@ class Test < ApplicationRecord
   before_create :concat_result,
                 :timeify
 
-  belongs_to :topic
+  belongs_to :topic,
+             required: true
   belongs_to :visit,
              inverse_of: :tests,
              required: false
@@ -81,7 +82,7 @@ class Test < ApplicationRecord
   def generate_summary
     return "#{self.topic.name} was #{self.result}"
   end
-  
+
   def generate_full_summary
     generate_summary
   end

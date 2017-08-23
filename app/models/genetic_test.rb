@@ -16,7 +16,8 @@ class GeneticTest < ApplicationRecord
                 :concat_note
 
   # RELATIONSHIPS
-  belongs_to :topic
+  belongs_to :topic,
+             required: true
   belongs_to :visit,
              inverse_of: :genetic_tests,
              required: false

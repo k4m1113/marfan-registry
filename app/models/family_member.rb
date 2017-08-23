@@ -40,7 +40,8 @@ class FamilyMember < ApplicationRecord
 
   belongs_to :patient,
              inverse_of: :family_members
-  belongs_to :topic
+  belongs_to :topic,
+             required: true
 
   belongs_to :visit,
              inverse_of: :family_members,

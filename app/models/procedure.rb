@@ -12,7 +12,8 @@ class Procedure < ApplicationRecord
   before_create :concat_time_ago,
                 :descriptors_to_note
 
-  belongs_to :topic
+  belongs_to :topic,
+             required: true
   belongs_to :visit,
              inverse_of: :procedures,
              required: false

@@ -13,7 +13,8 @@ class HeartMeasurement < ApplicationRecord
               :descriptors_to_note,
               :timeify
 
-  belongs_to :topic
+  belongs_to :topic,
+             required: true
   belongs_to :visit,
              inverse_of: :heart_measurements,
              required: false

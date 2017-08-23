@@ -9,7 +9,8 @@ class Medication < ApplicationRecord
 
   before_create :current_or_not
 
-  belongs_to :topic
+  belongs_to :topic,
+             required: true
   belongs_to :patient,
              inverse_of: :medications
 

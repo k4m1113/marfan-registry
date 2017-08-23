@@ -8,7 +8,8 @@ class Dissection < ApplicationRecord
                 :time_ago_scale
 
   # RELATIONSHIPS
-  belongs_to :topic
+  belongs_to :topic,
+             required: true
   belongs_to :visit,
              inverse_of: :dissections,
              required: false

@@ -5,7 +5,8 @@ class Vital < ApplicationRecord
 
   before_create :calculate_metric
 
-  belongs_to :topic
+  belongs_to :topic,
+             required: true
   belongs_to :patient,
              inverse_of: :vitals,
              required: true
