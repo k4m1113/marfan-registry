@@ -79,15 +79,9 @@ class Test < ApplicationRecord
   end
 
   def generate_summary
-    if self.absolute_start_date
-      absolute_start_date = self.absolute_start_date
-    elsif self.time_ago && self.time_ago_scale
-      absolute_start_date = find_date(self.time_ago, self.time_ago_scale, self.created_at)
-    else
-      absolute_start_date = self.created_at
-    end
-    return "#{topic.name} was #{self.result}"
+    return "#{self.topic.name} was #{self.result}"
   end
+  
   def generate_full_summary
     generate_summary
   end

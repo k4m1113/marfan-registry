@@ -18,7 +18,7 @@ class Vital < ApplicationRecord
   end
 
   def generate_summary
-    "#{topic.name} was #{measurement}#{topic.units_of_measurement[0]}"
+    "#{self.topic.name} was #{measurement}#{self.topic.units_of_measurement[0]}"
   end
 
   def generate_full_summary
@@ -34,7 +34,7 @@ class Vital < ApplicationRecord
   end
 
   def calculate_metric
-    if ['height', 'weight'].include? topic.name
+    if ['height', 'weight'].include? self.topic.name
       unless self.test_amount.blank? || self.test_unit_of_meas.blank?
         unit = Unit.new("#{self.test_amount} #{self.test_unit_of_meas}")
         self.measurement = unit.base.scalar.to_f.round(3)

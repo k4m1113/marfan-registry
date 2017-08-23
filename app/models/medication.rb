@@ -46,9 +46,9 @@ class Medication < ApplicationRecord
     end
 
     if !common_name.nil? && !dose.nil?
-      name = "#{self.name} (#{common_name.upcase}) #{sprintf('%g', dose)} #{dose_unit_of_measurement} #{dosage_form}"
+      self.name = "#{self.name} (#{common_name.upcase}) #{sprintf('%g', dose)} #{dose_unit_of_measurement} #{dosage_form}"
     else
-      name = self.name.to_s
+      self.name = self.name.to_s
     end
     {
       'date': created_at.strftime('%B %Y'),
@@ -71,14 +71,14 @@ class Medication < ApplicationRecord
 
   def generate_summary
     summ = "#{name.downcase}"
-    summ << "( #{topic.parent.name.with_indefinite_article.singularize})" unless topic_id == 66 || topic.depth < 1
+    summ << "( #{self.topic.parent.name.with_indefinite_article.singularize})" unless topic_id == 66 || topic.depth < 1
     summ
   end
 
   def generate_full_summary
     summ = "#{name.downcase}"
-    unless topic_id == 66 || topic.depth < 1
-      summ << ", #{topic.parent.name.with_indefinite_article.singularize},"
+    unless self.topic_id == 66 || self.topic.depth < 1
+      summ << ", #{self.topic.parent.name.with_indefinite_article.singularize},"
     end
     if common_name.nil?
       summ << " #{ingestion_method.downcase.gsub(/^take /, '').gsub(/^place /, '').rstrip.gsub(/\.$/, '')}"
