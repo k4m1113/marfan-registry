@@ -21,7 +21,7 @@ feature 'user edits diagnosis', type: :feature do
     scenario 'from patient page', js: true do
       visit patients_path
       page.all("a[rel='next']").last.click
-      click_link 'Oyl, Olive'
+      page.find("a[href='/patients/#{patient.id}']", text: patient.full_name.strip).click
       expect(page).to have_current_path patient_path(current_visit.patient.id)
       expect(page).to_not have_content('No concerns noted yet')
 
