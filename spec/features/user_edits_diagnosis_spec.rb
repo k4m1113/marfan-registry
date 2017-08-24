@@ -55,7 +55,7 @@ feature 'user edits diagnosis', type: :feature do
       expect(page).to have_current_path edit_diagnosis_path(diagnosis.id)
       expect(page).to have_content diagnosis.generate_full_summary
 
-      fill_in 'diagnosis_frequency', with: '2 times per decade'
+      fill_in 'diagnosis_frequency', with: '8 times per lifetime'
       page.find("button[type='submit']").click
       expect(page).to have_current_path edit_visit_path(current_visit.id)
 
@@ -63,7 +63,7 @@ feature 'user edits diagnosis', type: :feature do
       expect(alert).to have_content "#{diagnosis.generate_summary} updated for patient Oyl, Olive"
 
       summary_bar.click
-      expect(page).to have_content '2 times per decade'
+      expect(page).to have_content '8 times per lifetime'
     end
   end
 end

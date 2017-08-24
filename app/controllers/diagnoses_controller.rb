@@ -22,7 +22,7 @@ class DiagnosesController < ApplicationController
     @diagnosis = Diagnosis.find(params[:id])
     @diagnosis.destroy
     flash[:success] = "Diagnosis #{@diagnosis.id} for #{find_trail(@diagnosis.topic_id)} deleted from record"
-    redirect_to edit_visit_path(@diagnosis.visit_id)
+    redirect_to session[:back_to] ||= request.referer
   end
 
   def back_url

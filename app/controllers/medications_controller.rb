@@ -43,7 +43,7 @@ class MedicationsController < ApplicationController
     @medication = Medication.find(params[:id])
     @medication.destroy
     flash[:success] = "Medication #{@medication.id} for #{find_trail(@medication.topic_id)} deleted from record"
-    redirect_to :back
+    redirect_to session[:back_to] ||= request.referer
   end
 
   def back_url

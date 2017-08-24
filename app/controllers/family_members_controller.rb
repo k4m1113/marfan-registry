@@ -57,8 +57,9 @@ class FamilyMembersController < ApplicationController
   def destroy
     FamilyMember.find(params[:id]).destroy
     flash[:success] = 'Relationship record destroyed.'
-    redirect_to :back
+    redirect_to session[:back_to] ||= request.referer
   end
+  
   def back_url
     request.referer
   end

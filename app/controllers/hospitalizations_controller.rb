@@ -38,7 +38,7 @@ class HospitalizationsController < ApplicationController
     @hospitalization = Hospitalization.find(params[:id])
     @hospitalization.destroy
     flash[:success] = "Hospitalization #{@hospitalization.id} for #{find_trail(@hospitalization.topic_id)} deleted from record"
-    redirect_to :back
+    redirect_to session[:back_to] ||= request.referer
   end
 
   private

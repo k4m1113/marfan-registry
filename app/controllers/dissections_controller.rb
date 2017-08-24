@@ -42,7 +42,7 @@ class DissectionsController < ApplicationController
     @dissection = Dissection.find(params[:id])
     @dissection.destroy
     flash[:success] = "Dissection #{@dissection.id} for #{find_trail(@dissection.topic_id)} deleted from record"
-    redirect_to :back
+    redirect_to session[:back_to] ||= request.referer
   end
 
   def back_url

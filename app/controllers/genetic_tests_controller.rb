@@ -42,7 +42,7 @@ class GeneticTestsController < ApplicationController
     @genetic_test = GeneticTest.find(params[:id])
     @genetic_test.destroy
     flash[:success] = "GeneticTest #{@genetic_test.id} for #{find_trail(@genetic_test.topic_id)} deleted from record"
-    redirect_to :back
+    redirect_to session[:back_to] ||= request.referer
   end
 
   def back_url
