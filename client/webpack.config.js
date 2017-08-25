@@ -2,16 +2,18 @@
  {"functions": "never", "arrays": "only-multiline", "objects":
  "only-multiline"} ] */
 
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const fs = require('fs');
-const webpack = require("webpack");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const Dotenv = require("dotenv-webpack")
-var path = require("path");
+const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack')
+var path = require('path');
 var node_dir = path.join(__dirname, '/node_modules');
 var bower_dir = path.join(__dirname, '/bower_components');
 const prod = process.argv.indexOf('-p') !== -1;
-const css_output_template = prod ? "stylesheets/[name]-[hash].css" : "stylesheets/[name].css";
-const js_output_template = prod ? "javascripts/[name]-[hash].js" : "javascripts/[name].js";
+const css_output_template = prod ?'stylesheets/[name]-[hash].css' : 'stylesheets/[name].css';
+const js_output_template = prod ? 'javascripts/[name]-[hash].js' : 'javascripts/[name].js';
 require('lodash')
 
 
@@ -74,7 +76,17 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        loader: 'html-loader'
+        use: [
+          {
+            loader: 'babel-loader',
+            query: {
+              presets: ['es2015', 'react']
+            }
+          },
+          {
+            loader: 'polymer-webpack-loader'
+          }
+        ]
       },
       {
         test: /\.(woff2?|svg)$/,

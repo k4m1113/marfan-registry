@@ -1,3 +1,18 @@
+<paper-input label="Your name here"></paper-input>
+
+<myscript-text-web
+  applicationkey="<%= ENV['MYSCRIPT_KEY']%>"
+  hmackey="<%= ENV['MYSCRIPT_HMAC']%>"
+  protocol="REST"
+  hideresult="true"
+  hidebuttons="true"
+  timeout="1000"
+  recognitioncandidates="3"
+  class="scribble"
+  id="k_scribble"
+  language="en_US">
+</myscript-text-web>
+
 <div class="patient-show" data-spy="scroll" data-target="#navbar-example" data-offset="0">
   <% content_for :navbar do %>
     <%= render 'show_nav.html.erb', patient: @patient %>
