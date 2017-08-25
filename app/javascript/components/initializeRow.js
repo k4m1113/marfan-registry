@@ -45,7 +45,7 @@ module.exports = function($) {
      $('.btn-group-vertical > button').click(function(e) {
        const classes = $(this)[0].classList.value
        const $current_row = $(this).closest('tr')
-       const $current_scribble = $current_row.find('myscript-math-web')[0]
+       const $current_scribble = $current_row.find('myscript-text-web')[0]
        const $note_field = $current_row.find("textarea")[0]
        const $current_modal = $('.modal.show')
 

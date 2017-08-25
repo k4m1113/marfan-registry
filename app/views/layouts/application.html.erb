@@ -7,12 +7,14 @@
     <%= stylesheet_link_tag fingerprinted_asset('application'), media: 'all', skip_pipeline: true %>
     <%= javascript_include_tag fingerprinted_asset('application'), skip_pipeline: true %>
     <%= csrf_meta_tags %>
-    <link rel="import" href="https://cdn.rawgit.com/MyScript/myscript-math-web/12aedcb7/docs/components/myscript-math-web/myscript-math-web.html">
+
     <title>NMF Tool</title>
 
   </head>
 
   <body>
+    <img src="<%= image_path 'images.jpeg' %>" alt="">
+
   <nav class="navbar navbar-toggleable-sm navbar-light bg-faded">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

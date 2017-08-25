@@ -5,16 +5,18 @@ module.exports = function scribbleButton(title, mskey, mshmac) {
         <div class="modal-content scribble">
           <div class="form-inline">
             <div touch-action="none">
-              <myscript-math-web
+              <myscript-text-web
                 applicationkey="${mskey}"
                 hmackey="${mshmac}"
                 protocol="REST"
                 hideresult="true"
                 hidebuttons="true"
                 timeout="1000"
+                recognitioncandidates="3"
                 class="scribble"
-                id="${title}_scribble">
-              </myscript-math-web>
+                id="${title}_scribble"
+                language="en_US">
+              </myscript-text-web>
             </div>
             <div class="btn-group-vertical">
               <button type="button" class="btn btn-primary accept">
