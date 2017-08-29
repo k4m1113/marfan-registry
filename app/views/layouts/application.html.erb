@@ -6,6 +6,9 @@
     <link rel="icon" href="https://s-media-cache-ak0.pinimg.com/236x/21/81/31/21813173e73abfbd07a0f83419a7093c.jpg" />
     <%= stylesheet_link_tag fingerprinted_asset('application'), media: 'all', skip_pipeline: true %>
     <%= javascript_include_tag fingerprinted_asset('application'), skip_pipeline: true %>
+    <%= javascript_include_tag 'webcomponentsjs/webcomponents-lite', skip_pipeline: true %>
+    <link rel="import" href="/webcomponents/myscript-text-web/myscript-text-web.html"
+
     <%= csrf_meta_tags %>
 
     <title>NMF Tool</title>
@@ -13,8 +16,6 @@
   </head>
 
   <body>
-    <img src="<%= image_path 'images.jpeg' %>" alt="">
-
   <nav class="navbar navbar-toggleable-sm navbar-light bg-faded">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -47,7 +48,6 @@
       <%= yield %>
 
     </div>
-
   <% end %>
   </body>
 </html>

@@ -3,7 +3,6 @@
  "only-multiline"} ] */
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const fs = require('fs');
 const webpack = require('webpack');
@@ -68,6 +67,10 @@ module.exports = {
         }
       },
       {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
@@ -78,13 +81,12 @@ module.exports = {
         test: /\.html$/,
         use: [
           {
-            loader: 'babel-loader',
-            query: {
-              presets: ['es2015', 'react']
+            loader: 'html-loader',
+            options: {
+              attrs: ['link:href'],
+              minimize: true,
+              removeComments: true
             }
-          },
-          {
-            loader: 'polymer-webpack-loader'
           }
         ]
       },
@@ -136,6 +138,25 @@ module.exports = {
       filename: css_output_template,
       allChunks: true
     }),
+
+    new CopyWebpackPlugin([
+      {
+        from: '../bower_components/webcomponentsjs',
+        to: 'javascripts/webcomponentsjs'
+      },
+      {
+        from: '../bower_components/polymer',
+        to: 'webcomponents/polymer'
+      },
+      {
+        from: '../bower_components/myscript-text-web',
+        to: 'webcomponents/myscript-text-web'
+      },
+      {
+        from: '../bower_components/myscript-common-element',
+        to: 'webcomponents/myscript-common-element'
+      }
+    ]),
 
     function() {
       // delete previous outputs

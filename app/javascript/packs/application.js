@@ -25,16 +25,11 @@ import 'virtual-keyboard/dist/js/jquery.keyboard.js'
 import 'bootstrap'
 import 'bootstrap-switch/dist/js/bootstrap-switch.js'
 import 'font-awesome-webpack'
-import 'webcomponentsjs/webcomponents-lite.js'
 import '../components/epicMeds'
 import '../components/medMapper'
 import '../components/addKeyboard'
 import '../components/nestedList'
 import '../components/row_form_pieces/rowForm'
-import 'myscript-text-web/myscript-text-web.html'
-import 'paper-input/paper-input.html'
-
-// import html from '!!html-loader?attrs=link:href&minimize=true!myscript-text-web/myscript-text-web.html'
 
 require('expose-loader?parseMed!../components/parseMed');
 
