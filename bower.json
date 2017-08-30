@@ -15,6 +15,7 @@
     "tests"
   ],
   "dependencies": {
+    "myscript-math-web": "^1.2.3",
     "myscript-text-web": "^1.2.3"
   },
   "resolutions": {

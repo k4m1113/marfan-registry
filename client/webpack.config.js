@@ -141,20 +141,12 @@ module.exports = {
 
     new CopyWebpackPlugin([
       {
-        from: '../bower_components/webcomponentsjs',
-        to: 'javascripts/webcomponentsjs'
+        from: '../bower_components/',
+        to: 'javascripts/'
       },
       {
-        from: '../bower_components/polymer',
-        to: 'webcomponents/polymer'
-      },
-      {
-        from: '../bower_components/myscript-text-web',
-        to: 'webcomponents/myscript-text-web'
-      },
-      {
-        from: '../bower_components/myscript-common-element',
-        to: 'webcomponents/myscript-common-element'
+        from: '../bower_components/myscript/dist/myscript.js',
+        to: 'javascripts/myscript/dist/myscript.js'
       }
     ]),
 

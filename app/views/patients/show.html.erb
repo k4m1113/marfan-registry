@@ -1,4 +1,4 @@
-<myscript-text-web
+<!-- <myscript-text-web
   applicationkey="<%= ENV['MYSCRIPT_KEY']%>"
   hmackey="<%= ENV['MYSCRIPT_HMAC']%>"
   protocol="REST"
@@ -9,7 +9,12 @@
   class="scribble"
   id="k_scribble"
   language="en_US">
-</myscript-text-web>
+</myscript-text-web> -->
+<myscript-math-web
+  applicationkey="<%= ENV['MYSCRIPT_KEY'] %>"
+  hmackey="<%= ENV['MYSCRIPT_HMAC'] %>"
+  id="ka_scrib">
+</myscript-math-web>
 
 <div class="patient-show" data-spy="scroll" data-target="#navbar-example" data-offset="0">
   <% content_for :navbar do %>

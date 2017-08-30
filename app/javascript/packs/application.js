@@ -30,6 +30,7 @@ import '../components/medMapper'
 import '../components/addKeyboard'
 import '../components/nestedList'
 import '../components/row_form_pieces/rowForm'
+import 'myscript/dist/myscript.js'
 
 require('expose-loader?parseMed!../components/parseMed');
 
@@ -56,4 +57,5 @@ require('expose-loader?visitHeader!../components/visitHeader.js');
 require('expose-loader?reasonForVisitHeader!../components/reasonForVisitHeader.js');
 require('expose-loader?unitConverter!../components/unitConverter');
 
+require('expose-loader?MyScript!myscript/dist/myscript.js');
 require('expose-loader?$!expose-loader?jQuery!jquery');
