@@ -28,7 +28,6 @@ import 'font-awesome-webpack'
 import '../components/epicMeds'
 import '../components/medMapper'
 import '../components/addKeyboard'
-import '../components/nestedList'
 import '../components/row_form_pieces/rowForm'
 import 'myscript/dist/myscript.js'
 
@@ -51,9 +50,7 @@ require('expose-loader?initializeRow!../components/initializeRow.js');
 require('expose-loader?scribbleButton!../components/row_form_pieces/scribbleButton.js');
 require('expose-loader?medMapper!../components/medMapper.js');
 require('expose-loader?epicMeds!../components/epicMeds.js');
-require('expose-loader?nestedList!../components/nestedList');
 require('expose-loader?rowForm!../components/row_form_pieces/rowForm');
-require('expose-loader?visitHeader!../components/visitHeader.js');
 require('expose-loader?reasonForVisitHeader!../components/reasonForVisitHeader.js');
 require('expose-loader?unitConverter!../components/unitConverter');
 

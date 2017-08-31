@@ -1,20 +1,23 @@
-<script>
-  let allTopics = <%= @sorted_topics.html_safe %>
-  let unsortedTopics = <%= @topics.html_safe %>
-  let visit = <%= @jvisit.html_safe %>
-  let concerns = <%= @jconcerns.html_safe %>
-  let sortedConcerns = <%= @jsorted_concerns.html_safe %>
-  let patient = <%= @jpatient.html_safe %>
-  let select2Patients = <%= @select2_patients.html_safe %>
-  let allPatients = <%= @all_patients.html_safe %>
-</script>
 <% content_for :navbar do %>
   <%= render 'visits/edit_nav.html.erb', patient: @patient, visit: @visit %>
 <% end %>
 
 <div id="patientinfo" data="<%= @jpatient %>" ></div>
+<div id="alltopics" data="<%= @sorted_topics %>" ></div>
+<div id="unsortedtopics" data="<%= @topics %>" ></div>
+<div id="visit" data="<%= @jvisit %>" ></div>
+<div id="concerns" data="<%= @jconcerns %>" ></div>
+<div id="sortedconcerns" data="<%= @jsorted_concerns %>" ></div>
+<div id="select2patients" data="<%= @select2_patients %>" ></div>
+<div id="allpatients" data="<%= @all_patients %>" ></div>
+<div id="mskey" data="<%= ENV['MYSCRIPT_KEY'] %>"></div>
+<div id="mshmac" data="<%= ENV['MYSCRIPT_HMAC'] %>"></div>
+
+<div id="medications" data="<%= @all_meds.map{|t| [t.name.downcase, t.id]}.to_h.to_json %>"></div>
 
 <%= javascript_pack_tag 'VisitHeader' %>
+<%= javascript_pack_tag 'NestedList' %>
+
 <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
@@ -37,8 +40,6 @@
     </div>
   </div>
 </div>
-<div id="ms" data-mskey="<%= ENV['MYSCRIPT_KEY'] %>" data-mshmac="<%= ENV['MYSCRIPT_HMAC'] %>"></div>
-<div id="invisible" data-rubyvar="<%= @all_meds.map{|t| [t.name.downcase, t.id]}.to_h.to_json %>"></div>
 <%= form_for @visit, class: "visit_form", id: 'visit_form', html: { multipart: true } do |f| %>
   <%= f.fields_for :patient do |ff| %>
     <div id="diagnosisHeader"></div>
