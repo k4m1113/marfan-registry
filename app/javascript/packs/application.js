@@ -32,6 +32,18 @@ import '../components/nestedList'
 import '../components/row_form_pieces/rowForm'
 import 'myscript/dist/myscript.js'
 
+import React from 'react';
+import { render } from 'react-dom';
+import Hello from '../components/Hello'
+import HelloWorld from '../components/HelloWorld'
+
+document.addEventListener('DOMContentLoaded', () => {
+  render(
+    <Hello name="React" />,
+    document.body.appendChild(document.createElement('div')),
+  )
+})
+
 require('expose-loader?parseMed!../components/parseMed');
 
 // ROW FORM TYPES
@@ -45,7 +57,7 @@ require('expose-loader?renderByTopicType!../components/renderByTopicType.js');
 
 
 // EXPOSING JS TO BE USED IN RAILS
-require('../../stylesheet/application.scss');
+// require('../../stylesheet/application.scss');
 require('expose-loader?addKeyboard!../components/addKeyboard.js');
 require('expose-loader?initializeRow!../components/initializeRow.js');
 require('expose-loader?scribbleButton!../components/row_form_pieces/scribbleButton.js');

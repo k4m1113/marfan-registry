@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   'diagnosis': 'diagnoses',
   'dissection': 'dissections',
   'family member': 'family_members',

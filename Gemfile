@@ -12,7 +12,6 @@ gem 'mini_magick'
 gem 'pg'
 gem 'pg_search'
 gem 'rails', '5.1.1'
-gem 'react_on_rails', '~>7'
 gem 'responders'
 gem 'ruby-units'
 gem 'sdoc', '~> 0.4.0', group: :doc

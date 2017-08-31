@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 
-module.exports = function (config) {
+export default {
+   (config) {
   config.set({
     browsers: ['Chrome'],
     singleRun: true,

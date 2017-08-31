@@ -10,12 +10,12 @@
   id="k_scribble"
   language="en_US">
 </myscript-text-web> -->
-<myscript-math-web
+<!-- <myscript-math-web
   applicationkey="<%= ENV['MYSCRIPT_KEY'] %>"
   hmackey="<%= ENV['MYSCRIPT_HMAC'] %>"
   id="ka_scrib">
-</myscript-math-web>
-
+</myscript-math-web> -->
+<%= javascript_pack_tag 'hello_react' %>
 <div class="patient-show" data-spy="scroll" data-target="#navbar-example" data-offset="0">
   <% content_for :navbar do %>
     <%= render 'show_nav.html.erb', patient: @patient %>

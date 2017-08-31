@@ -10,7 +10,7 @@ var scssLoader = config.module.loaders.filter(function(loader) {
 })[0];
 scssLoader.loader = 'style!css!sass!';
 
-config.output.publicPath = 'http://localhost:8080/assets/'
+config.output.publicPath = 'http://192.168.1.105:3001/assets/'
 
 config.entry.main.push(
   'webpack/hot/only-dev-server',

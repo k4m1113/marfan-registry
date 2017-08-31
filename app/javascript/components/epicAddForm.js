@@ -1,70 +1,71 @@
-module.exports = function epicAddForm() {
-  const returnStatement = `<div class="row">
-    <div class="col-sm">
-      <div class="input-group">
-          <input type="text" class="form-control" id="epicMed" placeholder="Epic users: .MEDSCURRENT"/>
-          <span class="input-group-btn">
-            <button type="button"
-              id="medParse"
-              class="btn btn-secondary"
-              data-animation="false"
-              data-toggle="modal"
-              data-target="#medModal">
-              .MEDSCURRENT
-            </button>
-          </span>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="medModal" tabindex="-1" role="dialog" aria-labelledby="medModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="medModalLabel">
-            Bulk Add Medication
-          </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <i class="fa fa-times" aria-hidden="true"></i>
-          </button>
+export default {
+  epicAddForm() {
+    const returnStatement = `<div class="row">
+      <div class="col-sm">
+        <div class="input-group">
+            <input type="text" class="form-control" id="epicMed" placeholder="Epic users: .MEDSCURRENT"/>
+            <span class="input-group-btn">
+              <button type="button"
+                id="medParse"
+                class="btn btn-secondary"
+                data-animation="false"
+                data-toggle="modal"
+                data-target="#medModal">
+                .MEDSCURRENT
+              </button>
+            </span>
         </div>
-          <div class="modal-body">
-            <table>
-              <thead>
-                <tr>
-                  <th>
-                    Name
-                  </th>
-                  <th>
-                    Dose
-                  </th>
-                  <th>
-                    MOI
-                  </th>
-                  <th>
-                    Current?
-                  </th>
-                </tr>
-              </thead>
-              <tbody id="parsedMeds">
-
-              </tbody>
-            </table>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-              Close
-            </button>
-            <button type="submit" class="btn btn-primary">
-              Add Medications
-            </button>
-          </div>
       </div>
     </div>
-  </div>`;
-  return returnStatement
-}
 
+    <div class="modal fade" id="medModal" tabindex="-1" role="dialog" aria-labelledby="medModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="medModalLabel">
+              Bulk Add Medication
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+          </div>
+            <div class="modal-body">
+              <table>
+                <thead>
+                  <tr>
+                    <th>
+                      Name
+                    </th>
+                    <th>
+                      Dose
+                    </th>
+                    <th>
+                      MOI
+                    </th>
+                    <th>
+                      Current?
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="parsedMeds">
+
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Close
+              </button>
+              <button type="submit" class="btn btn-primary">
+                Add Medications
+              </button>
+            </div>
+        </div>
+      </div>
+    </div>`;
+    return returnStatement
+  }
+}
 
 // Current Outpatient Prescriptions:
 // •  acetaminophen (TYLENOL) 500 mg tablet, take 500 mg by mouth every 6 hours as needed (migraine headaches), Disp: , Rfl:
