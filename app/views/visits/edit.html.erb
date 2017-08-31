@@ -12,6 +12,9 @@
   <%= render 'visits/edit_nav.html.erb', patient: @patient, visit: @visit %>
 <% end %>
 
+<div id="patientinfo" data="<%= @jpatient %>" ></div>
+
+<%= javascript_pack_tag 'VisitHeader' %>
 <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">

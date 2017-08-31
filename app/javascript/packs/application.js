@@ -32,18 +32,6 @@ import '../components/nestedList'
 import '../components/row_form_pieces/rowForm'
 import 'myscript/dist/myscript.js'
 
-import React from 'react';
-import { render } from 'react-dom';
-import Hello from '../components/Hello'
-import HelloWorld from '../components/HelloWorld'
-
-document.addEventListener('DOMContentLoaded', () => {
-  render(
-    <Hello name="React" />,
-    document.body.appendChild(document.createElement('div')),
-  )
-})
-
 require('expose-loader?parseMed!../components/parseMed');
 
 // ROW FORM TYPES
