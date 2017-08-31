@@ -13571,8 +13571,8 @@ exports.default = {
 
 __webpack_require__(1);
 __webpack_require__(38);
-__webpack_require__(109);
-module.exports = __webpack_require__(110);
+__webpack_require__(107);
+module.exports = __webpack_require__(108);
 
 
 /***/ }),
@@ -13656,12 +13656,12 @@ __webpack_require__(91);
 __webpack_require__(93);
 __webpack_require__(95);
 __webpack_require__(97);
+__webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"expose-loader?visitHeader!../components/visitHeader.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 __webpack_require__(99);
 __webpack_require__(101);
-__webpack_require__(103);
 
+__webpack_require__(103);
 __webpack_require__(105);
-__webpack_require__(107);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
@@ -46644,37 +46644,11 @@ exports.default = {
 /* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["visitHeader"] = __webpack_require__(100);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["reasonForVisitHeader"] = __webpack_require__(100);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 100 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var primaryDiagnoses = ['Marfan Syndrome', 'Loeys-Dietz Syndrome', 'Ehlers-Danlos Syndrome', 'Beals Syndrome', 'familial thoracic aneurysm and dissection', 'ectopia lentis', 'mass phenotype', 'bicuspid aortic valve', 'Stickler Syndrome', 'Shprintzen-Goldberg Syndrome'];
-
-exports.default = {
-  visitHeader: function visitHeader(patient, visit) {
-
-    return returnStatement;
-  }
-};
-
-/***/ }),
-/* 101 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["reasonForVisitHeader"] = __webpack_require__(102);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46701,14 +46675,14 @@ exports.default = {
 };
 
 /***/ }),
-/* 103 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["unitConverter"] = __webpack_require__(104);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["unitConverter"] = __webpack_require__(102);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 104 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -46739,14 +46713,14 @@ exports.default = {
 };
 
 /***/ }),
-/* 105 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["MyScript"] = __webpack_require__(106);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["MyScript"] = __webpack_require__(104);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 106 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -61246,35 +61220,35 @@ MyScript = {
 })(MyScript);
 
 /***/ }),
-/* 107 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["$"] = __webpack_require__(108);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["$"] = __webpack_require__(106);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 108 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {module.exports = global["jQuery"] = __webpack_require__(1);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 109 */
+/* 107 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 110 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
-module.exports = __webpack_require__(111);
+module.exports = __webpack_require__(109);
 
 
 /***/ }),
-/* 111 */
+/* 109 */
 /***/ (function(module, exports) {
 
 

@@ -1,3 +1,7 @@
+import React from 'react';
+import ReactDOM from 'react-dom'
+import PrimaryReasonButton from './PrimaryReasonButton'
+
 const primaryDiagnoses = [
   'Marfan Syndrome',
   'Loeys-Dietz Syndrome',
@@ -10,16 +14,13 @@ const primaryDiagnoses = [
   'Stickler Syndrome',
   'Shprintzen-Goldberg Syndrome'
 ]
-import React from 'react';
-import ReactDOM from 'react-dom'
 
 export default class VisitHeader extends React.Component {
   render() {
-    const options = primaryDiagnoses.map(d =>
-      <label className="btn btn-secondary">
-        <input type="radio" autocomplete="off" name="visit[patient_attributes][primary_diagnosis]" value="{d}" />
-        {d}
-      </label>
+    const options = primaryDiagnoses.map((d, index) =>
+      <PrimaryReasonButton key={index}
+                           diagnosis={d}
+      ></PrimaryReasonButton>
     )
     return (
       <div className="alert alert-warning alert-dismissible fade show" role="alert">
@@ -27,7 +28,7 @@ export default class VisitHeader extends React.Component {
           <span aria-hidden="true">&times;</span>
         </button>Primary Diagnosis:
         {options}
-        </div>
+      </div>
     );
   }
 }
