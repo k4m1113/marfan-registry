@@ -27,6 +27,7 @@ export default class VisitHeader extends React.Component {
         <button type="button" className="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>Primary Diagnosis:
+        <br></br>
         {options}
       </div>
     );

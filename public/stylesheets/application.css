@@ -12901,30 +12901,38 @@ input[type='radio'] {
   visibility: hidden;
   width: 0px; }
 
+.react-tabs {
+  vertical-align: top; }
+
 .tab-content {
   margin-left: 250px;
   width: calc(100% - $sidebar-width);
-  background-color: white !important;
-  padding: 8px !important; }
+  background-color: white !important; }
   .tab-content .tab-pane {
-    display: none;
     overflow-y: auto; }
-  .tab-content .active {
+  .tab-content .react-tabs__tab-panel--selected {
     display: block; }
 
-a.nav-link.open-tab, a.open-tab.nav-icon {
+ul.allGroups {
+  max-width: 250px;
+  padding: 0px;
+  float: left; }
+
+li.bodyGroup {
+  list-style-type: none;
   color: rgba(0, 0, 0, 0.7);
-  width: 250px;
+  max-width: 250px;
   border-radius: 0px !important;
   border: 0 !important;
   font-size: 16px;
   font-weight: 500;
-  padding: 8px 16px; }
-  a.nav-link.open-tab:hover, a.open-tab.nav-icon:hover {
+  padding: 8px 16px;
+  margin-right: 0px; }
+  li.bodyGroup:hover {
     background-color: white !important;
     border: 0 !important;
     padding: 8px 16px; }
-  a.nav-link.open-tab.active, a.open-tab.active.nav-icon {
+  li.bodyGroup.active {
     background-color: white !important;
     border: 0 !important;
     padding: 8px 16px; }
@@ -12953,9 +12961,6 @@ tr.row_form {
   .summary-bar:hover {
     text-decoration: none;
     background-color: white; }
-
-.tabbable {
-  display: none; }
 
 .btn.paneTopicGroup {
   border-bottom-left-radius: 0;

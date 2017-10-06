@@ -1,10 +1,11 @@
-export default function keyify(str) {
-  let strang
-  [' ', '/'].forEach(function (x) {
-    strang = str.replace(x, '_')
-  });
-  ['(', ')'].forEach(function (y) {
-    strang = str.replace(y, '')
-  });
-  return strang
+function keyify(str) {
+  let strang = str;
+  [' ', '/'].forEach(x =>
+    strang = strang.replace(x, '_')
+  );
+  ['(', ')'].forEach(y =>
+    strang = strang.replace(y, '')
+  );
+  return strang;
 }
+export default keyify;

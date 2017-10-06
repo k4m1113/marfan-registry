@@ -1,3 +1,3 @@
-web: rails s -p 3000 -b 192.168.1.105
+web: rails s -p 3000 -b 192.168.1.104
 client: sh -c 'rm public/javascripts/application.js || true && cd client && yarn run build:development'
 webpacker: ./bin/webpack-dev-server

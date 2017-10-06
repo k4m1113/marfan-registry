@@ -1,0 +1,24 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+export default class InfoHover extends React.Component {
+  render() {
+    const tooltipTitle = this.props.concerns.map(x => x.summary)
+
+    return (
+      <button
+        type="button"
+        className="btn btn-secondary tooltip-trigger"
+        data-toggle="tooltip"
+        data-html="true"
+        title={tooltipTitle}
+      >
+        <i className="fa fa-history" aria-hidden="true" />
+      </button>
+    );
+  }
+}
+
+InfoHover.propTypes = {
+  concerns: PropTypes.object.isRequired,
+};

@@ -1,8 +1,11 @@
 @import "colors";
+
 .modal-body.quick-add {
   background-color: $bootstrap-grey;
 }
+
 $sidebar-width: 250px;
+
 .tab-pane .row {
   width: 95%;
 }
@@ -18,30 +21,37 @@ input[type='radio'] {
   visibility: hidden;
   width: 0px;
 }
-
+.react-tabs {
+  vertical-align: top;
+}
 .tab-content {
   margin-left: $sidebar-width;
   width: calc(100% - $sidebar-width);
   background-color: $bootstrap-light-grey !important;
-  padding: 8px !important;
   .tab-pane {
-    display: none;
     overflow-y: auto;
-
   }
-
-  .active {
+  .react-tabs__tab-panel--selected {
     display: block;
   }
 }
-a.nav-link.open-tab {
+
+ul.allGroups {
+  max-width: $sidebar-width;
+  padding: 0px;
+  float: left;
+}
+
+li.bodyGroup {
+  list-style-type: none;
   color: $bootstrap-dark-grey;
-  width: $sidebar-width;
+  max-width: $sidebar-width;
   border-radius: 0px !important;
   border: 0 !important;
   font-size: 16px;
   font-weight: 500;
   padding: 8px 16px;
+  margin-right: 0px;
   &:hover {
     background-color: $bootstrap-light-grey !important;
     border: 0 !important;
@@ -85,10 +95,6 @@ tr.row_form {
     text-decoration: none;
     background-color: white;
   }
-}
-
-.tabbable {
-  display: none;
 }
 
 .btn.paneTopicGroup {

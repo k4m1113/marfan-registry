@@ -1,6 +1,6 @@
 import assembledDiagnosisForm from './row_form_pieces/assembledDiagnosisForm';
 import assembledDissectionForm from './row_form_pieces/assembledDissectionForm'
-import assembledFamilyMemberForm from './row_form_pieces/assembledFamilyMemberForm'
+import AssembledFamilyMemberForm from './row_form_pieces/AssembledFamilyMemberForm'
 import assembledGeneticTestForm from './row_form_pieces/assembledGeneticTestForm'
 import assembledHeartMeasurementForm from './row_form_pieces/assembledHeartMeasurementForm';
 import assembledHospitalizationForm from './row_form_pieces/assembledHospitalizationForm';
@@ -20,7 +20,7 @@ export default {
         form = assembledDissectionForm(topic, unsortedTopics, visit, rowID)
         break;
       case 'family member':
-        form = assembledFamilyMemberForm(topic, unsortedTopics, visit, rowID)
+        form = AssembledFamilyMemberForm(topic, unsortedTopics, visit, rowID)
         break;
       case 'genetic test':
         form = assembledGeneticTestForm(topic, visit, rowID)
