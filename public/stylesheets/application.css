@@ -12883,26 +12883,21 @@ a.nav-link.disabled, a.disabled.nav-icon {
   color: rgba(0, 0, 0, 0.5) !important;
   cursor: default; }
 
-.modal-body.quick-add {
-  background-color: #F7F7F7; }
-
-.tab-pane .row {
-  width: 95%; }
-
-.form-control.single-option {
-  background-color: white;
-  border: none;
-  padding-left: 0.5rem;
-  max-width: 75px;
-  cursor: default;
-  color: #333333; }
-
 input[type='radio'] {
   visibility: hidden;
   width: 0px; }
 
+ul.btn-group {
+  padding-left: 0px;
+  margin-bottom: 0px !important;
+  border-bottom: 2px gray; }
+
+th {
+  border: 0px !important; }
+
 .react-tabs {
-  vertical-align: top; }
+  vertical-align: top;
+  padding: 0px 12px; }
 
 .tab-content {
   margin-left: 250px;
@@ -12916,7 +12911,12 @@ input[type='radio'] {
 ul.allGroups {
   max-width: 250px;
   padding: 0px;
-  float: left; }
+  float: left;
+  background-color: #F7F7F7; }
+
+table.presAbs {
+  width: 100%;
+  border-top: 1px gray; }
 
 li.bodyGroup {
   list-style-type: none;
@@ -12951,16 +12951,18 @@ tr.row_form {
   background-color: #F7F7F7;
   width: 100%; }
 
-.summary-body {
-  background-color: white; }
+tr.row_form, tr.presAbs, thead, td[colspan="3"] {
+  display: table !important;
+  min-width: 100%; }
 
-.summary-bar {
-  color: rgba(0, 0, 0, 0.7); }
-  .summary-bar.card-header {
-    padding: 0px 8px; }
-  .summary-bar:hover {
-    text-decoration: none;
-    background-color: white; }
+.left-30 {
+  margin-left: 30px !important; }
+
+td {
+  border-top: 0px !important; }
+
+.tab-pane .row {
+  width: 95%; }
 
 .btn.paneTopicGroup {
   border-bottom-left-radius: 0;
@@ -12974,6 +12976,28 @@ tr.row_form {
 .row.topicButtons {
   margin-left: 5px;
   padding-bottom: 2px; }
+
+.modal-body.quick-add {
+  background-color: #F7F7F7; }
+
+.form-control.single-option {
+  background-color: white;
+  border: none;
+  padding-left: 0.5rem;
+  max-width: 75px;
+  cursor: default;
+  color: #333333; }
+
+.summary-body {
+  background-color: white; }
+
+.summary-bar {
+  color: rgba(0, 0, 0, 0.7); }
+  .summary-bar.card-header {
+    padding: 0px 8px; }
+  .summary-bar:hover {
+    text-decoration: none;
+    background-color: white; }
 
 .summary-accordion {
   margin-bottom: -16px;

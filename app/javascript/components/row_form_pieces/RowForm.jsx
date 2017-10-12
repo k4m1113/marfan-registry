@@ -126,12 +126,12 @@ export default class RowForm extends React.Component {
       default:
     }
     return (
-      <tr>
+      <tbody>
         {toggleable}
-        <ToggleDisplay show={this.state.show}>
+        <ToggleDisplay if={this.state.show} tag="section">
           {form}
         </ToggleDisplay>
-      </tr>
+      </tbody>
     );
   }
 }

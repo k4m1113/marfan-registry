@@ -28,7 +28,7 @@ export default class TimeAgoField extends React.Component {
         absoluteTime = 'absolute_start_date';
     }
     return (
-      <div>
+      <div className="row">
         <Switch
           onChange={(el, state) => this.handleSwitch(el, state)}
           name="approxToggle"

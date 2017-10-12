@@ -1,0 +1,122 @@
+@import "colors";
+
+$sidebar-width: 250px;
+
+input[type='radio'] {
+  visibility: hidden;
+  width: 0px;
+}
+
+ul.btn-group {
+  padding-left: 0px;
+  margin-bottom: 0px !important;
+  border-bottom: 2px gray;
+}
+
+th {
+  border: 0px !important;
+}
+
+.react-tabs {
+  vertical-align: top;
+  padding: 0px 12px;
+}
+
+.tab-content {
+  margin-left: $sidebar-width;
+  width: calc(100% - $sidebar-width);
+  background-color: $bootstrap-light-grey !important;
+  .tab-pane {
+    overflow-y: auto;
+  }
+  .react-tabs__tab-panel--selected {
+    display: block;
+  }
+}
+
+ul.allGroups {
+  max-width: $sidebar-width;
+  padding: 0px;
+  float: left;
+  background-color: $bootstrap-grey;
+}
+
+table.presAbs {
+  width: 100%;
+  border-top: 1px gray;
+}
+
+li.bodyGroup {
+  list-style-type: none;
+  color: $bootstrap-dark-grey;
+  max-width: $sidebar-width;
+  border-radius: 0px !important;
+  border: 0 !important;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 16px;
+  margin-right: 0px;
+  &:hover {
+    background-color: $bootstrap-light-grey !important;
+    border: 0 !important;
+    padding: 8px 16px;
+  }
+  &.active {
+    background-color: $bootstrap-light-grey !important;
+    border: 0 !important;
+    padding: 8px 16px;
+  }
+}
+
+.nav-tabs {
+  float: left;
+  padding-right: 8px !important;
+  width: $sidebar-width;
+  background: $bootstrap-grey !important;
+  li {
+    float: none;
+
+    a {
+      border: 0;
+    }
+  }
+}
+
+tr.row_form {
+  background-color: #F7F7F7;
+  width: 100%;
+}
+
+tr.row_form, tr.presAbs, thead, td[colspan="3"] {
+  display: table !important;
+  min-width: 100%;
+}
+
+.left-30 {
+  margin-left: 30px !important;
+}
+
+td {
+  border-top: 0px !important;
+}
+
+.tab-pane .row {
+  width: 95%;
+}
+
+
+.btn.paneTopicGroup {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  background-color: $bootstrap-grey;
+  &.active {
+    border-bottom: 0px;
+    background-color: $bootstrap-light-grey;
+    box-shadow: none;
+  }
+}
+
+.row.topicButtons {
+  margin-left: 5px;
+  padding-bottom: 2px;
+}

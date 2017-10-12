@@ -3902,6 +3902,10 @@ jquery-ujs@^1.2.2:
   dependencies:
     jquery ">=1.8.0"
 
+jquery.ui.position@^1.11.4:
+  version "1.11.4"
+  resolved "https://registry.yarnpkg.com/jquery.ui.position/-/jquery.ui.position-1.11.4.tgz#372a8d197f4175dffdbdbc1ee9bbc5d2abd1d28c"
+
 jquery@>=1.8.0, jquery@>=1.9.1, jquery@>=3.2.1, jquery@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
@@ -7303,9 +7307,9 @@ viewport-dimensions@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/viewport-dimensions/-/viewport-dimensions-0.2.0.tgz#de740747db5387fd1725f5175e91bac76afdf36c"
 
-virtual-keyboard@^1.26.23:
-  version "1.26.26"
-  resolved "https://registry.yarnpkg.com/virtual-keyboard/-/virtual-keyboard-1.26.26.tgz#7252f9d3bddd15591612e4b04321e8fd05556c6f"
+virtual-keyboard@^1.27.1-beta:
+  version "1.27.1-beta"
+  resolved "https://registry.yarnpkg.com/virtual-keyboard/-/virtual-keyboard-1.27.1-beta.tgz#545827e0af97532f8adce73d82e34cbb7b9914bc"
   dependencies:
     jquery ">=3.2.1"
   optionalDependencies:

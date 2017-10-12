@@ -7,7 +7,7 @@ export default class FindRelated extends React.Component {
     let nextStep;
     let buttons;
     if (topic.related.length > 0) {
-      nextStep = topic.related.map(ind => this.props.unsortedTopics.find(obj => obj.id === ind))
+      nextStep = topic.related.map(ind => this.props.unsortedTopics.find(obj => obj.id === ind)).filter(x => x !== undefined)
       buttons = nextStep.map(s => (
         <button
           type="button"

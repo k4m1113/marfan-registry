@@ -201,17 +201,18 @@
 //   });
 //
 //   // calc button clicked
-//   $('button.calculator').click(function(e){
-//     $targetInput =  $(this).closest('.form-inline').children("input[type='number']")
-//     e.stopImmediatePropagation();
-//     var kb = $targetInput.getkeyboard();
-//     // close the keyboard if the keyboard is visible and the button is clicked a second time
-//     if ( kb.isOpen ) {
-//       kb.close();
-//     } else {
-//       kb.reveal();
-//     }
-//   });
+  $('button.calculator').click(function(e){
+    console.log('calculator button clicked')
+    $targetInput =  $(this).closest('.form-inline').children("input[type='number']")
+    e.stopImmediatePropagation();
+    var kb = $targetInput.getkeyboard();
+    // close the keyboard if the keyboard is visible and the button is clicked a second time
+    if ( kb.isOpen ) {
+      kb.close();
+    } else {
+      kb.reveal();
+    }
+  });
 //
 //   // append file name to attachment button on change
 //   $("input[type='file']").on('change', function() {

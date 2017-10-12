@@ -25,8 +25,8 @@ export default class PresAbsButtons extends React.Component {
       return (<InfoHover concerns={concerns} />);
     }
     return (
-      <tr className="main_Form(topic, allTopics)${discussed}">
-        <td className="w-50">
+      <tr className="presAbs">
+        <td>
           <input
             value={this.props.visit.patient_id}
             name={'visit[' + parameterizedPlural + '_attributes][' + this.props.topic.id + '][patient_id]'}
@@ -48,32 +48,34 @@ export default class PresAbsButtons extends React.Component {
           {this.props.topic.name}
           {existing}
         </td>
-        <td className="w-25">
-          <label className="btn" onClick={this.handleChange} value="true">
-            <input
-              name={'visit[' + parameterizedPlural + '_attributes][' + this.props.topic.id + '][present]'}
-              id={'visit_' + parameterizedPlural + '_attributes_' + this.props.topic.id + '_present_true'}
-              className="pres_abs"
-              type="radio"
-              value="true"
-            />
+        <div className="pull-right">
+          <td>
+            <label className="btn left-30" onClick={this.handleChange} value="true">
+              <input
+                name={'visit[' + parameterizedPlural + '_attributes][' + this.props.topic.id + '][present]'}
+                id={'visit_' + parameterizedPlural + '_attributes_' + this.props.topic.id + '_present_true'}
+                className="pres_abs"
+                type="radio"
+                value="true"
+              />
+              <i className="fa fa-circle-o fa-2x" />
+              <i className="fa fa-check-circle-o fa-2x" />
+            </label>
+          </td>
+          <td>
+            <label className="btn left-30" onClick={this.handleChange} value="false">
+              <input
+                name={'visit[' + parameterizedPlural + '_attributes][' + this.props.topic.id + '][present]'}
+                id={'visit_' + parameterizedPlural + '_attributes_' + this.props.topic.id + '_present_false'}
+                className="pres_abs"
+                type="radio"
+                value="false"
+              />
             <i className="fa fa-circle-o fa-2x" />
-            <i className="fa fa-check-circle-o fa-2x" />
-          </label>
-        </td>
-        <td className="w-25">
-          <label className="btn" onClick={this.handleChange} value="false">
-            <input
-              name={'visit[' + parameterizedPlural + '_attributes][' + this.props.topic.id + '][present]'}
-              id={'visit_' + parameterizedPlural + '_attributes_' + this.props.topic.id + '_present_false'}
-              className="pres_abs"
-              type="radio"
-              value="false"
-            />
-          <i className="fa fa-circle-o fa-2x" />
-            <i className="fa fa-check-circle-o fa-2x" />
-          </label>
-        </td>
+              <i className="fa fa-check-circle-o fa-2x" />
+            </label>
+          </td>
+        </div>
       </tr>
     );
   }

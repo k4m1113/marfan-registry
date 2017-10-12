@@ -4,11 +4,6 @@
   background-color: $bootstrap-grey;
 }
 
-$sidebar-width: 250px;
-
-.tab-pane .row {
-  width: 95%;
-}
 .form-control.single-option {
   background-color: white;
   border: none;
@@ -17,71 +12,7 @@ $sidebar-width: 250px;
   cursor: default;
   color: $bootstrap-text-grey;
 }
-input[type='radio'] {
-  visibility: hidden;
-  width: 0px;
-}
-.react-tabs {
-  vertical-align: top;
-}
-.tab-content {
-  margin-left: $sidebar-width;
-  width: calc(100% - $sidebar-width);
-  background-color: $bootstrap-light-grey !important;
-  .tab-pane {
-    overflow-y: auto;
-  }
-  .react-tabs__tab-panel--selected {
-    display: block;
-  }
-}
 
-ul.allGroups {
-  max-width: $sidebar-width;
-  padding: 0px;
-  float: left;
-}
-
-li.bodyGroup {
-  list-style-type: none;
-  color: $bootstrap-dark-grey;
-  max-width: $sidebar-width;
-  border-radius: 0px !important;
-  border: 0 !important;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 8px 16px;
-  margin-right: 0px;
-  &:hover {
-    background-color: $bootstrap-light-grey !important;
-    border: 0 !important;
-    padding: 8px 16px;
-  }
-  &.active {
-    background-color: $bootstrap-light-grey !important;
-    border: 0 !important;
-    padding: 8px 16px;
-  }
-}
-
-.nav-tabs {
-  float: left;
-  padding-right: 8px !important;
-  width: $sidebar-width;
-  background: $bootstrap-grey !important;
-  li {
-    float: none;
-
-    a {
-      border: 0;
-    }
-  }
-}
-
-tr.row_form {
-  background-color: #F7F7F7;
-  width: 100%;
-}
 .summary-body {
   background-color: white;
 }
@@ -97,21 +28,6 @@ tr.row_form {
   }
 }
 
-.btn.paneTopicGroup {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  background-color: $bootstrap-grey;
-  &.active {
-    border-bottom: 0px;
-    background-color: $bootstrap-light-grey;
-    box-shadow: none;
-  }
-}
-
-.row.topicButtons {
-  margin-left: 5px;
-  padding-bottom: 2px;
-}
 .summary-accordion {
   margin-bottom: -16px;
   padding: 0px;

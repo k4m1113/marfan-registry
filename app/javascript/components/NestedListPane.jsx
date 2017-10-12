@@ -12,7 +12,6 @@ export default class NestedListPane extends React.Component {
         <Tab
           key={this.props.paneKey + '_' + keyify(tg)}
           className="paneTopicGroup btn btn-secondary"
-          type="button"
         >
           {tg}
         </Tab>
@@ -21,34 +20,34 @@ export default class NestedListPane extends React.Component {
     const tg = Object.entries(this.props.topicsByType)
     const topicGroups = tg.map(topicGroup => (
       <TabPanel key={this.props.paneKey + '_' + keyify(topicGroup[0])}>
-        <table className="table table-sm">
+        <table className="table table-sm presAbs">
           <thead>
-            <tr>
+            <tr className="presAbs">
               <th>
                 <h6 className="btn btn-sm all-neg-toggler">
                   All Absent
                 </h6>
               </th>
-              <th>
-                Present
-              </th>
-              <th>
-                Absent
-              </th>
+              <div className="pull-right">
+                <th>
+                  Present
+                </th>
+                <th>
+                  Absent
+                </th>
+              </div>
             </tr>
           </thead>
-          <tbody>
-            {topicGroup[1].map((topic, i) => (
-              <RowForm
-                rowID={topic.id}
-                topic={topic}
-                visit={this.props.visit}
-                unsortedTopics={this.props.unsortedTopics}
-                key={topicGroup[0] + '_' + this.props.paneKey + '_' + i}
-              />
-            ),
-            )}
-          </tbody>
+          {topicGroup[1].map((topic, i) => (
+            <RowForm
+              rowID={topic.id}
+              topic={topic}
+              visit={this.props.visit}
+              unsortedTopics={this.props.unsortedTopics}
+              key={topicGroup[0] + '_' + this.props.paneKey + '_' + i}
+            />
+          ),
+          )}
         </table>
       </TabPanel>
     ),
@@ -56,7 +55,7 @@ export default class NestedListPane extends React.Component {
 
     return (
       <Tabs>
-        <TabList className="btn-group" role="group">
+        <TabList className="btn-group pull-left" role="group">
           {topicButtons}
         </TabList>
         {topicGroups}
