@@ -4,14 +4,16 @@ import PropTypes from 'prop-types';
 export default class SelectConstructor extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      units: null,
+    }
     this.handleChange = this.handleChange.bind(this)
   }
 
   handleChange(event) {
-    this.props.onUnitChange({
-      [event.target.name]: event.target.value,
-    });
+    this.props.onChange(event);
   }
+
   render() {
     let inputBegin
     if (this.props.arr.length === 1) {
@@ -23,7 +25,7 @@ export default class SelectConstructor extends React.Component {
             name={this.props.name}
             id={'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.name}
             className="form-control single-option"
-            value={this.props.arr[0]}
+            value={this.state.units}
             multiple
             onChange={this.handleChange}
           />
@@ -37,7 +39,6 @@ export default class SelectConstructor extends React.Component {
             id={'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.attribute}
             className="form-control single-option"
             value={this.props.arr[0]}
-            onChange={this.handleChange}
           />
         );
       }

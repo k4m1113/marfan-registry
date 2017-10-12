@@ -23,20 +23,33 @@ export default class AssembledMeasurementForm extends React.Component {
       note: null,
       file: null,
     };
-    this.handleDateChange = this.handleDateChange.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentWillUnmount() {
-    debugger
     console.log('measurement form unmounting')
+    debugger
   }
 
-  handleDateChange(values) {
+  componentDidUnmount() {
+    debugger
+  }
+
+  handleChange(value) {
     this.setState({
-      timeAgoAmount: values.timeAgoAmount || this.state.timeAgoAmount,
-      timeAgoUnit: values.timeAgoUnit || this.state.timeAgoUnit,
-      absoluteDate: values.absoluteDate || this.state.absoluteDate,
+      timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+      timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+      absoluteDate: value.absoluteDate || this.state.absoluteDate,
+      measurement: value.measurement || this.state.measurement,
+      units: value.units || this.state.units,
+      file: value.file || this.state.file,
+      note: value.note || this.state.note,
     });
+    if (this.props.topic.units_of_measurement.length === 1 && this.state.measurement) {
+      this.setState({
+        units: this.props.topic.units_of_measurement[0],
+      });
+    }
   }
 
   render() {
@@ -76,6 +89,7 @@ export default class AssembledMeasurementForm extends React.Component {
                 rowID={this.props.rowID}
                 measurementValue={this.state.measurement}
                 unitOfMeas={this.state.units}
+                onMeasChange={this.handleChange}
               />
             </div>
           </div>
@@ -89,7 +103,7 @@ export default class AssembledMeasurementForm extends React.Component {
                 timeAgoAmount={this.state.timeAgoAmount}
                 timeAgoUnit={this.state.timeAgoUnit}
                 absoluteDate={this.state.absoluteDate}
-                onDateChange={this.handleDateChange}
+                onDateChange={this.handleChange}
               />
             </div>
           </div>
@@ -101,12 +115,14 @@ export default class AssembledMeasurementForm extends React.Component {
                 parameterizedPlural={parameterizedPlural}
                 rowID={this.props.rowID}
                 noteValue={this.state.note}
+                onNoteChange={this.handleChange}
               />
               <FileAttachmentButton
                 topic={this.props.topic}
                 parameterizedPlural={parameterizedPlural}
                 rowID={this.props.rowID}
                 attachedFile={this.state.file}
+                onFileChange={this.handleChange}
               />
             </div>
           </div>

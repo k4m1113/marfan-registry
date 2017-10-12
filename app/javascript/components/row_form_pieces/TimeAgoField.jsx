@@ -20,7 +20,6 @@ export default class TimeAgoField extends React.Component {
     };
     this.keyboardize = this.keyboardize.bind(this)
     this.handleChange = this.handleChange.bind(this)
-    this.handleUnitChange = this.handleUnitChange.bind(this)
   }
 
   componentDidMount() {
@@ -47,12 +46,6 @@ export default class TimeAgoField extends React.Component {
   handleChange(event) {
     this.props.onDateChange({
       [event.target.name]: event.target.value
-    });
-  }
-
-  handleUnitChange(val) {
-    this.props.onDateChange({
-      timeAgoUnit: val.timeAgoUnit,
     });
   }
 
@@ -110,7 +103,7 @@ export default class TimeAgoField extends React.Component {
                 rowID={this.props.rowID}
                 name="timeAgoUnit"
                 value={this.state.timeAgoUnit}
-                onUnitChange={this.handleUnitChange}
+                onUnitChange={this.handleChange}
               />
             </div>
           </div>
