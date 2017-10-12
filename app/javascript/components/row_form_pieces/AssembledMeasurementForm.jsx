@@ -9,6 +9,36 @@ import MeasurementField from './MeasurementField';
 import NoteField from './NoteField';
 
 export default class AssembledMeasurementForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      topic: this.props.topic.id,
+      patient: this.props.visit.patient_id,
+      visit: this.props.visit.id,
+      measurement: null,
+      units: null,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      note: null,
+      file: null,
+    };
+    this.handleDateChange = this.handleDateChange.bind(this)
+  }
+
+  componentWillUnmount() {
+    debugger
+    console.log('measurement form unmounting')
+  }
+
+  handleDateChange(values) {
+    this.setState({
+      timeAgoAmount: values.timeAgoAmount || this.state.timeAgoAmount,
+      timeAgoUnit: values.timeAgoUnit || this.state.timeAgoUnit,
+      absoluteDate: values.absoluteDate || this.state.absoluteDate,
+    });
+  }
+
   render() {
     const parameterizedPlural = 'tests';
     let descriptors
@@ -44,6 +74,8 @@ export default class AssembledMeasurementForm extends React.Component {
                 parameterizedPlural={parameterizedPlural}
                 title={this.props.topic.name}
                 rowID={this.props.rowID}
+                measurementValue={this.state.measurement}
+                unitOfMeas={this.state.units}
               />
             </div>
           </div>
@@ -54,6 +86,10 @@ export default class AssembledMeasurementForm extends React.Component {
                 topic={this.props.topic}
                 parameterizedPlural={parameterizedPlural}
                 rowID={this.props.rowID}
+                timeAgoAmount={this.state.timeAgoAmount}
+                timeAgoUnit={this.state.timeAgoUnit}
+                absoluteDate={this.state.absoluteDate}
+                onDateChange={this.handleDateChange}
               />
             </div>
           </div>
@@ -64,11 +100,13 @@ export default class AssembledMeasurementForm extends React.Component {
                 topic={this.props.topic}
                 parameterizedPlural={parameterizedPlural}
                 rowID={this.props.rowID}
+                noteValue={this.state.note}
               />
               <FileAttachmentButton
                 topic={this.props.topic}
                 parameterizedPlural={parameterizedPlural}
                 rowID={this.props.rowID}
+                attachedFile={this.state.file}
               />
             </div>
           </div>

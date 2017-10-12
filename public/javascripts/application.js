@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 119);
+/******/ 	return __webpack_require__(__webpack_require__.s = 122);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -291,7 +291,7 @@ if (process.env.NODE_ENV !== 'production') {
   // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(82)(isValidElement, throwOnDirectAccess);
+  module.exports = __webpack_require__(85)(isValidElement, throwOnDirectAccess);
 } else {
   // By explicitly using `prop-types` you are opting into new production behavior.
   // http://fb.me/prop-types-in-prod
@@ -562,6 +562,103 @@ HiddenFields.propTypes = {
 
 /***/ }),
 /* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+
+/* eslint-disable no-unused-vars */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !==
+				'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10821,103 +10918,6 @@ return jQuery;
 
 
 /***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/
-
-
-/* eslint-disable no-unused-vars */
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-function toObject(val) {
-	if (val === null || val === undefined) {
-		throw new TypeError('Object.assign cannot be called with null or undefined');
-	}
-
-	return Object(val);
-}
-
-function shouldUseNative() {
-	try {
-		if (!Object.assign) {
-			return false;
-		}
-
-		// Detect buggy property enumeration order in older V8 versions.
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
-		test1[5] = 'de';
-		if (Object.getOwnPropertyNames(test1)[0] === '5') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test2 = {};
-		for (var i = 0; i < 10; i++) {
-			test2['_' + String.fromCharCode(i)] = i;
-		}
-		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-			return test2[n];
-		});
-		if (order2.join('') !== '0123456789') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test3 = {};
-		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-			test3[letter] = letter;
-		});
-		if (Object.keys(Object.assign({}, test3)).join('') !==
-				'abcdefghijklmnopqrst') {
-			return false;
-		}
-
-		return true;
-	} catch (err) {
-		// We don't expect any of the above to throw, but better to be safe.
-		return false;
-	}
-}
-
-module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-	var from;
-	var to = toObject(target);
-	var symbols;
-
-	for (var s = 1; s < arguments.length; s++) {
-		from = Object(arguments[s]);
-
-		for (var key in from) {
-			if (hasOwnProperty.call(from, key)) {
-				to[key] = from[key];
-			}
-		}
-
-		if (getOwnPropertySymbols) {
-			symbols = getOwnPropertySymbols(from);
-			for (var i = 0; i < symbols.length; i++) {
-				if (propIsEnumerable.call(from, symbols[i])) {
-					to[symbols[i]] = from[symbols[i]];
-				}
-			}
-		}
-	}
-
-	return to;
-};
-
-
-/***/ }),
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10937,7 +10937,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 var _prodInvariant = __webpack_require__(5);
 
 var DOMProperty = __webpack_require__(24);
-var ReactDOMComponentFlags = __webpack_require__(85);
+var ReactDOMComponentFlags = __webpack_require__(88);
 
 var invariant = __webpack_require__(3);
 
@@ -11330,11 +11330,17 @@ var _reactToggleDisplay = __webpack_require__(52);
 
 var _reactToggleDisplay2 = _interopRequireDefault(_reactToggleDisplay);
 
+var _jquery = __webpack_require__(8);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 var _SelectConstructor = __webpack_require__(21);
 
 var _SelectConstructor2 = _interopRequireDefault(_SelectConstructor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -11342,19 +11348,68 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+__webpack_require__(49);
+__webpack_require__(73);
+__webpack_require__(74);
+__webpack_require__(75);
+
 var TimeAgoField = function (_React$Component) {
   _inherits(TimeAgoField, _React$Component);
 
-  function TimeAgoField() {
+  function TimeAgoField(props) {
     _classCallCheck(this, TimeAgoField);
 
-    var _this = _possibleConstructorReturn(this, (TimeAgoField.__proto__ || Object.getPrototypeOf(TimeAgoField)).call(this));
+    var _this = _possibleConstructorReturn(this, (TimeAgoField.__proto__ || Object.getPrototypeOf(TimeAgoField)).call(this, props));
 
-    _this.state = { show: true };
+    _this.state = {
+      show: true,
+      timeAgoAmount: _this.props.timeAgoAmount,
+      timeAgoUnit: _this.props.timeAgoUnit,
+      absoluteDate: _this.props.absoluteDate
+    };
+    _this.keyboardize = _this.keyboardize.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleUnitChange = _this.handleUnitChange.bind(_this);
     return _this;
   }
 
   _createClass(TimeAgoField, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.$el = (0, _jquery2.default)(this.el);
+      this.$el.addKeyboard();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.$el.addKeyboard('destroy');
+    }
+  }, {
+    key: 'keyboardize',
+    value: function keyboardize(e) {
+      e.preventDefault();
+      this.$el = (0, _jquery2.default)(this.el);
+      var kb = this.$el.getkeyboard();
+      // close the keyboard if the keyboard is visible and the button is clicked a second time
+      if (kb.isOpen) {
+        kb.close();
+      } else {
+        kb.reveal();
+      }
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(event) {
+      this.props.onDateChange(_defineProperty({}, event.target.name, event.target.value));
+    }
+  }, {
+    key: 'handleUnitChange',
+    value: function handleUnitChange(val) {
+      this.props.onDateChange({
+        timeAgoUnit: val.timeAgoUnit
+      });
+    }
+  }, {
     key: 'handleSwitch',
     value: function handleSwitch(elem, state) {
       this.setState({ show: state });
@@ -11399,26 +11454,34 @@ var TimeAgoField = function (_React$Component) {
               { className: 'form-inline' },
               _react2.default.createElement('input', {
                 type: 'number',
-                name: 'visit[' + this.props.parameterizedPlural + '_attributes][' + this.props.rowID + '][time_ago_amount]',
+                name: 'timeAgoAmount',
                 id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_time_ago_amount',
                 className: 'form-control calculator',
-                placeholder: 'time ago'
+                placeholder: 'time ago',
+                ref: function ref(el) {
+                  return _this2.el = el;
+                },
+                value: this.state.timeAgoAmount,
+                onChange: this.handleChange
               }),
               _react2.default.createElement(
                 'button',
                 {
                   className: 'btn btn-secondary calculator',
                   type: 'button',
-                  id: this.props.parameterizedPlural + '_' + this.props.rowID + '_time_calc_button'
+                  id: this.props.parameterizedPlural + '_' + this.props.rowID + '_time_calc_button',
+                  onClick: this.keyboardize
                 },
                 _react2.default.createElement('i', { className: 'fa fa-calculator' })
               ),
               _react2.default.createElement(_SelectConstructor2.default, {
                 arr: options,
                 title: 'time ago',
-                attribute: 'time_ago_scale',
                 parameterizedPlural: this.props.parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                name: 'timeAgoUnit',
+                value: this.state.timeAgoUnit,
+                onUnitChange: this.handleUnitChange
               })
             )
           )
@@ -11431,9 +11494,11 @@ var TimeAgoField = function (_React$Component) {
             { className: 'exact' },
             _react2.default.createElement('input', {
               type: 'date',
-              name: 'visit[' + this.props.parameterizedPlural + '_attributes][' + this.props.rowID + '][' + absoluteTime + ']',
+              name: 'absoluteDate',
               id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + absoluteTime,
-              className: 'form-control'
+              className: 'form-control',
+              value: this.state.absoluteDate,
+              onChange: this.handleChange
             })
           )
         )
@@ -12190,6 +12255,8 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -12199,13 +12266,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var SelectConstructor = function (_React$Component) {
   _inherits(SelectConstructor, _React$Component);
 
-  function SelectConstructor() {
+  function SelectConstructor(props) {
     _classCallCheck(this, SelectConstructor);
 
-    return _possibleConstructorReturn(this, (SelectConstructor.__proto__ || Object.getPrototypeOf(SelectConstructor)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (SelectConstructor.__proto__ || Object.getPrototypeOf(SelectConstructor)).call(this, props));
+
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(SelectConstructor, [{
+    key: 'handleChange',
+    value: function handleChange(event) {
+      this.props.onUnitChange(_defineProperty({}, event.target.name, event.target.value));
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -12216,20 +12291,22 @@ var SelectConstructor = function (_React$Component) {
           inputBegin = _react2.default.createElement('input', {
             type: 'text',
             disabled: 'true',
-            name: 'visit[' + this.props.parameterizedPlural + '_attributes][' + this.props.rowID + '][' + this.props.attribute + ']',
-            id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.attribute,
+            name: this.props.name,
+            id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.name,
             className: 'form-control single-option',
             value: this.props.arr[0],
-            multiple: true
+            multiple: true,
+            onChange: this.handleChange
           });
         } else {
           inputBegin = _react2.default.createElement('input', {
             type: 'text',
             disabled: 'true',
-            name: 'visit[' + this.props.parameterizedPlural + '_attributes][' + this.props.rowID + '][' + this.props.attribute + ']',
+            name: this.props.name,
             id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.attribute,
             className: 'form-control single-option',
-            value: this.props.arr[0]
+            value: this.props.arr[0],
+            onChange: this.handleChange
           });
         }
       } else {
@@ -12259,10 +12336,11 @@ var SelectConstructor = function (_React$Component) {
           inputBegin = _react2.default.createElement(
             'select',
             {
-              name: 'visit[' + this.props.parameterizedPlural + '_attributes][' + this.props.rowID + '][' + this.props.attribute + ']',
+              name: this.props.name,
               id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.attribute,
               className: 'form-control',
-              multiple: true
+              multiple: true,
+              onChange: this.handleChange
             },
             options
           );
@@ -12270,9 +12348,10 @@ var SelectConstructor = function (_React$Component) {
           inputBegin = _react2.default.createElement(
             'select',
             {
-              name: 'visit[' + this.props.parameterizedPlural + '_attributes][' + this.props.rowID + '][' + this.props.attribute + ']',
+              name: this.props.name,
               id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.attribute,
-              className: 'form-control'
+              className: 'form-control',
+              onChange: this.handleChange
             },
             options
           );
@@ -12325,11 +12404,11 @@ SelectConstructor.propTypes = {
 
 
 var _prodInvariant = __webpack_require__(5),
-    _assign = __webpack_require__(8);
+    _assign = __webpack_require__(7);
 
-var CallbackQueue = __webpack_require__(89);
+var CallbackQueue = __webpack_require__(92);
 var PooledClass = __webpack_require__(28);
-var ReactFeatureFlags = __webpack_require__(90);
+var ReactFeatureFlags = __webpack_require__(93);
 var ReactReconciler = __webpack_require__(32);
 var Transaction = __webpack_require__(43);
 
@@ -12581,7 +12660,7 @@ module.exports = ReactUpdates;
 
 
 
-var _assign = __webpack_require__(8);
+var _assign = __webpack_require__(7);
 
 var PooledClass = __webpack_require__(28);
 
@@ -13059,7 +13138,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(7) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(8) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -13094,7 +13173,7 @@ return $.ui.version = "1.12.1";
 
 
 
-var _assign = __webpack_require__(8);
+var _assign = __webpack_require__(7);
 
 var ReactCurrentOwner = __webpack_require__(20);
 
@@ -13102,7 +13181,7 @@ var warning = __webpack_require__(4);
 var canDefineProperty = __webpack_require__(38);
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-var REACT_ELEMENT_TYPE = __webpack_require__(78);
+var REACT_ELEMENT_TYPE = __webpack_require__(81);
 
 var RESERVED_PROPS = {
   key: true,
@@ -13445,6 +13524,10 @@ var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _jquery = __webpack_require__(8);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 var _SelectConstructor = __webpack_require__(21);
 
 var _SelectConstructor2 = _interopRequireDefault(_SelectConstructor);
@@ -13457,18 +13540,52 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+__webpack_require__(49);
+__webpack_require__(73);
+__webpack_require__(74);
+__webpack_require__(75);
+
 var DurationField = function (_React$Component) {
   _inherits(DurationField, _React$Component);
 
   function DurationField() {
     _classCallCheck(this, DurationField);
 
-    return _possibleConstructorReturn(this, (DurationField.__proto__ || Object.getPrototypeOf(DurationField)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (DurationField.__proto__ || Object.getPrototypeOf(DurationField)).call(this));
+
+    _this.keyboardize = _this.keyboardize.bind(_this);
+    return _this;
   }
 
   _createClass(DurationField, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.$el = (0, _jquery2.default)(this.el);
+      this.$el.addKeyboard();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.$el.addKeyboard('destroy');
+    }
+  }, {
+    key: 'keyboardize',
+    value: function keyboardize(e) {
+      e.preventDefault();
+      this.$el = (0, _jquery2.default)(this.el);
+      var kb = this.$el.getkeyboard();
+      // close the keyboard if the keyboard is visible and the button is clicked a second time
+      if (kb.isOpen) {
+        kb.close();
+      } else {
+        kb.reveal();
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var options = ['second(s)', 'minute(s)', 'hour(s)', 'day(s)', 'week(s)', 'month(s)', 'year(s)'];
       return _react2.default.createElement(
         'div',
@@ -13478,21 +13595,25 @@ var DurationField = function (_React$Component) {
           name: 'visit[' + this.props.parameterizedPlural + '_attributes][' + this.props.rowID + '][duration_amount]',
           id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_duration_amount',
           className: 'form-control calculator',
-          placeholder: 'duration'
+          placeholder: 'duration',
+          ref: function ref(el) {
+            return _this2.el = el;
+          }
         }),
         _react2.default.createElement(
           'button',
           {
             className: 'btn btn-secondary calculator',
             type: 'button',
-            id: this.props.parameterizedPlural + '_' + this.props.rowID + '_duration_calc_button'
+            id: this.props.parameterizedPlural + '_' + this.props.rowID + '_duration_calc_button',
+            onClick: this.keyboardize
           },
           _react2.default.createElement('i', { className: 'fa fa-calculator' })
         ),
         _react2.default.createElement(_SelectConstructor2.default, {
           arr: options,
           title: 'for how long',
-          attribute: 'duration_scale',
+          name: 'durationScale',
           parameterizedPlural: this.props.parameterizedPlural,
           rowID: this.props.rowID
         })
@@ -13651,7 +13772,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _jquery = __webpack_require__(7);
+var _jquery = __webpack_require__(8);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -13668,9 +13789,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 __webpack_require__(49);
-__webpack_require__(121);
-__webpack_require__(122);
-__webpack_require__(123);
+__webpack_require__(73);
+__webpack_require__(74);
+__webpack_require__(75);
 
 var MeasurementField = function (_React$Component) {
   _inherits(MeasurementField, _React$Component);
@@ -13744,7 +13865,7 @@ var MeasurementField = function (_React$Component) {
           arr: options,
           title: this.props.title,
           other: false,
-          attribute: 'test_unit_of_meas',
+          name: 'testUnitOfMeas',
           parameterizedPlural: this.props.parameterizedPlural,
           rowID: this.props.rowID,
           multiSelect: this.props.multiSelect
@@ -13789,9 +13910,9 @@ MeasurementField.propTypes = {
 
 
 
-var _assign = __webpack_require__(8);
+var _assign = __webpack_require__(7);
 
-var ReactBaseClasses = __webpack_require__(76);
+var ReactBaseClasses = __webpack_require__(79);
 var ReactChildren = __webpack_require__(145);
 var ReactDOMFactories = __webpack_require__(149);
 var ReactElement = __webpack_require__(26);
@@ -13808,7 +13929,7 @@ var cloneElement = ReactElement.cloneElement;
 if (process.env.NODE_ENV !== 'production') {
   var lowPriorityWarning = __webpack_require__(50);
   var canDefineProperty = __webpack_require__(38);
-  var ReactElementValidator = __webpack_require__(80);
+  var ReactElementValidator = __webpack_require__(83);
   var didWarnPropTypesDeprecated = false;
   createElement = ReactElementValidator.createElement;
   createFactory = ReactElementValidator.createFactory;
@@ -14147,7 +14268,7 @@ var DOMNamespaces = __webpack_require__(62);
 var setInnerHTML = __webpack_require__(45);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(63);
-var setTextContent = __webpack_require__(94);
+var setTextContent = __webpack_require__(97);
 
 var ELEMENT_NODE_TYPE = 1;
 var DOCUMENT_FRAGMENT_NODE_TYPE = 11;
@@ -14269,8 +14390,8 @@ module.exports = DOMLazyTree;
 var EventPluginHub = __webpack_require__(35);
 var EventPluginUtils = __webpack_require__(56);
 
-var accumulateInto = __webpack_require__(86);
-var forEachAccumulated = __webpack_require__(87);
+var accumulateInto = __webpack_require__(89);
+var forEachAccumulated = __webpack_require__(90);
 var warning = __webpack_require__(4);
 
 var getListener = EventPluginHub.getListener;
@@ -14412,8 +14533,8 @@ var EventPluginRegistry = __webpack_require__(42);
 var EventPluginUtils = __webpack_require__(56);
 var ReactErrorUtils = __webpack_require__(57);
 
-var accumulateInto = __webpack_require__(86);
-var forEachAccumulated = __webpack_require__(87);
+var accumulateInto = __webpack_require__(89);
+var forEachAccumulated = __webpack_require__(90);
 var invariant = __webpack_require__(3);
 
 /**
@@ -14863,6 +14984,10 @@ var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _jquery = __webpack_require__(8);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 var _SelectConstructor = __webpack_require__(21);
 
 var _SelectConstructor2 = _interopRequireDefault(_SelectConstructor);
@@ -14875,18 +15000,52 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+__webpack_require__(49);
+__webpack_require__(73);
+__webpack_require__(74);
+__webpack_require__(75);
+
 var FrequencyField = function (_React$Component) {
   _inherits(FrequencyField, _React$Component);
 
   function FrequencyField() {
     _classCallCheck(this, FrequencyField);
 
-    return _possibleConstructorReturn(this, (FrequencyField.__proto__ || Object.getPrototypeOf(FrequencyField)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (FrequencyField.__proto__ || Object.getPrototypeOf(FrequencyField)).call(this));
+
+    _this.keyboardize = _this.keyboardize.bind(_this);
+    return _this;
   }
 
   _createClass(FrequencyField, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.$el = (0, _jquery2.default)(this.el);
+      this.$el.addKeyboard();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.$el.addKeyboard('destroy');
+    }
+  }, {
+    key: 'keyboardize',
+    value: function keyboardize(e) {
+      e.preventDefault();
+      this.$el = (0, _jquery2.default)(this.el);
+      var kb = this.$el.getkeyboard();
+      // close the keyboard if the keyboard is visible and the button is clicked a second time
+      if (kb.isOpen) {
+        kb.close();
+      } else {
+        kb.reveal();
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var options = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
       return _react2.default.createElement(
         'div',
@@ -14896,21 +15055,25 @@ var FrequencyField = function (_React$Component) {
           name: 'visit[' + this.props.parameterizedPlural + '_attributes][' + this.props.rowID + '][frequency_amount]',
           id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_frequency_amount',
           className: 'form-control calculator',
-          placeholder: 'frequency'
+          placeholder: 'frequency',
+          ref: function ref(el) {
+            return _this2.el = el;
+          }
         }),
         _react2.default.createElement(
           'button',
           {
             className: 'btn btn-secondary calculator',
             type: 'button',
-            id: this.props.parameterizedPlural + '_' + this.props.rowID + '_freq_calc_button'
+            id: this.props.parameterizedPlural + '_' + this.props.rowID + '_freq_calc_button',
+            onClick: this.keyboardize
           },
           _react2.default.createElement('i', { className: 'fa fa-calculator' })
         ),
         _react2.default.createElement(_SelectConstructor2.default, {
           arr: options,
           title: 'times per',
-          attribute: 'frequency_scale',
+          name: 'frequencyScale',
           parameterizedPlural: this.props.parameterizedPlural,
           rowID: this.props.rowID
         })
@@ -15463,7 +15626,7 @@ module.exports = TransactionImpl;
 
 
 var SyntheticUIEvent = __webpack_require__(36);
-var ViewportMetrics = __webpack_require__(93);
+var ViewportMetrics = __webpack_require__(96);
 
 var getEventModifierState = __webpack_require__(60);
 
@@ -15769,11 +15932,11 @@ module.exports = escapeTextContentForBrowser;
 
 
 
-var _assign = __webpack_require__(8);
+var _assign = __webpack_require__(7);
 
 var EventPluginRegistry = __webpack_require__(42);
 var ReactEventEmitterMixin = __webpack_require__(200);
-var ViewportMetrics = __webpack_require__(93);
+var ViewportMetrics = __webpack_require__(96);
 
 var getVendorPrefixedEventName = __webpack_require__(201);
 var isEventSupported = __webpack_require__(59);
@@ -16118,7 +16281,7 @@ http://www.opensource.org/licenses/mit-license.php
 /*global require:false, define:false, module:false */
 ;(function (factory) {
 	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(7)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(8)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -19395,7 +19558,7 @@ http://www.opensource.org/licenses/mit-license.php
 
 }));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 /* 49 */
@@ -19404,7 +19567,7 @@ http://www.opensource.org/licenses/mit-license.php
 "use strict";
 
 
-var _jquery = __webpack_require__(7);
+var _jquery = __webpack_require__(8);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -20255,7 +20418,7 @@ var ReactInstrumentation = __webpack_require__(19);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(63);
 var setInnerHTML = __webpack_require__(45);
-var setTextContent = __webpack_require__(94);
+var setTextContent = __webpack_require__(97);
 
 function getNodeAfter(parentNode, node) {
   // Special case for text components, which return [open, close] comments
@@ -20544,8 +20707,8 @@ module.exports = createMicrosoftUnsafeLocalFunction;
 
 var _prodInvariant = __webpack_require__(5);
 
-var ReactPropTypesSecret = __webpack_require__(98);
-var propTypesFactory = __webpack_require__(81);
+var ReactPropTypesSecret = __webpack_require__(101);
+var propTypesFactory = __webpack_require__(84);
 
 var React = __webpack_require__(30);
 var PropTypes = propTypesFactory(React.isValidElement);
@@ -21160,7 +21323,7 @@ module.exports = ReactUpdateQueue;
 
 
 
-var _assign = __webpack_require__(8);
+var _assign = __webpack_require__(7);
 
 var emptyFunction = __webpack_require__(18);
 var warning = __webpack_require__(4);
@@ -21596,6 +21759,10 @@ var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _jquery = __webpack_require__(8);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 var _SelectConstructor = __webpack_require__(21);
 
 var _SelectConstructor2 = _interopRequireDefault(_SelectConstructor);
@@ -21628,6 +21795,11 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+__webpack_require__(49);
+__webpack_require__(73);
+__webpack_require__(74);
+__webpack_require__(75);
+
 var ingestionMethods = ['orally', 'intravenously', 'intramuscularly', 'subcutaneously', 'sublingually', 'buccally', 'rectally', 'vaginally', 'by the ocular route', 'by the otic route', 'nasally', 'by nebulization', 'cutaneously', 'transdermally', 'intrathecally'];
 var unitsOfMeas = ['mcg', 'mg', 'mL', 'mm', 'g', 'L', 'IU'];
 var dosageForms = ['tablet', 'capsule', 'pill', 'liquid solution', 'inhaler', 'cream', 'drops', 'suppository'];
@@ -21638,12 +21810,58 @@ var MedFormFields = function (_React$Component) {
   function MedFormFields() {
     _classCallCheck(this, MedFormFields);
 
-    return _possibleConstructorReturn(this, (MedFormFields.__proto__ || Object.getPrototypeOf(MedFormFields)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (MedFormFields.__proto__ || Object.getPrototypeOf(MedFormFields)).call(this));
+
+    _this.keyboardize0 = _this.keyboardize0.bind(_this);
+    _this.keyboardize1 = _this.keyboardize1.bind(_this);
+    return _this;
   }
 
   _createClass(MedFormFields, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.$el0 = (0, _jquery2.default)(this.el0);
+      this.$el1 = (0, _jquery2.default)(this.el1);
+      this.$el0.addKeyboard();
+      this.$el1.addKeyboard();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.$el0.addKeyboard('destroy');
+      this.$el1.addKeyboard('destroy');
+    }
+  }, {
+    key: 'keyboardize0',
+    value: function keyboardize0(e) {
+      e.preventDefault();
+      this.$el0 = (0, _jquery2.default)(this.el0);
+      var kb = this.$el0.getkeyboard();
+      // close the keyboard if the keyboard is visible and the button is clicked a second time
+      if (kb.isOpen) {
+        kb.close();
+      } else {
+        kb.reveal();
+      }
+    }
+  }, {
+    key: 'keyboardize1',
+    value: function keyboardize1(e) {
+      e.preventDefault();
+      this.$el1 = (0, _jquery2.default)(this.el1);
+      var kb = this.$el1.getkeyboard();
+      // close the keyboard if the keyboard is visible and the button is clicked a second time
+      if (kb.isOpen) {
+        kb.close();
+      } else {
+        kb.reveal();
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var parameterizedPlural = 'medications';
       return _react2.default.createElement(
         'div',
@@ -21664,7 +21882,10 @@ var MedFormFields = function (_React$Component) {
               name: 'visit[medications_attributes][' + this.props.rowID + '][dose]',
               id: 'visit_medications_attributes_' + this.props.rowID + '_dose',
               className: 'form-control calculator',
-              placeholder: 'dose'
+              placeholder: 'dose',
+              ref: function ref(el0) {
+                return _this2.el0 = el0;
+              }
             }),
             _react2.default.createElement(
               'span',
@@ -21674,7 +21895,8 @@ var MedFormFields = function (_React$Component) {
                 {
                   className: 'btn btn-secondary calculator',
                   type: 'button',
-                  id: 'medications_' + this.props.rowID + '_dose_calc_button'
+                  id: 'medications_' + this.props.rowID + '_dose_calc_button',
+                  onClick: this.keyboardize0
                 },
                 _react2.default.createElement('i', { className: 'fa fa-calculator' })
               )
@@ -21682,7 +21904,7 @@ var MedFormFields = function (_React$Component) {
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: unitsOfMeas,
               title: 'dose units',
-              attribute: 'dose_unit_of_measurement',
+              name: 'doseUnitOfMeasurement',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             })
@@ -21704,28 +21926,32 @@ var MedFormFields = function (_React$Component) {
               name: 'visit[medications_attributes][' + this.props.rowID + '][dosage_form_units]',
               id: 'visit_medications_attributes_' + this.props.rowID + '_dosage_form_units',
               className: 'form-control calculator',
-              placeholder: 'dosage form units'
+              placeholder: 'dosage form units',
+              ref: function ref(el1) {
+                return _this2.el1 = el1;
+              }
             }),
             _react2.default.createElement(
               'button',
               {
                 className: 'btn btn-secondary calculator',
                 type: 'button',
-                id: 'medications_' + this.props.rowID + '_dose_units_calc_button'
+                id: 'medications_' + this.props.rowID + '_dose_units_calc_button',
+                onClick: this.keyboardize1
               },
               _react2.default.createElement('i', { className: 'fa fa-calculator' })
             ),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: unitsOfMeas,
               title: 'dose form units',
-              attribute: 'dosage_form_units',
+              name: 'dosageFormUnits',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: dosageForms,
               title: 'dose form',
-              attribute: 'dosage_form',
+              name: 'dosageForm',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             })
@@ -21745,7 +21971,7 @@ var MedFormFields = function (_React$Component) {
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: ingestionMethods,
               title: 'MOI',
-              attribute: 'ingestion_method',
+              name: 'ingestionMethod',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             })
@@ -21840,6 +22066,1106 @@ MedFormFields.propTypes = {
 
 /***/ }),
 /* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(jQuery) {(function($, undefined) {
+
+/**
+ * Unobtrusive scripting adapter for jQuery
+ * https://github.com/rails/jquery-ujs
+ *
+ * Requires jQuery 1.8.0 or later.
+ *
+ * Released under the MIT license
+ *
+ */
+
+  // Cut down on the number of issues from people inadvertently including jquery_ujs twice
+  // by detecting and raising an error when it happens.
+  'use strict';
+
+  if ( $.rails !== undefined ) {
+    $.error('jquery-ujs has already been loaded!');
+  }
+
+  // Shorthand to make it a little easier to call public rails functions from within rails.js
+  var rails;
+  var $document = $(document);
+
+  $.rails = rails = {
+    // Link elements bound by jquery-ujs
+    linkClickSelector: 'a[data-confirm], a[data-method], a[data-remote]:not([disabled]), a[data-disable-with], a[data-disable]',
+
+    // Button elements bound by jquery-ujs
+    buttonClickSelector: 'button[data-remote]:not([form]):not(form button), button[data-confirm]:not([form]):not(form button)',
+
+    // Select elements bound by jquery-ujs
+    inputChangeSelector: 'select[data-remote], input[data-remote], textarea[data-remote]',
+
+    // Form elements bound by jquery-ujs
+    formSubmitSelector: 'form',
+
+    // Form input elements bound by jquery-ujs
+    formInputClickSelector: 'form input[type=submit], form input[type=image], form button[type=submit], form button:not([type]), input[type=submit][form], input[type=image][form], button[type=submit][form], button[form]:not([type])',
+
+    // Form input elements disabled during form submission
+    disableSelector: 'input[data-disable-with]:enabled, button[data-disable-with]:enabled, textarea[data-disable-with]:enabled, input[data-disable]:enabled, button[data-disable]:enabled, textarea[data-disable]:enabled',
+
+    // Form input elements re-enabled after form submission
+    enableSelector: 'input[data-disable-with]:disabled, button[data-disable-with]:disabled, textarea[data-disable-with]:disabled, input[data-disable]:disabled, button[data-disable]:disabled, textarea[data-disable]:disabled',
+
+    // Form required input elements
+    requiredInputSelector: 'input[name][required]:not([disabled]), textarea[name][required]:not([disabled])',
+
+    // Form file input elements
+    fileInputSelector: 'input[name][type=file]:not([disabled])',
+
+    // Link onClick disable selector with possible reenable after remote submission
+    linkDisableSelector: 'a[data-disable-with], a[data-disable]',
+
+    // Button onClick disable selector with possible reenable after remote submission
+    buttonDisableSelector: 'button[data-remote][data-disable-with], button[data-remote][data-disable]',
+
+    // Up-to-date Cross-Site Request Forgery token
+    csrfToken: function() {
+     return $('meta[name=csrf-token]').attr('content');
+    },
+
+    // URL param that must contain the CSRF token
+    csrfParam: function() {
+     return $('meta[name=csrf-param]').attr('content');
+    },
+
+    // Make sure that every Ajax request sends the CSRF token
+    CSRFProtection: function(xhr) {
+      var token = rails.csrfToken();
+      if (token) xhr.setRequestHeader('X-CSRF-Token', token);
+    },
+
+    // Make sure that all forms have actual up-to-date tokens (cached forms contain old ones)
+    refreshCSRFTokens: function(){
+      $('form input[name="' + rails.csrfParam() + '"]').val(rails.csrfToken());
+    },
+
+    // Triggers an event on an element and returns false if the event result is false
+    fire: function(obj, name, data) {
+      var event = $.Event(name);
+      obj.trigger(event, data);
+      return event.result !== false;
+    },
+
+    // Default confirm dialog, may be overridden with custom confirm dialog in $.rails.confirm
+    confirm: function(message) {
+      return confirm(message);
+    },
+
+    // Default ajax function, may be overridden with custom function in $.rails.ajax
+    ajax: function(options) {
+      return $.ajax(options);
+    },
+
+    // Default way to get an element's href. May be overridden at $.rails.href.
+    href: function(element) {
+      return element[0].href;
+    },
+
+    // Checks "data-remote" if true to handle the request through a XHR request.
+    isRemote: function(element) {
+      return element.data('remote') !== undefined && element.data('remote') !== false;
+    },
+
+    // Submits "remote" forms and links with ajax
+    handleRemote: function(element) {
+      var method, url, data, withCredentials, dataType, options;
+
+      if (rails.fire(element, 'ajax:before')) {
+        withCredentials = element.data('with-credentials') || null;
+        dataType = element.data('type') || ($.ajaxSettings && $.ajaxSettings.dataType);
+
+        if (element.is('form')) {
+          method = element.data('ujs:submit-button-formmethod') || element.attr('method');
+          url = element.data('ujs:submit-button-formaction') || element.attr('action');
+          data = $(element[0]).serializeArray();
+          // memoized value from clicked submit button
+          var button = element.data('ujs:submit-button');
+          if (button) {
+            data.push(button);
+            element.data('ujs:submit-button', null);
+          }
+          element.data('ujs:submit-button-formmethod', null);
+          element.data('ujs:submit-button-formaction', null);
+        } else if (element.is(rails.inputChangeSelector)) {
+          method = element.data('method');
+          url = element.data('url');
+          data = element.serialize();
+          if (element.data('params')) data = data + '&' + element.data('params');
+        } else if (element.is(rails.buttonClickSelector)) {
+          method = element.data('method') || 'get';
+          url = element.data('url');
+          data = element.serialize();
+          if (element.data('params')) data = data + '&' + element.data('params');
+        } else {
+          method = element.data('method');
+          url = rails.href(element);
+          data = element.data('params') || null;
+        }
+
+        options = {
+          type: method || 'GET', data: data, dataType: dataType,
+          // stopping the "ajax:beforeSend" event will cancel the ajax request
+          beforeSend: function(xhr, settings) {
+            if (settings.dataType === undefined) {
+              xhr.setRequestHeader('accept', '*/*;q=0.5, ' + settings.accepts.script);
+            }
+            if (rails.fire(element, 'ajax:beforeSend', [xhr, settings])) {
+              element.trigger('ajax:send', xhr);
+            } else {
+              return false;
+            }
+          },
+          success: function(data, status, xhr) {
+            element.trigger('ajax:success', [data, status, xhr]);
+          },
+          complete: function(xhr, status) {
+            element.trigger('ajax:complete', [xhr, status]);
+          },
+          error: function(xhr, status, error) {
+            element.trigger('ajax:error', [xhr, status, error]);
+          },
+          crossDomain: rails.isCrossDomain(url)
+        };
+
+        // There is no withCredentials for IE6-8 when
+        // "Enable native XMLHTTP support" is disabled
+        if (withCredentials) {
+          options.xhrFields = {
+            withCredentials: withCredentials
+          };
+        }
+
+        // Only pass url to `ajax` options if not blank
+        if (url) { options.url = url; }
+
+        return rails.ajax(options);
+      } else {
+        return false;
+      }
+    },
+
+    // Determines if the request is a cross domain request.
+    isCrossDomain: function(url) {
+      var originAnchor = document.createElement('a');
+      originAnchor.href = location.href;
+      var urlAnchor = document.createElement('a');
+
+      try {
+        urlAnchor.href = url;
+        // This is a workaround to a IE bug.
+        urlAnchor.href = urlAnchor.href;
+
+        // If URL protocol is false or is a string containing a single colon
+        // *and* host are false, assume it is not a cross-domain request
+        // (should only be the case for IE7 and IE compatibility mode).
+        // Otherwise, evaluate protocol and host of the URL against the origin
+        // protocol and host.
+        return !(((!urlAnchor.protocol || urlAnchor.protocol === ':') && !urlAnchor.host) ||
+          (originAnchor.protocol + '//' + originAnchor.host ===
+            urlAnchor.protocol + '//' + urlAnchor.host));
+      } catch (e) {
+        // If there is an error parsing the URL, assume it is crossDomain.
+        return true;
+      }
+    },
+
+    // Handles "data-method" on links such as:
+    // <a href="/users/5" data-method="delete" rel="nofollow" data-confirm="Are you sure?">Delete</a>
+    handleMethod: function(link) {
+      var href = rails.href(link),
+        method = link.data('method'),
+        target = link.attr('target'),
+        csrfToken = rails.csrfToken(),
+        csrfParam = rails.csrfParam(),
+        form = $('<form method="post" action="' + href + '"></form>'),
+        metadataInput = '<input name="_method" value="' + method + '" type="hidden" />';
+
+      if (csrfParam !== undefined && csrfToken !== undefined && !rails.isCrossDomain(href)) {
+        metadataInput += '<input name="' + csrfParam + '" value="' + csrfToken + '" type="hidden" />';
+      }
+
+      if (target) { form.attr('target', target); }
+
+      form.hide().append(metadataInput).appendTo('body');
+      form.submit();
+    },
+
+    // Helper function that returns form elements that match the specified CSS selector
+    // If form is actually a "form" element this will return associated elements outside the from that have
+    // the html form attribute set
+    formElements: function(form, selector) {
+      return form.is('form') ? $(form[0].elements).filter(selector) : form.find(selector);
+    },
+
+    /* Disables form elements:
+      - Caches element value in 'ujs:enable-with' data store
+      - Replaces element text with value of 'data-disable-with' attribute
+      - Sets disabled property to true
+    */
+    disableFormElements: function(form) {
+      rails.formElements(form, rails.disableSelector).each(function() {
+        rails.disableFormElement($(this));
+      });
+    },
+
+    disableFormElement: function(element) {
+      var method, replacement;
+
+      method = element.is('button') ? 'html' : 'val';
+      replacement = element.data('disable-with');
+
+      if (replacement !== undefined) {
+        element.data('ujs:enable-with', element[method]());
+        element[method](replacement);
+      }
+
+      element.prop('disabled', true);
+      element.data('ujs:disabled', true);
+    },
+
+    /* Re-enables disabled form elements:
+      - Replaces element text with cached value from 'ujs:enable-with' data store (created in `disableFormElements`)
+      - Sets disabled property to false
+    */
+    enableFormElements: function(form) {
+      rails.formElements(form, rails.enableSelector).each(function() {
+        rails.enableFormElement($(this));
+      });
+    },
+
+    enableFormElement: function(element) {
+      var method = element.is('button') ? 'html' : 'val';
+      if (element.data('ujs:enable-with') !== undefined) {
+        element[method](element.data('ujs:enable-with'));
+        element.removeData('ujs:enable-with'); // clean up cache
+      }
+      element.prop('disabled', false);
+      element.removeData('ujs:disabled');
+    },
+
+   /* For 'data-confirm' attribute:
+      - Fires `confirm` event
+      - Shows the confirmation dialog
+      - Fires the `confirm:complete` event
+
+      Returns `true` if no function stops the chain and user chose yes; `false` otherwise.
+      Attaching a handler to the element's `confirm` event that returns a `falsy` value cancels the confirmation dialog.
+      Attaching a handler to the element's `confirm:complete` event that returns a `falsy` value makes this function
+      return false. The `confirm:complete` event is fired whether or not the user answered true or false to the dialog.
+   */
+    allowAction: function(element) {
+      var message = element.data('confirm'),
+          answer = false, callback;
+      if (!message) { return true; }
+
+      if (rails.fire(element, 'confirm')) {
+        try {
+          answer = rails.confirm(message);
+        } catch (e) {
+          (console.error || console.log).call(console, e.stack || e);
+        }
+        callback = rails.fire(element, 'confirm:complete', [answer]);
+      }
+      return answer && callback;
+    },
+
+    // Helper function which checks for blank inputs in a form that match the specified CSS selector
+    blankInputs: function(form, specifiedSelector, nonBlank) {
+      var foundInputs = $(),
+        input,
+        valueToCheck,
+        radiosForNameWithNoneSelected,
+        radioName,
+        selector = specifiedSelector || 'input,textarea',
+        requiredInputs = form.find(selector),
+        checkedRadioButtonNames = {};
+
+      requiredInputs.each(function() {
+        input = $(this);
+        if (input.is('input[type=radio]')) {
+
+          // Don't count unchecked required radio as blank if other radio with same name is checked,
+          // regardless of whether same-name radio input has required attribute or not. The spec
+          // states https://www.w3.org/TR/html5/forms.html#the-required-attribute
+          radioName = input.attr('name');
+
+          // Skip if we've already seen the radio with this name.
+          if (!checkedRadioButtonNames[radioName]) {
+
+            // If none checked
+            if (form.find('input[type=radio]:checked[name="' + radioName + '"]').length === 0) {
+              radiosForNameWithNoneSelected = form.find(
+                'input[type=radio][name="' + radioName + '"]');
+              foundInputs = foundInputs.add(radiosForNameWithNoneSelected);
+            }
+
+            // We only need to check each name once.
+            checkedRadioButtonNames[radioName] = radioName;
+          }
+        } else {
+          valueToCheck = input.is('input[type=checkbox],input[type=radio]') ? input.is(':checked') : !!input.val();
+          if (valueToCheck === nonBlank) {
+            foundInputs = foundInputs.add(input);
+          }
+        }
+      });
+      return foundInputs.length ? foundInputs : false;
+    },
+
+    // Helper function which checks for non-blank inputs in a form that match the specified CSS selector
+    nonBlankInputs: function(form, specifiedSelector) {
+      return rails.blankInputs(form, specifiedSelector, true); // true specifies nonBlank
+    },
+
+    // Helper function, needed to provide consistent behavior in IE
+    stopEverything: function(e) {
+      $(e.target).trigger('ujs:everythingStopped');
+      e.stopImmediatePropagation();
+      return false;
+    },
+
+    //  Replace element's html with the 'data-disable-with' after storing original html
+    //  and prevent clicking on it
+    disableElement: function(element) {
+      var replacement = element.data('disable-with');
+
+      if (replacement !== undefined) {
+        element.data('ujs:enable-with', element.html()); // store enabled state
+        element.html(replacement);
+      }
+
+      element.bind('click.railsDisable', function(e) { // prevent further clicking
+        return rails.stopEverything(e);
+      });
+      element.data('ujs:disabled', true);
+    },
+
+    // Restore element to its original state which was disabled by 'disableElement' above
+    enableElement: function(element) {
+      if (element.data('ujs:enable-with') !== undefined) {
+        element.html(element.data('ujs:enable-with')); // set to old enabled state
+        element.removeData('ujs:enable-with'); // clean up cache
+      }
+      element.unbind('click.railsDisable'); // enable element
+      element.removeData('ujs:disabled');
+    }
+  };
+
+  if (rails.fire($document, 'rails:attachBindings')) {
+
+    $.ajaxPrefilter(function(options, originalOptions, xhr){ if ( !options.crossDomain ) { rails.CSRFProtection(xhr); }});
+
+    // This event works the same as the load event, except that it fires every
+    // time the page is loaded.
+    //
+    // See https://github.com/rails/jquery-ujs/issues/357
+    // See https://developer.mozilla.org/en-US/docs/Using_Firefox_1.5_caching
+    $(window).on('pageshow.rails', function () {
+      $($.rails.enableSelector).each(function () {
+        var element = $(this);
+
+        if (element.data('ujs:disabled')) {
+          $.rails.enableFormElement(element);
+        }
+      });
+
+      $($.rails.linkDisableSelector).each(function () {
+        var element = $(this);
+
+        if (element.data('ujs:disabled')) {
+          $.rails.enableElement(element);
+        }
+      });
+    });
+
+    $document.on('ajax:complete', rails.linkDisableSelector, function() {
+        rails.enableElement($(this));
+    });
+
+    $document.on('ajax:complete', rails.buttonDisableSelector, function() {
+        rails.enableFormElement($(this));
+    });
+
+    $document.on('click.rails', rails.linkClickSelector, function(e) {
+      var link = $(this), method = link.data('method'), data = link.data('params'), metaClick = e.metaKey || e.ctrlKey;
+      if (!rails.allowAction(link)) return rails.stopEverything(e);
+
+      if (!metaClick && link.is(rails.linkDisableSelector)) rails.disableElement(link);
+
+      if (rails.isRemote(link)) {
+        if (metaClick && (!method || method === 'GET') && !data) { return true; }
+
+        var handleRemote = rails.handleRemote(link);
+        // Response from rails.handleRemote() will either be false or a deferred object promise.
+        if (handleRemote === false) {
+          rails.enableElement(link);
+        } else {
+          handleRemote.fail( function() { rails.enableElement(link); } );
+        }
+        return false;
+
+      } else if (method) {
+        rails.handleMethod(link);
+        return false;
+      }
+    });
+
+    $document.on('click.rails', rails.buttonClickSelector, function(e) {
+      var button = $(this);
+
+      if (!rails.allowAction(button) || !rails.isRemote(button)) return rails.stopEverything(e);
+
+      if (button.is(rails.buttonDisableSelector)) rails.disableFormElement(button);
+
+      var handleRemote = rails.handleRemote(button);
+      // Response from rails.handleRemote() will either be false or a deferred object promise.
+      if (handleRemote === false) {
+        rails.enableFormElement(button);
+      } else {
+        handleRemote.fail( function() { rails.enableFormElement(button); } );
+      }
+      return false;
+    });
+
+    $document.on('change.rails', rails.inputChangeSelector, function(e) {
+      var link = $(this);
+      if (!rails.allowAction(link) || !rails.isRemote(link)) return rails.stopEverything(e);
+
+      rails.handleRemote(link);
+      return false;
+    });
+
+    $document.on('submit.rails', rails.formSubmitSelector, function(e) {
+      var form = $(this),
+        remote = rails.isRemote(form),
+        blankRequiredInputs,
+        nonBlankFileInputs;
+
+      if (!rails.allowAction(form)) return rails.stopEverything(e);
+
+      // Skip other logic when required values are missing or file upload is present
+      if (form.attr('novalidate') === undefined) {
+        if (form.data('ujs:formnovalidate-button') === undefined) {
+          blankRequiredInputs = rails.blankInputs(form, rails.requiredInputSelector, false);
+          if (blankRequiredInputs && rails.fire(form, 'ajax:aborted:required', [blankRequiredInputs])) {
+            return rails.stopEverything(e);
+          }
+        } else {
+          // Clear the formnovalidate in case the next button click is not on a formnovalidate button
+          // Not strictly necessary to do here, since it is also reset on each button click, but just to be certain
+          form.data('ujs:formnovalidate-button', undefined);
+        }
+      }
+
+      if (remote) {
+        nonBlankFileInputs = rails.nonBlankInputs(form, rails.fileInputSelector);
+        if (nonBlankFileInputs) {
+          // Slight timeout so that the submit button gets properly serialized
+          // (make it easy for event handler to serialize form without disabled values)
+          setTimeout(function(){ rails.disableFormElements(form); }, 13);
+          var aborted = rails.fire(form, 'ajax:aborted:file', [nonBlankFileInputs]);
+
+          // Re-enable form elements if event bindings return false (canceling normal form submission)
+          if (!aborted) { setTimeout(function(){ rails.enableFormElements(form); }, 13); }
+
+          return aborted;
+        }
+
+        rails.handleRemote(form);
+        return false;
+
+      } else {
+        // Slight timeout so that the submit button gets properly serialized
+        setTimeout(function(){ rails.disableFormElements(form); }, 13);
+      }
+    });
+
+    $document.on('click.rails', rails.formInputClickSelector, function(event) {
+      var button = $(this);
+
+      if (!rails.allowAction(button)) return rails.stopEverything(event);
+
+      // Register the pressed submit button
+      var name = button.attr('name'),
+        data = name ? {name:name, value:button.val()} : null;
+
+      var form = button.closest('form');
+      if (form.length === 0) {
+        form = $('#' + button.attr('form'));
+      }
+      form.data('ujs:submit-button', data);
+
+      // Save attributes from button
+      form.data('ujs:formnovalidate-button', button.attr('formnovalidate'));
+      form.data('ujs:submit-button-formaction', button.attr('formaction'));
+      form.data('ujs:submit-button-formmethod', button.attr('formmethod'));
+    });
+
+    $document.on('ajax:send.rails', rails.formSubmitSelector, function(event) {
+      if (this === event.target) rails.disableFormElements($(this));
+    });
+
+    $document.on('ajax:complete.rails', rails.formSubmitSelector, function(event) {
+      if (this === event.target) rails.enableFormElements($(this));
+    });
+
+    $(function(){
+      rails.refreshCSRFTokens();
+    });
+  }
+
+})( jQuery );
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+
+/***/ }),
+/* 74 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// This file is deprecated in 1.12.0 to be removed in 1.13
+( function() {
+!(__WEBPACK_AMD_DEFINE_FACTORY__ = ([
+	"jquery",
+	"./data",
+	"./disable-selection",
+	"./focusable",
+	"./form",
+	"./ie",
+	"./keycode",
+	"./labels",
+	"./jquery-1-7",
+	"./plugin",
+	"./safe-active-element",
+	"./safe-blur",
+	"./scroll-parent",
+	"./tabbable",
+	"./unique-id",
+	"./version"
+]),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+} )();
+
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * jQuery UI Position 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ *
+ * http://api.jqueryui.com/position/
+ */
+
+//>>label: Position
+//>>group: Core
+//>>description: Positions elements relative to other elements.
+//>>docs: http://api.jqueryui.com/position/
+//>>demos: http://jqueryui.com/position/
+
+( function( factory ) {
+	if ( true ) {
+
+		// AMD. Register as an anonymous module.
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(8), __webpack_require__(25) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+}( function( $ ) {
+( function() {
+var cachedScrollbarWidth,
+	max = Math.max,
+	abs = Math.abs,
+	rhorizontal = /left|center|right/,
+	rvertical = /top|center|bottom/,
+	roffset = /[\+\-]\d+(\.[\d]+)?%?/,
+	rposition = /^\w+/,
+	rpercent = /%$/,
+	_position = $.fn.position;
+
+function getOffsets( offsets, width, height ) {
+	return [
+		parseFloat( offsets[ 0 ] ) * ( rpercent.test( offsets[ 0 ] ) ? width / 100 : 1 ),
+		parseFloat( offsets[ 1 ] ) * ( rpercent.test( offsets[ 1 ] ) ? height / 100 : 1 )
+	];
+}
+
+function parseCss( element, property ) {
+	return parseInt( $.css( element, property ), 10 ) || 0;
+}
+
+function getDimensions( elem ) {
+	var raw = elem[ 0 ];
+	if ( raw.nodeType === 9 ) {
+		return {
+			width: elem.width(),
+			height: elem.height(),
+			offset: { top: 0, left: 0 }
+		};
+	}
+	if ( $.isWindow( raw ) ) {
+		return {
+			width: elem.width(),
+			height: elem.height(),
+			offset: { top: elem.scrollTop(), left: elem.scrollLeft() }
+		};
+	}
+	if ( raw.preventDefault ) {
+		return {
+			width: 0,
+			height: 0,
+			offset: { top: raw.pageY, left: raw.pageX }
+		};
+	}
+	return {
+		width: elem.outerWidth(),
+		height: elem.outerHeight(),
+		offset: elem.offset()
+	};
+}
+
+$.position = {
+	scrollbarWidth: function() {
+		if ( cachedScrollbarWidth !== undefined ) {
+			return cachedScrollbarWidth;
+		}
+		var w1, w2,
+			div = $( "<div " +
+				"style='display:block;position:absolute;width:50px;height:50px;overflow:hidden;'>" +
+				"<div style='height:100px;width:auto;'></div></div>" ),
+			innerDiv = div.children()[ 0 ];
+
+		$( "body" ).append( div );
+		w1 = innerDiv.offsetWidth;
+		div.css( "overflow", "scroll" );
+
+		w2 = innerDiv.offsetWidth;
+
+		if ( w1 === w2 ) {
+			w2 = div[ 0 ].clientWidth;
+		}
+
+		div.remove();
+
+		return ( cachedScrollbarWidth = w1 - w2 );
+	},
+	getScrollInfo: function( within ) {
+		var overflowX = within.isWindow || within.isDocument ? "" :
+				within.element.css( "overflow-x" ),
+			overflowY = within.isWindow || within.isDocument ? "" :
+				within.element.css( "overflow-y" ),
+			hasOverflowX = overflowX === "scroll" ||
+				( overflowX === "auto" && within.width < within.element[ 0 ].scrollWidth ),
+			hasOverflowY = overflowY === "scroll" ||
+				( overflowY === "auto" && within.height < within.element[ 0 ].scrollHeight );
+		return {
+			width: hasOverflowY ? $.position.scrollbarWidth() : 0,
+			height: hasOverflowX ? $.position.scrollbarWidth() : 0
+		};
+	},
+	getWithinInfo: function( element ) {
+		var withinElement = $( element || window ),
+			isWindow = $.isWindow( withinElement[ 0 ] ),
+			isDocument = !!withinElement[ 0 ] && withinElement[ 0 ].nodeType === 9,
+			hasOffset = !isWindow && !isDocument;
+		return {
+			element: withinElement,
+			isWindow: isWindow,
+			isDocument: isDocument,
+			offset: hasOffset ? $( element ).offset() : { left: 0, top: 0 },
+			scrollLeft: withinElement.scrollLeft(),
+			scrollTop: withinElement.scrollTop(),
+			width: withinElement.outerWidth(),
+			height: withinElement.outerHeight()
+		};
+	}
+};
+
+$.fn.position = function( options ) {
+	if ( !options || !options.of ) {
+		return _position.apply( this, arguments );
+	}
+
+	// Make a copy, we don't want to modify arguments
+	options = $.extend( {}, options );
+
+	var atOffset, targetWidth, targetHeight, targetOffset, basePosition, dimensions,
+		target = $( options.of ),
+		within = $.position.getWithinInfo( options.within ),
+		scrollInfo = $.position.getScrollInfo( within ),
+		collision = ( options.collision || "flip" ).split( " " ),
+		offsets = {};
+
+	dimensions = getDimensions( target );
+	if ( target[ 0 ].preventDefault ) {
+
+		// Force left top to allow flipping
+		options.at = "left top";
+	}
+	targetWidth = dimensions.width;
+	targetHeight = dimensions.height;
+	targetOffset = dimensions.offset;
+
+	// Clone to reuse original targetOffset later
+	basePosition = $.extend( {}, targetOffset );
+
+	// Force my and at to have valid horizontal and vertical positions
+	// if a value is missing or invalid, it will be converted to center
+	$.each( [ "my", "at" ], function() {
+		var pos = ( options[ this ] || "" ).split( " " ),
+			horizontalOffset,
+			verticalOffset;
+
+		if ( pos.length === 1 ) {
+			pos = rhorizontal.test( pos[ 0 ] ) ?
+				pos.concat( [ "center" ] ) :
+				rvertical.test( pos[ 0 ] ) ?
+					[ "center" ].concat( pos ) :
+					[ "center", "center" ];
+		}
+		pos[ 0 ] = rhorizontal.test( pos[ 0 ] ) ? pos[ 0 ] : "center";
+		pos[ 1 ] = rvertical.test( pos[ 1 ] ) ? pos[ 1 ] : "center";
+
+		// Calculate offsets
+		horizontalOffset = roffset.exec( pos[ 0 ] );
+		verticalOffset = roffset.exec( pos[ 1 ] );
+		offsets[ this ] = [
+			horizontalOffset ? horizontalOffset[ 0 ] : 0,
+			verticalOffset ? verticalOffset[ 0 ] : 0
+		];
+
+		// Reduce to just the positions without the offsets
+		options[ this ] = [
+			rposition.exec( pos[ 0 ] )[ 0 ],
+			rposition.exec( pos[ 1 ] )[ 0 ]
+		];
+	} );
+
+	// Normalize collision option
+	if ( collision.length === 1 ) {
+		collision[ 1 ] = collision[ 0 ];
+	}
+
+	if ( options.at[ 0 ] === "right" ) {
+		basePosition.left += targetWidth;
+	} else if ( options.at[ 0 ] === "center" ) {
+		basePosition.left += targetWidth / 2;
+	}
+
+	if ( options.at[ 1 ] === "bottom" ) {
+		basePosition.top += targetHeight;
+	} else if ( options.at[ 1 ] === "center" ) {
+		basePosition.top += targetHeight / 2;
+	}
+
+	atOffset = getOffsets( offsets.at, targetWidth, targetHeight );
+	basePosition.left += atOffset[ 0 ];
+	basePosition.top += atOffset[ 1 ];
+
+	return this.each( function() {
+		var collisionPosition, using,
+			elem = $( this ),
+			elemWidth = elem.outerWidth(),
+			elemHeight = elem.outerHeight(),
+			marginLeft = parseCss( this, "marginLeft" ),
+			marginTop = parseCss( this, "marginTop" ),
+			collisionWidth = elemWidth + marginLeft + parseCss( this, "marginRight" ) +
+				scrollInfo.width,
+			collisionHeight = elemHeight + marginTop + parseCss( this, "marginBottom" ) +
+				scrollInfo.height,
+			position = $.extend( {}, basePosition ),
+			myOffset = getOffsets( offsets.my, elem.outerWidth(), elem.outerHeight() );
+
+		if ( options.my[ 0 ] === "right" ) {
+			position.left -= elemWidth;
+		} else if ( options.my[ 0 ] === "center" ) {
+			position.left -= elemWidth / 2;
+		}
+
+		if ( options.my[ 1 ] === "bottom" ) {
+			position.top -= elemHeight;
+		} else if ( options.my[ 1 ] === "center" ) {
+			position.top -= elemHeight / 2;
+		}
+
+		position.left += myOffset[ 0 ];
+		position.top += myOffset[ 1 ];
+
+		collisionPosition = {
+			marginLeft: marginLeft,
+			marginTop: marginTop
+		};
+
+		$.each( [ "left", "top" ], function( i, dir ) {
+			if ( $.ui.position[ collision[ i ] ] ) {
+				$.ui.position[ collision[ i ] ][ dir ]( position, {
+					targetWidth: targetWidth,
+					targetHeight: targetHeight,
+					elemWidth: elemWidth,
+					elemHeight: elemHeight,
+					collisionPosition: collisionPosition,
+					collisionWidth: collisionWidth,
+					collisionHeight: collisionHeight,
+					offset: [ atOffset[ 0 ] + myOffset[ 0 ], atOffset [ 1 ] + myOffset[ 1 ] ],
+					my: options.my,
+					at: options.at,
+					within: within,
+					elem: elem
+				} );
+			}
+		} );
+
+		if ( options.using ) {
+
+			// Adds feedback as second argument to using callback, if present
+			using = function( props ) {
+				var left = targetOffset.left - position.left,
+					right = left + targetWidth - elemWidth,
+					top = targetOffset.top - position.top,
+					bottom = top + targetHeight - elemHeight,
+					feedback = {
+						target: {
+							element: target,
+							left: targetOffset.left,
+							top: targetOffset.top,
+							width: targetWidth,
+							height: targetHeight
+						},
+						element: {
+							element: elem,
+							left: position.left,
+							top: position.top,
+							width: elemWidth,
+							height: elemHeight
+						},
+						horizontal: right < 0 ? "left" : left > 0 ? "right" : "center",
+						vertical: bottom < 0 ? "top" : top > 0 ? "bottom" : "middle"
+					};
+				if ( targetWidth < elemWidth && abs( left + right ) < targetWidth ) {
+					feedback.horizontal = "center";
+				}
+				if ( targetHeight < elemHeight && abs( top + bottom ) < targetHeight ) {
+					feedback.vertical = "middle";
+				}
+				if ( max( abs( left ), abs( right ) ) > max( abs( top ), abs( bottom ) ) ) {
+					feedback.important = "horizontal";
+				} else {
+					feedback.important = "vertical";
+				}
+				options.using.call( this, props, feedback );
+			};
+		}
+
+		elem.offset( $.extend( position, { using: using } ) );
+	} );
+};
+
+$.ui.position = {
+	fit: {
+		left: function( position, data ) {
+			var within = data.within,
+				withinOffset = within.isWindow ? within.scrollLeft : within.offset.left,
+				outerWidth = within.width,
+				collisionPosLeft = position.left - data.collisionPosition.marginLeft,
+				overLeft = withinOffset - collisionPosLeft,
+				overRight = collisionPosLeft + data.collisionWidth - outerWidth - withinOffset,
+				newOverRight;
+
+			// Element is wider than within
+			if ( data.collisionWidth > outerWidth ) {
+
+				// Element is initially over the left side of within
+				if ( overLeft > 0 && overRight <= 0 ) {
+					newOverRight = position.left + overLeft + data.collisionWidth - outerWidth -
+						withinOffset;
+					position.left += overLeft - newOverRight;
+
+				// Element is initially over right side of within
+				} else if ( overRight > 0 && overLeft <= 0 ) {
+					position.left = withinOffset;
+
+				// Element is initially over both left and right sides of within
+				} else {
+					if ( overLeft > overRight ) {
+						position.left = withinOffset + outerWidth - data.collisionWidth;
+					} else {
+						position.left = withinOffset;
+					}
+				}
+
+			// Too far left -> align with left edge
+			} else if ( overLeft > 0 ) {
+				position.left += overLeft;
+
+			// Too far right -> align with right edge
+			} else if ( overRight > 0 ) {
+				position.left -= overRight;
+
+			// Adjust based on position and margin
+			} else {
+				position.left = max( position.left - collisionPosLeft, position.left );
+			}
+		},
+		top: function( position, data ) {
+			var within = data.within,
+				withinOffset = within.isWindow ? within.scrollTop : within.offset.top,
+				outerHeight = data.within.height,
+				collisionPosTop = position.top - data.collisionPosition.marginTop,
+				overTop = withinOffset - collisionPosTop,
+				overBottom = collisionPosTop + data.collisionHeight - outerHeight - withinOffset,
+				newOverBottom;
+
+			// Element is taller than within
+			if ( data.collisionHeight > outerHeight ) {
+
+				// Element is initially over the top of within
+				if ( overTop > 0 && overBottom <= 0 ) {
+					newOverBottom = position.top + overTop + data.collisionHeight - outerHeight -
+						withinOffset;
+					position.top += overTop - newOverBottom;
+
+				// Element is initially over bottom of within
+				} else if ( overBottom > 0 && overTop <= 0 ) {
+					position.top = withinOffset;
+
+				// Element is initially over both top and bottom of within
+				} else {
+					if ( overTop > overBottom ) {
+						position.top = withinOffset + outerHeight - data.collisionHeight;
+					} else {
+						position.top = withinOffset;
+					}
+				}
+
+			// Too far up -> align with top
+			} else if ( overTop > 0 ) {
+				position.top += overTop;
+
+			// Too far down -> align with bottom edge
+			} else if ( overBottom > 0 ) {
+				position.top -= overBottom;
+
+			// Adjust based on position and margin
+			} else {
+				position.top = max( position.top - collisionPosTop, position.top );
+			}
+		}
+	},
+	flip: {
+		left: function( position, data ) {
+			var within = data.within,
+				withinOffset = within.offset.left + within.scrollLeft,
+				outerWidth = within.width,
+				offsetLeft = within.isWindow ? within.scrollLeft : within.offset.left,
+				collisionPosLeft = position.left - data.collisionPosition.marginLeft,
+				overLeft = collisionPosLeft - offsetLeft,
+				overRight = collisionPosLeft + data.collisionWidth - outerWidth - offsetLeft,
+				myOffset = data.my[ 0 ] === "left" ?
+					-data.elemWidth :
+					data.my[ 0 ] === "right" ?
+						data.elemWidth :
+						0,
+				atOffset = data.at[ 0 ] === "left" ?
+					data.targetWidth :
+					data.at[ 0 ] === "right" ?
+						-data.targetWidth :
+						0,
+				offset = -2 * data.offset[ 0 ],
+				newOverRight,
+				newOverLeft;
+
+			if ( overLeft < 0 ) {
+				newOverRight = position.left + myOffset + atOffset + offset + data.collisionWidth -
+					outerWidth - withinOffset;
+				if ( newOverRight < 0 || newOverRight < abs( overLeft ) ) {
+					position.left += myOffset + atOffset + offset;
+				}
+			} else if ( overRight > 0 ) {
+				newOverLeft = position.left - data.collisionPosition.marginLeft + myOffset +
+					atOffset + offset - offsetLeft;
+				if ( newOverLeft > 0 || abs( newOverLeft ) < overRight ) {
+					position.left += myOffset + atOffset + offset;
+				}
+			}
+		},
+		top: function( position, data ) {
+			var within = data.within,
+				withinOffset = within.offset.top + within.scrollTop,
+				outerHeight = within.height,
+				offsetTop = within.isWindow ? within.scrollTop : within.offset.top,
+				collisionPosTop = position.top - data.collisionPosition.marginTop,
+				overTop = collisionPosTop - offsetTop,
+				overBottom = collisionPosTop + data.collisionHeight - outerHeight - offsetTop,
+				top = data.my[ 1 ] === "top",
+				myOffset = top ?
+					-data.elemHeight :
+					data.my[ 1 ] === "bottom" ?
+						data.elemHeight :
+						0,
+				atOffset = data.at[ 1 ] === "top" ?
+					data.targetHeight :
+					data.at[ 1 ] === "bottom" ?
+						-data.targetHeight :
+						0,
+				offset = -2 * data.offset[ 1 ],
+				newOverTop,
+				newOverBottom;
+			if ( overTop < 0 ) {
+				newOverBottom = position.top + myOffset + atOffset + offset + data.collisionHeight -
+					outerHeight - withinOffset;
+				if ( newOverBottom < 0 || newOverBottom < abs( overTop ) ) {
+					position.top += myOffset + atOffset + offset;
+				}
+			} else if ( overBottom > 0 ) {
+				newOverTop = position.top - data.collisionPosition.marginTop + myOffset + atOffset +
+					offset - offsetTop;
+				if ( newOverTop > 0 || abs( newOverTop ) < overBottom ) {
+					position.top += myOffset + atOffset + offset;
+				}
+			}
+		}
+	},
+	flipfit: {
+		left: function() {
+			$.ui.position.flip.left.apply( this, arguments );
+			$.ui.position.fit.left.apply( this, arguments );
+		},
+		top: function() {
+			$.ui.position.flip.top.apply( this, arguments );
+			$.ui.position.fit.top.apply( this, arguments );
+		}
+	}
+};
+
+} )();
+
+return $.ui.position;
+
+} ) );
+
+
+/***/ }),
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4.0 */
@@ -23660,7 +24986,7 @@ return Tether;
 
 
 /***/ }),
-/* 74 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23695,7 +25021,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 75 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23799,7 +25125,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 76 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23816,9 +25142,9 @@ exports.default = {
 
 
 var _prodInvariant = __webpack_require__(31),
-    _assign = __webpack_require__(8);
+    _assign = __webpack_require__(7);
 
-var ReactNoopUpdateQueue = __webpack_require__(77);
+var ReactNoopUpdateQueue = __webpack_require__(80);
 
 var canDefineProperty = __webpack_require__(38);
 var emptyObject = __webpack_require__(39);
@@ -23948,7 +25274,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 77 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24049,7 +25375,7 @@ module.exports = ReactNoopUpdateQueue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 78 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24074,7 +25400,7 @@ var REACT_ELEMENT_TYPE = typeof Symbol === 'function' && Symbol['for'] && Symbol
 module.exports = REACT_ELEMENT_TYPE;
 
 /***/ }),
-/* 79 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24120,7 +25446,7 @@ function getIteratorFn(maybeIterable) {
 module.exports = getIteratorFn;
 
 /***/ }),
-/* 80 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24150,7 +25476,7 @@ var ReactElement = __webpack_require__(26);
 var checkReactTypeSpec = __webpack_require__(150);
 
 var canDefineProperty = __webpack_require__(38);
-var getIteratorFn = __webpack_require__(79);
+var getIteratorFn = __webpack_require__(82);
 var warning = __webpack_require__(4);
 var lowPriorityWarning = __webpack_require__(50);
 
@@ -24381,7 +25707,7 @@ module.exports = ReactElementValidator;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 81 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24400,7 +25726,7 @@ module.exports = ReactElementValidator;
 // Therefore we re-export development-only version with all the PropTypes checks here.
 // However if one is migrating to the `prop-types` npm library, they will go through the
 // `index.js` entry point, and it will branch depending on the environment.
-var factory = __webpack_require__(82);
+var factory = __webpack_require__(85);
 module.exports = function(isValidElement) {
   // It is still allowed in 15.5.
   var throwOnDirectAccess = false;
@@ -24409,7 +25735,7 @@ module.exports = function(isValidElement) {
 
 
 /***/ }),
-/* 82 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24929,7 +26255,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 83 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -24998,7 +26324,7 @@ module.exports = warning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 84 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25205,7 +26531,7 @@ AssembledDiagnosisForm.propTypes = {
 };
 
 /***/ }),
-/* 85 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25228,7 +26554,7 @@ var ReactDOMComponentFlags = {
 module.exports = ReactDOMComponentFlags;
 
 /***/ }),
-/* 86 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25292,7 +26618,7 @@ module.exports = accumulateInto;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 87 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25328,7 +26654,7 @@ function forEachAccumulated(arr, cb, scope) {
 module.exports = forEachAccumulated;
 
 /***/ }),
-/* 88 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25366,7 +26692,7 @@ function getTextContentAccessor() {
 module.exports = getTextContentAccessor;
 
 /***/ }),
-/* 89 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25491,7 +26817,7 @@ module.exports = PooledClass.addPoolingTo(CallbackQueue);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 90 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25518,7 +26844,7 @@ var ReactFeatureFlags = {
 module.exports = ReactFeatureFlags;
 
 /***/ }),
-/* 91 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25646,7 +26972,7 @@ var inputValueTracking = {
 module.exports = inputValueTracking;
 
 /***/ }),
-/* 92 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25702,7 +27028,7 @@ function isTextInputElement(elem) {
 module.exports = isTextInputElement;
 
 /***/ }),
-/* 93 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25732,7 +27058,7 @@ var ViewportMetrics = {
 module.exports = ViewportMetrics;
 
 /***/ }),
-/* 94 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25789,7 +27115,7 @@ if (ExecutionEnvironment.canUseDOM) {
 module.exports = setTextContent;
 
 /***/ }),
-/* 95 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25821,7 +27147,7 @@ function focusNode(node) {
 module.exports = focusNode;
 
 /***/ }),
-/* 96 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -25980,7 +27306,7 @@ var CSSProperty = {
 module.exports = CSSProperty;
 
 /***/ }),
-/* 97 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26221,7 +27547,7 @@ module.exports = DOMPropertyOperations;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 98 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26243,7 +27569,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 99 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26259,7 +27585,7 @@ module.exports = ReactPropTypesSecret;
 
 
 
-var _assign = __webpack_require__(8);
+var _assign = __webpack_require__(7);
 
 var LinkedValueUtils = __webpack_require__(64);
 var ReactDOMComponentTree = __webpack_require__(9);
@@ -26449,7 +27775,7 @@ module.exports = ReactDOMSelect;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 100 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26466,11 +27792,11 @@ module.exports = ReactDOMSelect;
 
 
 var _prodInvariant = __webpack_require__(5),
-    _assign = __webpack_require__(8);
+    _assign = __webpack_require__(7);
 
 var ReactCompositeComponent = __webpack_require__(207);
-var ReactEmptyComponent = __webpack_require__(102);
-var ReactHostComponent = __webpack_require__(103);
+var ReactEmptyComponent = __webpack_require__(105);
+var ReactHostComponent = __webpack_require__(106);
 
 var getNextDebugID = __webpack_require__(210);
 var invariant = __webpack_require__(3);
@@ -26584,7 +27910,7 @@ module.exports = instantiateReactComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 101 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26630,7 +27956,7 @@ module.exports = ReactNodeTypes;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 102 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26665,7 +27991,7 @@ ReactEmptyComponent.injection = ReactEmptyComponentInjection;
 module.exports = ReactEmptyComponent;
 
 /***/ }),
-/* 103 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26739,7 +28065,7 @@ module.exports = ReactHostComponent;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 104 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -26921,7 +28247,7 @@ module.exports = traverseAllChildren;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 105 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27004,7 +28330,7 @@ module.exports = EventListener;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 106 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27023,8 +28349,8 @@ module.exports = EventListener;
 var ReactDOMSelection = __webpack_require__(224);
 
 var containsNode = __webpack_require__(226);
-var focusNode = __webpack_require__(95);
-var getActiveElement = __webpack_require__(107);
+var focusNode = __webpack_require__(98);
+var getActiveElement = __webpack_require__(110);
 
 function isInDocument(node) {
   return containsNode(document.documentElement, node);
@@ -27132,7 +28458,7 @@ var ReactInputSelection = {
 module.exports = ReactInputSelection;
 
 /***/ }),
-/* 107 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27176,7 +28502,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 108 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27202,7 +28528,7 @@ var ReactCurrentOwner = __webpack_require__(20);
 var ReactDOMComponentTree = __webpack_require__(9);
 var ReactDOMContainerInfo = __webpack_require__(241);
 var ReactDOMFeatureFlags = __webpack_require__(242);
-var ReactFeatureFlags = __webpack_require__(90);
+var ReactFeatureFlags = __webpack_require__(93);
 var ReactInstanceMap = __webpack_require__(37);
 var ReactInstrumentation = __webpack_require__(19);
 var ReactMarkupChecksum = __webpack_require__(243);
@@ -27211,7 +28537,7 @@ var ReactUpdateQueue = __webpack_require__(69);
 var ReactUpdates = __webpack_require__(22);
 
 var emptyObject = __webpack_require__(39);
-var instantiateReactComponent = __webpack_require__(100);
+var instantiateReactComponent = __webpack_require__(103);
 var invariant = __webpack_require__(3);
 var setInnerHTML = __webpack_require__(45);
 var shouldUpdateReactComponent = __webpack_require__(67);
@@ -27720,7 +29046,7 @@ module.exports = ReactMount;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 109 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27736,7 +29062,7 @@ module.exports = ReactMount;
 
 
 
-var ReactNodeTypes = __webpack_require__(101);
+var ReactNodeTypes = __webpack_require__(104);
 
 function getHostComponentFromComposite(inst) {
   var type;
@@ -27755,7 +29081,7 @@ function getHostComponentFromComposite(inst) {
 module.exports = getHostComponentFromComposite;
 
 /***/ }),
-/* 110 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27842,28 +29168,28 @@ var AssembledDissectionForm = function (_React$Component) {
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: locations,
               title: 'location',
-              attribute: 'location',
+              name: 'location',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: directions,
               title: 'direction',
-              attribute: 'direction',
+              name: 'direction',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: lumens,
               title: 'lumen',
-              attribute: 'lumen',
+              name: 'lumen',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: perfused,
               title: 'perfusion',
-              attribute: 'perfusion',
+              name: 'perfusion',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             })
@@ -27911,7 +29237,7 @@ AssembledDissectionForm.propTypes = {
 };
 
 /***/ }),
-/* 111 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -27997,7 +29323,7 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_SelectConstructor2.default, {
                 arr: locations,
                 title: 'lab name',
-                attribute: 'lab_name',
+                name: 'labName',
                 parameterizedPlural: parameterizedPlural,
                 rowID: this.props.rowID
               })
@@ -28009,7 +29335,7 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_SelectConstructor2.default, {
                 arr: classifications,
                 title: 'lab classification',
-                attribute: 'lab_classification',
+                name: 'labClassification',
                 parameterizedPlural: parameterizedPlural,
                 rowID: this.props.rowID
               })
@@ -28021,7 +29347,7 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_SelectConstructor2.default, {
                 arr: classifications,
                 title: 'clinical classification',
-                attribute: 'clinical_classification',
+                name: 'clinicalClassification',
                 parameterizedPlural: parameterizedPlural,
                 rowID: this.props.rowID
               })
@@ -28186,7 +29512,7 @@ AssembledGeneticTestForm.propTypes = {
 };
 
 /***/ }),
-/* 112 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28319,7 +29645,7 @@ AssembledHeartMeasurementForm.propTypes = {
 };
 
 /***/ }),
-/* 113 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28503,7 +29829,7 @@ AssembledHospitalizationForm.propTypes = {
 };
 
 /***/ }),
-/* 114 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28562,13 +29888,43 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledMeasurementForm = function (_React$Component) {
   _inherits(AssembledMeasurementForm, _React$Component);
 
-  function AssembledMeasurementForm() {
+  function AssembledMeasurementForm(props) {
     _classCallCheck(this, AssembledMeasurementForm);
 
-    return _possibleConstructorReturn(this, (AssembledMeasurementForm.__proto__ || Object.getPrototypeOf(AssembledMeasurementForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledMeasurementForm.__proto__ || Object.getPrototypeOf(AssembledMeasurementForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      measurement: null,
+      units: null,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      note: null,
+      file: null
+    };
+    _this.handleDateChange = _this.handleDateChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledMeasurementForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      debugger;
+      console.log('measurement form unmounting');
+    }
+  }, {
+    key: 'handleDateChange',
+    value: function handleDateChange(values) {
+      this.setState({
+        timeAgoAmount: values.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: values.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: values.absoluteDate || this.state.absoluteDate
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'tests';
@@ -28621,7 +29977,9 @@ var AssembledMeasurementForm = function (_React$Component) {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
                 title: this.props.topic.name,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                measurementValue: this.state.measurement,
+                unitOfMeas: this.state.units
               })
             )
           ),
@@ -28639,7 +29997,11 @@ var AssembledMeasurementForm = function (_React$Component) {
               _react2.default.createElement(_TimeAgoField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleDateChange
               })
             )
           ),
@@ -28657,12 +30019,14 @@ var AssembledMeasurementForm = function (_React$Component) {
               _react2.default.createElement(_NoteField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                noteValue: this.state.note
               }),
               _react2.default.createElement(_FileAttachmentButton2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                attachedFile: this.state.file
               })
             )
           ),
@@ -28689,7 +30053,7 @@ AssembledMeasurementForm.propTypes = {
 };
 
 /***/ }),
-/* 115 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28772,7 +30136,7 @@ AssembledMedicationForm.propTypes = {
 };
 
 /***/ }),
-/* 116 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28935,7 +30299,7 @@ AssembledProcedureForm.propTypes = {
 };
 
 /***/ }),
-/* 117 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29025,7 +30389,7 @@ AssembledVitalForm.propTypes = {
 };
 
 /***/ }),
-/* 118 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29045,7 +30409,7 @@ var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _InfoHover = __webpack_require__(252);
+var _InfoHover = __webpack_require__(251);
 
 var _InfoHover2 = _interopRequireDefault(_InfoHover);
 
@@ -29181,33 +30545,33 @@ PresAbsButtons.propTypes = {
 };
 
 /***/ }),
-/* 119 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(7);
-__webpack_require__(120);
-__webpack_require__(298);
-module.exports = __webpack_require__(299);
+__webpack_require__(8);
+__webpack_require__(123);
+__webpack_require__(297);
+module.exports = __webpack_require__(298);
 
 
 /***/ }),
-/* 120 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {
 
-__webpack_require__(121);
+__webpack_require__(73);
 
-__webpack_require__(122);
+__webpack_require__(74);
 
-__webpack_require__(123);
+__webpack_require__(75);
 
 __webpack_require__(124);
 
 __webpack_require__(130);
 
-var _tether = __webpack_require__(73);
+var _tether = __webpack_require__(76);
 
 var _tether2 = _interopRequireDefault(_tether);
 
@@ -29219,9 +30583,9 @@ __webpack_require__(132);
 
 __webpack_require__(133);
 
-__webpack_require__(74);
+__webpack_require__(77);
 
-__webpack_require__(75);
+__webpack_require__(78);
 
 __webpack_require__(49);
 
@@ -29242,1137 +30606,37 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // import { render } from 'react-dom'
 // import ReactOne from '../components/react_one.jsx'
 // RWR.registerComponent('ReactOne', ReactOne);
-window.$ = __webpack_require__(7);
+window.$ = __webpack_require__(8);
 
 global.Tether = _tether2.default;
 
 // import 'myscript/dist/myscript.js'
 
-__webpack_require__(253);
+__webpack_require__(252);
 
 // ROW FORM TYPES
-__webpack_require__(255);
-__webpack_require__(257);
-__webpack_require__(259);
-__webpack_require__(261);
-__webpack_require__(263);
-__webpack_require__(265);
-__webpack_require__(267);
+__webpack_require__(254);
+__webpack_require__(256);
+__webpack_require__(258);
+__webpack_require__(260);
+__webpack_require__(262);
+__webpack_require__(264);
+__webpack_require__(266);
 
 // EXPOSING JS TO BE USED IN RAILS
 // require('../../stylesheet/application.scss');
-__webpack_require__(280);
-__webpack_require__(282);
-__webpack_require__(284);
-__webpack_require__(286);
-__webpack_require__(288);
-__webpack_require__(290);
-__webpack_require__(292);
-__webpack_require__(294);
+__webpack_require__(279);
+__webpack_require__(281);
+__webpack_require__(283);
+__webpack_require__(285);
+__webpack_require__(287);
+__webpack_require__(289);
+__webpack_require__(291);
+__webpack_require__(293);
 
 // require('expose-loader?MyScript!myscript/dist/myscript.js');
-__webpack_require__(296);
+__webpack_require__(295);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
-
-/***/ }),
-/* 121 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(jQuery) {(function($, undefined) {
-
-/**
- * Unobtrusive scripting adapter for jQuery
- * https://github.com/rails/jquery-ujs
- *
- * Requires jQuery 1.8.0 or later.
- *
- * Released under the MIT license
- *
- */
-
-  // Cut down on the number of issues from people inadvertently including jquery_ujs twice
-  // by detecting and raising an error when it happens.
-  'use strict';
-
-  if ( $.rails !== undefined ) {
-    $.error('jquery-ujs has already been loaded!');
-  }
-
-  // Shorthand to make it a little easier to call public rails functions from within rails.js
-  var rails;
-  var $document = $(document);
-
-  $.rails = rails = {
-    // Link elements bound by jquery-ujs
-    linkClickSelector: 'a[data-confirm], a[data-method], a[data-remote]:not([disabled]), a[data-disable-with], a[data-disable]',
-
-    // Button elements bound by jquery-ujs
-    buttonClickSelector: 'button[data-remote]:not([form]):not(form button), button[data-confirm]:not([form]):not(form button)',
-
-    // Select elements bound by jquery-ujs
-    inputChangeSelector: 'select[data-remote], input[data-remote], textarea[data-remote]',
-
-    // Form elements bound by jquery-ujs
-    formSubmitSelector: 'form',
-
-    // Form input elements bound by jquery-ujs
-    formInputClickSelector: 'form input[type=submit], form input[type=image], form button[type=submit], form button:not([type]), input[type=submit][form], input[type=image][form], button[type=submit][form], button[form]:not([type])',
-
-    // Form input elements disabled during form submission
-    disableSelector: 'input[data-disable-with]:enabled, button[data-disable-with]:enabled, textarea[data-disable-with]:enabled, input[data-disable]:enabled, button[data-disable]:enabled, textarea[data-disable]:enabled',
-
-    // Form input elements re-enabled after form submission
-    enableSelector: 'input[data-disable-with]:disabled, button[data-disable-with]:disabled, textarea[data-disable-with]:disabled, input[data-disable]:disabled, button[data-disable]:disabled, textarea[data-disable]:disabled',
-
-    // Form required input elements
-    requiredInputSelector: 'input[name][required]:not([disabled]), textarea[name][required]:not([disabled])',
-
-    // Form file input elements
-    fileInputSelector: 'input[name][type=file]:not([disabled])',
-
-    // Link onClick disable selector with possible reenable after remote submission
-    linkDisableSelector: 'a[data-disable-with], a[data-disable]',
-
-    // Button onClick disable selector with possible reenable after remote submission
-    buttonDisableSelector: 'button[data-remote][data-disable-with], button[data-remote][data-disable]',
-
-    // Up-to-date Cross-Site Request Forgery token
-    csrfToken: function() {
-     return $('meta[name=csrf-token]').attr('content');
-    },
-
-    // URL param that must contain the CSRF token
-    csrfParam: function() {
-     return $('meta[name=csrf-param]').attr('content');
-    },
-
-    // Make sure that every Ajax request sends the CSRF token
-    CSRFProtection: function(xhr) {
-      var token = rails.csrfToken();
-      if (token) xhr.setRequestHeader('X-CSRF-Token', token);
-    },
-
-    // Make sure that all forms have actual up-to-date tokens (cached forms contain old ones)
-    refreshCSRFTokens: function(){
-      $('form input[name="' + rails.csrfParam() + '"]').val(rails.csrfToken());
-    },
-
-    // Triggers an event on an element and returns false if the event result is false
-    fire: function(obj, name, data) {
-      var event = $.Event(name);
-      obj.trigger(event, data);
-      return event.result !== false;
-    },
-
-    // Default confirm dialog, may be overridden with custom confirm dialog in $.rails.confirm
-    confirm: function(message) {
-      return confirm(message);
-    },
-
-    // Default ajax function, may be overridden with custom function in $.rails.ajax
-    ajax: function(options) {
-      return $.ajax(options);
-    },
-
-    // Default way to get an element's href. May be overridden at $.rails.href.
-    href: function(element) {
-      return element[0].href;
-    },
-
-    // Checks "data-remote" if true to handle the request through a XHR request.
-    isRemote: function(element) {
-      return element.data('remote') !== undefined && element.data('remote') !== false;
-    },
-
-    // Submits "remote" forms and links with ajax
-    handleRemote: function(element) {
-      var method, url, data, withCredentials, dataType, options;
-
-      if (rails.fire(element, 'ajax:before')) {
-        withCredentials = element.data('with-credentials') || null;
-        dataType = element.data('type') || ($.ajaxSettings && $.ajaxSettings.dataType);
-
-        if (element.is('form')) {
-          method = element.data('ujs:submit-button-formmethod') || element.attr('method');
-          url = element.data('ujs:submit-button-formaction') || element.attr('action');
-          data = $(element[0]).serializeArray();
-          // memoized value from clicked submit button
-          var button = element.data('ujs:submit-button');
-          if (button) {
-            data.push(button);
-            element.data('ujs:submit-button', null);
-          }
-          element.data('ujs:submit-button-formmethod', null);
-          element.data('ujs:submit-button-formaction', null);
-        } else if (element.is(rails.inputChangeSelector)) {
-          method = element.data('method');
-          url = element.data('url');
-          data = element.serialize();
-          if (element.data('params')) data = data + '&' + element.data('params');
-        } else if (element.is(rails.buttonClickSelector)) {
-          method = element.data('method') || 'get';
-          url = element.data('url');
-          data = element.serialize();
-          if (element.data('params')) data = data + '&' + element.data('params');
-        } else {
-          method = element.data('method');
-          url = rails.href(element);
-          data = element.data('params') || null;
-        }
-
-        options = {
-          type: method || 'GET', data: data, dataType: dataType,
-          // stopping the "ajax:beforeSend" event will cancel the ajax request
-          beforeSend: function(xhr, settings) {
-            if (settings.dataType === undefined) {
-              xhr.setRequestHeader('accept', '*/*;q=0.5, ' + settings.accepts.script);
-            }
-            if (rails.fire(element, 'ajax:beforeSend', [xhr, settings])) {
-              element.trigger('ajax:send', xhr);
-            } else {
-              return false;
-            }
-          },
-          success: function(data, status, xhr) {
-            element.trigger('ajax:success', [data, status, xhr]);
-          },
-          complete: function(xhr, status) {
-            element.trigger('ajax:complete', [xhr, status]);
-          },
-          error: function(xhr, status, error) {
-            element.trigger('ajax:error', [xhr, status, error]);
-          },
-          crossDomain: rails.isCrossDomain(url)
-        };
-
-        // There is no withCredentials for IE6-8 when
-        // "Enable native XMLHTTP support" is disabled
-        if (withCredentials) {
-          options.xhrFields = {
-            withCredentials: withCredentials
-          };
-        }
-
-        // Only pass url to `ajax` options if not blank
-        if (url) { options.url = url; }
-
-        return rails.ajax(options);
-      } else {
-        return false;
-      }
-    },
-
-    // Determines if the request is a cross domain request.
-    isCrossDomain: function(url) {
-      var originAnchor = document.createElement('a');
-      originAnchor.href = location.href;
-      var urlAnchor = document.createElement('a');
-
-      try {
-        urlAnchor.href = url;
-        // This is a workaround to a IE bug.
-        urlAnchor.href = urlAnchor.href;
-
-        // If URL protocol is false or is a string containing a single colon
-        // *and* host are false, assume it is not a cross-domain request
-        // (should only be the case for IE7 and IE compatibility mode).
-        // Otherwise, evaluate protocol and host of the URL against the origin
-        // protocol and host.
-        return !(((!urlAnchor.protocol || urlAnchor.protocol === ':') && !urlAnchor.host) ||
-          (originAnchor.protocol + '//' + originAnchor.host ===
-            urlAnchor.protocol + '//' + urlAnchor.host));
-      } catch (e) {
-        // If there is an error parsing the URL, assume it is crossDomain.
-        return true;
-      }
-    },
-
-    // Handles "data-method" on links such as:
-    // <a href="/users/5" data-method="delete" rel="nofollow" data-confirm="Are you sure?">Delete</a>
-    handleMethod: function(link) {
-      var href = rails.href(link),
-        method = link.data('method'),
-        target = link.attr('target'),
-        csrfToken = rails.csrfToken(),
-        csrfParam = rails.csrfParam(),
-        form = $('<form method="post" action="' + href + '"></form>'),
-        metadataInput = '<input name="_method" value="' + method + '" type="hidden" />';
-
-      if (csrfParam !== undefined && csrfToken !== undefined && !rails.isCrossDomain(href)) {
-        metadataInput += '<input name="' + csrfParam + '" value="' + csrfToken + '" type="hidden" />';
-      }
-
-      if (target) { form.attr('target', target); }
-
-      form.hide().append(metadataInput).appendTo('body');
-      form.submit();
-    },
-
-    // Helper function that returns form elements that match the specified CSS selector
-    // If form is actually a "form" element this will return associated elements outside the from that have
-    // the html form attribute set
-    formElements: function(form, selector) {
-      return form.is('form') ? $(form[0].elements).filter(selector) : form.find(selector);
-    },
-
-    /* Disables form elements:
-      - Caches element value in 'ujs:enable-with' data store
-      - Replaces element text with value of 'data-disable-with' attribute
-      - Sets disabled property to true
-    */
-    disableFormElements: function(form) {
-      rails.formElements(form, rails.disableSelector).each(function() {
-        rails.disableFormElement($(this));
-      });
-    },
-
-    disableFormElement: function(element) {
-      var method, replacement;
-
-      method = element.is('button') ? 'html' : 'val';
-      replacement = element.data('disable-with');
-
-      if (replacement !== undefined) {
-        element.data('ujs:enable-with', element[method]());
-        element[method](replacement);
-      }
-
-      element.prop('disabled', true);
-      element.data('ujs:disabled', true);
-    },
-
-    /* Re-enables disabled form elements:
-      - Replaces element text with cached value from 'ujs:enable-with' data store (created in `disableFormElements`)
-      - Sets disabled property to false
-    */
-    enableFormElements: function(form) {
-      rails.formElements(form, rails.enableSelector).each(function() {
-        rails.enableFormElement($(this));
-      });
-    },
-
-    enableFormElement: function(element) {
-      var method = element.is('button') ? 'html' : 'val';
-      if (element.data('ujs:enable-with') !== undefined) {
-        element[method](element.data('ujs:enable-with'));
-        element.removeData('ujs:enable-with'); // clean up cache
-      }
-      element.prop('disabled', false);
-      element.removeData('ujs:disabled');
-    },
-
-   /* For 'data-confirm' attribute:
-      - Fires `confirm` event
-      - Shows the confirmation dialog
-      - Fires the `confirm:complete` event
-
-      Returns `true` if no function stops the chain and user chose yes; `false` otherwise.
-      Attaching a handler to the element's `confirm` event that returns a `falsy` value cancels the confirmation dialog.
-      Attaching a handler to the element's `confirm:complete` event that returns a `falsy` value makes this function
-      return false. The `confirm:complete` event is fired whether or not the user answered true or false to the dialog.
-   */
-    allowAction: function(element) {
-      var message = element.data('confirm'),
-          answer = false, callback;
-      if (!message) { return true; }
-
-      if (rails.fire(element, 'confirm')) {
-        try {
-          answer = rails.confirm(message);
-        } catch (e) {
-          (console.error || console.log).call(console, e.stack || e);
-        }
-        callback = rails.fire(element, 'confirm:complete', [answer]);
-      }
-      return answer && callback;
-    },
-
-    // Helper function which checks for blank inputs in a form that match the specified CSS selector
-    blankInputs: function(form, specifiedSelector, nonBlank) {
-      var foundInputs = $(),
-        input,
-        valueToCheck,
-        radiosForNameWithNoneSelected,
-        radioName,
-        selector = specifiedSelector || 'input,textarea',
-        requiredInputs = form.find(selector),
-        checkedRadioButtonNames = {};
-
-      requiredInputs.each(function() {
-        input = $(this);
-        if (input.is('input[type=radio]')) {
-
-          // Don't count unchecked required radio as blank if other radio with same name is checked,
-          // regardless of whether same-name radio input has required attribute or not. The spec
-          // states https://www.w3.org/TR/html5/forms.html#the-required-attribute
-          radioName = input.attr('name');
-
-          // Skip if we've already seen the radio with this name.
-          if (!checkedRadioButtonNames[radioName]) {
-
-            // If none checked
-            if (form.find('input[type=radio]:checked[name="' + radioName + '"]').length === 0) {
-              radiosForNameWithNoneSelected = form.find(
-                'input[type=radio][name="' + radioName + '"]');
-              foundInputs = foundInputs.add(radiosForNameWithNoneSelected);
-            }
-
-            // We only need to check each name once.
-            checkedRadioButtonNames[radioName] = radioName;
-          }
-        } else {
-          valueToCheck = input.is('input[type=checkbox],input[type=radio]') ? input.is(':checked') : !!input.val();
-          if (valueToCheck === nonBlank) {
-            foundInputs = foundInputs.add(input);
-          }
-        }
-      });
-      return foundInputs.length ? foundInputs : false;
-    },
-
-    // Helper function which checks for non-blank inputs in a form that match the specified CSS selector
-    nonBlankInputs: function(form, specifiedSelector) {
-      return rails.blankInputs(form, specifiedSelector, true); // true specifies nonBlank
-    },
-
-    // Helper function, needed to provide consistent behavior in IE
-    stopEverything: function(e) {
-      $(e.target).trigger('ujs:everythingStopped');
-      e.stopImmediatePropagation();
-      return false;
-    },
-
-    //  Replace element's html with the 'data-disable-with' after storing original html
-    //  and prevent clicking on it
-    disableElement: function(element) {
-      var replacement = element.data('disable-with');
-
-      if (replacement !== undefined) {
-        element.data('ujs:enable-with', element.html()); // store enabled state
-        element.html(replacement);
-      }
-
-      element.bind('click.railsDisable', function(e) { // prevent further clicking
-        return rails.stopEverything(e);
-      });
-      element.data('ujs:disabled', true);
-    },
-
-    // Restore element to its original state which was disabled by 'disableElement' above
-    enableElement: function(element) {
-      if (element.data('ujs:enable-with') !== undefined) {
-        element.html(element.data('ujs:enable-with')); // set to old enabled state
-        element.removeData('ujs:enable-with'); // clean up cache
-      }
-      element.unbind('click.railsDisable'); // enable element
-      element.removeData('ujs:disabled');
-    }
-  };
-
-  if (rails.fire($document, 'rails:attachBindings')) {
-
-    $.ajaxPrefilter(function(options, originalOptions, xhr){ if ( !options.crossDomain ) { rails.CSRFProtection(xhr); }});
-
-    // This event works the same as the load event, except that it fires every
-    // time the page is loaded.
-    //
-    // See https://github.com/rails/jquery-ujs/issues/357
-    // See https://developer.mozilla.org/en-US/docs/Using_Firefox_1.5_caching
-    $(window).on('pageshow.rails', function () {
-      $($.rails.enableSelector).each(function () {
-        var element = $(this);
-
-        if (element.data('ujs:disabled')) {
-          $.rails.enableFormElement(element);
-        }
-      });
-
-      $($.rails.linkDisableSelector).each(function () {
-        var element = $(this);
-
-        if (element.data('ujs:disabled')) {
-          $.rails.enableElement(element);
-        }
-      });
-    });
-
-    $document.on('ajax:complete', rails.linkDisableSelector, function() {
-        rails.enableElement($(this));
-    });
-
-    $document.on('ajax:complete', rails.buttonDisableSelector, function() {
-        rails.enableFormElement($(this));
-    });
-
-    $document.on('click.rails', rails.linkClickSelector, function(e) {
-      var link = $(this), method = link.data('method'), data = link.data('params'), metaClick = e.metaKey || e.ctrlKey;
-      if (!rails.allowAction(link)) return rails.stopEverything(e);
-
-      if (!metaClick && link.is(rails.linkDisableSelector)) rails.disableElement(link);
-
-      if (rails.isRemote(link)) {
-        if (metaClick && (!method || method === 'GET') && !data) { return true; }
-
-        var handleRemote = rails.handleRemote(link);
-        // Response from rails.handleRemote() will either be false or a deferred object promise.
-        if (handleRemote === false) {
-          rails.enableElement(link);
-        } else {
-          handleRemote.fail( function() { rails.enableElement(link); } );
-        }
-        return false;
-
-      } else if (method) {
-        rails.handleMethod(link);
-        return false;
-      }
-    });
-
-    $document.on('click.rails', rails.buttonClickSelector, function(e) {
-      var button = $(this);
-
-      if (!rails.allowAction(button) || !rails.isRemote(button)) return rails.stopEverything(e);
-
-      if (button.is(rails.buttonDisableSelector)) rails.disableFormElement(button);
-
-      var handleRemote = rails.handleRemote(button);
-      // Response from rails.handleRemote() will either be false or a deferred object promise.
-      if (handleRemote === false) {
-        rails.enableFormElement(button);
-      } else {
-        handleRemote.fail( function() { rails.enableFormElement(button); } );
-      }
-      return false;
-    });
-
-    $document.on('change.rails', rails.inputChangeSelector, function(e) {
-      var link = $(this);
-      if (!rails.allowAction(link) || !rails.isRemote(link)) return rails.stopEverything(e);
-
-      rails.handleRemote(link);
-      return false;
-    });
-
-    $document.on('submit.rails', rails.formSubmitSelector, function(e) {
-      var form = $(this),
-        remote = rails.isRemote(form),
-        blankRequiredInputs,
-        nonBlankFileInputs;
-
-      if (!rails.allowAction(form)) return rails.stopEverything(e);
-
-      // Skip other logic when required values are missing or file upload is present
-      if (form.attr('novalidate') === undefined) {
-        if (form.data('ujs:formnovalidate-button') === undefined) {
-          blankRequiredInputs = rails.blankInputs(form, rails.requiredInputSelector, false);
-          if (blankRequiredInputs && rails.fire(form, 'ajax:aborted:required', [blankRequiredInputs])) {
-            return rails.stopEverything(e);
-          }
-        } else {
-          // Clear the formnovalidate in case the next button click is not on a formnovalidate button
-          // Not strictly necessary to do here, since it is also reset on each button click, but just to be certain
-          form.data('ujs:formnovalidate-button', undefined);
-        }
-      }
-
-      if (remote) {
-        nonBlankFileInputs = rails.nonBlankInputs(form, rails.fileInputSelector);
-        if (nonBlankFileInputs) {
-          // Slight timeout so that the submit button gets properly serialized
-          // (make it easy for event handler to serialize form without disabled values)
-          setTimeout(function(){ rails.disableFormElements(form); }, 13);
-          var aborted = rails.fire(form, 'ajax:aborted:file', [nonBlankFileInputs]);
-
-          // Re-enable form elements if event bindings return false (canceling normal form submission)
-          if (!aborted) { setTimeout(function(){ rails.enableFormElements(form); }, 13); }
-
-          return aborted;
-        }
-
-        rails.handleRemote(form);
-        return false;
-
-      } else {
-        // Slight timeout so that the submit button gets properly serialized
-        setTimeout(function(){ rails.disableFormElements(form); }, 13);
-      }
-    });
-
-    $document.on('click.rails', rails.formInputClickSelector, function(event) {
-      var button = $(this);
-
-      if (!rails.allowAction(button)) return rails.stopEverything(event);
-
-      // Register the pressed submit button
-      var name = button.attr('name'),
-        data = name ? {name:name, value:button.val()} : null;
-
-      var form = button.closest('form');
-      if (form.length === 0) {
-        form = $('#' + button.attr('form'));
-      }
-      form.data('ujs:submit-button', data);
-
-      // Save attributes from button
-      form.data('ujs:formnovalidate-button', button.attr('formnovalidate'));
-      form.data('ujs:submit-button-formaction', button.attr('formaction'));
-      form.data('ujs:submit-button-formmethod', button.attr('formmethod'));
-    });
-
-    $document.on('ajax:send.rails', rails.formSubmitSelector, function(event) {
-      if (this === event.target) rails.disableFormElements($(this));
-    });
-
-    $document.on('ajax:complete.rails', rails.formSubmitSelector, function(event) {
-      if (this === event.target) rails.enableFormElements($(this));
-    });
-
-    $(function(){
-      rails.refreshCSRFTokens();
-    });
-  }
-
-})( jQuery );
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
-
-/***/ }),
-/* 122 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// This file is deprecated in 1.12.0 to be removed in 1.13
-( function() {
-!(__WEBPACK_AMD_DEFINE_FACTORY__ = ([
-	"jquery",
-	"./data",
-	"./disable-selection",
-	"./focusable",
-	"./form",
-	"./ie",
-	"./keycode",
-	"./labels",
-	"./jquery-1-7",
-	"./plugin",
-	"./safe-active-element",
-	"./safe-blur",
-	"./scroll-parent",
-	"./tabbable",
-	"./unique-id",
-	"./version"
-]),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-				__WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-} )();
-
-
-/***/ }),
-/* 123 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery UI Position 1.12.1
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- *
- * http://api.jqueryui.com/position/
- */
-
-//>>label: Position
-//>>group: Core
-//>>description: Positions elements relative to other elements.
-//>>docs: http://api.jqueryui.com/position/
-//>>demos: http://jqueryui.com/position/
-
-( function( factory ) {
-	if ( true ) {
-
-		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(7), __webpack_require__(25) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {
-
-		// Browser globals
-		factory( jQuery );
-	}
-}( function( $ ) {
-( function() {
-var cachedScrollbarWidth,
-	max = Math.max,
-	abs = Math.abs,
-	rhorizontal = /left|center|right/,
-	rvertical = /top|center|bottom/,
-	roffset = /[\+\-]\d+(\.[\d]+)?%?/,
-	rposition = /^\w+/,
-	rpercent = /%$/,
-	_position = $.fn.position;
-
-function getOffsets( offsets, width, height ) {
-	return [
-		parseFloat( offsets[ 0 ] ) * ( rpercent.test( offsets[ 0 ] ) ? width / 100 : 1 ),
-		parseFloat( offsets[ 1 ] ) * ( rpercent.test( offsets[ 1 ] ) ? height / 100 : 1 )
-	];
-}
-
-function parseCss( element, property ) {
-	return parseInt( $.css( element, property ), 10 ) || 0;
-}
-
-function getDimensions( elem ) {
-	var raw = elem[ 0 ];
-	if ( raw.nodeType === 9 ) {
-		return {
-			width: elem.width(),
-			height: elem.height(),
-			offset: { top: 0, left: 0 }
-		};
-	}
-	if ( $.isWindow( raw ) ) {
-		return {
-			width: elem.width(),
-			height: elem.height(),
-			offset: { top: elem.scrollTop(), left: elem.scrollLeft() }
-		};
-	}
-	if ( raw.preventDefault ) {
-		return {
-			width: 0,
-			height: 0,
-			offset: { top: raw.pageY, left: raw.pageX }
-		};
-	}
-	return {
-		width: elem.outerWidth(),
-		height: elem.outerHeight(),
-		offset: elem.offset()
-	};
-}
-
-$.position = {
-	scrollbarWidth: function() {
-		if ( cachedScrollbarWidth !== undefined ) {
-			return cachedScrollbarWidth;
-		}
-		var w1, w2,
-			div = $( "<div " +
-				"style='display:block;position:absolute;width:50px;height:50px;overflow:hidden;'>" +
-				"<div style='height:100px;width:auto;'></div></div>" ),
-			innerDiv = div.children()[ 0 ];
-
-		$( "body" ).append( div );
-		w1 = innerDiv.offsetWidth;
-		div.css( "overflow", "scroll" );
-
-		w2 = innerDiv.offsetWidth;
-
-		if ( w1 === w2 ) {
-			w2 = div[ 0 ].clientWidth;
-		}
-
-		div.remove();
-
-		return ( cachedScrollbarWidth = w1 - w2 );
-	},
-	getScrollInfo: function( within ) {
-		var overflowX = within.isWindow || within.isDocument ? "" :
-				within.element.css( "overflow-x" ),
-			overflowY = within.isWindow || within.isDocument ? "" :
-				within.element.css( "overflow-y" ),
-			hasOverflowX = overflowX === "scroll" ||
-				( overflowX === "auto" && within.width < within.element[ 0 ].scrollWidth ),
-			hasOverflowY = overflowY === "scroll" ||
-				( overflowY === "auto" && within.height < within.element[ 0 ].scrollHeight );
-		return {
-			width: hasOverflowY ? $.position.scrollbarWidth() : 0,
-			height: hasOverflowX ? $.position.scrollbarWidth() : 0
-		};
-	},
-	getWithinInfo: function( element ) {
-		var withinElement = $( element || window ),
-			isWindow = $.isWindow( withinElement[ 0 ] ),
-			isDocument = !!withinElement[ 0 ] && withinElement[ 0 ].nodeType === 9,
-			hasOffset = !isWindow && !isDocument;
-		return {
-			element: withinElement,
-			isWindow: isWindow,
-			isDocument: isDocument,
-			offset: hasOffset ? $( element ).offset() : { left: 0, top: 0 },
-			scrollLeft: withinElement.scrollLeft(),
-			scrollTop: withinElement.scrollTop(),
-			width: withinElement.outerWidth(),
-			height: withinElement.outerHeight()
-		};
-	}
-};
-
-$.fn.position = function( options ) {
-	if ( !options || !options.of ) {
-		return _position.apply( this, arguments );
-	}
-
-	// Make a copy, we don't want to modify arguments
-	options = $.extend( {}, options );
-
-	var atOffset, targetWidth, targetHeight, targetOffset, basePosition, dimensions,
-		target = $( options.of ),
-		within = $.position.getWithinInfo( options.within ),
-		scrollInfo = $.position.getScrollInfo( within ),
-		collision = ( options.collision || "flip" ).split( " " ),
-		offsets = {};
-
-	dimensions = getDimensions( target );
-	if ( target[ 0 ].preventDefault ) {
-
-		// Force left top to allow flipping
-		options.at = "left top";
-	}
-	targetWidth = dimensions.width;
-	targetHeight = dimensions.height;
-	targetOffset = dimensions.offset;
-
-	// Clone to reuse original targetOffset later
-	basePosition = $.extend( {}, targetOffset );
-
-	// Force my and at to have valid horizontal and vertical positions
-	// if a value is missing or invalid, it will be converted to center
-	$.each( [ "my", "at" ], function() {
-		var pos = ( options[ this ] || "" ).split( " " ),
-			horizontalOffset,
-			verticalOffset;
-
-		if ( pos.length === 1 ) {
-			pos = rhorizontal.test( pos[ 0 ] ) ?
-				pos.concat( [ "center" ] ) :
-				rvertical.test( pos[ 0 ] ) ?
-					[ "center" ].concat( pos ) :
-					[ "center", "center" ];
-		}
-		pos[ 0 ] = rhorizontal.test( pos[ 0 ] ) ? pos[ 0 ] : "center";
-		pos[ 1 ] = rvertical.test( pos[ 1 ] ) ? pos[ 1 ] : "center";
-
-		// Calculate offsets
-		horizontalOffset = roffset.exec( pos[ 0 ] );
-		verticalOffset = roffset.exec( pos[ 1 ] );
-		offsets[ this ] = [
-			horizontalOffset ? horizontalOffset[ 0 ] : 0,
-			verticalOffset ? verticalOffset[ 0 ] : 0
-		];
-
-		// Reduce to just the positions without the offsets
-		options[ this ] = [
-			rposition.exec( pos[ 0 ] )[ 0 ],
-			rposition.exec( pos[ 1 ] )[ 0 ]
-		];
-	} );
-
-	// Normalize collision option
-	if ( collision.length === 1 ) {
-		collision[ 1 ] = collision[ 0 ];
-	}
-
-	if ( options.at[ 0 ] === "right" ) {
-		basePosition.left += targetWidth;
-	} else if ( options.at[ 0 ] === "center" ) {
-		basePosition.left += targetWidth / 2;
-	}
-
-	if ( options.at[ 1 ] === "bottom" ) {
-		basePosition.top += targetHeight;
-	} else if ( options.at[ 1 ] === "center" ) {
-		basePosition.top += targetHeight / 2;
-	}
-
-	atOffset = getOffsets( offsets.at, targetWidth, targetHeight );
-	basePosition.left += atOffset[ 0 ];
-	basePosition.top += atOffset[ 1 ];
-
-	return this.each( function() {
-		var collisionPosition, using,
-			elem = $( this ),
-			elemWidth = elem.outerWidth(),
-			elemHeight = elem.outerHeight(),
-			marginLeft = parseCss( this, "marginLeft" ),
-			marginTop = parseCss( this, "marginTop" ),
-			collisionWidth = elemWidth + marginLeft + parseCss( this, "marginRight" ) +
-				scrollInfo.width,
-			collisionHeight = elemHeight + marginTop + parseCss( this, "marginBottom" ) +
-				scrollInfo.height,
-			position = $.extend( {}, basePosition ),
-			myOffset = getOffsets( offsets.my, elem.outerWidth(), elem.outerHeight() );
-
-		if ( options.my[ 0 ] === "right" ) {
-			position.left -= elemWidth;
-		} else if ( options.my[ 0 ] === "center" ) {
-			position.left -= elemWidth / 2;
-		}
-
-		if ( options.my[ 1 ] === "bottom" ) {
-			position.top -= elemHeight;
-		} else if ( options.my[ 1 ] === "center" ) {
-			position.top -= elemHeight / 2;
-		}
-
-		position.left += myOffset[ 0 ];
-		position.top += myOffset[ 1 ];
-
-		collisionPosition = {
-			marginLeft: marginLeft,
-			marginTop: marginTop
-		};
-
-		$.each( [ "left", "top" ], function( i, dir ) {
-			if ( $.ui.position[ collision[ i ] ] ) {
-				$.ui.position[ collision[ i ] ][ dir ]( position, {
-					targetWidth: targetWidth,
-					targetHeight: targetHeight,
-					elemWidth: elemWidth,
-					elemHeight: elemHeight,
-					collisionPosition: collisionPosition,
-					collisionWidth: collisionWidth,
-					collisionHeight: collisionHeight,
-					offset: [ atOffset[ 0 ] + myOffset[ 0 ], atOffset [ 1 ] + myOffset[ 1 ] ],
-					my: options.my,
-					at: options.at,
-					within: within,
-					elem: elem
-				} );
-			}
-		} );
-
-		if ( options.using ) {
-
-			// Adds feedback as second argument to using callback, if present
-			using = function( props ) {
-				var left = targetOffset.left - position.left,
-					right = left + targetWidth - elemWidth,
-					top = targetOffset.top - position.top,
-					bottom = top + targetHeight - elemHeight,
-					feedback = {
-						target: {
-							element: target,
-							left: targetOffset.left,
-							top: targetOffset.top,
-							width: targetWidth,
-							height: targetHeight
-						},
-						element: {
-							element: elem,
-							left: position.left,
-							top: position.top,
-							width: elemWidth,
-							height: elemHeight
-						},
-						horizontal: right < 0 ? "left" : left > 0 ? "right" : "center",
-						vertical: bottom < 0 ? "top" : top > 0 ? "bottom" : "middle"
-					};
-				if ( targetWidth < elemWidth && abs( left + right ) < targetWidth ) {
-					feedback.horizontal = "center";
-				}
-				if ( targetHeight < elemHeight && abs( top + bottom ) < targetHeight ) {
-					feedback.vertical = "middle";
-				}
-				if ( max( abs( left ), abs( right ) ) > max( abs( top ), abs( bottom ) ) ) {
-					feedback.important = "horizontal";
-				} else {
-					feedback.important = "vertical";
-				}
-				options.using.call( this, props, feedback );
-			};
-		}
-
-		elem.offset( $.extend( position, { using: using } ) );
-	} );
-};
-
-$.ui.position = {
-	fit: {
-		left: function( position, data ) {
-			var within = data.within,
-				withinOffset = within.isWindow ? within.scrollLeft : within.offset.left,
-				outerWidth = within.width,
-				collisionPosLeft = position.left - data.collisionPosition.marginLeft,
-				overLeft = withinOffset - collisionPosLeft,
-				overRight = collisionPosLeft + data.collisionWidth - outerWidth - withinOffset,
-				newOverRight;
-
-			// Element is wider than within
-			if ( data.collisionWidth > outerWidth ) {
-
-				// Element is initially over the left side of within
-				if ( overLeft > 0 && overRight <= 0 ) {
-					newOverRight = position.left + overLeft + data.collisionWidth - outerWidth -
-						withinOffset;
-					position.left += overLeft - newOverRight;
-
-				// Element is initially over right side of within
-				} else if ( overRight > 0 && overLeft <= 0 ) {
-					position.left = withinOffset;
-
-				// Element is initially over both left and right sides of within
-				} else {
-					if ( overLeft > overRight ) {
-						position.left = withinOffset + outerWidth - data.collisionWidth;
-					} else {
-						position.left = withinOffset;
-					}
-				}
-
-			// Too far left -> align with left edge
-			} else if ( overLeft > 0 ) {
-				position.left += overLeft;
-
-			// Too far right -> align with right edge
-			} else if ( overRight > 0 ) {
-				position.left -= overRight;
-
-			// Adjust based on position and margin
-			} else {
-				position.left = max( position.left - collisionPosLeft, position.left );
-			}
-		},
-		top: function( position, data ) {
-			var within = data.within,
-				withinOffset = within.isWindow ? within.scrollTop : within.offset.top,
-				outerHeight = data.within.height,
-				collisionPosTop = position.top - data.collisionPosition.marginTop,
-				overTop = withinOffset - collisionPosTop,
-				overBottom = collisionPosTop + data.collisionHeight - outerHeight - withinOffset,
-				newOverBottom;
-
-			// Element is taller than within
-			if ( data.collisionHeight > outerHeight ) {
-
-				// Element is initially over the top of within
-				if ( overTop > 0 && overBottom <= 0 ) {
-					newOverBottom = position.top + overTop + data.collisionHeight - outerHeight -
-						withinOffset;
-					position.top += overTop - newOverBottom;
-
-				// Element is initially over bottom of within
-				} else if ( overBottom > 0 && overTop <= 0 ) {
-					position.top = withinOffset;
-
-				// Element is initially over both top and bottom of within
-				} else {
-					if ( overTop > overBottom ) {
-						position.top = withinOffset + outerHeight - data.collisionHeight;
-					} else {
-						position.top = withinOffset;
-					}
-				}
-
-			// Too far up -> align with top
-			} else if ( overTop > 0 ) {
-				position.top += overTop;
-
-			// Too far down -> align with bottom edge
-			} else if ( overBottom > 0 ) {
-				position.top -= overBottom;
-
-			// Adjust based on position and margin
-			} else {
-				position.top = max( position.top - collisionPosTop, position.top );
-			}
-		}
-	},
-	flip: {
-		left: function( position, data ) {
-			var within = data.within,
-				withinOffset = within.offset.left + within.scrollLeft,
-				outerWidth = within.width,
-				offsetLeft = within.isWindow ? within.scrollLeft : within.offset.left,
-				collisionPosLeft = position.left - data.collisionPosition.marginLeft,
-				overLeft = collisionPosLeft - offsetLeft,
-				overRight = collisionPosLeft + data.collisionWidth - outerWidth - offsetLeft,
-				myOffset = data.my[ 0 ] === "left" ?
-					-data.elemWidth :
-					data.my[ 0 ] === "right" ?
-						data.elemWidth :
-						0,
-				atOffset = data.at[ 0 ] === "left" ?
-					data.targetWidth :
-					data.at[ 0 ] === "right" ?
-						-data.targetWidth :
-						0,
-				offset = -2 * data.offset[ 0 ],
-				newOverRight,
-				newOverLeft;
-
-			if ( overLeft < 0 ) {
-				newOverRight = position.left + myOffset + atOffset + offset + data.collisionWidth -
-					outerWidth - withinOffset;
-				if ( newOverRight < 0 || newOverRight < abs( overLeft ) ) {
-					position.left += myOffset + atOffset + offset;
-				}
-			} else if ( overRight > 0 ) {
-				newOverLeft = position.left - data.collisionPosition.marginLeft + myOffset +
-					atOffset + offset - offsetLeft;
-				if ( newOverLeft > 0 || abs( newOverLeft ) < overRight ) {
-					position.left += myOffset + atOffset + offset;
-				}
-			}
-		},
-		top: function( position, data ) {
-			var within = data.within,
-				withinOffset = within.offset.top + within.scrollTop,
-				outerHeight = within.height,
-				offsetTop = within.isWindow ? within.scrollTop : within.offset.top,
-				collisionPosTop = position.top - data.collisionPosition.marginTop,
-				overTop = collisionPosTop - offsetTop,
-				overBottom = collisionPosTop + data.collisionHeight - outerHeight - offsetTop,
-				top = data.my[ 1 ] === "top",
-				myOffset = top ?
-					-data.elemHeight :
-					data.my[ 1 ] === "bottom" ?
-						data.elemHeight :
-						0,
-				atOffset = data.at[ 1 ] === "top" ?
-					data.targetHeight :
-					data.at[ 1 ] === "bottom" ?
-						-data.targetHeight :
-						0,
-				offset = -2 * data.offset[ 1 ],
-				newOverTop,
-				newOverBottom;
-			if ( overTop < 0 ) {
-				newOverBottom = position.top + myOffset + atOffset + offset + data.collisionHeight -
-					outerHeight - withinOffset;
-				if ( newOverBottom < 0 || newOverBottom < abs( overTop ) ) {
-					position.top += myOffset + atOffset + offset;
-				}
-			} else if ( overBottom > 0 ) {
-				newOverTop = position.top - data.collisionPosition.marginTop + myOffset + atOffset +
-					offset - offsetTop;
-				if ( newOverTop > 0 || abs( newOverTop ) < overBottom ) {
-					position.top += myOffset + atOffset + offset;
-				}
-			}
-		}
-	},
-	flipfit: {
-		left: function() {
-			$.ui.position.flip.left.apply( this, arguments );
-			$.ui.position.fit.left.apply( this, arguments );
-		},
-		top: function() {
-			$.ui.position.flip.top.apply( this, arguments );
-			$.ui.position.fit.top.apply( this, arguments );
-		}
-	}
-};
-
-} )();
-
-return $.ui.position;
-
-} ) );
-
 
 /***/ }),
 /* 124 */
@@ -30401,7 +30665,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 		// AMD. Register as an anonymous module.
 		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-			__webpack_require__(7),
+			__webpack_require__(8),
 			__webpack_require__(125),
 			__webpack_require__(126),
 			__webpack_require__(127),
@@ -31315,7 +31579,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(7), __webpack_require__(25) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(8), __webpack_require__(25) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -31359,7 +31623,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(7), __webpack_require__(25) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(8), __webpack_require__(25) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -31399,7 +31663,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(7), __webpack_require__(25) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(8), __webpack_require__(25) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -31462,7 +31726,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(7), __webpack_require__(25) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(8), __webpack_require__(25) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -31521,7 +31785,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(7), __webpack_require__(25) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(8), __webpack_require__(25) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -32254,7 +32518,7 @@ return $.widget;
 (function (factory) {
   if (true) {
     // AMD. Register as an anonymous module.
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(7)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(8)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -38684,7 +38948,7 @@ S2.define('jquery.select2',[
   return select2;
 }));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 /* 131 */
@@ -42226,7 +42490,7 @@ var Popover = function ($) {
 
 }();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7), __webpack_require__(73)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(76)))
 
 /***/ }),
 /* 132 */
@@ -42243,7 +42507,7 @@ var Popover = function ($) {
 
 (function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(7)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(8)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -43020,7 +43284,7 @@ var Popover = function ($) {
   };
 });
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
 /* 133 */
@@ -43438,39 +43702,39 @@ var _reactToggleDisplay = __webpack_require__(52);
 
 var _reactToggleDisplay2 = _interopRequireDefault(_reactToggleDisplay);
 
-var _AssembledDiagnosisForm = __webpack_require__(84);
+var _AssembledDiagnosisForm = __webpack_require__(87);
 
 var _AssembledDiagnosisForm2 = _interopRequireDefault(_AssembledDiagnosisForm);
 
-var _AssembledDissectionForm = __webpack_require__(110);
+var _AssembledDissectionForm = __webpack_require__(113);
 
 var _AssembledDissectionForm2 = _interopRequireDefault(_AssembledDissectionForm);
 
-var _AssembledGeneticTestForm = __webpack_require__(111);
+var _AssembledGeneticTestForm = __webpack_require__(114);
 
 var _AssembledGeneticTestForm2 = _interopRequireDefault(_AssembledGeneticTestForm);
 
-var _AssembledHeartMeasurementForm = __webpack_require__(112);
+var _AssembledHeartMeasurementForm = __webpack_require__(115);
 
 var _AssembledHeartMeasurementForm2 = _interopRequireDefault(_AssembledHeartMeasurementForm);
 
-var _AssembledHospitalizationForm = __webpack_require__(113);
+var _AssembledHospitalizationForm = __webpack_require__(116);
 
 var _AssembledHospitalizationForm2 = _interopRequireDefault(_AssembledHospitalizationForm);
 
-var _AssembledMeasurementForm = __webpack_require__(114);
+var _AssembledMeasurementForm = __webpack_require__(117);
 
 var _AssembledMeasurementForm2 = _interopRequireDefault(_AssembledMeasurementForm);
 
-var _AssembledMedicationForm = __webpack_require__(115);
+var _AssembledMedicationForm = __webpack_require__(118);
 
 var _AssembledMedicationForm2 = _interopRequireDefault(_AssembledMedicationForm);
 
-var _AssembledProcedureForm = __webpack_require__(116);
+var _AssembledProcedureForm = __webpack_require__(119);
 
 var _AssembledProcedureForm2 = _interopRequireDefault(_AssembledProcedureForm);
 
-var _AssembledVitalForm = __webpack_require__(117);
+var _AssembledVitalForm = __webpack_require__(120);
 
 var _AssembledVitalForm2 = _interopRequireDefault(_AssembledVitalForm);
 
@@ -43478,7 +43742,7 @@ var _FindRelated = __webpack_require__(14);
 
 var _FindRelated2 = _interopRequireDefault(_FindRelated);
 
-var _PresAbsButtons = __webpack_require__(118);
+var _PresAbsButtons = __webpack_require__(121);
 
 var _PresAbsButtons2 = _interopRequireDefault(_PresAbsButtons);
 
@@ -43955,9 +44219,9 @@ module.exports = PooledClass;
 var _prodInvariant = __webpack_require__(31);
 
 var ReactCurrentOwner = __webpack_require__(20);
-var REACT_ELEMENT_TYPE = __webpack_require__(78);
+var REACT_ELEMENT_TYPE = __webpack_require__(81);
 
-var getIteratorFn = __webpack_require__(79);
+var getIteratorFn = __webpack_require__(82);
 var invariant = __webpack_require__(3);
 var KeyEscapeUtils = __webpack_require__(148);
 var warning = __webpack_require__(4);
@@ -44207,7 +44471,7 @@ var ReactElement = __webpack_require__(26);
  */
 var createDOMFactory = ReactElement.createFactory;
 if (process.env.NODE_ENV !== 'production') {
-  var ReactElementValidator = __webpack_require__(80);
+  var ReactElementValidator = __webpack_require__(83);
   createDOMFactory = ReactElementValidator.createFactory;
 }
 
@@ -44522,7 +44786,7 @@ module.exports = ReactPropTypesSecret;
 var _require = __webpack_require__(26),
     isValidElement = _require.isValidElement;
 
-var factory = __webpack_require__(81);
+var factory = __webpack_require__(84);
 
 module.exports = factory(isValidElement);
 
@@ -44631,13 +44895,13 @@ module.exports = '15.6.1';
 
 
 
-var _require = __webpack_require__(76),
+var _require = __webpack_require__(79),
     Component = _require.Component;
 
 var _require2 = __webpack_require__(26),
     isValidElement = _require2.isValidElement;
 
-var ReactNoopUpdateQueue = __webpack_require__(77);
+var ReactNoopUpdateQueue = __webpack_require__(80);
 var factory = __webpack_require__(157);
 
 module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
@@ -44659,7 +44923,7 @@ module.exports = factory(Component, isValidElement, ReactNoopUpdateQueue);
 
 
 
-var _assign = __webpack_require__(8);
+var _assign = __webpack_require__(7);
 
 var emptyObject = __webpack_require__(39);
 var _invariant = __webpack_require__(3);
@@ -45683,8 +45947,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 var emptyFunction = __webpack_require__(53);
 var invariant = __webpack_require__(54);
-var warning = __webpack_require__(83);
-var assign = __webpack_require__(8);
+var warning = __webpack_require__(86);
+var assign = __webpack_require__(7);
 
 var ReactPropTypesSecret = __webpack_require__(55);
 var checkPropTypes = __webpack_require__(162);
@@ -46233,7 +46497,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(54);
-  var warning = __webpack_require__(83);
+  var warning = __webpack_require__(86);
   var ReactPropTypesSecret = __webpack_require__(55);
   var loggedTypeFailures = {};
 }
@@ -46955,13 +47219,13 @@ module.exports = __webpack_require__(166);
 
 var ReactDOMComponentTree = __webpack_require__(9);
 var ReactDefaultInjection = __webpack_require__(167);
-var ReactMount = __webpack_require__(108);
+var ReactMount = __webpack_require__(111);
 var ReactReconciler = __webpack_require__(32);
 var ReactUpdates = __webpack_require__(22);
 var ReactVersion = __webpack_require__(245);
 
 var findDOMNode = __webpack_require__(246);
-var getHostComponentFromComposite = __webpack_require__(109);
+var getHostComponentFromComposite = __webpack_require__(112);
 var renderSubtreeIntoContainer = __webpack_require__(247);
 var warning = __webpack_require__(4);
 
@@ -47627,11 +47891,11 @@ module.exports = BeforeInputEventPlugin;
 
 
 
-var _assign = __webpack_require__(8);
+var _assign = __webpack_require__(7);
 
 var PooledClass = __webpack_require__(28);
 
-var getTextContentAccessor = __webpack_require__(88);
+var getTextContentAccessor = __webpack_require__(91);
 
 /**
  * This helper class stores information about text content of a target node,
@@ -47817,10 +48081,10 @@ var ReactDOMComponentTree = __webpack_require__(9);
 var ReactUpdates = __webpack_require__(22);
 var SyntheticEvent = __webpack_require__(23);
 
-var inputValueTracking = __webpack_require__(91);
+var inputValueTracking = __webpack_require__(94);
 var getEventTarget = __webpack_require__(58);
 var isEventSupported = __webpack_require__(59);
-var isTextInputElement = __webpack_require__(92);
+var isTextInputElement = __webpack_require__(95);
 
 var eventTypes = {
   change: {
@@ -49661,22 +49925,22 @@ module.exports = ReactDOMIDOperations;
 
 
 var _prodInvariant = __webpack_require__(5),
-    _assign = __webpack_require__(8);
+    _assign = __webpack_require__(7);
 
 var AutoFocusUtils = __webpack_require__(191);
 var CSSPropertyOperations = __webpack_require__(192);
 var DOMLazyTree = __webpack_require__(33);
 var DOMNamespaces = __webpack_require__(62);
 var DOMProperty = __webpack_require__(24);
-var DOMPropertyOperations = __webpack_require__(97);
+var DOMPropertyOperations = __webpack_require__(100);
 var EventPluginHub = __webpack_require__(35);
 var EventPluginRegistry = __webpack_require__(42);
 var ReactBrowserEventEmitter = __webpack_require__(47);
-var ReactDOMComponentFlags = __webpack_require__(85);
+var ReactDOMComponentFlags = __webpack_require__(88);
 var ReactDOMComponentTree = __webpack_require__(9);
 var ReactDOMInput = __webpack_require__(202);
 var ReactDOMOption = __webpack_require__(203);
-var ReactDOMSelect = __webpack_require__(99);
+var ReactDOMSelect = __webpack_require__(102);
 var ReactDOMTextarea = __webpack_require__(204);
 var ReactInstrumentation = __webpack_require__(19);
 var ReactMultiChild = __webpack_require__(205);
@@ -49687,7 +49951,7 @@ var escapeTextContentForBrowser = __webpack_require__(46);
 var invariant = __webpack_require__(3);
 var isEventSupported = __webpack_require__(59);
 var shallowEqual = __webpack_require__(66);
-var inputValueTracking = __webpack_require__(91);
+var inputValueTracking = __webpack_require__(94);
 var validateDOMNesting = __webpack_require__(70);
 var warning = __webpack_require__(4);
 
@@ -50676,7 +50940,7 @@ module.exports = ReactDOMComponent;
 
 var ReactDOMComponentTree = __webpack_require__(9);
 
-var focusNode = __webpack_require__(95);
+var focusNode = __webpack_require__(98);
 
 var AutoFocusUtils = {
   focusDOMComponent: function () {
@@ -50703,7 +50967,7 @@ module.exports = AutoFocusUtils;
 
 
 
-var CSSProperty = __webpack_require__(96);
+var CSSProperty = __webpack_require__(99);
 var ExecutionEnvironment = __webpack_require__(15);
 var ReactInstrumentation = __webpack_require__(19);
 
@@ -51006,7 +51270,7 @@ module.exports = camelize;
 
 
 
-var CSSProperty = __webpack_require__(96);
+var CSSProperty = __webpack_require__(99);
 var warning = __webpack_require__(4);
 
 var isUnitlessNumber = CSSProperty.isUnitlessNumber;
@@ -51383,9 +51647,9 @@ module.exports = getVendorPrefixedEventName;
 
 
 var _prodInvariant = __webpack_require__(5),
-    _assign = __webpack_require__(8);
+    _assign = __webpack_require__(7);
 
-var DOMPropertyOperations = __webpack_require__(97);
+var DOMPropertyOperations = __webpack_require__(100);
 var LinkedValueUtils = __webpack_require__(64);
 var ReactDOMComponentTree = __webpack_require__(9);
 var ReactUpdates = __webpack_require__(22);
@@ -51675,11 +51939,11 @@ module.exports = ReactDOMInput;
 
 
 
-var _assign = __webpack_require__(8);
+var _assign = __webpack_require__(7);
 
 var React = __webpack_require__(30);
 var ReactDOMComponentTree = __webpack_require__(9);
-var ReactDOMSelect = __webpack_require__(99);
+var ReactDOMSelect = __webpack_require__(102);
 
 var warning = __webpack_require__(4);
 var didWarnInvalidOptionChildren = false;
@@ -51804,7 +52068,7 @@ module.exports = ReactDOMOption;
 
 
 var _prodInvariant = __webpack_require__(5),
-    _assign = __webpack_require__(8);
+    _assign = __webpack_require__(7);
 
 var LinkedValueUtils = __webpack_require__(64);
 var ReactDOMComponentTree = __webpack_require__(9);
@@ -52423,10 +52687,10 @@ module.exports = ReactMultiChild;
 
 var ReactReconciler = __webpack_require__(32);
 
-var instantiateReactComponent = __webpack_require__(100);
+var instantiateReactComponent = __webpack_require__(103);
 var KeyEscapeUtils = __webpack_require__(68);
 var shouldUpdateReactComponent = __webpack_require__(67);
-var traverseAllChildren = __webpack_require__(104);
+var traverseAllChildren = __webpack_require__(107);
 var warning = __webpack_require__(4);
 
 var ReactComponentTreeHook;
@@ -52581,7 +52845,7 @@ module.exports = ReactChildReconciler;
 
 
 var _prodInvariant = __webpack_require__(5),
-    _assign = __webpack_require__(8);
+    _assign = __webpack_require__(7);
 
 var React = __webpack_require__(30);
 var ReactComponentEnvironment = __webpack_require__(65);
@@ -52589,7 +52853,7 @@ var ReactCurrentOwner = __webpack_require__(20);
 var ReactErrorUtils = __webpack_require__(57);
 var ReactInstanceMap = __webpack_require__(37);
 var ReactInstrumentation = __webpack_require__(19);
-var ReactNodeTypes = __webpack_require__(101);
+var ReactNodeTypes = __webpack_require__(104);
 var ReactReconciler = __webpack_require__(32);
 
 if (process.env.NODE_ENV !== 'production') {
@@ -53489,7 +53753,7 @@ module.exports = ReactCompositeComponent;
 var _prodInvariant = __webpack_require__(5);
 
 var ReactPropTypeLocationNames = __webpack_require__(209);
-var ReactPropTypesSecret = __webpack_require__(98);
+var ReactPropTypesSecret = __webpack_require__(101);
 
 var invariant = __webpack_require__(3);
 var warning = __webpack_require__(4);
@@ -53709,7 +53973,7 @@ module.exports = getIteratorFn;
 
 
 var KeyEscapeUtils = __webpack_require__(68);
-var traverseAllChildren = __webpack_require__(104);
+var traverseAllChildren = __webpack_require__(107);
 var warning = __webpack_require__(4);
 
 var ReactComponentTreeHook;
@@ -53789,7 +54053,7 @@ module.exports = flattenChildren;
 
 
 
-var _assign = __webpack_require__(8);
+var _assign = __webpack_require__(7);
 
 var PooledClass = __webpack_require__(28);
 var Transaction = __webpack_require__(43);
@@ -54030,7 +54294,7 @@ module.exports = ReactServerUpdateQueue;
 
 
 
-var _assign = __webpack_require__(8);
+var _assign = __webpack_require__(7);
 
 var DOMLazyTree = __webpack_require__(33);
 var ReactDOMComponentTree = __webpack_require__(9);
@@ -54238,7 +54502,7 @@ module.exports = {
 
 
 var _prodInvariant = __webpack_require__(5),
-    _assign = __webpack_require__(8);
+    _assign = __webpack_require__(7);
 
 var DOMChildrenOperations = __webpack_require__(61);
 var DOMLazyTree = __webpack_require__(33);
@@ -54405,7 +54669,7 @@ module.exports = ReactDOMTextComponent;
 
 
 
-var _assign = __webpack_require__(8);
+var _assign = __webpack_require__(7);
 
 var ReactUpdates = __webpack_require__(22);
 var Transaction = __webpack_require__(43);
@@ -54478,9 +54742,9 @@ module.exports = ReactDefaultBatchingStrategy;
 
 
 
-var _assign = __webpack_require__(8);
+var _assign = __webpack_require__(7);
 
-var EventListener = __webpack_require__(105);
+var EventListener = __webpack_require__(108);
 var ExecutionEnvironment = __webpack_require__(15);
 var PooledClass = __webpack_require__(28);
 var ReactDOMComponentTree = __webpack_require__(9);
@@ -54686,9 +54950,9 @@ var DOMProperty = __webpack_require__(24);
 var EventPluginHub = __webpack_require__(35);
 var EventPluginUtils = __webpack_require__(56);
 var ReactComponentEnvironment = __webpack_require__(65);
-var ReactEmptyComponent = __webpack_require__(102);
+var ReactEmptyComponent = __webpack_require__(105);
 var ReactBrowserEventEmitter = __webpack_require__(47);
-var ReactHostComponent = __webpack_require__(103);
+var ReactHostComponent = __webpack_require__(106);
 var ReactUpdates = __webpack_require__(22);
 
 var ReactInjection = {
@@ -54721,12 +54985,12 @@ module.exports = ReactInjection;
 
 
 
-var _assign = __webpack_require__(8);
+var _assign = __webpack_require__(7);
 
-var CallbackQueue = __webpack_require__(89);
+var CallbackQueue = __webpack_require__(92);
 var PooledClass = __webpack_require__(28);
 var ReactBrowserEventEmitter = __webpack_require__(47);
-var ReactInputSelection = __webpack_require__(106);
+var ReactInputSelection = __webpack_require__(109);
 var ReactInstrumentation = __webpack_require__(19);
 var Transaction = __webpack_require__(43);
 var ReactUpdateQueue = __webpack_require__(69);
@@ -54908,7 +55172,7 @@ module.exports = ReactReconcileTransaction;
 var ExecutionEnvironment = __webpack_require__(15);
 
 var getNodeForCharacterOffset = __webpack_require__(225);
-var getTextContentAccessor = __webpack_require__(88);
+var getTextContentAccessor = __webpack_require__(91);
 
 /**
  * While `isCollapsed` is available on the Selection object and `collapsed`
@@ -55616,11 +55880,11 @@ module.exports = SVGDOMPropertyConfig;
 var EventPropagators = __webpack_require__(34);
 var ExecutionEnvironment = __webpack_require__(15);
 var ReactDOMComponentTree = __webpack_require__(9);
-var ReactInputSelection = __webpack_require__(106);
+var ReactInputSelection = __webpack_require__(109);
 var SyntheticEvent = __webpack_require__(23);
 
-var getActiveElement = __webpack_require__(107);
-var isTextInputElement = __webpack_require__(92);
+var getActiveElement = __webpack_require__(110);
+var isTextInputElement = __webpack_require__(95);
 var shallowEqual = __webpack_require__(66);
 
 var skipSelectionChangeEvent = ExecutionEnvironment.canUseDOM && 'documentMode' in document && document.documentMode <= 11;
@@ -55809,7 +56073,7 @@ module.exports = SelectEventPlugin;
 
 var _prodInvariant = __webpack_require__(5);
 
-var EventListener = __webpack_require__(105);
+var EventListener = __webpack_require__(108);
 var EventPropagators = __webpack_require__(34);
 var ReactDOMComponentTree = __webpack_require__(9);
 var SyntheticAnimationEvent = __webpack_require__(232);
@@ -56755,7 +57019,7 @@ var ReactCurrentOwner = __webpack_require__(20);
 var ReactDOMComponentTree = __webpack_require__(9);
 var ReactInstanceMap = __webpack_require__(37);
 
-var getHostComponentFromComposite = __webpack_require__(109);
+var getHostComponentFromComposite = __webpack_require__(112);
 var invariant = __webpack_require__(3);
 var warning = __webpack_require__(4);
 
@@ -56815,7 +57079,7 @@ module.exports = findDOMNode;
 
 
 
-var ReactMount = __webpack_require__(108);
+var ReactMount = __webpack_require__(111);
 
 module.exports = ReactMount.renderSubtreeIntoContainer;
 
@@ -57086,8 +57350,7 @@ module.exports = ReactDOMInvalidARIAHook;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 251 */,
-/* 252 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57156,14 +57419,14 @@ InfoHover.propTypes = {
 };
 
 /***/ }),
-/* 253 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["parseMed"] = __webpack_require__(254);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["parseMed"] = __webpack_require__(253);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 254 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57173,11 +57436,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _epicMeds = __webpack_require__(74);
+var _epicMeds = __webpack_require__(77);
 
 var _epicMeds2 = _interopRequireDefault(_epicMeds);
 
-var _medMapper = __webpack_require__(75);
+var _medMapper = __webpack_require__(78);
 
 var _medMapper2 = _interopRequireDefault(_medMapper);
 
@@ -57229,14 +57492,14 @@ exports.default = {
 };
 
 /***/ }),
-/* 255 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledDiagnosisForm"] = __webpack_require__(256);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledDiagnosisForm"] = __webpack_require__(255);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 256 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57443,14 +57706,14 @@ AssembledDiagnosisForm.propTypes = {
 };
 
 /***/ }),
-/* 257 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledDissectionForm"] = __webpack_require__(258);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledDissectionForm"] = __webpack_require__(257);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 258 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57537,28 +57800,28 @@ var AssembledDissectionForm = function (_React$Component) {
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: locations,
               title: 'location',
-              attribute: 'location',
+              name: 'location',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: directions,
               title: 'direction',
-              attribute: 'direction',
+              name: 'direction',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: lumens,
               title: 'lumen',
-              attribute: 'lumen',
+              name: 'lumen',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: perfused,
               title: 'perfusion',
-              attribute: 'perfusion',
+              name: 'perfusion',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             })
@@ -57606,14 +57869,14 @@ AssembledDissectionForm.propTypes = {
 };
 
 /***/ }),
-/* 259 */
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledHospitalizationForm"] = __webpack_require__(260);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledHospitalizationForm"] = __webpack_require__(259);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 260 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57797,14 +58060,14 @@ AssembledHospitalizationForm.propTypes = {
 };
 
 /***/ }),
-/* 261 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledMeasurementForm"] = __webpack_require__(262);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledMeasurementForm"] = __webpack_require__(261);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 262 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57863,13 +58126,43 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledMeasurementForm = function (_React$Component) {
   _inherits(AssembledMeasurementForm, _React$Component);
 
-  function AssembledMeasurementForm() {
+  function AssembledMeasurementForm(props) {
     _classCallCheck(this, AssembledMeasurementForm);
 
-    return _possibleConstructorReturn(this, (AssembledMeasurementForm.__proto__ || Object.getPrototypeOf(AssembledMeasurementForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledMeasurementForm.__proto__ || Object.getPrototypeOf(AssembledMeasurementForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      measurement: null,
+      units: null,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      note: null,
+      file: null
+    };
+    _this.handleDateChange = _this.handleDateChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledMeasurementForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      debugger;
+      console.log('measurement form unmounting');
+    }
+  }, {
+    key: 'handleDateChange',
+    value: function handleDateChange(values) {
+      this.setState({
+        timeAgoAmount: values.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: values.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: values.absoluteDate || this.state.absoluteDate
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'tests';
@@ -57922,7 +58215,9 @@ var AssembledMeasurementForm = function (_React$Component) {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
                 title: this.props.topic.name,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                measurementValue: this.state.measurement,
+                unitOfMeas: this.state.units
               })
             )
           ),
@@ -57940,7 +58235,11 @@ var AssembledMeasurementForm = function (_React$Component) {
               _react2.default.createElement(_TimeAgoField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleDateChange
               })
             )
           ),
@@ -57958,12 +58257,14 @@ var AssembledMeasurementForm = function (_React$Component) {
               _react2.default.createElement(_NoteField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                noteValue: this.state.note
               }),
               _react2.default.createElement(_FileAttachmentButton2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                attachedFile: this.state.file
               })
             )
           ),
@@ -57990,14 +58291,14 @@ AssembledMeasurementForm.propTypes = {
 };
 
 /***/ }),
-/* 263 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledMedicationForm"] = __webpack_require__(264);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledMedicationForm"] = __webpack_require__(263);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 264 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58080,14 +58381,14 @@ AssembledMedicationForm.propTypes = {
 };
 
 /***/ }),
-/* 265 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledProcedureForm"] = __webpack_require__(266);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledProcedureForm"] = __webpack_require__(265);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 266 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58250,14 +58551,14 @@ AssembledProcedureForm.propTypes = {
 };
 
 /***/ }),
-/* 267 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["renderByTopicType"] = __webpack_require__(268);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["renderByTopicType"] = __webpack_require__(267);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 268 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58267,43 +58568,43 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _assembledDiagnosisForm = __webpack_require__(269);
+var _assembledDiagnosisForm = __webpack_require__(268);
 
 var _assembledDiagnosisForm2 = _interopRequireDefault(_assembledDiagnosisForm);
 
-var _assembledDissectionForm = __webpack_require__(270);
+var _assembledDissectionForm = __webpack_require__(269);
 
 var _assembledDissectionForm2 = _interopRequireDefault(_assembledDissectionForm);
 
-var _AssembledFamilyMemberForm = __webpack_require__(271);
+var _AssembledFamilyMemberForm = __webpack_require__(270);
 
 var _AssembledFamilyMemberForm2 = _interopRequireDefault(_AssembledFamilyMemberForm);
 
-var _assembledGeneticTestForm = __webpack_require__(273);
+var _assembledGeneticTestForm = __webpack_require__(272);
 
 var _assembledGeneticTestForm2 = _interopRequireDefault(_assembledGeneticTestForm);
 
-var _assembledHeartMeasurementForm = __webpack_require__(274);
+var _assembledHeartMeasurementForm = __webpack_require__(273);
 
 var _assembledHeartMeasurementForm2 = _interopRequireDefault(_assembledHeartMeasurementForm);
 
-var _assembledHospitalizationForm = __webpack_require__(275);
+var _assembledHospitalizationForm = __webpack_require__(274);
 
 var _assembledHospitalizationForm2 = _interopRequireDefault(_assembledHospitalizationForm);
 
-var _assembledMeasurementForm = __webpack_require__(276);
+var _assembledMeasurementForm = __webpack_require__(275);
 
 var _assembledMeasurementForm2 = _interopRequireDefault(_assembledMeasurementForm);
 
-var _assembledMedicationForm = __webpack_require__(277);
+var _assembledMedicationForm = __webpack_require__(276);
 
 var _assembledMedicationForm2 = _interopRequireDefault(_assembledMedicationForm);
 
-var _assembledProcedureForm = __webpack_require__(278);
+var _assembledProcedureForm = __webpack_require__(277);
 
 var _assembledProcedureForm2 = _interopRequireDefault(_assembledProcedureForm);
 
-var _assembledVitalForm = __webpack_require__(279);
+var _assembledVitalForm = __webpack_require__(278);
 
 var _assembledVitalForm2 = _interopRequireDefault(_assembledVitalForm);
 
@@ -58350,7 +58651,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 269 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58557,7 +58858,7 @@ AssembledDiagnosisForm.propTypes = {
 };
 
 /***/ }),
-/* 270 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58644,28 +58945,28 @@ var AssembledDissectionForm = function (_React$Component) {
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: locations,
               title: 'location',
-              attribute: 'location',
+              name: 'location',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: directions,
               title: 'direction',
-              attribute: 'direction',
+              name: 'direction',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: lumens,
               title: 'lumen',
-              attribute: 'lumen',
+              name: 'lumen',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: perfused,
               title: 'perfusion',
-              attribute: 'perfusion',
+              name: 'perfusion',
               parameterizedPlural: parameterizedPlural,
               rowID: this.props.rowID
             })
@@ -58713,7 +59014,7 @@ AssembledDissectionForm.propTypes = {
 };
 
 /***/ }),
-/* 271 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58737,7 +59038,7 @@ var _HiddenFields = __webpack_require__(6);
 
 var _HiddenFields2 = _interopRequireDefault(_HiddenFields);
 
-var _FamilyMemberFormBody = __webpack_require__(272);
+var _FamilyMemberFormBody = __webpack_require__(271);
 
 var _FamilyMemberFormBody2 = _interopRequireDefault(_FamilyMemberFormBody);
 
@@ -58799,7 +59100,7 @@ AssembledFamilyMemberForm.propTypes = {
 };
 
 /***/ }),
-/* 272 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59034,7 +59335,7 @@ FamilyMemberFormBody.propTypes = {
 };
 
 /***/ }),
-/* 273 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59120,7 +59421,7 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_SelectConstructor2.default, {
                 arr: locations,
                 title: 'lab name',
-                attribute: 'lab_name',
+                name: 'labName',
                 parameterizedPlural: parameterizedPlural,
                 rowID: this.props.rowID
               })
@@ -59132,7 +59433,7 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_SelectConstructor2.default, {
                 arr: classifications,
                 title: 'lab classification',
-                attribute: 'lab_classification',
+                name: 'labClassification',
                 parameterizedPlural: parameterizedPlural,
                 rowID: this.props.rowID
               })
@@ -59144,7 +59445,7 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_SelectConstructor2.default, {
                 arr: classifications,
                 title: 'clinical classification',
-                attribute: 'clinical_classification',
+                name: 'clinicalClassification',
                 parameterizedPlural: parameterizedPlural,
                 rowID: this.props.rowID
               })
@@ -59309,7 +59610,7 @@ AssembledGeneticTestForm.propTypes = {
 };
 
 /***/ }),
-/* 274 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59442,7 +59743,7 @@ AssembledHeartMeasurementForm.propTypes = {
 };
 
 /***/ }),
-/* 275 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59626,7 +59927,7 @@ AssembledHospitalizationForm.propTypes = {
 };
 
 /***/ }),
-/* 276 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59685,13 +59986,43 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledMeasurementForm = function (_React$Component) {
   _inherits(AssembledMeasurementForm, _React$Component);
 
-  function AssembledMeasurementForm() {
+  function AssembledMeasurementForm(props) {
     _classCallCheck(this, AssembledMeasurementForm);
 
-    return _possibleConstructorReturn(this, (AssembledMeasurementForm.__proto__ || Object.getPrototypeOf(AssembledMeasurementForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledMeasurementForm.__proto__ || Object.getPrototypeOf(AssembledMeasurementForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      measurement: null,
+      units: null,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      note: null,
+      file: null
+    };
+    _this.handleDateChange = _this.handleDateChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledMeasurementForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      debugger;
+      console.log('measurement form unmounting');
+    }
+  }, {
+    key: 'handleDateChange',
+    value: function handleDateChange(values) {
+      this.setState({
+        timeAgoAmount: values.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: values.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: values.absoluteDate || this.state.absoluteDate
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'tests';
@@ -59744,7 +60075,9 @@ var AssembledMeasurementForm = function (_React$Component) {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
                 title: this.props.topic.name,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                measurementValue: this.state.measurement,
+                unitOfMeas: this.state.units
               })
             )
           ),
@@ -59762,7 +60095,11 @@ var AssembledMeasurementForm = function (_React$Component) {
               _react2.default.createElement(_TimeAgoField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleDateChange
               })
             )
           ),
@@ -59780,12 +60117,14 @@ var AssembledMeasurementForm = function (_React$Component) {
               _react2.default.createElement(_NoteField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                noteValue: this.state.note
               }),
               _react2.default.createElement(_FileAttachmentButton2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                attachedFile: this.state.file
               })
             )
           ),
@@ -59812,7 +60151,7 @@ AssembledMeasurementForm.propTypes = {
 };
 
 /***/ }),
-/* 277 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59895,7 +60234,7 @@ AssembledMedicationForm.propTypes = {
 };
 
 /***/ }),
-/* 278 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60058,7 +60397,7 @@ AssembledProcedureForm.propTypes = {
 };
 
 /***/ }),
-/* 279 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60148,20 +60487,20 @@ AssembledVitalForm.propTypes = {
 };
 
 /***/ }),
-/* 280 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["addKeyboard"] = __webpack_require__(281);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["addKeyboard"] = __webpack_require__(280);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 281 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _jquery = __webpack_require__(7);
+var _jquery = __webpack_require__(8);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -60203,14 +60542,14 @@ _jquery2.default.fn.addKeyboard = function () {
 };
 
 /***/ }),
-/* 282 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["initializeRow"] = __webpack_require__(283);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["initializeRow"] = __webpack_require__(282);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 283 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60288,14 +60627,14 @@ _jquery2.default.fn.addKeyboard = function () {
 
 
 /***/ }),
-/* 284 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["ScribbleButton"] = __webpack_require__(285);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["ScribbleButton"] = __webpack_require__(284);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 285 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60407,14 +60746,14 @@ ScribbleButton.propTypes = {
 };
 
 /***/ }),
-/* 286 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["medMapper"] = __webpack_require__(287);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["medMapper"] = __webpack_require__(286);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 287 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60518,14 +60857,14 @@ exports.default = {
 };
 
 /***/ }),
-/* 288 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["epicMeds"] = __webpack_require__(289);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["epicMeds"] = __webpack_require__(288);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 289 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60560,14 +60899,14 @@ exports.default = {
 };
 
 /***/ }),
-/* 290 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["RowForm"] = __webpack_require__(291);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["RowForm"] = __webpack_require__(290);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 291 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60591,39 +60930,39 @@ var _reactToggleDisplay = __webpack_require__(52);
 
 var _reactToggleDisplay2 = _interopRequireDefault(_reactToggleDisplay);
 
-var _AssembledDiagnosisForm = __webpack_require__(84);
+var _AssembledDiagnosisForm = __webpack_require__(87);
 
 var _AssembledDiagnosisForm2 = _interopRequireDefault(_AssembledDiagnosisForm);
 
-var _AssembledDissectionForm = __webpack_require__(110);
+var _AssembledDissectionForm = __webpack_require__(113);
 
 var _AssembledDissectionForm2 = _interopRequireDefault(_AssembledDissectionForm);
 
-var _AssembledGeneticTestForm = __webpack_require__(111);
+var _AssembledGeneticTestForm = __webpack_require__(114);
 
 var _AssembledGeneticTestForm2 = _interopRequireDefault(_AssembledGeneticTestForm);
 
-var _AssembledHeartMeasurementForm = __webpack_require__(112);
+var _AssembledHeartMeasurementForm = __webpack_require__(115);
 
 var _AssembledHeartMeasurementForm2 = _interopRequireDefault(_AssembledHeartMeasurementForm);
 
-var _AssembledHospitalizationForm = __webpack_require__(113);
+var _AssembledHospitalizationForm = __webpack_require__(116);
 
 var _AssembledHospitalizationForm2 = _interopRequireDefault(_AssembledHospitalizationForm);
 
-var _AssembledMeasurementForm = __webpack_require__(114);
+var _AssembledMeasurementForm = __webpack_require__(117);
 
 var _AssembledMeasurementForm2 = _interopRequireDefault(_AssembledMeasurementForm);
 
-var _AssembledMedicationForm = __webpack_require__(115);
+var _AssembledMedicationForm = __webpack_require__(118);
 
 var _AssembledMedicationForm2 = _interopRequireDefault(_AssembledMedicationForm);
 
-var _AssembledProcedureForm = __webpack_require__(116);
+var _AssembledProcedureForm = __webpack_require__(119);
 
 var _AssembledProcedureForm2 = _interopRequireDefault(_AssembledProcedureForm);
 
-var _AssembledVitalForm = __webpack_require__(117);
+var _AssembledVitalForm = __webpack_require__(120);
 
 var _AssembledVitalForm2 = _interopRequireDefault(_AssembledVitalForm);
 
@@ -60631,7 +60970,7 @@ var _FindRelated = __webpack_require__(14);
 
 var _FindRelated2 = _interopRequireDefault(_FindRelated);
 
-var _PresAbsButtons = __webpack_require__(118);
+var _PresAbsButtons = __webpack_require__(121);
 
 var _PresAbsButtons2 = _interopRequireDefault(_PresAbsButtons);
 
@@ -60775,14 +61114,14 @@ RowForm.propTypes = {
 };
 
 /***/ }),
-/* 292 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["ReasonForVisitHeader"] = __webpack_require__(293);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["ReasonForVisitHeader"] = __webpack_require__(292);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 293 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60872,14 +61211,14 @@ ReasonForVisitHeader.propTypes = {
 };
 
 /***/ }),
-/* 294 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["unitConverter"] = __webpack_require__(295);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["unitConverter"] = __webpack_require__(294);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 295 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -60910,35 +61249,35 @@ exports.default = {
 };
 
 /***/ }),
+/* 295 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["$"] = __webpack_require__(296);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
+
+/***/ }),
 /* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["$"] = __webpack_require__(297);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["jQuery"] = __webpack_require__(8);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
 /* 297 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["jQuery"] = __webpack_require__(7);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
-
-/***/ }),
-/* 298 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 299 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
-module.exports = __webpack_require__(300);
+module.exports = __webpack_require__(299);
 
 
 /***/ }),
-/* 300 */
+/* 299 */
 /***/ (function(module, exports) {
 
 

@@ -45,7 +45,7 @@ export default class AssembledGeneticTestForm extends React.Component {
               <SelectConstructor
                 arr={locations}
                 title="lab name"
-                attribute="lab_name"
+                name="labName"
                 parameterizedPlural={parameterizedPlural}
                 rowID={this.props.rowID}
               />
@@ -55,7 +55,7 @@ export default class AssembledGeneticTestForm extends React.Component {
               <SelectConstructor
                 arr={classifications}
                 title="lab classification"
-                attribute="lab_classification"
+                name="labClassification"
                 parameterizedPlural={parameterizedPlural}
                 rowID={this.props.rowID}
               />
@@ -65,7 +65,7 @@ export default class AssembledGeneticTestForm extends React.Component {
               <SelectConstructor
                 arr={classifications}
                 title="clinical classification"
-                attribute="clinical_classification"
+                name="clinicalClassification"
                 parameterizedPlural={parameterizedPlural}
                 rowID={this.props.rowID}
               />

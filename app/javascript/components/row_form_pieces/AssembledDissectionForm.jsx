@@ -27,28 +27,28 @@ export default class AssembledDissectionForm extends React.Component {
             <SelectConstructor
               arr={locations}
               title="location"
-              attribute="location"
+              name="location"
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
             />
             <SelectConstructor
               arr={directions}
               title="direction"
-              attribute="direction"
+              name="direction"
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
             />
             <SelectConstructor
               arr={lumens}
               title="lumen"
-              attribute="lumen"
+              name="lumen"
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
             />
             <SelectConstructor
               arr={perfused}
               title="perfusion"
-              attribute="perfusion"
+              name="perfusion"
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
             />

@@ -2,16 +2,62 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Switch from 'react-bootstrap-switch';
 import ToggleDisplay from 'react-toggle-display';
+import $ from 'jquery';
 import SelectConstructor from './SelectConstructor';
+require('../addKeyboard');
+require('jquery-ujs');
+require('jquery-ui/ui/core.js');
+require('jquery-ui/ui/position');
 
 export default class TimeAgoField extends React.Component {
-  constructor() {
-    super();
-    this.state = { show: true };
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: true,
+      timeAgoAmount: this.props.timeAgoAmount,
+      timeAgoUnit: this.props.timeAgoUnit,
+      absoluteDate: this.props.absoluteDate,
+    };
+    this.keyboardize = this.keyboardize.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleUnitChange = this.handleUnitChange.bind(this)
+  }
+
+  componentDidMount() {
+    this.$el = $(this.el);
+    this.$el.addKeyboard();
+  }
+
+  componentWillUnmount() {
+    this.$el.addKeyboard('destroy');
+  }
+
+  keyboardize(e) {
+    e.preventDefault();
+    this.$el = $(this.el);
+    const kb = this.$el.getkeyboard();
+    // close the keyboard if the keyboard is visible and the button is clicked a second time
+    if (kb.isOpen) {
+      kb.close();
+    } else {
+      kb.reveal();
+    }
+  }
+
+  handleChange(event) {
+    this.props.onDateChange({
+      [event.target.name]: event.target.value
+    });
+  }
+
+  handleUnitChange(val) {
+    this.props.onDateChange({
+      timeAgoUnit: val.timeAgoUnit,
+    });
   }
 
   handleSwitch(elem, state) {
-    this.setState({ show: state })
+    this.setState({ show: state });
   }
 
   render() {
@@ -41,24 +87,30 @@ export default class TimeAgoField extends React.Component {
             <div className="form-inline">
               <input
                 type="number"
-                name={'visit[' + this.props.parameterizedPlural + '_attributes][' + this.props.rowID + '][time_ago_amount]'}
+                name="timeAgoAmount"
                 id={'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_time_ago_amount'}
                 className='form-control calculator'
                 placeholder="time ago"
+                ref={el => this.el = el}
+                value={this.state.timeAgoAmount}
+                onChange={this.handleChange}
               />
               <button
                 className="btn btn-secondary calculator"
                 type="button"
                 id={this.props.parameterizedPlural + '_' + this.props.rowID + '_time_calc_button'}
+                onClick={this.keyboardize}
               >
                 <i className="fa fa-calculator" />
               </button>
               <SelectConstructor
                 arr={options}
                 title="time ago"
-                attribute="time_ago_scale"
                 parameterizedPlural={this.props.parameterizedPlural}
                 rowID={this.props.rowID}
+                name="timeAgoUnit"
+                value={this.state.timeAgoUnit}
+                onUnitChange={this.handleUnitChange}
               />
             </div>
           </div>
@@ -67,10 +119,12 @@ export default class TimeAgoField extends React.Component {
           <div className="exact">
             <input
               type="date"
-              name={'visit[' + this.props.parameterizedPlural + '_attributes][' + this.props.rowID + '][' + absoluteTime + ']'}
+              name="absoluteDate"
               id={'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + absoluteTime}
               className="form-control"
-              />
+              value={this.state.absoluteDate}
+              onChange={this.handleChange}
+            />
           </div>
         </ToggleDisplay>
       </div>

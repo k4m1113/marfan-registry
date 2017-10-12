@@ -61,7 +61,7 @@ export default class MeasurementField extends React.Component {
           arr={options}
           title={this.props.title}
           other={false}
-          attribute="test_unit_of_meas"
+          name="testUnitOfMeas"
           parameterizedPlural={this.props.parameterizedPlural}
           rowID={this.props.rowID}
           multiSelect={this.props.multiSelect}
