@@ -31,10 +31,6 @@ export default class AssembledMeasurementForm extends React.Component {
     debugger
   }
 
-  componentDidUnmount() {
-    debugger
-  }
-
   handleChange(value) {
     this.setState({
       timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,

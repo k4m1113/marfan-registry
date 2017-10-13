@@ -99,8 +99,8 @@ export default class TimeAgoField extends React.Component {
               <SelectConstructor
                 arr={options}
                 title="time ago"
-                parameterizedPlural={this.props.parameterizedPlural}
                 rowID={this.props.rowID}
+                parameterizedPlural={this.props.parameterizedPlural}
                 name="timeAgoUnit"
                 value={this.state.timeAgoUnit}
                 onUnitChange={this.handleChange}

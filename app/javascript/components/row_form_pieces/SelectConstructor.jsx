@@ -11,7 +11,7 @@ export default class SelectConstructor extends React.Component {
   }
 
   handleChange(event) {
-    this.props.onChange(event);
+    this.props.onUnitChange(event);
   }
 
   render() {

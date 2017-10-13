@@ -8,9 +8,14 @@ require('jquery-ui/ui/core.js');
 require('jquery-ui/ui/position');
 
 export default class DurationField extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {
+      durationAmount: this.props.durationAmount,
+      durationUnit: this.props.durationUnit,
+    }
     this.keyboardize = this.keyboardize.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
@@ -33,17 +38,26 @@ export default class DurationField extends React.Component {
       kb.reveal();
     }
   }
+
+  handleChange(event) {
+    this.props.onDurationChange({
+      [event.target.name]: event.target.value
+    });
+  }
+
   render() {
     const options = ['second(s)', 'minute(s)', 'hour(s)', 'day(s)', 'week(s)', 'month(s)', 'year(s)'];
     return (
       <div className="form-inline">
         <input
           type="number"
-          name={'visit[' + this.props.parameterizedPlural + '_attributes][' + this.props.rowID + '][duration_amount]'}
           id={'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_duration_amount'}
           className="form-control calculator"
           placeholder="duration"
           ref={el => this.el = el}
+          name="durationAmount"
+          value={this.state.durationAmount}
+          onChange={this.handleChange}
         />
         <button
           className="btn btn-secondary calculator"
@@ -56,9 +70,11 @@ export default class DurationField extends React.Component {
         <SelectConstructor
           arr={options}
           title="for how long"
-          name="durationScale"
-          parameterizedPlural={this.props.parameterizedPlural}
           rowID={this.props.rowID}
+          parameterizedPlural={this.props.parameterizedPlural}
+          name="durationUnit"
+          value={this.state.durationUnit}
+          onUnitChange={this.handleChange}
         />
       </div>
     );

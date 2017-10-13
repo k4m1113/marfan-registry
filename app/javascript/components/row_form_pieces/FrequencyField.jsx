@@ -8,9 +8,14 @@ require('jquery-ui/ui/core.js');
 require('jquery-ui/ui/position');
 
 export default class FrequencyField extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {
+      frequencyAmount: this.props.frequencyAmount,
+      frequencyUnit: this.props.frequencyUnit,
+    }
     this.keyboardize = this.keyboardize.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
@@ -33,17 +38,26 @@ export default class FrequencyField extends React.Component {
       kb.reveal();
     }
   }
+
+  handleChange(event) {
+    this.props.onFrequencyChange({
+      [event.target.name]: event.target.value
+    });
+  }
+
   render() {
     const options = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
     return (
       <div className="form-inline">
         <input
           type="number"
-          name={'visit[' + this.props.parameterizedPlural + '_attributes][' + this.props.rowID + '][frequency_amount]'}
           id={'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_frequency_amount'}
           className="form-control calculator"
           placeholder="frequency"
           ref={el => this.el = el}
+          name="frequencyAmount"
+          value={this.state.frequencyAmount}
+          onChange={this.handleChange}
         />
         <button
           className="btn btn-secondary calculator"
@@ -56,9 +70,11 @@ export default class FrequencyField extends React.Component {
         <SelectConstructor
           arr={options}
           title="times per"
-          name="frequencyScale"
-          parameterizedPlural={this.props.parameterizedPlural}
           rowID={this.props.rowID}
+          parameterizedPlural={this.props.parameterizedPlural}
+          name="frequencyUnit"
+          value={this.state.frequencyUnit}
+          onUnitChange={this.handleChange}
         />
       </div>
     );
