@@ -7,6 +7,41 @@ import Keywords from './Keywords';
 import NoteField from './NoteField';
 
 export default class AssembledHeartMeasurementForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      topic: this.props.topic.id,
+      patient: this.props.visit.patient_id,
+      visit: this.props.visit.id,
+      measurement: null,
+      units: null,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      keywords: null,
+      note: null,
+      file: null,
+    };
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(value) {
+    this.setState({
+      timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+      timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+      absoluteDate: value.absoluteDate || this.state.absoluteDate,
+      measurement: value.measurement || this.state.measurement,
+      units: value.units || this.state.units,
+      file: value.file || this.state.file,
+      note: value.note || this.state.note,
+    });
+    if (this.props.topic.units_of_measurement.length === 1 && this.state.measurement) {
+      this.setState({
+        units: this.props.topic.units_of_measurement[0],
+      });
+    }
+  }
+
   render() {
     const parameterizedPlural = 'heart_measurements';
     let measFields;
@@ -16,8 +51,11 @@ export default class AssembledHeartMeasurementForm extends React.Component {
         <MeasurementField
           topic={this.props.topic}
           parameterizedPlural={parameterizedPlural}
-          title="severity"
           rowID={this.props.rowID}
+          title="severity"
+          measurementValue={this.state.measurement}
+          unitOfMeas={this.state.units}
+          onMeasChange={this.handleChange}
         />
       );
     } else {
@@ -26,8 +64,11 @@ export default class AssembledHeartMeasurementForm extends React.Component {
           topic={this.props.topic}
           parameterizedPlural={parameterizedPlural}
           multiSelect
-          title="morphology"
           rowID={this.props.rowID}
+          title="morphology"
+          measurementValue={this.state.measurement}
+          unitOfMeas={this.state.units}
+          onMeasChange={this.handleChange}
         />
       );
     }
@@ -37,6 +78,8 @@ export default class AssembledHeartMeasurementForm extends React.Component {
           topic={this.props.topic}
           parameterizedPlural={parameterizedPlural}
           rowID={this.props.rowID}
+          keywordsValue={this.state.keywords}
+          onKeywordsChange={this.handleChange}
         />
       );
     }
@@ -58,11 +101,15 @@ export default class AssembledHeartMeasurementForm extends React.Component {
             topic={this.props.topic}
             parameterizedPlural={parameterizedPlural}
             rowID={this.props.rowID}
+            noteValue={this.state.note}
+            onNoteChange={this.handleChange}
           />
           <FileAttachmentButton
             topic={this.props.topic}
             parameterizedPlural={parameterizedPlural}
             rowID={this.props.rowID}
+            attachedFile={this.state.file}
+            onFileChange={this.handleChange}
           />
         </div>
       </div>

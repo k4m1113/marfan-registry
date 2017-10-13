@@ -7,6 +7,47 @@ import SelectConstructor from './SelectConstructor';
 import TimeAgoField from './TimeAgoField';
 
 export default class AssembledGeneticTestForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      topic: this.props.topic.id,
+      patient: this.props.visit.patient_id,
+      visit: this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      lab: null,
+      labClassification: null,
+      clinicalClassification: null,
+      predictiveTestingRecommended: null,
+      transcript: null,
+      protein: null,
+      variant: null,
+      exons: null,
+      note: null,
+      file: null,
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(value) {
+    this.setState({
+      timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+      timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+      absoluteDate: value.absoluteDate || this.state.absoluteDate,
+      lab: value.lab || this.state.lab,
+      labClassification: value.labClassification || this.state.labClassification,
+      clinicalClassification: value.clinicalClassification || this.state.clinicalClassification,
+      predictiveTestingRecommended: value.predictiveTestingRecommended || this.state.predictiveTestingRecommended,
+      transcript: value.transcript || this.state.transcript,
+      protein: value.protein || this.state.protein,
+      variant: value.variant || this.state.variant,
+      exons: value.exons || this.state.exons,
+      file: value.file || this.state.file,
+      note: value.note || this.state.note,
+    });
+  }
+
   render() {
     const parameterizedPlural = 'genetic_tests';
     const classifications = [
@@ -45,9 +86,11 @@ export default class AssembledGeneticTestForm extends React.Component {
               <SelectConstructor
                 arr={locations}
                 title="lab name"
-                name="labName"
                 parameterizedPlural={parameterizedPlural}
                 rowID={this.props.rowID}
+                name="labName"
+                value={this.state.labName}
+                onUnitChange={this.handleChange}
               />
             </div>
             <div className="col-sm-3">
@@ -55,9 +98,11 @@ export default class AssembledGeneticTestForm extends React.Component {
               <SelectConstructor
                 arr={classifications}
                 title="lab classification"
-                name="labClassification"
                 parameterizedPlural={parameterizedPlural}
+                name="labClassification"
                 rowID={this.props.rowID}
+                value={this.state.labClassification}
+                onUnitChange={this.handleChange}
               />
             </div>
             <div className="col-sm-3">
@@ -65,9 +110,11 @@ export default class AssembledGeneticTestForm extends React.Component {
               <SelectConstructor
                 arr={classifications}
                 title="clinical classification"
-                name="clinicalClassification"
                 parameterizedPlural={parameterizedPlural}
                 rowID={this.props.rowID}
+                name="clinicalClassification"
+                value={this.state.clinicalClassification}
+                onUnitChange={this.handleChange}
               />
             </div>
             <div className="col-sm-3">
@@ -75,8 +122,8 @@ export default class AssembledGeneticTestForm extends React.Component {
                 <label className="form-check-label">
                   <input
                     type="checkbox"
-                    value="true"
-                    name={'visit[genetic_tests_attributes][' + this.props.rowID + '][predictive_testing_recommended]'}
+                    value={this.state.predictiveTestingRecommended}
+                    name="predictiveTestingRecommended"
                     id={'visit_genetic_tests_attributes_' + this.props.rowID + '_predictive_testing_recommended'}
                     className="form-check-input"
                   />
@@ -95,10 +142,10 @@ export default class AssembledGeneticTestForm extends React.Component {
                 <input
                   type="string"
                   placeholder="000138.4"
-                  name={'visit[' +  parameterizedPlural + '_attributes][${rowID}][transcript]'}
+                  name="transcript"
                   id={'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_transcript'}
                   className="form-control"
-                  value=""
+                  value={this.state.transcript}
                   aria-describedby={'transcript_' + this.props.rowID}
                 />
               </div>
@@ -115,10 +162,10 @@ export default class AssembledGeneticTestForm extends React.Component {
                 <input
                   type="string"
                   placeholder="Gly931fsX10"
-                  name={'visit[' + parameterizedPlural + '_attributes][' + this.props.rowID + '][protein]'}
+                  name="protein"
                   id={'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_protein'}
                   className="form-control"
-                  value=""
+                  value={this.state.protein}
                   aria-describedby={'protein_' + this.props.rowID}
                 />
               </div>
@@ -135,10 +182,10 @@ export default class AssembledGeneticTestForm extends React.Component {
                 <input
                   type="string"
                   placeholder="2793delG"
-                  name={'visit[' + parameterizedPlural + '_attributes][' + this.props.rowID + '][variant]'}
+                  name="variant"
                   id={'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_variant'}
                   className="form-control"
-                  value=""
+                  value={this.state.variant}
                   aria-describedby={'variant_' + this.props.rowID}
                 />
               </div>
@@ -150,10 +197,10 @@ export default class AssembledGeneticTestForm extends React.Component {
                 placeholder="23"
                 min="1"
                 max="63"
-                name={'visit[' + parameterizedPlural + '_attributes][' + this.props.rowID + '][exons]'}
+                name="exons"
                 id={'visit_' + parameterizedPlural + '_attributes_' + this.propsrowID + '_exons'}
                 className="form-control"
-                value=""
+                value={this.state.exons}
               />
             </div>
           </div>
@@ -163,6 +210,10 @@ export default class AssembledGeneticTestForm extends React.Component {
                 topic={this.props.topic}
                 parameterizedPlural={parameterizedPlural}
                 rowID={this.props.rowID}
+                timeAgoAmount={this.state.timeAgoAmount}
+                timeAgoUnit={this.state.timeAgoUnit}
+                absoluteDate={this.state.absoluteDate}
+                onDateChange={this.handleChange}
               />
             </div>
             <div className="form-inline col-sm-4">
@@ -170,11 +221,15 @@ export default class AssembledGeneticTestForm extends React.Component {
                 topic={this.props.topic}
                 parameterizedPlural={parameterizedPlural}
                 rowID={this.props.rowID}
+                noteValue={this.state.note}
+                onNoteChange={this.handleChange}
               />
               <FileAttachmentButton
                 topic={this.props.topic}
                 parameterizedPlural={parameterizedPlural}
                 rowID={this.props.rowID}
+                attachedFile={this.state.file}
+                onFileChange={this.handleChange}
               />
             </div>
           </div>

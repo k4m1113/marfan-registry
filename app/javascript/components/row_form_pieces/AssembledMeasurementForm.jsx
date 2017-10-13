@@ -20,15 +20,11 @@ export default class AssembledMeasurementForm extends React.Component {
       timeAgoAmount: null,
       timeAgoUnit: null,
       absoluteDate: null,
+      keywords: null,
       note: null,
       file: null,
     };
     this.handleChange = this.handleChange.bind(this)
-  }
-
-  componentWillUnmount() {
-    console.log('measurement form unmounting')
-    debugger
   }
 
   handleChange(value) {
@@ -38,6 +34,7 @@ export default class AssembledMeasurementForm extends React.Component {
       absoluteDate: value.absoluteDate || this.state.absoluteDate,
       measurement: value.measurement || this.state.measurement,
       units: value.units || this.state.units,
+      keywords: value.keywords || this.state.keywords,
       file: value.file || this.state.file,
       note: value.note || this.state.note,
     });
@@ -60,6 +57,8 @@ export default class AssembledMeasurementForm extends React.Component {
               topic={this.props.topic}
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              keywordsValue={this.state.keywords}
+              onKeywordsChange={this.handleChange}
             />
           </div>
         </div>
@@ -81,8 +80,8 @@ export default class AssembledMeasurementForm extends React.Component {
               <MeasurementField
                 topic={this.props.topic}
                 parameterizedPlural={parameterizedPlural}
-                title={this.props.topic.name}
                 rowID={this.props.rowID}
+                title={this.props.topic.name}
                 measurementValue={this.state.measurement}
                 unitOfMeas={this.state.units}
                 onMeasChange={this.handleChange}

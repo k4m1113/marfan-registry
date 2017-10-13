@@ -8,6 +8,39 @@ import TimeAgoField from './TimeAgoField';
 import SelectConstructor from './SelectConstructor';
 
 export default class AssembledDissectionForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      topic: this.props.topic.id,
+      patient: this.props.visit.patient_id,
+      visit: this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      location: null,
+      direction: null,
+      lumen: null,
+      perfusion: null,
+      note: null,
+      file: null,
+    };
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(value) {
+    this.setState({
+      timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+      timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+      absoluteDate: value.absoluteDate || this.state.absoluteDate,
+      location: value.location || this.state.location,
+      direction: value.direction || this.state.direction,
+      lumen: value.lumen || this.state.lumen,
+      perfusion: value.perfusion || this.state.perfusion,
+      file: value.file || this.state.file,
+      note: value.note || this.state.note,
+    });
+  }
+
   render() {
     const locations = ['aortic root', 'ascending aorta', 'arch', 'descending thoracic', 'suprarenal abdominal', 'infrarenal abdominal', 'iliac', 'renal', 'SMA', 'celiac', 'innominate', 'left carotid', 'left subclavian'];
     const perfused = ['perfused', 'ischemic'];
@@ -27,30 +60,38 @@ export default class AssembledDissectionForm extends React.Component {
             <SelectConstructor
               arr={locations}
               title="location"
-              name="location"
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              name="location"
+              value={this.state.location}
+              onUnitChange={this.handleChange}
             />
             <SelectConstructor
               arr={directions}
               title="direction"
-              name="direction"
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              name="direction"
+              value={this.state.direction}
+              onUnitChange={this.handleChange}
             />
             <SelectConstructor
               arr={lumens}
               title="lumen"
-              name="lumen"
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              name="lumen"
+              value={this.state.lumen}
+              onUnitChange={this.handleChange}
             />
             <SelectConstructor
               arr={perfused}
               title="perfusion"
-              name="perfusion"
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              name="perfusion"
+              value={this.state.perfusion}
+              onUnitChange={this.handleChange}
             />
           </div>
           <div className="form-inline">
@@ -58,16 +99,24 @@ export default class AssembledDissectionForm extends React.Component {
               topic={this.props.topic}
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              timeAgoAmount={this.state.timeAgoAmount}
+              timeAgoUnit={this.state.timeAgoUnit}
+              absoluteDate={this.state.absoluteDate}
+              onDateChange={this.handleChange}
             />
             <NoteField
               topic={this.props.topic}
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              noteValue={this.state.note}
+              onNoteChange={this.handleChange}
             />
             <FileAttachmentButton
               topic={this.props.topic}
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              attachedFile={this.state.file}
+              onFileChange={this.handleChange}
             />
             What type of intervention was performed?
           </div>

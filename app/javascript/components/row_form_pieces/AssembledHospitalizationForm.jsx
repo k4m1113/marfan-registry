@@ -9,9 +9,40 @@ import NoteField from './NoteField';
 import TimeAgoField from './TimeAgoField';
 
 export default class AssembledHospitalizationForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      topic: this.props.topic.id,
+      patient: this.props.visit.patient_id,
+      visit: this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      durationAmount: null,
+      durationUnit: null,
+      keywords: null,
+      note: null,
+      file: null,
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(value) {
+    this.setState({
+      timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+      timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+      absoluteDate: value.absoluteDate || this.state.absoluteDate,
+      durationAmount: value.durationAmount || this.state.durationAmount,
+      durationUnit: value.durationUnit || this.state.durationUnit,
+      keywords: value.keywords || this.state.keywords,
+      file: value.file || this.state.file,
+      note: value.note || this.state.note,
+    });
+  }
+
   render() {
-    const parameterizedPlural = 'hospitalizations'
-    let descriptors
+    const parameterizedPlural = 'hospitalizations';
+    let descriptors;
     if (this.props.topic.descriptors) {
       descriptors = (
         <div className="form-group row">
@@ -23,6 +54,8 @@ export default class AssembledHospitalizationForm extends React.Component {
               topic={this.props.topic}
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              keywordsValue={this.state.keywords}
+              onKeywordsChange={this.handleChange}
             />
           </div>
         </div>
@@ -46,6 +79,10 @@ export default class AssembledHospitalizationForm extends React.Component {
                 topic={this.props.topic}
                 parameterizedPlural={parameterizedPlural}
                 rowID={this.props.rowID}
+                timeAgoAmount={this.state.timeAgoAmount}
+                timeAgoUnit={this.state.timeAgoUnit}
+                absoluteDate={this.state.absoluteDate}
+                onDateChange={this.handleChange}
               />
             </div>
             <div className="form-group row">
@@ -57,6 +94,9 @@ export default class AssembledHospitalizationForm extends React.Component {
                   topic={this.props.topic}
                   parameterizedPlural={parameterizedPlural}
                   rowID={this.props.rowID}
+                  durationAmount={this.state.durationAmount}
+                  durationUnit={this.state.durationUnit}
+                  onDurationChange={this.handleChange}
                 />
               </div>
             </div>
@@ -69,11 +109,15 @@ export default class AssembledHospitalizationForm extends React.Component {
                   topic={this.props.topic}
                   parameterizedPlural={parameterizedPlural}
                   rowID={this.props.rowID}
+                  noteValue={this.state.note}
+                  onNoteChange={this.handleChange}
                 />
                 <FileAttachmentButton
                   topic={this.props.topic}
                   parameterizedPlural={parameterizedPlural}
                   rowID={this.props.rowID}
+                  attachedFile={this.state.file}
+                  onFileChange={this.handleChange}
                 />
               </div>
             </div>

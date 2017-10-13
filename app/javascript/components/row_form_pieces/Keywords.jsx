@@ -2,6 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class Keywords extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      keywords: null,
+    };
+    this.handleKeywordsChange = this.handleKeywordsChange.bind(this);
+  }
+
+  handleKeywordsChange(event) {
+    this.props.onKeywordsChange({
+      [event.target.name]: event.target.value,
+    })
+  }
+
   render() {
     let descriptors;
     if (this.props.topic.descriptors) {
@@ -11,9 +25,10 @@ export default class Keywords extends React.Component {
             <input
               className="form-check-input"
               type="checkbox"
-              name={'visit[' + this.props.parameterizedPlural + '_attributes][' + this.props.rowID + '][descriptors][]'}
+              name="keywords"
               id={'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_descriptors_' + descriptor}
-              value={descriptor}
+              value={this.state.keywords}
+              onChange={this.handleKeywordsChange}
             />
             {descriptor}
           </label>

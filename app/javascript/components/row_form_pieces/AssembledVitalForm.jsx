@@ -4,6 +4,25 @@ import HiddenFields from './HiddenFields';
 import MeasurementField from './MeasurementField';
 
 export default class AssembledVitalForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      topic: this.props.topic.id,
+      patient: this.props.visit.patient_id,
+      visit: this.props.visit.id,
+      measurement: null,
+      units: null,
+    };
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(value) {
+    this.setState({
+      measurement: value.measurement || this.state.measurement,
+      units: value.units || this.state.units,
+    });
+  }
+
   render() {
     const parameterizedPlural = 'vitals'
     return (
@@ -23,6 +42,9 @@ export default class AssembledVitalForm extends React.Component {
             parameterizedPlural={parameterizedPlural}
             title={this.props.topic.name}
             rowID={this.props.rowID}
+            measurementValue={this.state.measurement}
+            unitOfMeas={this.state.units}
+            onMeasChange={this.handleChange}
           />
         </div>
       </div>

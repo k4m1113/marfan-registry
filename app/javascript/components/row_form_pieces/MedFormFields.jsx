@@ -19,8 +19,26 @@ const dosageForms = ['tablet', 'capsule', 'pill', 'liquid solution', 'inhaler', 
 export default class MedFormFields extends React.Component {
   constructor() {
     super();
-    this.keyboardize0 = this.keyboardize0.bind(this)
-    this.keyboardize1 = this.keyboardize1.bind(this)
+    this.state = {
+      measurement: null,
+      units: null,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      dose: null,
+      doseUnitOfMeasurement: null,
+      dosageForm: null,
+      dosageFormUnits: null,
+      ingestionMethod: null,
+      durationAmount: null,
+      durationUnit: null,
+      keywords: null,
+      note: null,
+      file: null,
+    };
+    this.keyboardize0 = this.keyboardize0.bind(this);
+    this.keyboardize1 = this.keyboardize1.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -59,6 +77,12 @@ export default class MedFormFields extends React.Component {
     }
   }
 
+  handleChange(event) {
+    this.props.onMedFormChange({
+      [event.target.name]: event.target.value,
+    })
+  }
+
   render() {
     const parameterizedPlural = 'medications'
     return (
@@ -68,11 +92,13 @@ export default class MedFormFields extends React.Component {
           <div className="form-inline col-10">
             <input
               type='number'
-              name={'visit[medications_attributes][' + this.props.rowID + '][dose]'}
               id={'visit_medications_attributes_' + this.props.rowID + '_dose'}
               className='form-control calculator'
               placeholder='dose'
               ref={el0 => this.el0 = el0}
+              name="dose"
+              value={this.state.dose}
+              onChange={this.handleChange}
             />
             <span className='input-group-btn'>
               <button
@@ -87,9 +113,11 @@ export default class MedFormFields extends React.Component {
             <SelectConstructor
               arr={unitsOfMeas}
               title="dose units"
-              name="doseUnitOfMeasurement"
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              name="doseUnitOfMeasurement"
+              value={this.state.doseUnitOfMeasurement}
+              onUnitChange={this.handleChange}
             />
           </div>
         </div>
@@ -99,11 +127,13 @@ export default class MedFormFields extends React.Component {
           <div className="form-inline col-10">
             <input
               type='number'
-              name={'visit[medications_attributes][' + this.props.rowID + '][dosage_form_units]'}
               id={'visit_medications_attributes_' + this.props.rowID + '_dosage_form_units'}
               className='form-control calculator'
               placeholder='dosage form units'
               ref={el1 => this.el1 = el1}
+              name="dosageFormUnits"
+              value={this.state.dosageFormUnits}
+              onChange={this.handleChange}
             />
             <button
               className='btn btn-secondary calculator'
@@ -116,16 +146,20 @@ export default class MedFormFields extends React.Component {
             <SelectConstructor
               arr={unitsOfMeas}
               title="dose form units"
-              name="dosageFormUnits"
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              name="dosageFormUnits"
+              value={this.state.dosageFormUnits}
+              onUnitChange={this.handleChange}
             />
             <SelectConstructor
               arr={dosageForms}
               title="dose form"
-              name="dosageForm"
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              name="dosageForm"
+              value={this.state.dosageForm}
+              onUnitChange={this.handleChange}
             />
           </div>
         </div>
@@ -138,9 +172,11 @@ export default class MedFormFields extends React.Component {
             <SelectConstructor
               arr={ingestionMethods}
               title="MOI"
-              name="ingestionMethod"
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              name="ingestionMethod"
+              value={this.state.ingestionMethod}
+              onUnitChange={this.handleChange}
             />
           </div>
         </div>
@@ -152,6 +188,9 @@ export default class MedFormFields extends React.Component {
               topic={this.props.topic}
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              durationAmount={this.state.durationAmount}
+              durationUnit={this.state.durationUnit}
+              onDurationChange={this.handleChange}
             />
           </div>
         </div>
@@ -163,6 +202,9 @@ export default class MedFormFields extends React.Component {
               topic={this.props.topic}
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              frequencyAmount={this.state.frequencyAmount}
+              frequencyUnit={this.state.frequencyUnit}
+              onFrequencyChange={this.handleChange}
             />
           </div>
         </div>
@@ -174,6 +216,10 @@ export default class MedFormFields extends React.Component {
               topic={this.props.topic}
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              timeAgoAmount={this.state.timeAgoAmount}
+              timeAgoUnit={this.state.timeAgoUnit}
+              absoluteDate={this.state.absoluteDate}
+              onDateChange={this.handleChange}
             />
           </div>
         </div>
@@ -185,6 +231,8 @@ export default class MedFormFields extends React.Component {
               topic={this.props.topic}
               parameterizedPlural={parameterizedPlural}
               rowID={this.props.rowID}
+              noteValue={this.state.note}
+              onNoteChange={this.handleChange}
             />
           </div>
         </div>

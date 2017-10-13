@@ -29255,13 +29255,45 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledDissectionForm = function (_React$Component) {
   _inherits(AssembledDissectionForm, _React$Component);
 
-  function AssembledDissectionForm() {
+  function AssembledDissectionForm(props) {
     _classCallCheck(this, AssembledDissectionForm);
 
-    return _possibleConstructorReturn(this, (AssembledDissectionForm.__proto__ || Object.getPrototypeOf(AssembledDissectionForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledDissectionForm.__proto__ || Object.getPrototypeOf(AssembledDissectionForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      location: null,
+      direction: null,
+      lumen: null,
+      perfusion: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledDissectionForm, [{
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        location: value.location || this.state.location,
+        direction: value.direction || this.state.direction,
+        lumen: value.lumen || this.state.lumen,
+        perfusion: value.perfusion || this.state.perfusion,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var locations = ['aortic root', 'ascending aorta', 'arch', 'descending thoracic', 'suprarenal abdominal', 'infrarenal abdominal', 'iliac', 'renal', 'SMA', 'celiac', 'innominate', 'left carotid', 'left subclavian'];
@@ -29287,30 +29319,38 @@ var AssembledDissectionForm = function (_React$Component) {
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: locations,
               title: 'location',
-              name: 'location',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'location',
+              value: this.state.location,
+              onUnitChange: this.handleChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: directions,
               title: 'direction',
-              name: 'direction',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'direction',
+              value: this.state.direction,
+              onUnitChange: this.handleChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: lumens,
               title: 'lumen',
-              name: 'lumen',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'lumen',
+              value: this.state.lumen,
+              onUnitChange: this.handleChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: perfused,
               title: 'perfusion',
-              name: 'perfusion',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'perfusion',
+              value: this.state.perfusion,
+              onUnitChange: this.handleChange
             })
           ),
           _react2.default.createElement(
@@ -29319,17 +29359,25 @@ var AssembledDissectionForm = function (_React$Component) {
             _react2.default.createElement(_TimeAgoField2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              timeAgoAmount: this.state.timeAgoAmount,
+              timeAgoUnit: this.state.timeAgoUnit,
+              absoluteDate: this.state.absoluteDate,
+              onDateChange: this.handleChange
             }),
             _react2.default.createElement(_NoteField2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              noteValue: this.state.note,
+              onNoteChange: this.handleChange
             }),
             _react2.default.createElement(_FileAttachmentButton2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              attachedFile: this.state.file,
+              onFileChange: this.handleChange
             }),
             'What type of intervention was performed?'
           ),
@@ -29398,6 +29446,8 @@ var _TimeAgoField2 = _interopRequireDefault(_TimeAgoField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -29407,13 +29457,49 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledGeneticTestForm = function (_React$Component) {
   _inherits(AssembledGeneticTestForm, _React$Component);
 
-  function AssembledGeneticTestForm() {
+  function AssembledGeneticTestForm(props) {
     _classCallCheck(this, AssembledGeneticTestForm);
 
-    return _possibleConstructorReturn(this, (AssembledGeneticTestForm.__proto__ || Object.getPrototypeOf(AssembledGeneticTestForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledGeneticTestForm.__proto__ || Object.getPrototypeOf(AssembledGeneticTestForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      lab: null,
+      labClassification: null,
+      clinicalClassification: null,
+      predictiveTestingRecommended: null,
+      transcript: null,
+      protein: null,
+      variant: null,
+      exons: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledGeneticTestForm, [{
+    key: 'handleChange',
+    value: function handleChange(value) {
+      var _setState;
+
+      this.setState((_setState = {
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        lab: value.lab || this.state.lab,
+        labClassification: value.labClassification || this.state.labClassification,
+        clinicalClassification: value.clinicalClassification || this.state.clinicalClassification,
+        predictiveTestingRecommended: value.predictiveTestingRecommended || this.state.predictiveTestingRecommended
+      }, _defineProperty(_setState, 'labClassification', value.labClassification || this.state.labClassification), _defineProperty(_setState, 'file', value.file || this.state.file), _defineProperty(_setState, 'note', value.note || this.state.note), _setState));
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'genetic_tests';
@@ -29483,7 +29569,7 @@ var AssembledGeneticTestForm = function (_React$Component) {
                   _react2.default.createElement('input', {
                     type: 'checkbox',
                     value: 'true',
-                    name: 'visit[genetic_tests_attributes][' + this.props.rowID + '][predictive_testing_recommended]',
+                    name: 'predictiveTestingRecommended',
                     id: 'visit_genetic_tests_attributes_' + this.props.rowID + '_predictive_testing_recommended',
                     className: 'form-check-input'
                   }),
@@ -29536,7 +29622,7 @@ var AssembledGeneticTestForm = function (_React$Component) {
                 _react2.default.createElement('input', {
                   type: 'string',
                   placeholder: 'Gly931fsX10',
-                  name: 'visit[' + parameterizedPlural + '_attributes][' + this.props.rowID + '][protein]',
+                  name: 'protein',
                   id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_protein',
                   className: 'form-control',
                   value: '',
@@ -57951,13 +58037,45 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledDissectionForm = function (_React$Component) {
   _inherits(AssembledDissectionForm, _React$Component);
 
-  function AssembledDissectionForm() {
+  function AssembledDissectionForm(props) {
     _classCallCheck(this, AssembledDissectionForm);
 
-    return _possibleConstructorReturn(this, (AssembledDissectionForm.__proto__ || Object.getPrototypeOf(AssembledDissectionForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledDissectionForm.__proto__ || Object.getPrototypeOf(AssembledDissectionForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      location: null,
+      direction: null,
+      lumen: null,
+      perfusion: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledDissectionForm, [{
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        location: value.location || this.state.location,
+        direction: value.direction || this.state.direction,
+        lumen: value.lumen || this.state.lumen,
+        perfusion: value.perfusion || this.state.perfusion,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var locations = ['aortic root', 'ascending aorta', 'arch', 'descending thoracic', 'suprarenal abdominal', 'infrarenal abdominal', 'iliac', 'renal', 'SMA', 'celiac', 'innominate', 'left carotid', 'left subclavian'];
@@ -57983,30 +58101,38 @@ var AssembledDissectionForm = function (_React$Component) {
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: locations,
               title: 'location',
-              name: 'location',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'location',
+              value: this.state.location,
+              onUnitChange: this.handleChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: directions,
               title: 'direction',
-              name: 'direction',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'direction',
+              value: this.state.direction,
+              onUnitChange: this.handleChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: lumens,
               title: 'lumen',
-              name: 'lumen',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'lumen',
+              value: this.state.lumen,
+              onUnitChange: this.handleChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: perfused,
               title: 'perfusion',
-              name: 'perfusion',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'perfusion',
+              value: this.state.perfusion,
+              onUnitChange: this.handleChange
             })
           ),
           _react2.default.createElement(
@@ -58015,17 +58141,25 @@ var AssembledDissectionForm = function (_React$Component) {
             _react2.default.createElement(_TimeAgoField2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              timeAgoAmount: this.state.timeAgoAmount,
+              timeAgoUnit: this.state.timeAgoUnit,
+              absoluteDate: this.state.absoluteDate,
+              onDateChange: this.handleChange
             }),
             _react2.default.createElement(_NoteField2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              noteValue: this.state.note,
+              onNoteChange: this.handleChange
             }),
             _react2.default.createElement(_FileAttachmentButton2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              attachedFile: this.state.file,
+              onFileChange: this.handleChange
             }),
             'What type of intervention was performed?'
           ),
@@ -59160,13 +59294,45 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledDissectionForm = function (_React$Component) {
   _inherits(AssembledDissectionForm, _React$Component);
 
-  function AssembledDissectionForm() {
+  function AssembledDissectionForm(props) {
     _classCallCheck(this, AssembledDissectionForm);
 
-    return _possibleConstructorReturn(this, (AssembledDissectionForm.__proto__ || Object.getPrototypeOf(AssembledDissectionForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledDissectionForm.__proto__ || Object.getPrototypeOf(AssembledDissectionForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      location: null,
+      direction: null,
+      lumen: null,
+      perfusion: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledDissectionForm, [{
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        location: value.location || this.state.location,
+        direction: value.direction || this.state.direction,
+        lumen: value.lumen || this.state.lumen,
+        perfusion: value.perfusion || this.state.perfusion,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var locations = ['aortic root', 'ascending aorta', 'arch', 'descending thoracic', 'suprarenal abdominal', 'infrarenal abdominal', 'iliac', 'renal', 'SMA', 'celiac', 'innominate', 'left carotid', 'left subclavian'];
@@ -59192,30 +59358,38 @@ var AssembledDissectionForm = function (_React$Component) {
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: locations,
               title: 'location',
-              name: 'location',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'location',
+              value: this.state.location,
+              onUnitChange: this.handleChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: directions,
               title: 'direction',
-              name: 'direction',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'direction',
+              value: this.state.direction,
+              onUnitChange: this.handleChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: lumens,
               title: 'lumen',
-              name: 'lumen',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'lumen',
+              value: this.state.lumen,
+              onUnitChange: this.handleChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: perfused,
               title: 'perfusion',
-              name: 'perfusion',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'perfusion',
+              value: this.state.perfusion,
+              onUnitChange: this.handleChange
             })
           ),
           _react2.default.createElement(
@@ -59224,17 +59398,25 @@ var AssembledDissectionForm = function (_React$Component) {
             _react2.default.createElement(_TimeAgoField2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              timeAgoAmount: this.state.timeAgoAmount,
+              timeAgoUnit: this.state.timeAgoUnit,
+              absoluteDate: this.state.absoluteDate,
+              onDateChange: this.handleChange
             }),
             _react2.default.createElement(_NoteField2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              noteValue: this.state.note,
+              onNoteChange: this.handleChange
             }),
             _react2.default.createElement(_FileAttachmentButton2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              attachedFile: this.state.file,
+              onFileChange: this.handleChange
             }),
             'What type of intervention was performed?'
           ),
@@ -59624,6 +59806,8 @@ var _TimeAgoField2 = _interopRequireDefault(_TimeAgoField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -59633,13 +59817,49 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledGeneticTestForm = function (_React$Component) {
   _inherits(AssembledGeneticTestForm, _React$Component);
 
-  function AssembledGeneticTestForm() {
+  function AssembledGeneticTestForm(props) {
     _classCallCheck(this, AssembledGeneticTestForm);
 
-    return _possibleConstructorReturn(this, (AssembledGeneticTestForm.__proto__ || Object.getPrototypeOf(AssembledGeneticTestForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledGeneticTestForm.__proto__ || Object.getPrototypeOf(AssembledGeneticTestForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      lab: null,
+      labClassification: null,
+      clinicalClassification: null,
+      predictiveTestingRecommended: null,
+      transcript: null,
+      protein: null,
+      variant: null,
+      exons: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledGeneticTestForm, [{
+    key: 'handleChange',
+    value: function handleChange(value) {
+      var _setState;
+
+      this.setState((_setState = {
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        lab: value.lab || this.state.lab,
+        labClassification: value.labClassification || this.state.labClassification,
+        clinicalClassification: value.clinicalClassification || this.state.clinicalClassification,
+        predictiveTestingRecommended: value.predictiveTestingRecommended || this.state.predictiveTestingRecommended
+      }, _defineProperty(_setState, 'labClassification', value.labClassification || this.state.labClassification), _defineProperty(_setState, 'file', value.file || this.state.file), _defineProperty(_setState, 'note', value.note || this.state.note), _setState));
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'genetic_tests';
@@ -59709,7 +59929,7 @@ var AssembledGeneticTestForm = function (_React$Component) {
                   _react2.default.createElement('input', {
                     type: 'checkbox',
                     value: 'true',
-                    name: 'visit[genetic_tests_attributes][' + this.props.rowID + '][predictive_testing_recommended]',
+                    name: 'predictiveTestingRecommended',
                     id: 'visit_genetic_tests_attributes_' + this.props.rowID + '_predictive_testing_recommended',
                     className: 'form-check-input'
                   }),
@@ -59762,7 +59982,7 @@ var AssembledGeneticTestForm = function (_React$Component) {
                 _react2.default.createElement('input', {
                   type: 'string',
                   placeholder: 'Gly931fsX10',
-                  name: 'visit[' + parameterizedPlural + '_attributes][' + this.props.rowID + '][protein]',
+                  name: 'protein',
                   id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_protein',
                   className: 'form-control',
                   value: '',
