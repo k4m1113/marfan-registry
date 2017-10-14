@@ -33,13 +33,3 @@ export default class VisitHeader extends React.Component {
     );
   }
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  const patient = document.getElementById('patientinfo')
-  const patientdata = JSON.parse(patient.getAttribute('data'))
-
-  ReactDOM.render(
-    <VisitHeader patient={patientdata} />,
-    document.body.appendChild(document.createElement('div')),
-  )
-})

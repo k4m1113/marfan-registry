@@ -29,6 +29,11 @@ export default class AssembledMedicationForm extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
+  componentWillUnmount() {
+    console.log('medication form unmounting')
+    debugger
+  }
+
   handleChange(value) {
     this.setState({
       timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,

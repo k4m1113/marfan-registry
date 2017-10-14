@@ -18,11 +18,14 @@ class VitalsController < ApplicationController
 
   def create
     @vital = Vital.new(vital_params)
-    if @vital.save
-      flash[:success] = "#{@vital.note} of #{find_pretty_trail(Topic.find(@vital.topic_id))} added to visit"
-      redirect_to edit_visit_path(@vital.visit_id)
-    else
-      flash[:danger] = "Please re-check information: #{@vital.errors.full_messages}"
+    respond_to do |format|
+      if @vital.update(vital_params)
+        format.html
+        format.js
+        format.json { render json: vital_params }
+      else
+        format.json { render text: @vital.errors.full_messages.to_s }
+      end
     end
   end
 
@@ -49,6 +52,8 @@ class VitalsController < ApplicationController
   private
 
   def vital_params
-    params.fetch(:vital, {})
+    params.permit(
+      %i[visit_id patient_id topic_id vital measurement note]
+    )
   end
 end

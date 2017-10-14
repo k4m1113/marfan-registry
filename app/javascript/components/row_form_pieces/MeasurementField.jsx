@@ -72,12 +72,13 @@ export default class MeasurementField extends React.Component {
         <SelectConstructor
           arr={options}
           title={this.props.title}
+          attribute={this.props.title}
           other={false}
           name="units"
           parameterizedPlural={this.props.parameterizedPlural}
           rowID={this.props.rowID}
           multiSelect={this.props.multiSelect}
-          onChange={this.handleMeasurementChange}
+          onUnitChange={this.handleMeasurementChange}
         />
       </div>
     );

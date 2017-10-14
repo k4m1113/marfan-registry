@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import TopBar from './TopBar';
 import TabPane from './TabPane';
@@ -52,25 +51,3 @@ NestedList.propTypes = {
   unsortedTopics: PropTypes.array.isRequired,
   sortedConcerns: PropTypes.object.isRequired,
 };
-
-document.addEventListener('DOMContentLoaded', () => {
-  const patient = JSON.parse(document.getElementById('patientinfo').getAttribute('data'))
-  const allTopics = JSON.parse(document.getElementById('alltopics').getAttribute('data'))
-  const unsortedTopics = JSON.parse(document.getElementById('unsortedtopics').getAttribute('data'))
-  const visit = JSON.parse(document.getElementById('visit').getAttribute('data'))
-  const mskey = document.getElementById('mskey').getAttribute('data')
-  const mshmac = document.getElementById('mshmac').getAttribute('data')
-  const sortedConcerns = JSON.parse(document.getElementById('sortedconcerns').getAttribute('data'))
-  ReactDOM.render(
-    <NestedList
-      allTopics={allTopics}
-      unsortedTopics={unsortedTopics}
-      visit={visit}
-      mskey={mskey}
-      mshmac={mshmac}
-      sortedConcerns={sortedConcerns}
-      patient={patient}
-    />,
-    document.body.appendChild(document.createElement('div')),
-  )
-})

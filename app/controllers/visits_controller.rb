@@ -58,18 +58,20 @@ class VisitsController < ApplicationController
     @patient = Patient.find(@visit.patient.id)
     @form_action = 'Update'
     @patient.update(visit_params['patient_attributes']) if visit_params['patient_attributes']
-    if @visit.update(visit_params)
-      # binding.remote_pry
-      message = []
-      @visit.new_concerns.each do |c|
-        message << c.generate_full_summary.to_s
+    binding.pry
+    respond_to do |format|
+      if @visit.update(visit_params)
+        message = []
+        @visit.new_concerns.each do |c|
+          message << c.generate_full_summary.to_s
+        end
+        format.html { redirect_to edit_visit_path(@visit) }
+        format.js
+        format.json { render json: visit_params.to_json }
+      else
+        format.json { render text: @visit.errors.full_messages.to_s }
       end
-      flash[:success] = "#{message.join(' and ')} added to record"
-    else
-      Rails.logger.info(@visit.errors.inspect)
-      flash[:danger] = "Error updating visit: #{@visit.errors.full_messages}"
     end
-    redirect_to edit_visit_path(@visit.id)
   end
 
   def destroy

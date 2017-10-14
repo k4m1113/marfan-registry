@@ -12830,7 +12830,8 @@ table.family-tree {
   cursor: pointer; }
 
 .bootstrap-switch {
-  width: 200px; }
+  width: 200px;
+  margin-left: 16px !important; }
 
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary {
   background: #025AA5 !important; }

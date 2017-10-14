@@ -11703,6 +11703,8 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -11712,13 +11714,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Keywords = function (_React$Component) {
   _inherits(Keywords, _React$Component);
 
-  function Keywords() {
+  function Keywords(props) {
     _classCallCheck(this, Keywords);
 
-    return _possibleConstructorReturn(this, (Keywords.__proto__ || Object.getPrototypeOf(Keywords)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (Keywords.__proto__ || Object.getPrototypeOf(Keywords)).call(this, props));
+
+    _this.state = {
+      keywords: null
+    };
+    _this.handleKeywordsChange = _this.handleKeywordsChange.bind(_this);
+    return _this;
   }
 
   _createClass(Keywords, [{
+    key: 'handleKeywordsChange',
+    value: function handleKeywordsChange(event) {
+      this.props.onKeywordsChange(_defineProperty({}, event.target.name, event.target.value));
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -11732,9 +11745,10 @@ var Keywords = function (_React$Component) {
             _react2.default.createElement('input', {
               className: 'form-check-input',
               type: 'checkbox',
-              name: 'visit[' + _this2.props.parameterizedPlural + '_attributes][' + _this2.props.rowID + '][descriptors][]',
+              name: 'keywords',
               id: 'visit_' + _this2.props.parameterizedPlural + '_attributes_' + _this2.props.rowID + '_descriptors_' + descriptor,
-              value: descriptor
+              value: _this2.state.keywords,
+              onChange: _this2.handleKeywordsChange
             }),
             descriptor
           );
@@ -12335,7 +12349,7 @@ var SelectConstructor = function (_React$Component) {
         if (this.props.arr.length >= 2) {
           options.push(_react2.default.createElement(
             'option',
-            { value: '', 'default': true, disabled: true, key: this.props.title },
+            { value: '', selected: true, disabled: true, 'default': true, key: this.props.title },
             this.props.title
           ));
         }
@@ -13962,12 +13976,13 @@ var MeasurementField = function (_React$Component) {
         _react2.default.createElement(_SelectConstructor2.default, {
           arr: options,
           title: this.props.title,
+          attribute: this.props.title,
           other: false,
           name: 'units',
           parameterizedPlural: this.props.parameterizedPlural,
           rowID: this.props.rowID,
           multiSelect: this.props.multiSelect,
-          onChange: this.handleMeasurementChange
+          onUnitChange: this.handleMeasurementChange
         })
       );
     }
@@ -22956,6 +22971,8 @@ var _addKeyboard2 = _interopRequireDefault(_addKeyboard);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -22979,8 +22996,26 @@ var MedFormFields = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (MedFormFields.__proto__ || Object.getPrototypeOf(MedFormFields)).call(this));
 
+    _this.state = {
+      measurement: null,
+      units: null,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      dose: null,
+      doseUnitOfMeasurement: null,
+      dosageForm: null,
+      dosageFormUnits: null,
+      ingestionMethod: null,
+      durationAmount: null,
+      durationUnit: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
     _this.keyboardize0 = _this.keyboardize0.bind(_this);
     _this.keyboardize1 = _this.keyboardize1.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
     return _this;
   }
 
@@ -23025,6 +23060,11 @@ var MedFormFields = function (_React$Component) {
       }
     }
   }, {
+    key: 'handleChange',
+    value: function handleChange(event) {
+      this.props.onMedFormChange(_defineProperty({}, event.target.name, event.target.value));
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -23046,13 +23086,15 @@ var MedFormFields = function (_React$Component) {
             { className: 'form-inline col-10' },
             _react2.default.createElement('input', {
               type: 'number',
-              name: 'visit[medications_attributes][' + this.props.rowID + '][dose]',
               id: 'visit_medications_attributes_' + this.props.rowID + '_dose',
               className: 'form-control calculator',
               placeholder: 'dose',
               ref: function ref(el0) {
                 return _this2.el0 = el0;
-              }
+              },
+              name: 'dose',
+              value: this.state.dose,
+              onChange: this.handleChange
             }),
             _react2.default.createElement(
               'span',
@@ -23071,9 +23113,11 @@ var MedFormFields = function (_React$Component) {
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: unitsOfMeas,
               title: 'dose units',
-              name: 'doseUnitOfMeasurement',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'doseUnitOfMeasurement',
+              value: this.state.doseUnitOfMeasurement,
+              onUnitChange: this.handleChange
             })
           )
         ),
@@ -23090,13 +23134,15 @@ var MedFormFields = function (_React$Component) {
             { className: 'form-inline col-10' },
             _react2.default.createElement('input', {
               type: 'number',
-              name: 'visit[medications_attributes][' + this.props.rowID + '][dosage_form_units]',
               id: 'visit_medications_attributes_' + this.props.rowID + '_dosage_form_units',
               className: 'form-control calculator',
               placeholder: 'dosage form units',
               ref: function ref(el1) {
                 return _this2.el1 = el1;
-              }
+              },
+              name: 'dosageFormUnits',
+              value: this.state.dosageFormUnits,
+              onChange: this.handleChange
             }),
             _react2.default.createElement(
               'button',
@@ -23111,16 +23157,20 @@ var MedFormFields = function (_React$Component) {
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: unitsOfMeas,
               title: 'dose form units',
-              name: 'dosageFormUnits',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'dosageFormUnits',
+              value: this.state.dosageFormUnits,
+              onUnitChange: this.handleChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: dosageForms,
               title: 'dose form',
-              name: 'dosageForm',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'dosageForm',
+              value: this.state.dosageForm,
+              onUnitChange: this.handleChange
             })
           )
         ),
@@ -23138,9 +23188,11 @@ var MedFormFields = function (_React$Component) {
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: ingestionMethods,
               title: 'MOI',
-              name: 'ingestionMethod',
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              name: 'ingestionMethod',
+              value: this.state.ingestionMethod,
+              onUnitChange: this.handleChange
             })
           )
         ),
@@ -23158,7 +23210,10 @@ var MedFormFields = function (_React$Component) {
             _react2.default.createElement(_DurationField2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              durationAmount: this.state.durationAmount,
+              durationUnit: this.state.durationUnit,
+              onDurationChange: this.handleChange
             })
           )
         ),
@@ -23176,7 +23231,10 @@ var MedFormFields = function (_React$Component) {
             _react2.default.createElement(_FrequencyField2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              frequencyAmount: this.state.frequencyAmount,
+              frequencyUnit: this.state.frequencyUnit,
+              onFrequencyChange: this.handleChange
             })
           )
         ),
@@ -23194,7 +23252,11 @@ var MedFormFields = function (_React$Component) {
             _react2.default.createElement(_TimeAgoField2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              timeAgoAmount: this.state.timeAgoAmount,
+              timeAgoUnit: this.state.timeAgoUnit,
+              absoluteDate: this.state.absoluteDate,
+              onDateChange: this.handleChange
             })
           )
         ),
@@ -23212,7 +23274,9 @@ var MedFormFields = function (_React$Component) {
             _react2.default.createElement(_NoteField2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              noteValue: this.state.note,
+              onNoteChange: this.handleChange
             })
           )
         )
@@ -29246,6 +29310,8 @@ var _SelectConstructor2 = _interopRequireDefault(_SelectConstructor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -29275,23 +29341,33 @@ var AssembledDissectionForm = function (_React$Component) {
       file: null
     };
     _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleSelectChange = _this.handleSelectChange.bind(_this);
     return _this;
   }
 
   _createClass(AssembledDissectionForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('dissection form unmounting');
+      debugger;
+    }
+  }, {
     key: 'handleChange',
     value: function handleChange(value) {
       this.setState({
         timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
         timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
         absoluteDate: value.absoluteDate || this.state.absoluteDate,
-        location: value.location || this.state.location,
-        direction: value.direction || this.state.direction,
-        lumen: value.lumen || this.state.lumen,
-        perfusion: value.perfusion || this.state.perfusion,
         file: value.file || this.state.file,
         note: value.note || this.state.note
       });
+    }
+  }, {
+    key: 'handleSelectChange',
+    value: function handleSelectChange(e) {
+      var target = e.target;
+      this.setState(_defineProperty({}, target.name, target.value));
+      debugger;
     }
   }, {
     key: 'render',
@@ -29323,7 +29399,7 @@ var AssembledDissectionForm = function (_React$Component) {
               rowID: this.props.rowID,
               name: 'location',
               value: this.state.location,
-              onUnitChange: this.handleChange
+              onUnitChange: this.handleSelectChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: directions,
@@ -29332,7 +29408,7 @@ var AssembledDissectionForm = function (_React$Component) {
               rowID: this.props.rowID,
               name: 'direction',
               value: this.state.direction,
-              onUnitChange: this.handleChange
+              onUnitChange: this.handleSelectChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: lumens,
@@ -29341,7 +29417,7 @@ var AssembledDissectionForm = function (_React$Component) {
               rowID: this.props.rowID,
               name: 'lumen',
               value: this.state.lumen,
-              onUnitChange: this.handleChange
+              onUnitChange: this.handleSelectChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: perfused,
@@ -29350,7 +29426,7 @@ var AssembledDissectionForm = function (_React$Component) {
               rowID: this.props.rowID,
               name: 'perfusion',
               value: this.state.perfusion,
-              onUnitChange: this.handleChange
+              onUnitChange: this.handleSelectChange
             })
           ),
           _react2.default.createElement(
@@ -29364,7 +29440,11 @@ var AssembledDissectionForm = function (_React$Component) {
               timeAgoUnit: this.state.timeAgoUnit,
               absoluteDate: this.state.absoluteDate,
               onDateChange: this.handleChange
-            }),
+            })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-inline' },
             _react2.default.createElement(_NoteField2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
@@ -29446,8 +29526,6 @@ var _TimeAgoField2 = _interopRequireDefault(_TimeAgoField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -29485,19 +29563,29 @@ var AssembledGeneticTestForm = function (_React$Component) {
   }
 
   _createClass(AssembledGeneticTestForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('genetic test form unmounting');
+      debugger;
+    }
+  }, {
     key: 'handleChange',
     value: function handleChange(value) {
-      var _setState;
-
-      this.setState((_setState = {
+      this.setState({
         timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
         timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
         absoluteDate: value.absoluteDate || this.state.absoluteDate,
         lab: value.lab || this.state.lab,
         labClassification: value.labClassification || this.state.labClassification,
         clinicalClassification: value.clinicalClassification || this.state.clinicalClassification,
-        predictiveTestingRecommended: value.predictiveTestingRecommended || this.state.predictiveTestingRecommended
-      }, _defineProperty(_setState, 'labClassification', value.labClassification || this.state.labClassification), _defineProperty(_setState, 'file', value.file || this.state.file), _defineProperty(_setState, 'note', value.note || this.state.note), _setState));
+        predictiveTestingRecommended: value.predictiveTestingRecommended || this.state.predictiveTestingRecommended,
+        transcript: value.transcript || this.state.transcript,
+        protein: value.protein || this.state.protein,
+        variant: value.variant || this.state.variant,
+        exons: value.exons || this.state.exons,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
     }
   }, {
     key: 'render',
@@ -29528,9 +29616,11 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_SelectConstructor2.default, {
                 arr: locations,
                 title: 'lab name',
-                name: 'labName',
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                name: 'labName',
+                value: this.state.labName,
+                onUnitChange: this.handleChange
               })
             ),
             _react2.default.createElement(
@@ -29540,9 +29630,11 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_SelectConstructor2.default, {
                 arr: classifications,
                 title: 'lab classification',
-                name: 'labClassification',
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                name: 'labClassification',
+                rowID: this.props.rowID,
+                value: this.state.labClassification,
+                onUnitChange: this.handleChange
               })
             ),
             _react2.default.createElement(
@@ -29552,9 +29644,11 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_SelectConstructor2.default, {
                 arr: classifications,
                 title: 'clinical classification',
-                name: 'clinicalClassification',
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                name: 'clinicalClassification',
+                value: this.state.clinicalClassification,
+                onUnitChange: this.handleChange
               })
             ),
             _react2.default.createElement(
@@ -29568,7 +29662,7 @@ var AssembledGeneticTestForm = function (_React$Component) {
                   { className: 'form-check-label' },
                   _react2.default.createElement('input', {
                     type: 'checkbox',
-                    value: 'true',
+                    value: this.state.predictiveTestingRecommended,
                     name: 'predictiveTestingRecommended',
                     id: 'visit_genetic_tests_attributes_' + this.props.rowID + '_predictive_testing_recommended',
                     className: 'form-check-input'
@@ -29596,10 +29690,10 @@ var AssembledGeneticTestForm = function (_React$Component) {
                 _react2.default.createElement('input', {
                   type: 'string',
                   placeholder: '000138.4',
-                  name: 'visit[' + parameterizedPlural + '_attributes][${rowID}][transcript]',
+                  name: 'transcript',
                   id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_transcript',
                   className: 'form-control',
-                  value: '',
+                  value: this.state.transcript,
                   'aria-describedby': 'transcript_' + this.props.rowID
                 })
               )
@@ -29625,7 +29719,7 @@ var AssembledGeneticTestForm = function (_React$Component) {
                   name: 'protein',
                   id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_protein',
                   className: 'form-control',
-                  value: '',
+                  value: this.state.protein,
                   'aria-describedby': 'protein_' + this.props.rowID
                 })
               )
@@ -29648,10 +29742,10 @@ var AssembledGeneticTestForm = function (_React$Component) {
                 _react2.default.createElement('input', {
                   type: 'string',
                   placeholder: '2793delG',
-                  name: 'visit[' + parameterizedPlural + '_attributes][' + this.props.rowID + '][variant]',
+                  name: 'variant',
                   id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_variant',
                   className: 'form-control',
-                  value: '',
+                  value: this.state.variant,
                   'aria-describedby': 'variant_' + this.props.rowID
                 })
               )
@@ -29665,10 +29759,10 @@ var AssembledGeneticTestForm = function (_React$Component) {
                 placeholder: '23',
                 min: '1',
                 max: '63',
-                name: 'visit[' + parameterizedPlural + '_attributes][' + this.props.rowID + '][exons]',
+                name: 'exons',
                 id: 'visit_' + parameterizedPlural + '_attributes_' + this.propsrowID + '_exons',
                 className: 'form-control',
-                value: ''
+                value: this.state.exons
               })
             )
           ),
@@ -29681,7 +29775,11 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_TimeAgoField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleChange
               })
             ),
             _react2.default.createElement(
@@ -29690,12 +29788,16 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_NoteField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                noteValue: this.state.note,
+                onNoteChange: this.handleChange
               }),
               _react2.default.createElement(_FileAttachmentButton2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                attachedFile: this.state.file,
+                onFileChange: this.handleChange
               })
             )
           )
@@ -29768,13 +29870,53 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledHeartMeasurementForm = function (_React$Component) {
   _inherits(AssembledHeartMeasurementForm, _React$Component);
 
-  function AssembledHeartMeasurementForm() {
+  function AssembledHeartMeasurementForm(props) {
     _classCallCheck(this, AssembledHeartMeasurementForm);
 
-    return _possibleConstructorReturn(this, (AssembledHeartMeasurementForm.__proto__ || Object.getPrototypeOf(AssembledHeartMeasurementForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledHeartMeasurementForm.__proto__ || Object.getPrototypeOf(AssembledHeartMeasurementForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      measurement: null,
+      units: null,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledHeartMeasurementForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('heart measurement form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        measurement: value.measurement || this.state.measurement,
+        units: value.units || this.state.units,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+      if (this.props.topic.units_of_measurement.length === 1 && this.state.measurement) {
+        this.setState({
+          units: this.props.topic.units_of_measurement[0]
+        });
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'heart_measurements';
@@ -29784,23 +29926,31 @@ var AssembledHeartMeasurementForm = function (_React$Component) {
         measFields = _react2.default.createElement(_MeasurementField2.default, {
           topic: this.props.topic,
           parameterizedPlural: parameterizedPlural,
+          rowID: this.props.rowID,
           title: 'severity',
-          rowID: this.props.rowID
+          measurementValue: this.state.measurement,
+          unitOfMeas: this.state.units,
+          onMeasChange: this.handleChange
         });
       } else {
         measFields = _react2.default.createElement(_MeasurementField2.default, {
           topic: this.props.topic,
           parameterizedPlural: parameterizedPlural,
           multiSelect: true,
+          rowID: this.props.rowID,
           title: 'morphology',
-          rowID: this.props.rowID
+          measurementValue: this.state.measurement,
+          unitOfMeas: this.state.units,
+          onMeasChange: this.handleChange
         });
       }
       if (this.props.topic.descriptors) {
         descriptors = _react2.default.createElement(_Keywords2.default, {
           topic: this.props.topic,
           parameterizedPlural: parameterizedPlural,
-          rowID: this.props.rowID
+          rowID: this.props.rowID,
+          keywordsValue: this.state.keywords,
+          onKeywordsChange: this.handleChange
         });
       }
       return _react2.default.createElement(
@@ -29825,12 +29975,16 @@ var AssembledHeartMeasurementForm = function (_React$Component) {
           _react2.default.createElement(_NoteField2.default, {
             topic: this.props.topic,
             parameterizedPlural: parameterizedPlural,
-            rowID: this.props.rowID
+            rowID: this.props.rowID,
+            noteValue: this.state.note,
+            onNoteChange: this.handleChange
           }),
           _react2.default.createElement(_FileAttachmentButton2.default, {
             topic: this.props.topic,
             parameterizedPlural: parameterizedPlural,
-            rowID: this.props.rowID
+            rowID: this.props.rowID,
+            attachedFile: this.state.file,
+            onFileChange: this.handleChange
           })
         )
       );
@@ -29909,13 +30063,49 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledHospitalizationForm = function (_React$Component) {
   _inherits(AssembledHospitalizationForm, _React$Component);
 
-  function AssembledHospitalizationForm() {
+  function AssembledHospitalizationForm(props) {
     _classCallCheck(this, AssembledHospitalizationForm);
 
-    return _possibleConstructorReturn(this, (AssembledHospitalizationForm.__proto__ || Object.getPrototypeOf(AssembledHospitalizationForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledHospitalizationForm.__proto__ || Object.getPrototypeOf(AssembledHospitalizationForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      durationAmount: null,
+      durationUnit: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledHospitalizationForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('hospitalization form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        durationAmount: value.durationAmount || this.state.durationAmount,
+        durationUnit: value.durationUnit || this.state.durationUnit,
+        keywords: value.keywords || this.state.keywords,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'hospitalizations';
@@ -29935,7 +30125,9 @@ var AssembledHospitalizationForm = function (_React$Component) {
             _react2.default.createElement(_Keywords2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              keywordsValue: this.state.keywords,
+              onKeywordsChange: this.handleChange
             })
           )
         );
@@ -29966,7 +30158,11 @@ var AssembledHospitalizationForm = function (_React$Component) {
               _react2.default.createElement(_TimeAgoField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleChange
               })
             ),
             _react2.default.createElement(
@@ -29983,7 +30179,10 @@ var AssembledHospitalizationForm = function (_React$Component) {
                 _react2.default.createElement(_DurationField2.default, {
                   topic: this.props.topic,
                   parameterizedPlural: parameterizedPlural,
-                  rowID: this.props.rowID
+                  rowID: this.props.rowID,
+                  durationAmount: this.state.durationAmount,
+                  durationUnit: this.state.durationUnit,
+                  onDurationChange: this.handleChange
                 })
               )
             ),
@@ -30001,12 +30200,16 @@ var AssembledHospitalizationForm = function (_React$Component) {
                 _react2.default.createElement(_NoteField2.default, {
                   topic: this.props.topic,
                   parameterizedPlural: parameterizedPlural,
-                  rowID: this.props.rowID
+                  rowID: this.props.rowID,
+                  noteValue: this.state.note,
+                  onNoteChange: this.handleChange
                 }),
                 _react2.default.createElement(_FileAttachmentButton2.default, {
                   topic: this.props.topic,
                   parameterizedPlural: parameterizedPlural,
-                  rowID: this.props.rowID
+                  rowID: this.props.rowID,
+                  attachedFile: this.state.file,
+                  onFileChange: this.handleChange
                 })
               )
             ),
@@ -30107,6 +30310,7 @@ var AssembledMeasurementForm = function (_React$Component) {
       timeAgoAmount: null,
       timeAgoUnit: null,
       absoluteDate: null,
+      keywords: null,
       note: null,
       file: null
     };
@@ -30129,6 +30333,7 @@ var AssembledMeasurementForm = function (_React$Component) {
         absoluteDate: value.absoluteDate || this.state.absoluteDate,
         measurement: value.measurement || this.state.measurement,
         units: value.units || this.state.units,
+        keywords: value.keywords || this.state.keywords,
         file: value.file || this.state.file,
         note: value.note || this.state.note
       });
@@ -30158,7 +30363,9 @@ var AssembledMeasurementForm = function (_React$Component) {
             _react2.default.createElement(_Keywords2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              keywordsValue: this.state.keywords,
+              onKeywordsChange: this.handleChange
             })
           )
         );
@@ -30190,8 +30397,8 @@ var AssembledMeasurementForm = function (_React$Component) {
               _react2.default.createElement(_MeasurementField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                title: this.props.topic.name,
                 rowID: this.props.rowID,
+                title: this.props.topic.name,
                 measurementValue: this.state.measurement,
                 unitOfMeas: this.state.units,
                 onMeasChange: this.handleChange
@@ -30309,13 +30516,63 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledMedicationForm = function (_React$Component) {
   _inherits(AssembledMedicationForm, _React$Component);
 
-  function AssembledMedicationForm() {
+  function AssembledMedicationForm(props) {
     _classCallCheck(this, AssembledMedicationForm);
 
-    return _possibleConstructorReturn(this, (AssembledMedicationForm.__proto__ || Object.getPrototypeOf(AssembledMedicationForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledMedicationForm.__proto__ || Object.getPrototypeOf(AssembledMedicationForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      measurement: null,
+      units: null,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      dose: null,
+      doseUnitOfMeasurement: null,
+      dosageForm: null,
+      dosageFormUnits: null,
+      ingestionMethod: null,
+      durationAmount: null,
+      durationUnit: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledMedicationForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('medication form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        dose: value.dose || this.state.dose,
+        doseUnitOfMeasurement: value.doseUnitOfMeasurement || this.state.doseUnitOfMeasurement,
+        dosageForm: value.dosageForm || this.state.dosageForm,
+        dosageFormUnits: value.dosageFormUnits || this.state.dosageFormUnits,
+        ingestionMethod: value.ingestionMethod || this.state.ingestionMethod,
+        durationAmount: value.durationAmount || this.state.durationAmount,
+        durationUnit: value.durationUnit || this.state.durationUnit,
+        measurement: value.measurement || this.state.measurement,
+        units: value.units || this.state.units,
+        keywords: value.keywords || this.state.keywords,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'medications';
@@ -30333,7 +30590,8 @@ var AssembledMedicationForm = function (_React$Component) {
           }),
           _react2.default.createElement(_MedFormFields2.default, {
             topic: this.props.topic,
-            rowID: this.props.rowID
+            rowID: this.props.rowID,
+            onMedFormChange: this.handleChange
           })
         )
       );
@@ -30408,13 +30666,45 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledProcedureForm = function (_React$Component) {
   _inherits(AssembledProcedureForm, _React$Component);
 
-  function AssembledProcedureForm() {
+  function AssembledProcedureForm(props) {
     _classCallCheck(this, AssembledProcedureForm);
 
-    return _possibleConstructorReturn(this, (AssembledProcedureForm.__proto__ || Object.getPrototypeOf(AssembledProcedureForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledProcedureForm.__proto__ || Object.getPrototypeOf(AssembledProcedureForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledProcedureForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('procedure form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        keywords: value.keywords || this.state.keywords,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'procedures';
@@ -30434,7 +30724,9 @@ var AssembledProcedureForm = function (_React$Component) {
             _react2.default.createElement(_Keywords2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              keywordsValue: this.state.keywords,
+              onKeywordsChange: this.handleChange
             })
           )
         );
@@ -30466,7 +30758,11 @@ var AssembledProcedureForm = function (_React$Component) {
               _react2.default.createElement(_TimeAgoField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleChange
               })
             )
           ),
@@ -30484,12 +30780,16 @@ var AssembledProcedureForm = function (_React$Component) {
               _react2.default.createElement(_NoteField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                noteValue: this.state.note,
+                onNoteChange: this.handleChange
               }),
               _react2.default.createElement(_FileAttachmentButton2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                attachedFile: this.state.file,
+                onFileChange: this.handleChange
               })
             )
           ),
@@ -30536,6 +30836,10 @@ var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _jquery = __webpack_require__(6);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 var _HiddenFields = __webpack_require__(7);
 
 var _HiddenFields2 = _interopRequireDefault(_HiddenFields);
@@ -30555,13 +30859,64 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledVitalForm = function (_React$Component) {
   _inherits(AssembledVitalForm, _React$Component);
 
-  function AssembledVitalForm() {
+  function AssembledVitalForm(props) {
     _classCallCheck(this, AssembledVitalForm);
 
-    return _possibleConstructorReturn(this, (AssembledVitalForm.__proto__ || Object.getPrototypeOf(AssembledVitalForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledVitalForm.__proto__ || Object.getPrototypeOf(AssembledVitalForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      measurement: null,
+      units: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    _this.ajaxData = _this.ajaxData.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledVitalForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount(event) {
+      _jquery2.default.ajax({
+        type: 'PUT',
+        url: '/visits/' + this.state.visit + '.json',
+        data: JSON.stringify(this.ajaxData()),
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function success(response) {
+          return console.log('SUCCESS', response);
+        },
+        error: function error(response) {
+          return console.log('ERROR!!1!!!!11!', response);
+        }
+      });
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        measurement: value.measurement || this.state.measurement,
+        units: value.units || this.state.units
+      });
+    }
+  }, {
+    key: 'ajaxData',
+    value: function ajaxData() {
+      return {
+        visit: {
+          id: this.state.visit,
+          vitals_attributes: [{
+            visit_id: this.state.visit,
+            patient_id: this.state.patient,
+            topic_id: this.state.topic,
+            measurement: this.state.measurement + ' ' + this.state.units
+          }]
+        }
+      };
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'vitals';
@@ -30586,7 +30941,10 @@ var AssembledVitalForm = function (_React$Component) {
             topic: this.props.topic,
             parameterizedPlural: parameterizedPlural,
             title: this.props.topic.name,
-            rowID: this.props.rowID
+            rowID: this.props.rowID,
+            measurementValue: this.state.measurement,
+            unitOfMeas: this.state.units,
+            onMeasChange: this.handleChange
           })
         )
       );
@@ -58028,6 +58386,8 @@ var _SelectConstructor2 = _interopRequireDefault(_SelectConstructor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -58057,23 +58417,33 @@ var AssembledDissectionForm = function (_React$Component) {
       file: null
     };
     _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleSelectChange = _this.handleSelectChange.bind(_this);
     return _this;
   }
 
   _createClass(AssembledDissectionForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('dissection form unmounting');
+      debugger;
+    }
+  }, {
     key: 'handleChange',
     value: function handleChange(value) {
       this.setState({
         timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
         timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
         absoluteDate: value.absoluteDate || this.state.absoluteDate,
-        location: value.location || this.state.location,
-        direction: value.direction || this.state.direction,
-        lumen: value.lumen || this.state.lumen,
-        perfusion: value.perfusion || this.state.perfusion,
         file: value.file || this.state.file,
         note: value.note || this.state.note
       });
+    }
+  }, {
+    key: 'handleSelectChange',
+    value: function handleSelectChange(e) {
+      var target = e.target;
+      this.setState(_defineProperty({}, target.name, target.value));
+      debugger;
     }
   }, {
     key: 'render',
@@ -58105,7 +58475,7 @@ var AssembledDissectionForm = function (_React$Component) {
               rowID: this.props.rowID,
               name: 'location',
               value: this.state.location,
-              onUnitChange: this.handleChange
+              onUnitChange: this.handleSelectChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: directions,
@@ -58114,7 +58484,7 @@ var AssembledDissectionForm = function (_React$Component) {
               rowID: this.props.rowID,
               name: 'direction',
               value: this.state.direction,
-              onUnitChange: this.handleChange
+              onUnitChange: this.handleSelectChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: lumens,
@@ -58123,7 +58493,7 @@ var AssembledDissectionForm = function (_React$Component) {
               rowID: this.props.rowID,
               name: 'lumen',
               value: this.state.lumen,
-              onUnitChange: this.handleChange
+              onUnitChange: this.handleSelectChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: perfused,
@@ -58132,7 +58502,7 @@ var AssembledDissectionForm = function (_React$Component) {
               rowID: this.props.rowID,
               name: 'perfusion',
               value: this.state.perfusion,
-              onUnitChange: this.handleChange
+              onUnitChange: this.handleSelectChange
             })
           ),
           _react2.default.createElement(
@@ -58146,7 +58516,11 @@ var AssembledDissectionForm = function (_React$Component) {
               timeAgoUnit: this.state.timeAgoUnit,
               absoluteDate: this.state.absoluteDate,
               onDateChange: this.handleChange
-            }),
+            })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-inline' },
             _react2.default.createElement(_NoteField2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
@@ -58252,13 +58626,49 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledHospitalizationForm = function (_React$Component) {
   _inherits(AssembledHospitalizationForm, _React$Component);
 
-  function AssembledHospitalizationForm() {
+  function AssembledHospitalizationForm(props) {
     _classCallCheck(this, AssembledHospitalizationForm);
 
-    return _possibleConstructorReturn(this, (AssembledHospitalizationForm.__proto__ || Object.getPrototypeOf(AssembledHospitalizationForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledHospitalizationForm.__proto__ || Object.getPrototypeOf(AssembledHospitalizationForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      durationAmount: null,
+      durationUnit: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledHospitalizationForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('hospitalization form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        durationAmount: value.durationAmount || this.state.durationAmount,
+        durationUnit: value.durationUnit || this.state.durationUnit,
+        keywords: value.keywords || this.state.keywords,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'hospitalizations';
@@ -58278,7 +58688,9 @@ var AssembledHospitalizationForm = function (_React$Component) {
             _react2.default.createElement(_Keywords2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              keywordsValue: this.state.keywords,
+              onKeywordsChange: this.handleChange
             })
           )
         );
@@ -58309,7 +58721,11 @@ var AssembledHospitalizationForm = function (_React$Component) {
               _react2.default.createElement(_TimeAgoField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleChange
               })
             ),
             _react2.default.createElement(
@@ -58326,7 +58742,10 @@ var AssembledHospitalizationForm = function (_React$Component) {
                 _react2.default.createElement(_DurationField2.default, {
                   topic: this.props.topic,
                   parameterizedPlural: parameterizedPlural,
-                  rowID: this.props.rowID
+                  rowID: this.props.rowID,
+                  durationAmount: this.state.durationAmount,
+                  durationUnit: this.state.durationUnit,
+                  onDurationChange: this.handleChange
                 })
               )
             ),
@@ -58344,12 +58763,16 @@ var AssembledHospitalizationForm = function (_React$Component) {
                 _react2.default.createElement(_NoteField2.default, {
                   topic: this.props.topic,
                   parameterizedPlural: parameterizedPlural,
-                  rowID: this.props.rowID
+                  rowID: this.props.rowID,
+                  noteValue: this.state.note,
+                  onNoteChange: this.handleChange
                 }),
                 _react2.default.createElement(_FileAttachmentButton2.default, {
                   topic: this.props.topic,
                   parameterizedPlural: parameterizedPlural,
-                  rowID: this.props.rowID
+                  rowID: this.props.rowID,
+                  attachedFile: this.state.file,
+                  onFileChange: this.handleChange
                 })
               )
             ),
@@ -58457,6 +58880,7 @@ var AssembledMeasurementForm = function (_React$Component) {
       timeAgoAmount: null,
       timeAgoUnit: null,
       absoluteDate: null,
+      keywords: null,
       note: null,
       file: null
     };
@@ -58479,6 +58903,7 @@ var AssembledMeasurementForm = function (_React$Component) {
         absoluteDate: value.absoluteDate || this.state.absoluteDate,
         measurement: value.measurement || this.state.measurement,
         units: value.units || this.state.units,
+        keywords: value.keywords || this.state.keywords,
         file: value.file || this.state.file,
         note: value.note || this.state.note
       });
@@ -58508,7 +58933,9 @@ var AssembledMeasurementForm = function (_React$Component) {
             _react2.default.createElement(_Keywords2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              keywordsValue: this.state.keywords,
+              onKeywordsChange: this.handleChange
             })
           )
         );
@@ -58540,8 +58967,8 @@ var AssembledMeasurementForm = function (_React$Component) {
               _react2.default.createElement(_MeasurementField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                title: this.props.topic.name,
                 rowID: this.props.rowID,
+                title: this.props.topic.name,
                 measurementValue: this.state.measurement,
                 unitOfMeas: this.state.units,
                 onMeasChange: this.handleChange
@@ -58666,13 +59093,63 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledMedicationForm = function (_React$Component) {
   _inherits(AssembledMedicationForm, _React$Component);
 
-  function AssembledMedicationForm() {
+  function AssembledMedicationForm(props) {
     _classCallCheck(this, AssembledMedicationForm);
 
-    return _possibleConstructorReturn(this, (AssembledMedicationForm.__proto__ || Object.getPrototypeOf(AssembledMedicationForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledMedicationForm.__proto__ || Object.getPrototypeOf(AssembledMedicationForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      measurement: null,
+      units: null,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      dose: null,
+      doseUnitOfMeasurement: null,
+      dosageForm: null,
+      dosageFormUnits: null,
+      ingestionMethod: null,
+      durationAmount: null,
+      durationUnit: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledMedicationForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('medication form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        dose: value.dose || this.state.dose,
+        doseUnitOfMeasurement: value.doseUnitOfMeasurement || this.state.doseUnitOfMeasurement,
+        dosageForm: value.dosageForm || this.state.dosageForm,
+        dosageFormUnits: value.dosageFormUnits || this.state.dosageFormUnits,
+        ingestionMethod: value.ingestionMethod || this.state.ingestionMethod,
+        durationAmount: value.durationAmount || this.state.durationAmount,
+        durationUnit: value.durationUnit || this.state.durationUnit,
+        measurement: value.measurement || this.state.measurement,
+        units: value.units || this.state.units,
+        keywords: value.keywords || this.state.keywords,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'medications';
@@ -58690,7 +59167,8 @@ var AssembledMedicationForm = function (_React$Component) {
           }),
           _react2.default.createElement(_MedFormFields2.default, {
             topic: this.props.topic,
-            rowID: this.props.rowID
+            rowID: this.props.rowID,
+            onMedFormChange: this.handleChange
           })
         )
       );
@@ -58772,13 +59250,45 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledProcedureForm = function (_React$Component) {
   _inherits(AssembledProcedureForm, _React$Component);
 
-  function AssembledProcedureForm() {
+  function AssembledProcedureForm(props) {
     _classCallCheck(this, AssembledProcedureForm);
 
-    return _possibleConstructorReturn(this, (AssembledProcedureForm.__proto__ || Object.getPrototypeOf(AssembledProcedureForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledProcedureForm.__proto__ || Object.getPrototypeOf(AssembledProcedureForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledProcedureForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('procedure form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        keywords: value.keywords || this.state.keywords,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'procedures';
@@ -58798,7 +59308,9 @@ var AssembledProcedureForm = function (_React$Component) {
             _react2.default.createElement(_Keywords2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              keywordsValue: this.state.keywords,
+              onKeywordsChange: this.handleChange
             })
           )
         );
@@ -58830,7 +59342,11 @@ var AssembledProcedureForm = function (_React$Component) {
               _react2.default.createElement(_TimeAgoField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleChange
               })
             )
           ),
@@ -58848,12 +59364,16 @@ var AssembledProcedureForm = function (_React$Component) {
               _react2.default.createElement(_NoteField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                noteValue: this.state.note,
+                onNoteChange: this.handleChange
               }),
               _react2.default.createElement(_FileAttachmentButton2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                attachedFile: this.state.file,
+                onFileChange: this.handleChange
               })
             )
           ),
@@ -59285,6 +59805,8 @@ var _SelectConstructor2 = _interopRequireDefault(_SelectConstructor);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -59314,23 +59836,33 @@ var AssembledDissectionForm = function (_React$Component) {
       file: null
     };
     _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleSelectChange = _this.handleSelectChange.bind(_this);
     return _this;
   }
 
   _createClass(AssembledDissectionForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('dissection form unmounting');
+      debugger;
+    }
+  }, {
     key: 'handleChange',
     value: function handleChange(value) {
       this.setState({
         timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
         timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
         absoluteDate: value.absoluteDate || this.state.absoluteDate,
-        location: value.location || this.state.location,
-        direction: value.direction || this.state.direction,
-        lumen: value.lumen || this.state.lumen,
-        perfusion: value.perfusion || this.state.perfusion,
         file: value.file || this.state.file,
         note: value.note || this.state.note
       });
+    }
+  }, {
+    key: 'handleSelectChange',
+    value: function handleSelectChange(e) {
+      var target = e.target;
+      this.setState(_defineProperty({}, target.name, target.value));
+      debugger;
     }
   }, {
     key: 'render',
@@ -59362,7 +59894,7 @@ var AssembledDissectionForm = function (_React$Component) {
               rowID: this.props.rowID,
               name: 'location',
               value: this.state.location,
-              onUnitChange: this.handleChange
+              onUnitChange: this.handleSelectChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: directions,
@@ -59371,7 +59903,7 @@ var AssembledDissectionForm = function (_React$Component) {
               rowID: this.props.rowID,
               name: 'direction',
               value: this.state.direction,
-              onUnitChange: this.handleChange
+              onUnitChange: this.handleSelectChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: lumens,
@@ -59380,7 +59912,7 @@ var AssembledDissectionForm = function (_React$Component) {
               rowID: this.props.rowID,
               name: 'lumen',
               value: this.state.lumen,
-              onUnitChange: this.handleChange
+              onUnitChange: this.handleSelectChange
             }),
             _react2.default.createElement(_SelectConstructor2.default, {
               arr: perfused,
@@ -59389,7 +59921,7 @@ var AssembledDissectionForm = function (_React$Component) {
               rowID: this.props.rowID,
               name: 'perfusion',
               value: this.state.perfusion,
-              onUnitChange: this.handleChange
+              onUnitChange: this.handleSelectChange
             })
           ),
           _react2.default.createElement(
@@ -59403,7 +59935,11 @@ var AssembledDissectionForm = function (_React$Component) {
               timeAgoUnit: this.state.timeAgoUnit,
               absoluteDate: this.state.absoluteDate,
               onDateChange: this.handleChange
-            }),
+            })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-inline' },
             _react2.default.createElement(_NoteField2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
@@ -59806,8 +60342,6 @@ var _TimeAgoField2 = _interopRequireDefault(_TimeAgoField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -59845,19 +60379,29 @@ var AssembledGeneticTestForm = function (_React$Component) {
   }
 
   _createClass(AssembledGeneticTestForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('genetic test form unmounting');
+      debugger;
+    }
+  }, {
     key: 'handleChange',
     value: function handleChange(value) {
-      var _setState;
-
-      this.setState((_setState = {
+      this.setState({
         timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
         timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
         absoluteDate: value.absoluteDate || this.state.absoluteDate,
         lab: value.lab || this.state.lab,
         labClassification: value.labClassification || this.state.labClassification,
         clinicalClassification: value.clinicalClassification || this.state.clinicalClassification,
-        predictiveTestingRecommended: value.predictiveTestingRecommended || this.state.predictiveTestingRecommended
-      }, _defineProperty(_setState, 'labClassification', value.labClassification || this.state.labClassification), _defineProperty(_setState, 'file', value.file || this.state.file), _defineProperty(_setState, 'note', value.note || this.state.note), _setState));
+        predictiveTestingRecommended: value.predictiveTestingRecommended || this.state.predictiveTestingRecommended,
+        transcript: value.transcript || this.state.transcript,
+        protein: value.protein || this.state.protein,
+        variant: value.variant || this.state.variant,
+        exons: value.exons || this.state.exons,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
     }
   }, {
     key: 'render',
@@ -59888,9 +60432,11 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_SelectConstructor2.default, {
                 arr: locations,
                 title: 'lab name',
-                name: 'labName',
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                name: 'labName',
+                value: this.state.labName,
+                onUnitChange: this.handleChange
               })
             ),
             _react2.default.createElement(
@@ -59900,9 +60446,11 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_SelectConstructor2.default, {
                 arr: classifications,
                 title: 'lab classification',
-                name: 'labClassification',
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                name: 'labClassification',
+                rowID: this.props.rowID,
+                value: this.state.labClassification,
+                onUnitChange: this.handleChange
               })
             ),
             _react2.default.createElement(
@@ -59912,9 +60460,11 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_SelectConstructor2.default, {
                 arr: classifications,
                 title: 'clinical classification',
-                name: 'clinicalClassification',
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                name: 'clinicalClassification',
+                value: this.state.clinicalClassification,
+                onUnitChange: this.handleChange
               })
             ),
             _react2.default.createElement(
@@ -59928,7 +60478,7 @@ var AssembledGeneticTestForm = function (_React$Component) {
                   { className: 'form-check-label' },
                   _react2.default.createElement('input', {
                     type: 'checkbox',
-                    value: 'true',
+                    value: this.state.predictiveTestingRecommended,
                     name: 'predictiveTestingRecommended',
                     id: 'visit_genetic_tests_attributes_' + this.props.rowID + '_predictive_testing_recommended',
                     className: 'form-check-input'
@@ -59956,10 +60506,10 @@ var AssembledGeneticTestForm = function (_React$Component) {
                 _react2.default.createElement('input', {
                   type: 'string',
                   placeholder: '000138.4',
-                  name: 'visit[' + parameterizedPlural + '_attributes][${rowID}][transcript]',
+                  name: 'transcript',
                   id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_transcript',
                   className: 'form-control',
-                  value: '',
+                  value: this.state.transcript,
                   'aria-describedby': 'transcript_' + this.props.rowID
                 })
               )
@@ -59985,7 +60535,7 @@ var AssembledGeneticTestForm = function (_React$Component) {
                   name: 'protein',
                   id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_protein',
                   className: 'form-control',
-                  value: '',
+                  value: this.state.protein,
                   'aria-describedby': 'protein_' + this.props.rowID
                 })
               )
@@ -60008,10 +60558,10 @@ var AssembledGeneticTestForm = function (_React$Component) {
                 _react2.default.createElement('input', {
                   type: 'string',
                   placeholder: '2793delG',
-                  name: 'visit[' + parameterizedPlural + '_attributes][' + this.props.rowID + '][variant]',
+                  name: 'variant',
                   id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_variant',
                   className: 'form-control',
-                  value: '',
+                  value: this.state.variant,
                   'aria-describedby': 'variant_' + this.props.rowID
                 })
               )
@@ -60025,10 +60575,10 @@ var AssembledGeneticTestForm = function (_React$Component) {
                 placeholder: '23',
                 min: '1',
                 max: '63',
-                name: 'visit[' + parameterizedPlural + '_attributes][' + this.props.rowID + '][exons]',
+                name: 'exons',
                 id: 'visit_' + parameterizedPlural + '_attributes_' + this.propsrowID + '_exons',
                 className: 'form-control',
-                value: ''
+                value: this.state.exons
               })
             )
           ),
@@ -60041,7 +60591,11 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_TimeAgoField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleChange
               })
             ),
             _react2.default.createElement(
@@ -60050,12 +60604,16 @@ var AssembledGeneticTestForm = function (_React$Component) {
               _react2.default.createElement(_NoteField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                noteValue: this.state.note,
+                onNoteChange: this.handleChange
               }),
               _react2.default.createElement(_FileAttachmentButton2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                attachedFile: this.state.file,
+                onFileChange: this.handleChange
               })
             )
           )
@@ -60128,13 +60686,53 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledHeartMeasurementForm = function (_React$Component) {
   _inherits(AssembledHeartMeasurementForm, _React$Component);
 
-  function AssembledHeartMeasurementForm() {
+  function AssembledHeartMeasurementForm(props) {
     _classCallCheck(this, AssembledHeartMeasurementForm);
 
-    return _possibleConstructorReturn(this, (AssembledHeartMeasurementForm.__proto__ || Object.getPrototypeOf(AssembledHeartMeasurementForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledHeartMeasurementForm.__proto__ || Object.getPrototypeOf(AssembledHeartMeasurementForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      measurement: null,
+      units: null,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledHeartMeasurementForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('heart measurement form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        measurement: value.measurement || this.state.measurement,
+        units: value.units || this.state.units,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+      if (this.props.topic.units_of_measurement.length === 1 && this.state.measurement) {
+        this.setState({
+          units: this.props.topic.units_of_measurement[0]
+        });
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'heart_measurements';
@@ -60144,23 +60742,31 @@ var AssembledHeartMeasurementForm = function (_React$Component) {
         measFields = _react2.default.createElement(_MeasurementField2.default, {
           topic: this.props.topic,
           parameterizedPlural: parameterizedPlural,
+          rowID: this.props.rowID,
           title: 'severity',
-          rowID: this.props.rowID
+          measurementValue: this.state.measurement,
+          unitOfMeas: this.state.units,
+          onMeasChange: this.handleChange
         });
       } else {
         measFields = _react2.default.createElement(_MeasurementField2.default, {
           topic: this.props.topic,
           parameterizedPlural: parameterizedPlural,
           multiSelect: true,
+          rowID: this.props.rowID,
           title: 'morphology',
-          rowID: this.props.rowID
+          measurementValue: this.state.measurement,
+          unitOfMeas: this.state.units,
+          onMeasChange: this.handleChange
         });
       }
       if (this.props.topic.descriptors) {
         descriptors = _react2.default.createElement(_Keywords2.default, {
           topic: this.props.topic,
           parameterizedPlural: parameterizedPlural,
-          rowID: this.props.rowID
+          rowID: this.props.rowID,
+          keywordsValue: this.state.keywords,
+          onKeywordsChange: this.handleChange
         });
       }
       return _react2.default.createElement(
@@ -60185,12 +60791,16 @@ var AssembledHeartMeasurementForm = function (_React$Component) {
           _react2.default.createElement(_NoteField2.default, {
             topic: this.props.topic,
             parameterizedPlural: parameterizedPlural,
-            rowID: this.props.rowID
+            rowID: this.props.rowID,
+            noteValue: this.state.note,
+            onNoteChange: this.handleChange
           }),
           _react2.default.createElement(_FileAttachmentButton2.default, {
             topic: this.props.topic,
             parameterizedPlural: parameterizedPlural,
-            rowID: this.props.rowID
+            rowID: this.props.rowID,
+            attachedFile: this.state.file,
+            onFileChange: this.handleChange
           })
         )
       );
@@ -60269,13 +60879,49 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledHospitalizationForm = function (_React$Component) {
   _inherits(AssembledHospitalizationForm, _React$Component);
 
-  function AssembledHospitalizationForm() {
+  function AssembledHospitalizationForm(props) {
     _classCallCheck(this, AssembledHospitalizationForm);
 
-    return _possibleConstructorReturn(this, (AssembledHospitalizationForm.__proto__ || Object.getPrototypeOf(AssembledHospitalizationForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledHospitalizationForm.__proto__ || Object.getPrototypeOf(AssembledHospitalizationForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      durationAmount: null,
+      durationUnit: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledHospitalizationForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('hospitalization form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        durationAmount: value.durationAmount || this.state.durationAmount,
+        durationUnit: value.durationUnit || this.state.durationUnit,
+        keywords: value.keywords || this.state.keywords,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'hospitalizations';
@@ -60295,7 +60941,9 @@ var AssembledHospitalizationForm = function (_React$Component) {
             _react2.default.createElement(_Keywords2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              keywordsValue: this.state.keywords,
+              onKeywordsChange: this.handleChange
             })
           )
         );
@@ -60326,7 +60974,11 @@ var AssembledHospitalizationForm = function (_React$Component) {
               _react2.default.createElement(_TimeAgoField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleChange
               })
             ),
             _react2.default.createElement(
@@ -60343,7 +60995,10 @@ var AssembledHospitalizationForm = function (_React$Component) {
                 _react2.default.createElement(_DurationField2.default, {
                   topic: this.props.topic,
                   parameterizedPlural: parameterizedPlural,
-                  rowID: this.props.rowID
+                  rowID: this.props.rowID,
+                  durationAmount: this.state.durationAmount,
+                  durationUnit: this.state.durationUnit,
+                  onDurationChange: this.handleChange
                 })
               )
             ),
@@ -60361,12 +61016,16 @@ var AssembledHospitalizationForm = function (_React$Component) {
                 _react2.default.createElement(_NoteField2.default, {
                   topic: this.props.topic,
                   parameterizedPlural: parameterizedPlural,
-                  rowID: this.props.rowID
+                  rowID: this.props.rowID,
+                  noteValue: this.state.note,
+                  onNoteChange: this.handleChange
                 }),
                 _react2.default.createElement(_FileAttachmentButton2.default, {
                   topic: this.props.topic,
                   parameterizedPlural: parameterizedPlural,
-                  rowID: this.props.rowID
+                  rowID: this.props.rowID,
+                  attachedFile: this.state.file,
+                  onFileChange: this.handleChange
                 })
               )
             ),
@@ -60467,6 +61126,7 @@ var AssembledMeasurementForm = function (_React$Component) {
       timeAgoAmount: null,
       timeAgoUnit: null,
       absoluteDate: null,
+      keywords: null,
       note: null,
       file: null
     };
@@ -60489,6 +61149,7 @@ var AssembledMeasurementForm = function (_React$Component) {
         absoluteDate: value.absoluteDate || this.state.absoluteDate,
         measurement: value.measurement || this.state.measurement,
         units: value.units || this.state.units,
+        keywords: value.keywords || this.state.keywords,
         file: value.file || this.state.file,
         note: value.note || this.state.note
       });
@@ -60518,7 +61179,9 @@ var AssembledMeasurementForm = function (_React$Component) {
             _react2.default.createElement(_Keywords2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              keywordsValue: this.state.keywords,
+              onKeywordsChange: this.handleChange
             })
           )
         );
@@ -60550,8 +61213,8 @@ var AssembledMeasurementForm = function (_React$Component) {
               _react2.default.createElement(_MeasurementField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                title: this.props.topic.name,
                 rowID: this.props.rowID,
+                title: this.props.topic.name,
                 measurementValue: this.state.measurement,
                 unitOfMeas: this.state.units,
                 onMeasChange: this.handleChange
@@ -60669,13 +61332,63 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledMedicationForm = function (_React$Component) {
   _inherits(AssembledMedicationForm, _React$Component);
 
-  function AssembledMedicationForm() {
+  function AssembledMedicationForm(props) {
     _classCallCheck(this, AssembledMedicationForm);
 
-    return _possibleConstructorReturn(this, (AssembledMedicationForm.__proto__ || Object.getPrototypeOf(AssembledMedicationForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledMedicationForm.__proto__ || Object.getPrototypeOf(AssembledMedicationForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      measurement: null,
+      units: null,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      dose: null,
+      doseUnitOfMeasurement: null,
+      dosageForm: null,
+      dosageFormUnits: null,
+      ingestionMethod: null,
+      durationAmount: null,
+      durationUnit: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledMedicationForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('medication form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        dose: value.dose || this.state.dose,
+        doseUnitOfMeasurement: value.doseUnitOfMeasurement || this.state.doseUnitOfMeasurement,
+        dosageForm: value.dosageForm || this.state.dosageForm,
+        dosageFormUnits: value.dosageFormUnits || this.state.dosageFormUnits,
+        ingestionMethod: value.ingestionMethod || this.state.ingestionMethod,
+        durationAmount: value.durationAmount || this.state.durationAmount,
+        durationUnit: value.durationUnit || this.state.durationUnit,
+        measurement: value.measurement || this.state.measurement,
+        units: value.units || this.state.units,
+        keywords: value.keywords || this.state.keywords,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'medications';
@@ -60693,7 +61406,8 @@ var AssembledMedicationForm = function (_React$Component) {
           }),
           _react2.default.createElement(_MedFormFields2.default, {
             topic: this.props.topic,
-            rowID: this.props.rowID
+            rowID: this.props.rowID,
+            onMedFormChange: this.handleChange
           })
         )
       );
@@ -60768,13 +61482,45 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledProcedureForm = function (_React$Component) {
   _inherits(AssembledProcedureForm, _React$Component);
 
-  function AssembledProcedureForm() {
+  function AssembledProcedureForm(props) {
     _classCallCheck(this, AssembledProcedureForm);
 
-    return _possibleConstructorReturn(this, (AssembledProcedureForm.__proto__ || Object.getPrototypeOf(AssembledProcedureForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledProcedureForm.__proto__ || Object.getPrototypeOf(AssembledProcedureForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledProcedureForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('procedure form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        keywords: value.keywords || this.state.keywords,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'procedures';
@@ -60794,7 +61540,9 @@ var AssembledProcedureForm = function (_React$Component) {
             _react2.default.createElement(_Keywords2.default, {
               topic: this.props.topic,
               parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
+              rowID: this.props.rowID,
+              keywordsValue: this.state.keywords,
+              onKeywordsChange: this.handleChange
             })
           )
         );
@@ -60826,7 +61574,11 @@ var AssembledProcedureForm = function (_React$Component) {
               _react2.default.createElement(_TimeAgoField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleChange
               })
             )
           ),
@@ -60844,12 +61596,16 @@ var AssembledProcedureForm = function (_React$Component) {
               _react2.default.createElement(_NoteField2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                noteValue: this.state.note,
+                onNoteChange: this.handleChange
               }),
               _react2.default.createElement(_FileAttachmentButton2.default, {
                 topic: this.props.topic,
                 parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID
+                rowID: this.props.rowID,
+                attachedFile: this.state.file,
+                onFileChange: this.handleChange
               })
             )
           ),
@@ -60896,6 +61652,10 @@ var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _jquery = __webpack_require__(6);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 var _HiddenFields = __webpack_require__(7);
 
 var _HiddenFields2 = _interopRequireDefault(_HiddenFields);
@@ -60915,13 +61675,64 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AssembledVitalForm = function (_React$Component) {
   _inherits(AssembledVitalForm, _React$Component);
 
-  function AssembledVitalForm() {
+  function AssembledVitalForm(props) {
     _classCallCheck(this, AssembledVitalForm);
 
-    return _possibleConstructorReturn(this, (AssembledVitalForm.__proto__ || Object.getPrototypeOf(AssembledVitalForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (AssembledVitalForm.__proto__ || Object.getPrototypeOf(AssembledVitalForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      measurement: null,
+      units: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    _this.ajaxData = _this.ajaxData.bind(_this);
+    return _this;
   }
 
   _createClass(AssembledVitalForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount(event) {
+      _jquery2.default.ajax({
+        type: 'PUT',
+        url: '/visits/' + this.state.visit + '.json',
+        data: JSON.stringify(this.ajaxData()),
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function success(response) {
+          return console.log('SUCCESS', response);
+        },
+        error: function error(response) {
+          return console.log('ERROR!!1!!!!11!', response);
+        }
+      });
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        measurement: value.measurement || this.state.measurement,
+        units: value.units || this.state.units
+      });
+    }
+  }, {
+    key: 'ajaxData',
+    value: function ajaxData() {
+      return {
+        visit: {
+          id: this.state.visit,
+          vitals_attributes: [{
+            visit_id: this.state.visit,
+            patient_id: this.state.patient,
+            topic_id: this.state.topic,
+            measurement: this.state.measurement + ' ' + this.state.units
+          }]
+        }
+      };
+    }
+  }, {
     key: 'render',
     value: function render() {
       var parameterizedPlural = 'vitals';
@@ -60946,7 +61757,10 @@ var AssembledVitalForm = function (_React$Component) {
             topic: this.props.topic,
             parameterizedPlural: parameterizedPlural,
             title: this.props.topic.name,
-            rowID: this.props.rowID
+            rowID: this.props.rowID,
+            measurementValue: this.state.measurement,
+            unitOfMeas: this.state.units,
+            onMeasChange: this.handleChange
           })
         )
       );

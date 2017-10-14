@@ -30,6 +30,11 @@ export default class AssembledGeneticTestForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentWillUnmount() {
+    console.log('genetic test form unmounting')
+    debugger
+  }
+
   handleChange(value) {
     this.setState({
       timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,

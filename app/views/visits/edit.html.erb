@@ -15,8 +15,7 @@
 
 <div id="medications" data="<%= @all_meds.map{|t| [t.name.downcase, t.id]}.to_h.to_json %>"></div>
 
-<%= javascript_pack_tag 'VisitHeader' %>
-<%= javascript_pack_tag 'NestedList' %>
+<%= javascript_pack_tag 'EditVisit' %>
 
 <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
@@ -40,7 +39,7 @@
     </div>
   </div>
 </div>
-<%= form_for @visit, class: "visit_form", id: 'visit_form', html: { multipart: true } do |f| %>
+<%= form_for @visit, class: "visit_form", id: 'visit_form', html: { multipart: true, remote: true } do |f| %>
   <%= f.fields_for :patient do |ff| %>
     <div id="diagnosisHeader"></div>
   <% end %>

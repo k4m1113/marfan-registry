@@ -25,6 +25,12 @@ export default class AssembledDissectionForm extends React.Component {
       file: null,
     };
     this.handleChange = this.handleChange.bind(this)
+    this.handleSelectChange = this.handleSelectChange.bind(this)
+  }
+
+  componentWillUnmount() {
+    console.log('dissection form unmounting')
+    debugger
   }
 
   handleChange(value) {
@@ -32,13 +38,17 @@ export default class AssembledDissectionForm extends React.Component {
       timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
       timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
       absoluteDate: value.absoluteDate || this.state.absoluteDate,
-      location: value.location || this.state.location,
-      direction: value.direction || this.state.direction,
-      lumen: value.lumen || this.state.lumen,
-      perfusion: value.perfusion || this.state.perfusion,
       file: value.file || this.state.file,
       note: value.note || this.state.note,
     });
+  }
+
+  handleSelectChange(e) {
+    const target = e.target;
+    this.setState({
+      [target.name]: target.value,
+    });
+    debugger
   }
 
   render() {
@@ -64,7 +74,7 @@ export default class AssembledDissectionForm extends React.Component {
               rowID={this.props.rowID}
               name="location"
               value={this.state.location}
-              onUnitChange={this.handleChange}
+              onUnitChange={this.handleSelectChange}
             />
             <SelectConstructor
               arr={directions}
@@ -73,7 +83,7 @@ export default class AssembledDissectionForm extends React.Component {
               rowID={this.props.rowID}
               name="direction"
               value={this.state.direction}
-              onUnitChange={this.handleChange}
+              onUnitChange={this.handleSelectChange}
             />
             <SelectConstructor
               arr={lumens}
@@ -82,7 +92,7 @@ export default class AssembledDissectionForm extends React.Component {
               rowID={this.props.rowID}
               name="lumen"
               value={this.state.lumen}
-              onUnitChange={this.handleChange}
+              onUnitChange={this.handleSelectChange}
             />
             <SelectConstructor
               arr={perfused}
@@ -91,7 +101,7 @@ export default class AssembledDissectionForm extends React.Component {
               rowID={this.props.rowID}
               name="perfusion"
               value={this.state.perfusion}
-              onUnitChange={this.handleChange}
+              onUnitChange={this.handleSelectChange}
             />
           </div>
           <div className="form-inline">
@@ -104,6 +114,8 @@ export default class AssembledDissectionForm extends React.Component {
               absoluteDate={this.state.absoluteDate}
               onDateChange={this.handleChange}
             />
+          </div>
+          <div className="form-inline">
             <NoteField
               topic={this.props.topic}
               parameterizedPlural={parameterizedPlural}

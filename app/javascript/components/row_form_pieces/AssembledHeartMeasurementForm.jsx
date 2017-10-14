@@ -25,6 +25,11 @@ export default class AssembledHeartMeasurementForm extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
+  componentWillUnmount() {
+    console.log('heart measurement form unmounting')
+    debugger
+  }
+
   handleChange(value) {
     this.setState({
       timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,

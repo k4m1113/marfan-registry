@@ -46,7 +46,7 @@ export default class SelectConstructor extends React.Component {
       let options = [];
       if (this.props.arr.length >= 2) {
         options.push(
-          <option value="" default disabled key={this.props.title}>
+          <option value="" selected disabled default key={this.props.title}>
             {this.props.title}
           </option>
         );

@@ -27,5 +27,4 @@ Rails.application.routes.draw do
 
   get 'auth/familysearch/complete', to: 'visits#index'
   put 'family_members' => 'family_members#make_patient'
-
 end

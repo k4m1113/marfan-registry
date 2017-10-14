@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import $ from 'jquery';
 import HiddenFields from './HiddenFields';
 import MeasurementField from './MeasurementField';
 
@@ -14,6 +15,19 @@ export default class AssembledVitalForm extends React.Component {
       units: null,
     };
     this.handleChange = this.handleChange.bind(this)
+    this.ajaxData = this.ajaxData.bind(this)
+  }
+
+  componentWillUnmount(event) {
+    $.ajax({
+      type: 'PUT',
+      url: `/visits/${this.state.visit}.json`,
+      data: JSON.stringify(this.ajaxData()),
+      contentType: 'application/json',
+      dataType: 'json',
+      success: response => console.log('SUCCESS', response),
+      error: response => console.log('ERROR!!1!!!!11!', response),
+    });
   }
 
   handleChange(value) {
@@ -21,6 +35,20 @@ export default class AssembledVitalForm extends React.Component {
       measurement: value.measurement || this.state.measurement,
       units: value.units || this.state.units,
     });
+  }
+
+  ajaxData() {
+    return {
+      visit: {
+        id: this.state.visit,
+        vitals_attributes: [{
+          visit_id: this.state.visit,
+          patient_id: this.state.patient,
+          topic_id: this.state.topic,
+          measurement: `${this.state.measurement} ${this.state.units}`,
+        }],
+      },
+    };
   }
 
   render() {

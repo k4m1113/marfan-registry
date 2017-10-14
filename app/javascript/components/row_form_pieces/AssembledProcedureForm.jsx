@@ -24,6 +24,11 @@ export default class AssembledProcedureForm extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
+  componentWillUnmount() {
+    console.log('procedure form unmounting')
+    debugger
+  }
+
   handleChange(value) {
     this.setState({
       timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
