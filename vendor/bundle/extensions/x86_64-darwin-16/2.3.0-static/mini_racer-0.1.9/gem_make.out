@@ -1,0 +1,23 @@
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/mini_racer-0.1.9/ext/mini_racer_extension
+/Users/Andromeda/.rubies/ruby-2.3.4/bin/ruby -r ./siteconf20170524-48537-19faiya.rb extconf.rb
+checking for main() in -lpthread... yes
+checking for main() in -lobjc... yes
+creating Makefile
+
+To see why this extension failed to compile, please check the mkmf.log which can be found here:
+
+  /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/extensions/x86_64-darwin-16/2.3.0-static/mini_racer-0.1.9/mkmf.log
+
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/mini_racer-0.1.9/ext/mini_racer_extension
+make "DESTDIR=" clean
+
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/mini_racer-0.1.9/ext/mini_racer_extension
+make "DESTDIR="
+compiling mini_racer_extension.cc
+clang: warning: argument unused during compilation: '-rdynamic' [-Wunused-command-line-argument]
+linking shared-object mini_racer_extension.bundle
+clang: warning: libstdc++ is deprecated; move to libc++ [-Wdeprecated]
+
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/mini_racer-0.1.9/ext/mini_racer_extension
+make "DESTDIR=" install
+/usr/local/bin/ginstall -c -m 0755 mini_racer_extension.bundle ./.gem.20170524-48537-t85j9e

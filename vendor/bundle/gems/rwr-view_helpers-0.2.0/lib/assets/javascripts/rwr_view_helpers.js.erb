@@ -1,0 +1,6 @@
+(function(global) {
+  global.__RWR_VIEW_HELPERS__ = {
+    imagePaths: <%= ReactWebpackRails::RWRViewHelpers::ImagePaths.fetch.to_json %>,
+    version: '<%= ReactWebpackRails::RWRViewHelpers::VERSION %>',
+  };
+})(window);

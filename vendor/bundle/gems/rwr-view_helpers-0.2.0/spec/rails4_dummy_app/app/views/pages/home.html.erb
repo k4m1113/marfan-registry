@@ -1,0 +1,7 @@
+<h1> Original Spongebob, rendered on server </h1>
+
+<%= react_component('Spongebob', {}, server_side: true) %>
+
+<h1> Spongebob with size passed as prop from Rails View </h1>
+
+<%= react_component('Spongebob', { size: 2 }, server_side: false) %>

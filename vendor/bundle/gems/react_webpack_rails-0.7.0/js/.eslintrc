@@ -1,0 +1,12 @@
+{
+  "extends": "airbnb",
+  "globals": {
+    "__RWR_ENV__": true
+  },
+  "env": {
+    "mocha": true
+  },
+  "rules": {
+    func-names: 0
+  }
+}

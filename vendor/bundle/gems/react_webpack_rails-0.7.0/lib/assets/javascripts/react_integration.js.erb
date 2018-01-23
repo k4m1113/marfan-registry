@@ -1,0 +1,50 @@
+var __RWR_ENV__ = {
+  name: "<%=Rails.env%>",
+  config: <%=JSON(Rails.application.config.react.shared)%>
+};
+
+var RWRhandlers = {
+  _mountNodes: function _mountNodes() {
+    RWR.mountNodes();
+  },
+
+  _unmountNodes: function _unmountNodes() {
+    RWR.unmountNodes();
+  },
+
+  _handleEvent: function(eventName, callback) {
+    document.addEventListener(eventName, callback);
+  },
+
+  handleTurbolinksEvents: function handleTurbolinksEvents() {
+    var unmountEvent;
+    var mountEvent;
+
+    if (Turbolinks.EVENTS) {
+      mountEvent = Turbolinks.EVENTS.CHANGE;
+      unmountEvent = Turbolinks.EVENTS.BEFORE_UNLOAD;
+    } else if (typeof Turbolinks.controller !== "undefined") {
+      mountEvent = 'turbolinks:load';
+      unmountEvent = 'turbolinks:before-cache';
+    }
+    else {
+      mountEvent = 'page:change';
+      unmountEvent = 'page:receive';
+      Turbolinks.pagesCached(0);
+    }
+    RWRhandlers._handleEvent(mountEvent, RWRhandlers._mountNodes);
+    RWRhandlers._handleEvent(unmountEvent, RWRhandlers._unmountNodes);
+  },
+
+  handleNativeEvents: function handleNativeEvents() {
+    document.addEventListener('DOMContentLoaded', RWRhandlers._mountNodes);
+  },
+};
+
+(function reactMain() {
+  if (typeof Turbolinks !== 'undefined' && Turbolinks.supported) {
+    RWRhandlers.handleTurbolinksEvents();
+  } else {
+    RWRhandlers.handleNativeEvents();
+  }
+})(document, window);

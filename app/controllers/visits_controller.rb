@@ -58,7 +58,6 @@ class VisitsController < ApplicationController
     @patient = Patient.find(@visit.patient.id)
     @form_action = 'Update'
     @patient.update(visit_params['patient_attributes']) if visit_params['patient_attributes']
-    binding.pry
     respond_to do |format|
       if @visit.update(visit_params)
         message = []

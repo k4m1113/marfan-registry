@@ -25,7 +25,6 @@ export default class AssembledVitalForm extends React.Component {
       data: JSON.stringify(this.ajaxData()),
       contentType: 'application/json',
       dataType: 'json',
-      success: response => console.log('SUCCESS', response),
       error: response => console.log('ERROR!!1!!!!11!', response),
     });
   }

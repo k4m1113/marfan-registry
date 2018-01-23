@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "react-redux": "^5.0.3",
+    "redux": "^3.6.0",
+    "rwr-redux": "^0.5.0"
+  }
+}

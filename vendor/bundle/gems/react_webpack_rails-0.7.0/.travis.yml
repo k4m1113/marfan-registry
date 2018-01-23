@@ -1,0 +1,56 @@
+branches:
+  except:
+    - docs
+
+sudo: required
+dist: trusty
+language: ruby
+addons:
+  # From some tests it seems you can only have one firefox addon.
+  # Adding two results in the last one defined being the one installed.
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+      - google-chrome-beta
+
+cache:
+  bundler: true
+  directories:
+  - spec/rails3_dummy_app/node_modules
+  - spec/rails4_dummy_app/node_modules
+  - spec/rails5_dummy_app/node_modules
+  - node_modules
+
+matrix:
+  include:
+    - rvm: 2.2.4
+      gemfile: spec/rails5_dummy_app/Gemfile
+      env: TEST_SUITE=rails5
+    - rvm: 2.2.4
+      gemfile: spec/rails4_dummy_app/Gemfile
+      env: TEST_SUITE=rails4
+    - rvm: 2.2.4
+      gemfile: spec/rails3_dummy_app/Gemfile
+      env: TEST_SUITE=rails3
+    - rvm: 2.2.4
+      gemfile: Gemfile
+      env: TEST_SUITE=gem
+    - rvm: 2.2.4
+      env: TEST_SUITE=node
+
+before_install:
+  - sudo apt-get update -qq
+
+before_script:
+  - npm install -g npm@^2.0
+  - npm install -g webpack@^1.12.1
+  - bundle exec rake setup:$TEST_SUITE
+  - 'export CHROME_BIN=chromium-browser'
+  - "export DISPLAY=:99.0" # Setup display for selenium driver
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
+
+script:
+  - bundle exec rake test:$TEST_SUITE

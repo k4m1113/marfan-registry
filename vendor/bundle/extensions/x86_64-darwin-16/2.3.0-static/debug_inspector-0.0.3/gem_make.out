@@ -1,0 +1,15 @@
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/debug_inspector-0.0.3/ext/debug_inspector
+/Users/Andromeda/.rubies/ruby-2.3.4/bin/ruby -r ./siteconf20170524-48537-1eb0cwx.rb extconf.rb
+creating Makefile
+
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/debug_inspector-0.0.3/ext/debug_inspector
+make "DESTDIR=" clean
+
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/debug_inspector-0.0.3/ext/debug_inspector
+make "DESTDIR="
+compiling debug_inspector.c
+linking shared-object debug_inspector.bundle
+
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/debug_inspector-0.0.3/ext/debug_inspector
+make "DESTDIR=" install
+/usr/local/bin/ginstall -c -m 0755 debug_inspector.bundle ./.gem.20170524-48537-1233syh

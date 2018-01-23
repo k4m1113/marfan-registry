@@ -1,0 +1,9 @@
+caffd80de60b54dc52d452523836bb48b2c403e1		branch 'clobber-before-compile' of https://github.com/rails/webpacker
+e19049dd7e9ae3718bd62eca468b9bcc41a08ced		branch 'fix-compiler-cache' of https://github.com/rails/webpacker
+bddfb95dd331e5fc95bfd99dab003c24da70e161		branch 'master' of https://github.com/rails/webpacker
+ceb88c729cabe83357b999811166120bef437b24		branch 'service-workers' of https://github.com/rails/webpacker
+1bc83f06734c9369a96d609f77aa71be0487faff		branch 'webpack2' of https://github.com/rails/webpacker
+5583a269e354cb81291dbc356eccbf647c8a0cdb	not-for-merge	tag 'v1.0.0' of https://github.com/rails/webpacker
+3c488f9f4022735a37093a1c1718eb9a7d720102	not-for-merge	tag 'v1.1.0' of https://github.com/rails/webpacker
+56bd687798b624f9e0cea7b8fe3c89923a79ea63	not-for-merge	tag 'v1.2.0' of https://github.com/rails/webpacker
+55bd71de20eb16563f41fc7a80e9b01e6476b6bb	not-for-merge	tag 'v2.0.0' of https://github.com/rails/webpacker

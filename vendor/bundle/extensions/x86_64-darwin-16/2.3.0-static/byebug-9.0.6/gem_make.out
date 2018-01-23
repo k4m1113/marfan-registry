@@ -1,0 +1,19 @@
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/byebug-9.0.6/ext/byebug
+/Users/Andromeda/.rubies/ruby-2.3.4/bin/ruby -r ./siteconf20170524-48537-1rj6n8s.rb extconf.rb
+creating Makefile
+
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/byebug-9.0.6/ext/byebug
+make "DESTDIR=" clean
+
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/byebug-9.0.6/ext/byebug
+make "DESTDIR="
+compiling breakpoint.c
+compiling byebug.c
+compiling context.c
+compiling locker.c
+compiling threads.c
+linking shared-object byebug/byebug.bundle
+
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/byebug-9.0.6/ext/byebug
+make "DESTDIR=" install
+/usr/local/bin/ginstall -c -m 0755 byebug.bundle ./.gem.20170524-48537-x7vhef/byebug

@@ -1,0 +1,13 @@
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/json-1.8.6/ext/json
+/Users/Andromeda/.rubies/ruby-2.3.4/bin/ruby -r ./siteconf20170524-48537-ds54jd.rb extconf.rb
+creating Makefile
+
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/json-1.8.6/ext/json
+make "DESTDIR=" clean
+
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/json-1.8.6/ext/json
+make "DESTDIR="
+make: Nothing to be done for `all'.
+
+current directory: /Users/Andromeda/Google-Drive/Kamilleski/NMF_Tool/vendor/bundle/gems/json-1.8.6/ext/json
+make "DESTDIR=" install

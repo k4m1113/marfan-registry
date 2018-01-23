@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "forever": "^0.15.3",
+    "http": "*",
+    "httpdispatcher": "^2.0.1"
+  },
+  "scripts": {
+    "rwr-node-dev-server": "forever forever/development.json",
+    "rwr-node-server": "forever -o log/rwr-server-out.log -e log/rwr-server-err.log forever/production.json"
+  }
+}

@@ -1,0 +1,9 @@
+{
+    "uid": "rwr-node-server",
+    "append": true,
+    "script": "node_server.js",
+    "sourceDir": "./app/react",
+    "workingDir": ".",
+    "watch": true,
+    "watchDirectory": "./app/react"
+}

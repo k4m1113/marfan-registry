@@ -1,0 +1,50 @@
+{
+  "name": "react-webpack-rails",
+  "version": "0.7.0",
+  "description": "Js part of react_webpack_rails - webpack based React & Rails integration.",
+  "main": "js/lib/index.js",
+  "files": [
+    "js/lib"
+  ],
+  "scripts": {
+    "compile": "babel --presets es2015 -d js/lib/ js/src/",
+    "prepublish": "npm run compile",
+    "test": "mocha js/test --ui bdd --recursive --require babel-core/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/netguru/react_webpack_rails.git"
+  },
+  "keywords": [
+    "react",
+    "rails",
+    "webpack",
+    "react_webpack_rails"
+  ],
+  "author": "Rafał Gawlik",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/netguru/react_webpack_rails/issues"
+  },
+  "homepage": "https://github.com/netguru/react_webpack_rails#readme",
+  "dependencies": {
+    "babel-polyfill": "^6.23.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-hot-loader": "^3.0.0-beta.6"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-core": "^6.24.0",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-react": "^6.23.0",
+    "eslint": "^3.17.1",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.0",
+    "expect": "^1.20.2",
+    "history": "^4.6.0",
+    "mocha": "^3.2.0"
+  }
+}

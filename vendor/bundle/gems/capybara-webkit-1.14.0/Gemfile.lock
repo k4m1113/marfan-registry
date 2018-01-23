@@ -1,0 +1,87 @@
+PATH
+  remote: .
+  specs:
+    capybara-webkit (1.14.0)
+      capybara (>= 2.3.0, < 2.14.0)
+      json
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.5.0)
+      public_suffix (~> 2.0, >= 2.0.2)
+    appraisal (0.4.1)
+      bundler
+      rake
+    capybara (2.13.0)
+      addressable
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      xpath (~> 2.0)
+    diff-lcs (1.3)
+    ffi (1.9.18-java)
+    json (1.8.6)
+    json (1.8.6-java)
+    launchy (2.4.3)
+      addressable (~> 2.3)
+    launchy (2.4.3-java)
+      addressable (~> 2.3)
+      spoon (~> 0.0.1)
+    mime-types (2.99.3)
+    mini_magick (4.6.1)
+    mini_portile2 (2.1.0)
+    nokogiri (1.7.1)
+      mini_portile2 (~> 2.1.0)
+    nokogiri (1.7.1-java)
+    nokogiri (1.7.1-x86-mingw32)
+      mini_portile2 (~> 2.1.0)
+    public_suffix (2.0.5)
+    rack (1.6.5)
+    rack-protection (1.5.3)
+      rack
+    rack-test (0.6.3)
+      rack (>= 1.0)
+    rake (11.3.0)
+    rspec (3.5.0)
+      rspec-core (~> 3.5.0)
+      rspec-expectations (~> 3.5.0)
+      rspec-mocks (~> 3.5.0)
+    rspec-core (3.5.4)
+      rspec-support (~> 3.5.0)
+    rspec-expectations (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-mocks (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-support (3.5.0)
+    sinatra (1.4.8)
+      rack (~> 1.5)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
+    spoon (0.0.6)
+      ffi
+    tilt (2.0.7)
+    xpath (2.0.0)
+      nokogiri (~> 1.3)
+
+PLATFORMS
+  java
+  ruby
+  x86-mingw32
+
+DEPENDENCIES
+  appraisal (~> 0.4.0)
+  capybara-webkit!
+  json (< 2.0)
+  launchy
+  mime-types (< 3.0)
+  mini_magick
+  rake (< 12.0.0)
+  rspec (~> 3.5)
+  sinatra
+
+BUNDLED WITH
+   1.14.5

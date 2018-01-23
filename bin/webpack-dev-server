@@ -16,7 +16,7 @@ CONFIG_FILE       = File.join(APP_PATH, "config/webpacker.yml")
 NODE_MODULES_PATH = File.join(APP_PATH, "node_modules")
 WEBPACK_CONFIG    = File.join(APP_PATH, "config/webpack/#{NODE_ENV}.js")
 
-LISTEN_HOST_ADDR = NODE_ENV == 'development' ? '192.168.1.101' : '0.0.0.0'
+LISTEN_HOST_ADDR = NODE_ENV == 'development' ? 'localhost' : '0.0.0.0'
 
 def args(key)
   index = ARGV.index(key)

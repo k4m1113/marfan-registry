@@ -30885,9 +30885,6 @@ var AssembledVitalForm = function (_React$Component) {
         data: JSON.stringify(this.ajaxData()),
         contentType: 'application/json',
         dataType: 'json',
-        success: function success(response) {
-          return console.log('SUCCESS', response);
-        },
         error: function error(response) {
           return console.log('ERROR!!1!!!!11!', response);
         }
@@ -61701,9 +61698,6 @@ var AssembledVitalForm = function (_React$Component) {
         data: JSON.stringify(this.ajaxData()),
         contentType: 'application/json',
         dataType: 'json',
-        success: function success(response) {
-          return console.log('SUCCESS', response);
-        },
         error: function error(response) {
           return console.log('ERROR!!1!!!!11!', response);
         }

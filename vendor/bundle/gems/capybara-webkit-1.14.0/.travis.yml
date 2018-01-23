@@ -1,0 +1,42 @@
+sudo: required
+dist: trusty
+language: ruby
+rvm:
+  - 1.9.3
+  - 2.1
+  - 2.2
+  - jruby-19mode
+notifications:
+  email: false
+script: xvfb-run bundle exec rake
+env:
+  global:
+    - BUNDLE_JOBS=4
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+    - QMAKE=/usr/lib/x86_64-linux-gnu/qt5/bin/qmake
+    - JAVA_OPTS=-Djava.security.egd=file:/dev/urandom
+addons:
+  apt:
+    sources:
+      - ubuntu-sdk-team
+    packages:
+      - libqt5webkit5-dev
+      - qtdeclarative5-dev
+matrix:
+  include:
+    - rvm: 1.9.3
+      gemfile: gemfiles/2.7.gemfile
+      env: QMAKE=/usr/lib/x86_64-linux-gnu/qt4/bin/qmake
+    - rvm: 1.9.3
+      gemfile: gemfiles/2.13.gemfile
+      env: QMAKE=/usr/lib/x86_64-linux-gnu/qt4/bin/qmake
+    - rvm: 2.3.3
+      gemfile: gemfiles/master.gemfile
+  allow_failures:
+    - gemfile: gemfiles/master.gemfile
+gemfile:
+  - gemfiles/2.7.gemfile
+  - gemfiles/2.13.gemfile
+before_install:
+  - gem install bundler
+install: bundle
