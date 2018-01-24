@@ -5,7 +5,7 @@ require 'application_helper'
 describe Diagnosis, type: :model do
   context 'with valid attributes' do
     let!(:diagnosis) do
-      FactoryGirl.create :diagnosis,
+      FactoryBot.create :diagnosis,
                          time_ago_amount: 1,
                          time_ago_scale: 'days',
                          duration_amount: 1,
@@ -24,7 +24,7 @@ describe Diagnosis, type: :model do
       end
 
       it 'is rejected if empty' do
-        reject = FactoryGirl.build :diagnosis,
+        reject = FactoryBot.build :diagnosis,
                                    present: nil,
                                    patient: nil
 
@@ -69,7 +69,7 @@ describe Diagnosis, type: :model do
     end
 
     describe '.concat_time_ago' do
-      let(:empty_diag) { FactoryGirl.create :diagnosis }
+      let(:empty_diag) { FactoryBot.create :diagnosis }
       it 'calculates absolute start date when applicable' do
         expect(diagnosis.absolute_start_date.to_date).to eq Date.yesterday
         expect(diagnosis.generate_full_summary).to include 'ago'

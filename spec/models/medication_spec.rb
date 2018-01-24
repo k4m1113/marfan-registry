@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Medication, type: :model do
   context 'with valid attributes' do
-    let!(:medication) { FactoryGirl.create :medication }
+    let!(:medication) { FactoryBot.create :medication }
 
     describe 'Validations' do
       it 'is valid with valid attributes' do
@@ -35,17 +35,17 @@ describe Medication, type: :model do
   end
   context 'with invalid attributes' do
     let!(:no_name_medication) do
-      FactoryGirl.build :medication,
+      FactoryBot.build :medication,
                          name: nil
     end
 
     let!(:no_ing_medication) do
-      FactoryGirl.build :medication,
+      FactoryBot.build :medication,
                          ingestion_method: nil
     end
 
     let!(:no_top_medication) do
-      FactoryGirl.build :medication,
+      FactoryBot.build :medication,
                          topic: nil
     end
 

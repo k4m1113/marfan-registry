@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Patient, type: :model do
   context 'with patient' do
-    let(:patient) { FactoryGirl.create :patient }
+    let(:patient) { FactoryBot.create :patient }
 
     describe 'Validations' do
       it 'is valid with valid attributes' do
@@ -53,7 +53,7 @@ describe Patient, type: :model do
       end
 
       it 'is invalid without primary phone' do
-        no_phone = FactoryGirl.build :patient,
+        no_phone = FactoryBot.build :patient,
         phone_1: nil
         expect(no_phone).to_not be_valid
       end
@@ -131,13 +131,13 @@ describe Patient, type: :model do
 
       describe '.sort_by_topic' do
         before(:each) do
-          FactoryGirl.create :diagnosis,
+          FactoryBot.create :diagnosis,
           patient: patient
-          FactoryGirl.create :procedure,
+          FactoryBot.create :procedure,
           patient: patient
-          FactoryGirl.create :vital,
+          FactoryBot.create :vital,
           patient: patient
-          FactoryGirl.create :test,
+          FactoryBot.create :test,
           patient: patient
         end
 

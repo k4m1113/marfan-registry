@@ -3,16 +3,16 @@ require 'rails_helper'
 feature 'user edits diagnosis', type: :feature do
   context 'positive for osteoporosis' do
     let!(:patient) {
-      FactoryGirl.create(:patient,
+      FactoryBot.create(:patient,
                          first_name: 'Olive',
                          last_name: 'Oyl')
     }
     let!(:current_visit) {
-      FactoryGirl.create(:visit,
+      FactoryBot.create(:visit,
                          patient: patient)
     }
     let!(:diagnosis) {
-      FactoryGirl.create(:diagnosis,
+      FactoryBot.create(:diagnosis,
                          patient: patient,
                          visit: current_visit,
                          note: 'taking calcium supplements')

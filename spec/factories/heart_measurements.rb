@@ -1,6 +1,6 @@
 # Topic.where(name: 'aortic root')[0].id
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :heart_measurement do
     patient
 

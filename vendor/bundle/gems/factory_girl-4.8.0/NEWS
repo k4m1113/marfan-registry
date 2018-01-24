@@ -1,7 +1,7 @@
 4.8.0 (December 16, 2016)
   Improve documentation
-  Add `FactoryGirl.generate_list` to be consistent with `build_list`/`create_list` and friends
-  Add `FactoryGirl.use_parent_strategy` configuration to allow associations to leverage parent build strategy
+  Add `FactoryBot.generate_list` to be consistent with `build_list`/`create_list` and friends
+  Add `FactoryBot.use_parent_strategy` configuration to allow associations to leverage parent build strategy
 
 4.7.0 (April 1, 2016)
   Improve documentation
@@ -15,14 +15,14 @@
 4.6.0 (skipped)
 
 4.5.0 (October 17, 2014)
-  Improve FactoryGirl.lint by including exception and message in output
+  Improve FactoryBot.lint by including exception and message in output
   Allow selective linting
   Use more explicit #public_send when doing attribute assignment
-  Improve documentation around FactoryGirl.lint and initialize_with
+  Improve documentation around FactoryBot.lint and initialize_with
   Deprecate #ignore in favor of #transient
 
 4.4.0 (February 10, 2014)
-  Add FactoryGirl.lint
+  Add FactoryBot.lint
   Fix memory leak in duplicate traits
   Update documentation
 
@@ -30,7 +30,7 @@
   Start testing against Rails 4.0 and Ruby 2.0.0
   Stop testing against Rails 3.0 and Ruby 1.9.2
   Add *_pair methods to only build two objects
-  Raise if a method is defined with a FactoryGirl block (factory or trait)
+  Raise if a method is defined with a FactoryBot block (factory or trait)
   Allow use of Symbol#to_proc in callbacks
   Add global callbacks
   Improve GETTING_STARTED and README
@@ -69,11 +69,11 @@
     custom constructor, and custom to_create
   Add memoization to speed up factories providing attribute overrides
   Add initial support of JRuby when running in 1.9 mode
-  Improve docs on what happens when including FactoryGirl::Syntax::Methods
+  Improve docs on what happens when including FactoryBot::Syntax::Methods
 
 3.5.0 (June 22, 2012)
   Allow created_at to be set when using build_stubbed
-  Deprecate FactoryGirl step definitions
+  Deprecate FactoryBot step definitions
 
 3.4.2 (June 19, 2012)
   Fix bug in traits with callbacks called implicitly in factories whose
@@ -121,7 +121,7 @@
   Remove Ruby 1.8 support
   Remove deprecated features, including default_strategy, factory_name,
     :method for defining default strategy, ignore on individual attributes, and
-    interacting with Factory the way you would FactoryGirl
+    interacting with Factory the way you would FactoryBot
 
 2.6.4 (March 16, 2012)
   Do not ignore names of transient attributes
@@ -139,9 +139,9 @@
     Ruby 1.9.2-p3p18
 
 2.6.1 (March 2, 2012)
-  Use FactoryGirl.reload in specs
+  Use FactoryBot.reload in specs
   Clean up running named factories with a particular strategy with
-    FactoryGirl::FactoryRunner
+    FactoryBot::FactoryRunner
 
 2.6.0 (February 17, 2012)
   Improve documentation of has_many associations in the GETTING_STARTED
@@ -177,14 +177,14 @@
   Fix inline traits
 
 2.4.0 (January 13, 2012)
-  Refactor internals of FactoryGirl to use anonymous class on which attributes
+  Refactor internals of FactoryBot to use anonymous class on which attributes
     get defined
   Explicitly require Ruby 1.8.7 or higher in gemspec
   Fix documentation
   Add Gemnasium status to documentation
   Supplying a Class to a factory that overrides to_s no longer results in
     getting the wrong Class constructed
-  Be more agnostic about ORMs when using columns in FactoryGirl step
+  Be more agnostic about ORMs when using columns in FactoryBot step
     definitions
   Test against Active Record 3.2.0.rc2
   Update GETTING_STARTED to use Ruby syntax highlighting
@@ -199,7 +199,7 @@
     class so attributes work correctly all the time.
 
 2.3.1 (November 23, 2011)
-  Remove internally-used associate method from all the FactoryGirl::Proxy subclasses
+  Remove internally-used associate method from all the FactoryBot::Proxy subclasses
   Move around requiring of files
   Consolidate errors into factory_girl.rb
   Refactor AttributeList to deal with priority only when iterating over
@@ -211,8 +211,8 @@
   Registries are named, resulting in better messages when factories, traits,
     or sequences cannot be found
   Fix incorrect tests
-  Internals refactoring introducing FactoryGirl::NullFactory,
-    FactoryGirl::Definition, and FactoryGirl::DeclarationList
+  Internals refactoring introducing FactoryBot::NullFactory,
+    FactoryBot::Definition, and FactoryBot::DeclarationList
   Use ActiveSupport for Hash#except and its delegation capabilities
   Fix usage of callbacks when added via implicit traits
   Use Bundler tasks and clean up dependencies

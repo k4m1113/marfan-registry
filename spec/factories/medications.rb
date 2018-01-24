@@ -1,6 +1,6 @@
 # Topic.where(name: 'losartan')[0].id
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :medication do
     patient
     topic_id 40

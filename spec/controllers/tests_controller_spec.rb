@@ -2,11 +2,11 @@
 #
 # RSpec.describe TestsController, type: :controller do
 #   let(:valid_attributes) do
-#     FactoryGirl.attributes_for :test
+#     FactoryBot.attributes_for :test
 #   end
 #
 #   let(:invalid_attributes) do
-#     FactoryGirl.attributes_for :test,
+#     FactoryBot.attributes_for :test,
 #                                test_amount: nil,
 #                                test_unit_of_meas: nil,
 #                                topic_id: nil
@@ -15,7 +15,7 @@
 #   let(:valid_session) { {} }
 #
 #   describe 'GET #index' do
-#     let(:test) { FactoryGirl.create :test }
+#     let(:test) { FactoryBot.create :test }
 #
 #     it 'assigns all tests as @tests' do
 #       get :index, {}
@@ -24,7 +24,7 @@
 #   end
 #
 #   describe 'GET #show' do
-#     let(:test) { FactoryGirl.create :test }
+#     let(:test) { FactoryBot.create :test }
 #
 #     it 'assigns the requested test as @test' do
 #       get :show, params: { id: test.to_param }
@@ -40,7 +40,7 @@
 #   end
 #
 #   describe 'GET #edit' do
-#     let(:test) { FactoryGirl.create :test }
+#     let(:test) { FactoryBot.create :test }
 #
 #     it 'assigns the requested test as @test' do
 #       get :edit, params: { id: test.to_param }
@@ -83,7 +83,7 @@
 #
 #   describe 'PUT #update' do
 #     context 'with valid params' do
-#       let(:test) { FactoryGirl.create :test }
+#       let(:test) { FactoryBot.create :test }
 #
 #       it 'updates the requested test' do
 #         put :update, params: { id: test.to_param, test: new_attributes }
@@ -104,7 +104,7 @@
 #
 #     context 'with invalid params' do
 #       let(:test) do
-#         FactoryGirl.create :test,
+#         FactoryBot.create :test,
 #                            patient: nil
 #       end
 #
@@ -121,7 +121,7 @@
 #   end
 #
 #   describe 'DELETE #destroy' do
-#     let(:test) { FactoryGirl.create :test }
+#     let(:test) { FactoryBot.create :test }
 #
 #     it 'destroys the requested test' do
 #       expect {

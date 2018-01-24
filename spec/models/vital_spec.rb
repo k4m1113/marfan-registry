@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Vital, type: :model do
   context 'with valid attributes' do
 
-    let!(:vital) { FactoryGirl.create :vital }
+    let!(:vital) { FactoryBot.create :vital }
 
     describe 'Validations' do
       it 'is valid with valid attributes' do

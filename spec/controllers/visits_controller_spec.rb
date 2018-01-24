@@ -19,21 +19,21 @@
 # # that an instance is receiving a specific message.
 #
 # RSpec.describe VisitsController, type: :controller do
-#   let!(:patient) { FactoryGirl.create(:patient) }
-#   let!(:clinician) { FactoryGirl.create(:clinician) }
+#   let!(:patient) { FactoryBot.create(:patient) }
+#   let!(:clinician) { FactoryBot.create(:clinician) }
 #
-#   let!(:visit) { FactoryGirl.create(:visit, patient: patient, clinician: clinician) }
+#   let!(:visit) { FactoryBot.create(:visit, patient: patient, clinician: clinician) }
 #   render_views
 #   # This should return the minimal set of values that should be in the session
 #   # in order to pass any filters (e.g. authentication) defined in
 #   # VisitsController. Be sure to keep this updated too.
 #
 #   let(:valid_attributes) {
-#     FactoryGirl.attributes_for(:visit)
+#     FactoryBot.attributes_for(:visit)
 #   }
 #
 #   let(:invalid_attributes) {
-#     FactoryGirl.attributes_for(:visit, patient_id: nil)
+#     FactoryBot.attributes_for(:visit, patient_id: nil)
 #   }
 #
 #   let(:valid_session) { {} }
@@ -73,7 +73,7 @@
 #     context "with valid params" do
 #       it "creates a new Visit" do
 #         expect {
-#           post :create, {:visit => FactoryGirl.attributes_for(:visit, patient: visit.patient, clinician: visit.clinician)}, valid_session
+#           post :create, {:visit => FactoryBot.attributes_for(:visit, patient: visit.patient, clinician: visit.clinician)}, valid_session
 #         }.to change(Visit, :count).by(1)
 #       end
 #

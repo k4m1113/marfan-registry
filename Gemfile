@@ -1,21 +1,20 @@
 source 'https://rubygems.org'
-ruby '2.3.4'
+ruby '2.5.0'
 gem 'awesome_nested_set'
 gem 'carrierwave'
 gem 'fog'
 gem 'foreman'
 gem 'indefinite_article'
-gem 'jbuilder', '~> 2.0'
+gem 'jbuilder'
 gem 'jquery-rails'
 gem 'json'
 gem 'mini_magick'
-gem 'pg'
+gem 'pg', '~> 0.18'
 gem 'pg_search'
-gem 'rails', '5.1.1'
+gem 'rails', '5.2.0.beta2'
 gem 'responders'
 gem 'ruby-units'
-gem 'sdoc', '~> 0.4.0', group: :doc
-gem 'validates_timeliness', '~> 4.0'
+gem 'validates_timeliness'
 gem 'validates_type'
 gem 'webpacker', git: 'https://github.com/rails/webpacker.git'
 gem 'will_paginate', '~> 3.1.0'
@@ -25,7 +24,7 @@ group :development, :test do
   gem 'byebug'
   gem 'capybara'
   gem 'capybara-selenium'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'pry-rails'
   gem 'pry-remote'
   gem 'rspec-rails'
@@ -35,7 +34,7 @@ end
 
 group :development do
   gem 'spring'
-  gem 'web-console', '~> 2.0'
+  gem 'web-console'
 end
 
 group :test do

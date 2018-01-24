@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Test, type: :model do
   context 'with valid attributes' do
-    let!(:test) { FactoryGirl.create(:test) }
+    let!(:test) { FactoryBot.create(:test) }
 
     describe 'Validations' do
       it 'is valid with valid attributes' do

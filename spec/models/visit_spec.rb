@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Visit, type: :model do
-  visit = FactoryGirl.create(:visit)
+  visit = FactoryBot.create(:visit)
 
   describe 'Validations' do
     it 'is valid with valid attributes' do

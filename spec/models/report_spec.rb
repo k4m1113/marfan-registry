@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Report do
   include Report
   context 'with visit' do
-    let!(:visit) { FactoryGirl.build :visit }
+    let!(:visit) { FactoryBot.build :visit }
 
     describe '.header' do
       it 'begins with today\'s date' do

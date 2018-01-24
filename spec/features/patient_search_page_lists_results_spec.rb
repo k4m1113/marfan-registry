@@ -1,9 +1,9 @@
 require "rails_helper"
 
 feature "patient search returns list of patients", type: :feature do
-  let!(:john) { FactoryGirl.create(:patient, first_name: "John", last_name: "Doe") }
-  let!(:jane) { FactoryGirl.create(:patient, first_name: "Jane", last_name: "Doe") }
-  let!(:freddie) { FactoryGirl.create(:patient, first_name: "Freddy", last_name: "Mercury") }
+  let!(:john) { FactoryBot.create(:patient, first_name: "John", last_name: "Doe") }
+  let!(:jane) { FactoryBot.create(:patient, first_name: "Jane", last_name: "Doe") }
+  let!(:freddie) { FactoryBot.create(:patient, first_name: "Freddy", last_name: "Mercury") }
 
   background do
     visit patients_path

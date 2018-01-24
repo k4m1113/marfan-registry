@@ -1,6 +1,6 @@
 # Topic.where(name: 'teeth extraction')[0].id
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :procedure do
     patient
 

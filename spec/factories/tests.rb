@@ -1,6 +1,6 @@
 # Topic.where(name: 'MRI for dural ectasia')[0].id
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :test do
     patient
 

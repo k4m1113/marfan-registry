@@ -1,6 +1,6 @@
 # Topic.where(name: 'sibling')[0].id
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :family_member do
     patient
 

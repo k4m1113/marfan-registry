@@ -34,6 +34,6 @@ Built with the [National Marfan Foundation](https://www.marfan.org/) and the [Am
 * Deployment on [Heroku](https://www.heroku.com/home)
 
 ### Testing
-* Model testing with [RSpec](http://rspec.info/) and [FactoryGirl](https://github.com/thoughtbot/factory_girl)
+* Model testing with [RSpec](http://rspec.info/) and [FactoryBot](https://github.com/thoughtbot/factory_girl)
 * Feature testing with [Capybara](https://github.com/jnicklas/capybara) and [Selenium](http://www.seleniumhq.org/) powered by [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/)
 * Continuous Integration on [Codeship](https://app.codeship.com/projects/145614)

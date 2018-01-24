@@ -1,6 +1,6 @@
 # Topic.where(name: 'height')[0].id
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :vital do
     patient
 

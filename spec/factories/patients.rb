@@ -1,6 +1,6 @@
 require 'date'
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :patient do
     first_name 'Antoine'
     last_name 'Marfan'
