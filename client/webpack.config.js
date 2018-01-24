@@ -13,14 +13,19 @@ var bower_dir = path.join(__dirname, '/bower_components');
 const prod = process.argv.indexOf('-p') !== -1;
 const css_output_template = prod ?'stylesheets/[name]-[hash].css' : 'stylesheets/[name].css';
 const js_output_template = prod ? 'javascripts/[name]-[hash].js' : 'javascripts/[name].js';
-require('lodash')
-
+require('lodash');
 
 module.exports = {
   context: path.join(__dirname, '..', 'app'),
 
   entry: {
-    application: ['jquery', "./javascript/packs/application.js", "./stylesheet/application.scss", 'bootstrap-loader']
+    application: [
+      'jquery',
+      "./javascript/packs/application.js",
+      "./stylesheet/application.scss",
+      'bootstrap-loader',
+      'whatwg-fetch'
+    ]
   },
 
   resolve: {
@@ -125,10 +130,12 @@ module.exports = {
   plugins: [
     new webpack.ProvidePlugin({
       $: "jquery",
+      fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch',
       jQuery: "jquery",
       jquery: "jquery",
       "window.jQuery": "jquery",
       "window.Tether": 'tether',
+      Promise: 'imports-loader?this=>global!exports-loader?global.Promise!es6-promise',
       Tether: 'tether',
       tether: 'tether'
       // ADD epicMeds, etc?

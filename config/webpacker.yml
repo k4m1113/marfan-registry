@@ -13,7 +13,7 @@ default: &default
     'node_modules'
   ]
 
-  # Reload manifest.json on all requests so we reload latest compiled packs
+  # Reload manifest.json on all requests so we reload latest compiled packs
   cache_manifest: false
 
   extensions:

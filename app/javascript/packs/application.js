@@ -21,6 +21,7 @@ import 'select2/dist/js/select2.full.js'
 import tether from 'tether'
 global.Tether = tether;
 import 'virtual-keyboard/dist/js/jquery.keyboard.js'
+import 'whatwg-fetch'
 
 import 'bootstrap'
 import 'bootstrap-switch/dist/js/bootstrap-switch.js'
