@@ -27,6 +27,7 @@ export default class AssembledVitalForm extends React.Component {
       dataType: 'json',
       error: response => console.log('ERROR!!1!!!!11!', response),
     });
+    debugger
   }
 
   handleChange(value) {

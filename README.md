@@ -25,7 +25,7 @@ Built with the [National Marfan Foundation](https://www.marfan.org/) and the [Am
 * Quickly add concerns with [Select2](https://select2.github.io/)
 
 ### Back End
-* [Ruby 2.3.4](https://www.ruby-lang.org/en/news/2017/03/30/ruby-2-3-4-released/)
+* [Ruby 2.5.0](https://www.ruby-lang.org/en/news/2017/12/25/ruby-2-5-0-released/)
 * [Rails 5.1.1](http://weblog.rubyonrails.org/2017/5/12/Rails-5-0-3-and-5-1-1-have-been-released/)
 * [Webpack](https://github.com/rails/webpacker) asset management with [Yarn](https://yarnpkg.com/) and [Bower](https://bower.io/) packages
 * [Carrierwave](https://github.com/carrierwaveuploader/carrierwave) photo and document uploading to [AWS](https://aws.amazon.com/)
