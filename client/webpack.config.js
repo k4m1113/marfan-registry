@@ -43,7 +43,19 @@ module.exports = {
       'bower.json',
       'package.json'
     ],
-    extensions: ['.js', '.jsx', '.erb', '.css', '.scss', '.woff2', '.svg', '.tff', '.eot', '.jsx.erb', '.html'],
+    extensions: [
+      '.js',
+      '.jsx',
+      '.erb',
+      '.css',
+      '.scss',
+      '.woff2',
+      '.svg',
+      '.tff',
+      '.eot',
+      '.jsx.erb',
+      '.html'
+    ],
   },
 
   output: {
@@ -66,20 +78,23 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react']
-        }
+        loader: 'babel-loader'
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
       },
       {
         test: /\.scss$/,
         loaders: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: ['css-loader', 'sass-loader']
+          use: [
+            'css-loader',
+            'sass-loader'
+          ]
         })
       },
       {

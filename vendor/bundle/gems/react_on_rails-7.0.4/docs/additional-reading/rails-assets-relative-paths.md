@@ -92,7 +92,7 @@ Now for the fun part, we actually get to use our client assets now. The first th
 ```javascript
 import myImage from 'assets/images/my-image.png'; // This uses the assets alias we created earlier to map to the client/app/assets/ directory followed by `images/my-image.png`
 
-export default class MyImageBox extends React.Component {
+export default class MyImageBox extends Component {
   constructor(props, context) {
     super(props, context);
   }

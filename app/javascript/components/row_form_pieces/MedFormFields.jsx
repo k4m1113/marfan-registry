@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import SelectConstructor from './SelectConstructor'
@@ -16,7 +16,7 @@ const ingestionMethods = ['orally', 'intravenously', 'intramuscularly', 'subcuta
 const unitsOfMeas = ['mcg', 'mg', 'mL', 'mm', 'g', 'L', 'IU'];
 const dosageForms = ['tablet', 'capsule', 'pill', 'liquid solution', 'inhaler', 'cream', 'drops', 'suppository'];
 
-export default class MedFormFields extends React.Component {
+export default class MedFormFields extends Component {
   constructor() {
     super();
     this.state = {

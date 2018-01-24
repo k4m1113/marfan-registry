@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ToggleDisplay from 'react-toggle-display';
 import AssembledDiagnosisForm from './AssembledDiagnosisForm';
@@ -15,7 +15,7 @@ import PresAbsButtons from './PresAbsButtons';
 
 const parameterizedPlurals = require('./parameterizedPlurals');
 
-export default class RowForm extends React.Component {
+export default class RowForm extends Component {
   constructor(props) {
     super(props);
     this.handleShowChange = this.handleShowChange.bind(this);

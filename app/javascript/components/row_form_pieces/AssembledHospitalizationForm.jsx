@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DurationField from './DurationField';
 import FileAttachmentButton from './FileAttachmentButton';
@@ -8,7 +8,7 @@ import Keywords from './Keywords';
 import NoteField from './NoteField';
 import TimeAgoField from './TimeAgoField';
 
-export default class AssembledHospitalizationForm extends React.Component {
+export default class AssembledHospitalizationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {

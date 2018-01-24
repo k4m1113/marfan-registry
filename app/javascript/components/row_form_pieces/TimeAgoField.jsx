@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Switch from 'react-bootstrap-switch';
 import ToggleDisplay from 'react-toggle-display';
@@ -9,7 +9,7 @@ require('jquery-ujs');
 require('jquery-ui/ui/core.js');
 require('jquery-ui/ui/position');
 
-export default class TimeAgoField extends React.Component {
+export default class TimeAgoField extends Component {
   constructor(props) {
     super(props);
     this.state = {

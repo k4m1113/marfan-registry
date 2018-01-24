@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import TopBar from './TopBar';
 import TabPane from './TabPane';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import keyify from './keyify';
 
-export default class NestedList extends React.Component {
+export default class NestedList extends Component {
   render() {
     const topics = this.props.allTopics.map((topic, i) => (
       <Tab

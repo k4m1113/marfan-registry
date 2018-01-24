@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.5.0'
-gem 'awesome_nested_set'
+gem 'awesome_nested_set', git: 'https://github.com/collectiveidea/awesome_nested_set.git'
 gem 'carrierwave'
 gem 'fog'
 gem 'foreman'

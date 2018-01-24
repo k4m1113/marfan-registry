@@ -67,7 +67,7 @@ Note that you should not register a renderer on the server, since there won't be
 #### RouterAppRenderer.jsx
 ```jsx
 import ReactOnRails from 'react-on-rails';
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Router from 'react-router/lib/Router';
 import match from 'react-router/lib/match';

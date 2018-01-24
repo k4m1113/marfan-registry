@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FileAttachmentButton from './FileAttachmentButton';
 
 const reasonsForDeath = ['', 'aortic dissection', 'heart attack', 'stroke', 'cancer', 'old age', 'Alzheimer\'s', 'dementia']
 
-export default class FamilyMemberFormBody extends React.Component {
+export default class FamilyMemberFormBody extends Component {
   render () {
     let minValue = ''
     let maxValue = ''

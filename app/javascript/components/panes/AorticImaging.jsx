@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AssembledHeartMeasurementForm from '../row_form_pieces/AssembledHeartMeasurementForm'
 
-export default class AorticImaging extends React.Component {
+export default class AorticImaging extends Component {
   render() {
     const fields = this.props.topics.map(t => (
       <AssembledHeartMeasurementForm

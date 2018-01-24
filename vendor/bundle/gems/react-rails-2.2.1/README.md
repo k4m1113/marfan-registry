@@ -106,7 +106,7 @@ window.Post = React.createClass({
 })
 
 // or, equivalent:
-class Post extends React.Component {
+class Post extends Component {
   render() {
     return <h1>{this.props.title}</h1>    
   }
@@ -416,7 +416,7 @@ var Post = React.createClass({
 
 The generator also accepts options:
 
-- `--es6`: use `class ComponentName extends React.Component`
+- `--es6`: use `class ComponentName extends Component`
 - `--coffee`: use CoffeeScript
 
 Accepted PropTypes are:

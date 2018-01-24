@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 const parameterizedPlurals = require('./parameterizedPlurals');
 
-export default class HiddenFields extends React.Component {
+export default class HiddenFields extends Component {
   render() {
     const parameterizedPlural = this.props.parameterizedPlural ? this.props.parameterizedPlural : parameterizedPlurals[this.props.topic.topic_type];
     return (

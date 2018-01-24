@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FamilyTreeBody from '../row_form_pieces/FamilyTreeBody';
 import familyUnit from '../row_form_pieces/familyUnit';
 import months from '../months'
 
-export default class FamilyTree extends React.Component {
+export default class FamilyTree extends Component {
   render() {
     const date = new Date(this.props.patient.date_of_birth);
     const dateStr = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;

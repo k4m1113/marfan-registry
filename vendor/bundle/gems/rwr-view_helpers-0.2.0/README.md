@@ -27,7 +27,7 @@ First add this require statement in your `/app/assets/javascripts/application.js
 Then use it in your React components
 
 ```js
-import React from 'react';
+import React, { Component } from 'react';
 import { imagePath } from 'rwr-view-helpers';
 import { facebookIcon } from 'constants/icon-urls';
 

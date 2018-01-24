@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AssembledFamilyMemberForm from './AssembledFamilyMemberForm';
 
-export default class FamilyTreeBody extends React.Component {
+export default class FamilyTreeBody extends Component {
   render() {
     const relationship = this.props.topic.name;
     let title = '';

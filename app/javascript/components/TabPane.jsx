@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import NestedListPane from './NestedListPane';
@@ -7,7 +7,7 @@ import AorticImaging from './panes/AorticImaging';
 import FamilyTree from './panes/FamilyTree';
 import Vitals from './panes/Vitals';
 
-export default class TabPane extends React.Component {
+export default class TabPane extends Component {
   render() {
     const firstPanel = (this.props.i === 0 ? 'show in' : '');
     let pane;

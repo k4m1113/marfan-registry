@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-export default class PrimaryReasonButton extends React.Component {
+export default class PrimaryReasonButton extends Component {
   render() {
     const diagnosis = this.props.diagnosis;
     return (

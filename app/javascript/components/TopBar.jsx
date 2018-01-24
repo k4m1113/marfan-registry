@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import keyify from './keyify';
 
-export default class TopBar extends React.Component {
+export default class TopBar extends Component {
   render() {
     const allTopics = this.props.allTopics
     const topics = allTopics.map((topic, i) => (

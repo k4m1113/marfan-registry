@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import RowForm from './row_form_pieces/RowForm';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import keyify from './keyify';
 
-export default class NestedListPane extends React.Component {
+export default class NestedListPane extends Component {
   render() {
     const topicButtons = Object.keys(this.props.topicsByType).map(tg =>
       (

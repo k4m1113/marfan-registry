@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/collectiveidea/awesome_nested_set.git
+  revision: 710441f1291b4abf395a8e1651558a6ec60a331e
+  specs:
+    awesome_nested_set (3.1.3)
+      activerecord (>= 4.0.0, < 5.3)
+
+GIT
   remote: https://github.com/rails/webpacker.git
   revision: 18a50dcce2b6a48d85c5e2a5e8a1634d2c22a2ac
   specs:
@@ -54,8 +61,6 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     arel (9.0.0)
-    awesome_nested_set (3.1.3)
-      activerecord (>= 4.0.0, < 5.2)
     bindex (0.5.0)
     builder (3.2.3)
     byebug (9.1.0)
@@ -441,7 +446,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  awesome_nested_set
+  awesome_nested_set!
   byebug
   capybara
   capybara-selenium

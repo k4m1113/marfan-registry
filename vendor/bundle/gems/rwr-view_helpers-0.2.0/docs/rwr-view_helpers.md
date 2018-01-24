@@ -14,7 +14,7 @@
 ## Usage
 
 ```jsx
-import React from 'react';
+import React, { Component } from 'react';
 import { imagePath } from 'rwr-view-helpers';
 
 export default ({ alt }) => (

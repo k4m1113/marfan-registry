@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export default class FindRelated extends React.Component {
+export default class FindRelated extends Component {
   render() {
     const topic = this.props.topic
     let nextStep;

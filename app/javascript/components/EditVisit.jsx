@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import NestedList from './NestedList';
 import VisitHeader from './VisitHeader';
 
-export default class EditVisit extends React.Component {
+export default class EditVisit extends Component {
   render() {
 
     return (

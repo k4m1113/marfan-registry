@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export default class InfoHover extends React.Component {
+export default class InfoHover extends Component {
   render() {
     const tooltipTitle = this.props.concerns.map(x => x.summary)
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FileAttachmentButton from './FileAttachmentButton';
 import FindRelated from './FindRelated';
@@ -7,7 +7,7 @@ import NoteField from './NoteField';
 import TimeAgoField from './TimeAgoField';
 import SelectConstructor from './SelectConstructor';
 
-export default class AssembledDissectionForm extends React.Component {
+export default class AssembledDissectionForm extends Component {
   constructor(props) {
     super(props);
     this.state = {

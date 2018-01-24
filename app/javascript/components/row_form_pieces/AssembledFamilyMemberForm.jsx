@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HiddenFields from './HiddenFields';
 import FamilyMemberFormBody from './FamilyMemberFormBody';
 
-export default class AssembledFamilyMemberForm extends React.Component {
+export default class AssembledFamilyMemberForm extends Component {
   render() {
     let returnStatement;
     if (this.props.person.future_patient_data_hash.first_name.length) {

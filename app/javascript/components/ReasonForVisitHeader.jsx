@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export default class ReasonForVisitHeader extends React.Component {
+export default class ReasonForVisitHeader extends Component {
   render() {
     const reasonsForVisit = [
       'flu',

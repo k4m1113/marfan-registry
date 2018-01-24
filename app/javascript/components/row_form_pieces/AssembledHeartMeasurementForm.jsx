@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FileAttachmentButton from './FileAttachmentButton';
 import HiddenFields from './HiddenFields';
@@ -6,7 +6,7 @@ import MeasurementField from './MeasurementField';
 import Keywords from './Keywords';
 import NoteField from './NoteField';
 
-export default class AssembledHeartMeasurementForm extends React.Component {
+export default class AssembledHeartMeasurementForm extends Component {
   constructor(props) {
     super(props);
     this.state = {

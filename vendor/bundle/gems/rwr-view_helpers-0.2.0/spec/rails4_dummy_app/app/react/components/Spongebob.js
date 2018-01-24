@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { imagePath } from 'rwr-view-helpers';
 
 const Spongebob = ({ alt, size }) => {

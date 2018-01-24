@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { mount, render, shallow } from 'enzyme';
 import { expect } from 'chai';
 import Spongebob from './Spongebob';

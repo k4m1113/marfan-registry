@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AssembledVitalForm from '../row_form_pieces/AssembledVitalForm'
 
-export default class Vitals extends React.Component {
+export default class Vitals extends Component {
   render() {
     const fields = this.props.topics.map(t =>
       (

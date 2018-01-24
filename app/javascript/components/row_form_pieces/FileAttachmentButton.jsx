@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export default class FileAttachmentButton extends React.Component {
+export default class FileAttachmentButton extends Component {
   constructor(props) {
     super(props);
     this.state = {

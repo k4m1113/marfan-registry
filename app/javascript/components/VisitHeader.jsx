@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom'
 import PrimaryReasonButton from './PrimaryReasonButton'
 
@@ -15,7 +15,7 @@ const primaryDiagnoses = [
   'Shprintzen-Goldberg Syndrome'
 ]
 
-export default class VisitHeader extends React.Component {
+export default class VisitHeader extends Component {
   render() {
     const options = primaryDiagnoses.map((d, index) =>
       <PrimaryReasonButton key={index}

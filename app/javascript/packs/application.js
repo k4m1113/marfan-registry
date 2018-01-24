@@ -7,7 +7,7 @@
 // that code so it'll be compiled.
 //
 // layout file, like app/views/layouts/application.html.erb
-// import React, { Component } from 'react'
+// import import React, { Component } from 'react'
 // import { render } from 'react-dom'
 // import ReactOne from '../components/react_one.jsx'
 // RWR.registerComponent('ReactOne', ReactOne);

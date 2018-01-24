@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import subject from '../../src/integrations/react';
 
-class HelloComponent extends React.Component {
+class HelloComponent extends Component {
   static propTypes() {
     return {
       username: PropTypes.string.isRequired,
@@ -16,7 +16,7 @@ class HelloComponent extends React.Component {
   }
 }
 
-class FooComponent extends React.Component {
+class FooComponent extends Component {
   static propTypes() {
     return {
       username: PropTypes.string.isRequired,

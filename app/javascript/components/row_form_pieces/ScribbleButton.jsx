@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export default class ScribbleButton extends React.Component {
+export default class ScribbleButton extends Component {
   render() {
     return (
       <div className="modal" tabIndex="-1" role="dialog" aria-hidden="true" id={this.props.title + '_scribble_modal'}>

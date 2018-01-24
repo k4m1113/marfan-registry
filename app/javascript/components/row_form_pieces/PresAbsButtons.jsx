@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import InfoHover from './InfoHover';
 import HiddenFields from './HiddenFields';
 
 const parameterizedPlurals = require('./parameterizedPlurals');
-export default class PresAbsButtons extends React.Component {
+export default class PresAbsButtons extends Component {
   constructor(props) {
     super(props);
     this.state = { show: false };

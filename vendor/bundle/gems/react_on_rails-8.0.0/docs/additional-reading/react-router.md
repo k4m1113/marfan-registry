@@ -58,7 +58,7 @@ This example **only applies to server rendering** and should be only used in the
 From the [original example in the ReactRouter docs](https://react-router.now.sh/ServerRouter)
  
 ```javascript
-   import React from 'react'
+   import React, { Component } from 'react'
    import { renderToString } from 'react-dom/server'
    import { ServerRouter, createServerRenderContext } from 'react-router'
    

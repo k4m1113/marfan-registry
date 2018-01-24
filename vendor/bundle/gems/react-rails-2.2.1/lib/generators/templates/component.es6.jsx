@@ -1,4 +1,4 @@
-<%= file_header %>class <%= component_name %> extends React.Component {
+<%= file_header %>class <%= component_name %> extends Component {
   render () {
 <% if attributes.size > 0 -%>
     return (

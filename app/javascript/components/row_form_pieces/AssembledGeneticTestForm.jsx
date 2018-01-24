@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import FileAttachmentButton from './FileAttachmentButton';
 import HiddenFields from './HiddenFields';
@@ -6,7 +6,7 @@ import NoteField from './NoteField';
 import SelectConstructor from './SelectConstructor';
 import TimeAgoField from './TimeAgoField';
 
-export default class AssembledGeneticTestForm extends React.Component {
+export default class AssembledGeneticTestForm extends Component {
   constructor(props) {
     super(props);
     this.state = {

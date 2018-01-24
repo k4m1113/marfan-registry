@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+React, { Component } from 'react';
 
 const HelloWorld = ({ name, updateName }) => (
   <div>

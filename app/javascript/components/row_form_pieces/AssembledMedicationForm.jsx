@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import HiddenFields from './HiddenFields';
 import MedFormFields from './MedFormFields';
 
-export default class AssembledMedicationForm extends React.Component {
+export default class AssembledMedicationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {

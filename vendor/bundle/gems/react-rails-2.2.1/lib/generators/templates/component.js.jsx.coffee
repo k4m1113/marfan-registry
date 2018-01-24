@@ -1,4 +1,4 @@
-class @<%= component_name %> extends React.Component
+class @<%= component_name %> extends Component
 <% if attributes.size > 0 -%>
   @propTypes =
 <% attributes.each do |attribute| -%>

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export default class EpicAddForm extends React.Component {
+export default class EpicAddForm extends Component {
   render() {
     return (
       <div>

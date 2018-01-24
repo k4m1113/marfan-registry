@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Component } from 'react';
 import $ from 'jquery';
 import SelectConstructor from './SelectConstructor';
 require('../addKeyboard');
@@ -7,7 +7,7 @@ require('jquery-ujs');
 require('jquery-ui/ui/core.js');
 require('jquery-ui/ui/position');
 
-export default class MeasurementField extends React.Component {
+export default class MeasurementField extends Component {
   constructor(props) {
     super(props);
     this.state = {

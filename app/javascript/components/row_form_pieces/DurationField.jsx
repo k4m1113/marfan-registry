@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import SelectConstructor from './SelectConstructor';
@@ -7,7 +7,7 @@ require('jquery-ujs');
 require('jquery-ui/ui/core.js');
 require('jquery-ui/ui/position');
 
-export default class DurationField extends React.Component {
+export default class DurationField extends Component {
   constructor(props) {
     super(props);
     this.state = {

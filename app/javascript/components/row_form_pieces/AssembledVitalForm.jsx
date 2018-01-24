@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import fetch from 'whatwg-fetch';
 import HiddenFields from './HiddenFields';
 import MeasurementField from './MeasurementField';
 
-export default class AssembledVitalForm extends React.Component {
+export default class AssembledVitalForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,13 +18,13 @@ export default class AssembledVitalForm extends React.Component {
   }
 
   componentWillUnmount(event) {
-    fetch(`/visits/${this.state.visit}.json`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.ajaxData())
-    })
+    // fetch(`/visits/${this.state.visit}.json`, {
+    //   method: 'PUT',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(this.ajaxData())
+    // })
     // $.ajax({
     //   type: 'PUT',
     //   url: `/visits/${this.state.visit}.json`,
