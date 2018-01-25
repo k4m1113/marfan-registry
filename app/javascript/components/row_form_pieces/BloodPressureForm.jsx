@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import $ from 'jquery';
+import HiddenFields from './HiddenFields';
+import InputMask from 'react-input-mask';
 import SelectConstructor from './SelectConstructor';
 
 require('../addKeyboard');
@@ -8,12 +10,12 @@ require('jquery-ujs');
 require('jquery-ui/ui/core.js');
 require('jquery-ui/ui/position');
 
-export default class MeasurementField extends Component {
+export default class BloodPressureForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       measurement: null,
-      units: null,
+      units: 'mmHG',
     }
     this.keyboardize = this.keyboardize.bind(this)
     this.handleMeasurementChange = this.handleMeasurementChange.bind(this)
@@ -49,10 +51,16 @@ export default class MeasurementField extends Component {
   render() {
     const options = this.props.topic.units_of_measurement
     return (
-      <div className="form-inline">
-        <input
-          type="number"
-          name="measurement"
+      <div className="form-inline col-10">
+        <HiddenFields
+          visit={this.props.visit}
+          topic={this.props.topic}
+          parameterizedPlural={this.props.parameterizedPlural}
+          rowID={this.props.rowID}
+        />
+        <InputMask
+          mask="999/999"
+          name="bp"
           id={'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_test_amount'}
           className='form-control calculator'
           min={this.props.topic.min_value}
@@ -86,12 +94,12 @@ export default class MeasurementField extends Component {
   }
 }
 
-MeasurementField.defaultProps = {
+BloodPressureForm.defaultProps = {
   title: 'units',
   multiSelect: false,
 };
 
-MeasurementField.propTypes = {
+BloodPressureForm.propTypes = {
   topic: PropTypes.object.isRequired,
   parameterizedPlural: PropTypes.string.isRequired,
   multiSelect: PropTypes.bool.isRequired,

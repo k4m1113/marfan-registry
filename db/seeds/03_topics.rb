@@ -291,15 +291,7 @@ Topic.create!(
   units_of_measurement: %w[m in]
 ).move_to_child_of(vitals)
 Topic.create!(
-  name: 'SBP',
-  topic_type: 'vital',
-  min_value: 0,
-  max_value: 250,
-  step: 1,
-  units_of_measurement: %w[mmHg]
-).move_to_child_of(vitals)
-Topic.create!(
-  name: 'DBP',
+  name: 'blood pressure',
   topic_type: 'vital',
   min_value: 0,
   max_value: 250,
@@ -1602,3 +1594,5 @@ Topic.all.each do |topic|
     topic.update(related: fam)
   end
 end
+
+puts "#{Topic.count} topics seeded."

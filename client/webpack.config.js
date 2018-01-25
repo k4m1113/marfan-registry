@@ -199,5 +199,6 @@ module.exports = {
         fs.writeFileSync(path.join(__dirname, '..', "config/initializers/fingerprint.rb"), output, "utf8");
       });
     }
-  ]
+  ],
+  stats: "none"
 };

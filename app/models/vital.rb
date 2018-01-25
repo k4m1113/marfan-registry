@@ -45,6 +45,9 @@ class Vital < ApplicationRecord
         unit = Unit.new("#{self.test_amount} tempF").convert_to('tempC')
         self.measurement = unit.scalar.to_f.round(3)
       end
+    elsif self.topic.name == 'blood pressure'
+      parsed = self.test_amount.gsub!('_', '').split('/').map(&:to_i).join('/')
+      self.measurement = "#{parsed} mmHG"
     else
       unless self.measurement
         self.measurement = self.test_amount

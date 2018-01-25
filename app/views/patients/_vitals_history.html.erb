@@ -26,12 +26,8 @@
         <%= weight.nil? ? '-' : weight.measurement.to_f.round(1) %>
       </td>
       <td>
-        <% sbp = vitals.select {|vital| vital.topic.name == 'SBP'}[0] %>
-        <%= sbp.nil? ? '-' : sbp.measurement %>
-      </td>
-      <td>
-        <% dbp = vitals.select {|vital| vital.topic.name == 'DBP'}[0] %>
-        <%= dbp.nil? ? '-' : dbp.measurement %>
+        <% bp = vitals.select {|vital| vital.topic.name == 'blood pressure'}[0] %>
+        <%= bp.nil? ? '-' : bp.measurement %>
       </td>
       <td>
         <% hr = vitals.select {|vital| vital.topic.name == 'heart rate'}[0] %>

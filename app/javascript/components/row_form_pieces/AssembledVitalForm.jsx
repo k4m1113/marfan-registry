@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import BloodPressureForm from './BloodPressureForm';
 import HiddenFields from './HiddenFields';
 import MeasurementField from './MeasurementField';
 
@@ -18,21 +19,18 @@ export default class AssembledVitalForm extends Component {
   }
 
   componentWillUnmount(event) {
-    // fetch(`/visits/${this.state.visit}.json`, {
-    //   method: 'PUT',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(this.ajaxData())
-    // })
-    // $.ajax({
-    //   type: 'PUT',
-    //   url: `/visits/${this.state.visit}.json`,
-    //   data: JSON.stringify(this.ajaxData()),
-    //   contentType: 'application/json',
-    //   dataType: 'json',
-    //   error: response => console.log('ERROR!!1!!!!11!', response),
-    // });
+    const data = JSON.stringify(this.ajaxData())
+    fetch(`/visits/${this.state.visit}.json`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: data
+    })
+    .then(function(response) {
+      console.log(response.json())
+    })
+    .then(function(data){ alert( JSON.stringify( data ) ) })
   }
 
   handleChange(value) {
@@ -58,11 +56,23 @@ export default class AssembledVitalForm extends Component {
 
   render() {
     const parameterizedPlural = 'vitals'
-    return (
-      <div className="form-group row">
-        <label className="col-2 col-form-label">
-          {this.props.topic.name}
-        </label>
+    var form;
+    if (this.props.topic.name == 'blood pressure') {
+      form = (
+        <BloodPressureForm
+          visit={this.props.visit}
+          topic={this.props.topic}
+          parameterizedPlural={parameterizedPlural}
+          title={this.props.topic.name}
+          rowID={this.props.rowID}
+          measurementValue={this.state.measurement}
+          unitOfMeas={this.state.units}
+          onMeasChange={this.handleChange}
+        />
+      )
+    }
+    else {
+      form = (
         <div className="form-inline col-10">
           <HiddenFields
             visit={this.props.visit}
@@ -80,6 +90,15 @@ export default class AssembledVitalForm extends Component {
             onMeasChange={this.handleChange}
           />
         </div>
+      )
+    }
+
+    return (
+      <div className="form-group row">
+        <label className="col-2 col-form-label">
+          {this.props.topic.name}
+        </label>
+        {form}
       </div>
     );
   }

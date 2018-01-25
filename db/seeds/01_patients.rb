@@ -388,3 +388,5 @@ Patient.create!(
   phone_1: 3333333333,
   email: "ladym@murders4u.com"
 )
+
+puts "#{Patient.count} patients seeded."

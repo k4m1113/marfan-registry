@@ -19,3 +19,5 @@ Clinician.create!(
 #   patient_id: lucky_victim.id,
 #   primary_reason: 'checkup'
 # )
+
+puts "#{Clinician.count} clinicians seeded."

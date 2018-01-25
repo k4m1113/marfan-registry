@@ -159,7 +159,7 @@ class Patient < ApplicationRecord
   end
 
   def vitals_show_header
-    ['Date', 'Height (m)', 'Weight (kg)', 'SBP (mmHG)', 'DBP (mmHG)', 'HR (bpm)', 'Temp (°C)']
+    ['Date', 'Height (m)', 'Weight (kg)', 'BP (mmHG)', 'HR (bpm)', 'Temp (°C)']
   end
 
   def heart_measurements_by_date

@@ -23,7 +23,7 @@ module Report
     vitals = self.vitals
     phrases = []
 
-    phrases << "a blood pressure of #{vitals.select { |v| v.topic.name == 'SBP' }[0].measurement}/#{vitals.select { |v| v.topic.name == 'DBP' }[0].measurement}" if vitals.select { |v| v.topic.name == 'SBP' }[0]
+    phrases << "a blood pressure of #{vitals.select { |v| v.topic.name == 'blood pressure' }[0].measurement}" if vitals.select { |v| v.topic.name == 'blood pressure' }[0]
     phrases << "a pulse of #{vitals.select { |v| v.topic.name == 'heart rate' }[0].measurement}" if vitals.select { |v| v.topic.name == 'heart rate' }[0]
     phrases << "a height of #{vitals.select { |v| v.topic.name == 'height' }[0].measurement.to_f.round(2)}m" if vitals.select { |v| v.topic.name == 'height' }[0]
     phrases << "a weight of #{vitals.select { |v| v.topic.name == 'weight' }[0].measurement.to_f.round(2)}kg" if vitals.select { |v| v.topic.name == 'weight' }[0]
