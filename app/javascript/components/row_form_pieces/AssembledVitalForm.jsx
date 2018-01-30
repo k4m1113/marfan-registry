@@ -15,6 +15,7 @@ export default class AssembledVitalForm extends Component {
       units: null,
     };
     this.handleChange = this.handleChange.bind(this)
+    this.handleBPChange = this.handleBPChange.bind(this)
     this.ajaxData = this.ajaxData.bind(this)
   }
 
@@ -37,6 +38,13 @@ export default class AssembledVitalForm extends Component {
     this.setState({
       measurement: value.measurement || this.state.measurement,
       units: value.units || this.state.units,
+    });
+  }
+
+  handleBPChange(value) {
+    this.setState({
+      measurement: this.state.measurement,
+      units: 'mmHG',
     });
   }
 
@@ -67,7 +75,7 @@ export default class AssembledVitalForm extends Component {
           rowID={this.props.rowID}
           measurementValue={this.state.measurement}
           unitOfMeas={this.state.units}
-          onMeasChange={this.handleChange}
+          onMeasChange={this.handleBPChange}
         />
       )
     }

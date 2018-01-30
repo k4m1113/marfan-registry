@@ -14,7 +14,7 @@ export default class ReasonForVisitHeader extends Component {
     const options = reasonsForVisit.map(r => (
       <div>
         <label
-          className="btn btn-secondary"
+          className="btn btn-light"
           id={'label_primary_reason_' + r.replace(' ', '_')}
         >
           <input

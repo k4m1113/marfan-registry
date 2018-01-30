@@ -4,13 +4,13 @@
         <div class="input-group">
           <%= text_field_tag :search, params[:search], placeholder:  "ex: 'John', 'Jane Doe', 'Doe'", class: "form-control"%>
           <span class="input-group-btn">
-            <%= button_to "Search Patients", patients_path, class: "btn btn-secondary", method: "get", id: "search", type: "button" %>
+            <%= button_to "Search Patients", patients_path, class: "btn btn-light", method: "get", id: "search", type: "button" %>
           </span>
         </div>
       <% end %>
     </div>
     <div class="col-sm-4">
-      <%= button_to "Add New Patient", new_patient_path, method: "get", class: "btn btn-block btn-secondary" %>
+      <%= button_to "Add New Patient", new_patient_path, method: "get", class: "btn btn-block btn-light" %>
     </div>
   </div>
   <hr />
@@ -57,13 +57,13 @@
                 <form class='button_to' method='post' action='/visits'>
                   <input type="hidden" id="visit_patient_id" name="visit[patient_id]" value="<%= p.id %>"/>
                   <input type="hidden" id="visit_clinician_id" name="visit[clinician_id]" value="1"/>
-                  <button class='btn btn-secondary btn-left' type='submit'>
+                  <button class='btn btn-light btn-left' type='submit'>
                     New Visit
                   </button>
                 </form>
 
-                <%= link_to "Edit", edit_patient_path(p.id), method: :get, class: "btn btn-secondary" %>
-                <%= link_to "Destroy", patient_path(p.id), method: :delete, data: { confirm: "Are you sure you want to delete all records for #{p.full_name}?"}, class: "btn btn-secondary" %>
+                <%= link_to "Edit", edit_patient_path(p.id), method: :get, class: "btn btn-light" %>
+                <%= link_to "Destroy", patient_path(p.id), method: :delete, data: { confirm: "Are you sure you want to delete all records for #{p.full_name}?"}, class: "btn btn-light" %>
               </div>
             </td>
           </tr>

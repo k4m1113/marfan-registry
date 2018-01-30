@@ -1,4 +1,4 @@
-<ul class="navbar-nav mr-auto">
+<ul class="nav mr-auto">
   <li class="nav-item" title="history for <%= "#{patient.last_name}, #{patient.first_name}" %>">
     <a class="nav-link" href="/patients/<%= patient.id %>">
       <%= "#{patient.last_name}, #{patient.first_name} (MRN: #{patient.id})" %>
@@ -64,7 +64,7 @@
     </li>
   <% end %>
 </ul>
-<ul class="nav navbar-nav ml-auto justify-content-end">
+<ul class="nav ml-auto justify-content-end">
   <li class="nav-item with-select">
     <select id="quick-add" class="form-control">
       <option></option>

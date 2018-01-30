@@ -6,7 +6,7 @@ export default class PrimaryReasonButton extends Component {
     const diagnosis = this.props.diagnosis;
     return (
       <div style={{ display: 'inline-block' }}>
-        <label className="btn btn-secondary btn-sm">
+        <label className="btn btn-light btn-sm">
           <input
             type="radio"
             autoComplete="off"

@@ -33,7 +33,7 @@
     </div>
     <div class="form-inline col-9">
       <%= ff.number_field :born_years_ago, step: 1, in: 1..99, class: "form-control", value: "#{@family_member.future_patient_data_hash["born_years_ago"] if !@family_member.future_patient_data_hash["born_years_ago"].blank?}" %>
-      <%= ff.check_box :deceased, class: "form-control btn btn-secondary" %>
+      <%= ff.check_box :deceased, class: "form-control btn btn-light" %>
       &nbsp
       <%= ff.label "Deceased", class: "form-control-label" %>
     </div>

@@ -1,16 +1,16 @@
 <div class="btn-group" role="group">
-  <%= link_to edit_family_member_path(id: fm.id), method: :get, class: "btn btn-secondary btn-sm" do %>
+  <%= link_to edit_family_member_path(id: fm.id), method: :get, class: "btn btn-light btn-sm" do %>
     <i class="fa fa-pencil"></i>
   <% end %>
-  <%= link_to family_member_path(id: fm.id), method: :delete, class: "btn btn-secondary btn-sm", data: { confirm: "Are you sure you want to delete record of #{fm.topic.name} #{fm.id} from record of #{fm.patient.full_name}?"} do %>
+  <%= link_to family_member_path(id: fm.id), method: :delete, class: "btn btn-light btn-sm", data: { confirm: "Are you sure you want to delete record of #{fm.topic.name} #{fm.id} from record of #{fm.patient.full_name}?"} do %>
     <i class="fa fa-trash"></i>
   <% end %>
   <% if !fm.claimed_patient_id.nil? %>
-    <%= link_to patient_path(fm.claimed_patient_id), class: "btn btn-secondary btn-sm"  do %>
+    <%= link_to patient_path(fm.claimed_patient_id), class: "btn btn-light btn-sm"  do %>
       <i class="fa fa-user"></i>
     <% end %>
   <% else %>
-    <%= link_to new_patient_path(fm: fm), method: :get, class: "btn btn-secondary btn-sm" do %>
+    <%= link_to new_patient_path(fm: fm), method: :get, class: "btn btn-light btn-sm" do %>
       <i class="fa fa-user-plus"></i>
     <% end %>
   <% end %>

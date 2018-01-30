@@ -46,6 +46,7 @@ export default class BloodPressureForm extends Component {
     this.props.onMeasChange({
       [event.target.name]: event.target.value,
     })
+    console.log(this.state)
   }
 
   render() {
@@ -60,18 +61,15 @@ export default class BloodPressureForm extends Component {
         />
         <InputMask
           mask="999/999"
-          name="bp"
+          name="measurement"
           id={'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_test_amount'}
           className='form-control calculator'
-          min={this.props.topic.min_value}
-          max={this.props.topic.max_value}
-          step={this.props.topic.step}
           value={this.state.measurement}
           ref={el => this.el = el}
           onChange={this.handleMeasurementChange}
         />
         <button
-          className="btn btn-secondary calculator"
+          className="btn btn-light calculator"
           type="button"
           id={this.props.parameterizedPlural + '_' + this.props.rowID + '_test_calc_button'}
           onClick={this.keyboardize}

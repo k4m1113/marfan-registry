@@ -125,7 +125,7 @@ module ApplicationHelper
     if topic_group.any?{ |t| t.topic_id == cat.id }
       return 'btn-info'
     else
-      return 'btn-secondary'
+      return 'btn-light'
     end
   end
 

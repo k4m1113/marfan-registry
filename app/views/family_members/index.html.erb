@@ -4,7 +4,7 @@
       <div class="input-group">
         <%= text_field_tag :search, params[:search], placeholder:  "Search Family Members...", class: "form-control" %>
         <span class="input-group-btn">
-          <%= button_tag(family_members_path, method: "get", type: "submit", class: "btn btn-secondary", id: "search" ) do %>
+          <%= button_tag(family_members_path, method: "get", type: "submit", class: "btn btn-light", id: "search" ) do %>
           <i class="fa fa-search"></i>
           <% end %>
         </span>

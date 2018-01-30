@@ -63,7 +63,7 @@ export default class MeasurementField extends Component {
           onChange={this.handleMeasurementChange}
         />
         <button
-          className="btn btn-secondary calculator"
+          className="btn btn-light calculator"
           type="button"
           id={this.props.parameterizedPlural + '_' + this.props.rowID + '_test_calc_button'}
           onClick={this.keyboardize}

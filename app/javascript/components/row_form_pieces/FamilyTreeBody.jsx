@@ -31,7 +31,7 @@ export default class FamilyTreeBody extends Component {
               <div className="modal-header">
                 <h5 className="modal-title form-inline" id={relationship + this.props.index + 'Label'}>
                   {relationship} {this.props.index}
-                  &nbsp
+                  {' '}
                   <select className="existingPatient form-control" id={'existing' + this.props.index}>
                     <option />
                   </select>
@@ -49,7 +49,7 @@ export default class FamilyTreeBody extends Component {
                 />
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-light" data-dismiss="modal">Close</button>
                 <button type="submit" className="btn btn-primary">
                 Save {this.props.topic.name} {this.props.index}
                 </button>

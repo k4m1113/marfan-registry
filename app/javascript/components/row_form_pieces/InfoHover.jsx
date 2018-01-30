@@ -8,7 +8,7 @@ export default class InfoHover extends Component {
     return (
       <button
         type="button"
-        className="btn btn-secondary tooltip-trigger"
+        className="btn btn-light tooltip-trigger"
         data-toggle="tooltip"
         data-html="true"
         title={tooltipTitle}

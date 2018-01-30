@@ -27,7 +27,7 @@ export default class FileAttachmentButton extends Component {
           onChange={this.handleFileChange}
           value={this.state.file}
         />
-        <button className="btn btn-secondary file-attachment" type="button">
+        <button className="btn btn-light file-attachment" type="button">
           <label
             htmlFor={'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_attachment'}
             className="fontawesome-icon"

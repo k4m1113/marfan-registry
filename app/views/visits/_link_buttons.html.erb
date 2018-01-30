@@ -1,11 +1,11 @@
 <div class="btn-group" role="group">
-  <%= link_to edit_visit_path(id: v.id), method: :get, class: "btn btn-secondary btn-sm", title: 'edit visit' do %>
+  <%= link_to edit_visit_path(id: v.id), method: :get, class: "btn btn-light btn-sm", title: 'edit visit' do %>
     <i class="fa fa-pencil"></i>
   <% end %>
-  <%= link_to report_visit_path(v.id), method: :get, class: "btn btn-secondary btn-sm", title: 'view after-visit letter' do %>
+  <%= link_to report_visit_path(v.id), method: :get, class: "btn btn-light btn-sm", title: 'view after-visit letter' do %>
     <i class="fa fa-file-text-o"></i>
   <% end %>
-  <%= link_to visit_path(id: v.id), method: :delete, class: "btn btn-secondary btn-sm", title: 'delete visit', data: { confirm: 'Delete Visit?' } do %>
+  <%= link_to visit_path(id: v.id), method: :delete, class: "btn btn-light btn-sm", title: 'delete visit', data: { confirm: 'Delete Visit?' } do %>
     <i class="fa fa-trash"></i>
   <% end %>
 </div>

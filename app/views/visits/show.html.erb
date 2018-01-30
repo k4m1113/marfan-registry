@@ -8,9 +8,9 @@
     </h1>
     <hr />
     <div class="btn-group" role="group">
-      <%= button_to "Generate Report", report_visit_path(id: @visit.id), type: "button", method: :get, class: "btn btn-secondary disabled" %>
-      <%= button_to "Edit Visit", edit_visit_path(id: @visit.id), type: "button", method: :get, class: "btn btn-secondary" %>
-      <%= button_to "Destroy Visit", visit_path(id: @visit.id), method: :delete, type: "button", class: "btn btn-secondary" %>
+      <%= button_to "Generate Report", report_visit_path(id: @visit.id), type: "button", method: :get, class: "btn btn-light disabled" %>
+      <%= button_to "Edit Visit", edit_visit_path(id: @visit.id), type: "button", method: :get, class: "btn btn-light" %>
+      <%= button_to "Destroy Visit", visit_path(id: @visit.id), method: :delete, type: "button", class: "btn btn-light" %>
     </div>
     <br /><br />
     <%= render 'patients/patient_info_header', patient: @patient %>

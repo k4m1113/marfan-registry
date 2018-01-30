@@ -17,7 +17,7 @@ export default class EpicAddForm extends Component {
                 <button
                   type="button"
                   id="medParse"
-                  className="btn btn-secondary"
+                  className="btn btn-light"
                   data-animation="false"
                   data-toggle="modal"
                   data-target="#medModal"
@@ -75,7 +75,7 @@ export default class EpicAddForm extends Component {
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn btn-secondary"
+                  className="btn btn-light"
                   data-dismiss="modal"
                 >
                   Close

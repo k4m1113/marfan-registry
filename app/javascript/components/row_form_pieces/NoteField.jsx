@@ -29,7 +29,7 @@ export default class NoteField extends Component {
           rows="1"
         />
         <button
-          className="btn btn-secondary"
+          className="btn btn-light"
           data-toggle="modal"
           data-target={'#row_' + this.props.rowID + '_scribble_modal'}
           type="button"

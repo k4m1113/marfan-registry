@@ -11,7 +11,7 @@ export default class FindRelated extends Component {
       buttons = nextStep.map(s => (
         <button
           type="button"
-          className="btn btn-secondary related" data-topic={JSON.stringify(s)}
+          className="btn btn-light related" data-topic={JSON.stringify(s)}
           key={s.name + 'related'}
         >
           {s.name + ' '}

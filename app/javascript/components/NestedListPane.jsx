@@ -11,7 +11,7 @@ export default class NestedListPane extends Component {
       (
         <Tab
           key={this.props.paneKey + '_' + keyify(tg)}
-          className="paneTopicGroup btn btn-secondary"
+          className="paneTopicGroup btn btn-light"
         >
           {tg}
         </Tab>

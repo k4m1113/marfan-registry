@@ -60,7 +60,7 @@ export default class DurationField extends Component {
           onChange={this.handleChange}
         />
         <button
-          className="btn btn-secondary calculator"
+          className="btn btn-light calculator"
           type="button"
           id={this.props.parameterizedPlural + '_' + this.props.rowID + '_duration_calc_button'}
           onClick={this.keyboardize}

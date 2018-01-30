@@ -102,7 +102,7 @@ export default class MedFormFields extends Component {
             />
             <span className='input-group-btn'>
               <button
-                className='btn btn-secondary calculator'
+                className='btn btn-light calculator'
                 type='button'
                 id={'medications_' + this.props.rowID + '_dose_calc_button'}
                 onClick={this.keyboardize0}
@@ -136,7 +136,7 @@ export default class MedFormFields extends Component {
               onChange={this.handleChange}
             />
             <button
-              className='btn btn-secondary calculator'
+              className='btn btn-light calculator'
               type='button'
               id={'medications_' + this.props.rowID + '_dose_units_calc_button'}
               onClick={this.keyboardize1}
