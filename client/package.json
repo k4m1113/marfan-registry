@@ -11,7 +11,7 @@
     "build:development": "webpack -w --config webpack.config.js &&  ../bin/webpack-dev-server",
     "webpack:deploy": "webpack --config client/webpack.config.js -p",
     "postinstall": "cd client && yarn install && cd .. && bower install",
-    "heroku-postbuild": "yarn run webpack:deploy",
+    "heroku-postbuild": "yarn run webpack:deploy --verbose",
     "rails-server": "echo 'visit http://localhost:3000/hello_world' && foreman start -f Procfile.dev",
     "test": "RAILS_ENV=test webpack --config client/webpack.config.js"
   },
