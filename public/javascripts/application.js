@@ -60,67 +60,26 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 53);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
+__webpack_require__(1);
+__webpack_require__(2);
+__webpack_require__(3);
+__webpack_require__(4);
+module.exports = __webpack_require__(6);
 
-if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(77);
-} else {
-  module.exports = __webpack_require__(78);
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-if (process.env.NODE_ENV !== 'production') {
-  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-    Symbol.for &&
-    Symbol.for('react.element')) ||
-    0xeac7;
-
-  var isValidElement = function(object) {
-    return typeof object === 'object' &&
-      object !== null &&
-      object.$$typeof === REACT_ELEMENT_TYPE;
-  };
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(81)(isValidElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(83)();
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery JavaScript Library v3.2.1
+ * jQuery JavaScript Library v3.3.1
  * https://jquery.com/
  *
  * Includes Sizzle.js
@@ -130,7 +89,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * Released under the MIT license
  * https://jquery.org/license
  *
- * Date: 2017-03-20T18:59Z
+ * Date: 2018-01-20T17:24Z
  */
 ( function( global, factory ) {
 
@@ -192,16 +151,57 @@ var ObjectFunctionString = fnToString.call( Object );
 
 var support = {};
 
+var isFunction = function isFunction( obj ) {
+
+      // Support: Chrome <=57, Firefox <=52
+      // In some browsers, typeof returns "function" for HTML <object> elements
+      // (i.e., `typeof document.createElement( "object" ) === "function"`).
+      // We don't want to classify *any* DOM node as a function.
+      return typeof obj === "function" && typeof obj.nodeType !== "number";
+  };
 
 
-	function DOMEval( code, doc ) {
+var isWindow = function isWindow( obj ) {
+		return obj != null && obj === obj.window;
+	};
+
+
+
+
+	var preservedScriptAttributes = {
+		type: true,
+		src: true,
+		noModule: true
+	};
+
+	function DOMEval( code, doc, node ) {
 		doc = doc || document;
 
-		var script = doc.createElement( "script" );
+		var i,
+			script = doc.createElement( "script" );
 
 		script.text = code;
+		if ( node ) {
+			for ( i in preservedScriptAttributes ) {
+				if ( node[ i ] ) {
+					script[ i ] = node[ i ];
+				}
+			}
+		}
 		doc.head.appendChild( script ).parentNode.removeChild( script );
 	}
+
+
+function toType( obj ) {
+	if ( obj == null ) {
+		return obj + "";
+	}
+
+	// Support: Android <=2.3 only (functionish RegExp)
+	return typeof obj === "object" || typeof obj === "function" ?
+		class2type[ toString.call( obj ) ] || "object" :
+		typeof obj;
+}
 /* global Symbol */
 // Defining this global in .eslintrc.json would create a danger of using the global
 // unguarded in another place, it seems safer to define global only for this module
@@ -209,7 +209,7 @@ var support = {};
 
 
 var
-	version = "3.2.1",
+	version = "3.3.1",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -221,16 +221,7 @@ var
 
 	// Support: Android <=4.0 only
 	// Make sure we trim BOM and NBSP
-	rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,
-
-	// Matches dashed string for camelizing
-	rmsPrefix = /^-ms-/,
-	rdashAlpha = /-([a-z])/g,
-
-	// Used by jQuery.camelCase as callback to replace()
-	fcamelCase = function( all, letter ) {
-		return letter.toUpperCase();
-	};
+	rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
 
 jQuery.fn = jQuery.prototype = {
 
@@ -330,7 +321,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 	}
 
 	// Handle case when target is a string or something (possible in deep copy)
-	if ( typeof target !== "object" && !jQuery.isFunction( target ) ) {
+	if ( typeof target !== "object" && !isFunction( target ) ) {
 		target = {};
 	}
 
@@ -396,28 +387,6 @@ jQuery.extend( {
 
 	noop: function() {},
 
-	isFunction: function( obj ) {
-		return jQuery.type( obj ) === "function";
-	},
-
-	isWindow: function( obj ) {
-		return obj != null && obj === obj.window;
-	},
-
-	isNumeric: function( obj ) {
-
-		// As of jQuery 3.0, isNumeric is limited to
-		// strings and numbers (primitives or objects)
-		// that can be coerced to finite numbers (gh-2662)
-		var type = jQuery.type( obj );
-		return ( type === "number" || type === "string" ) &&
-
-			// parseFloat NaNs numeric-cast false positives ("")
-			// ...but misinterprets leading-number strings, particularly hex literals ("0x...")
-			// subtraction forces infinities to NaN
-			!isNaN( obj - parseFloat( obj ) );
-	},
-
 	isPlainObject: function( obj ) {
 		var proto, Ctor;
 
@@ -451,27 +420,9 @@ jQuery.extend( {
 		return true;
 	},
 
-	type: function( obj ) {
-		if ( obj == null ) {
-			return obj + "";
-		}
-
-		// Support: Android <=2.3 only (functionish RegExp)
-		return typeof obj === "object" || typeof obj === "function" ?
-			class2type[ toString.call( obj ) ] || "object" :
-			typeof obj;
-	},
-
 	// Evaluates a script in a global context
 	globalEval: function( code ) {
 		DOMEval( code );
-	},
-
-	// Convert dashed to camelCase; used by the css and data modules
-	// Support: IE <=9 - 11, Edge 12 - 13
-	// Microsoft forgot to hump their vendor prefix (#9572)
-	camelCase: function( string ) {
-		return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
 	},
 
 	each: function( obj, callback ) {
@@ -594,37 +545,6 @@ jQuery.extend( {
 	// A global GUID counter for objects
 	guid: 1,
 
-	// Bind a function to a context, optionally partially applying any
-	// arguments.
-	proxy: function( fn, context ) {
-		var tmp, args, proxy;
-
-		if ( typeof context === "string" ) {
-			tmp = fn[ context ];
-			context = fn;
-			fn = tmp;
-		}
-
-		// Quick check to determine if target is callable, in the spec
-		// this throws a TypeError, but we will just return undefined.
-		if ( !jQuery.isFunction( fn ) ) {
-			return undefined;
-		}
-
-		// Simulated bind
-		args = slice.call( arguments, 2 );
-		proxy = function() {
-			return fn.apply( context || this, args.concat( slice.call( arguments ) ) );
-		};
-
-		// Set the guid of unique handler to the same of original handler, so it can be removed
-		proxy.guid = fn.guid = fn.guid || jQuery.guid++;
-
-		return proxy;
-	},
-
-	now: Date.now,
-
 	// jQuery.support is not used in Core but other projects attach their
 	// properties to it so it needs to exist.
 	support: support
@@ -647,9 +567,9 @@ function isArrayLike( obj ) {
 	// hasOwn isn't used here due to false negatives
 	// regarding Nodelist length in IE
 	var length = !!obj && "length" in obj && obj.length,
-		type = jQuery.type( obj );
+		type = toType( obj );
 
-	if ( type === "function" || jQuery.isWindow( obj ) ) {
+	if ( isFunction( obj ) || isWindow( obj ) ) {
 		return false;
 	}
 
@@ -2969,11 +2889,9 @@ var rsingleTag = ( /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|
 
 
 
-var risSimple = /^.[^:#\[\.,]*$/;
-
 // Implement the identical functionality for filter and not
 function winnow( elements, qualifier, not ) {
-	if ( jQuery.isFunction( qualifier ) ) {
+	if ( isFunction( qualifier ) ) {
 		return jQuery.grep( elements, function( elem, i ) {
 			return !!qualifier.call( elem, i, elem ) !== not;
 		} );
@@ -2993,16 +2911,8 @@ function winnow( elements, qualifier, not ) {
 		} );
 	}
 
-	// Simple selector that can be filtered directly, removing non-Elements
-	if ( risSimple.test( qualifier ) ) {
-		return jQuery.filter( qualifier, elements, not );
-	}
-
-	// Complex selector, compare the two sets, removing non-Elements
-	qualifier = jQuery.filter( qualifier, elements );
-	return jQuery.grep( elements, function( elem ) {
-		return ( indexOf.call( qualifier, elem ) > -1 ) !== not && elem.nodeType === 1;
-	} );
+	// Filtered directly for both simple and complex selectors
+	return jQuery.filter( qualifier, elements, not );
 }
 
 jQuery.filter = function( expr, elems, not ) {
@@ -3123,7 +3033,7 @@ var rootjQuery,
 						for ( match in context ) {
 
 							// Properties of context are called as methods if possible
-							if ( jQuery.isFunction( this[ match ] ) ) {
+							if ( isFunction( this[ match ] ) ) {
 								this[ match ]( context[ match ] );
 
 							// ...and otherwise set as attributes
@@ -3166,7 +3076,7 @@ var rootjQuery,
 
 		// HANDLE: $(function)
 		// Shortcut for document ready
-		} else if ( jQuery.isFunction( selector ) ) {
+		} else if ( isFunction( selector ) ) {
 			return root.ready !== undefined ?
 				root.ready( selector ) :
 
@@ -3481,11 +3391,11 @@ jQuery.Callbacks = function( options ) {
 
 					( function add( args ) {
 						jQuery.each( args, function( _, arg ) {
-							if ( jQuery.isFunction( arg ) ) {
+							if ( isFunction( arg ) ) {
 								if ( !options.unique || !self.has( arg ) ) {
 									list.push( arg );
 								}
-							} else if ( arg && arg.length && jQuery.type( arg ) !== "string" ) {
+							} else if ( arg && arg.length && toType( arg ) !== "string" ) {
 
 								// Inspect recursively
 								add( arg );
@@ -3600,11 +3510,11 @@ function adoptValue( value, resolve, reject, noValue ) {
 	try {
 
 		// Check for promise aspect first to privilege synchronous behavior
-		if ( value && jQuery.isFunction( ( method = value.promise ) ) ) {
+		if ( value && isFunction( ( method = value.promise ) ) ) {
 			method.call( value ).done( resolve ).fail( reject );
 
 		// Other thenables
-		} else if ( value && jQuery.isFunction( ( method = value.then ) ) ) {
+		} else if ( value && isFunction( ( method = value.then ) ) ) {
 			method.call( value, resolve, reject );
 
 		// Other non-thenables
@@ -3662,14 +3572,14 @@ jQuery.extend( {
 						jQuery.each( tuples, function( i, tuple ) {
 
 							// Map tuples (progress, done, fail) to arguments (done, fail, progress)
-							var fn = jQuery.isFunction( fns[ tuple[ 4 ] ] ) && fns[ tuple[ 4 ] ];
+							var fn = isFunction( fns[ tuple[ 4 ] ] ) && fns[ tuple[ 4 ] ];
 
 							// deferred.progress(function() { bind to newDefer or newDefer.notify })
 							// deferred.done(function() { bind to newDefer or newDefer.resolve })
 							// deferred.fail(function() { bind to newDefer or newDefer.reject })
 							deferred[ tuple[ 1 ] ]( function() {
 								var returned = fn && fn.apply( this, arguments );
-								if ( returned && jQuery.isFunction( returned.promise ) ) {
+								if ( returned && isFunction( returned.promise ) ) {
 									returned.promise()
 										.progress( newDefer.notify )
 										.done( newDefer.resolve )
@@ -3723,7 +3633,7 @@ jQuery.extend( {
 										returned.then;
 
 									// Handle a returned thenable
-									if ( jQuery.isFunction( then ) ) {
+									if ( isFunction( then ) ) {
 
 										// Special processors (notify) just wait for resolution
 										if ( special ) {
@@ -3819,7 +3729,7 @@ jQuery.extend( {
 							resolve(
 								0,
 								newDefer,
-								jQuery.isFunction( onProgress ) ?
+								isFunction( onProgress ) ?
 									onProgress :
 									Identity,
 								newDefer.notifyWith
@@ -3831,7 +3741,7 @@ jQuery.extend( {
 							resolve(
 								0,
 								newDefer,
-								jQuery.isFunction( onFulfilled ) ?
+								isFunction( onFulfilled ) ?
 									onFulfilled :
 									Identity
 							)
@@ -3842,7 +3752,7 @@ jQuery.extend( {
 							resolve(
 								0,
 								newDefer,
-								jQuery.isFunction( onRejected ) ?
+								isFunction( onRejected ) ?
 									onRejected :
 									Thrower
 							)
@@ -3882,8 +3792,15 @@ jQuery.extend( {
 					// fulfilled_callbacks.disable
 					tuples[ 3 - i ][ 2 ].disable,
 
+					// rejected_handlers.disable
+					// fulfilled_handlers.disable
+					tuples[ 3 - i ][ 3 ].disable,
+
 					// progress_callbacks.lock
-					tuples[ 0 ][ 2 ].lock
+					tuples[ 0 ][ 2 ].lock,
+
+					// progress_handlers.lock
+					tuples[ 0 ][ 3 ].lock
 				);
 			}
 
@@ -3953,7 +3870,7 @@ jQuery.extend( {
 
 			// Use .then() to unwrap secondary thenables (cf. gh-3000)
 			if ( master.state() === "pending" ||
-				jQuery.isFunction( resolveValues[ i ] && resolveValues[ i ].then ) ) {
+				isFunction( resolveValues[ i ] && resolveValues[ i ].then ) ) {
 
 				return master.then();
 			}
@@ -4081,7 +3998,7 @@ var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 		bulk = key == null;
 
 	// Sets many values
-	if ( jQuery.type( key ) === "object" ) {
+	if ( toType( key ) === "object" ) {
 		chainable = true;
 		for ( i in key ) {
 			access( elems, fn, i, key[ i ], true, emptyGet, raw );
@@ -4091,7 +4008,7 @@ var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 	} else if ( value !== undefined ) {
 		chainable = true;
 
-		if ( !jQuery.isFunction( value ) ) {
+		if ( !isFunction( value ) ) {
 			raw = true;
 		}
 
@@ -4133,6 +4050,23 @@ var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 
 	return len ? fn( elems[ 0 ], key ) : emptyGet;
 };
+
+
+// Matches dashed string for camelizing
+var rmsPrefix = /^-ms-/,
+	rdashAlpha = /-([a-z])/g;
+
+// Used by camelCase as callback to replace()
+function fcamelCase( all, letter ) {
+	return letter.toUpperCase();
+}
+
+// Convert dashed to camelCase; used by the css and data modules
+// Support: IE <=9 - 11, Edge 12 - 15
+// Microsoft forgot to hump their vendor prefix (#9572)
+function camelCase( string ) {
+	return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
+}
 var acceptData = function( owner ) {
 
 	// Accepts only:
@@ -4195,14 +4129,14 @@ Data.prototype = {
 		// Handle: [ owner, key, value ] args
 		// Always use camelCase key (gh-2257)
 		if ( typeof data === "string" ) {
-			cache[ jQuery.camelCase( data ) ] = value;
+			cache[ camelCase( data ) ] = value;
 
 		// Handle: [ owner, { properties } ] args
 		} else {
 
 			// Copy the properties one-by-one to the cache object
 			for ( prop in data ) {
-				cache[ jQuery.camelCase( prop ) ] = data[ prop ];
+				cache[ camelCase( prop ) ] = data[ prop ];
 			}
 		}
 		return cache;
@@ -4212,7 +4146,7 @@ Data.prototype = {
 			this.cache( owner ) :
 
 			// Always use camelCase key (gh-2257)
-			owner[ this.expando ] && owner[ this.expando ][ jQuery.camelCase( key ) ];
+			owner[ this.expando ] && owner[ this.expando ][ camelCase( key ) ];
 	},
 	access: function( owner, key, value ) {
 
@@ -4260,9 +4194,9 @@ Data.prototype = {
 
 				// If key is an array of keys...
 				// We always set camelCase keys, so remove that.
-				key = key.map( jQuery.camelCase );
+				key = key.map( camelCase );
 			} else {
-				key = jQuery.camelCase( key );
+				key = camelCase( key );
 
 				// If a key with the spaces exists, use it.
 				// Otherwise, create an array by matching non-whitespace
@@ -4408,7 +4342,7 @@ jQuery.fn.extend( {
 						if ( attrs[ i ] ) {
 							name = attrs[ i ].name;
 							if ( name.indexOf( "data-" ) === 0 ) {
-								name = jQuery.camelCase( name.slice( 5 ) );
+								name = camelCase( name.slice( 5 ) );
 								dataAttr( elem, name, data[ name ] );
 							}
 						}
@@ -4655,8 +4589,7 @@ var swap = function( elem, options, callback, args ) {
 
 
 function adjustCSS( elem, prop, valueParts, tween ) {
-	var adjusted,
-		scale = 1,
+	var adjusted, scale,
 		maxIterations = 20,
 		currentValue = tween ?
 			function() {
@@ -4674,30 +4607,33 @@ function adjustCSS( elem, prop, valueParts, tween ) {
 
 	if ( initialInUnit && initialInUnit[ 3 ] !== unit ) {
 
+		// Support: Firefox <=54
+		// Halve the iteration target value to prevent interference from CSS upper bounds (gh-2144)
+		initial = initial / 2;
+
 		// Trust units reported by jQuery.css
 		unit = unit || initialInUnit[ 3 ];
-
-		// Make sure we update the tween properties later on
-		valueParts = valueParts || [];
 
 		// Iteratively approximate from a nonzero starting point
 		initialInUnit = +initial || 1;
 
-		do {
+		while ( maxIterations-- ) {
 
-			// If previous iteration zeroed out, double until we get *something*.
-			// Use string for doubling so we don't accidentally see scale as unchanged below
-			scale = scale || ".5";
-
-			// Adjust and apply
-			initialInUnit = initialInUnit / scale;
+			// Evaluate and update our best guess (doubling guesses that zero out).
+			// Finish if the scale equals or crosses 1 (making the old*new product non-positive).
 			jQuery.style( elem, prop, initialInUnit + unit );
+			if ( ( 1 - scale ) * ( 1 - ( scale = currentValue() / initial || 0.5 ) ) <= 0 ) {
+				maxIterations = 0;
+			}
+			initialInUnit = initialInUnit / scale;
 
-		// Update scale, tolerating zero or NaN from tween.cur()
-		// Break the loop if scale is unchanged or perfect, or if we've just had enough.
-		} while (
-			scale !== ( scale = currentValue() / initial ) && scale !== 1 && --maxIterations
-		);
+		}
+
+		initialInUnit = initialInUnit * 2;
+		jQuery.style( elem, prop, initialInUnit + unit );
+
+		// Make sure we update the tween properties later on
+		valueParts = valueParts || [];
 	}
 
 	if ( valueParts ) {
@@ -4815,7 +4751,7 @@ var rcheckableType = ( /^(?:checkbox|radio)$/i );
 
 var rtagName = ( /<([a-z][^\/\0>\x20\t\r\n\f]+)/i );
 
-var rscriptType = ( /^$|\/(?:java|ecma)script/i );
+var rscriptType = ( /^$|^module$|\/(?:java|ecma)script/i );
 
 
 
@@ -4897,7 +4833,7 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 		if ( elem || elem === 0 ) {
 
 			// Add nodes directly
-			if ( jQuery.type( elem ) === "object" ) {
+			if ( toType( elem ) === "object" ) {
 
 				// Support: Android <=4.0 only, PhantomJS 1 only
 				// push.apply(_, arraylike) throws on ancient WebKit
@@ -5407,7 +5343,7 @@ jQuery.event = {
 			enumerable: true,
 			configurable: true,
 
-			get: jQuery.isFunction( hook ) ?
+			get: isFunction( hook ) ?
 				function() {
 					if ( this.originalEvent ) {
 							return hook( this.originalEvent );
@@ -5542,7 +5478,7 @@ jQuery.Event = function( src, props ) {
 	}
 
 	// Create a timestamp if incoming event doesn't have one
-	this.timeStamp = src && src.timeStamp || jQuery.now();
+	this.timeStamp = src && src.timeStamp || Date.now();
 
 	// Mark it as fixed
 	this[ jQuery.expando ] = true;
@@ -5741,14 +5677,13 @@ var
 
 	/* eslint-enable */
 
-	// Support: IE <=10 - 11, Edge 12 - 13
+	// Support: IE <=10 - 11, Edge 12 - 13 only
 	// In IE/Edge using regex groups here causes severe slowdowns.
 	// See https://connect.microsoft.com/IE/feedback/details/1736512/
 	rnoInnerhtml = /<script|<style|<link/i,
 
 	// checked="checked" or checked
 	rchecked = /checked\s*(?:[^=]|=\s*.checked.)/i,
-	rscriptTypeMasked = /^true\/(.*)/,
 	rcleanScript = /^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g;
 
 // Prefer a tbody over its parent table for containing new rows
@@ -5756,7 +5691,7 @@ function manipulationTarget( elem, content ) {
 	if ( nodeName( elem, "table" ) &&
 		nodeName( content.nodeType !== 11 ? content : content.firstChild, "tr" ) ) {
 
-		return jQuery( ">tbody", elem )[ 0 ] || elem;
+		return jQuery( elem ).children( "tbody" )[ 0 ] || elem;
 	}
 
 	return elem;
@@ -5768,10 +5703,8 @@ function disableScript( elem ) {
 	return elem;
 }
 function restoreScript( elem ) {
-	var match = rscriptTypeMasked.exec( elem.type );
-
-	if ( match ) {
-		elem.type = match[ 1 ];
+	if ( ( elem.type || "" ).slice( 0, 5 ) === "true/" ) {
+		elem.type = elem.type.slice( 5 );
 	} else {
 		elem.removeAttribute( "type" );
 	}
@@ -5837,15 +5770,15 @@ function domManip( collection, args, callback, ignored ) {
 		l = collection.length,
 		iNoClone = l - 1,
 		value = args[ 0 ],
-		isFunction = jQuery.isFunction( value );
+		valueIsFunction = isFunction( value );
 
 	// We can't cloneNode fragments that contain checked, in WebKit
-	if ( isFunction ||
+	if ( valueIsFunction ||
 			( l > 1 && typeof value === "string" &&
 				!support.checkClone && rchecked.test( value ) ) ) {
 		return collection.each( function( index ) {
 			var self = collection.eq( index );
-			if ( isFunction ) {
+			if ( valueIsFunction ) {
 				args[ 0 ] = value.call( this, index, self.html() );
 			}
 			domManip( self, args, callback, ignored );
@@ -5899,14 +5832,14 @@ function domManip( collection, args, callback, ignored ) {
 						!dataPriv.access( node, "globalEval" ) &&
 						jQuery.contains( doc, node ) ) {
 
-						if ( node.src ) {
+						if ( node.src && ( node.type || "" ).toLowerCase()  !== "module" ) {
 
 							// Optional AJAX dependency, but won't run scripts if not present
 							if ( jQuery._evalUrl ) {
 								jQuery._evalUrl( node.src );
 							}
 						} else {
-							DOMEval( node.textContent.replace( rcleanScript, "" ), doc );
+							DOMEval( node.textContent.replace( rcleanScript, "" ), doc, node );
 						}
 					}
 				}
@@ -6186,8 +6119,6 @@ jQuery.each( {
 		return this.pushStack( ret );
 	};
 } );
-var rmargin = ( /^margin/ );
-
 var rnumnonpx = new RegExp( "^(" + pnum + ")(?!px)[a-z%]+$", "i" );
 
 var getStyles = function( elem ) {
@@ -6204,6 +6135,8 @@ var getStyles = function( elem ) {
 		return view.getComputedStyle( elem );
 	};
 
+var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
+
 
 
 ( function() {
@@ -6217,25 +6150,33 @@ var getStyles = function( elem ) {
 			return;
 		}
 
+		container.style.cssText = "position:absolute;left:-11111px;width:60px;" +
+			"margin-top:1px;padding:0;border:0";
 		div.style.cssText =
-			"box-sizing:border-box;" +
-			"position:relative;display:block;" +
+			"position:relative;display:block;box-sizing:border-box;overflow:scroll;" +
 			"margin:auto;border:1px;padding:1px;" +
-			"top:1%;width:50%";
-		div.innerHTML = "";
-		documentElement.appendChild( container );
+			"width:60%;top:1%";
+		documentElement.appendChild( container ).appendChild( div );
 
 		var divStyle = window.getComputedStyle( div );
 		pixelPositionVal = divStyle.top !== "1%";
 
 		// Support: Android 4.0 - 4.3 only, Firefox <=3 - 44
-		reliableMarginLeftVal = divStyle.marginLeft === "2px";
-		boxSizingReliableVal = divStyle.width === "4px";
+		reliableMarginLeftVal = roundPixelMeasures( divStyle.marginLeft ) === 12;
 
-		// Support: Android 4.0 - 4.3 only
+		// Support: Android 4.0 - 4.3 only, Safari <=9.1 - 10.1, iOS <=7.0 - 9.3
 		// Some styles come back with percentage values, even though they shouldn't
-		div.style.marginRight = "50%";
-		pixelMarginRightVal = divStyle.marginRight === "4px";
+		div.style.right = "60%";
+		pixelBoxStylesVal = roundPixelMeasures( divStyle.right ) === 36;
+
+		// Support: IE 9 - 11 only
+		// Detect misreporting of content dimensions for box-sizing:border-box elements
+		boxSizingReliableVal = roundPixelMeasures( divStyle.width ) === 36;
+
+		// Support: IE 9 only
+		// Detect overflow:scroll screwiness (gh-3699)
+		div.style.position = "absolute";
+		scrollboxSizeVal = div.offsetWidth === 36 || "absolute";
 
 		documentElement.removeChild( container );
 
@@ -6244,7 +6185,12 @@ var getStyles = function( elem ) {
 		div = null;
 	}
 
-	var pixelPositionVal, boxSizingReliableVal, pixelMarginRightVal, reliableMarginLeftVal,
+	function roundPixelMeasures( measure ) {
+		return Math.round( parseFloat( measure ) );
+	}
+
+	var pixelPositionVal, boxSizingReliableVal, scrollboxSizeVal, pixelBoxStylesVal,
+		reliableMarginLeftVal,
 		container = document.createElement( "div" ),
 		div = document.createElement( "div" );
 
@@ -6259,26 +6205,26 @@ var getStyles = function( elem ) {
 	div.cloneNode( true ).style.backgroundClip = "";
 	support.clearCloneStyle = div.style.backgroundClip === "content-box";
 
-	container.style.cssText = "border:0;width:8px;height:0;top:0;left:-9999px;" +
-		"padding:0;margin-top:1px;position:absolute";
-	container.appendChild( div );
-
 	jQuery.extend( support, {
-		pixelPosition: function() {
-			computeStyleTests();
-			return pixelPositionVal;
-		},
 		boxSizingReliable: function() {
 			computeStyleTests();
 			return boxSizingReliableVal;
 		},
-		pixelMarginRight: function() {
+		pixelBoxStyles: function() {
 			computeStyleTests();
-			return pixelMarginRightVal;
+			return pixelBoxStylesVal;
+		},
+		pixelPosition: function() {
+			computeStyleTests();
+			return pixelPositionVal;
 		},
 		reliableMarginLeft: function() {
 			computeStyleTests();
 			return reliableMarginLeftVal;
+		},
+		scrollboxSize: function() {
+			computeStyleTests();
+			return scrollboxSizeVal;
 		}
 	} );
 } )();
@@ -6310,7 +6256,7 @@ function curCSS( elem, name, computed ) {
 		// but width seems to be reliably pixels.
 		// This is against the CSSOM draft spec:
 		// https://drafts.csswg.org/cssom/#resolved-values
-		if ( !support.pixelMarginRight() && rnumnonpx.test( ret ) && rmargin.test( name ) ) {
+		if ( !support.pixelBoxStyles() && rnumnonpx.test( ret ) && rboxStyle.test( name ) ) {
 
 			// Remember the original values
 			width = style.width;
@@ -6415,87 +6361,120 @@ function setPositiveNumber( elem, value, subtract ) {
 		value;
 }
 
-function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
-	var i,
-		val = 0;
+function boxModelAdjustment( elem, dimension, box, isBorderBox, styles, computedVal ) {
+	var i = dimension === "width" ? 1 : 0,
+		extra = 0,
+		delta = 0;
 
-	// If we already have the right measurement, avoid augmentation
-	if ( extra === ( isBorderBox ? "border" : "content" ) ) {
-		i = 4;
-
-	// Otherwise initialize for horizontal or vertical properties
-	} else {
-		i = name === "width" ? 1 : 0;
+	// Adjustment may not be necessary
+	if ( box === ( isBorderBox ? "border" : "content" ) ) {
+		return 0;
 	}
 
 	for ( ; i < 4; i += 2 ) {
 
-		// Both box models exclude margin, so add it if we want it
-		if ( extra === "margin" ) {
-			val += jQuery.css( elem, extra + cssExpand[ i ], true, styles );
+		// Both box models exclude margin
+		if ( box === "margin" ) {
+			delta += jQuery.css( elem, box + cssExpand[ i ], true, styles );
 		}
 
-		if ( isBorderBox ) {
+		// If we get here with a content-box, we're seeking "padding" or "border" or "margin"
+		if ( !isBorderBox ) {
 
-			// border-box includes padding, so remove it if we want content
-			if ( extra === "content" ) {
-				val -= jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
+			// Add padding
+			delta += jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
+
+			// For "border" or "margin", add border
+			if ( box !== "padding" ) {
+				delta += jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
+
+			// But still keep track of it otherwise
+			} else {
+				extra += jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
 			}
 
-			// At this point, extra isn't border nor margin, so remove border
-			if ( extra !== "margin" ) {
-				val -= jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
-			}
+		// If we get here with a border-box (content + padding + border), we're seeking "content" or
+		// "padding" or "margin"
 		} else {
 
-			// At this point, extra isn't content, so add padding
-			val += jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
+			// For "content", subtract padding
+			if ( box === "content" ) {
+				delta -= jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
+			}
 
-			// At this point, extra isn't content nor padding, so add border
-			if ( extra !== "padding" ) {
-				val += jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
+			// For "content" or "padding", subtract border
+			if ( box !== "margin" ) {
+				delta -= jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
 			}
 		}
 	}
 
-	return val;
+	// Account for positive content-box scroll gutter when requested by providing computedVal
+	if ( !isBorderBox && computedVal >= 0 ) {
+
+		// offsetWidth/offsetHeight is a rounded sum of content, padding, scroll gutter, and border
+		// Assuming integer scroll gutter, subtract the rest and round down
+		delta += Math.max( 0, Math.ceil(
+			elem[ "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 ) ] -
+			computedVal -
+			delta -
+			extra -
+			0.5
+		) );
+	}
+
+	return delta;
 }
 
-function getWidthOrHeight( elem, name, extra ) {
+function getWidthOrHeight( elem, dimension, extra ) {
 
 	// Start with computed style
-	var valueIsBorderBox,
-		styles = getStyles( elem ),
-		val = curCSS( elem, name, styles ),
-		isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box";
+	var styles = getStyles( elem ),
+		val = curCSS( elem, dimension, styles ),
+		isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
+		valueIsBorderBox = isBorderBox;
 
-	// Computed unit is not pixels. Stop here and return.
+	// Support: Firefox <=54
+	// Return a confounding non-pixel value or feign ignorance, as appropriate.
 	if ( rnumnonpx.test( val ) ) {
-		return val;
+		if ( !extra ) {
+			return val;
+		}
+		val = "auto";
 	}
 
 	// Check for style in case a browser which returns unreliable values
 	// for getComputedStyle silently falls back to the reliable elem.style
-	valueIsBorderBox = isBorderBox &&
-		( support.boxSizingReliable() || val === elem.style[ name ] );
+	valueIsBorderBox = valueIsBorderBox &&
+		( support.boxSizingReliable() || val === elem.style[ dimension ] );
 
-	// Fall back to offsetWidth/Height when value is "auto"
+	// Fall back to offsetWidth/offsetHeight when value is "auto"
 	// This happens for inline elements with no explicit setting (gh-3571)
-	if ( val === "auto" ) {
-		val = elem[ "offset" + name[ 0 ].toUpperCase() + name.slice( 1 ) ];
+	// Support: Android <=4.1 - 4.3 only
+	// Also use offsetWidth/offsetHeight for misreported inline dimensions (gh-3602)
+	if ( val === "auto" ||
+		!parseFloat( val ) && jQuery.css( elem, "display", false, styles ) === "inline" ) {
+
+		val = elem[ "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 ) ];
+
+		// offsetWidth/offsetHeight provide border-box values
+		valueIsBorderBox = true;
 	}
 
-	// Normalize "", auto, and prepare for extra
+	// Normalize "" and auto
 	val = parseFloat( val ) || 0;
 
-	// Use the active box-sizing model to add/subtract irrelevant styles
+	// Adjust for the element's box model
 	return ( val +
-		augmentWidthOrHeight(
+		boxModelAdjustment(
 			elem,
-			name,
+			dimension,
 			extra || ( isBorderBox ? "border" : "content" ),
 			valueIsBorderBox,
-			styles
+			styles,
+
+			// Provide the current computed size to request scroll gutter calculation (gh-3589)
+			val
 		)
 	) + "px";
 }
@@ -6536,9 +6515,7 @@ jQuery.extend( {
 
 	// Add in properties whose names you wish to fix before
 	// setting or getting the value
-	cssProps: {
-		"float": "cssFloat"
-	},
+	cssProps: {},
 
 	// Get and set the style property on a DOM Node
 	style: function( elem, name, value, extra ) {
@@ -6550,7 +6527,7 @@ jQuery.extend( {
 
 		// Make sure that we're working with the right name
 		var ret, type, hooks,
-			origName = jQuery.camelCase( name ),
+			origName = camelCase( name ),
 			isCustomProp = rcustomProp.test( name ),
 			style = elem.style;
 
@@ -6618,7 +6595,7 @@ jQuery.extend( {
 
 	css: function( elem, name, extra, styles ) {
 		var val, num, hooks,
-			origName = jQuery.camelCase( name ),
+			origName = camelCase( name ),
 			isCustomProp = rcustomProp.test( name );
 
 		// Make sure that we're working with the right name. We don't
@@ -6656,8 +6633,8 @@ jQuery.extend( {
 	}
 } );
 
-jQuery.each( [ "height", "width" ], function( i, name ) {
-	jQuery.cssHooks[ name ] = {
+jQuery.each( [ "height", "width" ], function( i, dimension ) {
+	jQuery.cssHooks[ dimension ] = {
 		get: function( elem, computed, extra ) {
 			if ( computed ) {
 
@@ -6673,29 +6650,41 @@ jQuery.each( [ "height", "width" ], function( i, name ) {
 					// in IE throws an error.
 					( !elem.getClientRects().length || !elem.getBoundingClientRect().width ) ?
 						swap( elem, cssShow, function() {
-							return getWidthOrHeight( elem, name, extra );
+							return getWidthOrHeight( elem, dimension, extra );
 						} ) :
-						getWidthOrHeight( elem, name, extra );
+						getWidthOrHeight( elem, dimension, extra );
 			}
 		},
 
 		set: function( elem, value, extra ) {
 			var matches,
-				styles = extra && getStyles( elem ),
-				subtract = extra && augmentWidthOrHeight(
+				styles = getStyles( elem ),
+				isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
+				subtract = extra && boxModelAdjustment(
 					elem,
-					name,
+					dimension,
 					extra,
-					jQuery.css( elem, "boxSizing", false, styles ) === "border-box",
+					isBorderBox,
 					styles
 				);
+
+			// Account for unreliable border-box dimensions by comparing offset* to computed and
+			// faking a content-box to get border and padding (gh-3699)
+			if ( isBorderBox && support.scrollboxSize() === styles.position ) {
+				subtract -= Math.ceil(
+					elem[ "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 ) ] -
+					parseFloat( styles[ dimension ] ) -
+					boxModelAdjustment( elem, dimension, "border", false, styles ) -
+					0.5
+				);
+			}
 
 			// Convert to pixels if value adjustment is needed
 			if ( subtract && ( matches = rcssNum.exec( value ) ) &&
 				( matches[ 3 ] || "px" ) !== "px" ) {
 
-				elem.style[ name ] = value;
-				value = jQuery.css( elem, name );
+				elem.style[ dimension ] = value;
+				value = jQuery.css( elem, dimension );
 			}
 
 			return setPositiveNumber( elem, value, subtract );
@@ -6739,7 +6728,7 @@ jQuery.each( {
 		}
 	};
 
-	if ( !rmargin.test( prefix ) ) {
+	if ( prefix !== "margin" ) {
 		jQuery.cssHooks[ prefix + suffix ].set = setPositiveNumber;
 	}
 } );
@@ -6910,7 +6899,7 @@ function createFxNow() {
 	window.setTimeout( function() {
 		fxNow = undefined;
 	} );
-	return ( fxNow = jQuery.now() );
+	return ( fxNow = Date.now() );
 }
 
 // Generate parameters to create a standard animation
@@ -7014,9 +7003,10 @@ function defaultPrefilter( elem, props, opts ) {
 	// Restrict "overflow" and "display" styles during box animations
 	if ( isBox && elem.nodeType === 1 ) {
 
-		// Support: IE <=9 - 11, Edge 12 - 13
+		// Support: IE <=9 - 11, Edge 12 - 15
 		// Record all 3 overflow attributes because IE does not infer the shorthand
-		// from identically-valued overflowX and overflowY
+		// from identically-valued overflowX and overflowY and Edge just mirrors
+		// the overflowX value there.
 		opts.overflow = [ style.overflow, style.overflowX, style.overflowY ];
 
 		// Identify a display type, preferring old show/hide data over the CSS cascade
@@ -7124,7 +7114,7 @@ function propFilter( props, specialEasing ) {
 
 	// camelCase, specialEasing and expand cssHook pass
 	for ( index in props ) {
-		name = jQuery.camelCase( index );
+		name = camelCase( index );
 		easing = specialEasing[ name ];
 		value = props[ index ];
 		if ( Array.isArray( value ) ) {
@@ -7249,9 +7239,9 @@ function Animation( elem, properties, options ) {
 	for ( ; index < length; index++ ) {
 		result = Animation.prefilters[ index ].call( animation, elem, props, animation.opts );
 		if ( result ) {
-			if ( jQuery.isFunction( result.stop ) ) {
+			if ( isFunction( result.stop ) ) {
 				jQuery._queueHooks( animation.elem, animation.opts.queue ).stop =
-					jQuery.proxy( result.stop, result );
+					result.stop.bind( result );
 			}
 			return result;
 		}
@@ -7259,7 +7249,7 @@ function Animation( elem, properties, options ) {
 
 	jQuery.map( props, createTween, animation );
 
-	if ( jQuery.isFunction( animation.opts.start ) ) {
+	if ( isFunction( animation.opts.start ) ) {
 		animation.opts.start.call( elem, animation );
 	}
 
@@ -7292,7 +7282,7 @@ jQuery.Animation = jQuery.extend( Animation, {
 	},
 
 	tweener: function( props, callback ) {
-		if ( jQuery.isFunction( props ) ) {
+		if ( isFunction( props ) ) {
 			callback = props;
 			props = [ "*" ];
 		} else {
@@ -7324,9 +7314,9 @@ jQuery.Animation = jQuery.extend( Animation, {
 jQuery.speed = function( speed, easing, fn ) {
 	var opt = speed && typeof speed === "object" ? jQuery.extend( {}, speed ) : {
 		complete: fn || !fn && easing ||
-			jQuery.isFunction( speed ) && speed,
+			isFunction( speed ) && speed,
 		duration: speed,
-		easing: fn && easing || easing && !jQuery.isFunction( easing ) && easing
+		easing: fn && easing || easing && !isFunction( easing ) && easing
 	};
 
 	// Go to the end state if fx are off
@@ -7353,7 +7343,7 @@ jQuery.speed = function( speed, easing, fn ) {
 	opt.old = opt.complete;
 
 	opt.complete = function() {
-		if ( jQuery.isFunction( opt.old ) ) {
+		if ( isFunction( opt.old ) ) {
 			opt.old.call( this );
 		}
 
@@ -7517,7 +7507,7 @@ jQuery.fx.tick = function() {
 		i = 0,
 		timers = jQuery.timers;
 
-	fxNow = jQuery.now();
+	fxNow = Date.now();
 
 	for ( ; i < timers.length; i++ ) {
 		timer = timers[ i ];
@@ -7870,7 +7860,7 @@ jQuery.each( [
 
 
 	// Strip and collapse whitespace according to HTML spec
-	// https://html.spec.whatwg.org/multipage/infrastructure.html#strip-and-collapse-whitespace
+	// https://infra.spec.whatwg.org/#strip-and-collapse-ascii-whitespace
 	function stripAndCollapse( value ) {
 		var tokens = value.match( rnothtmlwhite ) || [];
 		return tokens.join( " " );
@@ -7881,20 +7871,30 @@ function getClass( elem ) {
 	return elem.getAttribute && elem.getAttribute( "class" ) || "";
 }
 
+function classesToArray( value ) {
+	if ( Array.isArray( value ) ) {
+		return value;
+	}
+	if ( typeof value === "string" ) {
+		return value.match( rnothtmlwhite ) || [];
+	}
+	return [];
+}
+
 jQuery.fn.extend( {
 	addClass: function( value ) {
 		var classes, elem, cur, curValue, clazz, j, finalValue,
 			i = 0;
 
-		if ( jQuery.isFunction( value ) ) {
+		if ( isFunction( value ) ) {
 			return this.each( function( j ) {
 				jQuery( this ).addClass( value.call( this, j, getClass( this ) ) );
 			} );
 		}
 
-		if ( typeof value === "string" && value ) {
-			classes = value.match( rnothtmlwhite ) || [];
+		classes = classesToArray( value );
 
+		if ( classes.length ) {
 			while ( ( elem = this[ i++ ] ) ) {
 				curValue = getClass( elem );
 				cur = elem.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
@@ -7923,7 +7923,7 @@ jQuery.fn.extend( {
 		var classes, elem, cur, curValue, clazz, j, finalValue,
 			i = 0;
 
-		if ( jQuery.isFunction( value ) ) {
+		if ( isFunction( value ) ) {
 			return this.each( function( j ) {
 				jQuery( this ).removeClass( value.call( this, j, getClass( this ) ) );
 			} );
@@ -7933,9 +7933,9 @@ jQuery.fn.extend( {
 			return this.attr( "class", "" );
 		}
 
-		if ( typeof value === "string" && value ) {
-			classes = value.match( rnothtmlwhite ) || [];
+		classes = classesToArray( value );
 
+		if ( classes.length ) {
 			while ( ( elem = this[ i++ ] ) ) {
 				curValue = getClass( elem );
 
@@ -7965,13 +7965,14 @@ jQuery.fn.extend( {
 	},
 
 	toggleClass: function( value, stateVal ) {
-		var type = typeof value;
+		var type = typeof value,
+			isValidValue = type === "string" || Array.isArray( value );
 
-		if ( typeof stateVal === "boolean" && type === "string" ) {
+		if ( typeof stateVal === "boolean" && isValidValue ) {
 			return stateVal ? this.addClass( value ) : this.removeClass( value );
 		}
 
-		if ( jQuery.isFunction( value ) ) {
+		if ( isFunction( value ) ) {
 			return this.each( function( i ) {
 				jQuery( this ).toggleClass(
 					value.call( this, i, getClass( this ), stateVal ),
@@ -7983,12 +7984,12 @@ jQuery.fn.extend( {
 		return this.each( function() {
 			var className, i, self, classNames;
 
-			if ( type === "string" ) {
+			if ( isValidValue ) {
 
 				// Toggle individual class names
 				i = 0;
 				self = jQuery( this );
-				classNames = value.match( rnothtmlwhite ) || [];
+				classNames = classesToArray( value );
 
 				while ( ( className = classNames[ i++ ] ) ) {
 
@@ -8047,7 +8048,7 @@ var rreturn = /\r/g;
 
 jQuery.fn.extend( {
 	val: function( value ) {
-		var hooks, ret, isFunction,
+		var hooks, ret, valueIsFunction,
 			elem = this[ 0 ];
 
 		if ( !arguments.length ) {
@@ -8076,7 +8077,7 @@ jQuery.fn.extend( {
 			return;
 		}
 
-		isFunction = jQuery.isFunction( value );
+		valueIsFunction = isFunction( value );
 
 		return this.each( function( i ) {
 			var val;
@@ -8085,7 +8086,7 @@ jQuery.fn.extend( {
 				return;
 			}
 
-			if ( isFunction ) {
+			if ( valueIsFunction ) {
 				val = value.call( this, i, jQuery( this ).val() );
 			} else {
 				val = value;
@@ -8227,18 +8228,24 @@ jQuery.each( [ "radio", "checkbox" ], function() {
 // Return jQuery for attributes-only inclusion
 
 
-var rfocusMorph = /^(?:focusinfocus|focusoutblur)$/;
+support.focusin = "onfocusin" in window;
+
+
+var rfocusMorph = /^(?:focusinfocus|focusoutblur)$/,
+	stopPropagationCallback = function( e ) {
+		e.stopPropagation();
+	};
 
 jQuery.extend( jQuery.event, {
 
 	trigger: function( event, data, elem, onlyHandlers ) {
 
-		var i, cur, tmp, bubbleType, ontype, handle, special,
+		var i, cur, tmp, bubbleType, ontype, handle, special, lastElement,
 			eventPath = [ elem || document ],
 			type = hasOwn.call( event, "type" ) ? event.type : event,
 			namespaces = hasOwn.call( event, "namespace" ) ? event.namespace.split( "." ) : [];
 
-		cur = tmp = elem = elem || document;
+		cur = lastElement = tmp = elem = elem || document;
 
 		// Don't do events on text and comment nodes
 		if ( elem.nodeType === 3 || elem.nodeType === 8 ) {
@@ -8290,7 +8297,7 @@ jQuery.extend( jQuery.event, {
 
 		// Determine event propagation path in advance, per W3C events spec (#9951)
 		// Bubble up to document, then to window; watch for a global ownerDocument var (#9724)
-		if ( !onlyHandlers && !special.noBubble && !jQuery.isWindow( elem ) ) {
+		if ( !onlyHandlers && !special.noBubble && !isWindow( elem ) ) {
 
 			bubbleType = special.delegateType || type;
 			if ( !rfocusMorph.test( bubbleType + type ) ) {
@@ -8310,7 +8317,7 @@ jQuery.extend( jQuery.event, {
 		// Fire handlers on the event path
 		i = 0;
 		while ( ( cur = eventPath[ i++ ] ) && !event.isPropagationStopped() ) {
-
+			lastElement = cur;
 			event.type = i > 1 ?
 				bubbleType :
 				special.bindType || type;
@@ -8342,7 +8349,7 @@ jQuery.extend( jQuery.event, {
 
 				// Call a native DOM method on the target with the same name as the event.
 				// Don't do default actions on window, that's where global variables be (#6170)
-				if ( ontype && jQuery.isFunction( elem[ type ] ) && !jQuery.isWindow( elem ) ) {
+				if ( ontype && isFunction( elem[ type ] ) && !isWindow( elem ) ) {
 
 					// Don't re-trigger an onFOO event when we call its FOO() method
 					tmp = elem[ ontype ];
@@ -8353,7 +8360,17 @@ jQuery.extend( jQuery.event, {
 
 					// Prevent re-triggering of the same event, since we already bubbled it above
 					jQuery.event.triggered = type;
+
+					if ( event.isPropagationStopped() ) {
+						lastElement.addEventListener( type, stopPropagationCallback );
+					}
+
 					elem[ type ]();
+
+					if ( event.isPropagationStopped() ) {
+						lastElement.removeEventListener( type, stopPropagationCallback );
+					}
+
 					jQuery.event.triggered = undefined;
 
 					if ( tmp ) {
@@ -8399,31 +8416,6 @@ jQuery.fn.extend( {
 } );
 
 
-jQuery.each( ( "blur focus focusin focusout resize scroll click dblclick " +
-	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
-	"change select submit keydown keypress keyup contextmenu" ).split( " " ),
-	function( i, name ) {
-
-	// Handle event binding
-	jQuery.fn[ name ] = function( data, fn ) {
-		return arguments.length > 0 ?
-			this.on( name, null, data, fn ) :
-			this.trigger( name );
-	};
-} );
-
-jQuery.fn.extend( {
-	hover: function( fnOver, fnOut ) {
-		return this.mouseenter( fnOver ).mouseleave( fnOut || fnOver );
-	}
-} );
-
-
-
-
-support.focusin = "onfocusin" in window;
-
-
 // Support: Firefox <=44
 // Firefox doesn't have focus(in | out) events
 // Related ticket - https://bugzilla.mozilla.org/show_bug.cgi?id=687787
@@ -8467,7 +8459,7 @@ if ( !support.focusin ) {
 }
 var location = window.location;
 
-var nonce = jQuery.now();
+var nonce = Date.now();
 
 var rquery = ( /\?/ );
 
@@ -8525,7 +8517,7 @@ function buildParams( prefix, obj, traditional, add ) {
 			}
 		} );
 
-	} else if ( !traditional && jQuery.type( obj ) === "object" ) {
+	} else if ( !traditional && toType( obj ) === "object" ) {
 
 		// Serialize object item.
 		for ( name in obj ) {
@@ -8547,7 +8539,7 @@ jQuery.param = function( a, traditional ) {
 		add = function( key, valueOrFunction ) {
 
 			// If value is a function, invoke it and use its return value
-			var value = jQuery.isFunction( valueOrFunction ) ?
+			var value = isFunction( valueOrFunction ) ?
 				valueOrFunction() :
 				valueOrFunction;
 
@@ -8665,7 +8657,7 @@ function addToPrefiltersOrTransports( structure ) {
 			i = 0,
 			dataTypes = dataTypeExpression.toLowerCase().match( rnothtmlwhite ) || [];
 
-		if ( jQuery.isFunction( func ) ) {
+		if ( isFunction( func ) ) {
 
 			// For each dataType in the dataTypeExpression
 			while ( ( dataType = dataTypes[ i++ ] ) ) {
@@ -9137,7 +9129,7 @@ jQuery.extend( {
 		if ( s.crossDomain == null ) {
 			urlAnchor = document.createElement( "a" );
 
-			// Support: IE <=8 - 11, Edge 12 - 13
+			// Support: IE <=8 - 11, Edge 12 - 15
 			// IE throws exception on accessing the href property if url is malformed,
 			// e.g. http://example.com:80x/
 			try {
@@ -9195,8 +9187,8 @@ jQuery.extend( {
 			// Remember the hash so we can put it back
 			uncached = s.url.slice( cacheURL.length );
 
-			// If data is available, append data to url
-			if ( s.data ) {
+			// If data is available and should be processed, append data to url
+			if ( s.data && ( s.processData || typeof s.data === "string" ) ) {
 				cacheURL += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.data;
 
 				// #9682: remove data so that it's not used in an eventual retry
@@ -9433,7 +9425,7 @@ jQuery.each( [ "get", "post" ], function( i, method ) {
 	jQuery[ method ] = function( url, data, callback, type ) {
 
 		// Shift arguments if data argument was omitted
-		if ( jQuery.isFunction( data ) ) {
+		if ( isFunction( data ) ) {
 			type = type || callback;
 			callback = data;
 			data = undefined;
@@ -9471,7 +9463,7 @@ jQuery.fn.extend( {
 		var wrap;
 
 		if ( this[ 0 ] ) {
-			if ( jQuery.isFunction( html ) ) {
+			if ( isFunction( html ) ) {
 				html = html.call( this[ 0 ] );
 			}
 
@@ -9497,7 +9489,7 @@ jQuery.fn.extend( {
 	},
 
 	wrapInner: function( html ) {
-		if ( jQuery.isFunction( html ) ) {
+		if ( isFunction( html ) ) {
 			return this.each( function( i ) {
 				jQuery( this ).wrapInner( html.call( this, i ) );
 			} );
@@ -9517,10 +9509,10 @@ jQuery.fn.extend( {
 	},
 
 	wrap: function( html ) {
-		var isFunction = jQuery.isFunction( html );
+		var htmlIsFunction = isFunction( html );
 
 		return this.each( function( i ) {
-			jQuery( this ).wrapAll( isFunction ? html.call( this, i ) : html );
+			jQuery( this ).wrapAll( htmlIsFunction ? html.call( this, i ) : html );
 		} );
 	},
 
@@ -9612,7 +9604,8 @@ jQuery.ajaxTransport( function( options ) {
 					return function() {
 						if ( callback ) {
 							callback = errorCallback = xhr.onload =
-								xhr.onerror = xhr.onabort = xhr.onreadystatechange = null;
+								xhr.onerror = xhr.onabort = xhr.ontimeout =
+									xhr.onreadystatechange = null;
 
 							if ( type === "abort" ) {
 								xhr.abort();
@@ -9652,7 +9645,7 @@ jQuery.ajaxTransport( function( options ) {
 
 				// Listen to events
 				xhr.onload = callback();
-				errorCallback = xhr.onerror = callback( "error" );
+				errorCallback = xhr.onerror = xhr.ontimeout = callback( "error" );
 
 				// Support: IE 9 only
 				// Use onreadystatechange to replace onabort
@@ -9806,7 +9799,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 	if ( jsonProp || s.dataTypes[ 0 ] === "jsonp" ) {
 
 		// Get callback name, remembering preexisting value associated with it
-		callbackName = s.jsonpCallback = jQuery.isFunction( s.jsonpCallback ) ?
+		callbackName = s.jsonpCallback = isFunction( s.jsonpCallback ) ?
 			s.jsonpCallback() :
 			s.jsonpCallback;
 
@@ -9857,7 +9850,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 			}
 
 			// Call if it was a function and we have a response
-			if ( responseContainer && jQuery.isFunction( overwritten ) ) {
+			if ( responseContainer && isFunction( overwritten ) ) {
 				overwritten( responseContainer[ 0 ] );
 			}
 
@@ -9949,7 +9942,7 @@ jQuery.fn.load = function( url, params, callback ) {
 	}
 
 	// If it's a function
-	if ( jQuery.isFunction( params ) ) {
+	if ( isFunction( params ) ) {
 
 		// We assume that it's the callback
 		callback = params;
@@ -10057,7 +10050,7 @@ jQuery.offset = {
 			curLeft = parseFloat( curCSSLeft ) || 0;
 		}
 
-		if ( jQuery.isFunction( options ) ) {
+		if ( isFunction( options ) ) {
 
 			// Use jQuery.extend here to allow modification of coordinates argument (gh-1848)
 			options = options.call( elem, i, jQuery.extend( {}, curOffset ) );
@@ -10080,6 +10073,8 @@ jQuery.offset = {
 };
 
 jQuery.fn.extend( {
+
+	// offset() relates an element's border box to the document origin
 	offset: function( options ) {
 
 		// Preserve chaining for setter
@@ -10091,7 +10086,7 @@ jQuery.fn.extend( {
 				} );
 		}
 
-		var doc, docElem, rect, win,
+		var rect, win,
 			elem = this[ 0 ];
 
 		if ( !elem ) {
@@ -10106,50 +10101,52 @@ jQuery.fn.extend( {
 			return { top: 0, left: 0 };
 		}
 
+		// Get document-relative position by adding viewport scroll to viewport-relative gBCR
 		rect = elem.getBoundingClientRect();
-
-		doc = elem.ownerDocument;
-		docElem = doc.documentElement;
-		win = doc.defaultView;
-
+		win = elem.ownerDocument.defaultView;
 		return {
-			top: rect.top + win.pageYOffset - docElem.clientTop,
-			left: rect.left + win.pageXOffset - docElem.clientLeft
+			top: rect.top + win.pageYOffset,
+			left: rect.left + win.pageXOffset
 		};
 	},
 
+	// position() relates an element's margin box to its offset parent's padding box
+	// This corresponds to the behavior of CSS absolute positioning
 	position: function() {
 		if ( !this[ 0 ] ) {
 			return;
 		}
 
-		var offsetParent, offset,
+		var offsetParent, offset, doc,
 			elem = this[ 0 ],
 			parentOffset = { top: 0, left: 0 };
 
-		// Fixed elements are offset from window (parentOffset = {top:0, left: 0},
-		// because it is its only offset parent
+		// position:fixed elements are offset from the viewport, which itself always has zero offset
 		if ( jQuery.css( elem, "position" ) === "fixed" ) {
 
-			// Assume getBoundingClientRect is there when computed position is fixed
+			// Assume position:fixed implies availability of getBoundingClientRect
 			offset = elem.getBoundingClientRect();
 
 		} else {
-
-			// Get *real* offsetParent
-			offsetParent = this.offsetParent();
-
-			// Get correct offsets
 			offset = this.offset();
-			if ( !nodeName( offsetParent[ 0 ], "html" ) ) {
-				parentOffset = offsetParent.offset();
-			}
 
-			// Add offsetParent borders
-			parentOffset = {
-				top: parentOffset.top + jQuery.css( offsetParent[ 0 ], "borderTopWidth", true ),
-				left: parentOffset.left + jQuery.css( offsetParent[ 0 ], "borderLeftWidth", true )
-			};
+			// Account for the *real* offset parent, which can be the document or its root element
+			// when a statically positioned element is identified
+			doc = elem.ownerDocument;
+			offsetParent = elem.offsetParent || doc.documentElement;
+			while ( offsetParent &&
+				( offsetParent === doc.body || offsetParent === doc.documentElement ) &&
+				jQuery.css( offsetParent, "position" ) === "static" ) {
+
+				offsetParent = offsetParent.parentNode;
+			}
+			if ( offsetParent && offsetParent !== elem && offsetParent.nodeType === 1 ) {
+
+				// Incorporate borders into its offset, since they are outside its content origin
+				parentOffset = jQuery( offsetParent ).offset();
+				parentOffset.top += jQuery.css( offsetParent, "borderTopWidth", true );
+				parentOffset.left += jQuery.css( offsetParent, "borderLeftWidth", true );
+			}
 		}
 
 		// Subtract parent offsets and element margins
@@ -10191,7 +10188,7 @@ jQuery.each( { scrollLeft: "pageXOffset", scrollTop: "pageYOffset" }, function( 
 
 			// Coalesce documents and windows
 			var win;
-			if ( jQuery.isWindow( elem ) ) {
+			if ( isWindow( elem ) ) {
 				win = elem;
 			} else if ( elem.nodeType === 9 ) {
 				win = elem.defaultView;
@@ -10249,7 +10246,7 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 			return access( this, function( elem, type, value ) {
 				var doc;
 
-				if ( jQuery.isWindow( elem ) ) {
+				if ( isWindow( elem ) ) {
 
 					// $( window ).outerWidth/Height return w/h including scrollbars (gh-1729)
 					return funcName.indexOf( "outer" ) === 0 ?
@@ -10283,6 +10280,28 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 } );
 
 
+jQuery.each( ( "blur focus focusin focusout resize scroll click dblclick " +
+	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
+	"change select submit keydown keypress keyup contextmenu" ).split( " " ),
+	function( i, name ) {
+
+	// Handle event binding
+	jQuery.fn[ name ] = function( data, fn ) {
+		return arguments.length > 0 ?
+			this.on( name, null, data, fn ) :
+			this.trigger( name );
+	};
+} );
+
+jQuery.fn.extend( {
+	hover: function( fnOver, fnOut ) {
+		return this.mouseenter( fnOver ).mouseleave( fnOut || fnOver );
+	}
+} );
+
+
+
+
 jQuery.fn.extend( {
 
 	bind: function( types, data, fn ) {
@@ -10304,6 +10323,37 @@ jQuery.fn.extend( {
 	}
 } );
 
+// Bind a function to a context, optionally partially applying any
+// arguments.
+// jQuery.proxy is deprecated to promote standards (specifically Function#bind)
+// However, it is not slated for removal any time soon
+jQuery.proxy = function( fn, context ) {
+	var tmp, args, proxy;
+
+	if ( typeof context === "string" ) {
+		tmp = fn[ context ];
+		context = fn;
+		fn = tmp;
+	}
+
+	// Quick check to determine if target is callable, in the spec
+	// this throws a TypeError, but we will just return undefined.
+	if ( !isFunction( fn ) ) {
+		return undefined;
+	}
+
+	// Simulated bind
+	args = slice.call( arguments, 2 );
+	proxy = function() {
+		return fn.apply( context || this, args.concat( slice.call( arguments ) ) );
+	};
+
+	// Set the guid of unique handler to the same of original handler, so it can be removed
+	proxy.guid = fn.guid = fn.guid || jQuery.guid++;
+
+	return proxy;
+};
+
 jQuery.holdReady = function( hold ) {
 	if ( hold ) {
 		jQuery.readyWait++;
@@ -10314,6 +10364,26 @@ jQuery.holdReady = function( hold ) {
 jQuery.isArray = Array.isArray;
 jQuery.parseJSON = JSON.parse;
 jQuery.nodeName = nodeName;
+jQuery.isFunction = isFunction;
+jQuery.isWindow = isWindow;
+jQuery.camelCase = camelCase;
+jQuery.type = toType;
+
+jQuery.now = Date.now;
+
+jQuery.isNumeric = function( obj ) {
+
+	// As of jQuery 3.0, isNumeric is limited to
+	// strings and numbers (primitives or objects)
+	// that can be coerced to finite numbers (gh-2662)
+	var type = jQuery.type( obj );
+	return ( type === "number" || type === "string" ) &&
+
+		// parseFloat NaNs numeric-cast false positives ("")
+		// ...but misinterprets leading-number strings, particularly hex literals ("0x...")
+		// subtraction forces infinities to NaN
+		!isNaN( obj - parseFloat( obj ) );
+};
 
 
 
@@ -10376,7516 +10446,119 @@ return jQuery;
 
 
 /***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery_ujs__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery_ujs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery_ujs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery_ui_ui_core_js__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery_ui_ui_core_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jquery_ui_ui_core_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery_ui_ui_position_js__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery_ui_ui_position_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery_ui_ui_position_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery_ui_ui_widgets_tabs_js__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery_ui_ui_widgets_tabs_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_jquery_ui_ui_widgets_tabs_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_select2_dist_js_select2_full_js__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_select2_dist_js_select2_full_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_select2_dist_js_select2_full_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_tether__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_tether___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_tether__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_virtual_keyboard_dist_js_jquery_keyboard_js__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_virtual_keyboard_dist_js_jquery_keyboard_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_virtual_keyboard_dist_js_jquery_keyboard_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_whatwg_fetch__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_whatwg_fetch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_whatwg_fetch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_bootstrap__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_bootstrap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_bootstrap__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_bootstrap_switch_dist_js_bootstrap_switch_js__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_bootstrap_switch_dist_js_bootstrap_switch_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_bootstrap_switch_dist_js_bootstrap_switch_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_font_awesome_webpack__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_font_awesome_webpack___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_font_awesome_webpack__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_epicMeds__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_medMapper__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_addKeyboard__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_row_form_pieces_RowForm__ = __webpack_require__(43);
+// require webpack-bundle
+
+/* eslint no-console:0 */
+// This file is automatically compiled by Webpack, along with any other files
+// present in this directory. You're encouraged to place your actual application logic in
+// a relevant structure within app/javascript and only use these pack files to reference
+// that code so it'll be compiled.
+//
+// layout file, like app/views/layouts/application.html.erb
+// import import React, { Component } from 'react'
+// import { render } from 'react-dom'
+// import ReactOne from '../components/react_one.jsx'
+// RWR.registerComponent('ReactOne', ReactOne);
+window.$ = __webpack_require__(1);
+
+
+
+
+
+
+
+global.Tether = __WEBPACK_IMPORTED_MODULE_5_tether___default.a;
+
+
+
+
+
+
+
+
+
+
+// import 'myscript/dist/myscript.js'
+
+__webpack_require__(102);
+
+// ROW FORM TYPES
+__webpack_require__(104);
+__webpack_require__(105);
+__webpack_require__(106);
+__webpack_require__(107);
+__webpack_require__(108);
+__webpack_require__(109);
+__webpack_require__(110);
+
+// EXPOSING JS TO BE USED IN RAILS
+// require('../../stylesheet/application.scss');
+__webpack_require__(114);
+__webpack_require__(115);
+__webpack_require__(117);
+__webpack_require__(119);
+__webpack_require__(120);
+__webpack_require__(121);
+__webpack_require__(122);
+__webpack_require__(124);
+
+// require('expose-loader?MyScript!myscript/dist/myscript.js');
+__webpack_require__(126);
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(8)))
+
+/***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
+// eslint-disable-next-line import/no-webpack-loader-syntax
+module.exports = __webpack_require__(5);
 
 
 /***/ }),
 /* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HiddenFields; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+/***/ (function(module, exports) {
 
 
-
-var parameterizedPlurals = __webpack_require__(30);
-
-var HiddenFields = function (_Component) {
-  _inherits(HiddenFields, _Component);
-
-  function HiddenFields() {
-    _classCallCheck(this, HiddenFields);
-
-    return _possibleConstructorReturn(this, (HiddenFields.__proto__ || Object.getPrototypeOf(HiddenFields)).apply(this, arguments));
-  }
-
-  _createClass(HiddenFields, [{
-    key: 'render',
-    value: function render() {
-      var parameterizedPlural = this.props.parameterizedPlural ? this.props.parameterizedPlural : parameterizedPlurals[this.props.topic.topic_type];
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        null,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-          value: this.props.visit.patient_id,
-          name: 'visit[' + parameterizedPlural + '_attributes][' + this.props.rowID + '][patient_id]',
-          id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_patient_id',
-          type: 'hidden'
-        }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-          value: this.props.visit.id,
-          name: 'visit[' + parameterizedPlural + '_attributes][' + this.props.rowID + '][visit_id]',
-          id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_visit_id',
-          type: 'hidden'
-        }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-          value: this.props.topic.id,
-          name: 'visit[' + parameterizedPlural + '_attributes][' + this.props.rowID + '][topic_id]',
-          id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_topic_id',
-          className: 'topic_id',
-          type: 'hidden'
-        })
-      );
-    }
-  }]);
-
-  return HiddenFields;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-HiddenFields.propTypes = {
-  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired,
-  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string
-};
 
 /***/ }),
 /* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_virtual_keyboard__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_virtual_keyboard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_virtual_keyboard__);
-
-
-
-__WEBPACK_IMPORTED_MODULE_0_jquery___default.a.fn.addKeyboard = function () {
-  return this.keyboard({
-    openOn: null,
-    stayOpen: false,
-    layout: 'custom',
-    customLayout: {
-      'normal': ['7 8 9 {c}', '4 5 6 {del}', '1 2 3 {sign}', '0 0 {dec} {a}']
-    },
-    position: {
-      // null (attach to input/textarea) or a jQuery object (attach elsewhere)
-      of: null,
-      my: 'center top',
-      at: 'center top',
-      // at2 is used when "usePreview" is false (centers keyboard at the bottom
-      // of the input/textarea)
-      at2: 'center top',
-      collision: 'flipfit flipfit'
-    },
-    reposition: true,
-    css: {
-      input: 'form-control input-sm',
-      container: 'center-block dropdown-menu',
-      buttonDefault: 'btn btn-default',
-      buttonHover: 'btn-light',
-      // used when disabling the decimal button {dec}
-      // when a decimal exists in the input area
-      buttonDisabled: 'enabled'
-    }
-  });
-};
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * 
- */
-
-function makeEmptyFunction(arg) {
-  return function () {
-    return arg;
-  };
-}
-
-/**
- * This function accepts and discards inputs; it has no side effects. This is
- * primarily useful idiomatically for overridable function endpoints which
- * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
- */
-var emptyFunction = function emptyFunction() {};
-
-emptyFunction.thatReturns = makeEmptyFunction;
-emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
-emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
-emptyFunction.thatReturnsNull = makeEmptyFunction(null);
-emptyFunction.thatReturnsThis = function () {
-  return this;
-};
-emptyFunction.thatReturnsArgument = function (arg) {
-  return arg;
-};
-
-module.exports = emptyFunction;
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SelectConstructor; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var SelectConstructor = function (_Component) {
-  _inherits(SelectConstructor, _Component);
-
-  function SelectConstructor(props) {
-    _classCallCheck(this, SelectConstructor);
-
-    var _this = _possibleConstructorReturn(this, (SelectConstructor.__proto__ || Object.getPrototypeOf(SelectConstructor)).call(this, props));
-
-    _this.state = {
-      units: null
-    };
-    _this.handleChange = _this.handleChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(SelectConstructor, [{
-    key: 'handleChange',
-    value: function handleChange(event) {
-      this.props.onUnitChange(event);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var inputBegin = void 0;
-      if (this.props.arr.length === 1) {
-        if (this.props.multiSelect) {
-          inputBegin = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-            type: 'text',
-            disabled: 'true',
-            name: this.props.name,
-            id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.name,
-            className: 'form-control single-option',
-            value: this.state.units,
-            multiple: true,
-            onChange: this.handleChange
-          });
-        } else {
-          inputBegin = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-            type: 'text',
-            disabled: 'true',
-            name: this.props.name,
-            id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.attribute,
-            className: 'form-control single-option',
-            value: this.props.arr[0]
-          });
-        }
-      } else {
-        var options = [];
-        if (this.props.arr.length >= 2) {
-          options.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'option',
-            { value: '', selected: true, disabled: true, 'default': true, key: this.props.title },
-            this.props.title
-          ));
-        }
-        this.props.arr.map(function (item) {
-          return options.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'option',
-            { value: item, key: _this2.props.title + '_' + item },
-            item
-          ));
-        });
-        if (this.props.other) {
-          options.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'option',
-            { className: 'select-other', key: this.props.title + '_other' },
-            'other (please specify)'
-          ));
-        }
-        if (this.props.multiSelect) {
-          inputBegin = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'select',
-            {
-              name: this.props.name,
-              id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.attribute,
-              className: 'form-control',
-              multiple: true,
-              onChange: this.handleChange
-            },
-            options
-          );
-        } else {
-          inputBegin = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'select',
-            {
-              name: this.props.name,
-              id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.attribute,
-              className: 'form-control',
-              onChange: this.handleChange
-            },
-            options
-          );
-        }
-      }
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        null,
-        inputBegin
-      );
-    }
-  }]);
-
-  return SelectConstructor;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-SelectConstructor.defaultProps = {
-  multiSelect: false,
-  other: false
-};
-
-SelectConstructor.propTypes = {
-  arr: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
-  title: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
-  other: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool.isRequired,
-  attribute: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
-  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired,
-  multiSelect: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool.isRequired
-};
-
-/***/ }),
-/* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FileAttachmentButton; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var FileAttachmentButton = function (_Component) {
-  _inherits(FileAttachmentButton, _Component);
-
-  function FileAttachmentButton(props) {
-    _classCallCheck(this, FileAttachmentButton);
-
-    var _this = _possibleConstructorReturn(this, (FileAttachmentButton.__proto__ || Object.getPrototypeOf(FileAttachmentButton)).call(this, props));
-
-    _this.state = {
-      file: null
-    };
-    _this.handleFileChange = _this.handleFileChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(FileAttachmentButton, [{
-    key: 'handleFileChange',
-    value: function handleFileChange(event) {
-      this.props.onFileChange(_defineProperty({}, event.target.name, event.target.value));
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        null,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-          name: 'file',
-          id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_attachment',
-          style: { display: 'none' },
-          type: 'file',
-          onChange: this.handleFileChange,
-          value: this.state.file
-        }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'button',
-          { className: 'btn btn-light file-attachment', type: 'button' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'label',
-            {
-              htmlFor: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_attachment',
-              className: 'fontawesome-icon'
-            },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-camera' })
-          )
-        )
-      );
-    }
-  }]);
-
-  return FileAttachmentButton;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-FileAttachmentButton.propTypes = {
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
-};
-
-/***/ }),
-/* 10 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NoteField; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var NoteField = function (_Component) {
-  _inherits(NoteField, _Component);
-
-  function NoteField(props) {
-    _classCallCheck(this, NoteField);
-
-    var _this = _possibleConstructorReturn(this, (NoteField.__proto__ || Object.getPrototypeOf(NoteField)).call(this, props));
-
-    _this.state = {
-      note: null
-    };
-    _this.handleNoteChange = _this.handleNoteChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(NoteField, [{
-    key: 'handleNoteChange',
-    value: function handleNoteChange(event) {
-      this.props.onNoteChange(_defineProperty({}, event.target.name, event.target.value));
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        null,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('textarea', {
-          placeholder: 'note',
-          name: 'note',
-          id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_note',
-          className: 'form-control',
-          value: this.state.note,
-          onChange: this.handleNoteChange,
-          rows: '1'
-        }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'button',
-          {
-            className: 'btn btn-light',
-            'data-toggle': 'modal',
-            'data-target': '#row_' + this.props.rowID + '_scribble_modal',
-            type: 'button'
-          },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-pencil' })
-        )
-      );
-    }
-  }]);
-
-  return NoteField;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-NoteField.propTypes = {
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
-};
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(jQuery) {(function($, undefined) {
-
-/**
- * Unobtrusive scripting adapter for jQuery
- * https://github.com/rails/jquery-ujs
- *
- * Requires jQuery 1.8.0 or later.
- *
- * Released under the MIT license
- *
- */
-
-  // Cut down on the number of issues from people inadvertently including jquery_ujs twice
-  // by detecting and raising an error when it happens.
-  'use strict';
-
-  if ( $.rails !== undefined ) {
-    $.error('jquery-ujs has already been loaded!');
-  }
-
-  // Shorthand to make it a little easier to call public rails functions from within rails.js
-  var rails;
-  var $document = $(document);
-
-  $.rails = rails = {
-    // Link elements bound by jquery-ujs
-    linkClickSelector: 'a[data-confirm], a[data-method], a[data-remote]:not([disabled]), a[data-disable-with], a[data-disable]',
-
-    // Button elements bound by jquery-ujs
-    buttonClickSelector: 'button[data-remote]:not([form]):not(form button), button[data-confirm]:not([form]):not(form button)',
-
-    // Select elements bound by jquery-ujs
-    inputChangeSelector: 'select[data-remote], input[data-remote], textarea[data-remote]',
-
-    // Form elements bound by jquery-ujs
-    formSubmitSelector: 'form',
-
-    // Form input elements bound by jquery-ujs
-    formInputClickSelector: 'form input[type=submit], form input[type=image], form button[type=submit], form button:not([type]), input[type=submit][form], input[type=image][form], button[type=submit][form], button[form]:not([type])',
-
-    // Form input elements disabled during form submission
-    disableSelector: 'input[data-disable-with]:enabled, button[data-disable-with]:enabled, textarea[data-disable-with]:enabled, input[data-disable]:enabled, button[data-disable]:enabled, textarea[data-disable]:enabled',
-
-    // Form input elements re-enabled after form submission
-    enableSelector: 'input[data-disable-with]:disabled, button[data-disable-with]:disabled, textarea[data-disable-with]:disabled, input[data-disable]:disabled, button[data-disable]:disabled, textarea[data-disable]:disabled',
-
-    // Form required input elements
-    requiredInputSelector: 'input[name][required]:not([disabled]), textarea[name][required]:not([disabled])',
-
-    // Form file input elements
-    fileInputSelector: 'input[name][type=file]:not([disabled])',
-
-    // Link onClick disable selector with possible reenable after remote submission
-    linkDisableSelector: 'a[data-disable-with], a[data-disable]',
-
-    // Button onClick disable selector with possible reenable after remote submission
-    buttonDisableSelector: 'button[data-remote][data-disable-with], button[data-remote][data-disable]',
-
-    // Up-to-date Cross-Site Request Forgery token
-    csrfToken: function() {
-     return $('meta[name=csrf-token]').attr('content');
-    },
-
-    // URL param that must contain the CSRF token
-    csrfParam: function() {
-     return $('meta[name=csrf-param]').attr('content');
-    },
-
-    // Make sure that every Ajax request sends the CSRF token
-    CSRFProtection: function(xhr) {
-      var token = rails.csrfToken();
-      if (token) xhr.setRequestHeader('X-CSRF-Token', token);
-    },
-
-    // Make sure that all forms have actual up-to-date tokens (cached forms contain old ones)
-    refreshCSRFTokens: function(){
-      $('form input[name="' + rails.csrfParam() + '"]').val(rails.csrfToken());
-    },
-
-    // Triggers an event on an element and returns false if the event result is false
-    fire: function(obj, name, data) {
-      var event = $.Event(name);
-      obj.trigger(event, data);
-      return event.result !== false;
-    },
-
-    // Default confirm dialog, may be overridden with custom confirm dialog in $.rails.confirm
-    confirm: function(message) {
-      return confirm(message);
-    },
-
-    // Default ajax function, may be overridden with custom function in $.rails.ajax
-    ajax: function(options) {
-      return $.ajax(options);
-    },
-
-    // Default way to get an element's href. May be overridden at $.rails.href.
-    href: function(element) {
-      return element[0].href;
-    },
-
-    // Checks "data-remote" if true to handle the request through a XHR request.
-    isRemote: function(element) {
-      return element.data('remote') !== undefined && element.data('remote') !== false;
-    },
-
-    // Submits "remote" forms and links with ajax
-    handleRemote: function(element) {
-      var method, url, data, withCredentials, dataType, options;
-
-      if (rails.fire(element, 'ajax:before')) {
-        withCredentials = element.data('with-credentials') || null;
-        dataType = element.data('type') || ($.ajaxSettings && $.ajaxSettings.dataType);
-
-        if (element.is('form')) {
-          method = element.data('ujs:submit-button-formmethod') || element.attr('method');
-          url = element.data('ujs:submit-button-formaction') || element.attr('action');
-          data = $(element[0]).serializeArray();
-          // memoized value from clicked submit button
-          var button = element.data('ujs:submit-button');
-          if (button) {
-            data.push(button);
-            element.data('ujs:submit-button', null);
-          }
-          element.data('ujs:submit-button-formmethod', null);
-          element.data('ujs:submit-button-formaction', null);
-        } else if (element.is(rails.inputChangeSelector)) {
-          method = element.data('method');
-          url = element.data('url');
-          data = element.serialize();
-          if (element.data('params')) data = data + '&' + element.data('params');
-        } else if (element.is(rails.buttonClickSelector)) {
-          method = element.data('method') || 'get';
-          url = element.data('url');
-          data = element.serialize();
-          if (element.data('params')) data = data + '&' + element.data('params');
-        } else {
-          method = element.data('method');
-          url = rails.href(element);
-          data = element.data('params') || null;
-        }
-
-        options = {
-          type: method || 'GET', data: data, dataType: dataType,
-          // stopping the "ajax:beforeSend" event will cancel the ajax request
-          beforeSend: function(xhr, settings) {
-            if (settings.dataType === undefined) {
-              xhr.setRequestHeader('accept', '*/*;q=0.5, ' + settings.accepts.script);
-            }
-            if (rails.fire(element, 'ajax:beforeSend', [xhr, settings])) {
-              element.trigger('ajax:send', xhr);
-            } else {
-              return false;
-            }
-          },
-          success: function(data, status, xhr) {
-            element.trigger('ajax:success', [data, status, xhr]);
-          },
-          complete: function(xhr, status) {
-            element.trigger('ajax:complete', [xhr, status]);
-          },
-          error: function(xhr, status, error) {
-            element.trigger('ajax:error', [xhr, status, error]);
-          },
-          crossDomain: rails.isCrossDomain(url)
-        };
-
-        // There is no withCredentials for IE6-8 when
-        // "Enable native XMLHTTP support" is disabled
-        if (withCredentials) {
-          options.xhrFields = {
-            withCredentials: withCredentials
-          };
-        }
-
-        // Only pass url to `ajax` options if not blank
-        if (url) { options.url = url; }
-
-        return rails.ajax(options);
-      } else {
-        return false;
-      }
-    },
-
-    // Determines if the request is a cross domain request.
-    isCrossDomain: function(url) {
-      var originAnchor = document.createElement('a');
-      originAnchor.href = location.href;
-      var urlAnchor = document.createElement('a');
-
-      try {
-        urlAnchor.href = url;
-        // This is a workaround to a IE bug.
-        urlAnchor.href = urlAnchor.href;
-
-        // If URL protocol is false or is a string containing a single colon
-        // *and* host are false, assume it is not a cross-domain request
-        // (should only be the case for IE7 and IE compatibility mode).
-        // Otherwise, evaluate protocol and host of the URL against the origin
-        // protocol and host.
-        return !(((!urlAnchor.protocol || urlAnchor.protocol === ':') && !urlAnchor.host) ||
-          (originAnchor.protocol + '//' + originAnchor.host ===
-            urlAnchor.protocol + '//' + urlAnchor.host));
-      } catch (e) {
-        // If there is an error parsing the URL, assume it is crossDomain.
-        return true;
-      }
-    },
-
-    // Handles "data-method" on links such as:
-    // <a href="/users/5" data-method="delete" rel="nofollow" data-confirm="Are you sure?">Delete</a>
-    handleMethod: function(link) {
-      var href = rails.href(link),
-        method = link.data('method'),
-        target = link.attr('target'),
-        csrfToken = rails.csrfToken(),
-        csrfParam = rails.csrfParam(),
-        form = $('<form method="post" action="' + href + '"></form>'),
-        metadataInput = '<input name="_method" value="' + method + '" type="hidden" />';
-
-      if (csrfParam !== undefined && csrfToken !== undefined && !rails.isCrossDomain(href)) {
-        metadataInput += '<input name="' + csrfParam + '" value="' + csrfToken + '" type="hidden" />';
-      }
-
-      if (target) { form.attr('target', target); }
-
-      form.hide().append(metadataInput).appendTo('body');
-      form.submit();
-    },
-
-    // Helper function that returns form elements that match the specified CSS selector
-    // If form is actually a "form" element this will return associated elements outside the from that have
-    // the html form attribute set
-    formElements: function(form, selector) {
-      return form.is('form') ? $(form[0].elements).filter(selector) : form.find(selector);
-    },
-
-    /* Disables form elements:
-      - Caches element value in 'ujs:enable-with' data store
-      - Replaces element text with value of 'data-disable-with' attribute
-      - Sets disabled property to true
-    */
-    disableFormElements: function(form) {
-      rails.formElements(form, rails.disableSelector).each(function() {
-        rails.disableFormElement($(this));
-      });
-    },
-
-    disableFormElement: function(element) {
-      var method, replacement;
-
-      method = element.is('button') ? 'html' : 'val';
-      replacement = element.data('disable-with');
-
-      if (replacement !== undefined) {
-        element.data('ujs:enable-with', element[method]());
-        element[method](replacement);
-      }
-
-      element.prop('disabled', true);
-      element.data('ujs:disabled', true);
-    },
-
-    /* Re-enables disabled form elements:
-      - Replaces element text with cached value from 'ujs:enable-with' data store (created in `disableFormElements`)
-      - Sets disabled property to false
-    */
-    enableFormElements: function(form) {
-      rails.formElements(form, rails.enableSelector).each(function() {
-        rails.enableFormElement($(this));
-      });
-    },
-
-    enableFormElement: function(element) {
-      var method = element.is('button') ? 'html' : 'val';
-      if (element.data('ujs:enable-with') !== undefined) {
-        element[method](element.data('ujs:enable-with'));
-        element.removeData('ujs:enable-with'); // clean up cache
-      }
-      element.prop('disabled', false);
-      element.removeData('ujs:disabled');
-    },
-
-   /* For 'data-confirm' attribute:
-      - Fires `confirm` event
-      - Shows the confirmation dialog
-      - Fires the `confirm:complete` event
-
-      Returns `true` if no function stops the chain and user chose yes; `false` otherwise.
-      Attaching a handler to the element's `confirm` event that returns a `falsy` value cancels the confirmation dialog.
-      Attaching a handler to the element's `confirm:complete` event that returns a `falsy` value makes this function
-      return false. The `confirm:complete` event is fired whether or not the user answered true or false to the dialog.
-   */
-    allowAction: function(element) {
-      var message = element.data('confirm'),
-          answer = false, callback;
-      if (!message) { return true; }
-
-      if (rails.fire(element, 'confirm')) {
-        try {
-          answer = rails.confirm(message);
-        } catch (e) {
-          (console.error || console.log).call(console, e.stack || e);
-        }
-        callback = rails.fire(element, 'confirm:complete', [answer]);
-      }
-      return answer && callback;
-    },
-
-    // Helper function which checks for blank inputs in a form that match the specified CSS selector
-    blankInputs: function(form, specifiedSelector, nonBlank) {
-      var foundInputs = $(),
-        input,
-        valueToCheck,
-        radiosForNameWithNoneSelected,
-        radioName,
-        selector = specifiedSelector || 'input,textarea',
-        requiredInputs = form.find(selector),
-        checkedRadioButtonNames = {};
-
-      requiredInputs.each(function() {
-        input = $(this);
-        if (input.is('input[type=radio]')) {
-
-          // Don't count unchecked required radio as blank if other radio with same name is checked,
-          // regardless of whether same-name radio input has required attribute or not. The spec
-          // states https://www.w3.org/TR/html5/forms.html#the-required-attribute
-          radioName = input.attr('name');
-
-          // Skip if we've already seen the radio with this name.
-          if (!checkedRadioButtonNames[radioName]) {
-
-            // If none checked
-            if (form.find('input[type=radio]:checked[name="' + radioName + '"]').length === 0) {
-              radiosForNameWithNoneSelected = form.find(
-                'input[type=radio][name="' + radioName + '"]');
-              foundInputs = foundInputs.add(radiosForNameWithNoneSelected);
-            }
-
-            // We only need to check each name once.
-            checkedRadioButtonNames[radioName] = radioName;
-          }
-        } else {
-          valueToCheck = input.is('input[type=checkbox],input[type=radio]') ? input.is(':checked') : !!input.val();
-          if (valueToCheck === nonBlank) {
-            foundInputs = foundInputs.add(input);
-          }
-        }
-      });
-      return foundInputs.length ? foundInputs : false;
-    },
-
-    // Helper function which checks for non-blank inputs in a form that match the specified CSS selector
-    nonBlankInputs: function(form, specifiedSelector) {
-      return rails.blankInputs(form, specifiedSelector, true); // true specifies nonBlank
-    },
-
-    // Helper function, needed to provide consistent behavior in IE
-    stopEverything: function(e) {
-      $(e.target).trigger('ujs:everythingStopped');
-      e.stopImmediatePropagation();
-      return false;
-    },
-
-    //  Replace element's html with the 'data-disable-with' after storing original html
-    //  and prevent clicking on it
-    disableElement: function(element) {
-      var replacement = element.data('disable-with');
-
-      if (replacement !== undefined) {
-        element.data('ujs:enable-with', element.html()); // store enabled state
-        element.html(replacement);
-      }
-
-      element.bind('click.railsDisable', function(e) { // prevent further clicking
-        return rails.stopEverything(e);
-      });
-      element.data('ujs:disabled', true);
-    },
-
-    // Restore element to its original state which was disabled by 'disableElement' above
-    enableElement: function(element) {
-      if (element.data('ujs:enable-with') !== undefined) {
-        element.html(element.data('ujs:enable-with')); // set to old enabled state
-        element.removeData('ujs:enable-with'); // clean up cache
-      }
-      element.unbind('click.railsDisable'); // enable element
-      element.removeData('ujs:disabled');
-    }
-  };
-
-  if (rails.fire($document, 'rails:attachBindings')) {
-
-    $.ajaxPrefilter(function(options, originalOptions, xhr){ if ( !options.crossDomain ) { rails.CSRFProtection(xhr); }});
-
-    // This event works the same as the load event, except that it fires every
-    // time the page is loaded.
-    //
-    // See https://github.com/rails/jquery-ujs/issues/357
-    // See https://developer.mozilla.org/en-US/docs/Using_Firefox_1.5_caching
-    $(window).on('pageshow.rails', function () {
-      $($.rails.enableSelector).each(function () {
-        var element = $(this);
-
-        if (element.data('ujs:disabled')) {
-          $.rails.enableFormElement(element);
-        }
-      });
-
-      $($.rails.linkDisableSelector).each(function () {
-        var element = $(this);
-
-        if (element.data('ujs:disabled')) {
-          $.rails.enableElement(element);
-        }
-      });
-    });
-
-    $document.on('ajax:complete', rails.linkDisableSelector, function() {
-        rails.enableElement($(this));
-    });
-
-    $document.on('ajax:complete', rails.buttonDisableSelector, function() {
-        rails.enableFormElement($(this));
-    });
-
-    $document.on('click.rails', rails.linkClickSelector, function(e) {
-      var link = $(this), method = link.data('method'), data = link.data('params'), metaClick = e.metaKey || e.ctrlKey;
-      if (!rails.allowAction(link)) return rails.stopEverything(e);
-
-      if (!metaClick && link.is(rails.linkDisableSelector)) rails.disableElement(link);
-
-      if (rails.isRemote(link)) {
-        if (metaClick && (!method || method === 'GET') && !data) { return true; }
-
-        var handleRemote = rails.handleRemote(link);
-        // Response from rails.handleRemote() will either be false or a deferred object promise.
-        if (handleRemote === false) {
-          rails.enableElement(link);
-        } else {
-          handleRemote.fail( function() { rails.enableElement(link); } );
-        }
-        return false;
-
-      } else if (method) {
-        rails.handleMethod(link);
-        return false;
-      }
-    });
-
-    $document.on('click.rails', rails.buttonClickSelector, function(e) {
-      var button = $(this);
-
-      if (!rails.allowAction(button) || !rails.isRemote(button)) return rails.stopEverything(e);
-
-      if (button.is(rails.buttonDisableSelector)) rails.disableFormElement(button);
-
-      var handleRemote = rails.handleRemote(button);
-      // Response from rails.handleRemote() will either be false or a deferred object promise.
-      if (handleRemote === false) {
-        rails.enableFormElement(button);
-      } else {
-        handleRemote.fail( function() { rails.enableFormElement(button); } );
-      }
-      return false;
-    });
-
-    $document.on('change.rails', rails.inputChangeSelector, function(e) {
-      var link = $(this);
-      if (!rails.allowAction(link) || !rails.isRemote(link)) return rails.stopEverything(e);
-
-      rails.handleRemote(link);
-      return false;
-    });
-
-    $document.on('submit.rails', rails.formSubmitSelector, function(e) {
-      var form = $(this),
-        remote = rails.isRemote(form),
-        blankRequiredInputs,
-        nonBlankFileInputs;
-
-      if (!rails.allowAction(form)) return rails.stopEverything(e);
-
-      // Skip other logic when required values are missing or file upload is present
-      if (form.attr('novalidate') === undefined) {
-        if (form.data('ujs:formnovalidate-button') === undefined) {
-          blankRequiredInputs = rails.blankInputs(form, rails.requiredInputSelector, false);
-          if (blankRequiredInputs && rails.fire(form, 'ajax:aborted:required', [blankRequiredInputs])) {
-            return rails.stopEverything(e);
-          }
-        } else {
-          // Clear the formnovalidate in case the next button click is not on a formnovalidate button
-          // Not strictly necessary to do here, since it is also reset on each button click, but just to be certain
-          form.data('ujs:formnovalidate-button', undefined);
-        }
-      }
-
-      if (remote) {
-        nonBlankFileInputs = rails.nonBlankInputs(form, rails.fileInputSelector);
-        if (nonBlankFileInputs) {
-          // Slight timeout so that the submit button gets properly serialized
-          // (make it easy for event handler to serialize form without disabled values)
-          setTimeout(function(){ rails.disableFormElements(form); }, 13);
-          var aborted = rails.fire(form, 'ajax:aborted:file', [nonBlankFileInputs]);
-
-          // Re-enable form elements if event bindings return false (canceling normal form submission)
-          if (!aborted) { setTimeout(function(){ rails.enableFormElements(form); }, 13); }
-
-          return aborted;
-        }
-
-        rails.handleRemote(form);
-        return false;
-
-      } else {
-        // Slight timeout so that the submit button gets properly serialized
-        setTimeout(function(){ rails.disableFormElements(form); }, 13);
-      }
-    });
-
-    $document.on('click.rails', rails.formInputClickSelector, function(event) {
-      var button = $(this);
-
-      if (!rails.allowAction(button)) return rails.stopEverything(event);
-
-      // Register the pressed submit button
-      var name = button.attr('name'),
-        data = name ? {name:name, value:button.val()} : null;
-
-      var form = button.closest('form');
-      if (form.length === 0) {
-        form = $('#' + button.attr('form'));
-      }
-      form.data('ujs:submit-button', data);
-
-      // Save attributes from button
-      form.data('ujs:formnovalidate-button', button.attr('formnovalidate'));
-      form.data('ujs:submit-button-formaction', button.attr('formaction'));
-      form.data('ujs:submit-button-formmethod', button.attr('formmethod'));
-    });
-
-    $document.on('ajax:send.rails', rails.formSubmitSelector, function(event) {
-      if (this === event.target) rails.disableFormElements($(this));
-    });
-
-    $document.on('ajax:complete.rails', rails.formSubmitSelector, function(event) {
-      if (this === event.target) rails.enableFormElements($(this));
-    });
-
-    $(function(){
-      rails.refreshCSRFTokens();
-    });
-  }
-
-})( jQuery );
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// This file is deprecated in 1.12.0 to be removed in 1.13
-( function() {
-!(__WEBPACK_AMD_DEFINE_FACTORY__ = ([
-	"jquery",
-	"./data",
-	"./disable-selection",
-	"./focusable",
-	"./form",
-	"./ie",
-	"./keycode",
-	"./labels",
-	"./jquery-1-7",
-	"./plugin",
-	"./safe-active-element",
-	"./safe-blur",
-	"./scroll-parent",
-	"./tabbable",
-	"./unique-id",
-	"./version"
-]),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
-				__WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-} )();
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery UI Position 1.12.1
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- *
- * http://api.jqueryui.com/position/
- */
-
-//>>label: Position
-//>>group: Core
-//>>description: Positions elements relative to other elements.
-//>>docs: http://api.jqueryui.com/position/
-//>>demos: http://jqueryui.com/position/
-
-( function( factory ) {
-	if ( true ) {
-
-		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {
-
-		// Browser globals
-		factory( jQuery );
-	}
-}( function( $ ) {
-( function() {
-var cachedScrollbarWidth,
-	max = Math.max,
-	abs = Math.abs,
-	rhorizontal = /left|center|right/,
-	rvertical = /top|center|bottom/,
-	roffset = /[\+\-]\d+(\.[\d]+)?%?/,
-	rposition = /^\w+/,
-	rpercent = /%$/,
-	_position = $.fn.position;
-
-function getOffsets( offsets, width, height ) {
-	return [
-		parseFloat( offsets[ 0 ] ) * ( rpercent.test( offsets[ 0 ] ) ? width / 100 : 1 ),
-		parseFloat( offsets[ 1 ] ) * ( rpercent.test( offsets[ 1 ] ) ? height / 100 : 1 )
-	];
-}
-
-function parseCss( element, property ) {
-	return parseInt( $.css( element, property ), 10 ) || 0;
-}
-
-function getDimensions( elem ) {
-	var raw = elem[ 0 ];
-	if ( raw.nodeType === 9 ) {
-		return {
-			width: elem.width(),
-			height: elem.height(),
-			offset: { top: 0, left: 0 }
-		};
-	}
-	if ( $.isWindow( raw ) ) {
-		return {
-			width: elem.width(),
-			height: elem.height(),
-			offset: { top: elem.scrollTop(), left: elem.scrollLeft() }
-		};
-	}
-	if ( raw.preventDefault ) {
-		return {
-			width: 0,
-			height: 0,
-			offset: { top: raw.pageY, left: raw.pageX }
-		};
-	}
-	return {
-		width: elem.outerWidth(),
-		height: elem.outerHeight(),
-		offset: elem.offset()
-	};
-}
-
-$.position = {
-	scrollbarWidth: function() {
-		if ( cachedScrollbarWidth !== undefined ) {
-			return cachedScrollbarWidth;
-		}
-		var w1, w2,
-			div = $( "<div " +
-				"style='display:block;position:absolute;width:50px;height:50px;overflow:hidden;'>" +
-				"<div style='height:100px;width:auto;'></div></div>" ),
-			innerDiv = div.children()[ 0 ];
-
-		$( "body" ).append( div );
-		w1 = innerDiv.offsetWidth;
-		div.css( "overflow", "scroll" );
-
-		w2 = innerDiv.offsetWidth;
-
-		if ( w1 === w2 ) {
-			w2 = div[ 0 ].clientWidth;
-		}
-
-		div.remove();
-
-		return ( cachedScrollbarWidth = w1 - w2 );
-	},
-	getScrollInfo: function( within ) {
-		var overflowX = within.isWindow || within.isDocument ? "" :
-				within.element.css( "overflow-x" ),
-			overflowY = within.isWindow || within.isDocument ? "" :
-				within.element.css( "overflow-y" ),
-			hasOverflowX = overflowX === "scroll" ||
-				( overflowX === "auto" && within.width < within.element[ 0 ].scrollWidth ),
-			hasOverflowY = overflowY === "scroll" ||
-				( overflowY === "auto" && within.height < within.element[ 0 ].scrollHeight );
-		return {
-			width: hasOverflowY ? $.position.scrollbarWidth() : 0,
-			height: hasOverflowX ? $.position.scrollbarWidth() : 0
-		};
-	},
-	getWithinInfo: function( element ) {
-		var withinElement = $( element || window ),
-			isWindow = $.isWindow( withinElement[ 0 ] ),
-			isDocument = !!withinElement[ 0 ] && withinElement[ 0 ].nodeType === 9,
-			hasOffset = !isWindow && !isDocument;
-		return {
-			element: withinElement,
-			isWindow: isWindow,
-			isDocument: isDocument,
-			offset: hasOffset ? $( element ).offset() : { left: 0, top: 0 },
-			scrollLeft: withinElement.scrollLeft(),
-			scrollTop: withinElement.scrollTop(),
-			width: withinElement.outerWidth(),
-			height: withinElement.outerHeight()
-		};
-	}
-};
-
-$.fn.position = function( options ) {
-	if ( !options || !options.of ) {
-		return _position.apply( this, arguments );
-	}
-
-	// Make a copy, we don't want to modify arguments
-	options = $.extend( {}, options );
-
-	var atOffset, targetWidth, targetHeight, targetOffset, basePosition, dimensions,
-		target = $( options.of ),
-		within = $.position.getWithinInfo( options.within ),
-		scrollInfo = $.position.getScrollInfo( within ),
-		collision = ( options.collision || "flip" ).split( " " ),
-		offsets = {};
-
-	dimensions = getDimensions( target );
-	if ( target[ 0 ].preventDefault ) {
-
-		// Force left top to allow flipping
-		options.at = "left top";
-	}
-	targetWidth = dimensions.width;
-	targetHeight = dimensions.height;
-	targetOffset = dimensions.offset;
-
-	// Clone to reuse original targetOffset later
-	basePosition = $.extend( {}, targetOffset );
-
-	// Force my and at to have valid horizontal and vertical positions
-	// if a value is missing or invalid, it will be converted to center
-	$.each( [ "my", "at" ], function() {
-		var pos = ( options[ this ] || "" ).split( " " ),
-			horizontalOffset,
-			verticalOffset;
-
-		if ( pos.length === 1 ) {
-			pos = rhorizontal.test( pos[ 0 ] ) ?
-				pos.concat( [ "center" ] ) :
-				rvertical.test( pos[ 0 ] ) ?
-					[ "center" ].concat( pos ) :
-					[ "center", "center" ];
-		}
-		pos[ 0 ] = rhorizontal.test( pos[ 0 ] ) ? pos[ 0 ] : "center";
-		pos[ 1 ] = rvertical.test( pos[ 1 ] ) ? pos[ 1 ] : "center";
-
-		// Calculate offsets
-		horizontalOffset = roffset.exec( pos[ 0 ] );
-		verticalOffset = roffset.exec( pos[ 1 ] );
-		offsets[ this ] = [
-			horizontalOffset ? horizontalOffset[ 0 ] : 0,
-			verticalOffset ? verticalOffset[ 0 ] : 0
-		];
-
-		// Reduce to just the positions without the offsets
-		options[ this ] = [
-			rposition.exec( pos[ 0 ] )[ 0 ],
-			rposition.exec( pos[ 1 ] )[ 0 ]
-		];
-	} );
-
-	// Normalize collision option
-	if ( collision.length === 1 ) {
-		collision[ 1 ] = collision[ 0 ];
-	}
-
-	if ( options.at[ 0 ] === "right" ) {
-		basePosition.left += targetWidth;
-	} else if ( options.at[ 0 ] === "center" ) {
-		basePosition.left += targetWidth / 2;
-	}
-
-	if ( options.at[ 1 ] === "bottom" ) {
-		basePosition.top += targetHeight;
-	} else if ( options.at[ 1 ] === "center" ) {
-		basePosition.top += targetHeight / 2;
-	}
-
-	atOffset = getOffsets( offsets.at, targetWidth, targetHeight );
-	basePosition.left += atOffset[ 0 ];
-	basePosition.top += atOffset[ 1 ];
-
-	return this.each( function() {
-		var collisionPosition, using,
-			elem = $( this ),
-			elemWidth = elem.outerWidth(),
-			elemHeight = elem.outerHeight(),
-			marginLeft = parseCss( this, "marginLeft" ),
-			marginTop = parseCss( this, "marginTop" ),
-			collisionWidth = elemWidth + marginLeft + parseCss( this, "marginRight" ) +
-				scrollInfo.width,
-			collisionHeight = elemHeight + marginTop + parseCss( this, "marginBottom" ) +
-				scrollInfo.height,
-			position = $.extend( {}, basePosition ),
-			myOffset = getOffsets( offsets.my, elem.outerWidth(), elem.outerHeight() );
-
-		if ( options.my[ 0 ] === "right" ) {
-			position.left -= elemWidth;
-		} else if ( options.my[ 0 ] === "center" ) {
-			position.left -= elemWidth / 2;
-		}
-
-		if ( options.my[ 1 ] === "bottom" ) {
-			position.top -= elemHeight;
-		} else if ( options.my[ 1 ] === "center" ) {
-			position.top -= elemHeight / 2;
-		}
-
-		position.left += myOffset[ 0 ];
-		position.top += myOffset[ 1 ];
-
-		collisionPosition = {
-			marginLeft: marginLeft,
-			marginTop: marginTop
-		};
-
-		$.each( [ "left", "top" ], function( i, dir ) {
-			if ( $.ui.position[ collision[ i ] ] ) {
-				$.ui.position[ collision[ i ] ][ dir ]( position, {
-					targetWidth: targetWidth,
-					targetHeight: targetHeight,
-					elemWidth: elemWidth,
-					elemHeight: elemHeight,
-					collisionPosition: collisionPosition,
-					collisionWidth: collisionWidth,
-					collisionHeight: collisionHeight,
-					offset: [ atOffset[ 0 ] + myOffset[ 0 ], atOffset [ 1 ] + myOffset[ 1 ] ],
-					my: options.my,
-					at: options.at,
-					within: within,
-					elem: elem
-				} );
-			}
-		} );
-
-		if ( options.using ) {
-
-			// Adds feedback as second argument to using callback, if present
-			using = function( props ) {
-				var left = targetOffset.left - position.left,
-					right = left + targetWidth - elemWidth,
-					top = targetOffset.top - position.top,
-					bottom = top + targetHeight - elemHeight,
-					feedback = {
-						target: {
-							element: target,
-							left: targetOffset.left,
-							top: targetOffset.top,
-							width: targetWidth,
-							height: targetHeight
-						},
-						element: {
-							element: elem,
-							left: position.left,
-							top: position.top,
-							width: elemWidth,
-							height: elemHeight
-						},
-						horizontal: right < 0 ? "left" : left > 0 ? "right" : "center",
-						vertical: bottom < 0 ? "top" : top > 0 ? "bottom" : "middle"
-					};
-				if ( targetWidth < elemWidth && abs( left + right ) < targetWidth ) {
-					feedback.horizontal = "center";
-				}
-				if ( targetHeight < elemHeight && abs( top + bottom ) < targetHeight ) {
-					feedback.vertical = "middle";
-				}
-				if ( max( abs( left ), abs( right ) ) > max( abs( top ), abs( bottom ) ) ) {
-					feedback.important = "horizontal";
-				} else {
-					feedback.important = "vertical";
-				}
-				options.using.call( this, props, feedback );
-			};
-		}
-
-		elem.offset( $.extend( position, { using: using } ) );
-	} );
-};
-
-$.ui.position = {
-	fit: {
-		left: function( position, data ) {
-			var within = data.within,
-				withinOffset = within.isWindow ? within.scrollLeft : within.offset.left,
-				outerWidth = within.width,
-				collisionPosLeft = position.left - data.collisionPosition.marginLeft,
-				overLeft = withinOffset - collisionPosLeft,
-				overRight = collisionPosLeft + data.collisionWidth - outerWidth - withinOffset,
-				newOverRight;
-
-			// Element is wider than within
-			if ( data.collisionWidth > outerWidth ) {
-
-				// Element is initially over the left side of within
-				if ( overLeft > 0 && overRight <= 0 ) {
-					newOverRight = position.left + overLeft + data.collisionWidth - outerWidth -
-						withinOffset;
-					position.left += overLeft - newOverRight;
-
-				// Element is initially over right side of within
-				} else if ( overRight > 0 && overLeft <= 0 ) {
-					position.left = withinOffset;
-
-				// Element is initially over both left and right sides of within
-				} else {
-					if ( overLeft > overRight ) {
-						position.left = withinOffset + outerWidth - data.collisionWidth;
-					} else {
-						position.left = withinOffset;
-					}
-				}
-
-			// Too far left -> align with left edge
-			} else if ( overLeft > 0 ) {
-				position.left += overLeft;
-
-			// Too far right -> align with right edge
-			} else if ( overRight > 0 ) {
-				position.left -= overRight;
-
-			// Adjust based on position and margin
-			} else {
-				position.left = max( position.left - collisionPosLeft, position.left );
-			}
-		},
-		top: function( position, data ) {
-			var within = data.within,
-				withinOffset = within.isWindow ? within.scrollTop : within.offset.top,
-				outerHeight = data.within.height,
-				collisionPosTop = position.top - data.collisionPosition.marginTop,
-				overTop = withinOffset - collisionPosTop,
-				overBottom = collisionPosTop + data.collisionHeight - outerHeight - withinOffset,
-				newOverBottom;
-
-			// Element is taller than within
-			if ( data.collisionHeight > outerHeight ) {
-
-				// Element is initially over the top of within
-				if ( overTop > 0 && overBottom <= 0 ) {
-					newOverBottom = position.top + overTop + data.collisionHeight - outerHeight -
-						withinOffset;
-					position.top += overTop - newOverBottom;
-
-				// Element is initially over bottom of within
-				} else if ( overBottom > 0 && overTop <= 0 ) {
-					position.top = withinOffset;
-
-				// Element is initially over both top and bottom of within
-				} else {
-					if ( overTop > overBottom ) {
-						position.top = withinOffset + outerHeight - data.collisionHeight;
-					} else {
-						position.top = withinOffset;
-					}
-				}
-
-			// Too far up -> align with top
-			} else if ( overTop > 0 ) {
-				position.top += overTop;
-
-			// Too far down -> align with bottom edge
-			} else if ( overBottom > 0 ) {
-				position.top -= overBottom;
-
-			// Adjust based on position and margin
-			} else {
-				position.top = max( position.top - collisionPosTop, position.top );
-			}
-		}
-	},
-	flip: {
-		left: function( position, data ) {
-			var within = data.within,
-				withinOffset = within.offset.left + within.scrollLeft,
-				outerWidth = within.width,
-				offsetLeft = within.isWindow ? within.scrollLeft : within.offset.left,
-				collisionPosLeft = position.left - data.collisionPosition.marginLeft,
-				overLeft = collisionPosLeft - offsetLeft,
-				overRight = collisionPosLeft + data.collisionWidth - outerWidth - offsetLeft,
-				myOffset = data.my[ 0 ] === "left" ?
-					-data.elemWidth :
-					data.my[ 0 ] === "right" ?
-						data.elemWidth :
-						0,
-				atOffset = data.at[ 0 ] === "left" ?
-					data.targetWidth :
-					data.at[ 0 ] === "right" ?
-						-data.targetWidth :
-						0,
-				offset = -2 * data.offset[ 0 ],
-				newOverRight,
-				newOverLeft;
-
-			if ( overLeft < 0 ) {
-				newOverRight = position.left + myOffset + atOffset + offset + data.collisionWidth -
-					outerWidth - withinOffset;
-				if ( newOverRight < 0 || newOverRight < abs( overLeft ) ) {
-					position.left += myOffset + atOffset + offset;
-				}
-			} else if ( overRight > 0 ) {
-				newOverLeft = position.left - data.collisionPosition.marginLeft + myOffset +
-					atOffset + offset - offsetLeft;
-				if ( newOverLeft > 0 || abs( newOverLeft ) < overRight ) {
-					position.left += myOffset + atOffset + offset;
-				}
-			}
-		},
-		top: function( position, data ) {
-			var within = data.within,
-				withinOffset = within.offset.top + within.scrollTop,
-				outerHeight = within.height,
-				offsetTop = within.isWindow ? within.scrollTop : within.offset.top,
-				collisionPosTop = position.top - data.collisionPosition.marginTop,
-				overTop = collisionPosTop - offsetTop,
-				overBottom = collisionPosTop + data.collisionHeight - outerHeight - offsetTop,
-				top = data.my[ 1 ] === "top",
-				myOffset = top ?
-					-data.elemHeight :
-					data.my[ 1 ] === "bottom" ?
-						data.elemHeight :
-						0,
-				atOffset = data.at[ 1 ] === "top" ?
-					data.targetHeight :
-					data.at[ 1 ] === "bottom" ?
-						-data.targetHeight :
-						0,
-				offset = -2 * data.offset[ 1 ],
-				newOverTop,
-				newOverBottom;
-			if ( overTop < 0 ) {
-				newOverBottom = position.top + myOffset + atOffset + offset + data.collisionHeight -
-					outerHeight - withinOffset;
-				if ( newOverBottom < 0 || newOverBottom < abs( overTop ) ) {
-					position.top += myOffset + atOffset + offset;
-				}
-			} else if ( overBottom > 0 ) {
-				newOverTop = position.top - data.collisionPosition.marginTop + myOffset + atOffset +
-					offset - offsetTop;
-				if ( newOverTop > 0 || abs( newOverTop ) < overBottom ) {
-					position.top += myOffset + atOffset + offset;
-				}
-			}
-		}
-	},
-	flipfit: {
-		left: function() {
-			$.ui.position.flip.left.apply( this, arguments );
-			$.ui.position.fit.left.apply( this, arguments );
-		},
-		top: function() {
-			$.ui.position.flip.top.apply( this, arguments );
-			$.ui.position.fit.top.apply( this, arguments );
-		}
-	}
-};
-
-} )();
-
-return $.ui.position;
-
-} ) );
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;( function( factory ) {
-	if ( true ) {
-
-		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {
-
-		// Browser globals
-		factory( jQuery );
-	}
-} ( function( $ ) {
-
-$.ui = $.ui || {};
-
-return $.ui.version = "1.12.1";
-
-} ) );
-
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var validateFormat = function validateFormat(format) {};
-
-if (process.env.NODE_ENV !== 'production') {
-  validateFormat = function validateFormat(format) {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  };
-}
-
-function invariant(condition, format, a, b, c, d, e, f) {
-  validateFormat(format);
-
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(format.replace(/%s/g, function () {
-        return args[argIndex++];
-      }));
-      error.name = 'Invariant Violation';
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-}
-
-module.exports = invariant;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ }),
-/* 16 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimeAgoField; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_bootstrap_switch__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_bootstrap_switch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_bootstrap_switch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_toggle_display__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_toggle_display___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_toggle_display__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_jquery__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__SelectConstructor__ = __webpack_require__(8);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-
-
-__webpack_require__(6);
-__webpack_require__(11);
-__webpack_require__(12);
-__webpack_require__(13);
-
-var TimeAgoField = function (_Component) {
-  _inherits(TimeAgoField, _Component);
-
-  function TimeAgoField(props) {
-    _classCallCheck(this, TimeAgoField);
-
-    var _this = _possibleConstructorReturn(this, (TimeAgoField.__proto__ || Object.getPrototypeOf(TimeAgoField)).call(this, props));
-
-    _this.state = {
-      show: true,
-      timeAgoAmount: _this.props.timeAgoAmount,
-      timeAgoUnit: _this.props.timeAgoUnit,
-      absoluteDate: _this.props.absoluteDate
-    };
-    _this.keyboardize = _this.keyboardize.bind(_this);
-    _this.handleChange = _this.handleChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(TimeAgoField, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.$el = __WEBPACK_IMPORTED_MODULE_4_jquery___default()(this.el);
-      this.$el.addKeyboard();
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this.$el.addKeyboard('destroy');
-    }
-  }, {
-    key: 'keyboardize',
-    value: function keyboardize(e) {
-      e.preventDefault();
-      this.$el = __WEBPACK_IMPORTED_MODULE_4_jquery___default()(this.el);
-      var kb = this.$el.getkeyboard();
-      // close the keyboard if the keyboard is visible and the button is clicked a second time
-      if (kb.isOpen) {
-        kb.close();
-      } else {
-        kb.reveal();
-      }
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(event) {
-      this.props.onDateChange(_defineProperty({}, event.target.name, event.target.value));
-    }
-  }, {
-    key: 'handleSwitch',
-    value: function handleSwitch(elem, state) {
-      this.setState({ show: state });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var options = ['second(s)', 'minute(s)', 'hour(s)', 'day(s)', 'week(s)', 'month(s)', 'year(s)'];
-      var absoluteTime = void 0;
-      switch (this.props.topic.topic_type) {
-        case 'test':
-          absoluteTime = 'absolute_start_date';
-          break;
-        case 'hospitalization':
-          absoluteTime = 'admission_date';
-          break;
-        default:
-          absoluteTime = 'absolute_start_date';
-      }
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'row' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_bootstrap_switch___default.a, {
-          onChange: function onChange(el, state) {
-            return _this2.handleSwitch(el, state);
-          },
-          name: 'approxToggle',
-          onText: 'Approx',
-          offText: 'Exact'
-        }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          __WEBPACK_IMPORTED_MODULE_3_react_toggle_display___default.a,
-          { show: this.state.show },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'approximate' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'form-inline' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-                type: 'number',
-                name: 'timeAgoAmount',
-                id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_time_ago_amount',
-                className: 'form-control calculator',
-                placeholder: 'time ago',
-                ref: function ref(el) {
-                  return _this2.el = el;
-                },
-                value: this.state.timeAgoAmount,
-                onChange: this.handleChange
-              }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'button',
-                {
-                  className: 'btn btn-light calculator',
-                  type: 'button',
-                  id: this.props.parameterizedPlural + '_' + this.props.rowID + '_time_calc_button',
-                  onClick: this.keyboardize
-                },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-calculator' })
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__SelectConstructor__["a" /* default */], {
-                arr: options,
-                title: 'time ago',
-                rowID: this.props.rowID,
-                parameterizedPlural: this.props.parameterizedPlural,
-                name: 'timeAgoUnit',
-                value: this.state.timeAgoUnit,
-                onUnitChange: this.handleChange
-              })
-            )
-          )
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          __WEBPACK_IMPORTED_MODULE_3_react_toggle_display___default.a,
-          { show: !this.state.show },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'exact' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-              type: 'date',
-              name: 'absoluteDate',
-              id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + absoluteTime,
-              className: 'form-control',
-              value: this.state.absoluteDate,
-              onChange: this.handleChange
-            })
-          )
-        )
-      );
-    }
-  }]);
-
-  return TimeAgoField;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-TimeAgoField.propTypes = {
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
-};
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2014-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-
-
-var emptyFunction = __webpack_require__(7);
-
-/**
- * Similar to invariant but only logs a warning if the condition is not met.
- * This can be used to log issues in development environments in critical
- * paths. Removing the logging code for production environments will keep the
- * same logic and follow the same code paths.
- */
-
-var warning = emptyFunction;
-
-if (process.env.NODE_ENV !== 'production') {
-  var printWarning = function printWarning(format) {
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    var argIndex = 0;
-    var message = 'Warning: ' + format.replace(/%s/g, function () {
-      return args[argIndex++];
-    });
-    if (typeof console !== 'undefined') {
-      console.error(message);
-    }
-    try {
-      // --- Welcome to debugging React ---
-      // This error was thrown as a convenience so that you can use this stack
-      // to find the callsite that caused this warning to fire.
-      throw new Error(message);
-    } catch (x) {}
-  };
-
-  warning = function warning(condition, format) {
-    if (format === undefined) {
-      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
-    }
-
-    if (format.indexOf('Failed Composite propType: ') === 0) {
-      return; // Ignore CompositeComponent proptype check.
-    }
-
-    if (!condition) {
-      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-        args[_key2 - 2] = arguments[_key2];
-      }
-
-      printWarning.apply(undefined, [format].concat(args));
-    }
-  };
-}
-
-module.exports = warning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ }),
-/* 18 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FindRelated; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var FindRelated = function (_Component) {
-  _inherits(FindRelated, _Component);
-
-  function FindRelated() {
-    _classCallCheck(this, FindRelated);
-
-    return _possibleConstructorReturn(this, (FindRelated.__proto__ || Object.getPrototypeOf(FindRelated)).apply(this, arguments));
-  }
-
-  _createClass(FindRelated, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var topic = this.props.topic;
-      var nextStep = void 0;
-      var buttons = void 0;
-      if (topic.related.length > 0) {
-        nextStep = topic.related.map(function (ind) {
-          return _this2.props.unsortedTopics.find(function (obj) {
-            return obj.id === ind;
-          });
-        }).filter(function (x) {
-          return x !== undefined;
-        });
-        buttons = nextStep.map(function (s) {
-          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'button',
-            {
-              type: 'button',
-              className: 'btn btn-light related', 'data-topic': JSON.stringify(s),
-              key: s.name + 'related'
-            },
-            s.name + ' ',
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-plus', 'aria-hidden': 'true' })
-          );
-        });
-      }
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { 'aria-label': 'RELATED' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'form-group row' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'label',
-            { className: 'col-2 col-form-label' },
-            'Related:'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'col-10' },
-            buttons
-          )
-        )
-      );
-    }
-  }]);
-
-  return FindRelated;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-FindRelated.propTypes = {
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  unsortedTopics: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired
-};
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/
-
-
-/* eslint-disable no-unused-vars */
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-function toObject(val) {
-	if (val === null || val === undefined) {
-		throw new TypeError('Object.assign cannot be called with null or undefined');
-	}
-
-	return Object(val);
-}
-
-function shouldUseNative() {
-	try {
-		if (!Object.assign) {
-			return false;
-		}
-
-		// Detect buggy property enumeration order in older V8 versions.
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
-		test1[5] = 'de';
-		if (Object.getOwnPropertyNames(test1)[0] === '5') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test2 = {};
-		for (var i = 0; i < 10; i++) {
-			test2['_' + String.fromCharCode(i)] = i;
-		}
-		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-			return test2[n];
-		});
-		if (order2.join('') !== '0123456789') {
-			return false;
-		}
-
-		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-		var test3 = {};
-		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-			test3[letter] = letter;
-		});
-		if (Object.keys(Object.assign({}, test3)).join('') !==
-				'abcdefghijklmnopqrst') {
-			return false;
-		}
-
-		return true;
-	} catch (err) {
-		// We don't expect any of the above to throw, but better to be safe.
-		return false;
-	}
-}
-
-module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-	var from;
-	var to = toObject(target);
-	var symbols;
-
-	for (var s = 1; s < arguments.length; s++) {
-		from = Object(arguments[s]);
-
-		for (var key in from) {
-			if (hasOwnProperty.call(from, key)) {
-				to[key] = from[key];
-			}
-		}
-
-		if (getOwnPropertySymbols) {
-			symbols = getOwnPropertySymbols(from);
-			for (var i = 0; i < symbols.length; i++) {
-				if (propIsEnumerable.call(from, symbols[i])) {
-					to[symbols[i]] = from[symbols[i]];
-				}
-			}
-		}
-	}
-
-	return to;
-};
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Keywords; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-var Keywords = function (_Component) {
-  _inherits(Keywords, _Component);
-
-  function Keywords(props) {
-    _classCallCheck(this, Keywords);
-
-    var _this = _possibleConstructorReturn(this, (Keywords.__proto__ || Object.getPrototypeOf(Keywords)).call(this, props));
-
-    _this.state = {
-      keywords: null
-    };
-    _this.handleKeywordsChange = _this.handleKeywordsChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(Keywords, [{
-    key: 'handleKeywordsChange',
-    value: function handleKeywordsChange(event) {
-      this.props.onKeywordsChange(_defineProperty({}, event.target.name, event.target.value));
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var descriptors = void 0;
-      if (this.props.topic.descriptors) {
-        descriptors = this.props.topic.descriptors.map(function (descriptor) {
-          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'label',
-            { key: descriptor + '_' + _this2.props.rowID, className: 'form-check-label descriptor' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-              className: 'form-check-input',
-              type: 'checkbox',
-              name: 'keywords',
-              id: 'visit_' + _this2.props.parameterizedPlural + '_attributes_' + _this2.props.rowID + '_descriptors_' + descriptor,
-              value: _this2.state.keywords,
-              onChange: _this2.handleKeywordsChange
-            }),
-            descriptor
-          );
-        });
-      }
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'form-inline descriptors' },
-        descriptors
-      );
-    }
-  }]);
-
-  return Keywords;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-Keywords.propTypes = {
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
-};
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-
-
-var emptyObject = {};
-
-if (process.env.NODE_ENV !== 'production') {
-  Object.freeze(emptyObject);
-}
-
-module.exports = emptyObject;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ }),
-/* 22 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ({
-    epicMeds: function epicMeds(s) {
-        var left = 0,
-            right = 0,
-            A = [],
-            M = s.match(/([^()]+)|([()])/g),
-            L = M.length,
-            next,
-            str = '';
-        for (var i = 0; i < L; i++) {
-            next = M[i];
-            if (next === '(') ++left;else if (next === ')') ++right;
-            if (left !== 0) {
-                str += next;
-                if (left === right) {
-                    A[A.length - 1] += str;
-                    left = right = 0;
-                    str = '';
-                }
-            } else A = A.concat(next.match(/([^,]+)/g));
-        }
-        return A;
-    }
-});
-
-/***/ }),
-/* 23 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-// maps parsed epic med strings to preexisting database 'topics' (i.e. meds that we want to be gathering data on)
-// returns:
-//  (1)'topic id' integer or
-//  (2) nil
-/* harmony default export */ __webpack_exports__["default"] = ({
-  medMapper: function medMapper(name, commonName, medsObj) {
-    if (!!(name.match(/metoprolol/gi) || commonName.match(/toprol/gi) || commonName.match(/lopressor/) || commonName.match(/metoprolol/gi))) {
-      return medsObj["metoprolol"];
-    } else if (!!(name.match(/atenolol/gi) || commonName.match(/tenormin/gi) || name.match(/tenormin/gi) || commonName.match(/tenormin/gi))) {
-      return medsObj["atenolol"];
-    } else if (!!(name.match(/propranolol/gi) || commonName.match(/hemangeol/gi) || commonName.match(/inderal/gi) || commonName.match(/innopran/gi) || commonName.match(/propranolol/gi))) {
-      return medsObj["propranolol"];
-    } else if (!!(name.match(/carvedilol/gi) || commonName.match(/coreg/gi) || name.match(/coreg/gi) || commonName.match(/carvedilol/gi))) {
-      return medsObj["carvedilol"];
-    } else if (!!(name.match(/betaxolol/gi) || commonName.match(/kerlone/gi) || commonName.match(/kerlone/gi))) {
-      return medsObj["betaxolol"];
-    } else if (!!(name.match(/labetalol/gi) || commonName.match(/trandate/gi) || commonName.match(/normodyne/gi) || commonName.match(/labetalol/gi))) {
-      return medsObj["labetalol"];
-    } else if (!!(name.match(/losartan/gi) || commonName.match(/losartan/gi) || name.match(/cozaar/gi) || commonName.match(/cozaar/gi))) {
-      return medsObj["losartan"];
-    } else if (!!(name.match(/valsartan/gi) || commonName.match(/valsartan/gi) || name.match(/diovan/gi) || commonName.match(/diovan/gi))) {
-      return medsObj["valsartan"];
-    } else if (!!(name.match(/irbesartan/gi) || commonName.match(/irbesartan/gi) || name.match(/avapro/gi) || commonName.match(/avapro/gi))) {
-      return medsObj["irbesartan"];
-    } else if (!!(name.match(/telmisartan/gi) || commonName.match(/telmisartan/gi) || name.match(/micardis/gi) || commonName.match(/micardis/gi))) {
-      return medsObj["telmisartan"];
-    } else if (!!(name.match(/candesartan/gi) || commonName.match(/candesartan/gi) || name.match(/atacand/gi) || commonName.match(/atacand/gi))) {
-      return medsObj["candesartan"];
-    } else if (!!(name.match(/verapamil/gi) || commonName.match(/verapamil/gi) || commonName.match(/calan/gi) || commonName.match(/isoptin/gi) || commonName.match(/verelan/gi) || commonName.match(/covera/gi))) {
-      return medsObj["verapamil"];
-    } else if (!!(name.match(/diltiazem/gi) || commonName.match(/diltiazem/gi) || commonName.match(/cartia/gi) || commonName.match(/dilacor/gi) || commonName.match(/dilt/gi) || commonName.match(/matzim/gi) || commonName.match(/taztia/gi) || commonName.match(/tiazac/gi))) {
-      return medsObj["diltiazem"];
-    } else if (!!(name.match(/amlodipine/gi) || commonName.match(/amlodipine/gi) || name.match(/norvasc/gi) || commonName.match(/norvasc/gi))) {
-      return medsObj["amlodipine"];
-    } else if (!!(name.match(/nifedipine/gi) || commonName.match(/adalat/gi) || commonName.match(/afeditab/gi) || commonName.match(/nifediac/gi) || commonName.match(/nifedical/gi) || commonName.match(/procardia/gi))) {
-      return medsObj["nifedipine"];
-    } else if (!!(name.match(/lisinopril/gi) || commonName.match(/prinivil/gi) || commonName.match(/qbrelis/gi) || commonName.match(/zestril/gi))) {
-      return medsObj["lisinopril"];
-    } else if (!!(name.match(/enalapril/gi) || commonName.match(/epaned/gi) || commonName.match(/vasotec/gi))) {
-      return medsObj["enalapril"];
-    } else if (!!(name.match(/captopril/gi) || commonName.match(/capoten/gi))) {
-      return medsObj["captopril"];
-    } else if (!!(name.match(/quinapril/gi) || commonName.match(/quinapril/gi) || name.match(/accupril/gi) || commonName.match(/accupril/gi))) {
-      return medsObj["accupril"];
-    } else if (!!(name.match(/perindopril/gi) || commonName.match(/perindopril/gi) || name.match(/aceon/gi) || commonName.match(/aceon/gi))) {
-      return medsObj["perindopril"];
-    } else if (!!(name.match(/trandolapril/gi) || commonName.match(/trandolapril/gi) || name.match(/mavik/gi) || commonName.match(/mavik/gi))) {
-      return medsObj["trandolapril"];
-    }
-    // else if (!!(true)) {
-    //   return medsObj["CPAP"]
-    // }
-    // else if (!!(true)) {
-    //   return medsObj["bronchodilators"]
-    // }
-    // else if (!!(true)) {
-    //   return medsObj["inhaled steroids"]
-    // }
-    // else if (!!(true)) {
-    //   return medsObj["systemic steroids"]
-    // }
-    // else if (!!(true)) {
-    //   return medsObj["orthotics"]
-    // }
-    else if (!!(name.match(/^calcium/gi) || commonName.match(/^calcium/gi))) {
-        return medsObj["calcium"];
-      } else if (!!(name.match(/vitamin d/gi) || commonName.match(/vitamin d/gi) || name.match(/ergocalciferol/gi))) {
-        return medsObj["vitamin d"];
-      } else if (!!(name.match(/calcitonin/gi) || commonName.match(/calcitonin/gi) || commonName.match(/fortical/gi) || commonName.match(/miacalcin/gi))) {
-        return medsObj["calcitonin"];
-      } else if (!!(name.match(/alendronate/gi) || name.match(/etidronate/gi) || name.match(/zoledronic/gi) || name.match(/ibandronate/gi) || name.match(/risedronate/gi) || name.match(/pamidronate/gi) || name.match(/tiludronate/gi) || commonName.match(/fosamax/gi) || commonName.match(/didronel/gi) || commonName.match(/zometa/gi) || commonName.match(/reclast/gi) || commonName.match(/boniva/gi) || commonName.match(/aclasta/gi) || commonName.match(/atelvia/gi) || commonName.match(/actonel/gi) || commonName.match(/aredia/gi) || commonName.match(/binosto/gi) || commonName.match(/skelid/gi))) {
-        return medsObj["biophosphonates"];
-      } else if (!!(name.match(/estropipate/gi) || name.match(/estrogen/gi) || name.match(/estradiol/gi) || commonName.match(/cenestin/gi) || commonName.match(/femtrace/gi) || commonName.match(/ogen/gi) || commonName.match(/vivelle/gi) || commonName.match(/menest/gi) || commonName.match(/elestrin/gi) || commonName.match(/femring/gi) || commonName.match(/premarin/gi) || commonName.match(/evamist/gi) || commonName.match(/vagifem/gi) || commonName.match(/estrace/gi) || commonName.match(/minivelle/gi) || commonName.match(/climara/gi) || commonName.match(/divigel/gi) || commonName.match(/enjuvia/gi) || commonName.match(/estrasorb/gi) || commonName.match(/estring/gi) || commonName.match(/estraderm/gi) || commonName.match(/estradiol/gi) || commonName.match(/yuvafem/gi) || commonName.match(/alora/gi) || commonName.match(/delestrogen/gi) || commonName.match(/esclim/gi) || commonName.match(/estradot/gi) || commonName.match(/estrogel/gi) || commonName.match(/gynodiol/gi) || commonName.match(/menostar/gi) || commonName.match(/oesclim/gi) || commonName.match(/ogen/gi) || commonName.match(/ortho-est/gi))) {
-        return medsObj["estrogen/analogue"];
-      } else if (!!(name.match(/forteo/gi) || commonName.match(/forteo/gi) || name.match(/teriparatide/gi) || commonName.match(/teriparatide/gi))) {
-        return medsObj["forteo"];
-      }
-      // else if (!!(true)) {
-      //   return medsObj["epidural"]
-      // }
-      else if (!!(name.match(/triptan/gi) || commonName.match(/imitrex/gi) || commonName.match(/zomig/gi) || commonName.match(/maxalt/gi) || commonName.match(/relpax/gi) || commonName.match(/treximet/gi) || commonName.match(/amerge/gi) || commonName.match(/frova/gi) || commonName.match(/axert/gi) || commonName.match(/sumavel/gi) || commonName.match(/zecurity/gi))) {
-          return medsObj["triptans"];
-        } else if (!!(name.match(/acetazolamide/gi) || name.match(/carbamazepine/gi) || name.match(/clobazam/gi) || name.match(/clonazepam/gi) || name.match(/eslicarbazepine/gi) || name.match(/ethosuximide/gi) || name.match(/gabapentin/gi) || name.match(/lacosamide/gi) || name.match(/lamotrigine/gi) || name.match(/levetiracetam/gi) || name.match(/nitrazepam/gi) || name.match(/oxcarbazepine/gi) || name.match(/perampanel/gi) || name.match(/piracetam/gi) || name.match(/phenobarbital/gi) || name.match(/phenytoin/gi) || name.match(/pregabalin/gi) || name.match(/primidone/gi) || name.match(/retigabine/gi) || name.match(/rufinamide/gi) || name.match(/valproate/gi) || name.match(/stiripentol/gi) || name.match(/tiagabine/gi) || name.match(/topiramate/gi) || name.match(/vigabatrin/gi) || name.match(/zonisamide/gi) || commonName.match(/carbogen/gi) || commonName.match(/convulex/gi) || commonName.match(/desitrend/gi) || commonName.match(/diacomit/gi) || commonName.match(/diamox/gi) || commonName.match(/emeside/gi) || commonName.match(/epanutin/gi) || commonName.match(/epilim/gi) || commonName.match(/episenta/gi) || commonName.match(/epival/gi) || commonName.match(/frisium/gi) || commonName.match(/fycompa/gi) || commonName.match(/gabitril/gi) || commonName.match(/inovelon/gi) || commonName.match(/keppra/gi) || commonName.match(/lamictal/gi) || commonName.match(/lyrica/gi) || commonName.match(/neurontin/gi) || commonName.match(/nootropil/gi) || commonName.match(/phenytoin/gi) || commonName.match(/rivotril/gi) || commonName.match(/sabril/gi) || commonName.match(/tapclob/gi) || commonName.match(/tegretol/gi) || commonName.match(/topamax/gi) || commonName.match(/trileptal/gi) || commonName.match(/trobalt/gi) || commonName.match(/vimpat/gi) || commonName.match(/zarontin/gi) || commonName.match(/zebinix/gi) || commonName.match(/zonegran/gi))) {
-          return medsObj["antiepileptics"];
-        } else if (!!(name.match(/nimodipine/gi) || name.match(/isradipine/gi) || name.match(/felodipine/gi) || name.match(/nicardipine/gi) || name.match(/nisoldipine/gi) || name.match(/clevidipine/gi) || commonName.match(/nimotop/gi) || commonName.match(/dynacirc/gi) || commonName.match(/plendil/gi) || commonName.match(/cardene/gi) || commonName.match(/sular/gi) || commonName.match(/cleviprex/gi) || commonName.match(/nymalize/gi))) {
-          return medsObj["ca-blockers"];
-        } else if (!!(name.match(/amoxapine/gi) || name.match(/desipramine/gi) || name.match(/clomipramine/gi) || name.match(/trimipramine/gi) || name.match(/amitriptyline/gi) || name.match(/nortriptyline/gi) || name.match(/imipramine/gi) || name.match(/protriptyline/gi) || name.match(/doxepin/gi) || commonName.match(/asendin/gi) || commonName.match(/norpramin/gi) || commonName.match(/sinequan/gi) || commonName.match(/anafranil/gi) || commonName.match(/surmontil/gi) || commonName.match(/elavil/gi) || commonName.match(/tofranil/gi) || commonName.match(/silenor/gi) || commonName.match(/pamelor/gi) || commonName.match(/vivactil/gi) || commonName.match(/vanatrip/gi) || commonName.match(/aventyl/gi))) {
-          return medsObj["tricyclics"];
-        } else {
-          return medsObj["medication"];
-        }
-  }
-});
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- */
-
-function makeEmptyFunction(arg) {
-  return function () {
-    return arg;
-  };
-}
-
-/**
- * This function accepts and discards inputs; it has no side effects. This is
- * primarily useful idiomatically for overridable function endpoints which
- * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
- */
-var emptyFunction = function emptyFunction() {};
-
-emptyFunction.thatReturns = makeEmptyFunction;
-emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
-emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
-emptyFunction.thatReturnsNull = makeEmptyFunction(null);
-emptyFunction.thatReturnsThis = function () {
-  return this;
-};
-emptyFunction.thatReturnsArgument = function (arg) {
-  return arg;
-};
-
-module.exports = emptyFunction;
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- */
-
-
-
-/**
- * Use invariant() to assert state which your program assumes to be true.
- *
- * Provide sprintf-style format (only %s is supported) and arguments
- * to provide information about what broke and what you were
- * expecting.
- *
- * The invariant message will be stripped in production, but the invariant
- * will remain to ensure logic does not differ in production.
- */
-
-var validateFormat = function validateFormat(format) {};
-
-if (process.env.NODE_ENV !== 'production') {
-  validateFormat = function validateFormat(format) {
-    if (format === undefined) {
-      throw new Error('invariant requires an error message argument');
-    }
-  };
-}
-
-function invariant(condition, format, a, b, c, d, e, f) {
-  validateFormat(format);
-
-  if (!condition) {
-    var error;
-    if (format === undefined) {
-      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-    } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
-      error = new Error(format.replace(/%s/g, function () {
-        return args[argIndex++];
-      }));
-      error.name = 'Invariant Violation';
-    }
-
-    error.framesToPop = 1; // we don't care about invariant's own frame
-    throw error;
-  }
-}
-
-module.exports = invariant;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-
-
-var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
-
-module.exports = ReactPropTypesSecret;
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
-
-module.exports = ReactPropTypesSecret;
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AssembledDiagnosisForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__DurationField__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FileAttachmentButton__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__FindRelated__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__FrequencyField__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__HiddenFields__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Keywords__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__NoteField__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__TimeAgoField__ = __webpack_require__(16);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-
-
-
-
-
-
-
-var AssembledDiagnosisForm = function (_Component) {
-  _inherits(AssembledDiagnosisForm, _Component);
-
-  function AssembledDiagnosisForm(props) {
-    _classCallCheck(this, AssembledDiagnosisForm);
-
-    var _this = _possibleConstructorReturn(this, (AssembledDiagnosisForm.__proto__ || Object.getPrototypeOf(AssembledDiagnosisForm)).call(this, props));
-
-    _this.state = {
-      topic: _this.props.topic.id,
-      patient: _this.props.visit.patient_id,
-      visit: _this.props.visit.id,
-      timeAgoAmount: null,
-      timeAgoUnit: null,
-      absoluteDate: null,
-      durationAmount: null,
-      durationUnit: null,
-      frequencyAmount: null,
-      frequencyUnit: null,
-      note: null,
-      file: null
-    };
-    _this.handleChange = _this.handleChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(AssembledDiagnosisForm, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      console.log('diagnosis form unmounting');
-      debugger;
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(value) {
-      this.setState({
-        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
-        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
-        absoluteDate: value.absoluteDate || this.state.absoluteDate,
-        durationAmount: value.durationAmount || this.state.durationAmount,
-        durationUnit: value.durationUnit || this.state.durationUnit,
-        frequencyAmount: value.frequencyAmount || this.state.frequencyAmount,
-        frequencyUnit: value.frequencyUnit || this.state.frequencyUnit,
-        file: value.file || this.state.file,
-        note: value.note || this.state.note
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var parameterizedPlural = 'diagnoses';
-      var descriptors = void 0;
-      if (this.props.topic.descriptors) {
-        descriptors = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'form-group row' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'label',
-            { className: 'col-2 col-form-label' },
-            'Descriptors'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-inline col-10' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__Keywords__["a" /* default */], {
-              topic: this.props.topic,
-              parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID
-            })
-          )
-        );
-      }
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'tr',
-        { className: 'row_form', id: 'row_' + this.props.rowID },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'td',
-          { colSpan: '3' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__HiddenFields__["a" /* default */], {
-            visit: this.props.visit,
-            topic: this.props.topic,
-            parameterizedPlural: parameterizedPlural,
-            rowID: this.props.rowID
-          }),
-          descriptors,
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-group row' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'label',
-              { className: 'col-2 col-form-label' },
-              'Date'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'form-inline col-10' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__TimeAgoField__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                timeAgoAmount: this.state.timeAgoAmount,
-                timeAgoUnit: this.state.timeAgoUnit,
-                absoluteDate: this.state.absoluteDate,
-                onDateChange: this.handleChange
-              })
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-group row' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'label',
-              { className: 'col-2 col-form-label' },
-              'Duration'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'form-inline col-10' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__DurationField__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                durationAmount: this.state.durationAmount,
-                durationUnit: this.state.durationUnit,
-                onDurationChange: this.handleChange
-              })
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-group row' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'label',
-              { className: 'col-2 col-form-label' },
-              'Frequency'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'form-inline col-10' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__FrequencyField__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                frequencyAmount: this.state.frequencyAmount,
-                frequencyUnit: this.state.frequencyUnit,
-                onFrequencyChange: this.handleChange
-              })
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-group row' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'label',
-              { className: 'col-2 col-form-label' },
-              'Note'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'form-inline col-10' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__NoteField__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                noteValue: this.state.note,
-                onNoteChange: this.handleChange
-              }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__FileAttachmentButton__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                attachedFile: this.state.file,
-                onFileChange: this.handleChange
-              })
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__FindRelated__["a" /* default */], {
-            topic: this.props.topic,
-            unsortedTopics: this.props.allTopics
-          })
-        )
-      );
-    }
-  }]);
-
-  return AssembledDiagnosisForm;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-AssembledDiagnosisForm.propTypes = {
-  allTopics: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
-};
-
-/***/ }),
-/* 29 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DurationField; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectConstructor__ = __webpack_require__(8);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-__webpack_require__(6);
-__webpack_require__(11);
-__webpack_require__(12);
-__webpack_require__(13);
-
-var DurationField = function (_Component) {
-  _inherits(DurationField, _Component);
-
-  function DurationField(props) {
-    _classCallCheck(this, DurationField);
-
-    var _this = _possibleConstructorReturn(this, (DurationField.__proto__ || Object.getPrototypeOf(DurationField)).call(this, props));
-
-    _this.state = {
-      durationAmount: _this.props.durationAmount,
-      durationUnit: _this.props.durationUnit
-    };
-    _this.keyboardize = _this.keyboardize.bind(_this);
-    _this.handleChange = _this.handleChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(DurationField, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.$el = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this.el);
-      this.$el.addKeyboard();
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this.$el.addKeyboard('destroy');
-    }
-  }, {
-    key: 'keyboardize',
-    value: function keyboardize(e) {
-      e.preventDefault();
-      this.$el = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this.el);
-      var kb = this.$el.getkeyboard();
-      // close the keyboard if the keyboard is visible and the button is clicked a second time
-      if (kb.isOpen) {
-        kb.close();
-      } else {
-        kb.reveal();
-      }
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(event) {
-      this.props.onDurationChange(_defineProperty({}, event.target.name, event.target.value));
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var options = ['second(s)', 'minute(s)', 'hour(s)', 'day(s)', 'week(s)', 'month(s)', 'year(s)'];
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'form-inline' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-          type: 'number',
-          id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_duration_amount',
-          className: 'form-control calculator',
-          placeholder: 'duration',
-          ref: function ref(el) {
-            return _this2.el = el;
-          },
-          name: 'durationAmount',
-          value: this.state.durationAmount,
-          onChange: this.handleChange
-        }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'button',
-          {
-            className: 'btn btn-light calculator',
-            type: 'button',
-            id: this.props.parameterizedPlural + '_' + this.props.rowID + '_duration_calc_button',
-            onClick: this.keyboardize
-          },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-calculator' })
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__SelectConstructor__["a" /* default */], {
-          arr: options,
-          title: 'for how long',
-          rowID: this.props.rowID,
-          parameterizedPlural: this.props.parameterizedPlural,
-          name: 'durationUnit',
-          value: this.state.durationUnit,
-          onUnitChange: this.handleChange
-        })
-      );
-    }
-  }]);
-
-  return DurationField;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-DurationField.propTypes = {
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired,
-  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired
-};
-
-/***/ }),
-/* 30 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony default export */ __webpack_exports__["default"] = ({
-  'diagnosis': 'diagnoses',
-  'dissection': 'dissections',
-  'family member': 'family_members',
-  'genetic test': 'genetic_tests',
-  'hospitalization': 'hospitalizations',
-  'measurement': 'tests',
-  'medication': 'medications',
-  'procedure': 'procedures',
-  'vital': 'vitals'
-});
-
-/***/ }),
-/* 31 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AssembledDissectionForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FindRelated__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__HiddenFields__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__NoteField__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__TimeAgoField__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__SelectConstructor__ = __webpack_require__(8);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-
-
-
-
-
-var AssembledDissectionForm = function (_Component) {
-  _inherits(AssembledDissectionForm, _Component);
-
-  function AssembledDissectionForm(props) {
-    _classCallCheck(this, AssembledDissectionForm);
-
-    var _this = _possibleConstructorReturn(this, (AssembledDissectionForm.__proto__ || Object.getPrototypeOf(AssembledDissectionForm)).call(this, props));
-
-    _this.state = {
-      topic: _this.props.topic.id,
-      patient: _this.props.visit.patient_id,
-      visit: _this.props.visit.id,
-      timeAgoAmount: null,
-      timeAgoUnit: null,
-      absoluteDate: null,
-      location: null,
-      direction: null,
-      lumen: null,
-      perfusion: null,
-      note: null,
-      file: null
-    };
-    _this.handleChange = _this.handleChange.bind(_this);
-    _this.handleSelectChange = _this.handleSelectChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(AssembledDissectionForm, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      console.log('dissection form unmounting');
-      debugger;
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(value) {
-      this.setState({
-        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
-        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
-        absoluteDate: value.absoluteDate || this.state.absoluteDate,
-        file: value.file || this.state.file,
-        note: value.note || this.state.note
-      });
-    }
-  }, {
-    key: 'handleSelectChange',
-    value: function handleSelectChange(e) {
-      var target = e.target;
-      this.setState(_defineProperty({}, target.name, target.value));
-      debugger;
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var locations = ['aortic root', 'ascending aorta', 'arch', 'descending thoracic', 'suprarenal abdominal', 'infrarenal abdominal', 'iliac', 'renal', 'SMA', 'celiac', 'innominate', 'left carotid', 'left subclavian'];
-      var perfused = ['perfused', 'ischemic'];
-      var lumens = ['true lumen', 'false lumen', 'dissected'];
-      var directions = ['right', 'left', 'N/A'];
-      var parameterizedPlural = 'dissections';
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'tr',
-        { className: 'row_form', id: 'row_' + this.props.rowID },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'td',
-          { colSpan: 3 },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__HiddenFields__["a" /* default */], {
-            visit: this.props.visit,
-            topic: this.props.topic,
-            parameterizedPlural: parameterizedPlural,
-            rowID: this.props.rowID
-          }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-inline' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__SelectConstructor__["a" /* default */], {
-              arr: locations,
-              title: 'location',
-              parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID,
-              name: 'location',
-              value: this.state.location,
-              onUnitChange: this.handleSelectChange
-            }),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__SelectConstructor__["a" /* default */], {
-              arr: directions,
-              title: 'direction',
-              parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID,
-              name: 'direction',
-              value: this.state.direction,
-              onUnitChange: this.handleSelectChange
-            }),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__SelectConstructor__["a" /* default */], {
-              arr: lumens,
-              title: 'lumen',
-              parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID,
-              name: 'lumen',
-              value: this.state.lumen,
-              onUnitChange: this.handleSelectChange
-            }),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__SelectConstructor__["a" /* default */], {
-              arr: perfused,
-              title: 'perfusion',
-              parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID,
-              name: 'perfusion',
-              value: this.state.perfusion,
-              onUnitChange: this.handleSelectChange
-            })
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-inline' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__TimeAgoField__["a" /* default */], {
-              topic: this.props.topic,
-              parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID,
-              timeAgoAmount: this.state.timeAgoAmount,
-              timeAgoUnit: this.state.timeAgoUnit,
-              absoluteDate: this.state.absoluteDate,
-              onDateChange: this.handleChange
-            })
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-inline' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__NoteField__["a" /* default */], {
-              topic: this.props.topic,
-              parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID,
-              noteValue: this.state.note,
-              onNoteChange: this.handleChange
-            }),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__["a" /* default */], {
-              topic: this.props.topic,
-              parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID,
-              attachedFile: this.state.file,
-              onFileChange: this.handleChange
-            }),
-            'What type of intervention was performed?'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__FindRelated__["a" /* default */], {
-            topic: this.props.topic,
-            unsortedTopics: this.props.unsortedTopics
-          })
-        )
-      );
-    }
-  }]);
-
-  return AssembledDissectionForm;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-AssembledDissectionForm.propTypes = {
-  unsortedTopics: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
-};
-
-/***/ }),
-/* 32 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MeasurementField; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectConstructor__ = __webpack_require__(8);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-
-__webpack_require__(6);
-__webpack_require__(11);
-__webpack_require__(12);
-__webpack_require__(13);
-
-var MeasurementField = function (_Component) {
-  _inherits(MeasurementField, _Component);
-
-  function MeasurementField(props) {
-    _classCallCheck(this, MeasurementField);
-
-    var _this = _possibleConstructorReturn(this, (MeasurementField.__proto__ || Object.getPrototypeOf(MeasurementField)).call(this, props));
-
-    _this.state = {
-      measurement: null,
-      units: null
-    };
-    _this.keyboardize = _this.keyboardize.bind(_this);
-    _this.handleMeasurementChange = _this.handleMeasurementChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(MeasurementField, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      this.$el = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this.el);
-      this.$el.addKeyboard();
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this.$el.addKeyboard('destroy');
-    }
-  }, {
-    key: 'keyboardize',
-    value: function keyboardize(e) {
-      e.preventDefault();
-      this.$el = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this.el);
-      var kb = this.$el.getkeyboard();
-      // close the keyboard if the keyboard is visible and the button is clicked a second time
-      if (kb.isOpen) {
-        kb.close();
-      } else {
-        kb.reveal();
-      }
-    }
-  }, {
-    key: 'handleMeasurementChange',
-    value: function handleMeasurementChange(event) {
-      this.props.onMeasChange(_defineProperty({}, event.target.name, event.target.value));
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var options = this.props.topic.units_of_measurement;
-      return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-        'div',
-        { className: 'form-inline' },
-        __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement('input', {
-          type: 'number',
-          name: 'measurement',
-          id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_test_amount',
-          className: 'form-control calculator',
-          min: this.props.topic.min_value,
-          max: this.props.topic.max_value,
-          step: this.props.topic.step,
-          value: this.state.measurement,
-          ref: function ref(el) {
-            return _this2.el = el;
-          },
-          onChange: this.handleMeasurementChange
-        }),
-        __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-          'button',
-          {
-            className: 'btn btn-light calculator',
-            type: 'button',
-            id: this.props.parameterizedPlural + '_' + this.props.rowID + '_test_calc_button',
-            onClick: this.keyboardize
-          },
-          __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement('i', { className: 'fa fa-calculator' })
-        ),
-        __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__SelectConstructor__["a" /* default */], {
-          arr: options,
-          title: this.props.title,
-          attribute: this.props.title,
-          other: false,
-          name: 'units',
-          parameterizedPlural: this.props.parameterizedPlural,
-          rowID: this.props.rowID,
-          multiSelect: this.props.multiSelect,
-          onUnitChange: this.handleMeasurementChange
-        })
-      );
-    }
-  }]);
-
-  return MeasurementField;
-}(__WEBPACK_IMPORTED_MODULE_1_react__["Component"]);
-
-
-
-
-MeasurementField.defaultProps = {
-  title: 'units',
-  multiSelect: false
-};
-
-MeasurementField.propTypes = {
-  topic: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.object.isRequired,
-  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.string.isRequired,
-  multiSelect: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.bool.isRequired,
-  title: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.string.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.number.isRequired
-};
-
-/***/ }),
-/* 33 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AssembledHospitalizationForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__DurationField__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FileAttachmentButton__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__FindRelated__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__HiddenFields__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Keywords__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__NoteField__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TimeAgoField__ = __webpack_require__(16);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-
-
-
-
-
-
-var AssembledHospitalizationForm = function (_Component) {
-  _inherits(AssembledHospitalizationForm, _Component);
-
-  function AssembledHospitalizationForm(props) {
-    _classCallCheck(this, AssembledHospitalizationForm);
-
-    var _this = _possibleConstructorReturn(this, (AssembledHospitalizationForm.__proto__ || Object.getPrototypeOf(AssembledHospitalizationForm)).call(this, props));
-
-    _this.state = {
-      topic: _this.props.topic.id,
-      patient: _this.props.visit.patient_id,
-      visit: _this.props.visit.id,
-      timeAgoAmount: null,
-      timeAgoUnit: null,
-      absoluteDate: null,
-      durationAmount: null,
-      durationUnit: null,
-      keywords: null,
-      note: null,
-      file: null
-    };
-    _this.handleChange = _this.handleChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(AssembledHospitalizationForm, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      console.log('hospitalization form unmounting');
-      debugger;
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(value) {
-      this.setState({
-        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
-        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
-        absoluteDate: value.absoluteDate || this.state.absoluteDate,
-        durationAmount: value.durationAmount || this.state.durationAmount,
-        durationUnit: value.durationUnit || this.state.durationUnit,
-        keywords: value.keywords || this.state.keywords,
-        file: value.file || this.state.file,
-        note: value.note || this.state.note
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var parameterizedPlural = 'hospitalizations';
-      var descriptors = void 0;
-      if (this.props.topic.descriptors) {
-        descriptors = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'form-group row' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'label',
-            { className: 'col-2 col-form-label' },
-            'Descriptors'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-inline col-10' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Keywords__["a" /* default */], {
-              topic: this.props.topic,
-              parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID,
-              keywordsValue: this.state.keywords,
-              onKeywordsChange: this.handleChange
-            })
-          )
-        );
-      }
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'tr',
-        { className: 'row_form', id: 'row_' + this.props.rowID },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'td',
-          { colSpan: '3' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__HiddenFields__["a" /* default */], {
-            visit: this.props.visit,
-            topic: this.props.topic,
-            parameterizedPlural: parameterizedPlural,
-            rowID: this.props.rowID
-          }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-group row' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'label',
-              { className: 'col-2 col-form-label' },
-              'Admission Date'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'form-inline col-10' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__TimeAgoField__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                timeAgoAmount: this.state.timeAgoAmount,
-                timeAgoUnit: this.state.timeAgoUnit,
-                absoluteDate: this.state.absoluteDate,
-                onDateChange: this.handleChange
-              })
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'form-group row' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'label',
-                { className: 'col-2 col-form-label' },
-                'Length of Stay'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'form-inline col-10' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__DurationField__["a" /* default */], {
-                  topic: this.props.topic,
-                  parameterizedPlural: parameterizedPlural,
-                  rowID: this.props.rowID,
-                  durationAmount: this.state.durationAmount,
-                  durationUnit: this.state.durationUnit,
-                  onDurationChange: this.handleChange
-                })
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'form-group row' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'label',
-                { className: 'col-2 col-form-label' },
-                'Descriptors'
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'form-inline col-10' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__NoteField__["a" /* default */], {
-                  topic: this.props.topic,
-                  parameterizedPlural: parameterizedPlural,
-                  rowID: this.props.rowID,
-                  noteValue: this.state.note,
-                  onNoteChange: this.handleChange
-                }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__FileAttachmentButton__["a" /* default */], {
-                  topic: this.props.topic,
-                  parameterizedPlural: parameterizedPlural,
-                  rowID: this.props.rowID,
-                  attachedFile: this.state.file,
-                  onFileChange: this.handleChange
-                })
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__FindRelated__["a" /* default */], {
-              topic: this.props.topic,
-              unsortedTopics: this.props.unsortedTopics
-            })
-          )
-        )
-      );
-    }
-  }]);
-
-  return AssembledHospitalizationForm;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-AssembledHospitalizationForm.propTypes = {
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  unsortedTopics: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
-  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
-};
-
-/***/ }),
-/* 34 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AssembledMeasurementForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TimeAgoField__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FileAttachmentButton__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__FindRelated__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__HiddenFields__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Keywords__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__MeasurementField__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__NoteField__ = __webpack_require__(10);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-
-
-
-
-
-
-var AssembledMeasurementForm = function (_Component) {
-  _inherits(AssembledMeasurementForm, _Component);
-
-  function AssembledMeasurementForm(props) {
-    _classCallCheck(this, AssembledMeasurementForm);
-
-    var _this = _possibleConstructorReturn(this, (AssembledMeasurementForm.__proto__ || Object.getPrototypeOf(AssembledMeasurementForm)).call(this, props));
-
-    _this.state = {
-      topic: _this.props.topic.id,
-      patient: _this.props.visit.patient_id,
-      visit: _this.props.visit.id,
-      measurement: null,
-      units: null,
-      timeAgoAmount: null,
-      timeAgoUnit: null,
-      absoluteDate: null,
-      keywords: null,
-      note: null,
-      file: null
-    };
-    _this.handleChange = _this.handleChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(AssembledMeasurementForm, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      console.log('measurement form unmounting');
-      debugger;
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(value) {
-      this.setState({
-        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
-        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
-        absoluteDate: value.absoluteDate || this.state.absoluteDate,
-        measurement: value.measurement || this.state.measurement,
-        units: value.units || this.state.units,
-        keywords: value.keywords || this.state.keywords,
-        file: value.file || this.state.file,
-        note: value.note || this.state.note
-      });
-      if (this.props.topic.units_of_measurement.length === 1 && this.state.measurement) {
-        this.setState({
-          units: this.props.topic.units_of_measurement[0]
-        });
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var parameterizedPlural = 'tests';
-      var descriptors = void 0;
-      if (this.props.topic.descriptors) {
-        descriptors = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'form-group row' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'label',
-            { className: 'col-2 col-form-label' },
-            'Descriptors'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-inline col-10' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Keywords__["a" /* default */], {
-              topic: this.props.topic,
-              parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID,
-              keywordsValue: this.state.keywords,
-              onKeywordsChange: this.handleChange
-            })
-          )
-        );
-      }
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'tr',
-        { className: 'row_form', id: 'row_' + this.props.rowID },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'td',
-          { colSpan: '3' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__HiddenFields__["a" /* default */], {
-            visit: this.props.visit,
-            topic: this.props.topic,
-            parameterizedPlural: parameterizedPlural,
-            rowID: this.props.rowID
-          }),
-          descriptors,
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-group row' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'label',
-              { className: 'col-2 col-form-label' },
-              'Measurement'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'form-inline col-10' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__MeasurementField__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                title: this.props.topic.name,
-                measurementValue: this.state.measurement,
-                unitOfMeas: this.state.units,
-                onMeasChange: this.handleChange
-              })
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-group row' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'label',
-              { className: 'col-2 col-form-label' },
-              'Date'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'form-inline col-10' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__TimeAgoField__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                timeAgoAmount: this.state.timeAgoAmount,
-                timeAgoUnit: this.state.timeAgoUnit,
-                absoluteDate: this.state.absoluteDate,
-                onDateChange: this.handleChange
-              })
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-group row' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'label',
-              { className: 'col-2 col-form-label' },
-              'Note'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'form-inline col-10' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__NoteField__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                noteValue: this.state.note,
-                onNoteChange: this.handleChange
-              }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__FileAttachmentButton__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                attachedFile: this.state.file,
-                onFileChange: this.handleChange
-              })
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__FindRelated__["a" /* default */], {
-            topic: this.props.topic,
-            unsortedTopics: this.props.unsortedTopics
-          })
-        )
-      );
-    }
-  }]);
-
-  return AssembledMeasurementForm;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-AssembledMeasurementForm.propTypes = {
-  unsortedTopics: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
-};
-
-/***/ }),
-/* 35 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AssembledMedicationForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__HiddenFields__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MedFormFields__ = __webpack_require__(100);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-
-var AssembledMedicationForm = function (_Component) {
-  _inherits(AssembledMedicationForm, _Component);
-
-  function AssembledMedicationForm(props) {
-    _classCallCheck(this, AssembledMedicationForm);
-
-    var _this = _possibleConstructorReturn(this, (AssembledMedicationForm.__proto__ || Object.getPrototypeOf(AssembledMedicationForm)).call(this, props));
-
-    _this.state = {
-      topic: _this.props.topic.id,
-      patient: _this.props.visit.patient_id,
-      visit: _this.props.visit.id,
-      measurement: null,
-      units: null,
-      timeAgoAmount: null,
-      timeAgoUnit: null,
-      absoluteDate: null,
-      dose: null,
-      doseUnitOfMeasurement: null,
-      dosageForm: null,
-      dosageFormUnits: null,
-      ingestionMethod: null,
-      durationAmount: null,
-      durationUnit: null,
-      keywords: null,
-      note: null,
-      file: null
-    };
-    _this.handleChange = _this.handleChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(AssembledMedicationForm, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      console.log('medication form unmounting');
-      debugger;
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(value) {
-      this.setState({
-        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
-        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
-        absoluteDate: value.absoluteDate || this.state.absoluteDate,
-        dose: value.dose || this.state.dose,
-        doseUnitOfMeasurement: value.doseUnitOfMeasurement || this.state.doseUnitOfMeasurement,
-        dosageForm: value.dosageForm || this.state.dosageForm,
-        dosageFormUnits: value.dosageFormUnits || this.state.dosageFormUnits,
-        ingestionMethod: value.ingestionMethod || this.state.ingestionMethod,
-        durationAmount: value.durationAmount || this.state.durationAmount,
-        durationUnit: value.durationUnit || this.state.durationUnit,
-        measurement: value.measurement || this.state.measurement,
-        units: value.units || this.state.units,
-        keywords: value.keywords || this.state.keywords,
-        file: value.file || this.state.file,
-        note: value.note || this.state.note
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var parameterizedPlural = 'medications';
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'tr',
-        { className: 'row_form', id: 'row_' + this.props.rowID },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'td',
-          { colSpan: '3' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__HiddenFields__["a" /* default */], {
-            visit: this.props.visit,
-            topic: this.props.topic,
-            parameterizedPlural: parameterizedPlural,
-            rowID: this.props.rowID
-          }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__MedFormFields__["a" /* default */], {
-            topic: this.props.topic,
-            rowID: this.props.rowID,
-            onMedFormChange: this.handleChange
-          })
-        )
-      );
-    }
-  }]);
-
-  return AssembledMedicationForm;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-AssembledMedicationForm.propTypes = {
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
-};
-
-/***/ }),
-/* 36 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AssembledProcedureForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FindRelated__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__HiddenFields__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Keywords__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__NoteField__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TimeAgoField__ = __webpack_require__(16);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-
-
-
-
-
-var AssembledProcedureForm = function (_Component) {
-  _inherits(AssembledProcedureForm, _Component);
-
-  function AssembledProcedureForm(props) {
-    _classCallCheck(this, AssembledProcedureForm);
-
-    var _this = _possibleConstructorReturn(this, (AssembledProcedureForm.__proto__ || Object.getPrototypeOf(AssembledProcedureForm)).call(this, props));
-
-    _this.state = {
-      topic: _this.props.topic.id,
-      patient: _this.props.visit.patient_id,
-      visit: _this.props.visit.id,
-      timeAgoAmount: null,
-      timeAgoUnit: null,
-      absoluteDate: null,
-      keywords: null,
-      note: null,
-      file: null
-    };
-    _this.handleChange = _this.handleChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(AssembledProcedureForm, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      console.log('procedure form unmounting');
-      debugger;
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(value) {
-      this.setState({
-        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
-        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
-        absoluteDate: value.absoluteDate || this.state.absoluteDate,
-        keywords: value.keywords || this.state.keywords,
-        file: value.file || this.state.file,
-        note: value.note || this.state.note
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var parameterizedPlural = 'procedures';
-      var descriptors = void 0;
-      if (this.props.topic.descriptors) {
-        descriptors = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'form-group row' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'label',
-            { className: 'col-2 col-form-label' },
-            'Descriptors'
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-inline col-10' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Keywords__["a" /* default */], {
-              topic: this.props.topic,
-              parameterizedPlural: parameterizedPlural,
-              rowID: this.props.rowID,
-              keywordsValue: this.state.keywords,
-              onKeywordsChange: this.handleChange
-            })
-          )
-        );
-      }
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'tr',
-        { className: 'row_form', id: 'row_' + this.props.rowID },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'td',
-          { colSpan: '3' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__HiddenFields__["a" /* default */], {
-            visit: this.props.visit,
-            topic: this.props.topic,
-            parameterizedPlural: parameterizedPlural,
-            rowID: this.props.rowID
-          }),
-          descriptors,
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-group row' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'label',
-              { className: 'col-2 col-form-label' },
-              'Date'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'form-inline col-10' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__TimeAgoField__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                timeAgoAmount: this.state.timeAgoAmount,
-                timeAgoUnit: this.state.timeAgoUnit,
-                absoluteDate: this.state.absoluteDate,
-                onDateChange: this.handleChange
-              })
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-group row' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'label',
-              { className: 'col-2 col-form-label' },
-              'Note'
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'form-inline col-10' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__NoteField__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                noteValue: this.state.note,
-                onNoteChange: this.handleChange
-              }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                attachedFile: this.state.file,
-                onFileChange: this.handleChange
-              })
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__FindRelated__["a" /* default */], {
-            topic: this.props.topic,
-            unsortedTopics: this.props.unsortedTopics
-          })
-        )
-      );
-    }
-  }]);
-
-  return AssembledProcedureForm;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-AssembledProcedureForm.propTypes = {
-  unsortedTopics: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
-};
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(jQuery) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! jQuery UI Virtual Keyboard v1.27.1-beta *//*
-Author: Jeremy Satterfield
-Maintained: Rob Garrison (Mottie on github)
-Licensed under the MIT License
-
-An on-screen virtual keyboard embedded within the browser window which
-will popup when a specified entry field is focused. The user can then
-type and preview their input before Accepting or Canceling.
-
-This plugin adds default class names to match jQuery UI theme styling.
-Bootstrap & custom themes may also be applied - See
-https://github.com/Mottie/Keyboard#themes
-
-Requires:
-	jQuery v1.4.3+
-	Caret plugin (included)
-Optional:
-	jQuery UI (position utility only) & CSS theme
-	jQuery mousewheel
-
-Setup/Usage:
-	Please refer to https://github.com/Mottie/Keyboard/wiki
-
------------------------------------------
-Caret code modified from jquery.caret.1.02.js
-Licensed under the MIT License:
-http://www.opensource.org/licenses/mit-license.php
------------------------------------------
-*/
-/*jshint browser:true, jquery:true, unused:false */
-/*global require:false, define:false, module:false */
-;(function (factory) {
-	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(2)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else if (typeof module === 'object' && typeof module.exports === 'object') {
-		module.exports = factory(require('jquery'));
-	} else {
-		factory(jQuery);
-	}
-}(function ($) {
-	'use strict';
-	var $keyboard = $.keyboard = function (el, options) {
-	var o, base = this;
-
-	base.version = '1.27.1-beta';
-
-	// Access to jQuery and DOM versions of element
-	base.$el = $(el);
-	base.el = el;
-
-	// Add a reverse reference to the DOM object
-	base.$el.data('keyboard', base);
-
-	base.init = function () {
-		base.initialized = false;
-		var k, position, tmp,
-			kbcss = $keyboard.css,
-			kbevents = $keyboard.events;
-		base.settings = options || {};
-		// shallow copy position to prevent performance issues; see #357
-		if (options && options.position) {
-			position = $.extend({}, options.position);
-			options.position = null;
-		}
-		base.options = o = $.extend(true, {}, $keyboard.defaultOptions, options);
-		if (position) {
-			o.position = position;
-			options.position = position;
-		}
-
-		// keyboard is active (not destroyed);
-		base.el.active = true;
-		// unique keyboard namespace
-		base.namespace = '.keyboard' + Math.random().toString(16).slice(2);
-		// extension namespaces added here (to unbind listeners on base.$el upon destroy)
-		base.extensionNamespace = [];
-		// Shift and Alt key toggles, sets is true if a layout has more than one keyset
-		// used for mousewheel message
-		base.shiftActive = base.altActive = base.metaActive = base.sets = base.capsLock = false;
-		// Class names of the basic key set - meta keysets are handled by the keyname
-		base.rows = ['', '-shift', '-alt', '-alt-shift'];
-
-		base.inPlaceholder = base.$el.attr('placeholder') || '';
-		// html 5 placeholder/watermark
-		base.watermark = $keyboard.watermark && base.inPlaceholder !== '';
-		// convert mouse repeater rate (characters per second) into a time in milliseconds.
-		base.repeatTime = 1000 / (o.repeatRate || 20);
-		// delay in ms to prevent mousedown & touchstart from both firing events at the same time
-		o.preventDoubleEventTime = o.preventDoubleEventTime || 100;
-		// flag indication that a keyboard is open
-		base.isOpen = false;
-		// is mousewheel plugin loaded?
-		base.wheel = $.isFunction($.fn.mousewheel);
-		// special character in regex that need to be escaped
-		base.escapeRegex = /[-\/\\^$*+?.()|[\]{}]/g;
-		// detect contenteditable
-		base.isContentEditable = !/(input|textarea)/i.test(base.el.nodeName) &&
-			base.el.isContentEditable;
-
-		// keyCode of keys always allowed to be typed
-		k = $keyboard.keyCodes;
-		// base.alwaysAllowed = [20,33,34,35,36,37,38,39,40,45,46];
-		base.alwaysAllowed = [
-			k.capsLock,
-			k.pageUp,
-			k.pageDown,
-			k.end,
-			k.home,
-			k.left,
-			k.up,
-			k.right,
-			k.down,
-			k.insert,
-			k.delete
-		];
-		base.$keyboard = [];
-		// keyboard enabled; set to false on destroy
-		base.enabled = true;
-
-		base.checkCaret = (o.lockInput || $keyboard.checkCaretSupport());
-
-		// disable problematic usePreview for contenteditable
-		if (base.isContentEditable) {
-			o.usePreview = false;
-		}
-
-		base.last = {
-			start: 0,
-			end: 0,
-			key: '',
-			val: '',
-			preVal: '',
-			layout: '',
-			virtual: true,
-			keyset: [false, false, false], // [shift, alt, meta]
-			wheel_$Keys: null,
-			wheelIndex: 0,
-			wheelLayers: []
-		};
-		// used when building the keyboard - [keyset element, row, index]
-		base.temp = ['', 0, 0];
-
-		// Callbacks
-		$.each([
-			kbevents.kbInit,
-			kbevents.kbBeforeVisible,
-			kbevents.kbVisible,
-			kbevents.kbHidden,
-			kbevents.inputCanceled,
-			kbevents.inputAccepted,
-			kbevents.kbBeforeClose,
-			kbevents.inputRestricted
-		], function (i, callback) {
-			if ($.isFunction(o[callback])) {
-				// bind callback functions within options to triggered events
-				base.$el.bind(callback + base.namespace + 'callbacks', o[callback]);
-			}
-		});
-
-		// Close with esc key & clicking outside
-		if (o.alwaysOpen) {
-			o.stayOpen = true;
-		}
-
-		tmp = $(document);
-		if (base.el.ownerDocument !== document) {
-			tmp = tmp.add(base.el.ownerDocument);
-		}
-
-		var bindings = 'keyup checkkeyboard mousedown touchstart ';
-		if (o.closeByClickEvent) {
-			bindings += 'click ';
-		}
-		// debounce bindings... see #542
-		tmp.bind(bindings.split(' ').join(base.namespace + ' '), function(e) {
-			clearTimeout(base.timer3);
-			base.timer3 = setTimeout(function() {
-				base.checkClose(e);
-			}, 1);
-		});
-
-		// Display keyboard on focus
-		base.$el
-			.addClass(kbcss.input + ' ' + o.css.input)
-			.attr({
-				'aria-haspopup': 'true',
-				'role': 'textbox'
-			});
-
-		// set lockInput if the element is readonly; or make the element readonly if lockInput is set
-		if (o.lockInput || base.el.readOnly) {
-			o.lockInput = true;
-			base.$el
-				.addClass(kbcss.locked)
-				.attr({
-					'readonly': 'readonly'
-				});
-		}
-		// add disabled/readonly class - dynamically updated on reveal
-		if (base.$el.is(':disabled') || (base.$el.attr('readonly') &&
-				!base.$el.hasClass(kbcss.locked))) {
-			base.$el.addClass(kbcss.noKeyboard);
-		}
-		if (o.openOn) {
-			base.bindFocus();
-		}
-
-		// Add placeholder if not supported by the browser
-		if (
-			!base.watermark &&
-			base.getValue(base.$el) === '' &&
-			base.inPlaceholder !== '' &&
-			base.$el.attr('placeholder') !== ''
-		) {
-			// css watermark style (darker text)
-			base.$el.addClass(kbcss.placeholder);
-			base.setValue(base.inPlaceholder, base.$el);
-		}
-
-		base.$el.trigger(kbevents.kbInit, [base, base.el]);
-
-		// initialized with keyboard open
-		if (o.alwaysOpen) {
-			base.reveal();
-		}
-		base.initialized = true;
-	};
-
-	base.toggle = function () {
-		if (!base.hasKeyboard()) { return; }
-		var $toggle = base.$keyboard.find('.' + $keyboard.css.keyToggle),
-			locked = !base.enabled;
-		// prevent physical keyboard from working
-		base.preview.readonly = locked || base.options.lockInput;
-		// disable all buttons
-		base.$keyboard
-			.toggleClass($keyboard.css.keyDisabled, locked)
-			.find('.' + $keyboard.css.keyButton)
-			.not($toggle)
-			.attr('aria-disabled', locked)
-			.each(function() {
-				this.disabled = locked;
-			});
-		$toggle.toggleClass($keyboard.css.keyDisabled, locked);
-		// stop auto typing
-		if (locked && base.typing_options) {
-			base.typing_options.text = '';
-		}
-		// allow chaining
-		return base;
-	};
-
-	base.setCurrent = function () {
-		var kbcss = $keyboard.css,
-			// close any "isCurrent" keyboard (just in case they are always open)
-			$current = $('.' + kbcss.isCurrent),
-			kb = $current.data('keyboard');
-		// close keyboard, if not self
-		if (!$.isEmptyObject(kb) && kb.el !== base.el) {
-			kb.close(kb.options.autoAccept ? 'true' : false);
-		}
-		$current.removeClass(kbcss.isCurrent);
-		// ui-keyboard-has-focus is applied in case multiple keyboards have
-		// alwaysOpen = true and are stacked
-		$('.' + kbcss.hasFocus).removeClass(kbcss.hasFocus);
-
-		base.$el.addClass(kbcss.isCurrent);
-		base.$keyboard.addClass(kbcss.hasFocus);
-		base.isCurrent(true);
-		base.isOpen = true;
-	};
-
-	base.isCurrent = function (set) {
-		var cur = $keyboard.currentKeyboard || false;
-		if (set) {
-			cur = $keyboard.currentKeyboard = base.el;
-		} else if (set === false && cur === base.el) {
-			cur = $keyboard.currentKeyboard = '';
-		}
-		return cur === base.el;
-	};
-
-	base.hasKeyboard = function () {
-		return base.$keyboard && base.$keyboard.length > 0;
-	};
-
-	base.isVisible = function () {
-		return base.hasKeyboard() ? base.$keyboard.is(':visible') : false;
-	};
-
-	base.setFocus = function () {
-		var $el = base.$preview || base.$el;
-		if (!o.noFocus) {
-			$el.focus();
-		}
-		if (base.isContentEditable) {
-			$keyboard.setEditableCaret($el, base.last.start, base.last.end);
-		} else {
-			$keyboard.caret($el, base.last);
-		}
-	};
-
-	base.focusOn = function () {
-		if (!base && base.el.active) {
-			// keyboard was destroyed
-			return;
-		}
-		if (!base.isVisible()) {
-			clearTimeout(base.timer);
-			base.reveal();
-		} else {
-			// keyboard already open, make it the current keyboard
-			base.setCurrent();
-		}
-	};
-
-	// add redraw method to make API more clear
-	base.redraw = function (layout) {
-		if (layout) {
-			// allow updating the layout by calling redraw
-			base.options.layout = layout;
-		}
-		// update keyboard after a layout change
-		if (base.$keyboard.length) {
-
-			base.last.preVal = '' + base.last.val;
-			base.saveLastChange();
-			base.setValue(base.last.val, base.$el);
-
-			base.removeKeyboard();
-			base.shiftActive = base.altActive = base.metaActive = false;
-		}
-		base.isOpen = o.alwaysOpen;
-		base.reveal(true);
-		return base;
-	};
-
-	base.reveal = function (redraw) {
-		var alreadyOpen = base.isOpen,
-			kbcss = $keyboard.css;
-		base.opening = !alreadyOpen;
-		// remove all 'extra' keyboards by calling close function
-		$('.' + kbcss.keyboard).not('.' + kbcss.alwaysOpen).each(function(){
-			var kb = $(this).data('keyboard');
-			if (!$.isEmptyObject(kb)) {
-				// this closes previous keyboard when clicking another input - see #515
-				kb.close(kb.options.autoAccept ? 'true' : false);
-			}
-		});
-
-		// Don't open if disabled
-		if (base.$el.is(':disabled') || (base.$el.attr('readonly') && !base.$el.hasClass(kbcss.locked))) {
-			base.$el.addClass(kbcss.noKeyboard);
-			return;
-		} else {
-			base.$el.removeClass(kbcss.noKeyboard);
-		}
-
-		// Unbind focus to prevent recursion - openOn may be empty if keyboard is opened externally
-		if (o.openOn) {
-			base.$el.unbind($.trim((o.openOn + ' ').split(/\s+/).join(base.namespace + ' ')));
-		}
-
-		// build keyboard if it doesn't exist; or attach keyboard if it was removed, but not cleared
-		if (!base.$keyboard || base.$keyboard &&
-			(!base.$keyboard.length || $.contains(base.el.ownerDocument.body, base.$keyboard[0]))) {
-			base.startup();
-		}
-
-		// clear watermark
-		if (!base.watermark && base.getValue() === base.inPlaceholder) {
-			base.$el.removeClass(kbcss.placeholder);
-			base.setValue('', base.$el);
-		}
-		// save starting content, in case we cancel
-		base.originalContent = base.isContentEditable ?
-			base.$el.html() :
-			base.getValue(base.$el);
-		if (base.el !== base.preview && !base.isContentEditable) {
-			base.setValue(base.originalContent);
-		}
-
-		// disable/enable accept button
-		if (o.acceptValid) {
-			base.checkValid();
-		}
-
-		if (o.resetDefault) {
-			base.shiftActive = base.altActive = base.metaActive = false;
-		}
-		base.showSet();
-
-		// beforeVisible event
-		if (!base.isVisible()) {
-			base.$el.trigger($keyboard.events.kbBeforeVisible, [base, base.el]);
-		}
-		if (
-			base.initialized ||
-			o.initialFocus ||
-			( !o.initialFocus && base.$el.hasClass($keyboard.css.initialFocus) )
-		) {
-			base.setCurrent();
-		}
-		// update keyboard - enabled or disabled?
-		base.toggle();
-
-		// show keyboard
-		base.$keyboard.show();
-
-		// adjust keyboard preview window width - save width so IE won't keep expanding (fix issue #6)
-		if (o.usePreview && $keyboard.msie) {
-			if (typeof base.width === 'undefined') {
-				base.$preview.hide(); // preview is 100% browser width in IE7, so hide the damn thing
-				base.width = Math.ceil(base.$keyboard.width()); // set input width to match the widest keyboard row
-				base.$preview.show();
-			}
-			base.$preview.width(base.width);
-		}
-
-		base.reposition();
-
-		base.checkDecimal();
-
-		// get preview area line height
-		// add roughly 4px to get line height from font height, works well for font-sizes from 14-36px
-		// needed for textareas
-		base.lineHeight = parseInt(base.$preview.css('lineHeight'), 10) ||
-			parseInt(base.$preview.css('font-size'), 10) + 4;
-
-		if (o.caretToEnd) {
-			base.saveCaret(base.originalContent.length, base.originalContent.length);
-		}
-
-		// IE caret haxx0rs
-		if ($keyboard.allie) {
-			// sometimes end = 0 while start is > 0
-			if (base.last.end === 0 && base.last.start > 0) {
-				base.last.end = base.last.start;
-			}
-			// IE will have start -1, end of 0 when not focused (see demo: https://jsfiddle.net/Mottie/fgryQ/3/)
-			if (base.last.start < 0) {
-				// ensure caret is at the end of the text (needed for IE)
-				base.last.start = base.last.end = base.originalContent.length;
-			}
-		}
-
-		if (alreadyOpen || redraw) {
-			// restore caret position (userClosed)
-			$keyboard.caret(base.$preview, base.last);
-			return base;
-		}
-
-		// opening keyboard flag; delay allows switching between keyboards without immediately closing
-		// the keyboard
-		base.timer2 = setTimeout(function () {
-			var undef;
-			base.opening = false;
-			// Number inputs don't support selectionStart and selectionEnd
-			// Number/email inputs don't support selectionStart and selectionEnd
-			if (!/(number|email)/i.test(base.el.type) && !o.caretToEnd) {
-				// caret position is always 0,0 in webkit; and nothing is focused at this point... odd
-				// save caret position in the input to transfer it to the preview
-				// inside delay to get correct caret position
-				base.saveCaret(undef, undef, base.$el);
-			}
-			if (o.initialFocus || base.$el.hasClass($keyboard.css.initialFocus)) {
-				$keyboard.caret(base.$preview, base.last);
-			}
-			// save event time for keyboards with stayOpen: true
-			base.last.eventTime = new Date().getTime();
-			base.$el.trigger($keyboard.events.kbVisible, [base, base.el]);
-			base.timer = setTimeout(function () {
-				// get updated caret information after visible event - fixes #331
-				if (base) { // Check if base exists, this is a case when destroy is called, before timers fire
-					base.saveCaret();
-				}
-			}, 200);
-		}, 10);
-		// return base to allow chaining in typing extension
-		return base;
-	};
-
-	base.updateLanguage = function () {
-		// change language if layout is named something like 'french-azerty-1'
-		var layouts = $keyboard.layouts,
-			lang = o.language || layouts[o.layout] && layouts[o.layout].lang &&
-				layouts[o.layout].lang || [o.language || 'en'],
-			kblang = $keyboard.language;
-
-		// some languages include a dash, e.g. 'en-gb' or 'fr-ca'
-		// allow o.language to be a string or array...
-		// array is for future expansion where a layout can be set for multiple languages
-		lang = ($.isArray(lang) ? lang[0] : lang).split('-')[0];
-
-		// set keyboard language
-		o.display = $.extend(true, {},
-			kblang.en.display,
-			kblang[lang] && kblang[lang].display || {},
-			base.settings.display
-		);
-		o.combos = $.extend(true, {},
-			kblang.en.combos,
-			kblang[lang] && kblang[lang].combos || {},
-			base.settings.combos
-		);
-		o.wheelMessage = kblang[lang] && kblang[lang].wheelMessage || kblang.en.wheelMessage;
-		// rtl can be in the layout or in the language definition; defaults to false
-		o.rtl = layouts[o.layout] && layouts[o.layout].rtl || kblang[lang] && kblang[lang].rtl || false;
-
-		// save default regex (in case loading another layout changes it)
-		base.regex = kblang[lang] && kblang[lang].comboRegex || $keyboard.comboRegex;
-		// determine if US '.' or European ',' system being used
-		base.decimal = /^\./.test(o.display.dec);
-		base.$el
-			.toggleClass('rtl', o.rtl)
-			.css('direction', o.rtl ? 'rtl' : '');
-	};
-
-	base.startup = function () {
-		var kbcss = $keyboard.css;
-		// ensure base.$preview is defined; but don't overwrite it if keyboard is always visible
-		if (!((o.alwaysOpen || o.userClosed) && base.$preview)) {
-			base.makePreview();
-		}
-		if (!base.hasKeyboard()) {
-			// custom layout - create a unique layout name based on the hash
-			if (o.layout === 'custom') {
-				o.layoutHash = 'custom' + base.customHash();
-			}
-			base.layout = o.layout === 'custom' ? o.layoutHash : o.layout;
-			base.last.layout = base.layout;
-
-			base.updateLanguage();
-			if (typeof $keyboard.builtLayouts[base.layout] === 'undefined') {
-				if ($.isFunction(o.create)) {
-					// create must call buildKeyboard() function; or create it's own keyboard
-					base.$keyboard = o.create(base);
-				} else if (!base.$keyboard.length) {
-					base.buildKeyboard(base.layout, true);
-				}
-			}
-			base.$keyboard = $keyboard.builtLayouts[base.layout].$keyboard.clone();
-			base.$keyboard.data('keyboard', base);
-			if ((base.el.id || '') !== '') {
-				// add ID to keyboard for styling purposes
-				base.$keyboard.attr('id', base.el.id + $keyboard.css.idSuffix);
-			}
-
-			base.makePreview();
-		}
-
-		base.$decBtn = base.$keyboard.find('.' + kbcss.keyPrefix + 'dec');
-		// add enter to allowed keys; fixes #190
-		if (o.enterNavigation || base.el.nodeName === 'TEXTAREA') {
-			base.alwaysAllowed.push(13);
-		}
-
-		base.bindKeyboard();
-
-		base.$keyboard.appendTo(o.appendLocally ? base.$el.parent() : o.appendTo || 'body');
-
-		base.bindKeys();
-
-		// reposition keyboard on window resize
-		if (o.reposition && $.ui && $.ui.position && o.appendTo == 'body') {
-			$(window).bind('resize' + base.namespace, function () {
-				base.reposition();
-			});
-		}
-
-	};
-
-	base.reposition = function () {
-		base.position = $.isEmptyObject(o.position) ? false : o.position;
-		// position after keyboard is visible (required for UI position utility)
-		// and appropriately sized
-		if ($.ui && $.ui.position && base.position) {
-			base.position.of =
-				// get single target position
-				base.position.of ||
-				// OR target stored in element data (multiple targets)
-				base.$el.data('keyboardPosition') ||
-				// OR default @ element
-				base.$el;
-			base.position.collision = base.position.collision || 'flipfit flipfit';
-			base.position.at = o.usePreview ? o.position.at : o.position.at2;
-			if (base.isVisible()) {
-				base.$keyboard.position(base.position);
-			}
-		}
-		// make chainable
-		return base;
-	};
-
-	base.makePreview = function () {
-		if (o.usePreview) {
-			var indx, attrs, attr, removedAttr,
-				kbcss = $keyboard.css;
-			base.$preview = base.$el.clone(false)
-				.data('keyboard', base)
-				.removeClass(kbcss.placeholder + ' ' + kbcss.input)
-				.addClass(kbcss.preview + ' ' + o.css.input)
-				.attr('tabindex', '-1')
-				.show(); // for hidden inputs
-			base.preview = base.$preview[0];
-
-			// Switch the number input field to text so the caret positioning will work again
-			if (base.preview.type === 'number') {
-				base.preview.type = 'text';
-			}
-
-			// remove extraneous attributes.
-			removedAttr = /^(data-|id|aria-haspopup)/i;
-			attrs = base.$preview.get(0).attributes;
-			for (indx = attrs.length - 1; indx >= 0; indx--) {
-				attr = attrs[indx] && attrs[indx].name;
-				if (removedAttr.test(attr)) {
-					// remove data-attributes - see #351
-					base.preview.removeAttribute(attr);
-				}
-			}
-			// build preview container and append preview display
-			$('<div />')
-				.addClass(kbcss.wrapper)
-				.append(base.$preview)
-				.prependTo(base.$keyboard);
-		} else {
-			base.$preview = base.$el;
-			base.preview = base.el;
-		}
-	};
-
-	// Added in v1.26.8 to allow chaining of the caret function, e.g.
-	// keyboard.reveal().caret(4,5).insertText('test').caret('end');
-	base.caret = function(param1, param2) {
-		$keyboard.caret(base.$preview, param1, param2);
-		return base;
-	};
-
-	base.saveCaret = function (start, end, $el) {
-		if (base.isCurrent()) {
-			var p;
-			if (typeof start === 'undefined') {
-				// grab & save current caret position
-				p = $.keyboard.caret($el || base.$preview);
-			} else {
-				p = $keyboard.caret($el || base.$preview, start, end);
-			}
-			base.last.start = typeof start === 'undefined' ? p.start : start;
-			base.last.end = typeof end === 'undefined' ? p.end : end;
-		}
-	};
-
-	base.saveLastChange = function (val) {
-		base.last.val = val || base.getValue(base.$preview || base.$el);
-		if (base.isContentEditable) {
-			base.last.elms = base.el.cloneNode(true);
-		}
-	};
-
-	base.setScroll = function () {
-		// Set scroll so caret & current text is in view
-		// needed for virtual keyboard typing, NOT manual typing - fixes #23
-		if (!base.isContentEditable && base.last.virtual) {
-
-			var scrollWidth, clientWidth, adjustment, direction,
-				isTextarea = base.preview.nodeName === 'TEXTAREA',
-				value = base.last.val.substring(0, Math.max(base.last.start, base.last.end));
-
-			if (!base.$previewCopy) {
-				// clone preview
-				base.$previewCopy = base.$preview.clone()
-					.removeAttr('id') // fixes #334
-					.css({
-						position: 'absolute',
-						left: 0,
-						zIndex: -10,
-						visibility: 'hidden'
-					})
-					.addClass($keyboard.css.inputClone);
-				// prevent submitting content on form submission
-				base.$previewCopy[0].disabled = true;
-				if (!isTextarea) {
-					// make input zero-width because we need an accurate scrollWidth
-					base.$previewCopy.css({
-						'white-space': 'pre',
-						'width': 0
-					});
-				}
-				if (o.usePreview) {
-					// add clone inside of preview wrapper
-					base.$preview.after(base.$previewCopy);
-				} else {
-					// just slap that thing in there somewhere
-					base.$keyboard.prepend(base.$previewCopy);
-				}
-			}
-
-			if (isTextarea) {
-				// need the textarea scrollHeight, so set the clone textarea height to be the line height
-				base.$previewCopy
-					.height(base.lineHeight)
-					.val(value);
-				// set scrollTop for Textarea
-				base.preview.scrollTop = base.lineHeight *
-					(Math.floor(base.$previewCopy[0].scrollHeight / base.lineHeight) - 1);
-			} else {
-				// add non-breaking spaces
-				base.$previewCopy.val(value.replace(/\s/g, '\xa0'));
-
-				// if scrollAdjustment option is set to "c" or "center" then center the caret
-				adjustment = /c/i.test(o.scrollAdjustment) ? base.preview.clientWidth / 2 : o.scrollAdjustment;
-				scrollWidth = base.$previewCopy[0].scrollWidth - 1;
-
-				// set initial state as moving right
-				if (typeof base.last.scrollWidth === 'undefined') {
-					base.last.scrollWidth = scrollWidth;
-					base.last.direction = true;
-				}
-				// if direction = true; we're scrolling to the right
-				direction = base.last.scrollWidth === scrollWidth ?
-					base.last.direction :
-					base.last.scrollWidth < scrollWidth;
-				clientWidth = base.preview.clientWidth - adjustment;
-
-				// set scrollLeft for inputs; try to mimic the inherit caret positioning + scrolling:
-				// hug right while scrolling right...
-				if (direction) {
-					if (scrollWidth < clientWidth) {
-						base.preview.scrollLeft = 0;
-					} else {
-						base.preview.scrollLeft = scrollWidth - clientWidth;
-					}
-				} else {
-					// hug left while scrolling left...
-					if (scrollWidth >= base.preview.scrollWidth - clientWidth) {
-						base.preview.scrollLeft = base.preview.scrollWidth - adjustment;
-					} else if (scrollWidth - adjustment > 0) {
-						base.preview.scrollLeft = scrollWidth - adjustment;
-					} else {
-						base.preview.scrollLeft = 0;
-					}
-				}
-
-				base.last.scrollWidth = scrollWidth;
-				base.last.direction = direction;
-			}
-		}
-	};
-
-	base.bindFocus = function () {
-		if (o.openOn) {
-			// make sure keyboard isn't destroyed
-			// Check if base exists, this is a case when destroy is called, before timers have fired
-			if (base && base.el.active) {
-				base.$el.bind(o.openOn + base.namespace, function () {
-					base.focusOn();
-				});
-				// remove focus from element (needed for IE since blur doesn't seem to work)
-				if ($(':focus')[0] === base.el) {
-					base.$el.blur();
-				}
-			}
-		}
-	};
-
-	base.bindKeyboard = function () {
-		var evt,
-			keyCodes = $keyboard.keyCodes,
-			layout = $keyboard.builtLayouts[base.layout],
-			namespace = base.namespace + 'keybindings';
-		base.$preview
-			.unbind(base.namespace)
-			.bind('click' + namespace + ' touchstart' + namespace, function () {
-				if (o.alwaysOpen && !base.isCurrent()) {
-					base.reveal();
-				}
-				// update last caret position after user click, use at least 150ms or it doesn't work in IE
-				base.timer2 = setTimeout(function () {
-					if (base){
-						base.saveCaret();
-					}
-				}, 150);
-
-			})
-			.bind('keypress' + namespace, function (e) {
-				if (o.lockInput) {
-					return false;
-				}
-				if (!base.isCurrent()) {
-					return;
-				}
-
-				var k = e.charCode || e.which,
-					// capsLock can only be checked while typing a-z
-					k1 = k >= keyCodes.A && k <= keyCodes.Z,
-					k2 = k >= keyCodes.a && k <= keyCodes.z,
-					str = base.last.key = String.fromCharCode(k);
-				// check, that keypress wasn't rise by functional key
-				// space is first typing symbol in UTF8 table
-				if (k < keyCodes.space) { //see #549
-					return;
-				}
-				base.last.virtual = false;
-				base.last.event = e;
-				base.last.$key = []; // not a virtual keyboard key
-				if (base.checkCaret) {
-					base.saveCaret();
-				}
-
-				// update capsLock
-				if (k !== keyCodes.capsLock && (k1 || k2)) {
-					base.capsLock = (k1 && !e.shiftKey) || (k2 && e.shiftKey);
-					// if shifted keyset not visible, then show it
-					if (base.capsLock && !base.shiftActive) {
-						base.shiftActive = true;
-						base.showSet();
-					}
-				}
-
-				// restrict input - keyCode in keypress special keys:
-				// see http://www.asquare.net/javascript/tests/KeyCode.html
-				if (o.restrictInput) {
-					// allow navigation keys to work - Chrome doesn't fire a keypress event (8 = bksp)
-					if ((e.which === keyCodes.backSpace || e.which === 0) &&
-						$.inArray(e.keyCode, base.alwaysAllowed)) {
-						return;
-					}
-					// quick key check
-					if ($.inArray(str, layout.acceptedKeys) === -1) {
-						e.preventDefault();
-						// copy event object in case e.preventDefault() breaks when changing the type
-						evt = $.extend({}, e);
-						evt.type = $keyboard.events.inputRestricted;
-						base.$el.trigger(evt, [base, base.el]);
-					}
-				} else if ((e.ctrlKey || e.metaKey) &&
-					(e.which === keyCodes.A || e.which === keyCodes.C || e.which === keyCodes.V ||
-						(e.which >= keyCodes.X && e.which <= keyCodes.Z))) {
-					// Allow select all (ctrl-a), copy (ctrl-c), paste (ctrl-v) & cut (ctrl-x) &
-					// redo (ctrl-y)& undo (ctrl-z); meta key for mac
-					return;
-				}
-				// Mapped Keys - allows typing on a regular keyboard and the mapped key is entered
-				// Set up a key in the layout as follows: 'm(a):label'; m = key to map, (a) = actual keyboard key
-				// to map to (optional), ':label' = title/tooltip (optional)
-				// example: \u0391 or \u0391(A) or \u0391:alpha or \u0391(A):alpha
-				if (layout.hasMappedKeys && layout.mappedKeys.hasOwnProperty(str)) {
-					base.last.key = layout.mappedKeys[str];
-					base.insertText(base.last.key);
-					e.preventDefault();
-				}
-				if (typeof o.beforeInsert === 'function') {
-					base.insertText(base.last.key);
-					e.preventDefault();
-				}
-				base.checkMaxLength();
-
-			})
-			.bind('keyup' + namespace, function (e) {
-				if (!base.isCurrent()) { return; }
-				base.last.virtual = false;
-				switch (e.which) {
-					// Insert tab key
-				case keyCodes.tab:
-					// Added a flag to prevent from tabbing into an input, keyboard opening, then adding the tab
-					// to the keyboard preview area on keyup. Sadly it still happens if you don't release the tab
-					// key immediately because keydown event auto-repeats
-					if (base.tab && o.tabNavigation && !o.lockInput) {
-						base.shiftActive = e.shiftKey;
-						// when switching inputs, the tab keyaction returns false
-						var notSwitching = $keyboard.keyaction.tab(base);
-						base.tab = false;
-						if (!notSwitching) {
-							return false;
-						}
-					} else {
-						e.preventDefault();
-					}
-					break;
-
-					// Escape will hide the keyboard
-				case keyCodes.escape:
-					if (!o.ignoreEsc) {
-						base.close(o.autoAccept && o.autoAcceptOnEsc ? 'true' : false);
-					}
-					return false;
-				}
-
-				// throttle the check combo function because fast typers will have an incorrectly positioned caret
-				clearTimeout(base.throttled);
-				base.throttled = setTimeout(function () {
-					// fix error in OSX? see issue #102
-					if (base && base.isVisible()) {
-						base.checkCombos();
-					}
-				}, 100);
-
-				base.checkMaxLength();
-
-				base.last.preVal = '' + base.last.val;
-				base.saveLastChange();
-
-				// don't alter "e" or the "keyup" event never finishes processing; fixes #552
-				var event = jQuery.Event( $keyboard.events.kbChange );
-				// base.last.key may be empty string (shift, enter, tab, etc) when keyboard is first visible
-				// use e.key instead, if browser supports it
-				event.action = base.last.key;
-				base.$el.trigger(event, [base, base.el]);
-
-				// change callback is no longer bound to the input element as the callback could be
-				// called during an external change event with all the necessary parameters (issue #157)
-				if ($.isFunction(o.change)) {
-					event.type = $keyboard.events.inputChange;
-					o.change(event, base, base.el);
-					return false;
-				}
-				if (o.acceptValid && o.autoAcceptOnValid) {
-					if (
-						$.isFunction(o.validate) &&
-						o.validate(base, base.getValue(base.$preview))
-					) {
-						base.$preview.blur();
-						base.accept();
-					}
-				}
-			})
-			.bind('keydown' + namespace, function (e) {
-				base.last.keyPress = e.which;
-				// ensure alwaysOpen keyboards are made active
-				if (o.alwaysOpen && !base.isCurrent()) {
-					base.reveal();
-				}
-				// prevent tab key from leaving the preview window
-				if (e.which === keyCodes.tab) {
-					// allow tab to pass through - tab to next input/shift-tab for prev
-					base.tab = true;
-					return false;
-				}
-
-				if (o.lockInput) {
-					return false;
-				}
-
-				base.last.virtual = false;
-				switch (e.which) {
-
-				case keyCodes.backSpace:
-					$keyboard.keyaction.bksp(base, null, e);
-					e.preventDefault();
-					break;
-
-				case keyCodes.enter:
-					$keyboard.keyaction.enter(base, null, e);
-					break;
-
-					// Show capsLock
-				case keyCodes.capsLock:
-					base.shiftActive = base.capsLock = !base.capsLock;
-					base.showSet();
-					break;
-
-				case keyCodes.V:
-					// prevent ctrl-v/cmd-v
-					if (e.ctrlKey || e.metaKey) {
-						if (o.preventPaste) {
-							e.preventDefault();
-							return;
-						}
-						base.checkCombos(); // check pasted content
-					}
-					break;
-				}
-			})
-			.bind('mouseup touchend '.split(' ').join(namespace + ' '), function () {
-				base.last.virtual = true;
-				base.saveCaret();
-			});
-
-		// prevent keyboard event bubbling
-		base.$keyboard.bind('mousedown click touchstart '.split(' ').join(base.namespace + ' '), function (e) {
-			e.stopPropagation();
-			if (!base.isCurrent()) {
-				base.reveal();
-				$(base.el.ownerDocument).trigger('checkkeyboard' + base.namespace);
-			}
-			base.setFocus();
-		});
-
-		// If preventing paste, block context menu (right click)
-		if (o.preventPaste) {
-			base.$preview.bind('contextmenu' + base.namespace, function (e) {
-				e.preventDefault();
-			});
-			base.$el.bind('contextmenu' + base.namespace, function (e) {
-				e.preventDefault();
-			});
-		}
-
-	};
-
-	base.bindKeys = function () {
-		var kbcss = $keyboard.css;
-		base.$allKeys = base.$keyboard.find('button.' + kbcss.keyButton)
-			.unbind(base.namespace + ' ' + base.namespace + 'kb')
-			// Change hover class and tooltip - moved this touchstart before option.keyBinding touchstart
-			// to prevent mousewheel lag/duplication - Fixes #379 & #411
-			.bind('mouseenter mouseleave touchstart '.split(' ').join(base.namespace + ' '), function (e) {
-				if ((o.alwaysOpen || o.userClosed) && e.type !== 'mouseleave' && !base.isCurrent()) {
-					base.reveal();
-					base.setFocus();
-				}
-				if (!base.isCurrent()) {
-					return;
-				}
-				var $keys, txt,
-					last = base.last,
-					$this = $(this),
-					type = e.type;
-
-				if (o.useWheel && base.wheel) {
-					$keys = base.getLayers($this);
-					txt = ($keys.length ? $keys.map(function () {
-							return $(this).attr('data-value') || '';
-						})
-						.get() : '') || [$this.text()];
-					last.wheel_$Keys = $keys;
-					last.wheelLayers = txt;
-					last.wheelIndex = $.inArray($this.attr('data-value'), txt);
-				}
-
-				if ((type === 'mouseenter' || type === 'touchstart') && base.el.type !== 'password' &&
-					!$this.hasClass(o.css.buttonDisabled)) {
-					$this.addClass(o.css.buttonHover);
-					if (o.useWheel && base.wheel) {
-						$this.attr('title', function (i, t) {
-							// show mouse wheel message
-							return (base.wheel && t === '' && base.sets && txt.length > 1 && type !== 'touchstart') ?
-								o.wheelMessage : t;
-						});
-					}
-				}
-				if (type === 'mouseleave') {
-					// needed or IE flickers really bad
-					$this.removeClass((base.el.type === 'password') ? '' : o.css.buttonHover);
-					if (o.useWheel && base.wheel) {
-						last.wheelIndex = 0;
-						last.wheelLayers = [];
-						last.wheel_$Keys = null;
-						$this
-							.attr('title', function (i, t) {
-								return (t === o.wheelMessage) ? '' : t;
-							})
-							.html($this.attr('data-html')); // restore original button text
-					}
-				}
-			})
-			// keyBinding = 'mousedown touchstart' by default
-			.bind(o.keyBinding.split(' ').join(base.namespace + ' ') + base.namespace + ' ' +
-				$keyboard.events.kbRepeater, function (e) {
-				e.preventDefault();
-				// prevent errors when external triggers attempt to 'type' - see issue #158
-				if (!base.$keyboard.is(':visible')) {
-					return false;
-				}
-				var action, $keys,
-					last = base.last,
-					key = this,
-					$key = $(key),
-					// prevent mousedown & touchstart from both firing events at the same time - see #184
-					timer = new Date().getTime();
-
-				if (o.useWheel && base.wheel) {
-					// get keys from other layers/keysets (shift, alt, meta, etc) that line up by data-position
-					$keys = last.wheel_$Keys;
-					// target mousewheel selected key
-					$key = $keys && last.wheelIndex > -1 ? $keys.eq(last.wheelIndex) : $key;
-				}
-				action = $key.attr('data-action');
-				if (timer - (last.eventTime || 0) < o.preventDoubleEventTime) {
-					return;
-				}
-				last.eventTime = timer;
-				last.event = e;
-				last.virtual = true;
-				last.$key = $key;
-				last.key = $key.attr('data-value');
-				last.keyPress = "";
-				// Start caret in IE when not focused (happens with each virtual keyboard button click
-				base.setFocus();
-				if (/^meta/.test(action)) {
-					action = 'meta';
-				}
-				// keyaction is added as a string, override original action & text
-				if (action === last.key && typeof $keyboard.keyaction[action] === 'string') {
-					last.key = action = $keyboard.keyaction[action];
-				} else if (action in $keyboard.keyaction && $.isFunction($keyboard.keyaction[action])) {
-					// stop processing if action returns false (close & cancel)
-					if ($keyboard.keyaction[action](base, this, e) === false) {
-						return false;
-					}
-					action = null; // prevent inserting action name
-				}
-				// stop processing if keyboard closed and keyaction did not return false - see #536
-				if (!base.hasKeyboard()) {
-					return false;
-				}
-				if (typeof action !== 'undefined' && action !== null) {
-					last.key = $(this).hasClass(kbcss.keyAction) ? action : last.key;
-					base.insertText(last.key);
-					if (!base.capsLock && !o.stickyShift && !e.shiftKey) {
-						base.shiftActive = false;
-						base.showSet($key.attr('data-name'));
-					}
-				}
-				// set caret if caret moved by action function; also, attempt to fix issue #131
-				$keyboard.caret(base.$preview, last);
-				base.checkCombos();
-				e.type = $keyboard.events.kbChange;
-				e.action = last.key;
-				base.$el.trigger(e, [base, base.el]);
-				last.preVal = '' + last.val;
-				base.saveLastChange();
-
-				if ($.isFunction(o.change)) {
-					e.type = $keyboard.events.inputChange;
-					o.change(e, base, base.el);
-					// return false to prevent reopening keyboard if base.accept() was called
-					return false;
-				}
-
-			})
-			// using 'kb' namespace for mouse repeat functionality to keep it separate
-			// I need to trigger a 'repeater.keyboard' to make it work
-			.bind('mouseup' + base.namespace + ' ' + 'mouseleave touchend touchmove touchcancel '.split(' ')
-				.join(base.namespace + 'kb '), function (e) {
-				base.last.virtual = true;
-				var offset,
-					$this = $(this);
-				if (e.type === 'touchmove') {
-					// if moving within the same key, don't stop repeating
-					offset = $this.offset();
-					offset.right = offset.left + $this.outerWidth();
-					offset.bottom = offset.top + $this.outerHeight();
-					if (e.originalEvent.touches[0].pageX >= offset.left &&
-						e.originalEvent.touches[0].pageX < offset.right &&
-						e.originalEvent.touches[0].pageY >= offset.top &&
-						e.originalEvent.touches[0].pageY < offset.bottom) {
-						return true;
-					}
-				} else if (/(mouseleave|touchend|touchcancel)/i.test(e.type)) {
-					$this.removeClass(o.css.buttonHover); // needed for touch devices
-				} else {
-					if (!o.noFocus && base.isCurrent() && base.isVisible()) {
-						base.$preview.focus();
-					}
-					if (base.checkCaret) {
-						$keyboard.caret(base.$preview, base.last);
-					}
-				}
-				base.mouseRepeat = [false, ''];
-				clearTimeout(base.repeater); // make sure key repeat stops!
-				if (o.acceptValid && o.autoAcceptOnValid) {
-					if (
-						$.isFunction(o.validate) &&
-						o.validate(base, base.getValue())
-					) {
-						base.$preview.blur();
-						base.accept();
-					}
-				}
-				return false;
-			})
-			// prevent form submits when keyboard is bound locally - issue #64
-			.bind('click' + base.namespace, function () {
-				return false;
-			})
-			// no mouse repeat for action keys (shift, ctrl, alt, meta, etc)
-			.not('.' + kbcss.keyAction)
-			// Allow mousewheel to scroll through other keysets of the same (non-action) key
-			.bind('mousewheel' + base.namespace, function (e, delta) {
-				if (o.useWheel && base.wheel) {
-					// deltaY used by newer versions of mousewheel plugin
-					delta = delta || e.deltaY;
-					var n,
-						txt = base.last.wheelLayers || [];
-					if (txt.length > 1) {
-						n = base.last.wheelIndex + (delta > 0 ? -1 : 1);
-						if (n > txt.length - 1) {
-							n = 0;
-						}
-						if (n < 0) {
-							n = txt.length - 1;
-						}
-					} else {
-						n = 0;
-					}
-					base.last.wheelIndex = n;
-					$(this).html(txt[n]);
-					return false;
-				}
-			})
-			// mouse repeated action key exceptions
-			.add('.' + kbcss.keyPrefix + ('tab bksp space enter'.split(' ')
-				.join(',.' + kbcss.keyPrefix)), base.$keyboard)
-			.bind('mousedown touchstart '.split(' ').join(base.namespace + 'kb '), function () {
-				if (o.repeatRate !== 0) {
-					var key = $(this);
-					// save the key, make sure we are repeating the right one (fast typers)
-					base.mouseRepeat = [true, key];
-					setTimeout(function () {
-						// don't repeat keys if it is disabled - see #431
-						if (base && base.mouseRepeat[0] && base.mouseRepeat[1] === key && !key[0].disabled) {
-							base.repeatKey(key);
-						}
-					}, o.repeatDelay);
-				}
-				return false;
-			});
-	};
-
-	base.execCommand = function(cmd, str) {
-		base.el.ownerDocument.execCommand(cmd, false, str);
-		base.el.normalize();
-		if (o.reposition) {
-			base.reposition();
-		}
-	};
-
-	base.getValue = function ($el) {
-		$el = $el || base.$preview;
-		return $el[base.isContentEditable ? 'text' : 'val']();
-	};
-
-	base.setValue = function (txt, $el) {
-		$el = $el || base.$preview;
-		if (base.isContentEditable) {
-			if (txt !== $el.text()) {
-				$keyboard.replaceContent($el, txt);
-				base.saveCaret();
-			}
-		} else {
-			$el.val(txt);
-		}
-		return base;
-	};
-
-	// Insert text at caret/selection - thanks to Derek Wickwire for fixing this up!
-	base.insertText = function (txt) {
-		if (!base.$preview) { return base; }
-		if (typeof o.beforeInsert === 'function') {
-			txt = o.beforeInsert(base.last.event, base, base.el, txt);
-		}
-		if (typeof txt === 'undefined' || txt === false) {
-			base.last.key = '';
-			return base;
-		}
-		if (base.isContentEditable) {
-			return base.insertContentEditable(txt);
-		}
-		var bksp, t,
-			isBksp = txt === '\b',
-			// use base.$preview.val() instead of base.preview.value (val.length includes carriage returns in IE).
-			val = base.getValue(),
-			pos = $keyboard.caret(base.$preview),
-			len = val.length; // save original content length
-
-		// silly IE caret hacks... it should work correctly, but navigating using arrow keys in a textarea
-		// is still difficult
-		// in IE, pos.end can be zero after input loses focus
-		if (pos.end < pos.start) {
-			pos.end = pos.start;
-		}
-		if (pos.start > len) {
-			pos.end = pos.start = len;
-		}
-
-		if (base.preview.nodeName === 'TEXTAREA') {
-			// This makes sure the caret moves to the next line after clicking on enter (manual typing works fine)
-			if ($keyboard.msie && val.substr(pos.start, 1) === '\n') {
-				pos.start += 1;
-				pos.end += 1;
-			}
-		}
-
-		if (txt === '{d}') {
-			txt = '';
-			t = pos.start;
-			pos.end += 1;
-		}
-
-		bksp = isBksp && pos.start === pos.end;
-		txt = isBksp ? '' : txt;
-		val = val.substr(0, pos.start - (bksp ? 1 : 0)) + txt + val.substr(pos.end);
-		t = pos.start + (bksp ? -1 : txt.length);
-
-		base.setValue(val);
-		base.saveCaret(t, t); // save caret in case of bksp
-		base.setScroll();
-		// see #506.. allow chaining of insertText
-		return base;
-	};
-
-	base.insertContentEditable = function (txt) {
-		base.$preview.focus();
-		base.execCommand('insertText', txt);
-		base.saveCaret();
-		return base;
-	};
-
-	// check max length
-	base.checkMaxLength = function () {
-		if (!base.$preview) { return; }
-		var start, caret,
-			val = base.getValue();
-		if (o.maxLength !== false && val.length > o.maxLength) {
-			start = $keyboard.caret(base.$preview).start;
-			caret = Math.min(start, o.maxLength);
-
-			// prevent inserting new characters when maxed #289
-			if (!o.maxInsert) {
-				val = base.last.val;
-				caret = start - 1; // move caret back one
-			}
-			base.setValue(val.substring(0, o.maxLength));
-			// restore caret on change, otherwise it ends up at the end.
-			base.saveCaret(caret, caret);
-		}
-		if (base.$decBtn.length) {
-			base.checkDecimal();
-		}
-		// allow chaining
-		return base;
-	};
-
-	// mousedown repeater
-	base.repeatKey = function (key) {
-		key.trigger($keyboard.events.kbRepeater);
-		if (base.mouseRepeat[0]) {
-			base.repeater = setTimeout(function () {
-				if (base){
-					base.repeatKey(key);
-				}
-			}, base.repeatTime);
-		}
-	};
-
-	base.getKeySet = function () {
-		var sets = [];
-		if (base.altActive) {
-			sets.push('alt');
-		}
-		if (base.shiftActive) {
-			sets.push('shift');
-		}
-		if (base.metaActive) {
-			// base.metaActive contains the string name of the
-			// current meta keyset
-			sets.push(base.metaActive);
-		}
-		return sets.length ? sets.join('+') : 'normal';
-	};
-
-	// make it easier to switch keysets via API
-	// showKeySet('shift+alt+meta1')
-	base.showKeySet = function (str) {
-		if (typeof str === 'string') {
-			base.last.keyset = [base.shiftActive, base.altActive, base.metaActive];
-			base.shiftActive = /shift/i.test(str);
-			base.altActive = /alt/i.test(str);
-			if (/\bmeta/.test(str)) {
-				base.metaActive = true;
-				base.showSet(str.match(/\bmeta[\w-]+/i)[0]);
-			} else {
-				base.metaActive = false;
-				base.showSet();
-			}
-		} else {
-			base.showSet(str);
-		}
-		// allow chaining
-		return base;
-	};
-
-	base.showSet = function (name) {
-		if (!base.hasKeyboard()) { return; }
-		o = base.options; // refresh options
-		var kbcss = $keyboard.css,
-			prefix = '.' + kbcss.keyPrefix,
-			active = o.css.buttonActive,
-			key = '',
-			toShow = (base.shiftActive ? 1 : 0) + (base.altActive ? 2 : 0);
-		if (!base.shiftActive) {
-			base.capsLock = false;
-		}
-		// check meta key set
-		if (base.metaActive) {
-			// remove "-shift" and "-alt" from meta name if it exists
-			if (base.shiftActive) {
-				name = (name || "").replace("-shift", "");
-			}
-			if (base.altActive) {
-				name = (name || "").replace("-alt", "");
-			}
-			// the name attribute contains the meta set name 'meta99'
-			key = (/^meta/i.test(name)) ? name : '';
-			// save active meta keyset name
-			if (key === '') {
-				key = (base.metaActive === true) ? '' : base.metaActive;
-			} else {
-				base.metaActive = key;
-			}
-			// if meta keyset doesn't have a shift or alt keyset, then show just the meta key set
-			if ((!o.stickyShift && base.last.keyset[2] !== base.metaActive) ||
-				((base.shiftActive || base.altActive) &&
-				!base.$keyboard.find('.' + kbcss.keySet + '-' + key + base.rows[toShow]).length)) {
-				base.shiftActive = base.altActive = false;
-			}
-		} else if (!o.stickyShift && base.last.keyset[2] !== base.metaActive && base.shiftActive) {
-			// switching from meta key set back to default, reset shift & alt if using stickyShift
-			base.shiftActive = base.altActive = false;
-		}
-		toShow = (base.shiftActive ? 1 : 0) + (base.altActive ? 2 : 0);
-		key = (toShow === 0 && !base.metaActive) ? '-normal' : (key === '') ? '' : '-' + key;
-		if (!base.$keyboard.find('.' + kbcss.keySet + key + base.rows[toShow]).length) {
-			// keyset doesn't exist, so restore last keyset settings
-			base.shiftActive = base.last.keyset[0];
-			base.altActive = base.last.keyset[1];
-			base.metaActive = base.last.keyset[2];
-			return;
-		}
-		base.$keyboard
-			.find(prefix + 'alt,' + prefix + 'shift,.' + kbcss.keyAction + '[class*=meta]')
-			.removeClass(active)
-			.end()
-			.find(prefix + 'alt')
-			.toggleClass(active, base.altActive)
-			.end()
-			.find(prefix + 'shift')
-			.toggleClass(active, base.shiftActive)
-			.end()
-			.find(prefix + 'lock')
-			.toggleClass(active, base.capsLock)
-			.end()
-			.find('.' + kbcss.keySet)
-			.hide()
-			.end()
-			.find('.' + (kbcss.keyAction + prefix + key).replace("--", "-"))
-			.addClass(active);
-
-		// show keyset using inline-block ( extender layout will then line up )
-		base.$keyboard.find('.' + kbcss.keySet + key + base.rows[toShow])[0].style.display = 'inline-block';
-		if (base.metaActive) {
-			base.$keyboard.find(prefix + base.metaActive)
-				// base.metaActive contains the string "meta#" or false
-				// without the !== false, jQuery UI tries to transition the classes
-				.toggleClass(active, base.metaActive !== false);
-		}
-		base.last.keyset = [base.shiftActive, base.altActive, base.metaActive];
-		base.$el.trigger($keyboard.events.kbKeysetChange, [base, base.el]);
-		if (o.reposition) {
-			base.reposition();
-		}
-	};
-
-	// check for key combos (dead keys)
-	base.checkCombos = function () {
-		// return val for close function
-		if ( !(
-			base.isVisible() || (
-				base.hasKeyboard() &&
-				base.$keyboard.hasClass( $keyboard.css.hasFocus )
-			)
-		) ) {
-			return base.getValue(base.$preview || base.$el);
-		}
-		var r, t, t2, repl,
-			// use base.$preview.val() instead of base.preview.value
-			// (val.length includes carriage returns in IE).
-			val = base.getValue(),
-			pos = $keyboard.caret(base.$preview),
-			layout = $keyboard.builtLayouts[base.layout],
-			len = val.length; // save original content length
-		// return if val is empty; fixes #352
-		if (val === '') {
-			// check valid on empty string - see #429
-			if (o.acceptValid) {
-				base.checkValid();
-			}
-			return val;
-		}
-
-		// silly IE caret hacks... it should work correctly, but navigating using arrow keys in a textarea
-		// is still difficult
-		// in IE, pos.end can be zero after input loses focus
-		if (pos.end < pos.start) {
-			pos.end = pos.start;
-		}
-		if (pos.start > len) {
-			pos.end = pos.start = len;
-		}
-		// This makes sure the caret moves to the next line after clicking on enter (manual typing works fine)
-		if ($keyboard.msie && val.substr(pos.start, 1) === '\n') {
-			pos.start += 1;
-			pos.end += 1;
-		}
-
-		if (o.useCombos) {
-			// keep 'a' and 'o' in the regex for ae and oe ligature (æ,œ)
-			// thanks to KennyTM: http://stackoverflow.com/q/4275077
-			// original regex /([`\'~\^\"ao])([a-z])/mig moved to $.keyboard.comboRegex
-			if ($keyboard.msie) {
-				// old IE may not have the caret positioned correctly, so just check the whole thing
-				val = val.replace(base.regex, function (s, accent, letter) {
-					return (o.combos.hasOwnProperty(accent)) ? o.combos[accent][letter] || s : s;
-				});
-				// prevent combo replace error, in case the keyboard closes - see issue #116
-			} else if (base.$preview.length) {
-				// Modern browsers - check for combos from last two characters left of the caret
-				t = pos.start - (pos.start - 2 >= 0 ? 2 : 0);
-				// target last two characters
-				$keyboard.caret(base.$preview, t, pos.end);
-				// do combo replace
-				t = $keyboard.caret(base.$preview);
-				repl = function (txt) {
-					return (txt || '').replace(base.regex, function (s, accent, letter) {
-						return (o.combos.hasOwnProperty(accent)) ? o.combos[accent][letter] || s : s;
-					});
-				};
-				t2 = repl(t.text);
-				// add combo back
-				// prevent error if caret doesn't return a function
-				if (t && t.replaceStr && t2 !== t.text) {
-					if (base.isContentEditable) {
-						$keyboard.replaceContent(el, repl);
-					} else {
-						base.setValue(t.replaceStr(t2));
-					}
-				}
-				val = base.getValue();
-			}
-		}
-
-		// check input restrictions - in case content was pasted
-		if (o.restrictInput && val !== '') {
-			t = layout.acceptedKeys.length;
-
-			r = layout.acceptedKeysRegex;
-			if (!r) {
-				t2 = $.map(layout.acceptedKeys, function (v) {
-					// escape any special characters
-					return v.replace(base.escapeRegex, '\\$&');
-				});
-				r = layout.acceptedKeysRegex = new RegExp('(' + t2.join('|') + ')', 'g');
-			}
-
-			// only save matching keys
-			t2 = val.match(r);
-			if (t2) {
-				val = t2.join('');
-			} else {
-				// no valid characters
-				val = '';
-				len = 0;
-			}
-		}
-
-		// save changes, then reposition caret
-		pos.start += val.length - len;
-		pos.end += val.length - len;
-
-		base.setValue(val);
-		base.saveCaret(pos.start, pos.end);
-		// set scroll to keep caret in view
-		base.setScroll();
-		base.checkMaxLength();
-
-		if (o.acceptValid) {
-			base.checkValid();
-		}
-		return val; // return text, used for keyboard closing section
-	};
-
-	// Toggle accept button classes, if validating
-	base.checkValid = function () {
-		var kbcss = $keyboard.css,
-			$accept = base.$keyboard.find('.' + kbcss.keyPrefix + 'accept'),
-			valid = true;
-		if ($.isFunction(o.validate)) {
-			valid = o.validate(base, base.getValue(), false);
-		}
-		// toggle accept button classes; defined in the css
-		$accept
-			.toggleClass(kbcss.inputInvalid, !valid)
-			.toggleClass(kbcss.inputValid, valid)
-			// update title to indicate that the entry is valid or invalid
-			.attr('title', $accept.attr('data-title') + ' (' + o.display[valid ? 'valid' : 'invalid'] + ')');
-	};
-
-	// Decimal button for num pad - only allow one (not used by default)
-	base.checkDecimal = function () {
-		// Check US '.' or European ',' format
-		if ((base.decimal && /\./g.test(base.preview.value)) ||
-			(!base.decimal && /\,/g.test(base.preview.value))) {
-			base.$decBtn
-				.attr({
-					'disabled': 'disabled',
-					'aria-disabled': 'true'
-				})
-				.removeClass(o.css.buttonHover)
-				.addClass(o.css.buttonDisabled);
-		} else {
-			base.$decBtn
-				.removeAttr('disabled')
-				.attr({
-					'aria-disabled': 'false'
-				})
-				.addClass(o.css.buttonDefault)
-				.removeClass(o.css.buttonDisabled);
-		}
-	};
-
-	// get other layer values for a specific key
-	base.getLayers = function ($el) {
-		var kbcss = $keyboard.css,
-			key = $el.attr('data-pos'),
-			$keys = $el.closest('.' + kbcss.keyboard)
-			.find('button[data-pos="' + key + '"]');
-		return $keys.filter(function () {
-			return $(this)
-				.find('.' + kbcss.keyText)
-				.text() !== '';
-		})
-		.add($el);
-	};
-
-	// Go to next or prev inputs
-	// goToNext = true, then go to next input; if false go to prev
-	// isAccepted is from autoAccept option or true if user presses shift+enter
-	base.switchInput = function (goToNext, isAccepted) {
-		if ($.isFunction(o.switchInput)) {
-			o.switchInput(base, goToNext, isAccepted);
-		} else {
-			// base.$keyboard may be an empty array - see #275 (apod42)
-			if (base.$keyboard.length) {
-				base.$keyboard.hide();
-			}
-			var kb,
-				stopped = false,
-				all = $('button, input, select, textarea, a, [contenteditable]')
-					.filter(':visible')
-					.not(':disabled'),
-				indx = all.index(base.$el) + (goToNext ? 1 : -1);
-			if (base.$keyboard.length) {
-				base.$keyboard.show();
-			}
-			if (indx > all.length - 1) {
-				stopped = o.stopAtEnd;
-				indx = 0; // go to first input
-			}
-			if (indx < 0) {
-				stopped = o.stopAtEnd;
-				indx = all.length - 1; // stop or go to last
-			}
-			if (!stopped) {
-				isAccepted = base.close(isAccepted);
-				if (!isAccepted) {
-					return;
-				}
-				kb = all.eq(indx).data('keyboard');
-				if (kb && kb.options.openOn.length) {
-					kb.focusOn();
-				} else {
-					all.eq(indx).focus();
-				}
-			}
-		}
-		return false;
-	};
-
-	// Close the keyboard, if visible. Pass a status of true, if the content was accepted
-	// (for the event trigger).
-	base.close = function (accepted) {
-		if (base.isOpen && base.$keyboard.length) {
-			clearTimeout(base.throttled);
-			var kbcss = $keyboard.css,
-				kbevents = $keyboard.events,
-				val = accepted ? base.checkCombos() : base.originalContent;
-			// validate input if accepted
-			if (accepted && $.isFunction(o.validate) && !o.validate(base, val, true)) {
-				val = base.originalContent;
-				accepted = false;
-				if (o.cancelClose) {
-					return;
-				}
-			}
-			base.isCurrent(false);
-			base.isOpen = o.alwaysOpen || o.userClosed;
-			if (base.isContentEditable && !accepted) {
-				// base.originalContent stores the HTML
-				base.$el.html(val);
-			} else {
-				base.setValue(val, base.$el);
-			}
-			base.$el
-				.removeClass(kbcss.isCurrent + ' ' + kbcss.inputAutoAccepted)
-				// add 'ui-keyboard-autoaccepted' to inputs - see issue #66
-				.addClass((accepted || false) ? accepted === true ? '' : kbcss.inputAutoAccepted : '')
-				// trigger default change event - see issue #146
-				.trigger(kbevents.inputChange);
-			// don't trigger an empty event - see issue #463
-			if (!o.alwaysOpen) {
-				// don't trigger beforeClose if keyboard is always open
-				base.$el.trigger(kbevents.kbBeforeClose, [base, base.el, (accepted || false)]);
-			}
-			// save caret after updating value (fixes userClosed issue with changing focus)
-			$keyboard.caret(base.$preview, base.last);
-
-			base.$el
-				.trigger(((accepted || false) ? kbevents.inputAccepted : kbevents.inputCanceled), [base, base.el])
-				.trigger((o.alwaysOpen) ? kbevents.kbInactive : kbevents.kbHidden, [base, base.el])
-				.blur();
-
-			// base is undefined if keyboard was destroyed - fixes #358
-			if (base) {
-				// add close event time
-				base.last.eventTime = new Date().getTime();
-				if (!(o.alwaysOpen || o.userClosed && accepted === 'true') && base.$keyboard.length) {
-					// free up memory
-					base.removeKeyboard();
-					// rebind input focus - delayed to fix IE issue #72
-					base.timer = setTimeout(function () {
-						if (base) {
-							base.bindFocus();
-						}
-					}, 500);
-				}
-				if (!base.watermark && base.el.value === '' && base.inPlaceholder !== '') {
-					base.$el.addClass(kbcss.placeholder);
-					base.setValue(base.inPlaceholder, base.$el);
-				}
-			}
-		}
-		return !!accepted;
-	};
-
-	base.accept = function () {
-		return base.close(true);
-	};
-
-	base.checkClose = function (e) {
-		if (base.opening) {
-			return;
-		}
-		var kbcss = $.keyboard.css,
-			name = e.target.nodeName,
-			$target = name === 'INPUT' || name === 'TEXTAREA' ?
-				$(e.target) :
-				// clicking on an element inside of a contenteditable
-				$(e.target).closest('[contenteditable]');
-		base.escClose(e, $target);
-		// needed for IE to allow switching between keyboards smoothly
-		if ($target.hasClass(kbcss.input)) {
-			var kb = $target.data('keyboard');
-			// only trigger on self
-			if (
-				kb !== base &&
-				!kb.$el.hasClass(kbcss.isCurrent) &&
-				kb.options.openOn &&
-				e.type === o.openOn
-			) {
-				kb.focusOn();
-			}
-		}
-	};
-
-	// callback functions called to check if the keyboard needs to be closed
-	// e.g. on escape or clicking outside the keyboard
-	base.escCloseCallback = {
-		// keep keyboard open if alwaysOpen or stayOpen is true - fixes mutliple
-		// always open keyboards or single stay open keyboard
-		keepOpen: function($target) {
-			return !base.isOpen;
-		}
-	};
-
-	base.escClose = function (e, $el) {
-		if (e && e.type === 'keyup') {
-			return (e.which === $keyboard.keyCodes.escape && !o.ignoreEsc) ?
-				base.close(o.autoAccept && o.autoAcceptOnEsc ? 'true' : false) :
-				'';
-		}
-		var shouldStayOpen = false,
-			$target = $el || $(e.target);
-		$.each(base.escCloseCallback, function(i, callback) {
-			if (typeof callback === 'function') {
-				shouldStayOpen = shouldStayOpen || callback($target);
-			}
-		});
-		if (shouldStayOpen) {
-			return;
-		}
-		// ignore autoaccept if using escape - good idea?
-		if (!base.isCurrent() && base.isOpen || base.isOpen && $target[0] !== base.el) {
-			// don't close if stayOpen is set; but close if a different keyboard is being opened
-			if ((o.stayOpen || o.userClosed) && !$target.hasClass($keyboard.css.input)) {
-				return;
-			}
-			// stop propogation in IE - an input getting focus doesn't open a keyboard if one is already open
-			if ($keyboard.allie) {
-				e.preventDefault();
-			}
-			if (o.closeByClickEvent) {
-				// only close the keyboard if the user is clicking on an input or if they cause a click
-				// event (touchstart/mousedown will not force the close with this setting)
-				var name = $target[0].nodeName.toLowerCase();
-				if (name === 'input' || name === 'textarea' || e.type === 'click') {
-					base.close(o.autoAccept ? 'true' : false);
-				}
-			} else {
-				// send 'true' instead of a true (boolean), the input won't get a 'ui-keyboard-autoaccepted'
-				// class name - see issue #66
-				base.close(o.autoAccept ? 'true' : false);
-			}
-		}
-	};
-
-	// Build default button
-	base.keyBtn = $('<button />')
-		.attr({
-			'role': 'button',
-			'type': 'button',
-			'aria-disabled': 'false',
-			'tabindex': '-1'
-		})
-		.addClass($keyboard.css.keyButton);
-
-	// convert key names into a class name
-	base.processName = function (name) {
-		var index, n,
-			process = (name || '').replace(/[^a-z0-9-_]/gi, ''),
-			len = process.length,
-			newName = [];
-		if (len > 1 && name === process) {
-			// return name if basic text
-			return name;
-		}
-		// return character code sequence
-		len = name.length;
-		if (len) {
-			for (index = 0; index < len; index++) {
-				n = name[index];
-				// keep '-' and '_'... so for dash, we get two dashes in a row
-				newName.push(/[a-z0-9-_]/i.test(n) ?
-					(/[-_]/.test(n) && index !== 0 ? '' : n) :
-					(index === 0 ? '' : '-') + n.charCodeAt(0)
-				);
-			}
-			return newName.join('');
-		} else {
-			return name;
-		}
-	};
-
-	base.processKeys = function (name) {
-		var tmp,
-			parts = name.split(':'),
-			data = {
-				name: null,
-				map: '',
-				title: ''
-			};
-		/* map defined keys
-		format 'key(A):Label_for_key_(ignore_parentheses_here)'
-			'key' = key that is seen (can any character(s); but it might need to be escaped using '\'
-			or entered as unicode '\u####'
-			'(A)' = the actual key on the real keyboard to remap
-			':Label_for_key' ends up in the title/tooltip
-		Examples:
-			'\u0391(A):alpha', 'x(y):this_(might)_cause_problems
-			or edge cases of ':(x)', 'x(:)', 'x(()' or 'x())'
-		Enhancement (if I can get alt keys to work):
-			A mapped key will include the mod key, e.g. 'x(alt-x)' or 'x(alt-shift-x)'
-		*/
-		if (/\(.+\)/.test(parts[0]) || /^:\(.+\)/.test(name) || /\([(:)]\)/.test(name)) {
-			// edge cases 'x(:)', 'x(()' or 'x())'
-			if (/\([(:)]\)/.test(name)) {
-				tmp = parts[0].match(/([^(]+)\((.+)\)/);
-				if (tmp && tmp.length) {
-					data.name = tmp[1];
-					data.map = tmp[2];
-					data.title = parts.length > 1 ? parts.slice(1).join(':') : '';
-				} else {
-					// edge cases 'x(:)', ':(x)' or ':(:)'
-					data.name = name.match(/([^(]+)/)[0];
-					if (data.name === ':') {
-						// ':(:):test' => parts = [ '', '(', ')', 'title' ] need to slice 1
-						parts = parts.slice(1);
-					}
-					if (tmp === null) {
-						// 'x(:):test' => parts = [ 'x(', ')', 'title' ] need to slice 2
-						data.map = ':';
-						parts = parts.slice(2);
-					}
-					data.title = parts.length ? parts.join(':') : '';
-				}
-			} else {
-				// example: \u0391(A):alpha; extract 'A' from '(A)'
-				data.map = name.match(/\(([^()]+?)\)/)[1];
-				// remove '(A)', left with '\u0391:alpha'
-				name = name.replace(/\(([^()]+)\)/, '');
-				tmp = name.split(':');
-				// get '\u0391' from '\u0391:alpha'
-				if (tmp[0] === '') {
-					data.name = ':';
-					parts = parts.slice(1);
-				} else {
-					data.name = tmp[0];
-				}
-				data.title = parts.length > 1 ? parts.slice(1).join(':') : '';
-			}
-		} else {
-			// find key label
-			// corner case of '::;' reduced to ':;', split as ['', ';']
-			if (name !== '' && parts[0] === '') {
-				data.name = ':';
-				parts = parts.slice(1);
-			} else {
-				data.name = parts[0];
-			}
-			data.title = parts.length > 1 ? parts.slice(1).join(':') : '';
-		}
-		data.title = $.trim(data.title).replace(/_/g, ' ');
-		return data;
-	};
-
-	// Add key function
-	// keyName = the name of the function called in $.keyboard.keyaction when the button is clicked
-	// name = name added to key, or cross-referenced in the display options
-	// base.temp[0] = keyset to attach the new button
-	// regKey = true when it is not an action key
-	base.addKey = function (keyName, action, regKey) {
-		var keyClass, tmp, keys,
-			data = {},
-			txt = base.processKeys(regKey ? keyName : action),
-			kbcss = $keyboard.css;
-
-		if (!regKey && o.display[txt.name]) {
-			keys = base.processKeys(o.display[txt.name]);
-			// action contained in "keyName" (e.g. keyName = "accept",
-			// action = "a" (use checkmark instead of text))
-			keys.action = base.processKeys(keyName).name;
-		} else {
-			// when regKey is true, keyName is the same as action
-			keys = txt;
-			keys.action = txt.name;
-		}
-
-		data.name = base.processName(txt.name);
-		if (keys.name !== '') {
-			if (keys.map !== '') {
-				$keyboard.builtLayouts[base.layout].mappedKeys[keys.map] = keys.name;
-				$keyboard.builtLayouts[base.layout].acceptedKeys.push(keys.name);
-			} else if (regKey) {
-				$keyboard.builtLayouts[base.layout].acceptedKeys.push(keys.name);
-			}
-		}
-
-		if (regKey) {
-			keyClass = data.name === '' ? '' : kbcss.keyPrefix + data.name;
-		} else {
-			// Action keys will have the 'ui-keyboard-actionkey' class
-			keyClass = kbcss.keyAction + ' ' + kbcss.keyPrefix + keys.action;
-		}
-		// '\u2190'.length = 1 because the unicode is converted, so if more than one character,
-		// add the wide class
-		keyClass += (keys.name.length > 2 ? ' ' + kbcss.keyWide : '') + ' ' + o.css.buttonDefault;
-
-		data.html = '<span class="' + kbcss.keyText + '">' +
-			// this prevents HTML from being added to the key
-			keys.name.replace(/[\u00A0-\u9999]/gim, function (i) {
-				return '&#' + i.charCodeAt(0) + ';';
-			}) +
-			'</span>';
-
-		data.$key = base.keyBtn
-			.clone()
-			.attr({
-				'data-value': regKey ? keys.name : keys.action, // value
-				'data-name': keys.action,
-				'data-pos': base.temp[1] + ',' + base.temp[2],
-				'data-action': keys.action,
-				'data-html': data.html
-			})
-			// add 'ui-keyboard-' + data.name for all keys
-			//  (e.g. 'Bksp' will have 'ui-keyboard-bskp' class)
-			// any non-alphanumeric characters will be replaced with
-			//  their decimal unicode value
-			//  (e.g. '~' is a regular key, class = 'ui-keyboard-126'
-			//  (126 is the unicode decimal value - same as &#126;)
-			//  See https://en.wikipedia.org/wiki/List_of_Unicode_characters#Control_codes
-			.addClass(keyClass)
-			.html(data.html)
-			.appendTo(base.temp[0]);
-
-		if (keys.map) {
-			data.$key.attr('data-mapped', keys.map);
-		}
-		if (keys.title || txt.title) {
-			data.$key.attr({
-				'data-title': txt.title || keys.title, // used to allow adding content to title
-				'title': txt.title || keys.title
-			});
-		}
-
-		if (typeof o.buildKey === 'function') {
-			data = o.buildKey(base, data);
-			// copy html back to attributes
-			tmp = data.$key.html();
-			data.$key.attr('data-html', tmp);
-		}
-		return data.$key;
-	};
-
-	base.customHash = function (layout) {
-		/*jshint bitwise:false */
-		var i, array, hash, character, len,
-			arrays = [],
-			merged = [];
-		// pass layout to allow for testing
-		layout = typeof layout === 'undefined' ? o.customLayout : layout;
-		// get all layout arrays
-		for (array in layout) {
-			if (layout.hasOwnProperty(array)) {
-				arrays.push(layout[array]);
-			}
-		}
-		// flatten array
-		merged = merged.concat.apply(merged, arrays).join(' ');
-		// produce hash name - http://stackoverflow.com/a/7616484/145346
-		hash = 0;
-		len = merged.length;
-		if (len === 0) {
-			return hash;
-		}
-		for (i = 0; i < len; i++) {
-			character = merged.charCodeAt(i);
-			hash = ((hash << 5) - hash) + character;
-			hash = hash & hash; // Convert to 32bit integer
-		}
-		return hash;
-	};
-
-	base.buildKeyboard = function (name, internal) {
-		// o.display is empty when this is called from the scramble extension (when alwaysOpen:true)
-		if ($.isEmptyObject(o.display)) {
-			// set keyboard language
-			base.updateLanguage();
-		}
-		var row, $row, currentSet,
-			kbcss = $keyboard.css,
-			sets = 0,
-			layout = $keyboard.builtLayouts[name || base.layout || o.layout] = {
-				mappedKeys: {},
-				acceptedKeys: []
-			},
-			acceptedKeys = layout.acceptedKeys = o.restrictInclude ?
-				('' + o.restrictInclude).split(/\s+/) || [] :
-				[],
-			// using $layout temporarily to hold keyboard popup classnames
-			$layout = kbcss.keyboard + ' ' + o.css.popup + ' ' + o.css.container +
-				(o.alwaysOpen || o.userClosed ? ' ' + kbcss.alwaysOpen : ''),
-
-			container = $('<div />')
-				.addClass($layout)
-				.attr({
-					'role': 'textbox'
-				})
-				.hide();
-		// verify layout or setup custom keyboard
-		if ((internal && o.layout === 'custom') || !$keyboard.layouts.hasOwnProperty(o.layout)) {
-			o.layout = 'custom';
-			$layout = $keyboard.layouts.custom = o.customLayout || {
-				'normal': ['{cancel}']
-			};
-		} else {
-			$layout = $keyboard.layouts[internal ? o.layout : name || base.layout || o.layout];
-		}
-
-		// Main keyboard building loop
-		$.each($layout, function (set, keySet) {
-			// skip layout name & lang settings
-			if (set !== '' && !/^(name|lang|rtl)$/i.test(set)) {
-				// keep backwards compatibility for change from default to normal naming
-				if (set === 'default') {
-					set = 'normal';
-				}
-				sets++;
-				$row = $('<div />')
-					.attr('name', set) // added for typing extension
-					.addClass(kbcss.keySet + ' ' + kbcss.keySet + '-' + set)
-					.appendTo(container)
-					.toggle(set === 'normal');
-
-				for (row = 0; row < keySet.length; row++) {
-					// remove extra spaces before spliting (regex probably could be improved)
-					currentSet = $.trim(keySet[row]).replace(/\{(\.?)[\s+]?:[\s+]?(\.?)\}/g, '{$1:$2}');
-					base.buildRow($row, row, currentSet.split(/\s+/), acceptedKeys);
-					$row.find('.' + kbcss.keyButton + ',.' + kbcss.keySpacer)
-						.filter(':last')
-						.after('<br class="' + kbcss.endRow + '"/>');
-				}
-			}
-		});
-
-		if (sets > 1) {
-			base.sets = true;
-		}
-		layout.hasMappedKeys = !($.isEmptyObject(layout.mappedKeys));
-		layout.$keyboard = container;
-		return container;
-	};
-
-	base.buildRow = function ($row, row, keys, acceptedKeys) {
-		var t, txt, key, isAction, action, margin,
-			kbcss = $keyboard.css;
-		for (key = 0; key < keys.length; key++) {
-			// used by addKey function
-			base.temp = [$row, row, key];
-			isAction = false;
-
-			// ignore empty keys
-			if (keys[key].length === 0) {
-				continue;
-			}
-
-			// process here if it's an action key
-			if (/^\{\S+\}$/.test(keys[key])) {
-				action = keys[key].match(/^\{(\S+)\}$/)[1];
-				// add active class if there are double exclamation points in the name
-				if (/\!\!/.test(action)) {
-					action = action.replace('!!', '');
-					isAction = true;
-				}
-
-				// add empty space
-				if (/^sp:((\d+)?([\.|,]\d+)?)(em|px)?$/i.test(action)) {
-					// not perfect globalization, but allows you to use {sp:1,1em}, {sp:1.2em} or {sp:15px}
-					margin = parseFloat(action
-						.replace(/,/, '.')
-						.match(/^sp:((\d+)?([\.|,]\d+)?)(em|px)?$/i)[1] || 0
-					);
-					$('<span class="' + kbcss.keyText + '"></span>')
-						// previously {sp:1} would add 1em margin to each side of a 0 width span
-						// now Firefox doesn't seem to render 0px dimensions, so now we set the
-						// 1em margin x 2 for the width
-						.width((action.match(/px/i) ? margin + 'px' : (margin * 2) + 'em'))
-						.addClass(kbcss.keySpacer)
-						.appendTo($row);
-				}
-
-				// add empty button
-				if (/^empty(:((\d+)?([\.|,]\d+)?)(em|px)?)?$/i.test(action)) {
-					margin = (/:/.test(action)) ? parseFloat(action
-						.replace(/,/, '.')
-						.match(/^empty:((\d+)?([\.|,]\d+)?)(em|px)?$/i)[1] || 0
-					) : '';
-					base
-						.addKey('', ' ', true)
-						.addClass(o.css.buttonDisabled + ' ' + o.css.buttonEmpty)
-						.attr('aria-disabled', true)
-						.width(margin ? (action.match('px') ? margin + 'px' : (margin * 2) + 'em') : '');
-					continue;
-				}
-
-				// meta keys
-				if (/^meta[\w-]+\:?(\w+)?/i.test(action)) {
-					base
-						.addKey(action.split(':')[0], action)
-						.addClass(kbcss.keyHasActive);
-					continue;
-				}
-
-				// switch needed for action keys with multiple names/shortcuts or
-				// default will catch all others
-				txt = action.split(':');
-				switch (txt[0].toLowerCase()) {
-
-				case 'a':
-				case 'accept':
-					base
-						.addKey('accept', action)
-						.addClass(o.css.buttonAction + ' ' + kbcss.keyAction);
-					break;
-
-				case 'alt':
-				case 'altgr':
-					base
-						.addKey('alt', action)
-						.addClass(kbcss.keyHasActive);
-					break;
-
-				case 'b':
-				case 'bksp':
-					base.addKey('bksp', action);
-					break;
-
-				case 'c':
-				case 'cancel':
-					base
-						.addKey('cancel', action)
-						.addClass(o.css.buttonAction + ' ' + kbcss.keyAction);
-					break;
-
-					// toggle combo/diacritic key
-					/*jshint -W083 */
-				case 'combo':
-					base
-						.addKey('combo', action)
-						.addClass(kbcss.keyHasActive)
-						.attr('title', function (indx, title) {
-							// add combo key state to title
-							return title + ' ' + o.display[o.useCombos ? 'active' : 'disabled'];
-						})
-						.toggleClass(o.css.buttonActive, o.useCombos);
-					break;
-
-					// Decimal - unique decimal point (num pad layout)
-				case 'dec':
-					acceptedKeys.push((base.decimal) ? '.' : ',');
-					base.addKey('dec', action);
-					break;
-
-				case 'e':
-				case 'enter':
-					base
-						.addKey('enter', action)
-						.addClass(o.css.buttonAction + ' ' + kbcss.keyAction);
-					break;
-
-				case 'lock':
-					base
-						.addKey('lock', action)
-						.addClass(kbcss.keyHasActive);
-					break;
-
-				case 's':
-				case 'shift':
-					base
-						.addKey('shift', action)
-						.addClass(kbcss.keyHasActive);
-					break;
-
-					// Change sign (for num pad layout)
-				case 'sign':
-					acceptedKeys.push('-');
-					base.addKey('sign', action);
-					break;
-
-				case 'space':
-					acceptedKeys.push(' ');
-					base.addKey('space', action);
-					break;
-
-				case 't':
-				case 'tab':
-					base.addKey('tab', action);
-					break;
-
-				default:
-					if ($keyboard.keyaction.hasOwnProperty(txt[0])) {
-						base
-							.addKey(txt[0], action)
-							.toggleClass(o.css.buttonAction + ' ' + kbcss.keyAction, isAction);
-					}
-
-				}
-
-			} else {
-
-				// regular button (not an action key)
-				t = keys[key];
-				base.addKey(t, t, true);
-			}
-		}
-	};
-
-	base.removeBindings = function (namespace) {
-		$(document).unbind(namespace);
-		if (base.el.ownerDocument !== document) {
-			$(base.el.ownerDocument).unbind(namespace);
-		}
-		$(window).unbind(namespace);
-		base.$el.unbind(namespace);
-	};
-
-	base.removeKeyboard = function () {
-		base.$allKeys = [];
-		base.$decBtn = [];
-		// base.$preview === base.$el when o.usePreview is false - fixes #442
-		if (o.usePreview) {
-			base.$preview.removeData('keyboard');
-		}
-		base.$preview.unbind(base.namespace + 'keybindings');
-		base.preview = null;
-		base.$preview = null;
-		base.$previewCopy = null;
-		base.$keyboard.removeData('keyboard');
-		base.$keyboard.remove();
-		base.$keyboard = [];
-		base.isOpen = false;
-		base.isCurrent(false);
-	};
-
-	base.destroy = function (callback) {
-		var index,
-			kbcss = $keyboard.css,
-			len = base.extensionNamespace.length,
-			tmp = [
-				kbcss.input,
-				kbcss.locked,
-				kbcss.placeholder,
-				kbcss.noKeyboard,
-				kbcss.alwaysOpen,
-				o.css.input,
-				kbcss.isCurrent
-			].join(' ');
-		clearTimeout(base.timer);
-		clearTimeout(base.timer2);
-		clearTimeout(base.timer3);
-		if (base.$keyboard.length) {
-			base.removeKeyboard();
-		}
-		base.removeBindings(base.namespace);
-		base.removeBindings(base.namespace + 'callbacks');
-		for (index = 0; index < len; index++) {
-			base.removeBindings(base.extensionNamespace[index]);
-		}
-		base.el.active = false;
-
-		base.$el
-			.removeClass(tmp)
-			.removeAttr('aria-haspopup')
-			.removeAttr('role')
-			.removeData('keyboard');
-		base = null;
-
-		if (typeof callback === 'function') {
-			callback();
-		}
-	};
-
-	// Run initializer
-	base.init();
-
-	}; // end $.keyboard definition
-
-	// event.which & ASCII values
-	$keyboard.keyCodes = {
-		backSpace: 8,
-		tab: 9,
-		enter: 13,
-		capsLock: 20,
-		escape: 27,
-		space: 32,
-		pageUp: 33,
-		pageDown: 34,
-		end: 35,
-		home: 36,
-		left: 37,
-		up: 38,
-		right: 39,
-		down: 40,
-		insert: 45,
-		delete: 46,
-		// event.which keyCodes (uppercase letters)
-		A: 65,
-		Z: 90,
-		V: 86,
-		C: 67,
-		X: 88,
-
-		// ASCII lowercase a & z
-		a: 97,
-		z: 122
-	};
-
-	$keyboard.css = {
-		// keyboard id suffix
-		idSuffix: '_keyboard',
-		// class name to set initial focus
-		initialFocus: 'keyboard-init-focus',
-		// element class names
-		input: 'ui-keyboard-input',
-		inputClone: 'ui-keyboard-preview-clone',
-		wrapper: 'ui-keyboard-preview-wrapper',
-		preview: 'ui-keyboard-preview',
-		keyboard: 'ui-keyboard',
-		keySet: 'ui-keyboard-keyset',
-		keyButton: 'ui-keyboard-button',
-		keyWide: 'ui-keyboard-widekey',
-		keyPrefix: 'ui-keyboard-',
-		keyText: 'ui-keyboard-text', // span with button text
-		keyHasActive: 'ui-keyboard-hasactivestate',
-		keyAction: 'ui-keyboard-actionkey',
-		keySpacer: 'ui-keyboard-spacer', // empty keys
-		keyToggle: 'ui-keyboard-toggle',
-		keyDisabled: 'ui-keyboard-disabled',
-		// states
-		locked: 'ui-keyboard-lockedinput',
-		alwaysOpen: 'ui-keyboard-always-open',
-		noKeyboard: 'ui-keyboard-nokeyboard',
-		placeholder: 'ui-keyboard-placeholder',
-		hasFocus: 'ui-keyboard-has-focus',
-		isCurrent: 'ui-keyboard-input-current',
-		// validation & autoaccept
-		inputValid: 'ui-keyboard-valid-input',
-		inputInvalid: 'ui-keyboard-invalid-input',
-		inputAutoAccepted: 'ui-keyboard-autoaccepted',
-		endRow: 'ui-keyboard-button-endrow' // class added to <br>
-	};
-
-	$keyboard.events = {
-		// keyboard events
-		kbChange: 'keyboardChange',
-		kbBeforeClose: 'beforeClose',
-		kbBeforeVisible: 'beforeVisible',
-		kbVisible: 'visible',
-		kbInit: 'initialized',
-		kbInactive: 'inactive',
-		kbHidden: 'hidden',
-		kbRepeater: 'repeater',
-		kbKeysetChange: 'keysetChange',
-		// input events
-		inputAccepted: 'accepted',
-		inputCanceled: 'canceled',
-		inputChange: 'change',
-		inputRestricted: 'restricted'
-	};
-
-	// Action key function list
-	$keyboard.keyaction = {
-		accept: function (base) {
-			base.close(true); // same as base.accept();
-			return false; // return false prevents further processing
-		},
-		alt: function (base) {
-			base.altActive = !base.altActive;
-			base.showSet();
-		},
-		bksp: function (base) {
-			if (base.isContentEditable) {
-				base.execCommand('delete');
-				// save new caret position
-				base.saveCaret();
-			} else {
-				// the script looks for the '\b' string and initiates a backspace
-				base.insertText('\b');
-			}
-		},
-		cancel: function (base) {
-			base.close();
-			return false; // return false prevents further processing
-		},
-		clear: function (base) {
-			base.$preview[base.isContentEditable ? 'text' : 'val']('');
-			if (base.$decBtn.length) {
-				base.checkDecimal();
-			}
-		},
-		combo: function (base) {
-			var o = base.options,
-				c = !o.useCombos,
-				$combo = base.$keyboard.find('.' + $keyboard.css.keyPrefix + 'combo');
-			o.useCombos = c;
-			$combo
-				.toggleClass(o.css.buttonActive, c)
-				// update combo key state
-				.attr('title', $combo.attr('data-title') + ' (' + o.display[c ? 'active' : 'disabled'] + ')');
-			if (c) {
-				base.checkCombos();
-			}
-			return false;
-		},
-		dec: function (base) {
-			base.insertText((base.decimal) ? '.' : ',');
-		},
-		del: function (base) {
-			if (base.isContentEditable) {
-				base.execCommand('forwardDelete');
-			} else {
-				// the script looks for the '{d}' string and initiates a delete
-				base.insertText('{d}');
-			}
-		},
-		// resets to base keyset (deprecated because "default" is a reserved word)
-		'default': function (base) {
-			base.shiftActive = base.altActive = base.metaActive = false;
-			base.showSet();
-		},
-		// el is the pressed key (button) object; it is null when the real keyboard enter is pressed
-		enter: function (base, el, e) {
-			var tag = base.el.nodeName,
-				o = base.options;
-			// shift+enter in textareas
-			if (e.shiftKey) {
-				// textarea, input & contenteditable - enterMod + shift + enter = accept,
-				//  then go to prev; base.switchInput(goToNext, autoAccept)
-				// textarea & input - shift + enter = accept (no navigation)
-				return (o.enterNavigation) ? base.switchInput(!e[o.enterMod], true) : base.close(true);
-			}
-			// input only - enterMod + enter to navigate
-			if (o.enterNavigation && (tag !== 'TEXTAREA' || e[o.enterMod])) {
-				return base.switchInput(!e[o.enterMod], o.autoAccept ? 'true' : false);
-			}
-			// pressing virtual enter button inside of a textarea - add a carriage return
-			// e.target is span when clicking on text and button at other times
-			if (tag === 'TEXTAREA' && $(e.target).closest('button').length) {
-				// IE8 fix (space + \n) - fixes #71 thanks Blookie!
-				base.insertText(($keyboard.msie ? ' ' : '') + '\n');
-			}
-			if (base.isContentEditable && !o.enterNavigation) {
-				// prevent adding nested divs with <br>; the nbsp is needed to add a
-				// text node so the caret can move right
-				// modified from https://stackoverflow.com/a/20398548/145346
-				base.execCommand('insertHTML', '<br>&nbsp;');
-				// move caret after a delay to allow rendering of HTML
-				setTimeout(function() {
-					$keyboard.keyaction.right(base);
-				}, 0);
-			}
-		},
-		// caps lock key
-		lock: function (base) {
-			base.last.keyset[0] = base.shiftActive = base.capsLock = !base.capsLock;
-			base.showSet();
-		},
-		left: function (base) {
-			var p = $keyboard.caret(base.$preview);
-			if (p.start - 1 >= 0) {
-				// move both start and end of caret (prevents text selection) & save caret position
-				base.last.start = base.last.end = p.start - 1;
-				$keyboard.caret(base.$preview, base.last);
-				base.setScroll();
-			}
-		},
-		meta: function (base, el) {
-			var $el = $(el);
-			base.metaActive = !$el.hasClass(base.options.css.buttonActive);
-			base.showSet($el.attr('data-name'));
-		},
-		next: function (base) {
-			base.switchInput(true, base.options.autoAccept);
-			return false;
-		},
-		// same as 'default' - resets to base keyset
-		normal: function (base) {
-			base.shiftActive = base.altActive = base.metaActive = false;
-			base.showSet();
-		},
-		prev: function (base) {
-			base.switchInput(false, base.options.autoAccept);
-			return false;
-		},
-		right: function (base) {
-			var p = $keyboard.caret(base.$preview),
-				len = base.getValue().length;
-			if (p.start + 1 <= len) {
-				// move both start and end of caret (prevents text selection) && save caret position
-				base.last.start = base.last.end = p.start + 1;
-				$keyboard.caret(base.$preview, base.last);
-				base.setScroll();
-			}
-		},
-		shift: function (base) {
-			base.last.keyset[0] = base.shiftActive = !base.shiftActive;
-			base.showSet();
-		},
-		sign: function (base) {
-			if (/^[+-]?\d*\.?\d*$/.test(base.getValue())) {
-				var caret,
-					p = $keyboard.caret(base.$preview),
-					val = base.getValue();
-				base.setValue(val * -1);
-				caret = base.getValue().length - val.length;
-				base.last.start = p.start + caret;
-				base.last.end = p.end + caret;
-				$keyboard.caret(base.$preview, base.last);
-				base.setScroll();
-			}
-		},
-		space: function (base) {
-			base.insertText(' ');
-		},
-		tab: function (base) {
-			var tag = base.el.nodeName,
-				o = base.options;
-			if (tag !== 'TEXTAREA') {
-				if (o.tabNavigation) {
-					return base.switchInput(!base.shiftActive, true);
-				} else if (tag === 'INPUT') {
-					// ignore tab key in input
-					return false;
-				}
-			}
-			base.insertText('\t');
-		},
-		toggle: function (base) {
-			base.enabled = !base.enabled;
-			base.toggle();
-		},
-		// *** Special action keys: NBSP & zero-width characters ***
-		// Non-breaking space
-		NBSP: '\u00a0',
-		// zero width space
-		ZWSP: '\u200b',
-		// Zero width non-joiner
-		ZWNJ: '\u200c',
-		// Zero width joiner
-		ZWJ: '\u200d',
-		// Left-to-right Mark
-		LRM: '\u200e',
-		// Right-to-left Mark
-		RLM: '\u200f'
-	};
-
-	// Default keyboard layouts
-	$keyboard.builtLayouts = {};
-	$keyboard.layouts = {
-		'alpha': {
-			'normal': [
-				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-				'{tab} a b c d e f g h i j [ ] \\',
-				'k l m n o p q r s ; \' {enter}',
-				'{shift} t u v w x y z , . / {shift}',
-				'{accept} {space} {cancel}'
-			],
-			'shift': [
-				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
-				'{tab} A B C D E F G H I J { } |',
-				'K L M N O P Q R S : " {enter}',
-				'{shift} T U V W X Y Z < > ? {shift}',
-				'{accept} {space} {cancel}'
-			]
-		},
-		'qwerty': {
-			'normal': [
-				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-				'{tab} q w e r t y u i o p [ ] \\',
-				'a s d f g h j k l ; \' {enter}',
-				'{shift} z x c v b n m , . / {shift}',
-				'{accept} {space} {cancel}'
-			],
-			'shift': [
-				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
-				'{tab} Q W E R T Y U I O P { } |',
-				'A S D F G H J K L : " {enter}',
-				'{shift} Z X C V B N M < > ? {shift}',
-				'{accept} {space} {cancel}'
-			]
-		},
-		'international': {
-			'normal': [
-				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-				'{tab} q w e r t y u i o p [ ] \\',
-				'a s d f g h j k l ; \' {enter}',
-				'{shift} z x c v b n m , . / {shift}',
-				'{accept} {alt} {space} {alt} {cancel}'
-			],
-			'shift': [
-				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
-				'{tab} Q W E R T Y U I O P { } |',
-				'A S D F G H J K L : " {enter}',
-				'{shift} Z X C V B N M < > ? {shift}',
-				'{accept} {alt} {space} {alt} {cancel}'
-			],
-			'alt': [
-				'~ \u00a1 \u00b2 \u00b3 \u00a4 \u20ac \u00bc \u00bd \u00be \u2018 \u2019 \u00a5 \u00d7 {bksp}',
-				'{tab} \u00e4 \u00e5 \u00e9 \u00ae \u00fe \u00fc \u00fa \u00ed \u00f3 \u00f6 \u00ab \u00bb \u00ac',
-				'\u00e1 \u00df \u00f0 f g h j k \u00f8 \u00b6 \u00b4 {enter}',
-				'{shift} \u00e6 x \u00a9 v b \u00f1 \u00b5 \u00e7 > \u00bf {shift}',
-				'{accept} {alt} {space} {alt} {cancel}'
-			],
-			'alt-shift': [
-				'~ \u00b9 \u00b2 \u00b3 \u00a3 \u20ac \u00bc \u00bd \u00be \u2018 \u2019 \u00a5 \u00f7 {bksp}',
-				'{tab} \u00c4 \u00c5 \u00c9 \u00ae \u00de \u00dc \u00da \u00cd \u00d3 \u00d6 \u00ab \u00bb \u00a6',
-				'\u00c4 \u00a7 \u00d0 F G H J K \u00d8 \u00b0 \u00a8 {enter}',
-				'{shift} \u00c6 X \u00a2 V B \u00d1 \u00b5 \u00c7 . \u00bf {shift}',
-				'{accept} {alt} {space} {alt} {cancel}'
-			]
-		},
-		'colemak': {
-			'normal': [
-				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-				'{tab} q w f p g j l u y ; [ ] \\',
-				'{bksp} a r s t d h n e i o \' {enter}',
-				'{shift} z x c v b k m , . / {shift}',
-				'{accept} {space} {cancel}'
-			],
-			'shift': [
-				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
-				'{tab} Q W F P G J L U Y : { } |',
-				'{bksp} A R S T D H N E I O " {enter}',
-				'{shift} Z X C V B K M < > ? {shift}',
-				'{accept} {space} {cancel}'
-			]
-		},
-		'dvorak': {
-			'normal': [
-				'` 1 2 3 4 5 6 7 8 9 0 [ ] {bksp}',
-				'{tab} \' , . p y f g c r l / = \\',
-				'a o e u i d h t n s - {enter}',
-				'{shift} ; q j k x b m w v z {shift}',
-				'{accept} {space} {cancel}'
-			],
-			'shift': [
-				'~ ! @ # $ % ^ & * ( ) { } {bksp}',
-				'{tab} " < > P Y F G C R L ? + |',
-				'A O E U I D H T N S _ {enter}',
-				'{shift} : Q J K X B M W V Z {shift}',
-				'{accept} {space} {cancel}'
-			]
-		},
-		'num': {
-			'normal': [
-				'= ( ) {b}',
-				'{clear} / * -',
-				'7 8 9 +',
-				'4 5 6 {sign}',
-				'1 2 3 %',
-				'0 {dec} {a} {c}'
-			]
-		}
-	};
-
-	$keyboard.language = {
-		en: {
-			display: {
-				// check mark - same action as accept
-				'a': '\u2714:Accept (Shift+Enter)',
-				'accept': 'Accept:Accept (Shift+Enter)',
-				// other alternatives \u2311
-				'alt': 'Alt:\u2325 AltGr',
-				// Left arrow (same as &larr;)
-				'b': '\u232b:Backspace',
-				'bksp': 'Bksp:Backspace',
-				// big X, close - same action as cancel
-				'c': '\u2716:Cancel (Esc)',
-				'cancel': 'Cancel:Cancel (Esc)',
-				// clear num pad
-				'clear': 'C:Clear',
-				'combo': '\u00f6:Toggle Combo Keys',
-				// decimal point for num pad (optional), change '.' to ',' for European format
-				'dec': '.:Decimal',
-				// down, then left arrow - enter symbol
-				'e': '\u23ce:Enter',
-				'empty': '\u00a0',
-				'enter': 'Enter:Enter \u23ce',
-				// left arrow (move caret)
-				'left': '\u2190',
-				// caps lock
-				'lock': 'Lock:\u21ea Caps Lock',
-				'next': 'Next \u21e8',
-				'prev': '\u21e6 Prev',
-				// right arrow (move caret)
-				'right': '\u2192',
-				// thick hollow up arrow
-				's': '\u21e7:Shift',
-				'shift': 'Shift:Shift',
-				// +/- sign for num pad
-				'sign': '\u00b1:Change Sign',
-				'space': '\u00a0:Space',
-				// right arrow to bar (used since this virtual keyboard works with one directional tabs)
-				't': '\u21e5:Tab',
-				// \u21b9 is the true tab symbol (left & right arrows)
-				'tab': '\u21e5 Tab:Tab',
-				// replaced by an image
-				'toggle': ' ',
-
-				// added to titles of keys
-				// accept key status when acceptValid:true
-				'valid': 'valid',
-				'invalid': 'invalid',
-				// combo key states
-				'active': 'active',
-				'disabled': 'disabled'
-			},
-
-			// Message added to the key title while hovering, if the mousewheel plugin exists
-			wheelMessage: 'Use mousewheel to see other keys',
-
-			comboRegex: /([`\'~\^\"ao])([a-z])/mig,
-			combos: {
-				// grave
-				'`': { a: '\u00e0', A: '\u00c0', e: '\u00e8', E: '\u00c8', i: '\u00ec', I: '\u00cc', o: '\u00f2',
-						O: '\u00d2', u: '\u00f9', U: '\u00d9', y: '\u1ef3', Y: '\u1ef2' },
-				// acute & cedilla
-				"'": { a: '\u00e1', A: '\u00c1', e: '\u00e9', E: '\u00c9', i: '\u00ed', I: '\u00cd', o: '\u00f3',
-						O: '\u00d3', u: '\u00fa', U: '\u00da', y: '\u00fd', Y: '\u00dd' },
-				// umlaut/trema
-				'"': { a: '\u00e4', A: '\u00c4', e: '\u00eb', E: '\u00cb', i: '\u00ef', I: '\u00cf', o: '\u00f6',
-						O: '\u00d6', u: '\u00fc', U: '\u00dc', y: '\u00ff', Y: '\u0178' },
-				// circumflex
-				'^': { a: '\u00e2', A: '\u00c2', e: '\u00ea', E: '\u00ca', i: '\u00ee', I: '\u00ce', o: '\u00f4',
-						O: '\u00d4', u: '\u00fb', U: '\u00db', y: '\u0177', Y: '\u0176' },
-				// tilde
-				'~': { a: '\u00e3', A: '\u00c3', e: '\u1ebd', E: '\u1ebc', i: '\u0129', I: '\u0128', o: '\u00f5',
-						O: '\u00d5', u: '\u0169', U: '\u0168', y: '\u1ef9', Y: '\u1ef8', n: '\u00f1', N: '\u00d1' }
-			}
-		}
-	};
-
-	$keyboard.defaultOptions = {
-		// set this to ISO 639-1 language code to override language set by the layout
-		// http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-		// language defaults to 'en' if not found
-		language: null,
-		rtl: false,
-
-		// *** choose layout & positioning ***
-		layout: 'qwerty',
-		customLayout: null,
-
-		position: {
-			// optional - null (attach to input/textarea) or a jQuery object (attach elsewhere)
-			of: null,
-			my: 'center top',
-			at: 'center top',
-			// used when 'usePreview' is false (centers the keyboard at the bottom of the input/textarea)
-			at2: 'center bottom'
-		},
-
-		// allow jQuery position utility to reposition the keyboard on window resize
-		reposition: true,
-
-		// preview added above keyboard if true, original input/textarea used if false
-		usePreview: true,
-
-		// if true, the keyboard will always be visible
-		alwaysOpen: false,
-
-		// give the preview initial focus when the keyboard becomes visible
-		initialFocus: true,
-
-		// avoid changing the focus (hardware keyboard probably won't work)
-		noFocus: false,
-
-		// if true, keyboard will remain open even if the input loses focus, but closes on escape
-		// or when another keyboard opens.
-		stayOpen: false,
-
-		// Prevents the keyboard from closing when the user clicks or presses outside the keyboard
-		// the `autoAccept` option must also be set to true when this option is true or changes are lost
-		userClosed: false,
-
-		// if true, keyboard will not close if you press escape.
-		ignoreEsc: false,
-
-		// if true, keyboard will only closed on click event instead of mousedown and touchstart
-		closeByClickEvent: false,
-
-		css: {
-			// input & preview
-			input: 'ui-widget-content ui-corner-all',
-			// keyboard container
-			container: 'ui-widget-content ui-widget ui-corner-all ui-helper-clearfix',
-			// keyboard container extra class (same as container, but separate)
-			popup: '',
-			// default state
-			buttonDefault: 'ui-state-default ui-corner-all',
-			// hovered button
-			buttonHover: 'ui-state-hover',
-			// Action keys (e.g. Accept, Cancel, Tab, etc); this replaces 'actionClass' option
-			buttonAction: 'ui-state-active',
-			// Active keys (e.g. shift down, meta keyset active, combo keys active)
-			buttonActive: 'ui-state-active',
-			// used when disabling the decimal button {dec} when a decimal exists in the input area
-			buttonDisabled: 'ui-state-disabled',
-			buttonEmpty: 'ui-keyboard-empty'
-		},
-
-		// *** Useability ***
-		// Auto-accept content when clicking outside the keyboard (popup will close)
-		autoAccept: false,
-		// Auto-accept content even if the user presses escape (only works if `autoAccept` is `true`)
-		autoAcceptOnEsc: false,
-
-		// Prevents direct input in the preview window when true
-		lockInput: false,
-
-		// Prevent keys not in the displayed keyboard from being typed in
-		restrictInput: false,
-		// Additional allowed characters while restrictInput is true
-		restrictInclude: '', // e.g. 'a b foo \ud83d\ude38'
-
-		// Check input against validate function, if valid the accept button gets a class name of
-		// 'ui-keyboard-valid-input'. If invalid, the accept button gets a class name of
-		// 'ui-keyboard-invalid-input'
-		acceptValid: false,
-		// Auto-accept when input is valid; requires `acceptValid` set `true` & validate callback
-		autoAcceptOnValid: false,
-
-		// if acceptValid is true & the validate function returns a false, this option will cancel
-		// a keyboard close only after the accept button is pressed
-		cancelClose: true,
-
-		// tab to go to next, shift-tab for previous (default behavior)
-		tabNavigation: false,
-
-		// enter for next input; shift+enter accepts content & goes to next
-		// shift + 'enterMod' + enter ('enterMod' is the alt as set below) will accept content and go
-		// to previous in a textarea
-		enterNavigation: false,
-		// mod key options: 'ctrlKey', 'shiftKey', 'altKey', 'metaKey' (MAC only)
-		enterMod: 'altKey', // alt-enter to go to previous; shift-alt-enter to accept & go to previous
-
-		// if true, the next button will stop on the last keyboard input/textarea; prev button stops at first
-		// if false, the next button will wrap to target the first input/textarea; prev will go to the last
-		stopAtEnd: true,
-
-		// Set this to append the keyboard after the input/textarea (appended to the input/textarea parent).
-		// This option works best when the input container doesn't have a set width & when the 'tabNavigation'
-		// option is true.
-		appendLocally: false,
-		// When appendLocally is false, the keyboard will be appended to this object
-		appendTo: 'body',
-
-		// If false, the shift key will remain active until the next key is (mouse) clicked on; if true it will
-		// stay active until pressed again
-		stickyShift: true,
-
-		// Prevent pasting content into the area
-		preventPaste: false,
-
-		// caret placed at the end of any text when keyboard becomes visible
-		caretToEnd: false,
-
-		// caret stays this many pixels from the edge of the input while scrolling left/right;
-		// use "c" or "center" to center the caret while scrolling
-		scrollAdjustment: 10,
-
-		// Set the max number of characters allowed in the input, setting it to false disables this option
-		maxLength: false,
-		// allow inserting characters @ caret when maxLength is set
-		maxInsert: true,
-
-		// Mouse repeat delay - when clicking/touching a virtual keyboard key, after this delay the key will
-		// start repeating
-		repeatDelay: 500,
-
-		// Mouse repeat rate - after the repeatDelay, this is the rate (characters per second) at which the
-		// key is repeated Added to simulate holding down a real keyboard key and having it repeat. I haven't
-		// calculated the upper limit of this rate, but it is limited to how fast the javascript can process
-		// the keys. And for me, in Firefox, it's around 20.
-		repeatRate: 20,
-
-		// resets the keyboard to the default keyset when visible
-		resetDefault: true,
-
-		// Event (namespaced) on the input to reveal the keyboard. To disable it, just set it to ''.
-		openOn: 'focus',
-
-		// Event (namepaced) for when the character is added to the input (clicking on the keyboard)
-		keyBinding: 'mousedown touchstart',
-
-		// enable/disable mousewheel functionality
-		// enabling still depends on the mousewheel plugin
-		useWheel: true,
-
-		// combos (emulate dead keys : http://en.wikipedia.org/wiki/Keyboard_layout#US-International)
-		// if user inputs `a the script converts it to à, ^o becomes ô, etc.
-		useCombos: true,
-
-		/*
-			// *** Methods ***
-			// commenting these out to reduce the size of the minified version
-			// Callbacks - attach a function to any of these callbacks as desired
-			initialized   : function(e, keyboard, el) {},
-			beforeVisible : function(e, keyboard, el) {},
-			visible       : function(e, keyboard, el) {},
-			beforeInsert  : function(e, keyboard, el, textToAdd) { return textToAdd; },
-			change        : function(e, keyboard, el) {},
-			beforeClose   : function(e, keyboard, el, accepted) {},
-			accepted      : function(e, keyboard, el) {},
-			canceled      : function(e, keyboard, el) {},
-			restricted    : function(e, keyboard, el) {},
-			hidden        : function(e, keyboard, el) {},
-			// called instead of base.switchInput
-			switchInput   : function(keyboard, goToNext, isAccepted) {},
-			// used if you want to create a custom layout or modify the built-in keyboard
-			create        : function(keyboard) { return keyboard.buildKeyboard(); },
-
-			// build key callback
-			buildKey : function( keyboard, data ) {
-				/ *
-				data = {
-				// READ ONLY
-				isAction : [boolean] true if key is an action key
-				name     : [string]  key class name suffix ( prefix = 'ui-keyboard-' );
-														 may include decimal ascii value of character
-				value    : [string]  text inserted (non-action keys)
-				title    : [string]  title attribute of key
-				action   : [string]  keyaction name
-				html     : [string]  HTML of the key; it includes a <span> wrapping the text
-				// use to modify key HTML
-				$key     : [object]  jQuery selector of key which is already appended to keyboard
-				}
-				* /
-				return data;
-			},
-		*/
-
-		// this callback is called, if the acceptValid is true, and just before the 'beforeClose' to check
-		// the value if the value is valid, return true and the keyboard will continue as it should
-		// (close if not always open, etc). If the value is not valid, return false and clear the keyboard
-		// value ( like this "keyboard.$preview.val('');" ), if desired. The validate function is called after
-		// each input, the 'isClosing' value will be false; when the accept button is clicked,
-		// 'isClosing' is true
-		validate: function (keyboard, value, isClosing) {
-			return true;
-		}
-
-	};
-
-	// for checking combos
-	$keyboard.comboRegex = /([`\'~\^\"ao])([a-z])/mig;
-
-	// store current keyboard element; used by base.isCurrent()
-	$keyboard.currentKeyboard = '';
-
-	$('<!--[if lte IE 8]><script>jQuery("body").addClass("oldie");</script><![endif]--><!--[if IE]>' +
-			'<script>jQuery("body").addClass("ie");</script><![endif]-->')
-		.appendTo('body')
-		.remove();
-	$keyboard.msie = $('body').hasClass('oldie'); // Old IE flag, used for caret positioning
-	$keyboard.allie = $('body').hasClass('ie');
-
-	$keyboard.watermark = (typeof (document.createElement('input').placeholder) !== 'undefined');
-
-	$keyboard.checkCaretSupport = function () {
-		if (typeof $keyboard.checkCaret !== 'boolean') {
-			// Check if caret position is saved when input is hidden or loses focus
-			// (*cough* all versions of IE and I think Opera has/had an issue as well
-			var $temp = $('<div style="height:0px;width:0px;overflow:hidden;position:fixed;top:0;left:-100px;">' +
-				'<input type="text" value="testing"/></div>').prependTo('body'); // stop page scrolling
-			$keyboard.caret($temp.find('input'), 3, 3);
-			// Also save caret position of the input if it is locked
-			$keyboard.checkCaret = $keyboard.caret($temp.find('input').hide().show()).start !== 3;
-			$temp.remove();
-		}
-		return $keyboard.checkCaret;
-	};
-
-	$keyboard.caret = function($el, param1, param2) {
-		if (!$el.length || $el.is(':hidden') || $el.css('visibility') === 'hidden') {
-			return {};
-		}
-		var start, end, txt, pos, range, sel,
-			kb = $el.data( 'keyboard' ),
-			noFocus = kb && kb.options.noFocus,
-			formEl = /(textarea|input)/i.test($el[0].nodeName);
-		if (!noFocus) { $el.focus(); }
-		// set caret position
-		if (typeof param1 !== 'undefined') {
-			// allow setting caret using ( $el, { start: x, end: y } )
-			if (typeof param1 === 'object' && 'start' in param1 && 'end' in param1) {
-				start = param1.start;
-				end = param1.end;
-			} else if (typeof param2 === 'undefined') {
-				param2 = param1; // set caret using start position
-			}
-			// set caret using ( $el, start, end );
-			if (typeof param1 === 'number' && typeof param2 === 'number') {
-				start = param1;
-				end = param2;
-			} else if ( param1 === 'start' ) {
-				start = end = 0;
-			} else if ( typeof param1 === 'string' ) {
-				// unknown string setting, move caret to end
-				start = end = $el[formEl ? 'val' : 'text']().length;
-			}
-
-			// *** SET CARET POSITION ***
-			// modify the line below to adapt to other caret plugins
-			return formEl ?
-				$el.caret( start, end, noFocus ) :
-				$keyboard.setEditableCaret( $el, start, end );
-		}
-		// *** GET CARET POSITION ***
-		// modify the line below to adapt to other caret plugins
-		if (formEl) {
-			// modify the line below to adapt to other caret plugins
-			pos = $el.caret();
-		} else {
-			// contenteditable
-			pos = $keyboard.getEditableCaret($el[0]);
-		}
-		start = pos.start;
-		end = pos.end;
-
-		// *** utilities ***
-		txt = formEl && $el[0].value || $el.text() || '';
-		return {
-			start : start,
-			end : end,
-			// return selected text
-			text : txt.substring( start, end ),
-			// return a replace selected string method
-			replaceStr : function( str ) {
-				return txt.substring( 0, start ) + str + txt.substring( end, txt.length );
-			}
-		};
-	};
-
-	// modified from https://stackoverflow.com/a/13950376/145346
-	$keyboard.getEditableCaret = function (el) {
-		var start, end,
-			range = el.ownerDocument.getSelection().getRangeAt(0),
-			preSelectionRange = range.cloneRange();
-		preSelectionRange.selectNodeContents(el);
-		preSelectionRange.setEnd(range.startContainer, range.startOffset);
-		start = preSelectionRange.toString().length;
-		end = start + range.toString().length;
-		return {
-			start: start,
-			end: end,
-			text: el.textContent.substring(start, end)
-		};
-	};
-
-	// modified from https://stackoverflow.com/a/13950376/145346
-	$keyboard.setEditableCaret = function (el, start, end) {
-		el = $(el)[0];
-		var node, i, nextCharIndex, sel,
-			charIndex = 0,
-			nodeStack = [el],
-			foundStart = false,
-			stop = false,
-			range = el.ownerDocument.createRange();
-		range.setStart(el, 0);
-		range.collapse(true);
-		while (!stop && (node = nodeStack.pop())) {
-			if (node.nodeType === 3) {
-				nextCharIndex = charIndex + node.length;
-				if (!foundStart && start >= charIndex && start <= nextCharIndex) {
-					range.setStart(node, start - charIndex);
-					foundStart = true;
-				}
-				if (foundStart && end >= charIndex && end <= nextCharIndex) {
-					range.setEnd(node, end - charIndex);
-					stop = true;
-				}
-				charIndex = nextCharIndex;
-			} else {
-				i = node.childNodes.length;
-				while (i--) {
-					nodeStack.push(node.childNodes[i]);
-				}
-			}
-		}
-		sel = el.ownerDocument.getSelection();
-		sel.removeAllRanges();
-		sel.addRange(range);
-		return {
-			start: start,
-			end: end,
-			text: el.textContent.substring(start, end)
-		};
-	};
-
-	$keyboard.replaceContent = function (el, param) {
-		el = $(el)[0];
-		var node, i, str, nextCharIndex,
-			type = typeof param,
-			caret = $keyboard.getEditableCaret(el).start,
-			charIndex = 0,
-			nodeStack = [el];
-		while ((node = nodeStack.pop())) {
-			if (node && node.nodeType === 3) {
-				if (type === 'function') {
-					if (caret >= charIndex && caret <= charIndex + node.length) {
-						node.textContent = param(node.textContent);
-					}
-				} else if (type === 'string') {
-					// maybe not the best method, but it works for simple changes
-					str = param.substring(charIndex, charIndex + node.length);
-					if (str !== node.textContent) {
-						node.textContent = str;
-					}
-				}
-				charIndex += node.length;
-			} else if (node && node.childNodes) {
-				i = node.childNodes.length;
-				while (i--) {
-					nodeStack.push(node.childNodes[i]);
-				}
-			}
-		}
-		i = $keyboard.getEditableCaret(el);
-		$keyboard.setEditableCaret(el, i.start, i.start);
-	};
-
-	$.fn.keyboard = function (options) {
-		return this.each(function () {
-			if (!$(this).data('keyboard')) {
-				/*jshint nonew:false */
-				(new $.keyboard(this, options));
-			}
-		});
-	};
-
-	$.fn.getkeyboard = function () {
-		return this.data('keyboard');
-	};
-
-	/* Copyright (c) 2010 C. F., Wong (<a href="http://cloudgen.w0ng.hk">Cloudgen Examplet Store</a>)
-	 * Licensed under the MIT License:
-	 * http://www.opensource.org/licenses/mit-license.php
-	 * Highly modified from the original
-	 */
-
-	$.fn.caret = function (start, end, noFocus) {
-		if (
-			typeof this[0] === 'undefined' ||
-			this.is(':hidden') ||
-			this.css('visibility') === 'hidden' ||
-			!/(INPUT|TEXTAREA)/.test(this[0].nodeName)
-		) {
-			return this;
-		}
-		var selRange, range, stored_range, txt, val,
-			$el = this,
-			el = $el[0],
-			selection = el.ownerDocument.selection,
-			sTop = el.scrollTop,
-			ss = false,
-			supportCaret = true;
-		try {
-			ss = 'selectionStart' in el;
-		} catch (err) {
-			supportCaret = false;
-		}
-		if (supportCaret && typeof start !== 'undefined') {
-			if (!/(email|number)/i.test(el.type)) {
-				if (ss) {
-					el.selectionStart = start;
-					el.selectionEnd = end;
-				} else {
-					selRange = el.createTextRange();
-					selRange.collapse(true);
-					selRange.moveStart('character', start);
-					selRange.moveEnd('character', end - start);
-					selRange.select();
-				}
-			}
-			// must be visible or IE8 crashes; IE9 in compatibility mode works fine - issue #56
-			if (!noFocus && ($el.is(':visible') || $el.css('visibility') !== 'hidden')) {
-				el.focus();
-			}
-			el.scrollTop = sTop;
-			return this;
-		} else {
-			if (/(email|number)/i.test(el.type)) {
-				// fix suggested by raduanastase (https://github.com/Mottie/Keyboard/issues/105#issuecomment-40456535)
-				start = end = $el.val().length;
-			} else if (ss) {
-				start = el.selectionStart;
-				end = el.selectionEnd;
-			} else if (selection) {
-				if (el.nodeName === 'TEXTAREA') {
-					val = $el.val();
-					range = selection.createRange();
-					stored_range = range.duplicate();
-					stored_range.moveToElementText(el);
-					stored_range.setEndPoint('EndToEnd', range);
-					// thanks to the awesome comments in the rangy plugin
-					start = stored_range.text.replace(/\r/g, '\n').length;
-					end = start + range.text.replace(/\r/g, '\n').length;
-				} else {
-					val = $el.val().replace(/\r/g, '\n');
-					range = selection.createRange().duplicate();
-					range.moveEnd('character', val.length);
-					start = (range.text === '' ? val.length : val.lastIndexOf(range.text));
-					range = selection.createRange().duplicate();
-					range.moveStart('character', -val.length);
-					end = range.text.length;
-				}
-			} else {
-				// caret positioning not supported
-				start = end = (el.value || '').length;
-			}
-			txt = (el.value || '');
-			return {
-				start: start,
-				end: end,
-				text: txt.substring(start, end),
-				replace: function (str) {
-					return txt.substring(0, start) + str + txt.substring(end, txt.length);
-				}
-			};
-		}
-	};
-
-	return $keyboard;
-
-}));
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
-
-/***/ }),
-/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Promise) {(function(self) {
@@ -18350,10 +11023,10 @@ http://www.opensource.org/licenses/mit-license.php
   self.fetch.polyfill = true
 })(typeof self !== 'undefined' ? self : this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(39)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 39 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {/*** IMPORTS FROM imports-loader ***/
@@ -19543,7 +12216,3881 @@ return Promise$1;
 /*** EXPORTS FROM exports-loader ***/
 module.exports = global.Promise;
 }.call(global));
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(9)))
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports = __webpack_require__(77);
+} else {
+  module.exports = __webpack_require__(78);
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+if (process.env.NODE_ENV !== 'production') {
+  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
+    Symbol.for &&
+    Symbol.for('react.element')) ||
+    0xeac7;
+
+  var isValidElement = function(object) {
+    return typeof object === 'object' &&
+      object !== null &&
+      object.$$typeof === REACT_ELEMENT_TYPE;
+  };
+
+  // By explicitly using `prop-types` you are opting into new development behavior.
+  // http://fb.me/prop-types-in-prod
+  var throwOnDirectAccess = true;
+  module.exports = __webpack_require__(79)(isValidElement, throwOnDirectAccess);
+} else {
+  // By explicitly using `prop-types` you are opting into new production behavior.
+  // http://fb.me/prop-types-in-prod
+  module.exports = __webpack_require__(80)();
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HiddenFields; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var parameterizedPlurals = __webpack_require__(35);
+
+var HiddenFields = function (_Component) {
+  _inherits(HiddenFields, _Component);
+
+  function HiddenFields() {
+    _classCallCheck(this, HiddenFields);
+
+    return _possibleConstructorReturn(this, (HiddenFields.__proto__ || Object.getPrototypeOf(HiddenFields)).apply(this, arguments));
+  }
+
+  _createClass(HiddenFields, [{
+    key: 'render',
+    value: function render() {
+      var parameterizedPlural = this.props.parameterizedPlural ? this.props.parameterizedPlural : parameterizedPlurals[this.props.topic.topic_type];
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        null,
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+          value: this.props.visit.patient_id,
+          name: 'visit[' + parameterizedPlural + '_attributes][' + this.props.rowID + '][patient_id]',
+          id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_patient_id',
+          type: 'hidden'
+        }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+          value: this.props.visit.id,
+          name: 'visit[' + parameterizedPlural + '_attributes][' + this.props.rowID + '][visit_id]',
+          id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_visit_id',
+          type: 'hidden'
+        }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+          value: this.props.topic.id,
+          name: 'visit[' + parameterizedPlural + '_attributes][' + this.props.rowID + '][topic_id]',
+          id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_topic_id',
+          className: 'topic_id',
+          type: 'hidden'
+        })
+      );
+    }
+  }]);
+
+  return HiddenFields;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+HiddenFields.propTypes = {
+  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired,
+  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string
+};
+
+/***/ }),
+/* 13 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_virtual_keyboard__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_virtual_keyboard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_virtual_keyboard__);
+
+
+
+__WEBPACK_IMPORTED_MODULE_0_jquery___default.a.fn.addKeyboard = function () {
+  return this.keyboard({
+    openOn: null,
+    stayOpen: false,
+    layout: 'custom',
+    customLayout: {
+      'normal': ['7 8 9 {c}', '4 5 6 {del}', '1 2 3 {sign}', '0 0 {dec} {a}']
+    },
+    position: {
+      // null (attach to input/textarea) or a jQuery object (attach elsewhere)
+      of: null,
+      my: 'center top',
+      at: 'center top',
+      // at2 is used when "usePreview" is false (centers keyboard at the bottom
+      // of the input/textarea)
+      at2: 'center top',
+      collision: 'flipfit flipfit'
+    },
+    reposition: true,
+    css: {
+      input: 'form-control input-sm',
+      container: 'center-block dropdown-menu',
+      buttonDefault: 'btn btn-default',
+      buttonHover: 'btn-light',
+      // used when disabling the decimal button {dec}
+      // when a decimal exists in the input area
+      buttonDisabled: 'enabled'
+    }
+  });
+};
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+function makeEmptyFunction(arg) {
+  return function () {
+    return arg;
+  };
+}
+
+/**
+ * This function accepts and discards inputs; it has no side effects. This is
+ * primarily useful idiomatically for overridable function endpoints which
+ * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
+ */
+var emptyFunction = function emptyFunction() {};
+
+emptyFunction.thatReturns = makeEmptyFunction;
+emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
+emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
+emptyFunction.thatReturnsNull = makeEmptyFunction(null);
+emptyFunction.thatReturnsThis = function () {
+  return this;
+};
+emptyFunction.thatReturnsArgument = function (arg) {
+  return arg;
+};
+
+module.exports = emptyFunction;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SelectConstructor; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var SelectConstructor = function (_Component) {
+  _inherits(SelectConstructor, _Component);
+
+  function SelectConstructor(props) {
+    _classCallCheck(this, SelectConstructor);
+
+    var _this = _possibleConstructorReturn(this, (SelectConstructor.__proto__ || Object.getPrototypeOf(SelectConstructor)).call(this, props));
+
+    _this.state = {
+      units: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(SelectConstructor, [{
+    key: 'handleChange',
+    value: function handleChange(event) {
+      this.props.onUnitChange(event);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var inputBegin = void 0;
+      if (this.props.arr.length === 1) {
+        if (this.props.multiSelect) {
+          inputBegin = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+            type: 'text',
+            disabled: 'true',
+            name: this.props.name,
+            id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.name,
+            className: 'form-control single-option',
+            value: this.state.units,
+            multiple: true,
+            onChange: this.handleChange
+          });
+        } else {
+          inputBegin = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+            type: 'text',
+            disabled: 'true',
+            name: this.props.name,
+            id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.attribute,
+            className: 'form-control single-option',
+            value: this.props.arr[0]
+          });
+        }
+      } else {
+        var options = [];
+        if (this.props.arr.length >= 2) {
+          options.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'option',
+            { value: '', selected: true, disabled: true, 'default': true, key: this.props.title },
+            this.props.title
+          ));
+        }
+        this.props.arr.map(function (item) {
+          return options.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'option',
+            { value: item, key: _this2.props.title + '_' + item },
+            item
+          ));
+        });
+        if (this.props.other) {
+          options.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'option',
+            { className: 'select-other', key: this.props.title + '_other' },
+            'other (please specify)'
+          ));
+        }
+        if (this.props.multiSelect) {
+          inputBegin = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'select',
+            {
+              name: this.props.name,
+              id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.attribute,
+              className: 'form-control',
+              multiple: true,
+              onChange: this.handleChange
+            },
+            options
+          );
+        } else {
+          inputBegin = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'select',
+            {
+              name: this.props.name,
+              id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.attribute,
+              className: 'form-control',
+              onChange: this.handleChange
+            },
+            options
+          );
+        }
+      }
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        null,
+        inputBegin
+      );
+    }
+  }]);
+
+  return SelectConstructor;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+SelectConstructor.defaultProps = {
+  multiSelect: false,
+  other: false
+};
+
+SelectConstructor.propTypes = {
+  arr: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
+  title: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
+  other: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool.isRequired,
+  attribute: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
+  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired,
+  multiSelect: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool.isRequired
+};
+
+/***/ }),
+/* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FileAttachmentButton; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var FileAttachmentButton = function (_Component) {
+  _inherits(FileAttachmentButton, _Component);
+
+  function FileAttachmentButton(props) {
+    _classCallCheck(this, FileAttachmentButton);
+
+    var _this = _possibleConstructorReturn(this, (FileAttachmentButton.__proto__ || Object.getPrototypeOf(FileAttachmentButton)).call(this, props));
+
+    _this.state = {
+      file: null
+    };
+    _this.handleFileChange = _this.handleFileChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(FileAttachmentButton, [{
+    key: 'handleFileChange',
+    value: function handleFileChange(event) {
+      this.props.onFileChange(_defineProperty({}, event.target.name, event.target.value));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        null,
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+          name: 'file',
+          id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_attachment',
+          style: { display: 'none' },
+          type: 'file',
+          onChange: this.handleFileChange,
+          value: this.state.file
+        }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'button',
+          { className: 'btn btn-light file-attachment', type: 'button' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'label',
+            {
+              htmlFor: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_attachment',
+              className: 'fontawesome-icon'
+            },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-camera' })
+          )
+        )
+      );
+    }
+  }]);
+
+  return FileAttachmentButton;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+FileAttachmentButton.propTypes = {
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
+};
+
+/***/ }),
+/* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NoteField; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var NoteField = function (_Component) {
+  _inherits(NoteField, _Component);
+
+  function NoteField(props) {
+    _classCallCheck(this, NoteField);
+
+    var _this = _possibleConstructorReturn(this, (NoteField.__proto__ || Object.getPrototypeOf(NoteField)).call(this, props));
+
+    _this.state = {
+      note: null
+    };
+    _this.handleNoteChange = _this.handleNoteChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(NoteField, [{
+    key: 'handleNoteChange',
+    value: function handleNoteChange(event) {
+      this.props.onNoteChange(_defineProperty({}, event.target.name, event.target.value));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        null,
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('textarea', {
+          placeholder: 'note',
+          name: 'note',
+          id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_note',
+          className: 'form-control',
+          value: this.state.note,
+          onChange: this.handleNoteChange,
+          rows: '1'
+        }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'button',
+          {
+            className: 'btn btn-light',
+            'data-toggle': 'modal',
+            'data-target': '#row_' + this.props.rowID + '_scribble_modal',
+            type: 'button'
+          },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-pencil' })
+        )
+      );
+    }
+  }]);
+
+  return NoteField;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+NoteField.propTypes = {
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
+};
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(jQuery) {(function($, undefined) {
+
+/**
+ * Unobtrusive scripting adapter for jQuery
+ * https://github.com/rails/jquery-ujs
+ *
+ * Requires jQuery 1.8.0 or later.
+ *
+ * Released under the MIT license
+ *
+ */
+
+  // Cut down on the number of issues from people inadvertently including jquery_ujs twice
+  // by detecting and raising an error when it happens.
+  'use strict';
+
+  if ( $.rails !== undefined ) {
+    $.error('jquery-ujs has already been loaded!');
+  }
+
+  // Shorthand to make it a little easier to call public rails functions from within rails.js
+  var rails;
+  var $document = $(document);
+
+  $.rails = rails = {
+    // Link elements bound by jquery-ujs
+    linkClickSelector: 'a[data-confirm], a[data-method], a[data-remote]:not([disabled]), a[data-disable-with], a[data-disable]',
+
+    // Button elements bound by jquery-ujs
+    buttonClickSelector: 'button[data-remote]:not([form]):not(form button), button[data-confirm]:not([form]):not(form button)',
+
+    // Select elements bound by jquery-ujs
+    inputChangeSelector: 'select[data-remote], input[data-remote], textarea[data-remote]',
+
+    // Form elements bound by jquery-ujs
+    formSubmitSelector: 'form',
+
+    // Form input elements bound by jquery-ujs
+    formInputClickSelector: 'form input[type=submit], form input[type=image], form button[type=submit], form button:not([type]), input[type=submit][form], input[type=image][form], button[type=submit][form], button[form]:not([type])',
+
+    // Form input elements disabled during form submission
+    disableSelector: 'input[data-disable-with]:enabled, button[data-disable-with]:enabled, textarea[data-disable-with]:enabled, input[data-disable]:enabled, button[data-disable]:enabled, textarea[data-disable]:enabled',
+
+    // Form input elements re-enabled after form submission
+    enableSelector: 'input[data-disable-with]:disabled, button[data-disable-with]:disabled, textarea[data-disable-with]:disabled, input[data-disable]:disabled, button[data-disable]:disabled, textarea[data-disable]:disabled',
+
+    // Form required input elements
+    requiredInputSelector: 'input[name][required]:not([disabled]), textarea[name][required]:not([disabled])',
+
+    // Form file input elements
+    fileInputSelector: 'input[name][type=file]:not([disabled])',
+
+    // Link onClick disable selector with possible reenable after remote submission
+    linkDisableSelector: 'a[data-disable-with], a[data-disable]',
+
+    // Button onClick disable selector with possible reenable after remote submission
+    buttonDisableSelector: 'button[data-remote][data-disable-with], button[data-remote][data-disable]',
+
+    // Up-to-date Cross-Site Request Forgery token
+    csrfToken: function() {
+     return $('meta[name=csrf-token]').attr('content');
+    },
+
+    // URL param that must contain the CSRF token
+    csrfParam: function() {
+     return $('meta[name=csrf-param]').attr('content');
+    },
+
+    // Make sure that every Ajax request sends the CSRF token
+    CSRFProtection: function(xhr) {
+      var token = rails.csrfToken();
+      if (token) xhr.setRequestHeader('X-CSRF-Token', token);
+    },
+
+    // Make sure that all forms have actual up-to-date tokens (cached forms contain old ones)
+    refreshCSRFTokens: function(){
+      $('form input[name="' + rails.csrfParam() + '"]').val(rails.csrfToken());
+    },
+
+    // Triggers an event on an element and returns false if the event result is false
+    fire: function(obj, name, data) {
+      var event = $.Event(name);
+      obj.trigger(event, data);
+      return event.result !== false;
+    },
+
+    // Default confirm dialog, may be overridden with custom confirm dialog in $.rails.confirm
+    confirm: function(message) {
+      return confirm(message);
+    },
+
+    // Default ajax function, may be overridden with custom function in $.rails.ajax
+    ajax: function(options) {
+      return $.ajax(options);
+    },
+
+    // Default way to get an element's href. May be overridden at $.rails.href.
+    href: function(element) {
+      return element[0].href;
+    },
+
+    // Checks "data-remote" if true to handle the request through a XHR request.
+    isRemote: function(element) {
+      return element.data('remote') !== undefined && element.data('remote') !== false;
+    },
+
+    // Submits "remote" forms and links with ajax
+    handleRemote: function(element) {
+      var method, url, data, withCredentials, dataType, options;
+
+      if (rails.fire(element, 'ajax:before')) {
+        withCredentials = element.data('with-credentials') || null;
+        dataType = element.data('type') || ($.ajaxSettings && $.ajaxSettings.dataType);
+
+        if (element.is('form')) {
+          method = element.data('ujs:submit-button-formmethod') || element.attr('method');
+          url = element.data('ujs:submit-button-formaction') || element.attr('action');
+          data = $(element[0]).serializeArray();
+          // memoized value from clicked submit button
+          var button = element.data('ujs:submit-button');
+          if (button) {
+            data.push(button);
+            element.data('ujs:submit-button', null);
+          }
+          element.data('ujs:submit-button-formmethod', null);
+          element.data('ujs:submit-button-formaction', null);
+        } else if (element.is(rails.inputChangeSelector)) {
+          method = element.data('method');
+          url = element.data('url');
+          data = element.serialize();
+          if (element.data('params')) data = data + '&' + element.data('params');
+        } else if (element.is(rails.buttonClickSelector)) {
+          method = element.data('method') || 'get';
+          url = element.data('url');
+          data = element.serialize();
+          if (element.data('params')) data = data + '&' + element.data('params');
+        } else {
+          method = element.data('method');
+          url = rails.href(element);
+          data = element.data('params') || null;
+        }
+
+        options = {
+          type: method || 'GET', data: data, dataType: dataType,
+          // stopping the "ajax:beforeSend" event will cancel the ajax request
+          beforeSend: function(xhr, settings) {
+            if (settings.dataType === undefined) {
+              xhr.setRequestHeader('accept', '*/*;q=0.5, ' + settings.accepts.script);
+            }
+            if (rails.fire(element, 'ajax:beforeSend', [xhr, settings])) {
+              element.trigger('ajax:send', xhr);
+            } else {
+              return false;
+            }
+          },
+          success: function(data, status, xhr) {
+            element.trigger('ajax:success', [data, status, xhr]);
+          },
+          complete: function(xhr, status) {
+            element.trigger('ajax:complete', [xhr, status]);
+          },
+          error: function(xhr, status, error) {
+            element.trigger('ajax:error', [xhr, status, error]);
+          },
+          crossDomain: rails.isCrossDomain(url)
+        };
+
+        // There is no withCredentials for IE6-8 when
+        // "Enable native XMLHTTP support" is disabled
+        if (withCredentials) {
+          options.xhrFields = {
+            withCredentials: withCredentials
+          };
+        }
+
+        // Only pass url to `ajax` options if not blank
+        if (url) { options.url = url; }
+
+        return rails.ajax(options);
+      } else {
+        return false;
+      }
+    },
+
+    // Determines if the request is a cross domain request.
+    isCrossDomain: function(url) {
+      var originAnchor = document.createElement('a');
+      originAnchor.href = location.href;
+      var urlAnchor = document.createElement('a');
+
+      try {
+        urlAnchor.href = url;
+        // This is a workaround to a IE bug.
+        urlAnchor.href = urlAnchor.href;
+
+        // If URL protocol is false or is a string containing a single colon
+        // *and* host are false, assume it is not a cross-domain request
+        // (should only be the case for IE7 and IE compatibility mode).
+        // Otherwise, evaluate protocol and host of the URL against the origin
+        // protocol and host.
+        return !(((!urlAnchor.protocol || urlAnchor.protocol === ':') && !urlAnchor.host) ||
+          (originAnchor.protocol + '//' + originAnchor.host ===
+            urlAnchor.protocol + '//' + urlAnchor.host));
+      } catch (e) {
+        // If there is an error parsing the URL, assume it is crossDomain.
+        return true;
+      }
+    },
+
+    // Handles "data-method" on links such as:
+    // <a href="/users/5" data-method="delete" rel="nofollow" data-confirm="Are you sure?">Delete</a>
+    handleMethod: function(link) {
+      var href = rails.href(link),
+        method = link.data('method'),
+        target = link.attr('target'),
+        csrfToken = rails.csrfToken(),
+        csrfParam = rails.csrfParam(),
+        form = $('<form method="post" action="' + href + '"></form>'),
+        metadataInput = '<input name="_method" value="' + method + '" type="hidden" />';
+
+      if (csrfParam !== undefined && csrfToken !== undefined && !rails.isCrossDomain(href)) {
+        metadataInput += '<input name="' + csrfParam + '" value="' + csrfToken + '" type="hidden" />';
+      }
+
+      if (target) { form.attr('target', target); }
+
+      form.hide().append(metadataInput).appendTo('body');
+      form.submit();
+    },
+
+    // Helper function that returns form elements that match the specified CSS selector
+    // If form is actually a "form" element this will return associated elements outside the from that have
+    // the html form attribute set
+    formElements: function(form, selector) {
+      return form.is('form') ? $(form[0].elements).filter(selector) : form.find(selector);
+    },
+
+    /* Disables form elements:
+      - Caches element value in 'ujs:enable-with' data store
+      - Replaces element text with value of 'data-disable-with' attribute
+      - Sets disabled property to true
+    */
+    disableFormElements: function(form) {
+      rails.formElements(form, rails.disableSelector).each(function() {
+        rails.disableFormElement($(this));
+      });
+    },
+
+    disableFormElement: function(element) {
+      var method, replacement;
+
+      method = element.is('button') ? 'html' : 'val';
+      replacement = element.data('disable-with');
+
+      if (replacement !== undefined) {
+        element.data('ujs:enable-with', element[method]());
+        element[method](replacement);
+      }
+
+      element.prop('disabled', true);
+      element.data('ujs:disabled', true);
+    },
+
+    /* Re-enables disabled form elements:
+      - Replaces element text with cached value from 'ujs:enable-with' data store (created in `disableFormElements`)
+      - Sets disabled property to false
+    */
+    enableFormElements: function(form) {
+      rails.formElements(form, rails.enableSelector).each(function() {
+        rails.enableFormElement($(this));
+      });
+    },
+
+    enableFormElement: function(element) {
+      var method = element.is('button') ? 'html' : 'val';
+      if (element.data('ujs:enable-with') !== undefined) {
+        element[method](element.data('ujs:enable-with'));
+        element.removeData('ujs:enable-with'); // clean up cache
+      }
+      element.prop('disabled', false);
+      element.removeData('ujs:disabled');
+    },
+
+   /* For 'data-confirm' attribute:
+      - Fires `confirm` event
+      - Shows the confirmation dialog
+      - Fires the `confirm:complete` event
+
+      Returns `true` if no function stops the chain and user chose yes; `false` otherwise.
+      Attaching a handler to the element's `confirm` event that returns a `falsy` value cancels the confirmation dialog.
+      Attaching a handler to the element's `confirm:complete` event that returns a `falsy` value makes this function
+      return false. The `confirm:complete` event is fired whether or not the user answered true or false to the dialog.
+   */
+    allowAction: function(element) {
+      var message = element.data('confirm'),
+          answer = false, callback;
+      if (!message) { return true; }
+
+      if (rails.fire(element, 'confirm')) {
+        try {
+          answer = rails.confirm(message);
+        } catch (e) {
+          (console.error || console.log).call(console, e.stack || e);
+        }
+        callback = rails.fire(element, 'confirm:complete', [answer]);
+      }
+      return answer && callback;
+    },
+
+    // Helper function which checks for blank inputs in a form that match the specified CSS selector
+    blankInputs: function(form, specifiedSelector, nonBlank) {
+      var foundInputs = $(),
+        input,
+        valueToCheck,
+        radiosForNameWithNoneSelected,
+        radioName,
+        selector = specifiedSelector || 'input,textarea',
+        requiredInputs = form.find(selector),
+        checkedRadioButtonNames = {};
+
+      requiredInputs.each(function() {
+        input = $(this);
+        if (input.is('input[type=radio]')) {
+
+          // Don't count unchecked required radio as blank if other radio with same name is checked,
+          // regardless of whether same-name radio input has required attribute or not. The spec
+          // states https://www.w3.org/TR/html5/forms.html#the-required-attribute
+          radioName = input.attr('name');
+
+          // Skip if we've already seen the radio with this name.
+          if (!checkedRadioButtonNames[radioName]) {
+
+            // If none checked
+            if (form.find('input[type=radio]:checked[name="' + radioName + '"]').length === 0) {
+              radiosForNameWithNoneSelected = form.find(
+                'input[type=radio][name="' + radioName + '"]');
+              foundInputs = foundInputs.add(radiosForNameWithNoneSelected);
+            }
+
+            // We only need to check each name once.
+            checkedRadioButtonNames[radioName] = radioName;
+          }
+        } else {
+          valueToCheck = input.is('input[type=checkbox],input[type=radio]') ? input.is(':checked') : !!input.val();
+          if (valueToCheck === nonBlank) {
+            foundInputs = foundInputs.add(input);
+          }
+        }
+      });
+      return foundInputs.length ? foundInputs : false;
+    },
+
+    // Helper function which checks for non-blank inputs in a form that match the specified CSS selector
+    nonBlankInputs: function(form, specifiedSelector) {
+      return rails.blankInputs(form, specifiedSelector, true); // true specifies nonBlank
+    },
+
+    // Helper function, needed to provide consistent behavior in IE
+    stopEverything: function(e) {
+      $(e.target).trigger('ujs:everythingStopped');
+      e.stopImmediatePropagation();
+      return false;
+    },
+
+    //  Replace element's html with the 'data-disable-with' after storing original html
+    //  and prevent clicking on it
+    disableElement: function(element) {
+      var replacement = element.data('disable-with');
+
+      if (replacement !== undefined) {
+        element.data('ujs:enable-with', element.html()); // store enabled state
+        element.html(replacement);
+      }
+
+      element.bind('click.railsDisable', function(e) { // prevent further clicking
+        return rails.stopEverything(e);
+      });
+      element.data('ujs:disabled', true);
+    },
+
+    // Restore element to its original state which was disabled by 'disableElement' above
+    enableElement: function(element) {
+      if (element.data('ujs:enable-with') !== undefined) {
+        element.html(element.data('ujs:enable-with')); // set to old enabled state
+        element.removeData('ujs:enable-with'); // clean up cache
+      }
+      element.unbind('click.railsDisable'); // enable element
+      element.removeData('ujs:disabled');
+    }
+  };
+
+  if (rails.fire($document, 'rails:attachBindings')) {
+
+    $.ajaxPrefilter(function(options, originalOptions, xhr){ if ( !options.crossDomain ) { rails.CSRFProtection(xhr); }});
+
+    // This event works the same as the load event, except that it fires every
+    // time the page is loaded.
+    //
+    // See https://github.com/rails/jquery-ujs/issues/357
+    // See https://developer.mozilla.org/en-US/docs/Using_Firefox_1.5_caching
+    $(window).on('pageshow.rails', function () {
+      $($.rails.enableSelector).each(function () {
+        var element = $(this);
+
+        if (element.data('ujs:disabled')) {
+          $.rails.enableFormElement(element);
+        }
+      });
+
+      $($.rails.linkDisableSelector).each(function () {
+        var element = $(this);
+
+        if (element.data('ujs:disabled')) {
+          $.rails.enableElement(element);
+        }
+      });
+    });
+
+    $document.on('ajax:complete', rails.linkDisableSelector, function() {
+        rails.enableElement($(this));
+    });
+
+    $document.on('ajax:complete', rails.buttonDisableSelector, function() {
+        rails.enableFormElement($(this));
+    });
+
+    $document.on('click.rails', rails.linkClickSelector, function(e) {
+      var link = $(this), method = link.data('method'), data = link.data('params'), metaClick = e.metaKey || e.ctrlKey;
+      if (!rails.allowAction(link)) return rails.stopEverything(e);
+
+      if (!metaClick && link.is(rails.linkDisableSelector)) rails.disableElement(link);
+
+      if (rails.isRemote(link)) {
+        if (metaClick && (!method || method === 'GET') && !data) { return true; }
+
+        var handleRemote = rails.handleRemote(link);
+        // Response from rails.handleRemote() will either be false or a deferred object promise.
+        if (handleRemote === false) {
+          rails.enableElement(link);
+        } else {
+          handleRemote.fail( function() { rails.enableElement(link); } );
+        }
+        return false;
+
+      } else if (method) {
+        rails.handleMethod(link);
+        return false;
+      }
+    });
+
+    $document.on('click.rails', rails.buttonClickSelector, function(e) {
+      var button = $(this);
+
+      if (!rails.allowAction(button) || !rails.isRemote(button)) return rails.stopEverything(e);
+
+      if (button.is(rails.buttonDisableSelector)) rails.disableFormElement(button);
+
+      var handleRemote = rails.handleRemote(button);
+      // Response from rails.handleRemote() will either be false or a deferred object promise.
+      if (handleRemote === false) {
+        rails.enableFormElement(button);
+      } else {
+        handleRemote.fail( function() { rails.enableFormElement(button); } );
+      }
+      return false;
+    });
+
+    $document.on('change.rails', rails.inputChangeSelector, function(e) {
+      var link = $(this);
+      if (!rails.allowAction(link) || !rails.isRemote(link)) return rails.stopEverything(e);
+
+      rails.handleRemote(link);
+      return false;
+    });
+
+    $document.on('submit.rails', rails.formSubmitSelector, function(e) {
+      var form = $(this),
+        remote = rails.isRemote(form),
+        blankRequiredInputs,
+        nonBlankFileInputs;
+
+      if (!rails.allowAction(form)) return rails.stopEverything(e);
+
+      // Skip other logic when required values are missing or file upload is present
+      if (form.attr('novalidate') === undefined) {
+        if (form.data('ujs:formnovalidate-button') === undefined) {
+          blankRequiredInputs = rails.blankInputs(form, rails.requiredInputSelector, false);
+          if (blankRequiredInputs && rails.fire(form, 'ajax:aborted:required', [blankRequiredInputs])) {
+            return rails.stopEverything(e);
+          }
+        } else {
+          // Clear the formnovalidate in case the next button click is not on a formnovalidate button
+          // Not strictly necessary to do here, since it is also reset on each button click, but just to be certain
+          form.data('ujs:formnovalidate-button', undefined);
+        }
+      }
+
+      if (remote) {
+        nonBlankFileInputs = rails.nonBlankInputs(form, rails.fileInputSelector);
+        if (nonBlankFileInputs) {
+          // Slight timeout so that the submit button gets properly serialized
+          // (make it easy for event handler to serialize form without disabled values)
+          setTimeout(function(){ rails.disableFormElements(form); }, 13);
+          var aborted = rails.fire(form, 'ajax:aborted:file', [nonBlankFileInputs]);
+
+          // Re-enable form elements if event bindings return false (canceling normal form submission)
+          if (!aborted) { setTimeout(function(){ rails.enableFormElements(form); }, 13); }
+
+          return aborted;
+        }
+
+        rails.handleRemote(form);
+        return false;
+
+      } else {
+        // Slight timeout so that the submit button gets properly serialized
+        setTimeout(function(){ rails.disableFormElements(form); }, 13);
+      }
+    });
+
+    $document.on('click.rails', rails.formInputClickSelector, function(event) {
+      var button = $(this);
+
+      if (!rails.allowAction(button)) return rails.stopEverything(event);
+
+      // Register the pressed submit button
+      var name = button.attr('name'),
+        data = name ? {name:name, value:button.val()} : null;
+
+      var form = button.closest('form');
+      if (form.length === 0) {
+        form = $('#' + button.attr('form'));
+      }
+      form.data('ujs:submit-button', data);
+
+      // Save attributes from button
+      form.data('ujs:formnovalidate-button', button.attr('formnovalidate'));
+      form.data('ujs:submit-button-formaction', button.attr('formaction'));
+      form.data('ujs:submit-button-formmethod', button.attr('formmethod'));
+    });
+
+    $document.on('ajax:send.rails', rails.formSubmitSelector, function(event) {
+      if (this === event.target) rails.disableFormElements($(this));
+    });
+
+    $document.on('ajax:complete.rails', rails.formSubmitSelector, function(event) {
+      if (this === event.target) rails.enableFormElements($(this));
+    });
+
+    $(function(){
+      rails.refreshCSRFTokens();
+    });
+  }
+
+})( jQuery );
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;// This file is deprecated in 1.12.0 to be removed in 1.13
+( function() {
+!(__WEBPACK_AMD_DEFINE_FACTORY__ = ([
+	"jquery",
+	"./data",
+	"./disable-selection",
+	"./focusable",
+	"./form",
+	"./ie",
+	"./keycode",
+	"./labels",
+	"./jquery-1-7",
+	"./plugin",
+	"./safe-active-element",
+	"./safe-blur",
+	"./scroll-parent",
+	"./tabbable",
+	"./unique-id",
+	"./version"
+]),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+} )();
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * jQuery UI Position 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ *
+ * http://api.jqueryui.com/position/
+ */
+
+//>>label: Position
+//>>group: Core
+//>>description: Positions elements relative to other elements.
+//>>docs: http://api.jqueryui.com/position/
+//>>demos: http://jqueryui.com/position/
+
+( function( factory ) {
+	if ( true ) {
+
+		// AMD. Register as an anonymous module.
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(1), __webpack_require__(21) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+}( function( $ ) {
+( function() {
+var cachedScrollbarWidth,
+	max = Math.max,
+	abs = Math.abs,
+	rhorizontal = /left|center|right/,
+	rvertical = /top|center|bottom/,
+	roffset = /[\+\-]\d+(\.[\d]+)?%?/,
+	rposition = /^\w+/,
+	rpercent = /%$/,
+	_position = $.fn.position;
+
+function getOffsets( offsets, width, height ) {
+	return [
+		parseFloat( offsets[ 0 ] ) * ( rpercent.test( offsets[ 0 ] ) ? width / 100 : 1 ),
+		parseFloat( offsets[ 1 ] ) * ( rpercent.test( offsets[ 1 ] ) ? height / 100 : 1 )
+	];
+}
+
+function parseCss( element, property ) {
+	return parseInt( $.css( element, property ), 10 ) || 0;
+}
+
+function getDimensions( elem ) {
+	var raw = elem[ 0 ];
+	if ( raw.nodeType === 9 ) {
+		return {
+			width: elem.width(),
+			height: elem.height(),
+			offset: { top: 0, left: 0 }
+		};
+	}
+	if ( $.isWindow( raw ) ) {
+		return {
+			width: elem.width(),
+			height: elem.height(),
+			offset: { top: elem.scrollTop(), left: elem.scrollLeft() }
+		};
+	}
+	if ( raw.preventDefault ) {
+		return {
+			width: 0,
+			height: 0,
+			offset: { top: raw.pageY, left: raw.pageX }
+		};
+	}
+	return {
+		width: elem.outerWidth(),
+		height: elem.outerHeight(),
+		offset: elem.offset()
+	};
+}
+
+$.position = {
+	scrollbarWidth: function() {
+		if ( cachedScrollbarWidth !== undefined ) {
+			return cachedScrollbarWidth;
+		}
+		var w1, w2,
+			div = $( "<div " +
+				"style='display:block;position:absolute;width:50px;height:50px;overflow:hidden;'>" +
+				"<div style='height:100px;width:auto;'></div></div>" ),
+			innerDiv = div.children()[ 0 ];
+
+		$( "body" ).append( div );
+		w1 = innerDiv.offsetWidth;
+		div.css( "overflow", "scroll" );
+
+		w2 = innerDiv.offsetWidth;
+
+		if ( w1 === w2 ) {
+			w2 = div[ 0 ].clientWidth;
+		}
+
+		div.remove();
+
+		return ( cachedScrollbarWidth = w1 - w2 );
+	},
+	getScrollInfo: function( within ) {
+		var overflowX = within.isWindow || within.isDocument ? "" :
+				within.element.css( "overflow-x" ),
+			overflowY = within.isWindow || within.isDocument ? "" :
+				within.element.css( "overflow-y" ),
+			hasOverflowX = overflowX === "scroll" ||
+				( overflowX === "auto" && within.width < within.element[ 0 ].scrollWidth ),
+			hasOverflowY = overflowY === "scroll" ||
+				( overflowY === "auto" && within.height < within.element[ 0 ].scrollHeight );
+		return {
+			width: hasOverflowY ? $.position.scrollbarWidth() : 0,
+			height: hasOverflowX ? $.position.scrollbarWidth() : 0
+		};
+	},
+	getWithinInfo: function( element ) {
+		var withinElement = $( element || window ),
+			isWindow = $.isWindow( withinElement[ 0 ] ),
+			isDocument = !!withinElement[ 0 ] && withinElement[ 0 ].nodeType === 9,
+			hasOffset = !isWindow && !isDocument;
+		return {
+			element: withinElement,
+			isWindow: isWindow,
+			isDocument: isDocument,
+			offset: hasOffset ? $( element ).offset() : { left: 0, top: 0 },
+			scrollLeft: withinElement.scrollLeft(),
+			scrollTop: withinElement.scrollTop(),
+			width: withinElement.outerWidth(),
+			height: withinElement.outerHeight()
+		};
+	}
+};
+
+$.fn.position = function( options ) {
+	if ( !options || !options.of ) {
+		return _position.apply( this, arguments );
+	}
+
+	// Make a copy, we don't want to modify arguments
+	options = $.extend( {}, options );
+
+	var atOffset, targetWidth, targetHeight, targetOffset, basePosition, dimensions,
+		target = $( options.of ),
+		within = $.position.getWithinInfo( options.within ),
+		scrollInfo = $.position.getScrollInfo( within ),
+		collision = ( options.collision || "flip" ).split( " " ),
+		offsets = {};
+
+	dimensions = getDimensions( target );
+	if ( target[ 0 ].preventDefault ) {
+
+		// Force left top to allow flipping
+		options.at = "left top";
+	}
+	targetWidth = dimensions.width;
+	targetHeight = dimensions.height;
+	targetOffset = dimensions.offset;
+
+	// Clone to reuse original targetOffset later
+	basePosition = $.extend( {}, targetOffset );
+
+	// Force my and at to have valid horizontal and vertical positions
+	// if a value is missing or invalid, it will be converted to center
+	$.each( [ "my", "at" ], function() {
+		var pos = ( options[ this ] || "" ).split( " " ),
+			horizontalOffset,
+			verticalOffset;
+
+		if ( pos.length === 1 ) {
+			pos = rhorizontal.test( pos[ 0 ] ) ?
+				pos.concat( [ "center" ] ) :
+				rvertical.test( pos[ 0 ] ) ?
+					[ "center" ].concat( pos ) :
+					[ "center", "center" ];
+		}
+		pos[ 0 ] = rhorizontal.test( pos[ 0 ] ) ? pos[ 0 ] : "center";
+		pos[ 1 ] = rvertical.test( pos[ 1 ] ) ? pos[ 1 ] : "center";
+
+		// Calculate offsets
+		horizontalOffset = roffset.exec( pos[ 0 ] );
+		verticalOffset = roffset.exec( pos[ 1 ] );
+		offsets[ this ] = [
+			horizontalOffset ? horizontalOffset[ 0 ] : 0,
+			verticalOffset ? verticalOffset[ 0 ] : 0
+		];
+
+		// Reduce to just the positions without the offsets
+		options[ this ] = [
+			rposition.exec( pos[ 0 ] )[ 0 ],
+			rposition.exec( pos[ 1 ] )[ 0 ]
+		];
+	} );
+
+	// Normalize collision option
+	if ( collision.length === 1 ) {
+		collision[ 1 ] = collision[ 0 ];
+	}
+
+	if ( options.at[ 0 ] === "right" ) {
+		basePosition.left += targetWidth;
+	} else if ( options.at[ 0 ] === "center" ) {
+		basePosition.left += targetWidth / 2;
+	}
+
+	if ( options.at[ 1 ] === "bottom" ) {
+		basePosition.top += targetHeight;
+	} else if ( options.at[ 1 ] === "center" ) {
+		basePosition.top += targetHeight / 2;
+	}
+
+	atOffset = getOffsets( offsets.at, targetWidth, targetHeight );
+	basePosition.left += atOffset[ 0 ];
+	basePosition.top += atOffset[ 1 ];
+
+	return this.each( function() {
+		var collisionPosition, using,
+			elem = $( this ),
+			elemWidth = elem.outerWidth(),
+			elemHeight = elem.outerHeight(),
+			marginLeft = parseCss( this, "marginLeft" ),
+			marginTop = parseCss( this, "marginTop" ),
+			collisionWidth = elemWidth + marginLeft + parseCss( this, "marginRight" ) +
+				scrollInfo.width,
+			collisionHeight = elemHeight + marginTop + parseCss( this, "marginBottom" ) +
+				scrollInfo.height,
+			position = $.extend( {}, basePosition ),
+			myOffset = getOffsets( offsets.my, elem.outerWidth(), elem.outerHeight() );
+
+		if ( options.my[ 0 ] === "right" ) {
+			position.left -= elemWidth;
+		} else if ( options.my[ 0 ] === "center" ) {
+			position.left -= elemWidth / 2;
+		}
+
+		if ( options.my[ 1 ] === "bottom" ) {
+			position.top -= elemHeight;
+		} else if ( options.my[ 1 ] === "center" ) {
+			position.top -= elemHeight / 2;
+		}
+
+		position.left += myOffset[ 0 ];
+		position.top += myOffset[ 1 ];
+
+		collisionPosition = {
+			marginLeft: marginLeft,
+			marginTop: marginTop
+		};
+
+		$.each( [ "left", "top" ], function( i, dir ) {
+			if ( $.ui.position[ collision[ i ] ] ) {
+				$.ui.position[ collision[ i ] ][ dir ]( position, {
+					targetWidth: targetWidth,
+					targetHeight: targetHeight,
+					elemWidth: elemWidth,
+					elemHeight: elemHeight,
+					collisionPosition: collisionPosition,
+					collisionWidth: collisionWidth,
+					collisionHeight: collisionHeight,
+					offset: [ atOffset[ 0 ] + myOffset[ 0 ], atOffset [ 1 ] + myOffset[ 1 ] ],
+					my: options.my,
+					at: options.at,
+					within: within,
+					elem: elem
+				} );
+			}
+		} );
+
+		if ( options.using ) {
+
+			// Adds feedback as second argument to using callback, if present
+			using = function( props ) {
+				var left = targetOffset.left - position.left,
+					right = left + targetWidth - elemWidth,
+					top = targetOffset.top - position.top,
+					bottom = top + targetHeight - elemHeight,
+					feedback = {
+						target: {
+							element: target,
+							left: targetOffset.left,
+							top: targetOffset.top,
+							width: targetWidth,
+							height: targetHeight
+						},
+						element: {
+							element: elem,
+							left: position.left,
+							top: position.top,
+							width: elemWidth,
+							height: elemHeight
+						},
+						horizontal: right < 0 ? "left" : left > 0 ? "right" : "center",
+						vertical: bottom < 0 ? "top" : top > 0 ? "bottom" : "middle"
+					};
+				if ( targetWidth < elemWidth && abs( left + right ) < targetWidth ) {
+					feedback.horizontal = "center";
+				}
+				if ( targetHeight < elemHeight && abs( top + bottom ) < targetHeight ) {
+					feedback.vertical = "middle";
+				}
+				if ( max( abs( left ), abs( right ) ) > max( abs( top ), abs( bottom ) ) ) {
+					feedback.important = "horizontal";
+				} else {
+					feedback.important = "vertical";
+				}
+				options.using.call( this, props, feedback );
+			};
+		}
+
+		elem.offset( $.extend( position, { using: using } ) );
+	} );
+};
+
+$.ui.position = {
+	fit: {
+		left: function( position, data ) {
+			var within = data.within,
+				withinOffset = within.isWindow ? within.scrollLeft : within.offset.left,
+				outerWidth = within.width,
+				collisionPosLeft = position.left - data.collisionPosition.marginLeft,
+				overLeft = withinOffset - collisionPosLeft,
+				overRight = collisionPosLeft + data.collisionWidth - outerWidth - withinOffset,
+				newOverRight;
+
+			// Element is wider than within
+			if ( data.collisionWidth > outerWidth ) {
+
+				// Element is initially over the left side of within
+				if ( overLeft > 0 && overRight <= 0 ) {
+					newOverRight = position.left + overLeft + data.collisionWidth - outerWidth -
+						withinOffset;
+					position.left += overLeft - newOverRight;
+
+				// Element is initially over right side of within
+				} else if ( overRight > 0 && overLeft <= 0 ) {
+					position.left = withinOffset;
+
+				// Element is initially over both left and right sides of within
+				} else {
+					if ( overLeft > overRight ) {
+						position.left = withinOffset + outerWidth - data.collisionWidth;
+					} else {
+						position.left = withinOffset;
+					}
+				}
+
+			// Too far left -> align with left edge
+			} else if ( overLeft > 0 ) {
+				position.left += overLeft;
+
+			// Too far right -> align with right edge
+			} else if ( overRight > 0 ) {
+				position.left -= overRight;
+
+			// Adjust based on position and margin
+			} else {
+				position.left = max( position.left - collisionPosLeft, position.left );
+			}
+		},
+		top: function( position, data ) {
+			var within = data.within,
+				withinOffset = within.isWindow ? within.scrollTop : within.offset.top,
+				outerHeight = data.within.height,
+				collisionPosTop = position.top - data.collisionPosition.marginTop,
+				overTop = withinOffset - collisionPosTop,
+				overBottom = collisionPosTop + data.collisionHeight - outerHeight - withinOffset,
+				newOverBottom;
+
+			// Element is taller than within
+			if ( data.collisionHeight > outerHeight ) {
+
+				// Element is initially over the top of within
+				if ( overTop > 0 && overBottom <= 0 ) {
+					newOverBottom = position.top + overTop + data.collisionHeight - outerHeight -
+						withinOffset;
+					position.top += overTop - newOverBottom;
+
+				// Element is initially over bottom of within
+				} else if ( overBottom > 0 && overTop <= 0 ) {
+					position.top = withinOffset;
+
+				// Element is initially over both top and bottom of within
+				} else {
+					if ( overTop > overBottom ) {
+						position.top = withinOffset + outerHeight - data.collisionHeight;
+					} else {
+						position.top = withinOffset;
+					}
+				}
+
+			// Too far up -> align with top
+			} else if ( overTop > 0 ) {
+				position.top += overTop;
+
+			// Too far down -> align with bottom edge
+			} else if ( overBottom > 0 ) {
+				position.top -= overBottom;
+
+			// Adjust based on position and margin
+			} else {
+				position.top = max( position.top - collisionPosTop, position.top );
+			}
+		}
+	},
+	flip: {
+		left: function( position, data ) {
+			var within = data.within,
+				withinOffset = within.offset.left + within.scrollLeft,
+				outerWidth = within.width,
+				offsetLeft = within.isWindow ? within.scrollLeft : within.offset.left,
+				collisionPosLeft = position.left - data.collisionPosition.marginLeft,
+				overLeft = collisionPosLeft - offsetLeft,
+				overRight = collisionPosLeft + data.collisionWidth - outerWidth - offsetLeft,
+				myOffset = data.my[ 0 ] === "left" ?
+					-data.elemWidth :
+					data.my[ 0 ] === "right" ?
+						data.elemWidth :
+						0,
+				atOffset = data.at[ 0 ] === "left" ?
+					data.targetWidth :
+					data.at[ 0 ] === "right" ?
+						-data.targetWidth :
+						0,
+				offset = -2 * data.offset[ 0 ],
+				newOverRight,
+				newOverLeft;
+
+			if ( overLeft < 0 ) {
+				newOverRight = position.left + myOffset + atOffset + offset + data.collisionWidth -
+					outerWidth - withinOffset;
+				if ( newOverRight < 0 || newOverRight < abs( overLeft ) ) {
+					position.left += myOffset + atOffset + offset;
+				}
+			} else if ( overRight > 0 ) {
+				newOverLeft = position.left - data.collisionPosition.marginLeft + myOffset +
+					atOffset + offset - offsetLeft;
+				if ( newOverLeft > 0 || abs( newOverLeft ) < overRight ) {
+					position.left += myOffset + atOffset + offset;
+				}
+			}
+		},
+		top: function( position, data ) {
+			var within = data.within,
+				withinOffset = within.offset.top + within.scrollTop,
+				outerHeight = within.height,
+				offsetTop = within.isWindow ? within.scrollTop : within.offset.top,
+				collisionPosTop = position.top - data.collisionPosition.marginTop,
+				overTop = collisionPosTop - offsetTop,
+				overBottom = collisionPosTop + data.collisionHeight - outerHeight - offsetTop,
+				top = data.my[ 1 ] === "top",
+				myOffset = top ?
+					-data.elemHeight :
+					data.my[ 1 ] === "bottom" ?
+						data.elemHeight :
+						0,
+				atOffset = data.at[ 1 ] === "top" ?
+					data.targetHeight :
+					data.at[ 1 ] === "bottom" ?
+						-data.targetHeight :
+						0,
+				offset = -2 * data.offset[ 1 ],
+				newOverTop,
+				newOverBottom;
+			if ( overTop < 0 ) {
+				newOverBottom = position.top + myOffset + atOffset + offset + data.collisionHeight -
+					outerHeight - withinOffset;
+				if ( newOverBottom < 0 || newOverBottom < abs( overTop ) ) {
+					position.top += myOffset + atOffset + offset;
+				}
+			} else if ( overBottom > 0 ) {
+				newOverTop = position.top - data.collisionPosition.marginTop + myOffset + atOffset +
+					offset - offsetTop;
+				if ( newOverTop > 0 || abs( newOverTop ) < overBottom ) {
+					position.top += myOffset + atOffset + offset;
+				}
+			}
+		}
+	},
+	flipfit: {
+		left: function() {
+			$.ui.position.flip.left.apply( this, arguments );
+			$.ui.position.fit.left.apply( this, arguments );
+		},
+		top: function() {
+			$.ui.position.flip.top.apply( this, arguments );
+			$.ui.position.fit.top.apply( this, arguments );
+		}
+	}
+};
+
+} )();
+
+return $.ui.position;
+
+} ) );
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;( function( factory ) {
+	if ( true ) {
+
+		// AMD. Register as an anonymous module.
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(1) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+
+$.ui = $.ui || {};
+
+return $.ui.version = "1.12.1";
+
+} ) );
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimeAgoField; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_bootstrap_switch__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_bootstrap_switch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_bootstrap_switch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_toggle_display__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_toggle_display___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_toggle_display__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_jquery__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__SelectConstructor__ = __webpack_require__(15);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+__webpack_require__(13);
+__webpack_require__(18);
+__webpack_require__(19);
+__webpack_require__(20);
+
+var TimeAgoField = function (_Component) {
+  _inherits(TimeAgoField, _Component);
+
+  function TimeAgoField(props) {
+    _classCallCheck(this, TimeAgoField);
+
+    var _this = _possibleConstructorReturn(this, (TimeAgoField.__proto__ || Object.getPrototypeOf(TimeAgoField)).call(this, props));
+
+    _this.state = {
+      show: true,
+      timeAgoAmount: _this.props.timeAgoAmount,
+      timeAgoUnit: _this.props.timeAgoUnit,
+      absoluteDate: _this.props.absoluteDate
+    };
+    _this.keyboardize = _this.keyboardize.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(TimeAgoField, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.$el = __WEBPACK_IMPORTED_MODULE_4_jquery___default()(this.el);
+      this.$el.addKeyboard();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.$el.addKeyboard('destroy');
+    }
+  }, {
+    key: 'keyboardize',
+    value: function keyboardize(e) {
+      e.preventDefault();
+      this.$el = __WEBPACK_IMPORTED_MODULE_4_jquery___default()(this.el);
+      var kb = this.$el.getkeyboard();
+      // close the keyboard if the keyboard is visible and the button is clicked a second time
+      if (kb.isOpen) {
+        kb.close();
+      } else {
+        kb.reveal();
+      }
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(event) {
+      this.props.onDateChange(_defineProperty({}, event.target.name, event.target.value));
+    }
+  }, {
+    key: 'handleSwitch',
+    value: function handleSwitch(elem, state) {
+      this.setState({ show: state });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var options = ['second(s)', 'minute(s)', 'hour(s)', 'day(s)', 'week(s)', 'month(s)', 'year(s)'];
+      var absoluteTime = void 0;
+      switch (this.props.topic.topic_type) {
+        case 'test':
+          absoluteTime = 'absolute_start_date';
+          break;
+        case 'hospitalization':
+          absoluteTime = 'admission_date';
+          break;
+        default:
+          absoluteTime = 'absolute_start_date';
+      }
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'row' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_bootstrap_switch___default.a, {
+          onChange: function onChange(el, state) {
+            return _this2.handleSwitch(el, state);
+          },
+          name: 'approxToggle',
+          onText: 'Approx',
+          offText: 'Exact'
+        }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          __WEBPACK_IMPORTED_MODULE_3_react_toggle_display___default.a,
+          { show: this.state.show },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'approximate' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'form-inline' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+                type: 'number',
+                name: 'timeAgoAmount',
+                id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_time_ago_amount',
+                className: 'form-control calculator',
+                placeholder: 'time ago',
+                ref: function ref(el) {
+                  return _this2.el = el;
+                },
+                value: this.state.timeAgoAmount,
+                onChange: this.handleChange
+              }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'button',
+                {
+                  className: 'btn btn-light calculator',
+                  type: 'button',
+                  id: this.props.parameterizedPlural + '_' + this.props.rowID + '_time_calc_button',
+                  onClick: this.keyboardize
+                },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-calculator' })
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__SelectConstructor__["a" /* default */], {
+                arr: options,
+                title: 'time ago',
+                rowID: this.props.rowID,
+                parameterizedPlural: this.props.parameterizedPlural,
+                name: 'timeAgoUnit',
+                value: this.state.timeAgoUnit,
+                onUnitChange: this.handleChange
+              })
+            )
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          __WEBPACK_IMPORTED_MODULE_3_react_toggle_display___default.a,
+          { show: !this.state.show },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'exact' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+              type: 'date',
+              name: 'absoluteDate',
+              id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + absoluteTime,
+              className: 'form-control',
+              value: this.state.absoluteDate,
+              onChange: this.handleChange
+            })
+          )
+        )
+      );
+    }
+  }]);
+
+  return TimeAgoField;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+TimeAgoField.propTypes = {
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
+};
+
+/***/ }),
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FindRelated; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var FindRelated = function (_Component) {
+  _inherits(FindRelated, _Component);
+
+  function FindRelated() {
+    _classCallCheck(this, FindRelated);
+
+    return _possibleConstructorReturn(this, (FindRelated.__proto__ || Object.getPrototypeOf(FindRelated)).apply(this, arguments));
+  }
+
+  _createClass(FindRelated, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var topic = this.props.topic;
+      var nextStep = void 0;
+      var buttons = void 0;
+      if (topic.related.length > 0) {
+        nextStep = topic.related.map(function (ind) {
+          return _this2.props.unsortedTopics.find(function (obj) {
+            return obj.id === ind;
+          });
+        }).filter(function (x) {
+          return x !== undefined;
+        });
+        buttons = nextStep.map(function (s) {
+          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'button',
+            {
+              type: 'button',
+              className: 'btn btn-light related', 'data-topic': JSON.stringify(s),
+              key: s.name + 'related'
+            },
+            s.name + ' ',
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-plus', 'aria-hidden': 'true' })
+          );
+        });
+      }
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { 'aria-label': 'RELATED' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'form-group row' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'label',
+            { className: 'col-2 col-form-label' },
+            'Related:'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'col-10' },
+            buttons
+          )
+        )
+      );
+    }
+  }]);
+
+  return FindRelated;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+FindRelated.propTypes = {
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  unsortedTopics: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired
+};
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+
+/* eslint-disable no-unused-vars */
+var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+function shouldUseNative() {
+	try {
+		if (!Object.assign) {
+			return false;
+		}
+
+		// Detect buggy property enumeration order in older V8 versions.
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+		var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+		test1[5] = 'de';
+		if (Object.getOwnPropertyNames(test1)[0] === '5') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test2 = {};
+		for (var i = 0; i < 10; i++) {
+			test2['_' + String.fromCharCode(i)] = i;
+		}
+		var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+			return test2[n];
+		});
+		if (order2.join('') !== '0123456789') {
+			return false;
+		}
+
+		// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+		var test3 = {};
+		'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+			test3[letter] = letter;
+		});
+		if (Object.keys(Object.assign({}, test3)).join('') !==
+				'abcdefghijklmnopqrst') {
+			return false;
+		}
+
+		return true;
+	} catch (err) {
+		// We don't expect any of the above to throw, but better to be safe.
+		return false;
+	}
+}
+
+module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (getOwnPropertySymbols) {
+			symbols = getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+/**
+ * Use invariant() to assert state which your program assumes to be true.
+ *
+ * Provide sprintf-style format (only %s is supported) and arguments
+ * to provide information about what broke and what you were
+ * expecting.
+ *
+ * The invariant message will be stripped in production, but the invariant
+ * will remain to ensure logic does not differ in production.
+ */
+
+var validateFormat = function validateFormat(format) {};
+
+if (process.env.NODE_ENV !== 'production') {
+  validateFormat = function validateFormat(format) {
+    if (format === undefined) {
+      throw new Error('invariant requires an error message argument');
+    }
+  };
+}
+
+function invariant(condition, format, a, b, c, d, e, f) {
+  validateFormat(format);
+
+  if (!condition) {
+    var error;
+    if (format === undefined) {
+      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
+    } else {
+      var args = [a, b, c, d, e, f];
+      var argIndex = 0;
+      error = new Error(format.replace(/%s/g, function () {
+        return args[argIndex++];
+      }));
+      error.name = 'Invariant Violation';
+    }
+
+    error.framesToPop = 1; // we don't care about invariant's own frame
+    throw error;
+  }
+}
+
+module.exports = invariant;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+
+/***/ }),
+/* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Keywords; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var Keywords = function (_Component) {
+  _inherits(Keywords, _Component);
+
+  function Keywords(props) {
+    _classCallCheck(this, Keywords);
+
+    var _this = _possibleConstructorReturn(this, (Keywords.__proto__ || Object.getPrototypeOf(Keywords)).call(this, props));
+
+    _this.state = {
+      keywords: null
+    };
+    _this.handleKeywordsChange = _this.handleKeywordsChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(Keywords, [{
+    key: 'handleKeywordsChange',
+    value: function handleKeywordsChange(event) {
+      this.props.onKeywordsChange(_defineProperty({}, event.target.name, event.target.value));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var descriptors = void 0;
+      if (this.props.topic.descriptors) {
+        descriptors = this.props.topic.descriptors.map(function (descriptor) {
+          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'label',
+            { key: descriptor + '_' + _this2.props.rowID, className: 'form-check-label descriptor' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+              className: 'form-check-input',
+              type: 'checkbox',
+              name: 'keywords',
+              id: 'visit_' + _this2.props.parameterizedPlural + '_attributes_' + _this2.props.rowID + '_descriptors_' + descriptor,
+              value: _this2.state.keywords,
+              onChange: _this2.handleKeywordsChange
+            }),
+            descriptor
+          );
+        });
+      }
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'form-inline descriptors' },
+        descriptors
+      );
+    }
+  }]);
+
+  return Keywords;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+Keywords.propTypes = {
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
+};
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+var emptyObject = {};
+
+if (process.env.NODE_ENV !== 'production') {
+  Object.freeze(emptyObject);
+}
+
+module.exports = emptyObject;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+var emptyFunction = __webpack_require__(14);
+
+/**
+ * Similar to invariant but only logs a warning if the condition is not met.
+ * This can be used to log issues in development environments in critical
+ * paths. Removing the logging code for production environments will keep the
+ * same logic and follow the same code paths.
+ */
+
+var warning = emptyFunction;
+
+if (process.env.NODE_ENV !== 'production') {
+  var printWarning = function printWarning(format) {
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    var argIndex = 0;
+    var message = 'Warning: ' + format.replace(/%s/g, function () {
+      return args[argIndex++];
+    });
+    if (typeof console !== 'undefined') {
+      console.error(message);
+    }
+    try {
+      // --- Welcome to debugging React ---
+      // This error was thrown as a convenience so that you can use this stack
+      // to find the callsite that caused this warning to fire.
+      throw new Error(message);
+    } catch (x) {}
+  };
+
+  warning = function warning(condition, format) {
+    if (format === undefined) {
+      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
+    }
+
+    if (format.indexOf('Failed Composite propType: ') === 0) {
+      return; // Ignore CompositeComponent proptype check.
+    }
+
+    if (!condition) {
+      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+        args[_key2 - 2] = arguments[_key2];
+      }
+
+      printWarning.apply(undefined, [format].concat(args));
+    }
+  };
+}
+
+module.exports = warning;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+
+/***/ }),
+/* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ({
+    epicMeds: function epicMeds(s) {
+        var left = 0,
+            right = 0,
+            A = [],
+            M = s.match(/([^()]+)|([()])/g),
+            L = M.length,
+            next,
+            str = '';
+        for (var i = 0; i < L; i++) {
+            next = M[i];
+            if (next === '(') ++left;else if (next === ')') ++right;
+            if (left !== 0) {
+                str += next;
+                if (left === right) {
+                    A[A.length - 1] += str;
+                    left = right = 0;
+                    str = '';
+                }
+            } else A = A.concat(next.match(/([^,]+)/g));
+        }
+        return A;
+    }
+});
+
+/***/ }),
+/* 30 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+// maps parsed epic med strings to preexisting database 'topics' (i.e. meds that we want to be gathering data on)
+// returns:
+//  (1)'topic id' integer or
+//  (2) nil
+/* harmony default export */ __webpack_exports__["default"] = ({
+  medMapper: function medMapper(name, commonName, medsObj) {
+    if (!!(name.match(/metoprolol/gi) || commonName.match(/toprol/gi) || commonName.match(/lopressor/) || commonName.match(/metoprolol/gi))) {
+      return medsObj["metoprolol"];
+    } else if (!!(name.match(/atenolol/gi) || commonName.match(/tenormin/gi) || name.match(/tenormin/gi) || commonName.match(/tenormin/gi))) {
+      return medsObj["atenolol"];
+    } else if (!!(name.match(/propranolol/gi) || commonName.match(/hemangeol/gi) || commonName.match(/inderal/gi) || commonName.match(/innopran/gi) || commonName.match(/propranolol/gi))) {
+      return medsObj["propranolol"];
+    } else if (!!(name.match(/carvedilol/gi) || commonName.match(/coreg/gi) || name.match(/coreg/gi) || commonName.match(/carvedilol/gi))) {
+      return medsObj["carvedilol"];
+    } else if (!!(name.match(/betaxolol/gi) || commonName.match(/kerlone/gi) || commonName.match(/kerlone/gi))) {
+      return medsObj["betaxolol"];
+    } else if (!!(name.match(/labetalol/gi) || commonName.match(/trandate/gi) || commonName.match(/normodyne/gi) || commonName.match(/labetalol/gi))) {
+      return medsObj["labetalol"];
+    } else if (!!(name.match(/losartan/gi) || commonName.match(/losartan/gi) || name.match(/cozaar/gi) || commonName.match(/cozaar/gi))) {
+      return medsObj["losartan"];
+    } else if (!!(name.match(/valsartan/gi) || commonName.match(/valsartan/gi) || name.match(/diovan/gi) || commonName.match(/diovan/gi))) {
+      return medsObj["valsartan"];
+    } else if (!!(name.match(/irbesartan/gi) || commonName.match(/irbesartan/gi) || name.match(/avapro/gi) || commonName.match(/avapro/gi))) {
+      return medsObj["irbesartan"];
+    } else if (!!(name.match(/telmisartan/gi) || commonName.match(/telmisartan/gi) || name.match(/micardis/gi) || commonName.match(/micardis/gi))) {
+      return medsObj["telmisartan"];
+    } else if (!!(name.match(/candesartan/gi) || commonName.match(/candesartan/gi) || name.match(/atacand/gi) || commonName.match(/atacand/gi))) {
+      return medsObj["candesartan"];
+    } else if (!!(name.match(/verapamil/gi) || commonName.match(/verapamil/gi) || commonName.match(/calan/gi) || commonName.match(/isoptin/gi) || commonName.match(/verelan/gi) || commonName.match(/covera/gi))) {
+      return medsObj["verapamil"];
+    } else if (!!(name.match(/diltiazem/gi) || commonName.match(/diltiazem/gi) || commonName.match(/cartia/gi) || commonName.match(/dilacor/gi) || commonName.match(/dilt/gi) || commonName.match(/matzim/gi) || commonName.match(/taztia/gi) || commonName.match(/tiazac/gi))) {
+      return medsObj["diltiazem"];
+    } else if (!!(name.match(/amlodipine/gi) || commonName.match(/amlodipine/gi) || name.match(/norvasc/gi) || commonName.match(/norvasc/gi))) {
+      return medsObj["amlodipine"];
+    } else if (!!(name.match(/nifedipine/gi) || commonName.match(/adalat/gi) || commonName.match(/afeditab/gi) || commonName.match(/nifediac/gi) || commonName.match(/nifedical/gi) || commonName.match(/procardia/gi))) {
+      return medsObj["nifedipine"];
+    } else if (!!(name.match(/lisinopril/gi) || commonName.match(/prinivil/gi) || commonName.match(/qbrelis/gi) || commonName.match(/zestril/gi))) {
+      return medsObj["lisinopril"];
+    } else if (!!(name.match(/enalapril/gi) || commonName.match(/epaned/gi) || commonName.match(/vasotec/gi))) {
+      return medsObj["enalapril"];
+    } else if (!!(name.match(/captopril/gi) || commonName.match(/capoten/gi))) {
+      return medsObj["captopril"];
+    } else if (!!(name.match(/quinapril/gi) || commonName.match(/quinapril/gi) || name.match(/accupril/gi) || commonName.match(/accupril/gi))) {
+      return medsObj["accupril"];
+    } else if (!!(name.match(/perindopril/gi) || commonName.match(/perindopril/gi) || name.match(/aceon/gi) || commonName.match(/aceon/gi))) {
+      return medsObj["perindopril"];
+    } else if (!!(name.match(/trandolapril/gi) || commonName.match(/trandolapril/gi) || name.match(/mavik/gi) || commonName.match(/mavik/gi))) {
+      return medsObj["trandolapril"];
+    }
+    // else if (!!(true)) {
+    //   return medsObj["CPAP"]
+    // }
+    // else if (!!(true)) {
+    //   return medsObj["bronchodilators"]
+    // }
+    // else if (!!(true)) {
+    //   return medsObj["inhaled steroids"]
+    // }
+    // else if (!!(true)) {
+    //   return medsObj["systemic steroids"]
+    // }
+    // else if (!!(true)) {
+    //   return medsObj["orthotics"]
+    // }
+    else if (!!(name.match(/^calcium/gi) || commonName.match(/^calcium/gi))) {
+        return medsObj["calcium"];
+      } else if (!!(name.match(/vitamin d/gi) || commonName.match(/vitamin d/gi) || name.match(/ergocalciferol/gi))) {
+        return medsObj["vitamin d"];
+      } else if (!!(name.match(/calcitonin/gi) || commonName.match(/calcitonin/gi) || commonName.match(/fortical/gi) || commonName.match(/miacalcin/gi))) {
+        return medsObj["calcitonin"];
+      } else if (!!(name.match(/alendronate/gi) || name.match(/etidronate/gi) || name.match(/zoledronic/gi) || name.match(/ibandronate/gi) || name.match(/risedronate/gi) || name.match(/pamidronate/gi) || name.match(/tiludronate/gi) || commonName.match(/fosamax/gi) || commonName.match(/didronel/gi) || commonName.match(/zometa/gi) || commonName.match(/reclast/gi) || commonName.match(/boniva/gi) || commonName.match(/aclasta/gi) || commonName.match(/atelvia/gi) || commonName.match(/actonel/gi) || commonName.match(/aredia/gi) || commonName.match(/binosto/gi) || commonName.match(/skelid/gi))) {
+        return medsObj["biophosphonates"];
+      } else if (!!(name.match(/estropipate/gi) || name.match(/estrogen/gi) || name.match(/estradiol/gi) || commonName.match(/cenestin/gi) || commonName.match(/femtrace/gi) || commonName.match(/ogen/gi) || commonName.match(/vivelle/gi) || commonName.match(/menest/gi) || commonName.match(/elestrin/gi) || commonName.match(/femring/gi) || commonName.match(/premarin/gi) || commonName.match(/evamist/gi) || commonName.match(/vagifem/gi) || commonName.match(/estrace/gi) || commonName.match(/minivelle/gi) || commonName.match(/climara/gi) || commonName.match(/divigel/gi) || commonName.match(/enjuvia/gi) || commonName.match(/estrasorb/gi) || commonName.match(/estring/gi) || commonName.match(/estraderm/gi) || commonName.match(/estradiol/gi) || commonName.match(/yuvafem/gi) || commonName.match(/alora/gi) || commonName.match(/delestrogen/gi) || commonName.match(/esclim/gi) || commonName.match(/estradot/gi) || commonName.match(/estrogel/gi) || commonName.match(/gynodiol/gi) || commonName.match(/menostar/gi) || commonName.match(/oesclim/gi) || commonName.match(/ogen/gi) || commonName.match(/ortho-est/gi))) {
+        return medsObj["estrogen/analogue"];
+      } else if (!!(name.match(/forteo/gi) || commonName.match(/forteo/gi) || name.match(/teriparatide/gi) || commonName.match(/teriparatide/gi))) {
+        return medsObj["forteo"];
+      }
+      // else if (!!(true)) {
+      //   return medsObj["epidural"]
+      // }
+      else if (!!(name.match(/triptan/gi) || commonName.match(/imitrex/gi) || commonName.match(/zomig/gi) || commonName.match(/maxalt/gi) || commonName.match(/relpax/gi) || commonName.match(/treximet/gi) || commonName.match(/amerge/gi) || commonName.match(/frova/gi) || commonName.match(/axert/gi) || commonName.match(/sumavel/gi) || commonName.match(/zecurity/gi))) {
+          return medsObj["triptans"];
+        } else if (!!(name.match(/acetazolamide/gi) || name.match(/carbamazepine/gi) || name.match(/clobazam/gi) || name.match(/clonazepam/gi) || name.match(/eslicarbazepine/gi) || name.match(/ethosuximide/gi) || name.match(/gabapentin/gi) || name.match(/lacosamide/gi) || name.match(/lamotrigine/gi) || name.match(/levetiracetam/gi) || name.match(/nitrazepam/gi) || name.match(/oxcarbazepine/gi) || name.match(/perampanel/gi) || name.match(/piracetam/gi) || name.match(/phenobarbital/gi) || name.match(/phenytoin/gi) || name.match(/pregabalin/gi) || name.match(/primidone/gi) || name.match(/retigabine/gi) || name.match(/rufinamide/gi) || name.match(/valproate/gi) || name.match(/stiripentol/gi) || name.match(/tiagabine/gi) || name.match(/topiramate/gi) || name.match(/vigabatrin/gi) || name.match(/zonisamide/gi) || commonName.match(/carbogen/gi) || commonName.match(/convulex/gi) || commonName.match(/desitrend/gi) || commonName.match(/diacomit/gi) || commonName.match(/diamox/gi) || commonName.match(/emeside/gi) || commonName.match(/epanutin/gi) || commonName.match(/epilim/gi) || commonName.match(/episenta/gi) || commonName.match(/epival/gi) || commonName.match(/frisium/gi) || commonName.match(/fycompa/gi) || commonName.match(/gabitril/gi) || commonName.match(/inovelon/gi) || commonName.match(/keppra/gi) || commonName.match(/lamictal/gi) || commonName.match(/lyrica/gi) || commonName.match(/neurontin/gi) || commonName.match(/nootropil/gi) || commonName.match(/phenytoin/gi) || commonName.match(/rivotril/gi) || commonName.match(/sabril/gi) || commonName.match(/tapclob/gi) || commonName.match(/tegretol/gi) || commonName.match(/topamax/gi) || commonName.match(/trileptal/gi) || commonName.match(/trobalt/gi) || commonName.match(/vimpat/gi) || commonName.match(/zarontin/gi) || commonName.match(/zebinix/gi) || commonName.match(/zonegran/gi))) {
+          return medsObj["antiepileptics"];
+        } else if (!!(name.match(/nimodipine/gi) || name.match(/isradipine/gi) || name.match(/felodipine/gi) || name.match(/nicardipine/gi) || name.match(/nisoldipine/gi) || name.match(/clevidipine/gi) || commonName.match(/nimotop/gi) || commonName.match(/dynacirc/gi) || commonName.match(/plendil/gi) || commonName.match(/cardene/gi) || commonName.match(/sular/gi) || commonName.match(/cleviprex/gi) || commonName.match(/nymalize/gi))) {
+          return medsObj["ca-blockers"];
+        } else if (!!(name.match(/amoxapine/gi) || name.match(/desipramine/gi) || name.match(/clomipramine/gi) || name.match(/trimipramine/gi) || name.match(/amitriptyline/gi) || name.match(/nortriptyline/gi) || name.match(/imipramine/gi) || name.match(/protriptyline/gi) || name.match(/doxepin/gi) || commonName.match(/asendin/gi) || commonName.match(/norpramin/gi) || commonName.match(/sinequan/gi) || commonName.match(/anafranil/gi) || commonName.match(/surmontil/gi) || commonName.match(/elavil/gi) || commonName.match(/tofranil/gi) || commonName.match(/silenor/gi) || commonName.match(/pamelor/gi) || commonName.match(/vivactil/gi) || commonName.match(/vanatrip/gi) || commonName.match(/aventyl/gi))) {
+          return medsObj["tricyclics"];
+        } else {
+          return medsObj["medication"];
+        }
+  }
+});
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+if (process.env.NODE_ENV !== 'production') {
+  var invariant = __webpack_require__(25);
+  var warning = __webpack_require__(28);
+  var ReactPropTypesSecret = __webpack_require__(32);
+  var loggedTypeFailures = {};
+}
+
+/**
+ * Assert that the values match with the type specs.
+ * Error messages are memorized and will only be shown once.
+ *
+ * @param {object} typeSpecs Map of name to a ReactPropType
+ * @param {object} values Runtime values that need to be type-checked
+ * @param {string} location e.g. "prop", "context", "child context"
+ * @param {string} componentName Name of the component for error messages.
+ * @param {?Function} getStack Returns the component stack.
+ * @private
+ */
+function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
+  if (process.env.NODE_ENV !== 'production') {
+    for (var typeSpecName in typeSpecs) {
+      if (typeSpecs.hasOwnProperty(typeSpecName)) {
+        var error;
+        // Prop type validation may throw. In case they do, we don't want to
+        // fail the render phase where it didn't fail before. So we log it.
+        // After these have been cleaned up, we'll let them throw.
+        try {
+          // This is intentionally an invariant that gets caught. It's the same
+          // behavior as without this statement except with a better message.
+          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'the `prop-types` package, but received `%s`.', componentName || 'React class', location, typeSpecName, typeof typeSpecs[typeSpecName]);
+          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
+        } catch (ex) {
+          error = ex;
+        }
+        warning(!error || error instanceof Error, '%s: type specification of %s `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error);
+        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
+          // Only monitor this failure once because there tends to be a lot of the
+          // same error.
+          loggedTypeFailures[error.message] = true;
+
+          var stack = getStack ? getStack() : '';
+
+          warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
+        }
+      }
+    }
+  }
+}
+
+module.exports = checkPropTypes;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+
+
+var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
+
+module.exports = ReactPropTypesSecret;
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AssembledDiagnosisForm; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__DurationField__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FileAttachmentButton__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__FindRelated__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__FrequencyField__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__HiddenFields__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Keywords__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__NoteField__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__TimeAgoField__ = __webpack_require__(22);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+
+
+
+var AssembledDiagnosisForm = function (_Component) {
+  _inherits(AssembledDiagnosisForm, _Component);
+
+  function AssembledDiagnosisForm(props) {
+    _classCallCheck(this, AssembledDiagnosisForm);
+
+    var _this = _possibleConstructorReturn(this, (AssembledDiagnosisForm.__proto__ || Object.getPrototypeOf(AssembledDiagnosisForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      durationAmount: null,
+      durationUnit: null,
+      frequencyAmount: null,
+      frequencyUnit: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(AssembledDiagnosisForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('diagnosis form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        durationAmount: value.durationAmount || this.state.durationAmount,
+        durationUnit: value.durationUnit || this.state.durationUnit,
+        frequencyAmount: value.frequencyAmount || this.state.frequencyAmount,
+        frequencyUnit: value.frequencyUnit || this.state.frequencyUnit,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var parameterizedPlural = 'diagnoses';
+      var descriptors = void 0;
+      if (this.props.topic.descriptors) {
+        descriptors = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'form-group row' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'label',
+            { className: 'col-2 col-form-label' },
+            'Descriptors'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-inline col-10' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__Keywords__["a" /* default */], {
+              topic: this.props.topic,
+              parameterizedPlural: parameterizedPlural,
+              rowID: this.props.rowID
+            })
+          )
+        );
+      }
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'tr',
+        { className: 'row_form', id: 'row_' + this.props.rowID },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'td',
+          { colSpan: '3' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__HiddenFields__["a" /* default */], {
+            visit: this.props.visit,
+            topic: this.props.topic,
+            parameterizedPlural: parameterizedPlural,
+            rowID: this.props.rowID
+          }),
+          descriptors,
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-group row' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'label',
+              { className: 'col-2 col-form-label' },
+              'Date'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'form-inline col-10' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__TimeAgoField__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleChange
+              })
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-group row' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'label',
+              { className: 'col-2 col-form-label' },
+              'Duration'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'form-inline col-10' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__DurationField__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                durationAmount: this.state.durationAmount,
+                durationUnit: this.state.durationUnit,
+                onDurationChange: this.handleChange
+              })
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-group row' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'label',
+              { className: 'col-2 col-form-label' },
+              'Frequency'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'form-inline col-10' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__FrequencyField__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                frequencyAmount: this.state.frequencyAmount,
+                frequencyUnit: this.state.frequencyUnit,
+                onFrequencyChange: this.handleChange
+              })
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-group row' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'label',
+              { className: 'col-2 col-form-label' },
+              'Note'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'form-inline col-10' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__NoteField__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                noteValue: this.state.note,
+                onNoteChange: this.handleChange
+              }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__FileAttachmentButton__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                attachedFile: this.state.file,
+                onFileChange: this.handleChange
+              })
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__FindRelated__["a" /* default */], {
+            topic: this.props.topic,
+            unsortedTopics: this.props.allTopics
+          })
+        )
+      );
+    }
+  }]);
+
+  return AssembledDiagnosisForm;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+AssembledDiagnosisForm.propTypes = {
+  allTopics: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
+};
+
+/***/ }),
+/* 34 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DurationField; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectConstructor__ = __webpack_require__(15);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+__webpack_require__(13);
+__webpack_require__(18);
+__webpack_require__(19);
+__webpack_require__(20);
+
+var DurationField = function (_Component) {
+  _inherits(DurationField, _Component);
+
+  function DurationField(props) {
+    _classCallCheck(this, DurationField);
+
+    var _this = _possibleConstructorReturn(this, (DurationField.__proto__ || Object.getPrototypeOf(DurationField)).call(this, props));
+
+    _this.state = {
+      durationAmount: _this.props.durationAmount,
+      durationUnit: _this.props.durationUnit
+    };
+    _this.keyboardize = _this.keyboardize.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(DurationField, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.$el = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this.el);
+      this.$el.addKeyboard();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.$el.addKeyboard('destroy');
+    }
+  }, {
+    key: 'keyboardize',
+    value: function keyboardize(e) {
+      e.preventDefault();
+      this.$el = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this.el);
+      var kb = this.$el.getkeyboard();
+      // close the keyboard if the keyboard is visible and the button is clicked a second time
+      if (kb.isOpen) {
+        kb.close();
+      } else {
+        kb.reveal();
+      }
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(event) {
+      this.props.onDurationChange(_defineProperty({}, event.target.name, event.target.value));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var options = ['second(s)', 'minute(s)', 'hour(s)', 'day(s)', 'week(s)', 'month(s)', 'year(s)'];
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'form-inline' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+          type: 'number',
+          id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_duration_amount',
+          className: 'form-control calculator',
+          placeholder: 'duration',
+          ref: function ref(el) {
+            return _this2.el = el;
+          },
+          name: 'durationAmount',
+          value: this.state.durationAmount,
+          onChange: this.handleChange
+        }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'button',
+          {
+            className: 'btn btn-light calculator',
+            type: 'button',
+            id: this.props.parameterizedPlural + '_' + this.props.rowID + '_duration_calc_button',
+            onClick: this.keyboardize
+          },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-calculator' })
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__SelectConstructor__["a" /* default */], {
+          arr: options,
+          title: 'for how long',
+          rowID: this.props.rowID,
+          parameterizedPlural: this.props.parameterizedPlural,
+          name: 'durationUnit',
+          value: this.state.durationUnit,
+          onUnitChange: this.handleChange
+        })
+      );
+    }
+  }]);
+
+  return DurationField;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+DurationField.propTypes = {
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired,
+  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired
+};
+
+/***/ }),
+/* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony default export */ __webpack_exports__["default"] = ({
+  'diagnosis': 'diagnoses',
+  'dissection': 'dissections',
+  'family member': 'family_members',
+  'genetic test': 'genetic_tests',
+  'hospitalization': 'hospitalizations',
+  'measurement': 'tests',
+  'medication': 'medications',
+  'procedure': 'procedures',
+  'vital': 'vitals'
+});
+
+/***/ }),
+/* 36 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AssembledDissectionForm; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FindRelated__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__HiddenFields__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__NoteField__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__TimeAgoField__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__SelectConstructor__ = __webpack_require__(15);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+
+var AssembledDissectionForm = function (_Component) {
+  _inherits(AssembledDissectionForm, _Component);
+
+  function AssembledDissectionForm(props) {
+    _classCallCheck(this, AssembledDissectionForm);
+
+    var _this = _possibleConstructorReturn(this, (AssembledDissectionForm.__proto__ || Object.getPrototypeOf(AssembledDissectionForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      location: null,
+      direction: null,
+      lumen: null,
+      perfusion: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleSelectChange = _this.handleSelectChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(AssembledDissectionForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('dissection form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
+    key: 'handleSelectChange',
+    value: function handleSelectChange(e) {
+      var target = e.target;
+      this.setState(_defineProperty({}, target.name, target.value));
+      debugger;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var locations = ['aortic root', 'ascending aorta', 'arch', 'descending thoracic', 'suprarenal abdominal', 'infrarenal abdominal', 'iliac', 'renal', 'SMA', 'celiac', 'innominate', 'left carotid', 'left subclavian'];
+      var perfused = ['perfused', 'ischemic'];
+      var lumens = ['true lumen', 'false lumen', 'dissected'];
+      var directions = ['right', 'left', 'N/A'];
+      var parameterizedPlural = 'dissections';
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'tr',
+        { className: 'row_form', id: 'row_' + this.props.rowID },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'td',
+          { colSpan: 3 },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__HiddenFields__["a" /* default */], {
+            visit: this.props.visit,
+            topic: this.props.topic,
+            parameterizedPlural: parameterizedPlural,
+            rowID: this.props.rowID
+          }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-inline' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__SelectConstructor__["a" /* default */], {
+              arr: locations,
+              title: 'location',
+              parameterizedPlural: parameterizedPlural,
+              rowID: this.props.rowID,
+              name: 'location',
+              value: this.state.location,
+              onUnitChange: this.handleSelectChange
+            }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__SelectConstructor__["a" /* default */], {
+              arr: directions,
+              title: 'direction',
+              parameterizedPlural: parameterizedPlural,
+              rowID: this.props.rowID,
+              name: 'direction',
+              value: this.state.direction,
+              onUnitChange: this.handleSelectChange
+            }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__SelectConstructor__["a" /* default */], {
+              arr: lumens,
+              title: 'lumen',
+              parameterizedPlural: parameterizedPlural,
+              rowID: this.props.rowID,
+              name: 'lumen',
+              value: this.state.lumen,
+              onUnitChange: this.handleSelectChange
+            }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__SelectConstructor__["a" /* default */], {
+              arr: perfused,
+              title: 'perfusion',
+              parameterizedPlural: parameterizedPlural,
+              rowID: this.props.rowID,
+              name: 'perfusion',
+              value: this.state.perfusion,
+              onUnitChange: this.handleSelectChange
+            })
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-inline' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__TimeAgoField__["a" /* default */], {
+              topic: this.props.topic,
+              parameterizedPlural: parameterizedPlural,
+              rowID: this.props.rowID,
+              timeAgoAmount: this.state.timeAgoAmount,
+              timeAgoUnit: this.state.timeAgoUnit,
+              absoluteDate: this.state.absoluteDate,
+              onDateChange: this.handleChange
+            })
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-inline' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__NoteField__["a" /* default */], {
+              topic: this.props.topic,
+              parameterizedPlural: parameterizedPlural,
+              rowID: this.props.rowID,
+              noteValue: this.state.note,
+              onNoteChange: this.handleChange
+            }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__["a" /* default */], {
+              topic: this.props.topic,
+              parameterizedPlural: parameterizedPlural,
+              rowID: this.props.rowID,
+              attachedFile: this.state.file,
+              onFileChange: this.handleChange
+            }),
+            'What type of intervention was performed?'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__FindRelated__["a" /* default */], {
+            topic: this.props.topic,
+            unsortedTopics: this.props.unsortedTopics
+          })
+        )
+      );
+    }
+  }]);
+
+  return AssembledDissectionForm;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+AssembledDissectionForm.propTypes = {
+  unsortedTopics: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
+};
+
+/***/ }),
+/* 37 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MeasurementField; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectConstructor__ = __webpack_require__(15);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+__webpack_require__(13);
+__webpack_require__(18);
+__webpack_require__(19);
+__webpack_require__(20);
+
+var MeasurementField = function (_Component) {
+  _inherits(MeasurementField, _Component);
+
+  function MeasurementField(props) {
+    _classCallCheck(this, MeasurementField);
+
+    var _this = _possibleConstructorReturn(this, (MeasurementField.__proto__ || Object.getPrototypeOf(MeasurementField)).call(this, props));
+
+    _this.state = {
+      measurement: null,
+      units: null
+    };
+    _this.keyboardize = _this.keyboardize.bind(_this);
+    _this.handleMeasurementChange = _this.handleMeasurementChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(MeasurementField, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.$el = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this.el);
+      this.$el.addKeyboard();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.$el.addKeyboard('destroy');
+    }
+  }, {
+    key: 'keyboardize',
+    value: function keyboardize(e) {
+      e.preventDefault();
+      this.$el = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this.el);
+      var kb = this.$el.getkeyboard();
+      // close the keyboard if the keyboard is visible and the button is clicked a second time
+      if (kb.isOpen) {
+        kb.close();
+      } else {
+        kb.reveal();
+      }
+    }
+  }, {
+    key: 'handleMeasurementChange',
+    value: function handleMeasurementChange(event) {
+      this.props.onMeasChange(_defineProperty({}, event.target.name, event.target.value));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var options = this.props.topic.units_of_measurement;
+      return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
+        'div',
+        { className: 'form-inline' },
+        __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement('input', {
+          type: 'number',
+          name: 'measurement',
+          id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_test_amount',
+          className: 'form-control calculator',
+          min: this.props.topic.min_value,
+          max: this.props.topic.max_value,
+          step: this.props.topic.step,
+          value: this.state.measurement,
+          ref: function ref(el) {
+            return _this2.el = el;
+          },
+          onChange: this.handleMeasurementChange
+        }),
+        __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
+          'button',
+          {
+            className: 'btn btn-light calculator',
+            type: 'button',
+            id: this.props.parameterizedPlural + '_' + this.props.rowID + '_test_calc_button',
+            onClick: this.keyboardize
+          },
+          __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement('i', { className: 'fa fa-calculator' })
+        ),
+        __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__SelectConstructor__["a" /* default */], {
+          arr: options,
+          title: this.props.title,
+          attribute: this.props.title,
+          other: false,
+          name: 'units',
+          parameterizedPlural: this.props.parameterizedPlural,
+          rowID: this.props.rowID,
+          multiSelect: this.props.multiSelect,
+          onUnitChange: this.handleMeasurementChange
+        })
+      );
+    }
+  }]);
+
+  return MeasurementField;
+}(__WEBPACK_IMPORTED_MODULE_1_react__["Component"]);
+
+
+
+
+MeasurementField.defaultProps = {
+  title: 'units',
+  multiSelect: false
+};
+
+MeasurementField.propTypes = {
+  topic: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.object.isRequired,
+  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.string.isRequired,
+  multiSelect: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.bool.isRequired,
+  title: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.string.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_0_prop_types___default.a.number.isRequired
+};
+
+/***/ }),
+/* 38 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AssembledHospitalizationForm; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__DurationField__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FileAttachmentButton__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__FindRelated__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__HiddenFields__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Keywords__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__NoteField__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TimeAgoField__ = __webpack_require__(22);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+
+
+var AssembledHospitalizationForm = function (_Component) {
+  _inherits(AssembledHospitalizationForm, _Component);
+
+  function AssembledHospitalizationForm(props) {
+    _classCallCheck(this, AssembledHospitalizationForm);
+
+    var _this = _possibleConstructorReturn(this, (AssembledHospitalizationForm.__proto__ || Object.getPrototypeOf(AssembledHospitalizationForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      durationAmount: null,
+      durationUnit: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(AssembledHospitalizationForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('hospitalization form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        durationAmount: value.durationAmount || this.state.durationAmount,
+        durationUnit: value.durationUnit || this.state.durationUnit,
+        keywords: value.keywords || this.state.keywords,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var parameterizedPlural = 'hospitalizations';
+      var descriptors = void 0;
+      if (this.props.topic.descriptors) {
+        descriptors = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'form-group row' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'label',
+            { className: 'col-2 col-form-label' },
+            'Descriptors'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-inline col-10' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Keywords__["a" /* default */], {
+              topic: this.props.topic,
+              parameterizedPlural: parameterizedPlural,
+              rowID: this.props.rowID,
+              keywordsValue: this.state.keywords,
+              onKeywordsChange: this.handleChange
+            })
+          )
+        );
+      }
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'tr',
+        { className: 'row_form', id: 'row_' + this.props.rowID },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'td',
+          { colSpan: '3' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__HiddenFields__["a" /* default */], {
+            visit: this.props.visit,
+            topic: this.props.topic,
+            parameterizedPlural: parameterizedPlural,
+            rowID: this.props.rowID
+          }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-group row' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'label',
+              { className: 'col-2 col-form-label' },
+              'Admission Date'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'form-inline col-10' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__TimeAgoField__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleChange
+              })
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'form-group row' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'label',
+                { className: 'col-2 col-form-label' },
+                'Length of Stay'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'form-inline col-10' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__DurationField__["a" /* default */], {
+                  topic: this.props.topic,
+                  parameterizedPlural: parameterizedPlural,
+                  rowID: this.props.rowID,
+                  durationAmount: this.state.durationAmount,
+                  durationUnit: this.state.durationUnit,
+                  onDurationChange: this.handleChange
+                })
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'form-group row' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'label',
+                { className: 'col-2 col-form-label' },
+                'Descriptors'
+              ),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'form-inline col-10' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__NoteField__["a" /* default */], {
+                  topic: this.props.topic,
+                  parameterizedPlural: parameterizedPlural,
+                  rowID: this.props.rowID,
+                  noteValue: this.state.note,
+                  onNoteChange: this.handleChange
+                }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__FileAttachmentButton__["a" /* default */], {
+                  topic: this.props.topic,
+                  parameterizedPlural: parameterizedPlural,
+                  rowID: this.props.rowID,
+                  attachedFile: this.state.file,
+                  onFileChange: this.handleChange
+                })
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__FindRelated__["a" /* default */], {
+              topic: this.props.topic,
+              unsortedTopics: this.props.unsortedTopics
+            })
+          )
+        )
+      );
+    }
+  }]);
+
+  return AssembledHospitalizationForm;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+AssembledHospitalizationForm.propTypes = {
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  unsortedTopics: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
+  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
+};
+
+/***/ }),
+/* 39 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AssembledMeasurementForm; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TimeAgoField__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FileAttachmentButton__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__FindRelated__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__HiddenFields__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Keywords__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__MeasurementField__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__NoteField__ = __webpack_require__(17);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+
+
+var AssembledMeasurementForm = function (_Component) {
+  _inherits(AssembledMeasurementForm, _Component);
+
+  function AssembledMeasurementForm(props) {
+    _classCallCheck(this, AssembledMeasurementForm);
+
+    var _this = _possibleConstructorReturn(this, (AssembledMeasurementForm.__proto__ || Object.getPrototypeOf(AssembledMeasurementForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      measurement: null,
+      units: null,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(AssembledMeasurementForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('measurement form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        measurement: value.measurement || this.state.measurement,
+        units: value.units || this.state.units,
+        keywords: value.keywords || this.state.keywords,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+      if (this.props.topic.units_of_measurement.length === 1 && this.state.measurement) {
+        this.setState({
+          units: this.props.topic.units_of_measurement[0]
+        });
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var parameterizedPlural = 'tests';
+      var descriptors = void 0;
+      if (this.props.topic.descriptors) {
+        descriptors = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'form-group row' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'label',
+            { className: 'col-2 col-form-label' },
+            'Descriptors'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-inline col-10' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Keywords__["a" /* default */], {
+              topic: this.props.topic,
+              parameterizedPlural: parameterizedPlural,
+              rowID: this.props.rowID,
+              keywordsValue: this.state.keywords,
+              onKeywordsChange: this.handleChange
+            })
+          )
+        );
+      }
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'tr',
+        { className: 'row_form', id: 'row_' + this.props.rowID },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'td',
+          { colSpan: '3' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__HiddenFields__["a" /* default */], {
+            visit: this.props.visit,
+            topic: this.props.topic,
+            parameterizedPlural: parameterizedPlural,
+            rowID: this.props.rowID
+          }),
+          descriptors,
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-group row' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'label',
+              { className: 'col-2 col-form-label' },
+              'Measurement'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'form-inline col-10' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__MeasurementField__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                title: this.props.topic.name,
+                measurementValue: this.state.measurement,
+                unitOfMeas: this.state.units,
+                onMeasChange: this.handleChange
+              })
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-group row' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'label',
+              { className: 'col-2 col-form-label' },
+              'Date'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'form-inline col-10' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__TimeAgoField__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleChange
+              })
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-group row' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'label',
+              { className: 'col-2 col-form-label' },
+              'Note'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'form-inline col-10' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__NoteField__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                noteValue: this.state.note,
+                onNoteChange: this.handleChange
+              }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__FileAttachmentButton__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                attachedFile: this.state.file,
+                onFileChange: this.handleChange
+              })
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__FindRelated__["a" /* default */], {
+            topic: this.props.topic,
+            unsortedTopics: this.props.unsortedTopics
+          })
+        )
+      );
+    }
+  }]);
+
+  return AssembledMeasurementForm;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+AssembledMeasurementForm.propTypes = {
+  unsortedTopics: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
+};
 
 /***/ }),
 /* 40 */
@@ -19551,24 +16098,3832 @@ module.exports = global.Promise;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return RowForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AssembledMedicationForm; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_toggle_display__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__HiddenFields__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MedFormFields__ = __webpack_require__(91);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+var AssembledMedicationForm = function (_Component) {
+  _inherits(AssembledMedicationForm, _Component);
+
+  function AssembledMedicationForm(props) {
+    _classCallCheck(this, AssembledMedicationForm);
+
+    var _this = _possibleConstructorReturn(this, (AssembledMedicationForm.__proto__ || Object.getPrototypeOf(AssembledMedicationForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      measurement: null,
+      units: null,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      dose: null,
+      doseUnitOfMeasurement: null,
+      dosageForm: null,
+      dosageFormUnits: null,
+      ingestionMethod: null,
+      durationAmount: null,
+      durationUnit: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(AssembledMedicationForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('medication form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        dose: value.dose || this.state.dose,
+        doseUnitOfMeasurement: value.doseUnitOfMeasurement || this.state.doseUnitOfMeasurement,
+        dosageForm: value.dosageForm || this.state.dosageForm,
+        dosageFormUnits: value.dosageFormUnits || this.state.dosageFormUnits,
+        ingestionMethod: value.ingestionMethod || this.state.ingestionMethod,
+        durationAmount: value.durationAmount || this.state.durationAmount,
+        durationUnit: value.durationUnit || this.state.durationUnit,
+        measurement: value.measurement || this.state.measurement,
+        units: value.units || this.state.units,
+        keywords: value.keywords || this.state.keywords,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var parameterizedPlural = 'medications';
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'tr',
+        { className: 'row_form', id: 'row_' + this.props.rowID },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'td',
+          { colSpan: '3' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__HiddenFields__["a" /* default */], {
+            visit: this.props.visit,
+            topic: this.props.topic,
+            parameterizedPlural: parameterizedPlural,
+            rowID: this.props.rowID
+          }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__MedFormFields__["a" /* default */], {
+            topic: this.props.topic,
+            rowID: this.props.rowID,
+            onMedFormChange: this.handleChange
+          })
+        )
+      );
+    }
+  }]);
+
+  return AssembledMedicationForm;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+AssembledMedicationForm.propTypes = {
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
+};
+
+/***/ }),
+/* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AssembledProcedureForm; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FindRelated__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__HiddenFields__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Keywords__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__NoteField__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TimeAgoField__ = __webpack_require__(22);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+
+var AssembledProcedureForm = function (_Component) {
+  _inherits(AssembledProcedureForm, _Component);
+
+  function AssembledProcedureForm(props) {
+    _classCallCheck(this, AssembledProcedureForm);
+
+    var _this = _possibleConstructorReturn(this, (AssembledProcedureForm.__proto__ || Object.getPrototypeOf(AssembledProcedureForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(AssembledProcedureForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('procedure form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        keywords: value.keywords || this.state.keywords,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var parameterizedPlural = 'procedures';
+      var descriptors = void 0;
+      if (this.props.topic.descriptors) {
+        descriptors = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'form-group row' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'label',
+            { className: 'col-2 col-form-label' },
+            'Descriptors'
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-inline col-10' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Keywords__["a" /* default */], {
+              topic: this.props.topic,
+              parameterizedPlural: parameterizedPlural,
+              rowID: this.props.rowID,
+              keywordsValue: this.state.keywords,
+              onKeywordsChange: this.handleChange
+            })
+          )
+        );
+      }
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'tr',
+        { className: 'row_form', id: 'row_' + this.props.rowID },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'td',
+          { colSpan: '3' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__HiddenFields__["a" /* default */], {
+            visit: this.props.visit,
+            topic: this.props.topic,
+            parameterizedPlural: parameterizedPlural,
+            rowID: this.props.rowID
+          }),
+          descriptors,
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-group row' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'label',
+              { className: 'col-2 col-form-label' },
+              'Date'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'form-inline col-10' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__TimeAgoField__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleChange
+              })
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-group row' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'label',
+              { className: 'col-2 col-form-label' },
+              'Note'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'form-inline col-10' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__NoteField__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                noteValue: this.state.note,
+                onNoteChange: this.handleChange
+              }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                attachedFile: this.state.file,
+                onFileChange: this.handleChange
+              })
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__FindRelated__["a" /* default */], {
+            topic: this.props.topic,
+            unsortedTopics: this.props.unsortedTopics
+          })
+        )
+      );
+    }
+  }]);
+
+  return AssembledProcedureForm;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+AssembledProcedureForm.propTypes = {
+  unsortedTopics: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
+};
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! jQuery UI Virtual Keyboard v1.27.4 *//*
+Author: Jeremy Satterfield
+Maintained: Rob Garrison (Mottie on github)
+Licensed under the MIT License
+
+An on-screen virtual keyboard embedded within the browser window which
+will popup when a specified entry field is focused. The user can then
+type and preview their input before Accepting or Canceling.
+
+This plugin adds default class names to match jQuery UI theme styling.
+Bootstrap & custom themes may also be applied - See
+https://github.com/Mottie/Keyboard#themes
+
+Requires:
+	jQuery v1.4.3+
+	Caret plugin (included)
+Optional:
+	jQuery UI (position utility only) & CSS theme
+	jQuery mousewheel
+
+Setup/Usage:
+	Please refer to https://github.com/Mottie/Keyboard/wiki
+
+-----------------------------------------
+Caret code modified from jquery.caret.1.02.js
+Licensed under the MIT License:
+http://www.opensource.org/licenses/mit-license.php
+-----------------------------------------
+*/
+/*jshint browser:true, jquery:true, unused:false */
+/*global require:false, define:false, module:false */
+;(function (factory) {
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (typeof module === 'object' && typeof module.exports === 'object') {
+		module.exports = factory(require('jquery'));
+	} else {
+		factory(jQuery);
+	}
+}(function ($) {
+	'use strict';
+	var $keyboard = $.keyboard = function (el, options) {
+	var o, base = this;
+
+	base.version = '1.27.4';
+
+	// Access to jQuery and DOM versions of element
+	base.$el = $(el);
+	base.el = el;
+
+	// Add a reverse reference to the DOM object
+	base.$el.data('keyboard', base);
+
+	base.init = function () {
+		base.initialized = false;
+		var k, position, tmp,
+			kbcss = $keyboard.css,
+			kbevents = $keyboard.events;
+		base.settings = options || {};
+		// shallow copy position to prevent performance issues; see #357
+		if (options && options.position) {
+			position = $.extend({}, options.position);
+			options.position = null;
+		}
+		base.options = o = $.extend(true, {}, $keyboard.defaultOptions, options);
+		if (position) {
+			o.position = position;
+			options.position = position;
+		}
+
+		// keyboard is active (not destroyed);
+		base.el.active = true;
+		// unique keyboard namespace
+		base.namespace = '.keyboard' + Math.random().toString(16).slice(2);
+		// extension namespaces added here (to unbind listeners on base.$el upon destroy)
+		base.extensionNamespace = [];
+		// Shift and Alt key toggles, sets is true if a layout has more than one keyset
+		// used for mousewheel message
+		base.shiftActive = base.altActive = base.metaActive = base.sets = base.capsLock = false;
+		// Class names of the basic key set - meta keysets are handled by the keyname
+		base.rows = ['', '-shift', '-alt', '-alt-shift'];
+
+		base.inPlaceholder = base.$el.attr('placeholder') || '';
+		// html 5 placeholder/watermark
+		base.watermark = $keyboard.watermark && base.inPlaceholder !== '';
+		// convert mouse repeater rate (characters per second) into a time in milliseconds.
+		base.repeatTime = 1000 / (o.repeatRate || 20);
+		// delay in ms to prevent mousedown & touchstart from both firing events at the same time
+		o.preventDoubleEventTime = o.preventDoubleEventTime || 100;
+		// flag indication that a keyboard is open
+		base.isOpen = false;
+		// is mousewheel plugin loaded?
+		base.wheel = $.isFunction($.fn.mousewheel);
+		// special character in regex that need to be escaped
+		base.escapeRegex = /[-\/\\^$*+?.()|[\]{}]/g;
+		// detect contenteditable
+		base.isContentEditable = !/(input|textarea)/i.test(base.el.nodeName) &&
+			base.el.isContentEditable;
+
+		// keyCode of keys always allowed to be typed
+		k = $keyboard.keyCodes;
+		// base.alwaysAllowed = [20,33,34,35,36,37,38,39,40,45,46];
+		base.alwaysAllowed = [
+			k.capsLock,
+			k.pageUp,
+			k.pageDown,
+			k.end,
+			k.home,
+			k.left,
+			k.up,
+			k.right,
+			k.down,
+			k.insert,
+			k.delete
+		];
+		base.$keyboard = [];
+		// keyboard enabled; set to false on destroy
+		base.enabled = true;
+
+		base.checkCaret = (o.lockInput || $keyboard.checkCaretSupport());
+
+		// disable problematic usePreview for contenteditable
+		if (base.isContentEditable) {
+			o.usePreview = false;
+		}
+
+		base.last = {
+			start: 0,
+			end: 0,
+			key: '',
+			val: '',
+			preVal: '',
+			layout: '',
+			virtual: true,
+			keyset: [false, false, false], // [shift, alt, meta]
+			wheel_$Keys: null,
+			wheelIndex: 0,
+			wheelLayers: []
+		};
+		// used when building the keyboard - [keyset element, row, index]
+		base.temp = ['', 0, 0];
+
+		// Callbacks
+		$.each([
+			kbevents.kbInit,
+			kbevents.kbBeforeVisible,
+			kbevents.kbVisible,
+			kbevents.kbHidden,
+			kbevents.inputCanceled,
+			kbevents.inputAccepted,
+			kbevents.kbBeforeClose,
+			kbevents.inputRestricted
+		], function (i, callback) {
+			if ($.isFunction(o[callback])) {
+				// bind callback functions within options to triggered events
+				base.$el.bind(callback + base.namespace + 'callbacks', o[callback]);
+			}
+		});
+
+		// Close with esc key & clicking outside
+		if (o.alwaysOpen) {
+			o.stayOpen = true;
+		}
+
+		tmp = $(document);
+		if (base.el.ownerDocument !== document) {
+			tmp = tmp.add(base.el.ownerDocument);
+		}
+
+		var bindings = 'keyup checkkeyboard mousedown touchstart ';
+		if (o.closeByClickEvent) {
+			bindings += 'click ';
+		}
+		// debounce bindings... see #542
+		tmp.bind(bindings.split(' ').join(base.namespace + ' '), function(e) {
+			clearTimeout(base.timer3);
+			base.timer3 = setTimeout(function() {
+				base.checkClose(e);
+			}, 1);
+		});
+
+		// Display keyboard on focus
+		base.$el
+			.addClass(kbcss.input + ' ' + o.css.input)
+			.attr({
+				'aria-haspopup': 'true',
+				'role': 'textbox'
+			});
+
+		// set lockInput if the element is readonly; or make the element readonly if lockInput is set
+		if (o.lockInput || base.el.readOnly) {
+			o.lockInput = true;
+			base.$el
+				.addClass(kbcss.locked)
+				.attr({
+					'readonly': 'readonly'
+				});
+		}
+		// add disabled/readonly class - dynamically updated on reveal
+		if (base.$el.is(':disabled') || (base.$el.attr('readonly') &&
+				!base.$el.hasClass(kbcss.locked))) {
+			base.$el.addClass(kbcss.noKeyboard);
+		}
+		if (o.openOn) {
+			base.bindFocus();
+		}
+
+		// Add placeholder if not supported by the browser
+		if (
+			!base.watermark &&
+			base.getValue(base.$el) === '' &&
+			base.inPlaceholder !== '' &&
+			base.$el.attr('placeholder') !== ''
+		) {
+			// css watermark style (darker text)
+			base.$el.addClass(kbcss.placeholder);
+			base.setValue(base.inPlaceholder, base.$el);
+		}
+
+		base.$el.trigger(kbevents.kbInit, [base, base.el]);
+
+		// initialized with keyboard open
+		if (o.alwaysOpen) {
+			base.reveal();
+		}
+		base.initialized = true;
+	};
+
+	base.toggle = function () {
+		if (!base.hasKeyboard()) { return; }
+		var $toggle = base.$keyboard.find('.' + $keyboard.css.keyToggle),
+			locked = !base.enabled;
+		// prevent physical keyboard from working
+		base.preview.readonly = locked || base.options.lockInput;
+		// disable all buttons
+		base.$keyboard
+			.toggleClass($keyboard.css.keyDisabled, locked)
+			.find('.' + $keyboard.css.keyButton)
+			.not($toggle)
+			.attr('aria-disabled', locked)
+			.each(function() {
+				this.disabled = locked;
+			});
+		$toggle.toggleClass($keyboard.css.keyDisabled, locked);
+		// stop auto typing
+		if (locked && base.typing_options) {
+			base.typing_options.text = '';
+		}
+		// allow chaining
+		return base;
+	};
+
+	base.setCurrent = function () {
+		var kbcss = $keyboard.css,
+			// close any "isCurrent" keyboard (just in case they are always open)
+			$current = $('.' + kbcss.isCurrent),
+			kb = $current.data('keyboard');
+		// close keyboard, if not self
+		if (!$.isEmptyObject(kb) && kb.el !== base.el) {
+			kb.close(kb.options.autoAccept ? 'true' : false);
+		}
+		$current.removeClass(kbcss.isCurrent);
+		// ui-keyboard-has-focus is applied in case multiple keyboards have
+		// alwaysOpen = true and are stacked
+		$('.' + kbcss.hasFocus).removeClass(kbcss.hasFocus);
+
+		base.$el.addClass(kbcss.isCurrent);
+		base.$keyboard.addClass(kbcss.hasFocus);
+		base.isCurrent(true);
+		base.isOpen = true;
+	};
+
+	base.isCurrent = function (set) {
+		var cur = $keyboard.currentKeyboard || false;
+		if (set) {
+			cur = $keyboard.currentKeyboard = base.el;
+		} else if (set === false && cur === base.el) {
+			cur = $keyboard.currentKeyboard = '';
+		}
+		return cur === base.el;
+	};
+
+	base.hasKeyboard = function () {
+		return base.$keyboard && base.$keyboard.length > 0;
+	};
+
+	base.isVisible = function () {
+		return base.hasKeyboard() ? base.$keyboard.is(':visible') : false;
+	};
+
+	base.setFocus = function () {
+		var $el = base.$preview || base.$el;
+		if (!o.noFocus) {
+			$el.focus();
+		}
+		if (base.isContentEditable) {
+			$keyboard.setEditableCaret($el, base.last.start, base.last.end);
+		} else {
+			$keyboard.caret($el, base.last);
+		}
+	};
+
+	base.focusOn = function () {
+		if (!base && base.el.active) {
+			// keyboard was destroyed
+			return;
+		}
+		if (!base.isVisible()) {
+			clearTimeout(base.timer);
+			base.reveal();
+		} else {
+			// keyboard already open, make it the current keyboard
+			base.setCurrent();
+		}
+	};
+
+	// add redraw method to make API more clear
+	base.redraw = function (layout) {
+		if (layout) {
+			// allow updating the layout by calling redraw
+			base.options.layout = layout;
+		}
+		// update keyboard after a layout change
+		if (base.$keyboard.length) {
+
+			base.last.preVal = '' + base.last.val;
+			base.saveLastChange();
+			base.setValue(base.last.val, base.$el);
+
+			base.removeKeyboard();
+			base.shiftActive = base.altActive = base.metaActive = false;
+		}
+		base.isOpen = o.alwaysOpen;
+		base.reveal(true);
+		return base;
+	};
+
+	base.reveal = function (redraw) {
+		var temp,
+			alreadyOpen = base.isOpen,
+			kbcss = $keyboard.css;
+		base.opening = !alreadyOpen;
+		// remove all 'extra' keyboards by calling close function
+		$('.' + kbcss.keyboard).not('.' + kbcss.alwaysOpen).each(function(){
+			var kb = $(this).data('keyboard');
+			if (!$.isEmptyObject(kb)) {
+				// this closes previous keyboard when clicking another input - see #515
+				kb.close(kb.options.autoAccept ? 'true' : false);
+			}
+		});
+
+		// Don't open if disabled
+		if (base.$el.is(':disabled') || (base.$el.attr('readonly') && !base.$el.hasClass(kbcss.locked))) {
+			base.$el.addClass(kbcss.noKeyboard);
+			return;
+		} else {
+			base.$el.removeClass(kbcss.noKeyboard);
+		}
+
+		// Unbind focus to prevent recursion - openOn may be empty if keyboard is opened externally
+		if (o.openOn) {
+			base.$el.unbind($.trim((o.openOn + ' ').split(/\s+/).join(base.namespace + ' ')));
+		}
+
+		// build keyboard if it doesn't exist; or attach keyboard if it was removed, but not cleared
+		if (!base.$keyboard || base.$keyboard &&
+			(!base.$keyboard.length || $.contains(base.el.ownerDocument.body, base.$keyboard[0]))) {
+			base.startup();
+		}
+
+		// clear watermark
+		if (!base.watermark && base.getValue() === base.inPlaceholder) {
+			base.$el.removeClass(kbcss.placeholder);
+			base.setValue('', base.$el);
+		}
+		// save starting content, in case we cancel
+		base.originalContent = base.isContentEditable ?
+			base.$el.html() :
+			base.getValue(base.$el);
+		if (base.el !== base.preview && !base.isContentEditable) {
+			base.setValue(base.originalContent);
+		}
+
+		// disable/enable accept button
+		if (o.acceptValid) {
+			base.checkValid();
+		}
+
+		if (o.resetDefault) {
+			base.shiftActive = base.altActive = base.metaActive = false;
+		}
+		base.showSet();
+
+		// beforeVisible event
+		if (!base.isVisible()) {
+			base.$el.trigger($keyboard.events.kbBeforeVisible, [base, base.el]);
+		}
+		if (
+			base.initialized ||
+			o.initialFocus ||
+			( !o.initialFocus && base.$el.hasClass($keyboard.css.initialFocus) )
+		) {
+			base.setCurrent();
+		}
+		// update keyboard - enabled or disabled?
+		base.toggle();
+
+		// show keyboard
+		base.$keyboard.show();
+
+		// adjust keyboard preview window width - save width so IE won't keep expanding (fix issue #6)
+		if (o.usePreview && $keyboard.msie) {
+			if (typeof base.width === 'undefined') {
+				base.$preview.hide(); // preview is 100% browser width in IE7, so hide the damn thing
+				base.width = Math.ceil(base.$keyboard.width()); // set input width to match the widest keyboard row
+				base.$preview.show();
+			}
+			base.$preview.width(base.width);
+		}
+
+		base.reposition();
+
+		base.checkDecimal();
+
+		// get preview area line height
+		// add roughly 4px to get line height from font height, works well for font-sizes from 14-36px
+		// needed for textareas
+		base.lineHeight = parseInt(base.$preview.css('lineHeight'), 10) ||
+			parseInt(base.$preview.css('font-size'), 10) + 4;
+
+		if (o.caretToEnd) {
+			temp = base.isContentEditable ? $keyboard.getEditableLength(base.el) : base.originalContent.length;
+			base.saveCaret(temp, temp);
+		}
+
+		// IE caret haxx0rs
+		if ($keyboard.allie) {
+			// sometimes end = 0 while start is > 0
+			if (base.last.end === 0 && base.last.start > 0) {
+				base.last.end = base.last.start;
+			}
+			// IE will have start -1, end of 0 when not focused (see demo: https://jsfiddle.net/Mottie/fgryQ/3/)
+			if (base.last.start < 0) {
+				// ensure caret is at the end of the text (needed for IE)
+				base.last.start = base.last.end = base.originalContent.length;
+			}
+		}
+
+		if (alreadyOpen || redraw) {
+			// restore caret position (userClosed)
+			$keyboard.caret(base.$preview, base.last);
+			return base;
+		}
+
+		// opening keyboard flag; delay allows switching between keyboards without immediately closing
+		// the keyboard
+		base.timer2 = setTimeout(function () {
+			var undef;
+			base.opening = false;
+			// Number inputs don't support selectionStart and selectionEnd
+			// Number/email inputs don't support selectionStart and selectionEnd
+			if (!/(number|email)/i.test(base.el.type) && !o.caretToEnd) {
+				// caret position is always 0,0 in webkit; and nothing is focused at this point... odd
+				// save caret position in the input to transfer it to the preview
+				// inside delay to get correct caret position
+				base.saveCaret(undef, undef, base.$el);
+			}
+			if (o.initialFocus || base.$el.hasClass($keyboard.css.initialFocus)) {
+				$keyboard.caret(base.$preview, base.last);
+			}
+			// save event time for keyboards with stayOpen: true
+			base.last.eventTime = new Date().getTime();
+			base.$el.trigger($keyboard.events.kbVisible, [base, base.el]);
+			base.timer = setTimeout(function () {
+				// get updated caret information after visible event - fixes #331
+				if (base) { // Check if base exists, this is a case when destroy is called, before timers fire
+					base.saveCaret();
+				}
+			}, 200);
+		}, 10);
+		// return base to allow chaining in typing extension
+		return base;
+	};
+
+	base.updateLanguage = function () {
+		// change language if layout is named something like 'french-azerty-1'
+		var layouts = $keyboard.layouts,
+			lang = o.language || layouts[o.layout] && layouts[o.layout].lang &&
+				layouts[o.layout].lang || [o.language || 'en'],
+			kblang = $keyboard.language;
+
+		// some languages include a dash, e.g. 'en-gb' or 'fr-ca'
+		// allow o.language to be a string or array...
+		// array is for future expansion where a layout can be set for multiple languages
+		lang = ($.isArray(lang) ? lang[0] : lang);
+		base.language = lang;
+		lang = lang.split('-')[0];
+
+		// set keyboard language
+		o.display = $.extend(true, {},
+			kblang.en.display,
+			kblang[lang] && kblang[lang].display || {},
+			base.settings.display
+		);
+		o.combos = $.extend(true, {},
+			kblang.en.combos,
+			kblang[lang] && kblang[lang].combos || {},
+			base.settings.combos
+		);
+		o.wheelMessage = kblang[lang] && kblang[lang].wheelMessage || kblang.en.wheelMessage;
+		// rtl can be in the layout or in the language definition; defaults to false
+		o.rtl = layouts[o.layout] && layouts[o.layout].rtl || kblang[lang] && kblang[lang].rtl || false;
+
+		// save default regex (in case loading another layout changes it)
+		base.regex = kblang[lang] && kblang[lang].comboRegex || $keyboard.comboRegex;
+		// determine if US '.' or European ',' system being used
+		base.decimal = /^\./.test(o.display.dec);
+		base.$el
+			.toggleClass('rtl', o.rtl)
+			.css('direction', o.rtl ? 'rtl' : '');
+	};
+
+	base.startup = function () {
+		var kbcss = $keyboard.css;
+		// ensure base.$preview is defined; but don't overwrite it if keyboard is always visible
+		if (!((o.alwaysOpen || o.userClosed) && base.$preview)) {
+			base.makePreview();
+		}
+		if (!base.hasKeyboard()) {
+			// custom layout - create a unique layout name based on the hash
+			if (o.layout === 'custom') {
+				o.layoutHash = 'custom' + base.customHash();
+			}
+			base.layout = o.layout === 'custom' ? o.layoutHash : o.layout;
+			base.last.layout = base.layout;
+
+			base.updateLanguage();
+			if (typeof $keyboard.builtLayouts[base.layout] === 'undefined') {
+				if ($.isFunction(o.create)) {
+					// create must call buildKeyboard() function; or create it's own keyboard
+					base.$keyboard = o.create(base);
+				} else if (!base.$keyboard.length) {
+					base.buildKeyboard(base.layout, true);
+				}
+			}
+			base.$keyboard = $keyboard.builtLayouts[base.layout].$keyboard.clone();
+			base.$keyboard.data('keyboard', base);
+			if ((base.el.id || '') !== '') {
+				// add ID to keyboard for styling purposes
+				base.$keyboard.attr('id', base.el.id + $keyboard.css.idSuffix);
+			}
+
+			base.makePreview();
+		}
+
+		// Add layout and laguage data-attibutes
+		base.$keyboard
+			.attr('data-' + kbcss.keyboard + '-layout', o.layout)
+			.attr('data-' + kbcss.keyboard + '-language', base.language);
+
+		base.$decBtn = base.$keyboard.find('.' + kbcss.keyPrefix + 'dec');
+		// add enter to allowed keys; fixes #190
+		if (o.enterNavigation || base.el.nodeName === 'TEXTAREA') {
+			base.alwaysAllowed.push(13);
+		}
+
+		base.bindKeyboard();
+
+		base.$keyboard.appendTo(o.appendLocally ? base.$el.parent() : o.appendTo || 'body');
+
+		base.bindKeys();
+
+		// reposition keyboard on window resize
+		if (o.reposition && $.ui && $.ui.position && o.appendTo == 'body') {
+			$(window).bind('resize' + base.namespace, function () {
+				base.reposition();
+			});
+		}
+
+	};
+
+	base.reposition = function () {
+		base.position = $.isEmptyObject(o.position) ? false : o.position;
+		// position after keyboard is visible (required for UI position utility)
+		// and appropriately sized
+		if ($.ui && $.ui.position && base.position) {
+			base.position.of =
+				// get single target position
+				base.position.of ||
+				// OR target stored in element data (multiple targets)
+				base.$el.data('keyboardPosition') ||
+				// OR default @ element
+				base.$el;
+			base.position.collision = base.position.collision || 'flipfit flipfit';
+			base.position.at = o.usePreview ? o.position.at : o.position.at2;
+			if (base.isVisible()) {
+				base.$keyboard.position(base.position);
+			}
+		}
+		// make chainable
+		return base;
+	};
+
+	base.makePreview = function () {
+		if (o.usePreview) {
+			var indx, attrs, attr, removedAttr,
+				kbcss = $keyboard.css;
+			base.$preview = base.$el.clone(false)
+				.data('keyboard', base)
+				.removeClass(kbcss.placeholder + ' ' + kbcss.input)
+				.addClass(kbcss.preview + ' ' + o.css.input)
+				.attr('tabindex', '-1')
+				.show(); // for hidden inputs
+			base.preview = base.$preview[0];
+
+			// Switch the number input field to text so the caret positioning will work again
+			if (base.preview.type === 'number') {
+				base.preview.type = 'text';
+			}
+
+			// remove extraneous attributes.
+			removedAttr = /^(data-|id|aria-haspopup)/i;
+			attrs = base.$preview.get(0).attributes;
+			for (indx = attrs.length - 1; indx >= 0; indx--) {
+				attr = attrs[indx] && attrs[indx].name;
+				if (removedAttr.test(attr)) {
+					// remove data-attributes - see #351
+					base.preview.removeAttribute(attr);
+				}
+			}
+			// build preview container and append preview display
+			$('<div />')
+				.addClass(kbcss.wrapper)
+				.append(base.$preview)
+				.prependTo(base.$keyboard);
+		} else {
+			base.$preview = base.$el;
+			base.preview = base.el;
+		}
+	};
+
+	// Added in v1.26.8 to allow chaining of the caret function, e.g.
+	// keyboard.reveal().caret(4,5).insertText('test').caret('end');
+	base.caret = function(param1, param2) {
+		var result = $keyboard.caret(base.$preview, param1, param2),
+			wasSetCaret = result instanceof $;
+		// Caret was set, save last position & make chainable
+		if (wasSetCaret) {
+			base.saveCaret(result.start, result.end);
+			return base;
+		}
+		// return caret position if using .caret()
+		return result;
+	};
+
+	base.saveCaret = function (start, end, $el) {
+		if (base.isCurrent()) {
+			var p;
+			if (typeof start === 'undefined') {
+				// grab & save current caret position
+				p = $keyboard.caret($el || base.$preview);
+			} else {
+				p = $keyboard.caret($el || base.$preview, start, end);
+			}
+			base.last.start = typeof start === 'undefined' ? p.start : start;
+			base.last.end = typeof end === 'undefined' ? p.end : end;
+		}
+	};
+
+	base.saveLastChange = function (val) {
+		base.last.val = val || base.getValue(base.$preview || base.$el);
+		if (base.isContentEditable) {
+			base.last.elms = base.el.cloneNode(true);
+		}
+	};
+
+	base.setScroll = function () {
+		// Set scroll so caret & current text is in view
+		// needed for virtual keyboard typing, NOT manual typing - fixes #23
+		if (!base.isContentEditable && base.last.virtual) {
+
+			var scrollWidth, clientWidth, adjustment, direction,
+				isTextarea = base.preview.nodeName === 'TEXTAREA',
+				value = base.last.val.substring(0, Math.max(base.last.start, base.last.end));
+
+			if (!base.$previewCopy) {
+				// clone preview
+				base.$previewCopy = base.$preview.clone()
+					.removeAttr('id') // fixes #334
+					.css({
+						position: 'absolute',
+						left: 0,
+						zIndex: -10,
+						visibility: 'hidden'
+					})
+					.addClass($keyboard.css.inputClone);
+				// prevent submitting content on form submission
+				base.$previewCopy[0].disabled = true;
+				if (!isTextarea) {
+					// make input zero-width because we need an accurate scrollWidth
+					base.$previewCopy.css({
+						'white-space': 'pre',
+						'width': 0
+					});
+				}
+				if (o.usePreview) {
+					// add clone inside of preview wrapper
+					base.$preview.after(base.$previewCopy);
+				} else {
+					// just slap that thing in there somewhere
+					base.$keyboard.prepend(base.$previewCopy);
+				}
+			}
+
+			if (isTextarea) {
+				// need the textarea scrollHeight, so set the clone textarea height to be the line height
+				base.$previewCopy
+					.height(base.lineHeight)
+					.val(value);
+				// set scrollTop for Textarea
+				base.preview.scrollTop = base.lineHeight *
+					(Math.floor(base.$previewCopy[0].scrollHeight / base.lineHeight) - 1);
+			} else {
+				// add non-breaking spaces
+				base.$previewCopy.val(value.replace(/\s/g, '\xa0'));
+
+				// if scrollAdjustment option is set to "c" or "center" then center the caret
+				adjustment = /c/i.test(o.scrollAdjustment) ? base.preview.clientWidth / 2 : o.scrollAdjustment;
+				scrollWidth = base.$previewCopy[0].scrollWidth - 1;
+
+				// set initial state as moving right
+				if (typeof base.last.scrollWidth === 'undefined') {
+					base.last.scrollWidth = scrollWidth;
+					base.last.direction = true;
+				}
+				// if direction = true; we're scrolling to the right
+				direction = base.last.scrollWidth === scrollWidth ?
+					base.last.direction :
+					base.last.scrollWidth < scrollWidth;
+				clientWidth = base.preview.clientWidth - adjustment;
+
+				// set scrollLeft for inputs; try to mimic the inherit caret positioning + scrolling:
+				// hug right while scrolling right...
+				if (direction) {
+					if (scrollWidth < clientWidth) {
+						base.preview.scrollLeft = 0;
+					} else {
+						base.preview.scrollLeft = scrollWidth - clientWidth;
+					}
+				} else {
+					// hug left while scrolling left...
+					if (scrollWidth >= base.preview.scrollWidth - clientWidth) {
+						base.preview.scrollLeft = base.preview.scrollWidth - adjustment;
+					} else if (scrollWidth - adjustment > 0) {
+						base.preview.scrollLeft = scrollWidth - adjustment;
+					} else {
+						base.preview.scrollLeft = 0;
+					}
+				}
+
+				base.last.scrollWidth = scrollWidth;
+				base.last.direction = direction;
+			}
+		}
+	};
+
+	base.bindFocus = function () {
+		if (o.openOn) {
+			// make sure keyboard isn't destroyed
+			// Check if base exists, this is a case when destroy is called, before timers have fired
+			if (base && base.el.active) {
+				base.$el.bind(o.openOn + base.namespace, function () {
+					base.focusOn();
+				});
+				// remove focus from element (needed for IE since blur doesn't seem to work)
+				if ($(':focus')[0] === base.el) {
+					base.$el.blur();
+				}
+			}
+		}
+	};
+
+	base.bindKeyboard = function () {
+		var evt,
+			keyCodes = $keyboard.keyCodes,
+			layout = $keyboard.builtLayouts[base.layout],
+			namespace = base.namespace + 'keybindings';
+		base.$preview
+			.unbind(base.namespace)
+			.bind('click' + namespace + ' touchstart' + namespace, function () {
+				if (o.alwaysOpen && !base.isCurrent()) {
+					base.reveal();
+				}
+				// update last caret position after user click, use at least 150ms or it doesn't work in IE
+				base.timer2 = setTimeout(function () {
+					if (base){
+						base.saveCaret();
+					}
+				}, 150);
+
+			})
+			.bind('keypress' + namespace, function (e) {
+				if (o.lockInput) {
+					return false;
+				}
+				if (!base.isCurrent()) {
+					return;
+				}
+
+				var k = e.charCode || e.which,
+					// capsLock can only be checked while typing a-z
+					k1 = k >= keyCodes.A && k <= keyCodes.Z,
+					k2 = k >= keyCodes.a && k <= keyCodes.z,
+					str = base.last.key = String.fromCharCode(k);
+				// check, that keypress wasn't rise by functional key
+				// space is first typing symbol in UTF8 table
+				if (k < keyCodes.space) { //see #549
+					return;
+				}
+				base.last.virtual = false;
+				base.last.event = e;
+				base.last.$key = []; // not a virtual keyboard key
+				if (base.checkCaret) {
+					base.saveCaret();
+				}
+
+				// update capsLock
+				if (k !== keyCodes.capsLock && (k1 || k2)) {
+					base.capsLock = (k1 && !e.shiftKey) || (k2 && e.shiftKey);
+					// if shifted keyset not visible, then show it
+					if (base.capsLock && !base.shiftActive) {
+						base.shiftActive = true;
+						base.showSet();
+					}
+				}
+
+				// restrict input - keyCode in keypress special keys:
+				// see http://www.asquare.net/javascript/tests/KeyCode.html
+				if (o.restrictInput) {
+					// allow navigation keys to work - Chrome doesn't fire a keypress event (8 = bksp)
+					if ((e.which === keyCodes.backSpace || e.which === 0) &&
+						$.inArray(e.keyCode, base.alwaysAllowed)) {
+						return;
+					}
+					// quick key check
+					if ($.inArray(str, layout.acceptedKeys) === -1) {
+						e.preventDefault();
+						// copy event object in case e.preventDefault() breaks when changing the type
+						evt = $.extend({}, e);
+						evt.type = $keyboard.events.inputRestricted;
+						base.$el.trigger(evt, [base, base.el]);
+					}
+				} else if ((e.ctrlKey || e.metaKey) &&
+					(e.which === keyCodes.A || e.which === keyCodes.C || e.which === keyCodes.V ||
+						(e.which >= keyCodes.X && e.which <= keyCodes.Z))) {
+					// Allow select all (ctrl-a), copy (ctrl-c), paste (ctrl-v) & cut (ctrl-x) &
+					// redo (ctrl-y)& undo (ctrl-z); meta key for mac
+					return;
+				}
+				// Mapped Keys - allows typing on a regular keyboard and the mapped key is entered
+				// Set up a key in the layout as follows: 'm(a):label'; m = key to map, (a) = actual keyboard key
+				// to map to (optional), ':label' = title/tooltip (optional)
+				// example: \u0391 or \u0391(A) or \u0391:alpha or \u0391(A):alpha
+				if (layout.hasMappedKeys && layout.mappedKeys.hasOwnProperty(str)) {
+					base.last.key = layout.mappedKeys[str];
+					base.insertText(base.last.key);
+					e.preventDefault();
+				}
+				if (typeof o.beforeInsert === 'function') {
+					base.insertText(base.last.key);
+					e.preventDefault();
+				}
+				base.checkMaxLength();
+
+			})
+			.bind('keyup' + namespace, function (e) {
+				if (!base.isCurrent()) { return; }
+				base.last.virtual = false;
+				switch (e.which) {
+					// Insert tab key
+				case keyCodes.tab:
+					// Added a flag to prevent from tabbing into an input, keyboard opening, then adding the tab
+					// to the keyboard preview area on keyup. Sadly it still happens if you don't release the tab
+					// key immediately because keydown event auto-repeats
+					if (base.tab && o.tabNavigation && !o.lockInput) {
+						base.shiftActive = e.shiftKey;
+						// when switching inputs, the tab keyaction returns false
+						var notSwitching = $keyboard.keyaction.tab(base);
+						base.tab = false;
+						if (!notSwitching) {
+							return false;
+						}
+					} else {
+						e.preventDefault();
+					}
+					break;
+
+					// Escape will hide the keyboard
+				case keyCodes.escape:
+					if (!o.ignoreEsc) {
+						base.close(o.autoAccept && o.autoAcceptOnEsc ? 'true' : false);
+					}
+					return false;
+				}
+
+				// throttle the check combo function because fast typers will have an incorrectly positioned caret
+				clearTimeout(base.throttled);
+				base.throttled = setTimeout(function () {
+					// fix error in OSX? see issue #102
+					if (base && base.isVisible()) {
+						base.checkCombos();
+					}
+				}, 100);
+
+				base.checkMaxLength();
+
+				base.last.preVal = '' + base.last.val;
+				base.saveLastChange();
+
+				// don't alter "e" or the "keyup" event never finishes processing; fixes #552
+				var event = $.Event( $keyboard.events.kbChange );
+				// base.last.key may be empty string (shift, enter, tab, etc) when keyboard is first visible
+				// use e.key instead, if browser supports it
+				event.action = base.last.key;
+				base.$el.trigger(event, [base, base.el]);
+
+				// change callback is no longer bound to the input element as the callback could be
+				// called during an external change event with all the necessary parameters (issue #157)
+				if ($.isFunction(o.change)) {
+					event.type = $keyboard.events.inputChange;
+					o.change(event, base, base.el);
+					return false;
+				}
+				if (o.acceptValid && o.autoAcceptOnValid) {
+					if (
+						$.isFunction(o.validate) &&
+						o.validate(base, base.getValue(base.$preview))
+					) {
+						base.$preview.blur();
+						base.accept();
+					}
+				}
+			})
+			.bind('keydown' + namespace, function (e) {
+				base.last.keyPress = e.which;
+				// ensure alwaysOpen keyboards are made active
+				if (o.alwaysOpen && !base.isCurrent()) {
+					base.reveal();
+				}
+				// prevent tab key from leaving the preview window
+				if (e.which === keyCodes.tab) {
+					// allow tab to pass through - tab to next input/shift-tab for prev
+					base.tab = true;
+					return false;
+				}
+
+				if (o.lockInput) {
+					return false;
+				}
+
+				base.last.virtual = false;
+				switch (e.which) {
+
+				case keyCodes.backSpace:
+					$keyboard.keyaction.bksp(base, null, e);
+					e.preventDefault();
+					break;
+
+				case keyCodes.enter:
+					$keyboard.keyaction.enter(base, null, e);
+					break;
+
+					// Show capsLock
+				case keyCodes.capsLock:
+					base.shiftActive = base.capsLock = !base.capsLock;
+					base.showSet();
+					break;
+
+				case keyCodes.V:
+					// prevent ctrl-v/cmd-v
+					if (e.ctrlKey || e.metaKey) {
+						if (o.preventPaste) {
+							e.preventDefault();
+							return;
+						}
+						base.checkCombos(); // check pasted content
+					}
+					break;
+				}
+			})
+			.bind('mouseup touchend '.split(' ').join(namespace + ' '), function () {
+				base.last.virtual = true;
+				base.saveCaret();
+			});
+
+		// prevent keyboard event bubbling
+		base.$keyboard.bind('mousedown click touchstart '.split(' ').join(base.namespace + ' '), function (e) {
+			e.stopPropagation();
+			if (!base.isCurrent()) {
+				base.reveal();
+				$(base.el.ownerDocument).trigger('checkkeyboard' + base.namespace);
+			}
+			base.setFocus();
+		});
+
+		// If preventing paste, block context menu (right click)
+		if (o.preventPaste) {
+			base.$preview.bind('contextmenu' + base.namespace, function (e) {
+				e.preventDefault();
+			});
+			base.$el.bind('contextmenu' + base.namespace, function (e) {
+				e.preventDefault();
+			});
+		}
+
+	};
+
+	base.bindKeys = function () {
+		var kbcss = $keyboard.css;
+		base.$allKeys = base.$keyboard.find('button.' + kbcss.keyButton)
+			.unbind(base.namespace + ' ' + base.namespace + 'kb')
+			// Change hover class and tooltip - moved this touchstart before option.keyBinding touchstart
+			// to prevent mousewheel lag/duplication - Fixes #379 & #411
+			.bind('mouseenter mouseleave touchstart '.split(' ').join(base.namespace + ' '), function (e) {
+				if ((o.alwaysOpen || o.userClosed) && e.type !== 'mouseleave' && !base.isCurrent()) {
+					base.reveal();
+					base.setFocus();
+				}
+				if (!base.isCurrent() || this.disabled) {
+					return;
+				}
+				var $keys, txt,
+					last = base.last,
+					$this = $(this),
+					type = e.type;
+
+				if (o.useWheel && base.wheel) {
+					$keys = base.getLayers($this);
+					txt = ($keys.length ? $keys.map(function () {
+							return $(this).attr('data-value') || '';
+						})
+						.get() : '') || [$this.text()];
+					last.wheel_$Keys = $keys;
+					last.wheelLayers = txt;
+					last.wheelIndex = $.inArray($this.attr('data-value'), txt);
+				}
+
+				if ((type === 'mouseenter' || type === 'touchstart') && base.el.type !== 'password' &&
+					!$this.hasClass(o.css.buttonDisabled)) {
+					$this.addClass(o.css.buttonHover);
+					if (o.useWheel && base.wheel) {
+						$this.attr('title', function (i, t) {
+							// show mouse wheel message
+							return (base.wheel && t === '' && base.sets && txt.length > 1 && type !== 'touchstart') ?
+								o.wheelMessage : t;
+						});
+					}
+				}
+				if (type === 'mouseleave') {
+					// needed or IE flickers really bad
+					$this.removeClass((base.el.type === 'password') ? '' : o.css.buttonHover);
+					if (o.useWheel && base.wheel) {
+						last.wheelIndex = 0;
+						last.wheelLayers = [];
+						last.wheel_$Keys = null;
+						$this
+							.attr('title', function (i, t) {
+								return (t === o.wheelMessage) ? '' : t;
+							})
+							.html($this.attr('data-html')); // restore original button text
+					}
+				}
+			})
+			// keyBinding = 'mousedown touchstart' by default
+			.bind(o.keyBinding.split(' ').join(base.namespace + ' ') + base.namespace + ' ' +
+				$keyboard.events.kbRepeater, function (e) {
+				e.preventDefault();
+				// prevent errors when external triggers attempt to 'type' - see issue #158
+				if (!base.$keyboard.is(':visible') || this.disabled) {
+					return false;
+				}
+				var action, $keys,
+					last = base.last,
+					key = this,
+					$key = $(key),
+					// prevent mousedown & touchstart from both firing events at the same time - see #184
+					timer = new Date().getTime();
+
+				if (o.useWheel && base.wheel) {
+					// get keys from other layers/keysets (shift, alt, meta, etc) that line up by data-position
+					$keys = last.wheel_$Keys;
+					// target mousewheel selected key
+					$key = $keys && last.wheelIndex > -1 ? $keys.eq(last.wheelIndex) : $key;
+				}
+				action = $key.attr('data-action');
+				if (timer - (last.eventTime || 0) < o.preventDoubleEventTime) {
+					return;
+				}
+				last.eventTime = timer;
+				last.event = e;
+				last.virtual = true;
+				last.$key = $key;
+				last.key = $key.attr('data-value');
+				last.keyPress = "";
+				// Start caret in IE when not focused (happens with each virtual keyboard button click
+				base.setFocus();
+				if (/^meta/.test(action)) {
+					action = 'meta';
+				}
+				// keyaction is added as a string, override original action & text
+				if (action === last.key && typeof $keyboard.keyaction[action] === 'string') {
+					last.key = action = $keyboard.keyaction[action];
+				} else if (action in $keyboard.keyaction && $.isFunction($keyboard.keyaction[action])) {
+					// stop processing if action returns false (close & cancel)
+					if ($keyboard.keyaction[action](base, this, e) === false) {
+						return false;
+					}
+					action = null; // prevent inserting action name
+				}
+				// stop processing if keyboard closed and keyaction did not return false - see #536
+				if (!base.hasKeyboard()) {
+					return false;
+				}
+				if (typeof action !== 'undefined' && action !== null) {
+					last.key = $(this).hasClass(kbcss.keyAction) ? action : last.key;
+					base.insertText(last.key);
+					if (!base.capsLock && !o.stickyShift && !e.shiftKey) {
+						base.shiftActive = false;
+						base.showSet($key.attr('data-name'));
+					}
+				}
+				// set caret if caret moved by action function; also, attempt to fix issue #131
+				$keyboard.caret(base.$preview, last);
+				base.checkCombos();
+				e.type = $keyboard.events.kbChange;
+				e.action = last.key;
+				base.$el.trigger(e, [base, base.el]);
+				last.preVal = '' + last.val;
+				base.saveLastChange();
+
+				if ($.isFunction(o.change)) {
+					e.type = $keyboard.events.inputChange;
+					o.change(e, base, base.el);
+					// return false to prevent reopening keyboard if base.accept() was called
+					return false;
+				}
+
+			})
+			// using 'kb' namespace for mouse repeat functionality to keep it separate
+			// I need to trigger a 'repeater.keyboard' to make it work
+			.bind('mouseup' + base.namespace + ' ' + 'mouseleave touchend touchmove touchcancel '.split(' ')
+				.join(base.namespace + 'kb '), function (e) {
+				base.last.virtual = true;
+				var offset,
+					$this = $(this);
+				if (e.type === 'touchmove') {
+					// if moving within the same key, don't stop repeating
+					offset = $this.offset();
+					offset.right = offset.left + $this.outerWidth();
+					offset.bottom = offset.top + $this.outerHeight();
+					if (e.originalEvent.touches[0].pageX >= offset.left &&
+						e.originalEvent.touches[0].pageX < offset.right &&
+						e.originalEvent.touches[0].pageY >= offset.top &&
+						e.originalEvent.touches[0].pageY < offset.bottom) {
+						return true;
+					}
+				} else if (/(mouseleave|touchend|touchcancel)/i.test(e.type)) {
+					$this.removeClass(o.css.buttonHover); // needed for touch devices
+				} else {
+					if (!o.noFocus && base.isCurrent() && base.isVisible()) {
+						base.$preview.focus();
+					}
+					if (base.checkCaret) {
+						$keyboard.caret(base.$preview, base.last);
+					}
+				}
+				base.mouseRepeat = [false, ''];
+				clearTimeout(base.repeater); // make sure key repeat stops!
+				if (o.acceptValid && o.autoAcceptOnValid) {
+					if (
+						$.isFunction(o.validate) &&
+						o.validate(base, base.getValue())
+					) {
+						base.$preview.blur();
+						base.accept();
+					}
+				}
+				return false;
+			})
+			// prevent form submits when keyboard is bound locally - issue #64
+			.bind('click' + base.namespace, function () {
+				return false;
+			})
+			// no mouse repeat for action keys (shift, ctrl, alt, meta, etc)
+			.not('.' + kbcss.keyAction)
+			// Allow mousewheel to scroll through other keysets of the same (non-action) key
+			.bind('mousewheel' + base.namespace, function (e, delta) {
+				if (o.useWheel && base.wheel) {
+					// deltaY used by newer versions of mousewheel plugin
+					delta = delta || e.deltaY;
+					var n,
+						txt = base.last.wheelLayers || [];
+					if (txt.length > 1) {
+						n = base.last.wheelIndex + (delta > 0 ? -1 : 1);
+						if (n > txt.length - 1) {
+							n = 0;
+						}
+						if (n < 0) {
+							n = txt.length - 1;
+						}
+					} else {
+						n = 0;
+					}
+					base.last.wheelIndex = n;
+					$(this).html(txt[n]);
+					return false;
+				}
+			})
+			// mouse repeated action key exceptions
+			.add('.' + kbcss.keyPrefix + ('tab bksp space enter'.split(' ')
+				.join(',.' + kbcss.keyPrefix)), base.$keyboard)
+			.bind('mousedown touchstart '.split(' ').join(base.namespace + 'kb '), function () {
+				if (o.repeatRate !== 0) {
+					var key = $(this);
+					// save the key, make sure we are repeating the right one (fast typers)
+					base.mouseRepeat = [true, key];
+					setTimeout(function () {
+						// don't repeat keys if it is disabled - see #431
+						if (base && base.mouseRepeat[0] && base.mouseRepeat[1] === key && !key[0].disabled) {
+							base.repeatKey(key);
+						}
+					}, o.repeatDelay);
+				}
+				return false;
+			});
+	};
+
+	base.execCommand = function(cmd, str) {
+		base.el.ownerDocument.execCommand(cmd, false, str);
+		base.el.normalize();
+		if (o.reposition) {
+			base.reposition();
+		}
+	};
+
+	base.getValue = function ($el) {
+		$el = $el || base.$preview;
+		return $el[base.isContentEditable ? 'text' : 'val']();
+	};
+
+	base.setValue = function (txt, $el) {
+		$el = $el || base.$preview;
+		if (base.isContentEditable) {
+			if (txt !== $el.text()) {
+				$keyboard.replaceContent($el, txt);
+				base.saveCaret();
+			}
+		} else {
+			$el.val(txt);
+		}
+		return base;
+	};
+
+	// Insert text at caret/selection - thanks to Derek Wickwire for fixing this up!
+	base.insertText = function (txt) {
+		if (!base.$preview) { return base; }
+		if (typeof o.beforeInsert === 'function') {
+			txt = o.beforeInsert(base.last.event, base, base.el, txt);
+		}
+		if (typeof txt === 'undefined' || txt === false) {
+			base.last.key = '';
+			return base;
+		}
+		if (base.isContentEditable) {
+			return base.insertContentEditable(txt);
+		}
+		var t,
+			bksp = false,
+			isBksp = txt === '\b',
+			// use base.$preview.val() instead of base.preview.value (val.length includes carriage returns in IE).
+			val = base.getValue(),
+			pos = $keyboard.caret(base.$preview),
+			len = val.length; // save original content length
+
+		// silly IE caret hacks... it should work correctly, but navigating using arrow keys in a textarea
+		// is still difficult
+		// in IE, pos.end can be zero after input loses focus
+		if (pos.end < pos.start) {
+			pos.end = pos.start;
+		}
+		if (pos.start > len) {
+			pos.end = pos.start = len;
+		}
+
+		if (base.preview.nodeName === 'TEXTAREA') {
+			// This makes sure the caret moves to the next line after clicking on enter (manual typing works fine)
+			if ($keyboard.msie && val.substr(pos.start, 1) === '\n') {
+				pos.start += 1;
+				pos.end += 1;
+			}
+		}
+
+		t = pos.start;
+		if (txt === '{d}') {
+			txt = '';
+			pos.end += 1;
+		}
+
+		if (isBksp) {
+			txt = '';
+			bksp = isBksp && t === pos.end && t > 0;
+		}
+		val = val.substr(0, t - (bksp ? 1 : 0)) + txt + val.substr(pos.end);
+		t += bksp ? -1 : txt.length;
+
+		base.setValue(val);
+		base.saveCaret(t, t); // save caret in case of bksp
+		base.setScroll();
+		// see #506.. allow chaining of insertText
+		return base;
+	};
+
+	base.insertContentEditable = function (txt) {
+		base.$preview.focus();
+		base.execCommand('insertText', txt);
+		base.saveCaret();
+		return base;
+	};
+
+	// check max length
+	base.checkMaxLength = function () {
+		if (!base.$preview) { return; }
+		var start, caret,
+			val = base.getValue(),
+			len = base.isContentEditable ? $keyboard.getEditableLength(base.el) : val.length;
+		if (o.maxLength !== false && len > o.maxLength) {
+			start = $keyboard.caret(base.$preview).start;
+			caret = Math.min(start, o.maxLength);
+
+			// prevent inserting new characters when maxed #289
+			if (!o.maxInsert) {
+				val = base.last.val;
+				caret = start - 1; // move caret back one
+			}
+			base.setValue(val.substring(0, o.maxLength));
+			// restore caret on change, otherwise it ends up at the end.
+			base.saveCaret(caret, caret);
+		}
+		if (base.$decBtn.length) {
+			base.checkDecimal();
+		}
+		// allow chaining
+		return base;
+	};
+
+	// mousedown repeater
+	base.repeatKey = function (key) {
+		key.trigger($keyboard.events.kbRepeater);
+		if (base.mouseRepeat[0]) {
+			base.repeater = setTimeout(function () {
+				if (base){
+					base.repeatKey(key);
+				}
+			}, base.repeatTime);
+		}
+	};
+
+	base.getKeySet = function () {
+		var sets = [];
+		if (base.altActive) {
+			sets.push('alt');
+		}
+		if (base.shiftActive) {
+			sets.push('shift');
+		}
+		if (base.metaActive) {
+			// base.metaActive contains the string name of the
+			// current meta keyset
+			sets.push(base.metaActive);
+		}
+		return sets.length ? sets.join('+') : 'normal';
+	};
+
+	// make it easier to switch keysets via API
+	// showKeySet('shift+alt+meta1')
+	base.showKeySet = function (str) {
+		if (typeof str === 'string') {
+			base.last.keyset = [base.shiftActive, base.altActive, base.metaActive];
+			base.shiftActive = /shift/i.test(str);
+			base.altActive = /alt/i.test(str);
+			if (/\bmeta/.test(str)) {
+				base.metaActive = true;
+				base.showSet(str.match(/\bmeta[\w-]+/i)[0]);
+			} else {
+				base.metaActive = false;
+				base.showSet();
+			}
+		} else {
+			base.showSet(str);
+		}
+		// allow chaining
+		return base;
+	};
+
+	base.showSet = function (name) {
+		if (!base.hasKeyboard()) { return; }
+		o = base.options; // refresh options
+		var kbcss = $keyboard.css,
+			prefix = '.' + kbcss.keyPrefix,
+			active = o.css.buttonActive,
+			key = '',
+			toShow = (base.shiftActive ? 1 : 0) + (base.altActive ? 2 : 0);
+		if (!base.shiftActive) {
+			base.capsLock = false;
+		}
+		// check meta key set
+		if (base.metaActive) {
+			// remove "-shift" and "-alt" from meta name if it exists
+			if (base.shiftActive) {
+				name = (name || "").replace("-shift", "");
+			}
+			if (base.altActive) {
+				name = (name || "").replace("-alt", "");
+			}
+			// the name attribute contains the meta set name 'meta99'
+			key = (/^meta/i.test(name)) ? name : '';
+			// save active meta keyset name
+			if (key === '') {
+				key = (base.metaActive === true) ? '' : base.metaActive;
+			} else {
+				base.metaActive = key;
+			}
+			// if meta keyset doesn't have a shift or alt keyset, then show just the meta key set
+			if ((!o.stickyShift && base.last.keyset[2] !== base.metaActive) ||
+				((base.shiftActive || base.altActive) &&
+				!base.$keyboard.find('.' + kbcss.keySet + '-' + key + base.rows[toShow]).length)) {
+				base.shiftActive = base.altActive = false;
+			}
+		} else if (!o.stickyShift && base.last.keyset[2] !== base.metaActive && base.shiftActive) {
+			// switching from meta key set back to default, reset shift & alt if using stickyShift
+			base.shiftActive = base.altActive = false;
+		}
+		toShow = (base.shiftActive ? 1 : 0) + (base.altActive ? 2 : 0);
+		key = (toShow === 0 && !base.metaActive) ? '-normal' : (key === '') ? '' : '-' + key;
+		if (!base.$keyboard.find('.' + kbcss.keySet + key + base.rows[toShow]).length) {
+			// keyset doesn't exist, so restore last keyset settings
+			base.shiftActive = base.last.keyset[0];
+			base.altActive = base.last.keyset[1];
+			base.metaActive = base.last.keyset[2];
+			return;
+		}
+		base.$keyboard
+			.find(prefix + 'alt,' + prefix + 'shift,.' + kbcss.keyAction + '[class*=meta]')
+			.removeClass(active)
+			.end()
+			.find(prefix + 'alt')
+			.toggleClass(active, base.altActive)
+			.end()
+			.find(prefix + 'shift')
+			.toggleClass(active, base.shiftActive)
+			.end()
+			.find(prefix + 'lock')
+			.toggleClass(active, base.capsLock)
+			.end()
+			.find('.' + kbcss.keySet)
+			.hide()
+			.end()
+			.find('.' + (kbcss.keyAction + prefix + key).replace("--", "-"))
+			.addClass(active);
+
+		// show keyset using inline-block ( extender layout will then line up )
+		base.$keyboard.find('.' + kbcss.keySet + key + base.rows[toShow])[0].style.display = 'inline-block';
+		if (base.metaActive) {
+			base.$keyboard.find(prefix + base.metaActive)
+				// base.metaActive contains the string "meta#" or false
+				// without the !== false, jQuery UI tries to transition the classes
+				.toggleClass(active, base.metaActive !== false);
+		}
+		base.last.keyset = [base.shiftActive, base.altActive, base.metaActive];
+		base.$el.trigger($keyboard.events.kbKeysetChange, [base, base.el]);
+		if (o.reposition) {
+			base.reposition();
+		}
+	};
+
+	// check for key combos (dead keys)
+	base.checkCombos = function () {
+		// return val for close function
+		if ( !(
+			base.isVisible() || (
+				base.hasKeyboard() &&
+				base.$keyboard.hasClass( $keyboard.css.hasFocus )
+			)
+		) ) {
+			return base.getValue(base.$preview || base.$el);
+		}
+		var r, t, t2, repl,
+			// use base.$preview.val() instead of base.preview.value
+			// (val.length includes carriage returns in IE).
+			val = base.getValue(),
+			pos = $keyboard.caret(base.$preview),
+			layout = $keyboard.builtLayouts[base.layout],
+			max = base.isContentEditable ? $keyboard.getEditableLength(base.el) : val.length,
+			// save original content length
+			len = max;
+		// return if val is empty; fixes #352
+		if (val === '') {
+			// check valid on empty string - see #429
+			if (o.acceptValid) {
+				base.checkValid();
+			}
+			return val;
+		}
+
+		// silly IE caret hacks... it should work correctly, but navigating using arrow keys in a textarea
+		// is still difficult
+		// in IE, pos.end can be zero after input loses focus
+		if (pos.end < pos.start) {
+			pos.end = pos.start;
+		}
+		if (pos.start > len) {
+			pos.end = pos.start = len;
+		}
+		// This makes sure the caret moves to the next line after clicking on enter (manual typing works fine)
+		if ($keyboard.msie && val.substr(pos.start, 1) === '\n') {
+			pos.start += 1;
+			pos.end += 1;
+		}
+
+		if (o.useCombos) {
+			// keep 'a' and 'o' in the regex for ae and oe ligature (æ,œ)
+			// thanks to KennyTM: http://stackoverflow.com/q/4275077
+			// original regex /([`\'~\^\"ao])([a-z])/mig moved to $.keyboard.comboRegex
+			if ($keyboard.msie) {
+				// old IE may not have the caret positioned correctly, so just check the whole thing
+				val = val.replace(base.regex, function (s, accent, letter) {
+					return (o.combos.hasOwnProperty(accent)) ? o.combos[accent][letter] || s : s;
+				});
+				// prevent combo replace error, in case the keyboard closes - see issue #116
+			} else if (base.$preview.length) {
+				// Modern browsers - check for combos from last two characters left of the caret
+				t = pos.start - (pos.start - 2 >= 0 ? 2 : 0);
+				// target last two characters
+				$keyboard.caret(base.$preview, t, pos.end);
+				// do combo replace
+				t = $keyboard.caret(base.$preview);
+				repl = function (txt) {
+					return (txt || '').replace(base.regex, function (s, accent, letter) {
+						return (o.combos.hasOwnProperty(accent)) ? o.combos[accent][letter] || s : s;
+					});
+				};
+				t2 = repl(t.text);
+				// add combo back
+				// prevent error if caret doesn't return a function
+				if (t && t.replaceStr && t2 !== t.text) {
+					if (base.isContentEditable) {
+						$keyboard.replaceContent(el, repl);
+					} else {
+						base.setValue(t.replaceStr(t2));
+					}
+				}
+				val = base.getValue();
+			}
+		}
+
+		// check input restrictions - in case content was pasted
+		if (o.restrictInput && val !== '') {
+			t = layout.acceptedKeys.length;
+
+			r = layout.acceptedKeysRegex;
+			if (!r) {
+				t2 = $.map(layout.acceptedKeys, function (v) {
+					// escape any special characters
+					return v.replace(base.escapeRegex, '\\$&');
+				});
+				r = layout.acceptedKeysRegex = new RegExp('(' + t2.join('|') + ')', 'g');
+			}
+
+			// only save matching keys
+			t2 = val.match(r);
+			if (t2) {
+				val = t2.join('');
+			} else {
+				// no valid characters
+				val = '';
+				len = 0;
+			}
+		}
+
+		// save changes, then reposition caret
+		pos.start += max - len;
+		pos.end += max - len;
+
+		base.setValue(val);
+		base.saveCaret(pos.start, pos.end);
+		// set scroll to keep caret in view
+		base.setScroll();
+		base.checkMaxLength();
+
+		if (o.acceptValid) {
+			base.checkValid();
+		}
+		return val; // return text, used for keyboard closing section
+	};
+
+	// Toggle accept button classes, if validating
+	base.checkValid = function () {
+		var kbcss = $keyboard.css,
+			$accept = base.$keyboard.find('.' + kbcss.keyPrefix + 'accept'),
+			valid = true;
+		if ($.isFunction(o.validate)) {
+			valid = o.validate(base, base.getValue(), false);
+		}
+		// toggle accept button classes; defined in the css
+		$accept
+			.toggleClass(kbcss.inputInvalid, !valid)
+			.toggleClass(kbcss.inputValid, valid)
+			// update title to indicate that the entry is valid or invalid
+			.attr('title', $accept.attr('data-title') + ' (' + o.display[valid ? 'valid' : 'invalid'] + ')');
+	};
+
+	// Decimal button for num pad - only allow one (not used by default)
+	base.checkDecimal = function () {
+		// Check US '.' or European ',' format
+		if ((base.decimal && /\./g.test(base.preview.value)) ||
+			(!base.decimal && /\,/g.test(base.preview.value))) {
+			base.$decBtn
+				.attr({
+					'disabled': 'disabled',
+					'aria-disabled': 'true'
+				})
+				.removeClass(o.css.buttonHover)
+				.addClass(o.css.buttonDisabled);
+		} else {
+			base.$decBtn
+				.removeAttr('disabled')
+				.attr({
+					'aria-disabled': 'false'
+				})
+				.addClass(o.css.buttonDefault)
+				.removeClass(o.css.buttonDisabled);
+		}
+	};
+
+	// get other layer values for a specific key
+	base.getLayers = function ($el) {
+		var kbcss = $keyboard.css,
+			key = $el.attr('data-pos'),
+			$keys = $el.closest('.' + kbcss.keyboard)
+			.find('button[data-pos="' + key + '"]');
+		return $keys.filter(function () {
+			return $(this)
+				.find('.' + kbcss.keyText)
+				.text() !== '';
+		})
+		.add($el);
+	};
+
+	// Go to next or prev inputs
+	// goToNext = true, then go to next input; if false go to prev
+	// isAccepted is from autoAccept option or true if user presses shift+enter
+	base.switchInput = function (goToNext, isAccepted) {
+		if ($.isFunction(o.switchInput)) {
+			o.switchInput(base, goToNext, isAccepted);
+		} else {
+			// base.$keyboard may be an empty array - see #275 (apod42)
+			if (base.$keyboard.length) {
+				base.$keyboard.hide();
+			}
+			var kb,
+				stopped = false,
+				all = $('button, input, select, textarea, a, [contenteditable]')
+					.filter(':visible')
+					.not(':disabled'),
+				indx = all.index(base.$el) + (goToNext ? 1 : -1);
+			if (base.$keyboard.length) {
+				base.$keyboard.show();
+			}
+			if (indx > all.length - 1) {
+				stopped = o.stopAtEnd;
+				indx = 0; // go to first input
+			}
+			if (indx < 0) {
+				stopped = o.stopAtEnd;
+				indx = all.length - 1; // stop or go to last
+			}
+			if (!stopped) {
+				isAccepted = base.close(isAccepted);
+				if (!isAccepted) {
+					return;
+				}
+				kb = all.eq(indx).data('keyboard');
+				if (kb && kb.options.openOn.length) {
+					kb.focusOn();
+				} else {
+					all.eq(indx).focus();
+				}
+			}
+		}
+		return false;
+	};
+
+	// Close the keyboard, if visible. Pass a status of true, if the content was accepted
+	// (for the event trigger).
+	base.close = function (accepted) {
+		if (base.isOpen && base.$keyboard.length) {
+			clearTimeout(base.throttled);
+			var kbcss = $keyboard.css,
+				kbevents = $keyboard.events,
+				val = accepted ? base.checkCombos() : base.originalContent;
+			// validate input if accepted
+			if (accepted && $.isFunction(o.validate) && !o.validate(base, val, true)) {
+				val = base.originalContent;
+				accepted = false;
+				if (o.cancelClose) {
+					return;
+				}
+			}
+			base.isCurrent(false);
+			base.isOpen = o.alwaysOpen || o.userClosed;
+			if (base.isContentEditable && !accepted) {
+				// base.originalContent stores the HTML
+				base.$el.html(val);
+			} else {
+				base.setValue(val, base.$el);
+			}
+			base.$el
+				.removeClass(kbcss.isCurrent + ' ' + kbcss.inputAutoAccepted)
+				// add 'ui-keyboard-autoaccepted' to inputs - see issue #66
+				.addClass((accepted || false) ? accepted === true ? '' : kbcss.inputAutoAccepted : '')
+				// trigger default change event - see issue #146
+				.trigger(kbevents.inputChange);
+			// don't trigger an empty event - see issue #463
+			if (!o.alwaysOpen) {
+				// don't trigger beforeClose if keyboard is always open
+				base.$el.trigger(kbevents.kbBeforeClose, [base, base.el, (accepted || false)]);
+			}
+			// save caret after updating value (fixes userClosed issue with changing focus)
+			$keyboard.caret(base.$preview, base.last);
+
+			base.$el
+				.trigger(((accepted || false) ? kbevents.inputAccepted : kbevents.inputCanceled), [base, base.el])
+				.trigger((o.alwaysOpen) ? kbevents.kbInactive : kbevents.kbHidden, [base, base.el])
+				.blur();
+
+			// base is undefined if keyboard was destroyed - fixes #358
+			if (base) {
+				// add close event time
+				base.last.eventTime = new Date().getTime();
+				if (!(o.alwaysOpen || o.userClosed && accepted === 'true') && base.$keyboard.length) {
+					// free up memory
+					base.removeKeyboard();
+					// rebind input focus - delayed to fix IE issue #72
+					base.timer = setTimeout(function () {
+						if (base) {
+							base.bindFocus();
+						}
+					}, 500);
+				}
+				if (!base.watermark && base.el.value === '' && base.inPlaceholder !== '') {
+					base.$el.addClass(kbcss.placeholder);
+					base.setValue(base.inPlaceholder, base.$el);
+				}
+			}
+		}
+		return !!accepted;
+	};
+
+	base.accept = function () {
+		return base.close(true);
+	};
+
+	base.checkClose = function (e) {
+		if (base.opening) {
+			return;
+		}
+		var kbcss = $.keyboard.css,
+			name = e.target.nodeName,
+			$contenteditable = $(e.target).closest('[contenteditable]'),
+			$target = $contenteditable.length ?  $contenteditable : $(e.target);
+		base.escClose(e, $target);
+		// needed for IE to allow switching between keyboards smoothly
+		if ($target.hasClass(kbcss.input)) {
+			var kb = $target.data('keyboard');
+			// only trigger on self
+			if (
+				kb !== base &&
+				!kb.$el.hasClass(kbcss.isCurrent) &&
+				kb.options.openOn &&
+				e.type === o.openOn
+			) {
+				kb.focusOn();
+			}
+		}
+	};
+
+	// callback functions called to check if the keyboard needs to be closed
+	// e.g. on escape or clicking outside the keyboard
+	base.escCloseCallback = {
+		// keep keyboard open if alwaysOpen or stayOpen is true - fixes mutliple
+		// always open keyboards or single stay open keyboard
+		keepOpen: function($target) {
+			return !base.isOpen;
+		}
+	};
+
+	base.escClose = function (e, $el) {
+		if (e && e.type === 'keyup') {
+			return (e.which === $keyboard.keyCodes.escape && !o.ignoreEsc) ?
+				base.close(o.autoAccept && o.autoAcceptOnEsc ? 'true' : false) :
+				'';
+		}
+		var shouldStayOpen = false,
+			$target = $el || $(e.target);
+		$.each(base.escCloseCallback, function(i, callback) {
+			if (typeof callback === 'function') {
+				shouldStayOpen = shouldStayOpen || callback($target);
+			}
+		});
+		if (shouldStayOpen) {
+			return;
+		}
+		// ignore autoaccept if using escape - good idea?
+		if (!base.isCurrent() && base.isOpen || base.isOpen && $target[0] !== base.el) {
+			// don't close if stayOpen is set; but close if a different keyboard is being opened
+			if ((o.stayOpen || o.userClosed) && !$target.hasClass($keyboard.css.input)) {
+				return;
+			}
+			// stop propogation in IE - an input getting focus doesn't open a keyboard if one is already open
+			if ($keyboard.allie) {
+				e.preventDefault();
+			}
+			if (o.closeByClickEvent) {
+				// only close the keyboard if the user is clicking on an input or if they cause a click
+				// event (touchstart/mousedown will not force the close with this setting)
+				var name = $target[0] && $target[0].nodeName.toLowerCase();
+				if (name === 'input' || name === 'textarea' || e.type === 'click') {
+					base.close(o.autoAccept ? 'true' : false);
+				}
+			} else {
+				// send 'true' instead of a true (boolean), the input won't get a 'ui-keyboard-autoaccepted'
+				// class name - see issue #66
+				base.close(o.autoAccept ? 'true' : false);
+			}
+		}
+	};
+
+	// Build default button
+	base.keyBtn = $('<button />')
+		.attr({
+			'role': 'button',
+			'type': 'button',
+			'aria-disabled': 'false',
+			'tabindex': '-1'
+		})
+		.addClass($keyboard.css.keyButton);
+
+	// convert key names into a class name
+	base.processName = function (name) {
+		var index, n,
+			process = (name || '').replace(/[^a-z0-9-_]/gi, ''),
+			len = process.length,
+			newName = [];
+		if (len > 1 && name === process) {
+			// return name if basic text
+			return name;
+		}
+		// return character code sequence
+		len = name.length;
+		if (len) {
+			for (index = 0; index < len; index++) {
+				n = name[index];
+				// keep '-' and '_'... so for dash, we get two dashes in a row
+				newName.push(/[a-z0-9-_]/i.test(n) ?
+					(/[-_]/.test(n) && index !== 0 ? '' : n) :
+					(index === 0 ? '' : '-') + n.charCodeAt(0)
+				);
+			}
+			return newName.join('');
+		} else {
+			return name;
+		}
+	};
+
+	base.processKeys = function (name) {
+		var tmp,
+			parts = name.split(':'),
+			data = {
+				name: null,
+				map: '',
+				title: ''
+			};
+		/* map defined keys
+		format 'key(A):Label_for_key_(ignore_parentheses_here)'
+			'key' = key that is seen (can any character(s); but it might need to be escaped using '\'
+			or entered as unicode '\u####'
+			'(A)' = the actual key on the real keyboard to remap
+			':Label_for_key' ends up in the title/tooltip
+		Examples:
+			'\u0391(A):alpha', 'x(y):this_(might)_cause_problems
+			or edge cases of ':(x)', 'x(:)', 'x(()' or 'x())'
+		Enhancement (if I can get alt keys to work):
+			A mapped key will include the mod key, e.g. 'x(alt-x)' or 'x(alt-shift-x)'
+		*/
+		if (/\(.+\)/.test(parts[0]) || /^:\(.+\)/.test(name) || /\([(:)]\)/.test(name)) {
+			// edge cases 'x(:)', 'x(()' or 'x())'
+			if (/\([(:)]\)/.test(name)) {
+				tmp = parts[0].match(/([^(]+)\((.+)\)/);
+				if (tmp && tmp.length) {
+					data.name = tmp[1];
+					data.map = tmp[2];
+					data.title = parts.length > 1 ? parts.slice(1).join(':') : '';
+				} else {
+					// edge cases 'x(:)', ':(x)' or ':(:)'
+					data.name = name.match(/([^(]+)/)[0];
+					if (data.name === ':') {
+						// ':(:):test' => parts = [ '', '(', ')', 'title' ] need to slice 1
+						parts = parts.slice(1);
+					}
+					if (tmp === null) {
+						// 'x(:):test' => parts = [ 'x(', ')', 'title' ] need to slice 2
+						data.map = ':';
+						parts = parts.slice(2);
+					}
+					data.title = parts.length ? parts.join(':') : '';
+				}
+			} else {
+				// example: \u0391(A):alpha; extract 'A' from '(A)'
+				data.map = name.match(/\(([^()]+?)\)/)[1];
+				// remove '(A)', left with '\u0391:alpha'
+				name = name.replace(/\(([^()]+)\)/, '');
+				tmp = name.split(':');
+				// get '\u0391' from '\u0391:alpha'
+				if (tmp[0] === '') {
+					data.name = ':';
+					parts = parts.slice(1);
+				} else {
+					data.name = tmp[0];
+				}
+				data.title = parts.length > 1 ? parts.slice(1).join(':') : '';
+			}
+		} else {
+			// find key label
+			// corner case of '::;' reduced to ':;', split as ['', ';']
+			if (name !== '' && parts[0] === '') {
+				data.name = ':';
+				parts = parts.slice(1);
+			} else {
+				data.name = parts[0];
+			}
+			data.title = parts.length > 1 ? parts.slice(1).join(':') : '';
+		}
+		data.title = $.trim(data.title).replace(/_/g, ' ');
+		return data;
+	};
+
+	// Add key function
+	// keyName = the name of the function called in $.keyboard.keyaction when the button is clicked
+	// name = name added to key, or cross-referenced in the display options
+	// base.temp[0] = keyset to attach the new button
+	// regKey = true when it is not an action key
+	base.addKey = function (keyName, action, regKey) {
+		var keyClass, tmp, keys,
+			data = {},
+			txt = base.processKeys(regKey ? keyName : action),
+			kbcss = $keyboard.css;
+
+		if (!regKey && o.display[txt.name]) {
+			keys = base.processKeys(o.display[txt.name]);
+			// action contained in "keyName" (e.g. keyName = "accept",
+			// action = "a" (use checkmark instead of text))
+			keys.action = base.processKeys(keyName).name;
+		} else {
+			// when regKey is true, keyName is the same as action
+			keys = txt;
+			keys.action = txt.name;
+		}
+
+		data.name = base.processName(txt.name);
+		if (keys.name !== '') {
+			if (keys.map !== '') {
+				$keyboard.builtLayouts[base.layout].mappedKeys[keys.map] = keys.name;
+				$keyboard.builtLayouts[base.layout].acceptedKeys.push(keys.name);
+			} else if (regKey) {
+				$keyboard.builtLayouts[base.layout].acceptedKeys.push(keys.name);
+			}
+		}
+
+		if (regKey) {
+			keyClass = data.name === '' ? '' : kbcss.keyPrefix + data.name;
+		} else {
+			// Action keys will have the 'ui-keyboard-actionkey' class
+			keyClass = kbcss.keyAction + ' ' + kbcss.keyPrefix + keys.action;
+		}
+		// '\u2190'.length = 1 because the unicode is converted, so if more than one character,
+		// add the wide class
+		keyClass += (keys.name.length > 2 ? ' ' + kbcss.keyWide : '') + ' ' + o.css.buttonDefault;
+
+		data.html = '<span class="' + kbcss.keyText + '">' +
+			// this prevents HTML from being added to the key
+			keys.name.replace(/[\u00A0-\u9999]/gim, function (i) {
+				return '&#' + i.charCodeAt(0) + ';';
+			}) +
+			'</span>';
+
+		data.$key = base.keyBtn
+			.clone()
+			.attr({
+				'data-value': regKey ? keys.name : keys.action, // value
+				'data-name': keys.action,
+				'data-pos': base.temp[1] + ',' + base.temp[2],
+				'data-action': keys.action,
+				'data-html': data.html
+			})
+			// add 'ui-keyboard-' + data.name for all keys
+			//  (e.g. 'Bksp' will have 'ui-keyboard-bskp' class)
+			// any non-alphanumeric characters will be replaced with
+			//  their decimal unicode value
+			//  (e.g. '~' is a regular key, class = 'ui-keyboard-126'
+			//  (126 is the unicode decimal value - same as &#126;)
+			//  See https://en.wikipedia.org/wiki/List_of_Unicode_characters#Control_codes
+			.addClass(keyClass)
+			.html(data.html)
+			.appendTo(base.temp[0]);
+
+		if (keys.map) {
+			data.$key.attr('data-mapped', keys.map);
+		}
+		if (keys.title || txt.title) {
+			data.$key.attr({
+				'data-title': txt.title || keys.title, // used to allow adding content to title
+				'title': txt.title || keys.title
+			});
+		}
+
+		if (typeof o.buildKey === 'function') {
+			data = o.buildKey(base, data);
+			// copy html back to attributes
+			tmp = data.$key.html();
+			data.$key.attr('data-html', tmp);
+		}
+		return data.$key;
+	};
+
+	base.customHash = function (layout) {
+		/*jshint bitwise:false */
+		var i, array, hash, character, len,
+			arrays = [],
+			merged = [];
+		// pass layout to allow for testing
+		layout = typeof layout === 'undefined' ? o.customLayout : layout;
+		// get all layout arrays
+		for (array in layout) {
+			if (layout.hasOwnProperty(array)) {
+				arrays.push(layout[array]);
+			}
+		}
+		// flatten array
+		merged = merged.concat.apply(merged, arrays).join(' ');
+		// produce hash name - http://stackoverflow.com/a/7616484/145346
+		hash = 0;
+		len = merged.length;
+		if (len === 0) {
+			return hash;
+		}
+		for (i = 0; i < len; i++) {
+			character = merged.charCodeAt(i);
+			hash = ((hash << 5) - hash) + character;
+			hash = hash & hash; // Convert to 32bit integer
+		}
+		return hash;
+	};
+
+	base.buildKeyboard = function (name, internal) {
+		// o.display is empty when this is called from the scramble extension (when alwaysOpen:true)
+		if ($.isEmptyObject(o.display)) {
+			// set keyboard language
+			base.updateLanguage();
+		}
+		var index, row, $row, currentSet,
+			kbcss = $keyboard.css,
+			sets = 0,
+			layout = $keyboard.builtLayouts[name || base.layout || o.layout] = {
+				mappedKeys: {},
+				acceptedKeys: []
+			},
+			acceptedKeys = layout.acceptedKeys = o.restrictInclude ?
+				('' + o.restrictInclude).split(/\s+/) || [] :
+				[],
+			// using $layout temporarily to hold keyboard popup classnames
+			$layout = kbcss.keyboard + ' ' + o.css.popup + ' ' + o.css.container +
+				(o.alwaysOpen || o.userClosed ? ' ' + kbcss.alwaysOpen : ''),
+
+			container = $('<div />')
+				.addClass($layout)
+				.attr({
+					'role': 'textbox'
+				})
+				.hide();
+
+		// allow adding "{space}" as an accepted key - Fixes #627
+		index = $.inArray('{space}', acceptedKeys);
+		if (index > -1) {
+			acceptedKeys[index] = ' ';
+		}
+
+		// verify layout or setup custom keyboard
+		if ((internal && o.layout === 'custom') || !$keyboard.layouts.hasOwnProperty(o.layout)) {
+			o.layout = 'custom';
+			$layout = $keyboard.layouts.custom = o.customLayout || {
+				'normal': ['{cancel}']
+			};
+		} else {
+			$layout = $keyboard.layouts[internal ? o.layout : name || base.layout || o.layout];
+		}
+
+		// Main keyboard building loop
+		$.each($layout, function (set, keySet) {
+			// skip layout name & lang settings
+			if (set !== '' && !/^(name|lang|rtl)$/i.test(set)) {
+				// keep backwards compatibility for change from default to normal naming
+				if (set === 'default') {
+					set = 'normal';
+				}
+				sets++;
+				$row = $('<div />')
+					.attr('name', set) // added for typing extension
+					.addClass(kbcss.keySet + ' ' + kbcss.keySet + '-' + set)
+					.appendTo(container)
+					.toggle(set === 'normal');
+
+				for (row = 0; row < keySet.length; row++) {
+					// remove extra spaces before spliting (regex probably could be improved)
+					currentSet = $.trim(keySet[row]).replace(/\{(\.?)[\s+]?:[\s+]?(\.?)\}/g, '{$1:$2}');
+					base.buildRow($row, row, currentSet.split(/\s+/), acceptedKeys);
+					$row.find('.' + kbcss.keyButton + ',.' + kbcss.keySpacer)
+						.filter(':last')
+						.after('<br class="' + kbcss.endRow + '"/>');
+				}
+			}
+		});
+
+		if (sets > 1) {
+			base.sets = true;
+		}
+		layout.hasMappedKeys = !($.isEmptyObject(layout.mappedKeys));
+		layout.$keyboard = container;
+		return container;
+	};
+
+	base.buildRow = function ($row, row, keys, acceptedKeys) {
+		var t, txt, key, isAction, action, margin,
+			kbcss = $keyboard.css;
+		for (key = 0; key < keys.length; key++) {
+			// used by addKey function
+			base.temp = [$row, row, key];
+			isAction = false;
+
+			// ignore empty keys
+			if (keys[key].length === 0) {
+				continue;
+			}
+
+			// process here if it's an action key
+			if (/^\{\S+\}$/.test(keys[key])) {
+				action = keys[key].match(/^\{(\S+)\}$/)[1];
+				// add active class if there are double exclamation points in the name
+				if (/\!\!/.test(action)) {
+					action = action.replace('!!', '');
+					isAction = true;
+				}
+
+				// add empty space
+				if (/^sp:((\d+)?([\.|,]\d+)?)(em|px)?$/i.test(action)) {
+					// not perfect globalization, but allows you to use {sp:1,1em}, {sp:1.2em} or {sp:15px}
+					margin = parseFloat(action
+						.replace(/,/, '.')
+						.match(/^sp:((\d+)?([\.|,]\d+)?)(em|px)?$/i)[1] || 0
+					);
+					$('<span class="' + kbcss.keyText + '"></span>')
+						// previously {sp:1} would add 1em margin to each side of a 0 width span
+						// now Firefox doesn't seem to render 0px dimensions, so now we set the
+						// 1em margin x 2 for the width
+						.width((action.match(/px/i) ? margin + 'px' : (margin * 2) + 'em'))
+						.addClass(kbcss.keySpacer)
+						.appendTo($row);
+				}
+
+				// add empty button
+				if (/^empty(:((\d+)?([\.|,]\d+)?)(em|px)?)?$/i.test(action)) {
+					margin = (/:/.test(action)) ? parseFloat(action
+						.replace(/,/, '.')
+						.match(/^empty:((\d+)?([\.|,]\d+)?)(em|px)?$/i)[1] || 0
+					) : '';
+					base
+						.addKey('', ' ', true)
+						.addClass(o.css.buttonDisabled + ' ' + o.css.buttonEmpty)
+						.attr('aria-disabled', true)
+						.width(margin ? (action.match('px') ? margin + 'px' : (margin * 2) + 'em') : '');
+					continue;
+				}
+
+				// meta keys
+				if (/^meta[\w-]+\:?(\w+)?/i.test(action)) {
+					base
+						.addKey(action.split(':')[0], action)
+						.addClass(kbcss.keyHasActive);
+					continue;
+				}
+
+				// switch needed for action keys with multiple names/shortcuts or
+				// default will catch all others
+				txt = action.split(':');
+				switch (txt[0].toLowerCase()) {
+
+				case 'a':
+				case 'accept':
+					base
+						.addKey('accept', action)
+						.addClass(o.css.buttonAction + ' ' + kbcss.keyAction);
+					break;
+
+				case 'alt':
+				case 'altgr':
+					base
+						.addKey('alt', action)
+						.addClass(kbcss.keyHasActive);
+					break;
+
+				case 'b':
+				case 'bksp':
+					base.addKey('bksp', action);
+					break;
+
+				case 'c':
+				case 'cancel':
+					base
+						.addKey('cancel', action)
+						.addClass(o.css.buttonAction + ' ' + kbcss.keyAction);
+					break;
+
+					// toggle combo/diacritic key
+					/*jshint -W083 */
+				case 'combo':
+					base
+						.addKey('combo', action)
+						.addClass(kbcss.keyHasActive)
+						.attr('title', function (indx, title) {
+							// add combo key state to title
+							return title + ' ' + o.display[o.useCombos ? 'active' : 'disabled'];
+						})
+						.toggleClass(o.css.buttonActive, o.useCombos);
+					break;
+
+					// Decimal - unique decimal point (num pad layout)
+				case 'dec':
+					acceptedKeys.push((base.decimal) ? '.' : ',');
+					base.addKey('dec', action);
+					break;
+
+				case 'e':
+				case 'enter':
+					base
+						.addKey('enter', action)
+						.addClass(o.css.buttonAction + ' ' + kbcss.keyAction);
+					break;
+
+				case 'lock':
+					base
+						.addKey('lock', action)
+						.addClass(kbcss.keyHasActive);
+					break;
+
+				case 's':
+				case 'shift':
+					base
+						.addKey('shift', action)
+						.addClass(kbcss.keyHasActive);
+					break;
+
+					// Change sign (for num pad layout)
+				case 'sign':
+					acceptedKeys.push('-');
+					base.addKey('sign', action);
+					break;
+
+				case 'space':
+					acceptedKeys.push(' ');
+					base.addKey('space', action);
+					break;
+
+				case 't':
+				case 'tab':
+					base.addKey('tab', action);
+					break;
+
+				default:
+					if ($keyboard.keyaction.hasOwnProperty(txt[0])) {
+						base
+							.addKey(txt[0], action)
+							.toggleClass(o.css.buttonAction + ' ' + kbcss.keyAction, isAction);
+					}
+
+				}
+
+			} else {
+
+				// regular button (not an action key)
+				t = keys[key];
+				base.addKey(t, t, true);
+			}
+		}
+	};
+
+	base.removeBindings = function (namespace) {
+		$(document).unbind(namespace);
+		if (base.el.ownerDocument !== document) {
+			$(base.el.ownerDocument).unbind(namespace);
+		}
+		$(window).unbind(namespace);
+		base.$el.unbind(namespace);
+	};
+
+	base.removeKeyboard = function () {
+		base.$allKeys = [];
+		base.$decBtn = [];
+		// base.$preview === base.$el when o.usePreview is false - fixes #442
+		if (o.usePreview) {
+			base.$preview.removeData('keyboard');
+		}
+		base.$preview.unbind(base.namespace + 'keybindings');
+		base.preview = null;
+		base.$preview = null;
+		base.$previewCopy = null;
+		base.$keyboard.removeData('keyboard');
+		base.$keyboard.remove();
+		base.$keyboard = [];
+		base.isOpen = false;
+		base.isCurrent(false);
+	};
+
+	base.destroy = function (callback) {
+		var index,
+			kbcss = $keyboard.css,
+			len = base.extensionNamespace.length,
+			tmp = [
+				kbcss.input,
+				kbcss.locked,
+				kbcss.placeholder,
+				kbcss.noKeyboard,
+				kbcss.alwaysOpen,
+				o.css.input,
+				kbcss.isCurrent
+			].join(' ');
+		clearTimeout(base.timer);
+		clearTimeout(base.timer2);
+		clearTimeout(base.timer3);
+		if (base.$keyboard.length) {
+			base.removeKeyboard();
+		}
+		base.removeBindings(base.namespace);
+		base.removeBindings(base.namespace + 'callbacks');
+		for (index = 0; index < len; index++) {
+			base.removeBindings(base.extensionNamespace[index]);
+		}
+		base.el.active = false;
+
+		base.$el
+			.removeClass(tmp)
+			.removeAttr('aria-haspopup')
+			.removeAttr('role')
+			.removeData('keyboard');
+		base = null;
+
+		if (typeof callback === 'function') {
+			callback();
+		}
+	};
+
+	// Run initializer
+	base.init();
+
+	}; // end $.keyboard definition
+
+	// event.which & ASCII values
+	$keyboard.keyCodes = {
+		backSpace: 8,
+		tab: 9,
+		enter: 13,
+		capsLock: 20,
+		escape: 27,
+		space: 32,
+		pageUp: 33,
+		pageDown: 34,
+		end: 35,
+		home: 36,
+		left: 37,
+		up: 38,
+		right: 39,
+		down: 40,
+		insert: 45,
+		delete: 46,
+		// event.which keyCodes (uppercase letters)
+		A: 65,
+		Z: 90,
+		V: 86,
+		C: 67,
+		X: 88,
+
+		// ASCII lowercase a & z
+		a: 97,
+		z: 122
+	};
+
+	$keyboard.css = {
+		// keyboard id suffix
+		idSuffix: '_keyboard',
+		// class name to set initial focus
+		initialFocus: 'keyboard-init-focus',
+		// element class names
+		input: 'ui-keyboard-input',
+		inputClone: 'ui-keyboard-preview-clone',
+		wrapper: 'ui-keyboard-preview-wrapper',
+		preview: 'ui-keyboard-preview',
+		keyboard: 'ui-keyboard',
+		keySet: 'ui-keyboard-keyset',
+		keyButton: 'ui-keyboard-button',
+		keyWide: 'ui-keyboard-widekey',
+		keyPrefix: 'ui-keyboard-',
+		keyText: 'ui-keyboard-text', // span with button text
+		keyHasActive: 'ui-keyboard-hasactivestate',
+		keyAction: 'ui-keyboard-actionkey',
+		keySpacer: 'ui-keyboard-spacer', // empty keys
+		keyToggle: 'ui-keyboard-toggle',
+		keyDisabled: 'ui-keyboard-disabled',
+		// Class for BRs with a div wrapper inside of contenteditable
+		divWrapperCE: 'ui-keyboard-div-wrapper',
+		// states
+		locked: 'ui-keyboard-lockedinput',
+		alwaysOpen: 'ui-keyboard-always-open',
+		noKeyboard: 'ui-keyboard-nokeyboard',
+		placeholder: 'ui-keyboard-placeholder',
+		hasFocus: 'ui-keyboard-has-focus',
+		isCurrent: 'ui-keyboard-input-current',
+		// validation & autoaccept
+		inputValid: 'ui-keyboard-valid-input',
+		inputInvalid: 'ui-keyboard-invalid-input',
+		inputAutoAccepted: 'ui-keyboard-autoaccepted',
+		endRow: 'ui-keyboard-button-endrow' // class added to <br>
+	};
+
+	$keyboard.events = {
+		// keyboard events
+		kbChange: 'keyboardChange',
+		kbBeforeClose: 'beforeClose',
+		kbBeforeVisible: 'beforeVisible',
+		kbVisible: 'visible',
+		kbInit: 'initialized',
+		kbInactive: 'inactive',
+		kbHidden: 'hidden',
+		kbRepeater: 'repeater',
+		kbKeysetChange: 'keysetChange',
+		// input events
+		inputAccepted: 'accepted',
+		inputCanceled: 'canceled',
+		inputChange: 'change',
+		inputRestricted: 'restricted'
+	};
+
+	// Action key function list
+	$keyboard.keyaction = {
+		accept: function (base) {
+			base.close(true); // same as base.accept();
+			return false; // return false prevents further processing
+		},
+		alt: function (base) {
+			base.altActive = !base.altActive;
+			base.showSet();
+		},
+		bksp: function (base) {
+			if (base.isContentEditable) {
+				base.execCommand('delete');
+				// save new caret position
+				base.saveCaret();
+			} else {
+				// the script looks for the '\b' string and initiates a backspace
+				base.insertText('\b');
+			}
+		},
+		cancel: function (base) {
+			base.close();
+			return false; // return false prevents further processing
+		},
+		clear: function (base) {
+			base.$preview[base.isContentEditable ? 'text' : 'val']('');
+			if (base.$decBtn.length) {
+				base.checkDecimal();
+			}
+		},
+		combo: function (base) {
+			var o = base.options,
+				c = !o.useCombos,
+				$combo = base.$keyboard.find('.' + $keyboard.css.keyPrefix + 'combo');
+			o.useCombos = c;
+			$combo
+				.toggleClass(o.css.buttonActive, c)
+				// update combo key state
+				.attr('title', $combo.attr('data-title') + ' (' + o.display[c ? 'active' : 'disabled'] + ')');
+			if (c) {
+				base.checkCombos();
+			}
+			return false;
+		},
+		dec: function (base) {
+			base.insertText((base.decimal) ? '.' : ',');
+		},
+		del: function (base) {
+			if (base.isContentEditable) {
+				base.execCommand('forwardDelete');
+			} else {
+				// the script looks for the '{d}' string and initiates a delete
+				base.insertText('{d}');
+			}
+		},
+		// resets to base keyset (deprecated because "default" is a reserved word)
+		'default': function (base) {
+			base.shiftActive = base.altActive = base.metaActive = false;
+			base.showSet();
+		},
+		// el is the pressed key (button) object; it is null when the real keyboard enter is pressed
+		enter: function (base, el, e) {
+			var tag = base.el.nodeName,
+				o = base.options;
+			// shift+enter in textareas
+			if (e.shiftKey) {
+				// textarea, input & contenteditable - enterMod + shift + enter = accept,
+				//  then go to prev; base.switchInput(goToNext, autoAccept)
+				// textarea & input - shift + enter = accept (no navigation)
+				return (o.enterNavigation) ? base.switchInput(!e[o.enterMod], true) : base.close(true);
+			}
+			// input only - enterMod + enter to navigate
+			if (o.enterNavigation && (tag !== 'TEXTAREA' || e[o.enterMod])) {
+				return base.switchInput(!e[o.enterMod], o.autoAccept ? 'true' : false);
+			}
+			// pressing virtual enter button inside of a textarea - add a carriage return
+			// e.target is span when clicking on text and button at other times
+			if (tag === 'TEXTAREA' && $(e.target).closest('button').length) {
+				// IE8 fix (space + \n) - fixes #71 thanks Blookie!
+				base.insertText(($keyboard.msie ? ' ' : '') + '\n');
+			}
+			if (base.isContentEditable && !o.enterNavigation) {
+				base.execCommand('insertHTML', '<div><br class="' + $keyboard.css.divWrapperCE + '"></div>');
+				// Using backspace on wrapped BRs will now shift the textnode inside of the wrapped BR
+				// Although not ideal, the caret is moved after the block - see the wiki page for
+				// more details: https://github.com/Mottie/Keyboard/wiki/Contenteditable#limitations
+				// move caret after a delay to allow rendering of HTML
+				setTimeout(function() {
+					$keyboard.keyaction.right(base);
+					base.saveCaret();
+				}, 0);
+			}
+		},
+		// caps lock key
+		lock: function (base) {
+			base.last.keyset[0] = base.shiftActive = base.capsLock = !base.capsLock;
+			base.showSet();
+		},
+		left: function (base) {
+			var p = $keyboard.caret(base.$preview);
+			if (p.start - 1 >= 0) {
+				// move both start and end of caret (prevents text selection) & save caret position
+				base.last.start = base.last.end = p.start - 1;
+				$keyboard.caret(base.$preview, base.last);
+				base.setScroll();
+			}
+		},
+		meta: function (base, el) {
+			var $el = $(el);
+			base.metaActive = !$el.hasClass(base.options.css.buttonActive);
+			base.showSet($el.attr('data-name'));
+		},
+		next: function (base) {
+			base.switchInput(true, base.options.autoAccept);
+			return false;
+		},
+		// same as 'default' - resets to base keyset
+		normal: function (base) {
+			base.shiftActive = base.altActive = base.metaActive = false;
+			base.showSet();
+		},
+		prev: function (base) {
+			base.switchInput(false, base.options.autoAccept);
+			return false;
+		},
+		right: function (base) {
+			var p = $keyboard.caret(base.$preview),
+				len = base.isContentEditable ? $keyboard.getEditableLength(base.el) : base.getValue().length;
+			if (p.end + 1 <= len) {
+				// move both start and end of caret to end position
+				// (prevents text selection) && save caret position
+				base.last.start = base.last.end = p.end + 1;
+				$keyboard.caret(base.$preview, base.last);
+				base.setScroll();
+			}
+		},
+		shift: function (base) {
+			base.last.keyset[0] = base.shiftActive = !base.shiftActive;
+			base.showSet();
+		},
+		sign: function (base) {
+			if (/^[+-]?\d*\.?\d*$/.test(base.getValue())) {
+				var caret,
+					p = $keyboard.caret(base.$preview),
+					val = base.getValue(),
+					len = base.isContentEditable ? $keyboard.getEditableLength(base.el) : val.length;
+				base.setValue(val * -1);
+				caret = len - val.length;
+				base.last.start = p.start + caret;
+				base.last.end = p.end + caret;
+				$keyboard.caret(base.$preview, base.last);
+				base.setScroll();
+			}
+		},
+		space: function (base) {
+			base.insertText(' ');
+		},
+		tab: function (base) {
+			var tag = base.el.nodeName,
+				o = base.options;
+			if (tag !== 'TEXTAREA') {
+				if (o.tabNavigation) {
+					return base.switchInput(!base.shiftActive, true);
+				} else if (tag === 'INPUT') {
+					// ignore tab key in input
+					return false;
+				}
+			}
+			base.insertText('\t');
+		},
+		toggle: function (base) {
+			base.enabled = !base.enabled;
+			base.toggle();
+		},
+		// *** Special action keys: NBSP & zero-width characters ***
+		// Non-breaking space
+		NBSP: '\u00a0',
+		// zero width space
+		ZWSP: '\u200b',
+		// Zero width non-joiner
+		ZWNJ: '\u200c',
+		// Zero width joiner
+		ZWJ: '\u200d',
+		// Left-to-right Mark
+		LRM: '\u200e',
+		// Right-to-left Mark
+		RLM: '\u200f'
+	};
+
+	// Default keyboard layouts
+	$keyboard.builtLayouts = {};
+	$keyboard.layouts = {
+		'alpha': {
+			'normal': [
+				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+				'{tab} a b c d e f g h i j [ ] \\',
+				'k l m n o p q r s ; \' {enter}',
+				'{shift} t u v w x y z , . / {shift}',
+				'{accept} {space} {cancel}'
+			],
+			'shift': [
+				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
+				'{tab} A B C D E F G H I J { } |',
+				'K L M N O P Q R S : " {enter}',
+				'{shift} T U V W X Y Z < > ? {shift}',
+				'{accept} {space} {cancel}'
+			]
+		},
+		'qwerty': {
+			'normal': [
+				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+				'{tab} q w e r t y u i o p [ ] \\',
+				'a s d f g h j k l ; \' {enter}',
+				'{shift} z x c v b n m , . / {shift}',
+				'{accept} {space} {cancel}'
+			],
+			'shift': [
+				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
+				'{tab} Q W E R T Y U I O P { } |',
+				'A S D F G H J K L : " {enter}',
+				'{shift} Z X C V B N M < > ? {shift}',
+				'{accept} {space} {cancel}'
+			]
+		},
+		'international': {
+			'normal': [
+				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+				'{tab} q w e r t y u i o p [ ] \\',
+				'a s d f g h j k l ; \' {enter}',
+				'{shift} z x c v b n m , . / {shift}',
+				'{accept} {alt} {space} {alt} {cancel}'
+			],
+			'shift': [
+				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
+				'{tab} Q W E R T Y U I O P { } |',
+				'A S D F G H J K L : " {enter}',
+				'{shift} Z X C V B N M < > ? {shift}',
+				'{accept} {alt} {space} {alt} {cancel}'
+			],
+			'alt': [
+				'~ \u00a1 \u00b2 \u00b3 \u00a4 \u20ac \u00bc \u00bd \u00be \u2018 \u2019 \u00a5 \u00d7 {bksp}',
+				'{tab} \u00e4 \u00e5 \u00e9 \u00ae \u00fe \u00fc \u00fa \u00ed \u00f3 \u00f6 \u00ab \u00bb \u00ac',
+				'\u00e1 \u00df \u00f0 f g h j k \u00f8 \u00b6 \u00b4 {enter}',
+				'{shift} \u00e6 x \u00a9 v b \u00f1 \u00b5 \u00e7 > \u00bf {shift}',
+				'{accept} {alt} {space} {alt} {cancel}'
+			],
+			'alt-shift': [
+				'~ \u00b9 \u00b2 \u00b3 \u00a3 \u20ac \u00bc \u00bd \u00be \u2018 \u2019 \u00a5 \u00f7 {bksp}',
+				'{tab} \u00c4 \u00c5 \u00c9 \u00ae \u00de \u00dc \u00da \u00cd \u00d3 \u00d6 \u00ab \u00bb \u00a6',
+				'\u00c4 \u00a7 \u00d0 F G H J K \u00d8 \u00b0 \u00a8 {enter}',
+				'{shift} \u00c6 X \u00a2 V B \u00d1 \u00b5 \u00c7 . \u00bf {shift}',
+				'{accept} {alt} {space} {alt} {cancel}'
+			]
+		},
+		'colemak': {
+			'normal': [
+				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+				'{tab} q w f p g j l u y ; [ ] \\',
+				'{bksp} a r s t d h n e i o \' {enter}',
+				'{shift} z x c v b k m , . / {shift}',
+				'{accept} {space} {cancel}'
+			],
+			'shift': [
+				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
+				'{tab} Q W F P G J L U Y : { } |',
+				'{bksp} A R S T D H N E I O " {enter}',
+				'{shift} Z X C V B K M < > ? {shift}',
+				'{accept} {space} {cancel}'
+			]
+		},
+		'dvorak': {
+			'normal': [
+				'` 1 2 3 4 5 6 7 8 9 0 [ ] {bksp}',
+				'{tab} \' , . p y f g c r l / = \\',
+				'a o e u i d h t n s - {enter}',
+				'{shift} ; q j k x b m w v z {shift}',
+				'{accept} {space} {cancel}'
+			],
+			'shift': [
+				'~ ! @ # $ % ^ & * ( ) { } {bksp}',
+				'{tab} " < > P Y F G C R L ? + |',
+				'A O E U I D H T N S _ {enter}',
+				'{shift} : Q J K X B M W V Z {shift}',
+				'{accept} {space} {cancel}'
+			]
+		},
+		'num': {
+			'normal': [
+				'= ( ) {b}',
+				'{clear} / * -',
+				'7 8 9 +',
+				'4 5 6 {sign}',
+				'1 2 3 %',
+				'0 {dec} {a} {c}'
+			]
+		}
+	};
+
+	$keyboard.language = {
+		en: {
+			display: {
+				// check mark - same action as accept
+				'a': '\u2714:Accept (Shift+Enter)',
+				'accept': 'Accept:Accept (Shift+Enter)',
+				// other alternatives \u2311
+				'alt': 'Alt:\u2325 AltGr',
+				// Left arrow (same as &larr;)
+				'b': '\u232b:Backspace',
+				'bksp': 'Bksp:Backspace',
+				// big X, close - same action as cancel
+				'c': '\u2716:Cancel (Esc)',
+				'cancel': 'Cancel:Cancel (Esc)',
+				// clear num pad
+				'clear': 'C:Clear',
+				'combo': '\u00f6:Toggle Combo Keys',
+				// decimal point for num pad (optional), change '.' to ',' for European format
+				'dec': '.:Decimal',
+				// down, then left arrow - enter symbol
+				'e': '\u23ce:Enter',
+				'empty': '\u00a0',
+				'enter': 'Enter:Enter \u23ce',
+				// left arrow (move caret)
+				'left': '\u2190',
+				// caps lock
+				'lock': 'Lock:\u21ea Caps Lock',
+				'next': 'Next \u21e8',
+				'prev': '\u21e6 Prev',
+				// right arrow (move caret)
+				'right': '\u2192',
+				// thick hollow up arrow
+				's': '\u21e7:Shift',
+				'shift': 'Shift:Shift',
+				// +/- sign for num pad
+				'sign': '\u00b1:Change Sign',
+				'space': '\u00a0:Space',
+				// right arrow to bar (used since this virtual keyboard works with one directional tabs)
+				't': '\u21e5:Tab',
+				// \u21b9 is the true tab symbol (left & right arrows)
+				'tab': '\u21e5 Tab:Tab',
+				// replaced by an image
+				'toggle': ' ',
+
+				// added to titles of keys
+				// accept key status when acceptValid:true
+				'valid': 'valid',
+				'invalid': 'invalid',
+				// combo key states
+				'active': 'active',
+				'disabled': 'disabled'
+			},
+
+			// Message added to the key title while hovering, if the mousewheel plugin exists
+			wheelMessage: 'Use mousewheel to see other keys',
+
+			comboRegex: /([`\'~\^\"ao])([a-z])/mig,
+			combos: {
+				// grave
+				'`': { a: '\u00e0', A: '\u00c0', e: '\u00e8', E: '\u00c8', i: '\u00ec', I: '\u00cc', o: '\u00f2',
+						O: '\u00d2', u: '\u00f9', U: '\u00d9', y: '\u1ef3', Y: '\u1ef2' },
+				// acute & cedilla
+				"'": { a: '\u00e1', A: '\u00c1', e: '\u00e9', E: '\u00c9', i: '\u00ed', I: '\u00cd', o: '\u00f3',
+						O: '\u00d3', u: '\u00fa', U: '\u00da', y: '\u00fd', Y: '\u00dd' },
+				// umlaut/trema
+				'"': { a: '\u00e4', A: '\u00c4', e: '\u00eb', E: '\u00cb', i: '\u00ef', I: '\u00cf', o: '\u00f6',
+						O: '\u00d6', u: '\u00fc', U: '\u00dc', y: '\u00ff', Y: '\u0178' },
+				// circumflex
+				'^': { a: '\u00e2', A: '\u00c2', e: '\u00ea', E: '\u00ca', i: '\u00ee', I: '\u00ce', o: '\u00f4',
+						O: '\u00d4', u: '\u00fb', U: '\u00db', y: '\u0177', Y: '\u0176' },
+				// tilde
+				'~': { a: '\u00e3', A: '\u00c3', e: '\u1ebd', E: '\u1ebc', i: '\u0129', I: '\u0128', o: '\u00f5',
+						O: '\u00d5', u: '\u0169', U: '\u0168', y: '\u1ef9', Y: '\u1ef8', n: '\u00f1', N: '\u00d1' }
+			}
+		}
+	};
+
+	$keyboard.defaultOptions = {
+		// set this to ISO 639-1 language code to override language set by the layout
+		// http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+		// language defaults to 'en' if not found
+		language: null,
+		rtl: false,
+
+		// *** choose layout & positioning ***
+		layout: 'qwerty',
+		customLayout: null,
+
+		position: {
+			// optional - null (attach to input/textarea) or a jQuery object (attach elsewhere)
+			of: null,
+			my: 'center top',
+			at: 'center top',
+			// used when 'usePreview' is false (centers the keyboard at the bottom of the input/textarea)
+			at2: 'center bottom'
+		},
+
+		// allow jQuery position utility to reposition the keyboard on window resize
+		reposition: true,
+
+		// preview added above keyboard if true, original input/textarea used if false
+		usePreview: true,
+
+		// if true, the keyboard will always be visible
+		alwaysOpen: false,
+
+		// give the preview initial focus when the keyboard becomes visible
+		initialFocus: true,
+
+		// avoid changing the focus (hardware keyboard probably won't work)
+		noFocus: false,
+
+		// if true, keyboard will remain open even if the input loses focus, but closes on escape
+		// or when another keyboard opens.
+		stayOpen: false,
+
+		// Prevents the keyboard from closing when the user clicks or presses outside the keyboard
+		// the `autoAccept` option must also be set to true when this option is true or changes are lost
+		userClosed: false,
+
+		// if true, keyboard will not close if you press escape.
+		ignoreEsc: false,
+
+		// if true, keyboard will only closed on click event instead of mousedown and touchstart
+		closeByClickEvent: false,
+
+		css: {
+			// input & preview
+			input: 'ui-widget-content ui-corner-all',
+			// keyboard container
+			container: 'ui-widget-content ui-widget ui-corner-all ui-helper-clearfix',
+			// keyboard container extra class (same as container, but separate)
+			popup: '',
+			// default state
+			buttonDefault: 'ui-state-default ui-corner-all',
+			// hovered button
+			buttonHover: 'ui-state-hover',
+			// Action keys (e.g. Accept, Cancel, Tab, etc); this replaces 'actionClass' option
+			buttonAction: 'ui-state-active',
+			// Active keys (e.g. shift down, meta keyset active, combo keys active)
+			buttonActive: 'ui-state-active',
+			// used when disabling the decimal button {dec} when a decimal exists in the input area
+			buttonDisabled: 'ui-state-disabled',
+			buttonEmpty: 'ui-keyboard-empty'
+		},
+
+		// *** Useability ***
+		// Auto-accept content when clicking outside the keyboard (popup will close)
+		autoAccept: false,
+		// Auto-accept content even if the user presses escape (only works if `autoAccept` is `true`)
+		autoAcceptOnEsc: false,
+
+		// Prevents direct input in the preview window when true
+		lockInput: false,
+
+		// Prevent keys not in the displayed keyboard from being typed in
+		restrictInput: false,
+		// Additional allowed characters while restrictInput is true
+		restrictInclude: '', // e.g. 'a b foo \ud83d\ude38'
+
+		// Check input against validate function, if valid the accept button gets a class name of
+		// 'ui-keyboard-valid-input'. If invalid, the accept button gets a class name of
+		// 'ui-keyboard-invalid-input'
+		acceptValid: false,
+		// Auto-accept when input is valid; requires `acceptValid` set `true` & validate callback
+		autoAcceptOnValid: false,
+
+		// if acceptValid is true & the validate function returns a false, this option will cancel
+		// a keyboard close only after the accept button is pressed
+		cancelClose: true,
+
+		// tab to go to next, shift-tab for previous (default behavior)
+		tabNavigation: false,
+
+		// enter for next input; shift+enter accepts content & goes to next
+		// shift + 'enterMod' + enter ('enterMod' is the alt as set below) will accept content and go
+		// to previous in a textarea
+		enterNavigation: false,
+		// mod key options: 'ctrlKey', 'shiftKey', 'altKey', 'metaKey' (MAC only)
+		enterMod: 'altKey', // alt-enter to go to previous; shift-alt-enter to accept & go to previous
+
+		// if true, the next button will stop on the last keyboard input/textarea; prev button stops at first
+		// if false, the next button will wrap to target the first input/textarea; prev will go to the last
+		stopAtEnd: true,
+
+		// Set this to append the keyboard after the input/textarea (appended to the input/textarea parent).
+		// This option works best when the input container doesn't have a set width & when the 'tabNavigation'
+		// option is true.
+		appendLocally: false,
+		// When appendLocally is false, the keyboard will be appended to this object
+		appendTo: 'body',
+
+		// Wrap all <br>s inside of a contenteditable in a div; without wrapping, the caret
+		// position will not be accurate
+		wrapBRs: true,
+
+		// If false, the shift key will remain active until the next key is (mouse) clicked on; if true it will
+		// stay active until pressed again
+		stickyShift: true,
+
+		// Prevent pasting content into the area
+		preventPaste: false,
+
+		// caret placed at the end of any text when keyboard becomes visible
+		caretToEnd: false,
+
+		// caret stays this many pixels from the edge of the input while scrolling left/right;
+		// use "c" or "center" to center the caret while scrolling
+		scrollAdjustment: 10,
+
+		// Set the max number of characters allowed in the input, setting it to false disables this option
+		maxLength: false,
+		// allow inserting characters @ caret when maxLength is set
+		maxInsert: true,
+
+		// Mouse repeat delay - when clicking/touching a virtual keyboard key, after this delay the key will
+		// start repeating
+		repeatDelay: 500,
+
+		// Mouse repeat rate - after the repeatDelay, this is the rate (characters per second) at which the
+		// key is repeated Added to simulate holding down a real keyboard key and having it repeat. I haven't
+		// calculated the upper limit of this rate, but it is limited to how fast the javascript can process
+		// the keys. And for me, in Firefox, it's around 20.
+		repeatRate: 20,
+
+		// resets the keyboard to the default keyset when visible
+		resetDefault: true,
+
+		// Event (namespaced) on the input to reveal the keyboard. To disable it, just set it to ''.
+		openOn: 'focus',
+
+		// Event (namepaced) for when the character is added to the input (clicking on the keyboard)
+		keyBinding: 'mousedown touchstart',
+
+		// enable/disable mousewheel functionality
+		// enabling still depends on the mousewheel plugin
+		useWheel: true,
+
+		// combos (emulate dead keys : http://en.wikipedia.org/wiki/Keyboard_layout#US-International)
+		// if user inputs `a the script converts it to à, ^o becomes ô, etc.
+		useCombos: true,
+
+		/*
+			// *** Methods ***
+			// commenting these out to reduce the size of the minified version
+			// Callbacks - attach a function to any of these callbacks as desired
+			initialized   : function(e, keyboard, el) {},
+			beforeVisible : function(e, keyboard, el) {},
+			visible       : function(e, keyboard, el) {},
+			beforeInsert  : function(e, keyboard, el, textToAdd) { return textToAdd; },
+			change        : function(e, keyboard, el) {},
+			beforeClose   : function(e, keyboard, el, accepted) {},
+			accepted      : function(e, keyboard, el) {},
+			canceled      : function(e, keyboard, el) {},
+			restricted    : function(e, keyboard, el) {},
+			hidden        : function(e, keyboard, el) {},
+			// called instead of base.switchInput
+			switchInput   : function(keyboard, goToNext, isAccepted) {},
+			// used if you want to create a custom layout or modify the built-in keyboard
+			create        : function(keyboard) { return keyboard.buildKeyboard(); },
+
+			// build key callback
+			buildKey : function( keyboard, data ) {
+				/ *
+				data = {
+				// READ ONLY
+				isAction : [boolean] true if key is an action key
+				name     : [string]  key class name suffix ( prefix = 'ui-keyboard-' );
+														 may include decimal ascii value of character
+				value    : [string]  text inserted (non-action keys)
+				title    : [string]  title attribute of key
+				action   : [string]  keyaction name
+				html     : [string]  HTML of the key; it includes a <span> wrapping the text
+				// use to modify key HTML
+				$key     : [object]  jQuery selector of key which is already appended to keyboard
+				}
+				* /
+				return data;
+			},
+		*/
+
+		// this callback is called, if the acceptValid is true, and just before the 'beforeClose' to check
+		// the value if the value is valid, return true and the keyboard will continue as it should
+		// (close if not always open, etc). If the value is not valid, return false and clear the keyboard
+		// value ( like this "keyboard.$preview.val('');" ), if desired. The validate function is called after
+		// each input, the 'isClosing' value will be false; when the accept button is clicked,
+		// 'isClosing' is true
+		validate: function (keyboard, value, isClosing) {
+			return true;
+		}
+
+	};
+
+	// for checking combos
+	$keyboard.comboRegex = /([`\'~\^\"ao])([a-z])/mig;
+
+	// store current keyboard element; used by base.isCurrent()
+	$keyboard.currentKeyboard = '';
+
+	$('<!--[if lte IE 8]><script>jQuery("body").addClass("oldie");</script><![endif]--><!--[if IE]>' +
+			'<script>jQuery("body").addClass("ie");</script><![endif]-->')
+		.appendTo('body')
+		.remove();
+	$keyboard.msie = $('body').hasClass('oldie'); // Old IE flag, used for caret positioning
+	$keyboard.allie = $('body').hasClass('ie');
+
+	$keyboard.watermark = (typeof (document.createElement('input').placeholder) !== 'undefined');
+
+	$keyboard.checkCaretSupport = function () {
+		if (typeof $keyboard.checkCaret !== 'boolean') {
+			// Check if caret position is saved when input is hidden or loses focus
+			// (*cough* all versions of IE and I think Opera has/had an issue as well
+			var $temp = $('<div style="height:0px;width:0px;overflow:hidden;position:fixed;top:0;left:-100px;">' +
+				'<input type="text" value="testing"/></div>').prependTo('body'); // stop page scrolling
+			$keyboard.caret($temp.find('input'), 3, 3);
+			// Also save caret position of the input if it is locked
+			$keyboard.checkCaret = $keyboard.caret($temp.find('input').hide().show()).start !== 3;
+			$temp.remove();
+		}
+		return $keyboard.checkCaret;
+	};
+
+	$keyboard.caret = function($el, param1, param2) {
+		if (!$el.length || $el.is(':hidden') || $el.css('visibility') === 'hidden') {
+			return {};
+		}
+		var start, end, txt, pos,
+			kb = $el.data( 'keyboard' ),
+			noFocus = kb && kb.options.noFocus,
+			formEl = /(textarea|input)/i.test($el[0].nodeName);
+		if (!noFocus) { $el.focus(); }
+		// set caret position
+		if (typeof param1 !== 'undefined') {
+			// allow setting caret using ( $el, { start: x, end: y } )
+			if (typeof param1 === 'object' && 'start' in param1 && 'end' in param1) {
+				start = param1.start;
+				end = param1.end;
+			} else if (typeof param2 === 'undefined') {
+				param2 = param1; // set caret using start position
+			}
+			// set caret using ( $el, start, end );
+			if (typeof param1 === 'number' && typeof param2 === 'number') {
+				start = param1;
+				end = param2;
+			} else if ( param1 === 'start' ) {
+				start = end = 0;
+			} else if ( typeof param1 === 'string' ) {
+				// unknown string setting, move caret to end
+				start = end = 'end';
+			}
+
+			// *** SET CARET POSITION ***
+			// modify the line below to adapt to other caret plugins
+			return formEl ?
+				$el.caret( start, end, noFocus ) :
+				$keyboard.setEditableCaret( $el, start, end );
+		}
+		// *** GET CARET POSITION ***
+		// modify the line below to adapt to other caret plugins
+		if (formEl) {
+			// modify the line below to adapt to other caret plugins
+			pos = $el.caret();
+		} else {
+			// contenteditable
+			pos = $keyboard.getEditableCaret($el[0]);
+		}
+		start = pos.start;
+		end = pos.end;
+
+		// *** utilities ***
+		txt = formEl && $el[0].value || $el.text() || '';
+		return {
+			start : start,
+			end : end,
+			// return selected text
+			text : txt.substring( start, end ),
+			// return a replace selected string method
+			replaceStr : function( str ) {
+				return txt.substring( 0, start ) + str + txt.substring( end, txt.length );
+			}
+		};
+	};
+
+	$keyboard.isTextNode = function(el) {
+		return el && el.nodeType === 3;
+	};
+
+	$keyboard.isBlock = function(el, node) {
+		var win = el.ownerDocument.defaultView;
+		if (
+			node && node.nodeType === 1 && node !== el &&
+			win.getComputedStyle(node).display === 'block'
+		) {
+			return 1;
+		}
+		return 0;
+	};
+
+	// Wrap all BR's inside of contenteditable
+	$keyboard.wrapBRs = function(container) {
+		var $el = $(container).find('br:not(.' + $keyboard.css.divWrapperCE + ')');
+		if ($el.length) {
+			$.each($el, function(i, el) {
+				var len = el.parentNode.childNodes.length;
+				if (
+					// wrap BRs if not solo child
+					len !== 1 ||
+					// Or if BR is wrapped by a span
+					len === 1 && !$keyboard.isBlock(container, el.parentNode)
+				) {
+					$(el).addClass($keyboard.css.divWrapperCE).wrap('<div>');
+				}
+			});
+		}
+	};
+
+	$keyboard.getEditableCaret = function(container) {
+		container = $(container)[0];
+		if (!container.isContentEditable) { return {}; }
+		var end, text,
+			options = ($(container).data('keyboard') || {}).options,
+			doc = container.ownerDocument,
+			range = doc.getSelection().getRangeAt(0),
+			result = pathToNode(range.startContainer, range.startOffset),
+			start = result.position;
+		if (options.wrapBRs !== false) {
+			$keyboard.wrapBRs(container);
+		}
+		function pathToNode(endNode, offset) {
+			var node, adjust,
+				txt = '',
+				done = false,
+				position = 0,
+				nodes = $.makeArray(container.childNodes);
+
+			function checkBlock(val) {
+				if (val) {
+					position += val;
+					txt += options && options.replaceCR || '\n';
+				}
+			}
+
+			while (!done && nodes.length) {
+				node = nodes.shift();
+				if (node === endNode) {
+					done = true;
+				}
+
+				// Add one if previous sibling was a block node (div, p, etc)
+				adjust = $keyboard.isBlock(container, node.previousSibling);
+				checkBlock(adjust);
+
+				if ($keyboard.isTextNode(node)) {
+					position += done ? offset : node.length;
+					txt += node.textContent;
+					if (done) {
+						return {position: position, text: txt};
+					}
+				} else if (!done && node.childNodes) {
+					nodes = $.makeArray(node.childNodes).concat(nodes);
+				}
+				// Add one if we're inside a block node (div, p, etc)
+				// and previous sibling was a text node
+				adjust = $keyboard.isTextNode(node.previousSibling) && $keyboard.isBlock(container, node);
+				checkBlock(adjust);
+			}
+			return {position: position, text: txt};
+		}
+		// check of start and end are the same
+		if (range.endContainer === range.startContainer && range.endOffset === range.startOffset) {
+			end = start;
+			text = '';
+		} else {
+			result = pathToNode(range.endContainer, range.endOffset);
+			end = result.position;
+			text = result.text.substring(start, end);
+		}
+		return {
+			start: start,
+			end: end,
+			text: text
+		};
+	};
+
+	$keyboard.getEditableLength = function(container) {
+		var result = $keyboard.setEditableCaret(container, 'getMax');
+		// if not a number, the container is not a contenteditable element
+		return typeof result === 'number' ? result : null;
+	};
+
+	$keyboard.setEditableCaret = function(container, start, end) {
+		container = $(container)[0];
+		if (!container.isContentEditable) { return {}; }
+		var doc = container.ownerDocument,
+			range = doc.createRange(),
+			sel = doc.getSelection(),
+			options = ($(container).data('keyboard') || {}).options,
+			s = start,
+			e = end,
+			text = '',
+			result = findNode(start === 'getMax' ? 'end' : start);
+		function findNode(offset) {
+			if (offset === 'end') {
+				// Set some value > content length; but return max
+				offset = container.innerHTML.length;
+			} else if (offset < 0) {
+				offset = 0;
+			}
+			var node, check,
+				txt = '',
+				done = false,
+				position = 0,
+				last = 0,
+				max = 0,
+				nodes = $.makeArray(container.childNodes);
+			function updateText(val) {
+				txt += val ? options && options.replaceCR || "\n" : "";
+				return val > 0;
+			}
+			function checkDone(adj) {
+				var val = position + adj;
+				last = max;
+				max += adj;
+				if (offset - val >= 0) {
+					position = val;
+					return offset - position <= 0;
+				}
+				return offset - val <= 0;
+			}
+			while (!done && nodes.length) {
+				node = nodes.shift();
+				// Add one if the previous sibling was a block node (div, p, etc)
+				check = $keyboard.isBlock(container, node.previousSibling);
+				if (updateText(check) && checkDone(check)) {
+					done = true;
+				}
+				// Add one if we're inside a block node (div, p, etc)
+				check = $keyboard.isTextNode(node.previousSibling) && $keyboard.isBlock(container, node);
+				if (updateText(check) && checkDone(check)) {
+					done = true;
+				}
+				if ($keyboard.isTextNode(node)) {
+					txt += node.textContent;
+					if (checkDone(node.length)) {
+						check = offset - position === 0 && position - last >= 1 ? node.length : offset - position;
+						return {
+							node: node,
+							offset: check,
+							position: offset,
+							text: txt
+						};
+					}
+				} else if (!done && node.childNodes) {
+					nodes = $.makeArray(node.childNodes).concat(nodes);
+				}
+			}
+			return nodes.length ?
+				{node: node, offset: offset - position, position: offset, text: txt} :
+				// Offset is larger than content, return max
+				{node: node, offset: node && node.length || 0, position: max, text: txt};
+		}
+		if (result.node) {
+			s = result.position; // Adjust if start > content length
+			if (start === 'getMax') {
+				return s;
+			}
+			range.setStart(result.node, result.offset);
+			// Only find end if > start and is defined... this allows passing
+			// setEditableCaret(el, 'end') or setEditableCaret(el, 10, 'end');
+			if (typeof end !== "undefined" && end !== start) {
+				result = findNode(end);
+			}
+			if (result.node) {
+				e = result.position; // Adjust if end > content length
+				range.setEnd(result.node, result.offset);
+				text = s === e ? "" : result.text.substring(s, e);
+			}
+			sel.removeAllRanges();
+			sel.addRange(range);
+		}
+		return {
+			start: s,
+			end: e,
+			text: text
+		};
+	};
+
+	$keyboard.replaceContent = function (el, param) {
+		el = $(el)[0];
+		var node, i, str,
+			type = typeof param,
+			caret = $keyboard.getEditableCaret(el).start,
+			charIndex = 0,
+			nodeStack = [el];
+		while ((node = nodeStack.pop())) {
+			if ($keyboard.isTextNode(node)) {
+				if (type === 'function') {
+					if (caret >= charIndex && caret <= charIndex + node.length) {
+						node.textContent = param(node.textContent);
+					}
+				} else if (type === 'string') {
+					// maybe not the best method, but it works for simple changes
+					str = param.substring(charIndex, charIndex + node.length);
+					if (str !== node.textContent) {
+						node.textContent = str;
+					}
+				}
+				charIndex += node.length;
+			} else if (node && node.childNodes) {
+				i = node.childNodes.length;
+				while (i--) {
+					nodeStack.push(node.childNodes[i]);
+				}
+			}
+		}
+		i = $keyboard.getEditableCaret(el);
+		$keyboard.setEditableCaret(el, i.start, i.start);
+	};
+
+	$.fn.keyboard = function (options) {
+		return this.each(function () {
+			if (!$(this).data('keyboard')) {
+				/*jshint nonew:false */
+				(new $.keyboard(this, options));
+			}
+		});
+	};
+
+	$.fn.getkeyboard = function () {
+		return this.data('keyboard');
+	};
+
+	/* Copyright (c) 2010 C. F., Wong (<a href="http://cloudgen.w0ng.hk">Cloudgen Examplet Store</a>)
+	 * Licensed under the MIT License:
+	 * http://www.opensource.org/licenses/mit-license.php
+	 * Highly modified from the original
+	 */
+
+	$.fn.caret = function (start, end, noFocus) {
+		if (
+			typeof this[0] === 'undefined' ||
+			this.is(':hidden') ||
+			this.css('visibility') === 'hidden' ||
+			!/(INPUT|TEXTAREA)/.test(this[0].nodeName)
+		) {
+			return this;
+		}
+		var selRange, range, stored_range, txt, val,
+			$el = this,
+			el = $el[0],
+			selection = el.ownerDocument.selection,
+			sTop = el.scrollTop,
+			ss = false,
+			supportCaret = true;
+		try {
+			ss = 'selectionStart' in el;
+		} catch (err) {
+			supportCaret = false;
+		}
+		if (supportCaret && typeof start !== 'undefined') {
+			if (!/(email|number)/i.test(el.type)) {
+				if (ss) {
+					el.selectionStart = start;
+					el.selectionEnd = end;
+				} else {
+					selRange = el.createTextRange();
+					selRange.collapse(true);
+					selRange.moveStart('character', start);
+					selRange.moveEnd('character', end - start);
+					selRange.select();
+				}
+			}
+			// must be visible or IE8 crashes; IE9 in compatibility mode works fine - issue #56
+			if (!noFocus && ($el.is(':visible') || $el.css('visibility') !== 'hidden')) {
+				el.focus();
+			}
+			el.scrollTop = sTop;
+			return this;
+		} else {
+			if (/(email|number)/i.test(el.type)) {
+				// fix suggested by raduanastase (https://github.com/Mottie/Keyboard/issues/105#issuecomment-40456535)
+				start = end = $el.val().length;
+			} else if (ss) {
+				start = el.selectionStart;
+				end = el.selectionEnd;
+			} else if (selection) {
+				if (el.nodeName === 'TEXTAREA') {
+					val = $el.val();
+					range = selection.createRange();
+					stored_range = range.duplicate();
+					stored_range.moveToElementText(el);
+					stored_range.setEndPoint('EndToEnd', range);
+					// thanks to the awesome comments in the rangy plugin
+					start = stored_range.text.replace(/\r/g, '\n').length;
+					end = start + range.text.replace(/\r/g, '\n').length;
+				} else {
+					val = $el.val().replace(/\r/g, '\n');
+					range = selection.createRange().duplicate();
+					range.moveEnd('character', val.length);
+					start = (range.text === '' ? val.length : val.lastIndexOf(range.text));
+					range = selection.createRange().duplicate();
+					range.moveStart('character', -val.length);
+					end = range.text.length;
+				}
+			} else {
+				// caret positioning not supported
+				start = end = (el.value || '').length;
+			}
+			txt = (el.value || '');
+			return {
+				start: start,
+				end: end,
+				text: txt.substring(start, end),
+				replace: function (str) {
+					return txt.substring(0, start) + str + txt.substring(end, txt.length);
+				}
+			};
+		}
+	};
+
+	return $keyboard;
+
+}));
+
+
+/***/ }),
+/* 43 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return RowForm; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_toggle_display__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_toggle_display___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_toggle_display__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__AssembledDiagnosisForm__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__AssembledDissectionForm__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__AssembledGeneticTestForm__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__AssembledHeartMeasurementForm__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__AssembledHospitalizationForm__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__AssembledMeasurementForm__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__AssembledMedicationForm__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__AssembledProcedureForm__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__AssembledVitalForm__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__FindRelated__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__PresAbsButtons__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__AssembledDiagnosisForm__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__AssembledDissectionForm__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__AssembledGeneticTestForm__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__AssembledHeartMeasurementForm__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__AssembledHospitalizationForm__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__AssembledMeasurementForm__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__AssembledMedicationForm__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__AssembledProcedureForm__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__AssembledVitalForm__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__FindRelated__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__PresAbsButtons__ = __webpack_require__(100);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19592,7 +19947,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-var parameterizedPlurals = __webpack_require__(30);
+var parameterizedPlurals = __webpack_require__(35);
 
 var RowForm = function (_Component) {
   _inherits(RowForm, _Component);
@@ -19724,83 +20079,12 @@ RowForm.propTypes = {
 };
 
 /***/ }),
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright 2014-2015, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- */
-
-
-
-var emptyFunction = __webpack_require__(24);
-
-/**
- * Similar to invariant but only logs a warning if the condition is not met.
- * This can be used to log issues in development environments in critical
- * paths. Removing the logging code for production environments will keep the
- * same logic and follow the same code paths.
- */
-
-var warning = emptyFunction;
-
-if (process.env.NODE_ENV !== 'production') {
-  var printWarning = function printWarning(format) {
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    var argIndex = 0;
-    var message = 'Warning: ' + format.replace(/%s/g, function () {
-      return args[argIndex++];
-    });
-    if (typeof console !== 'undefined') {
-      console.error(message);
-    }
-    try {
-      // --- Welcome to debugging React ---
-      // This error was thrown as a convenience so that you can use this stack
-      // to find the callsite that caused this warning to fire.
-      throw new Error(message);
-    } catch (x) {}
-  };
-
-  warning = function warning(condition, format) {
-    if (format === undefined) {
-      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
-    }
-
-    if (format.indexOf('Failed Composite propType: ') === 0) {
-      return; // Ignore CompositeComponent proptype check.
-    }
-
-    if (!condition) {
-      for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-        args[_key2 - 2] = arguments[_key2];
-      }
-
-      printWarning.apply(undefined, [format].concat(args));
-    }
-  };
-}
-
-module.exports = warning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
 	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(0), __webpack_require__(84)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(10), __webpack_require__(11)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -19901,18 +20185,18 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FrequencyField; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectConstructor__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectConstructor__ = __webpack_require__(15);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -19927,10 +20211,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-__webpack_require__(6);
-__webpack_require__(11);
-__webpack_require__(12);
 __webpack_require__(13);
+__webpack_require__(18);
+__webpack_require__(19);
+__webpack_require__(20);
 
 var FrequencyField = function (_Component) {
   _inherits(FrequencyField, _Component);
@@ -20035,7 +20319,7 @@ FrequencyField.propTypes = {
 };
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20074,7 +20358,7 @@ var ExecutionEnvironment = {
 module.exports = ExecutionEnvironment;
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20089,7 +20373,7 @@ module.exports = ExecutionEnvironment;
  * @typechecks
  */
 
-var emptyFunction = __webpack_require__(7);
+var emptyFunction = __webpack_require__(14);
 
 /**
  * Upstream version of event listener. Does not take into account specific
@@ -20152,10 +20436,10 @@ var EventListener = {
 };
 
 module.exports = EventListener;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20197,7 +20481,7 @@ function getActiveElement(doc) /*?DOMElement*/{
 module.exports = getActiveElement;
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20268,7 +20552,7 @@ function shallowEqual(objA, objB) {
 module.exports = shallowEqual;
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20283,7 +20567,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(91);
+var isTextNode = __webpack_require__(84);
 
 /*eslint-disable no-bitwise */
 
@@ -20311,7 +20595,7 @@ function containsNode(outerNode, innerNode) {
 module.exports = containsNode;
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -20341,20 +20625,20 @@ function focusNode(node) {
 module.exports = focusNode;
 
 /***/ }),
-/* 50 */
+/* 52 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AssembledGeneticTestForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NoteField__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__SelectConstructor__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__TimeAgoField__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NoteField__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__SelectConstructor__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__TimeAgoField__ = __webpack_require__(22);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20658,20 +20942,20 @@ AssembledGeneticTestForm.propTypes = {
 };
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AssembledHeartMeasurementForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__MeasurementField__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Keywords__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__NoteField__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__MeasurementField__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Keywords__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__NoteField__ = __webpack_require__(17);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20825,18 +21109,18 @@ AssembledHeartMeasurementForm.propTypes = {
 };
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(fetch) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AssembledVitalForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BloodPressureForm__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__MeasurementField__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BloodPressureForm__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__MeasurementField__ = __webpack_require__(37);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20981,110 +21265,7 @@ AssembledVitalForm.propTypes = {
   visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
   rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
 };
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(101)))
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(2);
-__webpack_require__(54);
-__webpack_require__(137);
-__webpack_require__(138);
-module.exports = __webpack_require__(38);
-
-
-/***/ }),
-/* 54 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery_ujs__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery_ujs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery_ujs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery_ui_ui_core_js__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery_ui_ui_core_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jquery_ui_ui_core_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery_ui_ui_position_js__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery_ui_ui_position_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery_ui_ui_position_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery_ui_ui_widgets_tabs_js__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery_ui_ui_widgets_tabs_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_jquery_ui_ui_widgets_tabs_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_select2_dist_js_select2_full_js__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_select2_dist_js_select2_full_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_select2_dist_js_select2_full_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_tether__ = __webpack_require__(62);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_tether___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_tether__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_virtual_keyboard_dist_js_jquery_keyboard_js__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_virtual_keyboard_dist_js_jquery_keyboard_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_virtual_keyboard_dist_js_jquery_keyboard_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_whatwg_fetch__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_whatwg_fetch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_whatwg_fetch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_bootstrap__ = __webpack_require__(63);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_bootstrap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_bootstrap__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_bootstrap_switch_dist_js_bootstrap_switch_js__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_bootstrap_switch_dist_js_bootstrap_switch_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_bootstrap_switch_dist_js_bootstrap_switch_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_font_awesome_webpack__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_font_awesome_webpack___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_font_awesome_webpack__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_epicMeds__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_medMapper__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_addKeyboard__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_row_form_pieces_RowForm__ = __webpack_require__(40);
-// require webpack-bundle
-
-/* eslint no-console:0 */
-// This file is automatically compiled by Webpack, along with any other files
-// present in this directory. You're encouraged to place your actual application logic in
-// a relevant structure within app/javascript and only use these pack files to reference
-// that code so it'll be compiled.
-//
-// layout file, like app/views/layouts/application.html.erb
-// import import React, { Component } from 'react'
-// import { render } from 'react-dom'
-// import ReactOne from '../components/react_one.jsx'
-// RWR.registerComponent('ReactOne', ReactOne);
-window.$ = __webpack_require__(2);
-
-
-
-
-
-
-
-global.Tether = __WEBPACK_IMPORTED_MODULE_5_tether___default.a;
-
-
-
-
-
-
-
-
-
-
-// import 'myscript/dist/myscript.js'
-
-__webpack_require__(111);
-
-// ROW FORM TYPES
-__webpack_require__(113);
-__webpack_require__(114);
-__webpack_require__(115);
-__webpack_require__(116);
-__webpack_require__(117);
-__webpack_require__(118);
-__webpack_require__(119);
-
-// EXPOSING JS TO BE USED IN RAILS
-// require('../../stylesheet/application.scss');
-__webpack_require__(123);
-__webpack_require__(124);
-__webpack_require__(126);
-__webpack_require__(128);
-__webpack_require__(129);
-__webpack_require__(130);
-__webpack_require__(131);
-__webpack_require__(133);
-
-// require('expose-loader?MyScript!myscript/dist/myscript.js');
-__webpack_require__(135);
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(92)))
 
 /***/ }),
 /* 55 */
@@ -21113,12 +21294,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 		// AMD. Register as an anonymous module.
 		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-			__webpack_require__(2),
+			__webpack_require__(1),
 			__webpack_require__(56),
 			__webpack_require__(57),
 			__webpack_require__(58),
 			__webpack_require__(59),
-			__webpack_require__(14),
+			__webpack_require__(21),
 			__webpack_require__(60)
 		], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
@@ -22027,7 +22208,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(1), __webpack_require__(21) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -22071,7 +22252,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(1), __webpack_require__(21) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -22111,7 +22292,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(1), __webpack_require__(21) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -22174,7 +22355,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(1), __webpack_require__(21) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -22233,7 +22414,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 	if ( true ) {
 
 		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(1), __webpack_require__(21) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -22966,7 +23147,7 @@ return $.widget;
 ;(function (factory) {
   if (true) {
     // AMD. Register as an anonymous module.
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(2)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -29519,13 +29700,13 @@ S2.define('jquery.select2',[
   return select2;
 }));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4.0 */
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.4.3 */
 
 (function(root, factory) {
   if (true) {
@@ -29608,7 +29789,7 @@ function getScrollParents(el) {
     var overflowX = _style.overflowX;
     var overflowY = _style.overflowY;
 
-    if (/(auto|scroll)/.test(overflow + overflowY + overflowX)) {
+    if (/(auto|scroll|overlay)/.test(overflow + overflowY + overflowX)) {
       if (position !== 'absolute' || ['relative', 'absolute', 'fixed'].indexOf(style.position) >= 0) {
         parents.push(parent);
       }
@@ -30007,7 +30188,7 @@ var position = function position() {
 };
 
 function now() {
-  if (typeof performance !== 'undefined' && typeof performance.now !== 'undefined') {
+  if (typeof performance === 'object' && typeof performance.now === 'function') {
     return performance.now();
   }
   return +new Date();
@@ -30779,7 +30960,9 @@ var TetherClass = (function (_Evented) {
 
       if (!moved) {
         if (this.options.bodyElement) {
-          this.options.bodyElement.appendChild(this.element);
+          if (this.element.parentNode !== this.options.bodyElement) {
+            this.options.bodyElement.appendChild(this.element);
+          }
         } else {
           var offsetParentIsBody = true;
           var currentNode = this.element.parentNode;
@@ -31352,7 +31535,7 @@ return Tether;
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
 (function (global, factory) {
-	 true ? factory(exports, __webpack_require__(2), __webpack_require__(64)) :
+	 true ? factory(exports, __webpack_require__(1), __webpack_require__(64)) :
 	typeof define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.js'], factory) :
 	(factory((global.bootstrap = {}),global.jQuery,global.Popper));
 }(this, (function (exports,$,Popper) { 'use strict';
@@ -37686,7 +37869,7 @@ Popper.Defaults = Defaults;
 /* harmony default export */ __webpack_exports__["default"] = (Popper);
 //# sourceMappingURL=popper.js.map
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(8)))
 
 /***/ }),
 /* 65 */
@@ -37703,7 +37886,7 @@ Popper.Defaults = Defaults;
 
 (function (global, factory) {
   if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(2)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -38480,7 +38663,7 @@ Popper.Defaults = Defaults;
   };
 });
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 66 */
@@ -38887,7 +39070,7 @@ function updateLink(linkElement, obj) {
  * LICENSE file in the root directory of this source tree.
  */
 
-var m=__webpack_require__(19),n=__webpack_require__(21),p=__webpack_require__(7),q="function"===typeof Symbol&&Symbol["for"],r=q?Symbol["for"]("react.element"):60103,t=q?Symbol["for"]("react.call"):60104,u=q?Symbol["for"]("react.return"):60105,v=q?Symbol["for"]("react.portal"):60106,w=q?Symbol["for"]("react.fragment"):60107,x="function"===typeof Symbol&&Symbol.iterator;
+var m=__webpack_require__(24),n=__webpack_require__(27),p=__webpack_require__(14),q="function"===typeof Symbol&&Symbol["for"],r=q?Symbol["for"]("react.element"):60103,t=q?Symbol["for"]("react.call"):60104,u=q?Symbol["for"]("react.return"):60105,v=q?Symbol["for"]("react.portal"):60106,w=q?Symbol["for"]("react.fragment"):60107,x="function"===typeof Symbol&&Symbol.iterator;
 function y(a){for(var b=arguments.length-1,e="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,c=0;c<b;c++)e+="\x26args[]\x3d"+encodeURIComponent(arguments[c+1]);b=Error(e+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}
 var z={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}};function A(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||z}A.prototype.isReactComponent={};A.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?y("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};A.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};
 function B(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||z}function C(){}C.prototype=A.prototype;var D=B.prototype=new C;D.constructor=B;m(D,A.prototype);D.isPureReactComponent=!0;function E(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||z}var F=E.prototype=new C;F.constructor=E;m(F,A.prototype);F.unstable_isAsyncReactComponent=!0;F.render=function(){return this.props.children};var G={current:null},H=Object.prototype.hasOwnProperty,I={key:!0,ref:!0,__self:!0,__source:!0};
@@ -38923,12 +39106,12 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var _assign = __webpack_require__(19);
-var emptyObject = __webpack_require__(21);
-var invariant = __webpack_require__(15);
-var warning = __webpack_require__(17);
-var emptyFunction = __webpack_require__(7);
-var checkPropTypes = __webpack_require__(79);
+var _assign = __webpack_require__(24);
+var emptyObject = __webpack_require__(27);
+var invariant = __webpack_require__(25);
+var warning = __webpack_require__(28);
+var emptyFunction = __webpack_require__(14);
+var checkPropTypes = __webpack_require__(31);
 
 // TODO: this is special because it gets imported during build.
 
@@ -40264,7 +40447,7 @@ module.exports = react;
   })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
 /* 79 */
@@ -40280,789 +40463,13 @@ module.exports = react;
 
 
 
-if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(15);
-  var warning = __webpack_require__(17);
-  var ReactPropTypesSecret = __webpack_require__(80);
-  var loggedTypeFailures = {};
-}
-
-/**
- * Assert that the values match with the type specs.
- * Error messages are memorized and will only be shown once.
- *
- * @param {object} typeSpecs Map of name to a ReactPropType
- * @param {object} values Runtime values that need to be type-checked
- * @param {string} location e.g. "prop", "context", "child context"
- * @param {string} componentName Name of the component for error messages.
- * @param {?Function} getStack Returns the component stack.
- * @private
- */
-function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
-  if (process.env.NODE_ENV !== 'production') {
-    for (var typeSpecName in typeSpecs) {
-      if (typeSpecs.hasOwnProperty(typeSpecName)) {
-        var error;
-        // Prop type validation may throw. In case they do, we don't want to
-        // fail the render phase where it didn't fail before. So we log it.
-        // After these have been cleaned up, we'll let them throw.
-        try {
-          // This is intentionally an invariant that gets caught. It's the same
-          // behavior as without this statement except with a better message.
-          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'the `prop-types` package, but received `%s`.', componentName || 'React class', location, typeSpecName, typeof typeSpecs[typeSpecName]);
-          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
-        } catch (ex) {
-          error = ex;
-        }
-        warning(!error || error instanceof Error, '%s: type specification of %s `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error);
-        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
-          // Only monitor this failure once because there tends to be a lot of the
-          // same error.
-          loggedTypeFailures[error.message] = true;
-
-          var stack = getStack ? getStack() : '';
-
-          warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
-        }
-      }
-    }
-  }
-}
-
-module.exports = checkPropTypes;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ }),
-/* 80 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
-
-module.exports = ReactPropTypesSecret;
-
-
-/***/ }),
-/* 81 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-
-
-var emptyFunction = __webpack_require__(24);
+var emptyFunction = __webpack_require__(14);
 var invariant = __webpack_require__(25);
-var warning = __webpack_require__(41);
-
-var ReactPropTypesSecret = __webpack_require__(26);
-var checkPropTypes = __webpack_require__(82);
-
-module.exports = function(isValidElement, throwOnDirectAccess) {
-  /* global Symbol */
-  var ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
-  var FAUX_ITERATOR_SYMBOL = '@@iterator'; // Before Symbol spec.
-
-  /**
-   * Returns the iterator method function contained on the iterable object.
-   *
-   * Be sure to invoke the function with the iterable as context:
-   *
-   *     var iteratorFn = getIteratorFn(myIterable);
-   *     if (iteratorFn) {
-   *       var iterator = iteratorFn.call(myIterable);
-   *       ...
-   *     }
-   *
-   * @param {?object} maybeIterable
-   * @return {?function}
-   */
-  function getIteratorFn(maybeIterable) {
-    var iteratorFn = maybeIterable && (ITERATOR_SYMBOL && maybeIterable[ITERATOR_SYMBOL] || maybeIterable[FAUX_ITERATOR_SYMBOL]);
-    if (typeof iteratorFn === 'function') {
-      return iteratorFn;
-    }
-  }
-
-  /**
-   * Collection of methods that allow declaration and validation of props that are
-   * supplied to React components. Example usage:
-   *
-   *   var Props = require('ReactPropTypes');
-   *   var MyArticle = React.createClass({
-   *     propTypes: {
-   *       // An optional string prop named "description".
-   *       description: Props.string,
-   *
-   *       // A required enum prop named "category".
-   *       category: Props.oneOf(['News','Photos']).isRequired,
-   *
-   *       // A prop named "dialog" that requires an instance of Dialog.
-   *       dialog: Props.instanceOf(Dialog).isRequired
-   *     },
-   *     render: function() { ... }
-   *   });
-   *
-   * A more formal specification of how these methods are used:
-   *
-   *   type := array|bool|func|object|number|string|oneOf([...])|instanceOf(...)
-   *   decl := ReactPropTypes.{type}(.isRequired)?
-   *
-   * Each and every declaration produces a function with the same signature. This
-   * allows the creation of custom validation functions. For example:
-   *
-   *  var MyLink = React.createClass({
-   *    propTypes: {
-   *      // An optional string or URI prop named "href".
-   *      href: function(props, propName, componentName) {
-   *        var propValue = props[propName];
-   *        if (propValue != null && typeof propValue !== 'string' &&
-   *            !(propValue instanceof URI)) {
-   *          return new Error(
-   *            'Expected a string or an URI for ' + propName + ' in ' +
-   *            componentName
-   *          );
-   *        }
-   *      }
-   *    },
-   *    render: function() {...}
-   *  });
-   *
-   * @internal
-   */
-
-  var ANONYMOUS = '<<anonymous>>';
-
-  // Important!
-  // Keep this list in sync with production version in `./factoryWithThrowingShims.js`.
-  var ReactPropTypes = {
-    array: createPrimitiveTypeChecker('array'),
-    bool: createPrimitiveTypeChecker('boolean'),
-    func: createPrimitiveTypeChecker('function'),
-    number: createPrimitiveTypeChecker('number'),
-    object: createPrimitiveTypeChecker('object'),
-    string: createPrimitiveTypeChecker('string'),
-    symbol: createPrimitiveTypeChecker('symbol'),
-
-    any: createAnyTypeChecker(),
-    arrayOf: createArrayOfTypeChecker,
-    element: createElementTypeChecker(),
-    instanceOf: createInstanceTypeChecker,
-    node: createNodeChecker(),
-    objectOf: createObjectOfTypeChecker,
-    oneOf: createEnumTypeChecker,
-    oneOfType: createUnionTypeChecker,
-    shape: createShapeTypeChecker
-  };
-
-  /**
-   * inlined Object.is polyfill to avoid requiring consumers ship their own
-   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
-   */
-  /*eslint-disable no-self-compare*/
-  function is(x, y) {
-    // SameValue algorithm
-    if (x === y) {
-      // Steps 1-5, 7-10
-      // Steps 6.b-6.e: +0 != -0
-      return x !== 0 || 1 / x === 1 / y;
-    } else {
-      // Step 6.a: NaN == NaN
-      return x !== x && y !== y;
-    }
-  }
-  /*eslint-enable no-self-compare*/
-
-  /**
-   * We use an Error-like object for backward compatibility as people may call
-   * PropTypes directly and inspect their output. However, we don't use real
-   * Errors anymore. We don't inspect their stack anyway, and creating them
-   * is prohibitively expensive if they are created too often, such as what
-   * happens in oneOfType() for any type before the one that matched.
-   */
-  function PropTypeError(message) {
-    this.message = message;
-    this.stack = '';
-  }
-  // Make `instanceof Error` still work for returned errors.
-  PropTypeError.prototype = Error.prototype;
-
-  function createChainableTypeChecker(validate) {
-    if (process.env.NODE_ENV !== 'production') {
-      var manualPropTypeCallCache = {};
-      var manualPropTypeWarningCount = 0;
-    }
-    function checkType(isRequired, props, propName, componentName, location, propFullName, secret) {
-      componentName = componentName || ANONYMOUS;
-      propFullName = propFullName || propName;
-
-      if (secret !== ReactPropTypesSecret) {
-        if (throwOnDirectAccess) {
-          // New behavior only for users of `prop-types` package
-          invariant(
-            false,
-            'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
-            'Use `PropTypes.checkPropTypes()` to call them. ' +
-            'Read more at http://fb.me/use-check-prop-types'
-          );
-        } else if (process.env.NODE_ENV !== 'production' && typeof console !== 'undefined') {
-          // Old behavior for people using React.PropTypes
-          var cacheKey = componentName + ':' + propName;
-          if (
-            !manualPropTypeCallCache[cacheKey] &&
-            // Avoid spamming the console because they are often not actionable except for lib authors
-            manualPropTypeWarningCount < 3
-          ) {
-            warning(
-              false,
-              'You are manually calling a React.PropTypes validation ' +
-              'function for the `%s` prop on `%s`. This is deprecated ' +
-              'and will throw in the standalone `prop-types` package. ' +
-              'You may be seeing this warning due to a third-party PropTypes ' +
-              'library. See https://fb.me/react-warning-dont-call-proptypes ' + 'for details.',
-              propFullName,
-              componentName
-            );
-            manualPropTypeCallCache[cacheKey] = true;
-            manualPropTypeWarningCount++;
-          }
-        }
-      }
-      if (props[propName] == null) {
-        if (isRequired) {
-          if (props[propName] === null) {
-            return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
-          }
-          return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`, but its value is `undefined`.'));
-        }
-        return null;
-      } else {
-        return validate(props, propName, componentName, location, propFullName);
-      }
-    }
-
-    var chainedCheckType = checkType.bind(null, false);
-    chainedCheckType.isRequired = checkType.bind(null, true);
-
-    return chainedCheckType;
-  }
-
-  function createPrimitiveTypeChecker(expectedType) {
-    function validate(props, propName, componentName, location, propFullName, secret) {
-      var propValue = props[propName];
-      var propType = getPropType(propValue);
-      if (propType !== expectedType) {
-        // `propValue` being instance of, say, date/regexp, pass the 'object'
-        // check, but we can offer a more precise error message here rather than
-        // 'of type `object`'.
-        var preciseType = getPreciseType(propValue);
-
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + preciseType + '` supplied to `' + componentName + '`, expected ') + ('`' + expectedType + '`.'));
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createAnyTypeChecker() {
-    return createChainableTypeChecker(emptyFunction.thatReturnsNull);
-  }
-
-  function createArrayOfTypeChecker(typeChecker) {
-    function validate(props, propName, componentName, location, propFullName) {
-      if (typeof typeChecker !== 'function') {
-        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside arrayOf.');
-      }
-      var propValue = props[propName];
-      if (!Array.isArray(propValue)) {
-        var propType = getPropType(propValue);
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an array.'));
-      }
-      for (var i = 0; i < propValue.length; i++) {
-        var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
-        if (error instanceof Error) {
-          return error;
-        }
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createElementTypeChecker() {
-    function validate(props, propName, componentName, location, propFullName) {
-      var propValue = props[propName];
-      if (!isValidElement(propValue)) {
-        var propType = getPropType(propValue);
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement.'));
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createInstanceTypeChecker(expectedClass) {
-    function validate(props, propName, componentName, location, propFullName) {
-      if (!(props[propName] instanceof expectedClass)) {
-        var expectedClassName = expectedClass.name || ANONYMOUS;
-        var actualClassName = getClassName(props[propName]);
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `' + componentName + '`, expected ') + ('instance of `' + expectedClassName + '`.'));
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createEnumTypeChecker(expectedValues) {
-    if (!Array.isArray(expectedValues)) {
-      process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to oneOf, expected an instance of array.') : void 0;
-      return emptyFunction.thatReturnsNull;
-    }
-
-    function validate(props, propName, componentName, location, propFullName) {
-      var propValue = props[propName];
-      for (var i = 0; i < expectedValues.length; i++) {
-        if (is(propValue, expectedValues[i])) {
-          return null;
-        }
-      }
-
-      var valuesString = JSON.stringify(expectedValues);
-      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + propValue + '` ' + ('supplied to `' + componentName + '`, expected one of ' + valuesString + '.'));
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createObjectOfTypeChecker(typeChecker) {
-    function validate(props, propName, componentName, location, propFullName) {
-      if (typeof typeChecker !== 'function') {
-        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside objectOf.');
-      }
-      var propValue = props[propName];
-      var propType = getPropType(propValue);
-      if (propType !== 'object') {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an object.'));
-      }
-      for (var key in propValue) {
-        if (propValue.hasOwnProperty(key)) {
-          var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
-          if (error instanceof Error) {
-            return error;
-          }
-        }
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createUnionTypeChecker(arrayOfTypeCheckers) {
-    if (!Array.isArray(arrayOfTypeCheckers)) {
-      process.env.NODE_ENV !== 'production' ? warning(false, 'Invalid argument supplied to oneOfType, expected an instance of array.') : void 0;
-      return emptyFunction.thatReturnsNull;
-    }
-
-    for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
-      var checker = arrayOfTypeCheckers[i];
-      if (typeof checker !== 'function') {
-        warning(
-          false,
-          'Invalid argument supplid to oneOfType. Expected an array of check functions, but ' +
-          'received %s at index %s.',
-          getPostfixForTypeWarning(checker),
-          i
-        );
-        return emptyFunction.thatReturnsNull;
-      }
-    }
-
-    function validate(props, propName, componentName, location, propFullName) {
-      for (var i = 0; i < arrayOfTypeCheckers.length; i++) {
-        var checker = arrayOfTypeCheckers[i];
-        if (checker(props, propName, componentName, location, propFullName, ReactPropTypesSecret) == null) {
-          return null;
-        }
-      }
-
-      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`.'));
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createNodeChecker() {
-    function validate(props, propName, componentName, location, propFullName) {
-      if (!isNode(props[propName])) {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`, expected a ReactNode.'));
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function createShapeTypeChecker(shapeTypes) {
-    function validate(props, propName, componentName, location, propFullName) {
-      var propValue = props[propName];
-      var propType = getPropType(propValue);
-      if (propType !== 'object') {
-        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
-      }
-      for (var key in shapeTypes) {
-        var checker = shapeTypes[key];
-        if (!checker) {
-          continue;
-        }
-        var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
-        if (error) {
-          return error;
-        }
-      }
-      return null;
-    }
-    return createChainableTypeChecker(validate);
-  }
-
-  function isNode(propValue) {
-    switch (typeof propValue) {
-      case 'number':
-      case 'string':
-      case 'undefined':
-        return true;
-      case 'boolean':
-        return !propValue;
-      case 'object':
-        if (Array.isArray(propValue)) {
-          return propValue.every(isNode);
-        }
-        if (propValue === null || isValidElement(propValue)) {
-          return true;
-        }
-
-        var iteratorFn = getIteratorFn(propValue);
-        if (iteratorFn) {
-          var iterator = iteratorFn.call(propValue);
-          var step;
-          if (iteratorFn !== propValue.entries) {
-            while (!(step = iterator.next()).done) {
-              if (!isNode(step.value)) {
-                return false;
-              }
-            }
-          } else {
-            // Iterator will provide entry [k,v] tuples rather than values.
-            while (!(step = iterator.next()).done) {
-              var entry = step.value;
-              if (entry) {
-                if (!isNode(entry[1])) {
-                  return false;
-                }
-              }
-            }
-          }
-        } else {
-          return false;
-        }
-
-        return true;
-      default:
-        return false;
-    }
-  }
-
-  function isSymbol(propType, propValue) {
-    // Native Symbol.
-    if (propType === 'symbol') {
-      return true;
-    }
-
-    // 19.4.3.5 Symbol.prototype[@@toStringTag] === 'Symbol'
-    if (propValue['@@toStringTag'] === 'Symbol') {
-      return true;
-    }
-
-    // Fallback for non-spec compliant Symbols which are polyfilled.
-    if (typeof Symbol === 'function' && propValue instanceof Symbol) {
-      return true;
-    }
-
-    return false;
-  }
-
-  // Equivalent of `typeof` but with special handling for array and regexp.
-  function getPropType(propValue) {
-    var propType = typeof propValue;
-    if (Array.isArray(propValue)) {
-      return 'array';
-    }
-    if (propValue instanceof RegExp) {
-      // Old webkits (at least until Android 4.0) return 'function' rather than
-      // 'object' for typeof a RegExp. We'll normalize this here so that /bla/
-      // passes PropTypes.object.
-      return 'object';
-    }
-    if (isSymbol(propType, propValue)) {
-      return 'symbol';
-    }
-    return propType;
-  }
-
-  // This handles more types than `getPropType`. Only used for error messages.
-  // See `createPrimitiveTypeChecker`.
-  function getPreciseType(propValue) {
-    if (typeof propValue === 'undefined' || propValue === null) {
-      return '' + propValue;
-    }
-    var propType = getPropType(propValue);
-    if (propType === 'object') {
-      if (propValue instanceof Date) {
-        return 'date';
-      } else if (propValue instanceof RegExp) {
-        return 'regexp';
-      }
-    }
-    return propType;
-  }
-
-  // Returns a string that is postfixed to a warning about an invalid type.
-  // For example, "undefined" or "of type array"
-  function getPostfixForTypeWarning(value) {
-    var type = getPreciseType(value);
-    switch (type) {
-      case 'array':
-      case 'object':
-        return 'an ' + type;
-      case 'boolean':
-      case 'date':
-      case 'regexp':
-        return 'a ' + type;
-      default:
-        return type;
-    }
-  }
-
-  // Returns class name of the object, if any.
-  function getClassName(propValue) {
-    if (!propValue.constructor || !propValue.constructor.name) {
-      return ANONYMOUS;
-    }
-    return propValue.constructor.name;
-  }
-
-  ReactPropTypes.checkPropTypes = checkPropTypes;
-  ReactPropTypes.PropTypes = ReactPropTypes;
-
-  return ReactPropTypes;
-};
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ }),
-/* 82 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-
-
-if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(25);
-  var warning = __webpack_require__(41);
-  var ReactPropTypesSecret = __webpack_require__(26);
-  var loggedTypeFailures = {};
-}
-
-/**
- * Assert that the values match with the type specs.
- * Error messages are memorized and will only be shown once.
- *
- * @param {object} typeSpecs Map of name to a ReactPropType
- * @param {object} values Runtime values that need to be type-checked
- * @param {string} location e.g. "prop", "context", "child context"
- * @param {string} componentName Name of the component for error messages.
- * @param {?Function} getStack Returns the component stack.
- * @private
- */
-function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
-  if (process.env.NODE_ENV !== 'production') {
-    for (var typeSpecName in typeSpecs) {
-      if (typeSpecs.hasOwnProperty(typeSpecName)) {
-        var error;
-        // Prop type validation may throw. In case they do, we don't want to
-        // fail the render phase where it didn't fail before. So we log it.
-        // After these have been cleaned up, we'll let them throw.
-        try {
-          // This is intentionally an invariant that gets caught. It's the same
-          // behavior as without this statement except with a better message.
-          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'React.PropTypes.', componentName || 'React class', location, typeSpecName);
-          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
-        } catch (ex) {
-          error = ex;
-        }
-        warning(!error || error instanceof Error, '%s: type specification of %s `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error);
-        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
-          // Only monitor this failure once because there tends to be a lot of the
-          // same error.
-          loggedTypeFailures[error.message] = true;
-
-          var stack = getStack ? getStack() : '';
-
-          warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
-        }
-      }
-    }
-  }
-}
-
-module.exports = checkPropTypes;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ }),
-/* 83 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-
-
-var emptyFunction = __webpack_require__(24);
-var invariant = __webpack_require__(25);
-var ReactPropTypesSecret = __webpack_require__(26);
-
-module.exports = function() {
-  function shim(props, propName, componentName, location, propFullName, secret) {
-    if (secret === ReactPropTypesSecret) {
-      // It is still safe when called from React.
-      return;
-    }
-    invariant(
-      false,
-      'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
-      'Use PropTypes.checkPropTypes() to call them. ' +
-      'Read more at http://fb.me/use-check-prop-types'
-    );
-  };
-  shim.isRequired = shim;
-  function getShim() {
-    return shim;
-  };
-  // Important!
-  // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
-  var ReactPropTypes = {
-    array: shim,
-    bool: shim,
-    func: shim,
-    number: shim,
-    object: shim,
-    string: shim,
-    symbol: shim,
-
-    any: shim,
-    arrayOf: getShim,
-    element: shim,
-    instanceOf: getShim,
-    node: shim,
-    objectOf: getShim,
-    oneOf: getShim,
-    oneOfType: getShim,
-    shape: getShim
-  };
-
-  ReactPropTypes.checkPropTypes = emptyFunction;
-  ReactPropTypes.PropTypes = ReactPropTypes;
-
-  return ReactPropTypes;
-};
-
-
-/***/ }),
-/* 84 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-if (process.env.NODE_ENV !== 'production') {
-  var REACT_ELEMENT_TYPE = (typeof Symbol === 'function' &&
-    Symbol.for &&
-    Symbol.for('react.element')) ||
-    0xeac7;
-
-  var isValidElement = function(object) {
-    return typeof object === 'object' &&
-      object !== null &&
-      object.$$typeof === REACT_ELEMENT_TYPE;
-  };
-
-  // By explicitly using `prop-types` you are opting into new development behavior.
-  // http://fb.me/prop-types-in-prod
-  var throwOnDirectAccess = true;
-  module.exports = __webpack_require__(85)(isValidElement, throwOnDirectAccess);
-} else {
-  // By explicitly using `prop-types` you are opting into new production behavior.
-  // http://fb.me/prop-types-in-prod
-  module.exports = __webpack_require__(87)();
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ }),
-/* 85 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-var emptyFunction = __webpack_require__(7);
-var invariant = __webpack_require__(15);
-var warning = __webpack_require__(17);
-var assign = __webpack_require__(19);
-
-var ReactPropTypesSecret = __webpack_require__(27);
-var checkPropTypes = __webpack_require__(86);
+var warning = __webpack_require__(28);
+var assign = __webpack_require__(24);
+
+var ReactPropTypesSecret = __webpack_require__(32);
+var checkPropTypes = __webpack_require__(31);
 
 module.exports = function(isValidElement, throwOnDirectAccess) {
   /* global Symbol */
@@ -41590,77 +40997,10 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   return ReactPropTypes;
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
-/* 86 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(15);
-  var warning = __webpack_require__(17);
-  var ReactPropTypesSecret = __webpack_require__(27);
-  var loggedTypeFailures = {};
-}
-
-/**
- * Assert that the values match with the type specs.
- * Error messages are memorized and will only be shown once.
- *
- * @param {object} typeSpecs Map of name to a ReactPropType
- * @param {object} values Runtime values that need to be type-checked
- * @param {string} location e.g. "prop", "context", "child context"
- * @param {string} componentName Name of the component for error messages.
- * @param {?Function} getStack Returns the component stack.
- * @private
- */
-function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
-  if (process.env.NODE_ENV !== 'production') {
-    for (var typeSpecName in typeSpecs) {
-      if (typeSpecs.hasOwnProperty(typeSpecName)) {
-        var error;
-        // Prop type validation may throw. In case they do, we don't want to
-        // fail the render phase where it didn't fail before. So we log it.
-        // After these have been cleaned up, we'll let them throw.
-        try {
-          // This is intentionally an invariant that gets caught. It's the same
-          // behavior as without this statement except with a better message.
-          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'the `prop-types` package, but received `%s`.', componentName || 'React class', location, typeSpecName, typeof typeSpecs[typeSpecName]);
-          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
-        } catch (ex) {
-          error = ex;
-        }
-        warning(!error || error instanceof Error, '%s: type specification of %s `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error);
-        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
-          // Only monitor this failure once because there tends to be a lot of the
-          // same error.
-          loggedTypeFailures[error.message] = true;
-
-          var stack = getStack ? getStack() : '';
-
-          warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
-        }
-      }
-    }
-  }
-}
-
-module.exports = checkPropTypes;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ }),
-/* 87 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41673,9 +41013,9 @@ module.exports = checkPropTypes;
 
 
 
-var emptyFunction = __webpack_require__(7);
-var invariant = __webpack_require__(15);
-var ReactPropTypesSecret = __webpack_require__(27);
+var emptyFunction = __webpack_require__(14);
+var invariant = __webpack_require__(25);
+var ReactPropTypesSecret = __webpack_require__(32);
 
 module.exports = function() {
   function shim(props, propName, componentName, location, propFullName, secret) {
@@ -41725,7 +41065,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 88 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41737,15 +41077,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(10);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(89);
+var _reactDom = __webpack_require__(82);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _propTypes = __webpack_require__(1);
+var _propTypes = __webpack_require__(11);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
@@ -41811,7 +41151,9 @@ var Switch = function (_React$Component) {
     value: function value(val) {
       if (val === undefined) return this.state.value;
 
-      this._setValue(val === null ? null : !!val);
+      var newVal = val === null ? null : !!val;
+      this._setValue(newVal);
+      return newVal;
     }
   }, {
     key: '_wrapperClasses',
@@ -42285,7 +41627,7 @@ Switch.propTypes = {
 
   onText: _propTypes2.default.node,
   offText: _propTypes2.default.node,
-  labelText: _propTypes2.default.string,
+  labelText: _propTypes2.default.node,
 
   inverse: _propTypes2.default.bool,
   animate: _propTypes2.default.bool,
@@ -42300,7 +41642,7 @@ Switch.propTypes = {
 };
 
 /***/ }),
-/* 89 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42338,15 +41680,15 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(90);
+  module.exports = __webpack_require__(83);
 } else {
-  module.exports = __webpack_require__(93);
+  module.exports = __webpack_require__(86);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
-/* 90 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42362,7 +41704,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(0),l=__webpack_require__(44),B=__webpack_require__(19),C=__webpack_require__(7),ba=__webpack_require__(45),da=__webpack_require__(46),ea=__webpack_require__(47),fa=__webpack_require__(48),ia=__webpack_require__(49),D=__webpack_require__(21);
+var aa=__webpack_require__(10),l=__webpack_require__(46),B=__webpack_require__(24),C=__webpack_require__(14),ba=__webpack_require__(47),da=__webpack_require__(48),ea=__webpack_require__(49),fa=__webpack_require__(50),ia=__webpack_require__(51),D=__webpack_require__(27);
 function E(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:E("227");
 var oa={children:!0,dangerouslySetInnerHTML:!0,defaultValue:!0,defaultChecked:!0,innerHTML:!0,suppressContentEditableWarning:!0,suppressHydrationWarning:!0,style:!0};function pa(a,b){return(a&b)===b}
 var ta={MUST_USE_PROPERTY:1,HAS_BOOLEAN_VALUE:4,HAS_NUMERIC_VALUE:8,HAS_POSITIVE_NUMERIC_VALUE:24,HAS_OVERLOADED_BOOLEAN_VALUE:32,HAS_STRING_BOOLEAN_VALUE:64,injectDOMPropertyConfig:function(a){var b=ta,c=a.Properties||{},d=a.DOMAttributeNamespaces||{},e=a.DOMAttributeNames||{};a=a.DOMMutationMethods||{};for(var f in c){ua.hasOwnProperty(f)?E("48",f):void 0;var g=f.toLowerCase(),h=c[f];g={attributeName:g,attributeNamespace:null,propertyName:f,mutationMethod:null,mustUseProperty:pa(h,b.MUST_USE_PROPERTY),
@@ -42582,7 +41924,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
 
 
 /***/ }),
-/* 91 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42597,7 +41939,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
  * @typechecks
  */
 
-var isNode = __webpack_require__(92);
+var isNode = __webpack_require__(85);
 
 /**
  * @param {*} object The object to check.
@@ -42610,7 +41952,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 92 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42638,7 +41980,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 93 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42659,21 +42001,21 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var React = __webpack_require__(0);
-var invariant = __webpack_require__(15);
-var warning = __webpack_require__(17);
-var ExecutionEnvironment = __webpack_require__(44);
-var _assign = __webpack_require__(19);
-var emptyFunction = __webpack_require__(7);
-var EventListener = __webpack_require__(45);
-var getActiveElement = __webpack_require__(46);
-var shallowEqual = __webpack_require__(47);
-var containsNode = __webpack_require__(48);
-var focusNode = __webpack_require__(49);
-var emptyObject = __webpack_require__(21);
-var checkPropTypes = __webpack_require__(94);
-var hyphenateStyleName = __webpack_require__(96);
-var camelizeStyleName = __webpack_require__(98);
+var React = __webpack_require__(10);
+var invariant = __webpack_require__(25);
+var warning = __webpack_require__(28);
+var ExecutionEnvironment = __webpack_require__(46);
+var _assign = __webpack_require__(24);
+var emptyFunction = __webpack_require__(14);
+var EventListener = __webpack_require__(47);
+var getActiveElement = __webpack_require__(48);
+var shallowEqual = __webpack_require__(49);
+var containsNode = __webpack_require__(50);
+var focusNode = __webpack_require__(51);
+var emptyObject = __webpack_require__(27);
+var checkPropTypes = __webpack_require__(31);
+var hyphenateStyleName = __webpack_require__(87);
+var camelizeStyleName = __webpack_require__(89);
 
 /**
  * WARNING: DO NOT manually require this module.
@@ -58037,96 +57379,10 @@ module.exports = reactDom;
   })();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
 
 /***/ }),
-/* 94 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(15);
-  var warning = __webpack_require__(17);
-  var ReactPropTypesSecret = __webpack_require__(95);
-  var loggedTypeFailures = {};
-}
-
-/**
- * Assert that the values match with the type specs.
- * Error messages are memorized and will only be shown once.
- *
- * @param {object} typeSpecs Map of name to a ReactPropType
- * @param {object} values Runtime values that need to be type-checked
- * @param {string} location e.g. "prop", "context", "child context"
- * @param {string} componentName Name of the component for error messages.
- * @param {?Function} getStack Returns the component stack.
- * @private
- */
-function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
-  if (process.env.NODE_ENV !== 'production') {
-    for (var typeSpecName in typeSpecs) {
-      if (typeSpecs.hasOwnProperty(typeSpecName)) {
-        var error;
-        // Prop type validation may throw. In case they do, we don't want to
-        // fail the render phase where it didn't fail before. So we log it.
-        // After these have been cleaned up, we'll let them throw.
-        try {
-          // This is intentionally an invariant that gets caught. It's the same
-          // behavior as without this statement except with a better message.
-          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'the `prop-types` package, but received `%s`.', componentName || 'React class', location, typeSpecName, typeof typeSpecs[typeSpecName]);
-          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
-        } catch (ex) {
-          error = ex;
-        }
-        warning(!error || error instanceof Error, '%s: type specification of %s `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error);
-        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
-          // Only monitor this failure once because there tends to be a lot of the
-          // same error.
-          loggedTypeFailures[error.message] = true;
-
-          var stack = getStack ? getStack() : '';
-
-          warning(false, 'Failed %s type: %s%s', location, error.message, stack != null ? stack : '');
-        }
-      }
-    }
-  }
-}
-
-module.exports = checkPropTypes;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ }),
-/* 95 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-
-
-var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
-
-module.exports = ReactPropTypesSecret;
-
-
-/***/ }),
-/* 96 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58141,7 +57397,7 @@ module.exports = ReactPropTypesSecret;
 
 
 
-var hyphenate = __webpack_require__(97);
+var hyphenate = __webpack_require__(88);
 
 var msPattern = /^ms-/;
 
@@ -58168,7 +57424,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 97 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58204,7 +57460,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 98 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58219,7 +57475,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(99);
+var camelize = __webpack_require__(90);
 
 var msPattern = /^-ms-/;
 
@@ -58247,7 +57503,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 99 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58282,23 +57538,23 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 100 */
+/* 91 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MedFormFields; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectConstructor__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__FrequencyField__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__TimeAgoField__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__DurationField__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__NoteField__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__addKeyboard__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectConstructor__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__FrequencyField__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__TimeAgoField__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__DurationField__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__NoteField__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__addKeyboard__ = __webpack_require__(13);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -58318,10 +57574,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-__webpack_require__(6);
-__webpack_require__(11);
-__webpack_require__(12);
 __webpack_require__(13);
+__webpack_require__(18);
+__webpack_require__(19);
+__webpack_require__(20);
 
 var ingestionMethods = ['orally', 'intravenously', 'intramuscularly', 'subcutaneously', 'sublingually', 'buccally', 'rectally', 'vaginally', 'by the ocular route', 'by the otic route', 'nasally', 'by nebulization', 'cutaneously', 'transdermally', 'intrathecally'];
 var unitsOfMeas = ['mcg', 'mg', 'mL', 'mm', 'g', 'L', 'IU'];
@@ -58635,7 +57891,7 @@ MedFormFields.propTypes = {
 };
 
 /***/ }),
-/* 101 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, Promise) {/*** IMPORTS FROM imports-loader ***/
@@ -59107,23 +58363,23 @@ MedFormFields.propTypes = {
 /*** EXPORTS FROM exports-loader ***/
 module.exports = global.fetch;
 }.call(global));
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(39)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8), __webpack_require__(7)))
 
 /***/ }),
-/* 102 */
+/* 93 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BloodPressureForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_input_mask__ = __webpack_require__(103);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__SelectConstructor__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_input_mask__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__SelectConstructor__ = __webpack_require__(15);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -59141,10 +58397,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-__webpack_require__(6);
-__webpack_require__(11);
-__webpack_require__(12);
 __webpack_require__(13);
+__webpack_require__(18);
+__webpack_require__(19);
+__webpack_require__(20);
 
 var BloodPressureForm = function (_Component) {
   _inherits(BloodPressureForm, _Component);
@@ -59264,16 +58520,16 @@ BloodPressureForm.propTypes = {
 };
 
 /***/ }),
-/* 103 */
+/* 94 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_parseMask__ = __webpack_require__(104);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_environment__ = __webpack_require__(106);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_string__ = __webpack_require__(107);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_defer__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_parseMask__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_environment__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_string__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_defer__ = __webpack_require__(99);
 function _instanceof(left, right) { if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) { return right[Symbol.hasInstance](left); } else { return left instanceof right; } }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -59963,11 +59219,11 @@ var _initialiseProps = function _initialiseProps() {
 /* harmony default export */ __webpack_exports__["a"] = (InputElement);
 
 /***/ }),
-/* 104 */
+/* 95 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(96);
 
 /* harmony default export */ __webpack_exports__["a"] = (function (mask, maskChar, charsRules) {
   if (maskChar === undefined) {
@@ -60023,7 +59279,7 @@ var _initialiseProps = function _initialiseProps() {
 });
 
 /***/ }),
-/* 105 */
+/* 96 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -60037,7 +59293,7 @@ var defaultCharsRules = {
 var defaultMaskChar = '_';
 
 /***/ }),
-/* 106 */
+/* 97 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -60073,7 +59329,7 @@ function isIOS() {
 }
 
 /***/ }),
-/* 107 */
+/* 98 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -60287,7 +59543,7 @@ function getInsertStringLength(maskOptions, value, insertStr, insertPos) {
 }
 
 /***/ }),
-/* 108 */
+/* 99 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -60300,17 +59556,17 @@ function getInsertStringLength(maskOptions, value, insertStr, insertPos) {
 });
 
 /***/ }),
-/* 109 */
+/* 100 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PresAbsButtons; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__InfoHover__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__InfoHover__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(12);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -60324,7 +59580,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-var parameterizedPlurals = __webpack_require__(30);
+var parameterizedPlurals = __webpack_require__(35);
 
 var PresAbsButtons = function (_Component) {
   _inherits(PresAbsButtons, _Component);
@@ -60444,14 +59700,14 @@ PresAbsButtons.propTypes = {
 };
 
 /***/ }),
-/* 110 */
+/* 101 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return InfoHover; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -60505,20 +59761,20 @@ InfoHover.propTypes = {
 };
 
 /***/ }),
-/* 111 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["parseMed"] = __webpack_require__(112);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["parseMed"] = __webpack_require__(103);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 112 */
+/* 103 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__epicMeds__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__medMapper__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__epicMeds__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__medMapper__ = __webpack_require__(30);
 
 
 
@@ -60568,70 +59824,70 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 113 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledDiagnosisForm"] = __webpack_require__(28);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledDiagnosisForm"] = __webpack_require__(33);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 114 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledDissectionForm"] = __webpack_require__(31);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledDissectionForm"] = __webpack_require__(36);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 115 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledHospitalizationForm"] = __webpack_require__(33);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledHospitalizationForm"] = __webpack_require__(38);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 116 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledMeasurementForm"] = __webpack_require__(34);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledMeasurementForm"] = __webpack_require__(39);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 117 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledMedicationForm"] = __webpack_require__(35);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledMedicationForm"] = __webpack_require__(40);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 118 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledProcedureForm"] = __webpack_require__(36);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["AssembledProcedureForm"] = __webpack_require__(41);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 119 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["renderByTopicType"] = __webpack_require__(120);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["renderByTopicType"] = __webpack_require__(111);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 120 */
+/* 111 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__row_form_pieces_AssembledDiagnosisForm__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__row_form_pieces_AssembledDissectionForm__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__row_form_pieces_AssembledFamilyMemberForm__ = __webpack_require__(121);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__row_form_pieces_AssembledGeneticTestForm__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__row_form_pieces_AssembledHeartMeasurementForm__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__row_form_pieces_AssembledHospitalizationForm__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__row_form_pieces_AssembledMeasurementForm__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__row_form_pieces_AssembledMedicationForm__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__row_form_pieces_AssembledProcedureForm__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__row_form_pieces_AssembledVitalForm__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__row_form_pieces_AssembledDiagnosisForm__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__row_form_pieces_AssembledDissectionForm__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__row_form_pieces_AssembledFamilyMemberForm__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__row_form_pieces_AssembledGeneticTestForm__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__row_form_pieces_AssembledHeartMeasurementForm__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__row_form_pieces_AssembledHospitalizationForm__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__row_form_pieces_AssembledMeasurementForm__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__row_form_pieces_AssembledMedicationForm__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__row_form_pieces_AssembledProcedureForm__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__row_form_pieces_AssembledVitalForm__ = __webpack_require__(54);
 
 
 
@@ -60684,17 +59940,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 121 */
+/* 112 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AssembledFamilyMemberForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__HiddenFields__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FamilyMemberFormBody__ = __webpack_require__(122);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__HiddenFields__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FamilyMemberFormBody__ = __webpack_require__(113);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -60758,16 +60014,16 @@ AssembledFamilyMemberForm.propTypes = {
 };
 
 /***/ }),
-/* 122 */
+/* 113 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FamilyMemberFormBody; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__ = __webpack_require__(16);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -60983,21 +60239,21 @@ FamilyMemberFormBody.propTypes = {
 };
 
 /***/ }),
-/* 123 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["addKeyboard"] = __webpack_require__(6);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["addKeyboard"] = __webpack_require__(13);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 124 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["initializeRow"] = __webpack_require__(125);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["initializeRow"] = __webpack_require__(116);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 125 */
+/* 116 */
 /***/ (function(module, exports) {
 
 // import bootstrapSwitch from 'bootstrap-switch/dist/js/bootstrap-switch';
@@ -61073,22 +60329,22 @@ FamilyMemberFormBody.propTypes = {
 // }(jQuery);
 
 /***/ }),
-/* 126 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["ScribbleButton"] = __webpack_require__(127);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["ScribbleButton"] = __webpack_require__(118);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 127 */
+/* 118 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ScribbleButton; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -61185,43 +60441,43 @@ ScribbleButton.propTypes = {
 };
 
 /***/ }),
-/* 128 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["medMapper"] = __webpack_require__(23);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["medMapper"] = __webpack_require__(30);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 129 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["epicMeds"] = __webpack_require__(22);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["epicMeds"] = __webpack_require__(29);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 130 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["RowForm"] = __webpack_require__(40);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["RowForm"] = __webpack_require__(43);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 131 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["ReasonForVisitHeader"] = __webpack_require__(132);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["ReasonForVisitHeader"] = __webpack_require__(123);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 132 */
+/* 123 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ReasonForVisitHeader; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -61296,14 +60552,14 @@ ReasonForVisitHeader.propTypes = {
 };
 
 /***/ }),
-/* 133 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["unitConverter"] = __webpack_require__(134);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["unitConverter"] = __webpack_require__(125);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 134 */
+/* 125 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -61330,38 +60586,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 135 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["$"] = __webpack_require__(136);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["$"] = __webpack_require__(127);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ }),
-/* 136 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["jQuery"] = __webpack_require__(2);
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 137 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 138 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// eslint-disable-next-line import/no-webpack-loader-syntax
-module.exports = __webpack_require__(139);
-
-
-/***/ }),
-/* 139 */
-/***/ (function(module, exports) {
-
-
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["jQuery"] = __webpack_require__(1);
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ })
 /******/ ]);
