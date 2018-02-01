@@ -1,3 +1,49 @@
+$('button.paneTopicGroup').click(function() {
+  $('button.paneTopicGroup').removeClass('active')
+  $(this).addClass('active')
+  $target = $(this).data('target')
+  $('div.tabbable').hide()
+  $(`div.tabbable#${$target}`).show()
+})
+// calc button clicked
+ $('button.calculator').click(function(e){
+   console.log('calculator button clicked')
+   $targetInput =  $(this).closest('.form-inline').children("input[type='number']")
+   e.stopImmediatePropagation();
+   var kb = $targetInput.getkeyboard();
+   // close the keyboard if the keyboard is visible and the button is clicked a second time
+   if ( kb.isOpen ) {
+     kb.close();
+   } else {
+     kb.reveal();
+   }
+ });
+const unsortedTopics = $('#unsortedtopics').data('unsorted')
+
+ // initialize select2 for quick-add
+ var select2Data = unsortedTopics.map(function(obj) {
+    var rObj = {};
+    rObj['id'] = obj.id;
+    rObj['text'] = obj.name;
+    return rObj;
+ });
+ $('#quick-add').select2({
+   data: select2Data,
+   placeholder: "Quick Add",
+   theme: "bootstrap"
+ })
+
+ // open form when quick add selected
+ $('select#quick-add').on('select2:select', function (evt) {
+   var topic = unsortedTopics.find(x => x.id == evt.params.data.id)
+   $('#quickAddHook')
+     .append(renderByTopicType(topic, allTopics, unsortedTopics, visit, 999))
+     .find('.present_or_not').val("true")
+     .initializeRow()
+   $('#row_999').show()
+   $('#quickAddModal').modal('show')
+ });
+
 // const mskey = $('#ms').data('mskey')
 // const mshmac = $('#ms').data('mshmac')
 //
@@ -47,38 +93,10 @@
 //     }
 //   })
 //
-//   // initialize select2 for quick-add
-//   var select2Data = unsortedTopics.map(function(obj) {
-//      var rObj = {};
-//      rObj['id'] = obj.id;
-//      rObj['text'] = obj.name;
-//      return rObj;
-//   });
-//   $('#quick-add').select2({
-//     data: select2Data,
-//     placeholder: "Quick Add",
-//     theme: "bootstrap"
-//   })
-//
-//   // open form when quick add selected
-//   $('select#quick-add').on('select2:select', function (evt) {
-//     var topic = unsortedTopics.find(x => x.id == evt.params.data.id)
-//     $('#quickAddHook')
-//       .append(renderByTopicType(topic, allTopics, unsortedTopics, visit, 999))
-//       .find('.present_or_not').val("true")
-//       .initializeRow()
-//     $('#row_999').show()
-//     $('#quickAddModal').modal('show')
-//   });
+
 //
 //   // body group pane topic type tabs
-  $('button.paneTopicGroup').click(function() {
-    $('button.paneTopicGroup').removeClass('active')
-    $(this).addClass('active')
-    $target = $(this).data('target')
-    $('div.tabbable').hide()
-    $(`div.tabbable#${$target}`).show()
-  })
+
 //
 //   // select 'other' from list to append text input
 //   $('select').change(function() {
@@ -200,19 +218,7 @@
 //     $('.tab-pane.active').find('.tabbable:visible').find("input[value='false']").prop("checked", "checked")
 //   });
 //
-//   // calc button clicked
-  $('button.calculator').click(function(e){
-    console.log('calculator button clicked')
-    $targetInput =  $(this).closest('.form-inline').children("input[type='number']")
-    e.stopImmediatePropagation();
-    var kb = $targetInput.getkeyboard();
-    // close the keyboard if the keyboard is visible and the button is clicked a second time
-    if ( kb.isOpen ) {
-      kb.close();
-    } else {
-      kb.reveal();
-    }
-  });
+//
 //
 //   // append file name to attachment button on change
 //   $("input[type='file']").on('change', function() {
