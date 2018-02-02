@@ -38,29 +38,6 @@ export default class EditVisit extends Component {
           sortedConcerns={this.props.sortedConcerns}
           patient={this.props.patient}
         />
-        <div id="nestedListHook"></div>
-        <div className="modal fade" id="quickAddModal" tabIndex="-1" role="dialog" aria-labelledby="quickAddLabel" aria-hidden="true">
-          <div className="modal-dialog modal-xl" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="quickAddLabel">
-                  Add Concern
-                </h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div className="modal-body quick-add">
-                <table id="quickAddHook">
-                </table>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-light" data-dismiss="modal">Close</button>
-                <button type="submit" className="btn btn-primary">Save and Update Visit</button>
-              </div>
-            </div>
-          </div>
-        </div>
       </form>
     );
   }

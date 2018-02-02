@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 51);
+/******/ 	return __webpack_require__(__webpack_require__.s = 50);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -10783,7 +10783,7 @@ HiddenFields.propTypes = {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_virtual_keyboard__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_virtual_keyboard__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_virtual_keyboard___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_virtual_keyboard__);
 
 
@@ -12314,7 +12314,7 @@ return $.ui.version = "1.12.1";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_bootstrap_switch__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_bootstrap_switch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_bootstrap_switch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_toggle_display__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_toggle_display__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_toggle_display___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_toggle_display__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_jquery__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_jquery__);
@@ -13156,7 +13156,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__DurationField__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__FileAttachmentButton__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__FindRelated__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__FrequencyField__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__FrequencyField__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__HiddenFields__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Keywords__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__NoteField__ = __webpack_require__(10);
@@ -14619,6 +14619,8502 @@ AssembledProcedureForm.propTypes = {
 
 /***/ }),
 /* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! jQuery UI Virtual Keyboard v1.27.4 *//*
+Author: Jeremy Satterfield
+Maintained: Rob Garrison (Mottie on github)
+Licensed under the MIT License
+
+An on-screen virtual keyboard embedded within the browser window which
+will popup when a specified entry field is focused. The user can then
+type and preview their input before Accepting or Canceling.
+
+This plugin adds default class names to match jQuery UI theme styling.
+Bootstrap & custom themes may also be applied - See
+https://github.com/Mottie/Keyboard#themes
+
+Requires:
+	jQuery v1.4.3+
+	Caret plugin (included)
+Optional:
+	jQuery UI (position utility only) & CSS theme
+	jQuery mousewheel
+
+Setup/Usage:
+	Please refer to https://github.com/Mottie/Keyboard/wiki
+
+-----------------------------------------
+Caret code modified from jquery.caret.1.02.js
+Licensed under the MIT License:
+http://www.opensource.org/licenses/mit-license.php
+-----------------------------------------
+*/
+/*jshint browser:true, jquery:true, unused:false */
+/*global require:false, define:false, module:false */
+;(function (factory) {
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(2)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (typeof module === 'object' && typeof module.exports === 'object') {
+		module.exports = factory(require('jquery'));
+	} else {
+		factory(jQuery);
+	}
+}(function ($) {
+	'use strict';
+	var $keyboard = $.keyboard = function (el, options) {
+	var o, base = this;
+
+	base.version = '1.27.4';
+
+	// Access to jQuery and DOM versions of element
+	base.$el = $(el);
+	base.el = el;
+
+	// Add a reverse reference to the DOM object
+	base.$el.data('keyboard', base);
+
+	base.init = function () {
+		base.initialized = false;
+		var k, position, tmp,
+			kbcss = $keyboard.css,
+			kbevents = $keyboard.events;
+		base.settings = options || {};
+		// shallow copy position to prevent performance issues; see #357
+		if (options && options.position) {
+			position = $.extend({}, options.position);
+			options.position = null;
+		}
+		base.options = o = $.extend(true, {}, $keyboard.defaultOptions, options);
+		if (position) {
+			o.position = position;
+			options.position = position;
+		}
+
+		// keyboard is active (not destroyed);
+		base.el.active = true;
+		// unique keyboard namespace
+		base.namespace = '.keyboard' + Math.random().toString(16).slice(2);
+		// extension namespaces added here (to unbind listeners on base.$el upon destroy)
+		base.extensionNamespace = [];
+		// Shift and Alt key toggles, sets is true if a layout has more than one keyset
+		// used for mousewheel message
+		base.shiftActive = base.altActive = base.metaActive = base.sets = base.capsLock = false;
+		// Class names of the basic key set - meta keysets are handled by the keyname
+		base.rows = ['', '-shift', '-alt', '-alt-shift'];
+
+		base.inPlaceholder = base.$el.attr('placeholder') || '';
+		// html 5 placeholder/watermark
+		base.watermark = $keyboard.watermark && base.inPlaceholder !== '';
+		// convert mouse repeater rate (characters per second) into a time in milliseconds.
+		base.repeatTime = 1000 / (o.repeatRate || 20);
+		// delay in ms to prevent mousedown & touchstart from both firing events at the same time
+		o.preventDoubleEventTime = o.preventDoubleEventTime || 100;
+		// flag indication that a keyboard is open
+		base.isOpen = false;
+		// is mousewheel plugin loaded?
+		base.wheel = $.isFunction($.fn.mousewheel);
+		// special character in regex that need to be escaped
+		base.escapeRegex = /[-\/\\^$*+?.()|[\]{}]/g;
+		// detect contenteditable
+		base.isContentEditable = !/(input|textarea)/i.test(base.el.nodeName) &&
+			base.el.isContentEditable;
+
+		// keyCode of keys always allowed to be typed
+		k = $keyboard.keyCodes;
+		// base.alwaysAllowed = [20,33,34,35,36,37,38,39,40,45,46];
+		base.alwaysAllowed = [
+			k.capsLock,
+			k.pageUp,
+			k.pageDown,
+			k.end,
+			k.home,
+			k.left,
+			k.up,
+			k.right,
+			k.down,
+			k.insert,
+			k.delete
+		];
+		base.$keyboard = [];
+		// keyboard enabled; set to false on destroy
+		base.enabled = true;
+
+		base.checkCaret = (o.lockInput || $keyboard.checkCaretSupport());
+
+		// disable problematic usePreview for contenteditable
+		if (base.isContentEditable) {
+			o.usePreview = false;
+		}
+
+		base.last = {
+			start: 0,
+			end: 0,
+			key: '',
+			val: '',
+			preVal: '',
+			layout: '',
+			virtual: true,
+			keyset: [false, false, false], // [shift, alt, meta]
+			wheel_$Keys: null,
+			wheelIndex: 0,
+			wheelLayers: []
+		};
+		// used when building the keyboard - [keyset element, row, index]
+		base.temp = ['', 0, 0];
+
+		// Callbacks
+		$.each([
+			kbevents.kbInit,
+			kbevents.kbBeforeVisible,
+			kbevents.kbVisible,
+			kbevents.kbHidden,
+			kbevents.inputCanceled,
+			kbevents.inputAccepted,
+			kbevents.kbBeforeClose,
+			kbevents.inputRestricted
+		], function (i, callback) {
+			if ($.isFunction(o[callback])) {
+				// bind callback functions within options to triggered events
+				base.$el.bind(callback + base.namespace + 'callbacks', o[callback]);
+			}
+		});
+
+		// Close with esc key & clicking outside
+		if (o.alwaysOpen) {
+			o.stayOpen = true;
+		}
+
+		tmp = $(document);
+		if (base.el.ownerDocument !== document) {
+			tmp = tmp.add(base.el.ownerDocument);
+		}
+
+		var bindings = 'keyup checkkeyboard mousedown touchstart ';
+		if (o.closeByClickEvent) {
+			bindings += 'click ';
+		}
+		// debounce bindings... see #542
+		tmp.bind(bindings.split(' ').join(base.namespace + ' '), function(e) {
+			clearTimeout(base.timer3);
+			base.timer3 = setTimeout(function() {
+				base.checkClose(e);
+			}, 1);
+		});
+
+		// Display keyboard on focus
+		base.$el
+			.addClass(kbcss.input + ' ' + o.css.input)
+			.attr({
+				'aria-haspopup': 'true',
+				'role': 'textbox'
+			});
+
+		// set lockInput if the element is readonly; or make the element readonly if lockInput is set
+		if (o.lockInput || base.el.readOnly) {
+			o.lockInput = true;
+			base.$el
+				.addClass(kbcss.locked)
+				.attr({
+					'readonly': 'readonly'
+				});
+		}
+		// add disabled/readonly class - dynamically updated on reveal
+		if (base.$el.is(':disabled') || (base.$el.attr('readonly') &&
+				!base.$el.hasClass(kbcss.locked))) {
+			base.$el.addClass(kbcss.noKeyboard);
+		}
+		if (o.openOn) {
+			base.bindFocus();
+		}
+
+		// Add placeholder if not supported by the browser
+		if (
+			!base.watermark &&
+			base.getValue(base.$el) === '' &&
+			base.inPlaceholder !== '' &&
+			base.$el.attr('placeholder') !== ''
+		) {
+			// css watermark style (darker text)
+			base.$el.addClass(kbcss.placeholder);
+			base.setValue(base.inPlaceholder, base.$el);
+		}
+
+		base.$el.trigger(kbevents.kbInit, [base, base.el]);
+
+		// initialized with keyboard open
+		if (o.alwaysOpen) {
+			base.reveal();
+		}
+		base.initialized = true;
+	};
+
+	base.toggle = function () {
+		if (!base.hasKeyboard()) { return; }
+		var $toggle = base.$keyboard.find('.' + $keyboard.css.keyToggle),
+			locked = !base.enabled;
+		// prevent physical keyboard from working
+		base.preview.readonly = locked || base.options.lockInput;
+		// disable all buttons
+		base.$keyboard
+			.toggleClass($keyboard.css.keyDisabled, locked)
+			.find('.' + $keyboard.css.keyButton)
+			.not($toggle)
+			.attr('aria-disabled', locked)
+			.each(function() {
+				this.disabled = locked;
+			});
+		$toggle.toggleClass($keyboard.css.keyDisabled, locked);
+		// stop auto typing
+		if (locked && base.typing_options) {
+			base.typing_options.text = '';
+		}
+		// allow chaining
+		return base;
+	};
+
+	base.setCurrent = function () {
+		var kbcss = $keyboard.css,
+			// close any "isCurrent" keyboard (just in case they are always open)
+			$current = $('.' + kbcss.isCurrent),
+			kb = $current.data('keyboard');
+		// close keyboard, if not self
+		if (!$.isEmptyObject(kb) && kb.el !== base.el) {
+			kb.close(kb.options.autoAccept ? 'true' : false);
+		}
+		$current.removeClass(kbcss.isCurrent);
+		// ui-keyboard-has-focus is applied in case multiple keyboards have
+		// alwaysOpen = true and are stacked
+		$('.' + kbcss.hasFocus).removeClass(kbcss.hasFocus);
+
+		base.$el.addClass(kbcss.isCurrent);
+		base.$keyboard.addClass(kbcss.hasFocus);
+		base.isCurrent(true);
+		base.isOpen = true;
+	};
+
+	base.isCurrent = function (set) {
+		var cur = $keyboard.currentKeyboard || false;
+		if (set) {
+			cur = $keyboard.currentKeyboard = base.el;
+		} else if (set === false && cur === base.el) {
+			cur = $keyboard.currentKeyboard = '';
+		}
+		return cur === base.el;
+	};
+
+	base.hasKeyboard = function () {
+		return base.$keyboard && base.$keyboard.length > 0;
+	};
+
+	base.isVisible = function () {
+		return base.hasKeyboard() ? base.$keyboard.is(':visible') : false;
+	};
+
+	base.setFocus = function () {
+		var $el = base.$preview || base.$el;
+		if (!o.noFocus) {
+			$el.focus();
+		}
+		if (base.isContentEditable) {
+			$keyboard.setEditableCaret($el, base.last.start, base.last.end);
+		} else {
+			$keyboard.caret($el, base.last);
+		}
+	};
+
+	base.focusOn = function () {
+		if (!base && base.el.active) {
+			// keyboard was destroyed
+			return;
+		}
+		if (!base.isVisible()) {
+			clearTimeout(base.timer);
+			base.reveal();
+		} else {
+			// keyboard already open, make it the current keyboard
+			base.setCurrent();
+		}
+	};
+
+	// add redraw method to make API more clear
+	base.redraw = function (layout) {
+		if (layout) {
+			// allow updating the layout by calling redraw
+			base.options.layout = layout;
+		}
+		// update keyboard after a layout change
+		if (base.$keyboard.length) {
+
+			base.last.preVal = '' + base.last.val;
+			base.saveLastChange();
+			base.setValue(base.last.val, base.$el);
+
+			base.removeKeyboard();
+			base.shiftActive = base.altActive = base.metaActive = false;
+		}
+		base.isOpen = o.alwaysOpen;
+		base.reveal(true);
+		return base;
+	};
+
+	base.reveal = function (redraw) {
+		var temp,
+			alreadyOpen = base.isOpen,
+			kbcss = $keyboard.css;
+		base.opening = !alreadyOpen;
+		// remove all 'extra' keyboards by calling close function
+		$('.' + kbcss.keyboard).not('.' + kbcss.alwaysOpen).each(function(){
+			var kb = $(this).data('keyboard');
+			if (!$.isEmptyObject(kb)) {
+				// this closes previous keyboard when clicking another input - see #515
+				kb.close(kb.options.autoAccept ? 'true' : false);
+			}
+		});
+
+		// Don't open if disabled
+		if (base.$el.is(':disabled') || (base.$el.attr('readonly') && !base.$el.hasClass(kbcss.locked))) {
+			base.$el.addClass(kbcss.noKeyboard);
+			return;
+		} else {
+			base.$el.removeClass(kbcss.noKeyboard);
+		}
+
+		// Unbind focus to prevent recursion - openOn may be empty if keyboard is opened externally
+		if (o.openOn) {
+			base.$el.unbind($.trim((o.openOn + ' ').split(/\s+/).join(base.namespace + ' ')));
+		}
+
+		// build keyboard if it doesn't exist; or attach keyboard if it was removed, but not cleared
+		if (!base.$keyboard || base.$keyboard &&
+			(!base.$keyboard.length || $.contains(base.el.ownerDocument.body, base.$keyboard[0]))) {
+			base.startup();
+		}
+
+		// clear watermark
+		if (!base.watermark && base.getValue() === base.inPlaceholder) {
+			base.$el.removeClass(kbcss.placeholder);
+			base.setValue('', base.$el);
+		}
+		// save starting content, in case we cancel
+		base.originalContent = base.isContentEditable ?
+			base.$el.html() :
+			base.getValue(base.$el);
+		if (base.el !== base.preview && !base.isContentEditable) {
+			base.setValue(base.originalContent);
+		}
+
+		// disable/enable accept button
+		if (o.acceptValid) {
+			base.checkValid();
+		}
+
+		if (o.resetDefault) {
+			base.shiftActive = base.altActive = base.metaActive = false;
+		}
+		base.showSet();
+
+		// beforeVisible event
+		if (!base.isVisible()) {
+			base.$el.trigger($keyboard.events.kbBeforeVisible, [base, base.el]);
+		}
+		if (
+			base.initialized ||
+			o.initialFocus ||
+			( !o.initialFocus && base.$el.hasClass($keyboard.css.initialFocus) )
+		) {
+			base.setCurrent();
+		}
+		// update keyboard - enabled or disabled?
+		base.toggle();
+
+		// show keyboard
+		base.$keyboard.show();
+
+		// adjust keyboard preview window width - save width so IE won't keep expanding (fix issue #6)
+		if (o.usePreview && $keyboard.msie) {
+			if (typeof base.width === 'undefined') {
+				base.$preview.hide(); // preview is 100% browser width in IE7, so hide the damn thing
+				base.width = Math.ceil(base.$keyboard.width()); // set input width to match the widest keyboard row
+				base.$preview.show();
+			}
+			base.$preview.width(base.width);
+		}
+
+		base.reposition();
+
+		base.checkDecimal();
+
+		// get preview area line height
+		// add roughly 4px to get line height from font height, works well for font-sizes from 14-36px
+		// needed for textareas
+		base.lineHeight = parseInt(base.$preview.css('lineHeight'), 10) ||
+			parseInt(base.$preview.css('font-size'), 10) + 4;
+
+		if (o.caretToEnd) {
+			temp = base.isContentEditable ? $keyboard.getEditableLength(base.el) : base.originalContent.length;
+			base.saveCaret(temp, temp);
+		}
+
+		// IE caret haxx0rs
+		if ($keyboard.allie) {
+			// sometimes end = 0 while start is > 0
+			if (base.last.end === 0 && base.last.start > 0) {
+				base.last.end = base.last.start;
+			}
+			// IE will have start -1, end of 0 when not focused (see demo: https://jsfiddle.net/Mottie/fgryQ/3/)
+			if (base.last.start < 0) {
+				// ensure caret is at the end of the text (needed for IE)
+				base.last.start = base.last.end = base.originalContent.length;
+			}
+		}
+
+		if (alreadyOpen || redraw) {
+			// restore caret position (userClosed)
+			$keyboard.caret(base.$preview, base.last);
+			return base;
+		}
+
+		// opening keyboard flag; delay allows switching between keyboards without immediately closing
+		// the keyboard
+		base.timer2 = setTimeout(function () {
+			var undef;
+			base.opening = false;
+			// Number inputs don't support selectionStart and selectionEnd
+			// Number/email inputs don't support selectionStart and selectionEnd
+			if (!/(number|email)/i.test(base.el.type) && !o.caretToEnd) {
+				// caret position is always 0,0 in webkit; and nothing is focused at this point... odd
+				// save caret position in the input to transfer it to the preview
+				// inside delay to get correct caret position
+				base.saveCaret(undef, undef, base.$el);
+			}
+			if (o.initialFocus || base.$el.hasClass($keyboard.css.initialFocus)) {
+				$keyboard.caret(base.$preview, base.last);
+			}
+			// save event time for keyboards with stayOpen: true
+			base.last.eventTime = new Date().getTime();
+			base.$el.trigger($keyboard.events.kbVisible, [base, base.el]);
+			base.timer = setTimeout(function () {
+				// get updated caret information after visible event - fixes #331
+				if (base) { // Check if base exists, this is a case when destroy is called, before timers fire
+					base.saveCaret();
+				}
+			}, 200);
+		}, 10);
+		// return base to allow chaining in typing extension
+		return base;
+	};
+
+	base.updateLanguage = function () {
+		// change language if layout is named something like 'french-azerty-1'
+		var layouts = $keyboard.layouts,
+			lang = o.language || layouts[o.layout] && layouts[o.layout].lang &&
+				layouts[o.layout].lang || [o.language || 'en'],
+			kblang = $keyboard.language;
+
+		// some languages include a dash, e.g. 'en-gb' or 'fr-ca'
+		// allow o.language to be a string or array...
+		// array is for future expansion where a layout can be set for multiple languages
+		lang = ($.isArray(lang) ? lang[0] : lang);
+		base.language = lang;
+		lang = lang.split('-')[0];
+
+		// set keyboard language
+		o.display = $.extend(true, {},
+			kblang.en.display,
+			kblang[lang] && kblang[lang].display || {},
+			base.settings.display
+		);
+		o.combos = $.extend(true, {},
+			kblang.en.combos,
+			kblang[lang] && kblang[lang].combos || {},
+			base.settings.combos
+		);
+		o.wheelMessage = kblang[lang] && kblang[lang].wheelMessage || kblang.en.wheelMessage;
+		// rtl can be in the layout or in the language definition; defaults to false
+		o.rtl = layouts[o.layout] && layouts[o.layout].rtl || kblang[lang] && kblang[lang].rtl || false;
+
+		// save default regex (in case loading another layout changes it)
+		base.regex = kblang[lang] && kblang[lang].comboRegex || $keyboard.comboRegex;
+		// determine if US '.' or European ',' system being used
+		base.decimal = /^\./.test(o.display.dec);
+		base.$el
+			.toggleClass('rtl', o.rtl)
+			.css('direction', o.rtl ? 'rtl' : '');
+	};
+
+	base.startup = function () {
+		var kbcss = $keyboard.css;
+		// ensure base.$preview is defined; but don't overwrite it if keyboard is always visible
+		if (!((o.alwaysOpen || o.userClosed) && base.$preview)) {
+			base.makePreview();
+		}
+		if (!base.hasKeyboard()) {
+			// custom layout - create a unique layout name based on the hash
+			if (o.layout === 'custom') {
+				o.layoutHash = 'custom' + base.customHash();
+			}
+			base.layout = o.layout === 'custom' ? o.layoutHash : o.layout;
+			base.last.layout = base.layout;
+
+			base.updateLanguage();
+			if (typeof $keyboard.builtLayouts[base.layout] === 'undefined') {
+				if ($.isFunction(o.create)) {
+					// create must call buildKeyboard() function; or create it's own keyboard
+					base.$keyboard = o.create(base);
+				} else if (!base.$keyboard.length) {
+					base.buildKeyboard(base.layout, true);
+				}
+			}
+			base.$keyboard = $keyboard.builtLayouts[base.layout].$keyboard.clone();
+			base.$keyboard.data('keyboard', base);
+			if ((base.el.id || '') !== '') {
+				// add ID to keyboard for styling purposes
+				base.$keyboard.attr('id', base.el.id + $keyboard.css.idSuffix);
+			}
+
+			base.makePreview();
+		}
+
+		// Add layout and laguage data-attibutes
+		base.$keyboard
+			.attr('data-' + kbcss.keyboard + '-layout', o.layout)
+			.attr('data-' + kbcss.keyboard + '-language', base.language);
+
+		base.$decBtn = base.$keyboard.find('.' + kbcss.keyPrefix + 'dec');
+		// add enter to allowed keys; fixes #190
+		if (o.enterNavigation || base.el.nodeName === 'TEXTAREA') {
+			base.alwaysAllowed.push(13);
+		}
+
+		base.bindKeyboard();
+
+		base.$keyboard.appendTo(o.appendLocally ? base.$el.parent() : o.appendTo || 'body');
+
+		base.bindKeys();
+
+		// reposition keyboard on window resize
+		if (o.reposition && $.ui && $.ui.position && o.appendTo == 'body') {
+			$(window).bind('resize' + base.namespace, function () {
+				base.reposition();
+			});
+		}
+
+	};
+
+	base.reposition = function () {
+		base.position = $.isEmptyObject(o.position) ? false : o.position;
+		// position after keyboard is visible (required for UI position utility)
+		// and appropriately sized
+		if ($.ui && $.ui.position && base.position) {
+			base.position.of =
+				// get single target position
+				base.position.of ||
+				// OR target stored in element data (multiple targets)
+				base.$el.data('keyboardPosition') ||
+				// OR default @ element
+				base.$el;
+			base.position.collision = base.position.collision || 'flipfit flipfit';
+			base.position.at = o.usePreview ? o.position.at : o.position.at2;
+			if (base.isVisible()) {
+				base.$keyboard.position(base.position);
+			}
+		}
+		// make chainable
+		return base;
+	};
+
+	base.makePreview = function () {
+		if (o.usePreview) {
+			var indx, attrs, attr, removedAttr,
+				kbcss = $keyboard.css;
+			base.$preview = base.$el.clone(false)
+				.data('keyboard', base)
+				.removeClass(kbcss.placeholder + ' ' + kbcss.input)
+				.addClass(kbcss.preview + ' ' + o.css.input)
+				.attr('tabindex', '-1')
+				.show(); // for hidden inputs
+			base.preview = base.$preview[0];
+
+			// Switch the number input field to text so the caret positioning will work again
+			if (base.preview.type === 'number') {
+				base.preview.type = 'text';
+			}
+
+			// remove extraneous attributes.
+			removedAttr = /^(data-|id|aria-haspopup)/i;
+			attrs = base.$preview.get(0).attributes;
+			for (indx = attrs.length - 1; indx >= 0; indx--) {
+				attr = attrs[indx] && attrs[indx].name;
+				if (removedAttr.test(attr)) {
+					// remove data-attributes - see #351
+					base.preview.removeAttribute(attr);
+				}
+			}
+			// build preview container and append preview display
+			$('<div />')
+				.addClass(kbcss.wrapper)
+				.append(base.$preview)
+				.prependTo(base.$keyboard);
+		} else {
+			base.$preview = base.$el;
+			base.preview = base.el;
+		}
+	};
+
+	// Added in v1.26.8 to allow chaining of the caret function, e.g.
+	// keyboard.reveal().caret(4,5).insertText('test').caret('end');
+	base.caret = function(param1, param2) {
+		var result = $keyboard.caret(base.$preview, param1, param2),
+			wasSetCaret = result instanceof $;
+		// Caret was set, save last position & make chainable
+		if (wasSetCaret) {
+			base.saveCaret(result.start, result.end);
+			return base;
+		}
+		// return caret position if using .caret()
+		return result;
+	};
+
+	base.saveCaret = function (start, end, $el) {
+		if (base.isCurrent()) {
+			var p;
+			if (typeof start === 'undefined') {
+				// grab & save current caret position
+				p = $keyboard.caret($el || base.$preview);
+			} else {
+				p = $keyboard.caret($el || base.$preview, start, end);
+			}
+			base.last.start = typeof start === 'undefined' ? p.start : start;
+			base.last.end = typeof end === 'undefined' ? p.end : end;
+		}
+	};
+
+	base.saveLastChange = function (val) {
+		base.last.val = val || base.getValue(base.$preview || base.$el);
+		if (base.isContentEditable) {
+			base.last.elms = base.el.cloneNode(true);
+		}
+	};
+
+	base.setScroll = function () {
+		// Set scroll so caret & current text is in view
+		// needed for virtual keyboard typing, NOT manual typing - fixes #23
+		if (!base.isContentEditable && base.last.virtual) {
+
+			var scrollWidth, clientWidth, adjustment, direction,
+				isTextarea = base.preview.nodeName === 'TEXTAREA',
+				value = base.last.val.substring(0, Math.max(base.last.start, base.last.end));
+
+			if (!base.$previewCopy) {
+				// clone preview
+				base.$previewCopy = base.$preview.clone()
+					.removeAttr('id') // fixes #334
+					.css({
+						position: 'absolute',
+						left: 0,
+						zIndex: -10,
+						visibility: 'hidden'
+					})
+					.addClass($keyboard.css.inputClone);
+				// prevent submitting content on form submission
+				base.$previewCopy[0].disabled = true;
+				if (!isTextarea) {
+					// make input zero-width because we need an accurate scrollWidth
+					base.$previewCopy.css({
+						'white-space': 'pre',
+						'width': 0
+					});
+				}
+				if (o.usePreview) {
+					// add clone inside of preview wrapper
+					base.$preview.after(base.$previewCopy);
+				} else {
+					// just slap that thing in there somewhere
+					base.$keyboard.prepend(base.$previewCopy);
+				}
+			}
+
+			if (isTextarea) {
+				// need the textarea scrollHeight, so set the clone textarea height to be the line height
+				base.$previewCopy
+					.height(base.lineHeight)
+					.val(value);
+				// set scrollTop for Textarea
+				base.preview.scrollTop = base.lineHeight *
+					(Math.floor(base.$previewCopy[0].scrollHeight / base.lineHeight) - 1);
+			} else {
+				// add non-breaking spaces
+				base.$previewCopy.val(value.replace(/\s/g, '\xa0'));
+
+				// if scrollAdjustment option is set to "c" or "center" then center the caret
+				adjustment = /c/i.test(o.scrollAdjustment) ? base.preview.clientWidth / 2 : o.scrollAdjustment;
+				scrollWidth = base.$previewCopy[0].scrollWidth - 1;
+
+				// set initial state as moving right
+				if (typeof base.last.scrollWidth === 'undefined') {
+					base.last.scrollWidth = scrollWidth;
+					base.last.direction = true;
+				}
+				// if direction = true; we're scrolling to the right
+				direction = base.last.scrollWidth === scrollWidth ?
+					base.last.direction :
+					base.last.scrollWidth < scrollWidth;
+				clientWidth = base.preview.clientWidth - adjustment;
+
+				// set scrollLeft for inputs; try to mimic the inherit caret positioning + scrolling:
+				// hug right while scrolling right...
+				if (direction) {
+					if (scrollWidth < clientWidth) {
+						base.preview.scrollLeft = 0;
+					} else {
+						base.preview.scrollLeft = scrollWidth - clientWidth;
+					}
+				} else {
+					// hug left while scrolling left...
+					if (scrollWidth >= base.preview.scrollWidth - clientWidth) {
+						base.preview.scrollLeft = base.preview.scrollWidth - adjustment;
+					} else if (scrollWidth - adjustment > 0) {
+						base.preview.scrollLeft = scrollWidth - adjustment;
+					} else {
+						base.preview.scrollLeft = 0;
+					}
+				}
+
+				base.last.scrollWidth = scrollWidth;
+				base.last.direction = direction;
+			}
+		}
+	};
+
+	base.bindFocus = function () {
+		if (o.openOn) {
+			// make sure keyboard isn't destroyed
+			// Check if base exists, this is a case when destroy is called, before timers have fired
+			if (base && base.el.active) {
+				base.$el.bind(o.openOn + base.namespace, function () {
+					base.focusOn();
+				});
+				// remove focus from element (needed for IE since blur doesn't seem to work)
+				if ($(':focus')[0] === base.el) {
+					base.$el.blur();
+				}
+			}
+		}
+	};
+
+	base.bindKeyboard = function () {
+		var evt,
+			keyCodes = $keyboard.keyCodes,
+			layout = $keyboard.builtLayouts[base.layout],
+			namespace = base.namespace + 'keybindings';
+		base.$preview
+			.unbind(base.namespace)
+			.bind('click' + namespace + ' touchstart' + namespace, function () {
+				if (o.alwaysOpen && !base.isCurrent()) {
+					base.reveal();
+				}
+				// update last caret position after user click, use at least 150ms or it doesn't work in IE
+				base.timer2 = setTimeout(function () {
+					if (base){
+						base.saveCaret();
+					}
+				}, 150);
+
+			})
+			.bind('keypress' + namespace, function (e) {
+				if (o.lockInput) {
+					return false;
+				}
+				if (!base.isCurrent()) {
+					return;
+				}
+
+				var k = e.charCode || e.which,
+					// capsLock can only be checked while typing a-z
+					k1 = k >= keyCodes.A && k <= keyCodes.Z,
+					k2 = k >= keyCodes.a && k <= keyCodes.z,
+					str = base.last.key = String.fromCharCode(k);
+				// check, that keypress wasn't rise by functional key
+				// space is first typing symbol in UTF8 table
+				if (k < keyCodes.space) { //see #549
+					return;
+				}
+				base.last.virtual = false;
+				base.last.event = e;
+				base.last.$key = []; // not a virtual keyboard key
+				if (base.checkCaret) {
+					base.saveCaret();
+				}
+
+				// update capsLock
+				if (k !== keyCodes.capsLock && (k1 || k2)) {
+					base.capsLock = (k1 && !e.shiftKey) || (k2 && e.shiftKey);
+					// if shifted keyset not visible, then show it
+					if (base.capsLock && !base.shiftActive) {
+						base.shiftActive = true;
+						base.showSet();
+					}
+				}
+
+				// restrict input - keyCode in keypress special keys:
+				// see http://www.asquare.net/javascript/tests/KeyCode.html
+				if (o.restrictInput) {
+					// allow navigation keys to work - Chrome doesn't fire a keypress event (8 = bksp)
+					if ((e.which === keyCodes.backSpace || e.which === 0) &&
+						$.inArray(e.keyCode, base.alwaysAllowed)) {
+						return;
+					}
+					// quick key check
+					if ($.inArray(str, layout.acceptedKeys) === -1) {
+						e.preventDefault();
+						// copy event object in case e.preventDefault() breaks when changing the type
+						evt = $.extend({}, e);
+						evt.type = $keyboard.events.inputRestricted;
+						base.$el.trigger(evt, [base, base.el]);
+					}
+				} else if ((e.ctrlKey || e.metaKey) &&
+					(e.which === keyCodes.A || e.which === keyCodes.C || e.which === keyCodes.V ||
+						(e.which >= keyCodes.X && e.which <= keyCodes.Z))) {
+					// Allow select all (ctrl-a), copy (ctrl-c), paste (ctrl-v) & cut (ctrl-x) &
+					// redo (ctrl-y)& undo (ctrl-z); meta key for mac
+					return;
+				}
+				// Mapped Keys - allows typing on a regular keyboard and the mapped key is entered
+				// Set up a key in the layout as follows: 'm(a):label'; m = key to map, (a) = actual keyboard key
+				// to map to (optional), ':label' = title/tooltip (optional)
+				// example: \u0391 or \u0391(A) or \u0391:alpha or \u0391(A):alpha
+				if (layout.hasMappedKeys && layout.mappedKeys.hasOwnProperty(str)) {
+					base.last.key = layout.mappedKeys[str];
+					base.insertText(base.last.key);
+					e.preventDefault();
+				}
+				if (typeof o.beforeInsert === 'function') {
+					base.insertText(base.last.key);
+					e.preventDefault();
+				}
+				base.checkMaxLength();
+
+			})
+			.bind('keyup' + namespace, function (e) {
+				if (!base.isCurrent()) { return; }
+				base.last.virtual = false;
+				switch (e.which) {
+					// Insert tab key
+				case keyCodes.tab:
+					// Added a flag to prevent from tabbing into an input, keyboard opening, then adding the tab
+					// to the keyboard preview area on keyup. Sadly it still happens if you don't release the tab
+					// key immediately because keydown event auto-repeats
+					if (base.tab && o.tabNavigation && !o.lockInput) {
+						base.shiftActive = e.shiftKey;
+						// when switching inputs, the tab keyaction returns false
+						var notSwitching = $keyboard.keyaction.tab(base);
+						base.tab = false;
+						if (!notSwitching) {
+							return false;
+						}
+					} else {
+						e.preventDefault();
+					}
+					break;
+
+					// Escape will hide the keyboard
+				case keyCodes.escape:
+					if (!o.ignoreEsc) {
+						base.close(o.autoAccept && o.autoAcceptOnEsc ? 'true' : false);
+					}
+					return false;
+				}
+
+				// throttle the check combo function because fast typers will have an incorrectly positioned caret
+				clearTimeout(base.throttled);
+				base.throttled = setTimeout(function () {
+					// fix error in OSX? see issue #102
+					if (base && base.isVisible()) {
+						base.checkCombos();
+					}
+				}, 100);
+
+				base.checkMaxLength();
+
+				base.last.preVal = '' + base.last.val;
+				base.saveLastChange();
+
+				// don't alter "e" or the "keyup" event never finishes processing; fixes #552
+				var event = $.Event( $keyboard.events.kbChange );
+				// base.last.key may be empty string (shift, enter, tab, etc) when keyboard is first visible
+				// use e.key instead, if browser supports it
+				event.action = base.last.key;
+				base.$el.trigger(event, [base, base.el]);
+
+				// change callback is no longer bound to the input element as the callback could be
+				// called during an external change event with all the necessary parameters (issue #157)
+				if ($.isFunction(o.change)) {
+					event.type = $keyboard.events.inputChange;
+					o.change(event, base, base.el);
+					return false;
+				}
+				if (o.acceptValid && o.autoAcceptOnValid) {
+					if (
+						$.isFunction(o.validate) &&
+						o.validate(base, base.getValue(base.$preview))
+					) {
+						base.$preview.blur();
+						base.accept();
+					}
+				}
+			})
+			.bind('keydown' + namespace, function (e) {
+				base.last.keyPress = e.which;
+				// ensure alwaysOpen keyboards are made active
+				if (o.alwaysOpen && !base.isCurrent()) {
+					base.reveal();
+				}
+				// prevent tab key from leaving the preview window
+				if (e.which === keyCodes.tab) {
+					// allow tab to pass through - tab to next input/shift-tab for prev
+					base.tab = true;
+					return false;
+				}
+
+				if (o.lockInput) {
+					return false;
+				}
+
+				base.last.virtual = false;
+				switch (e.which) {
+
+				case keyCodes.backSpace:
+					$keyboard.keyaction.bksp(base, null, e);
+					e.preventDefault();
+					break;
+
+				case keyCodes.enter:
+					$keyboard.keyaction.enter(base, null, e);
+					break;
+
+					// Show capsLock
+				case keyCodes.capsLock:
+					base.shiftActive = base.capsLock = !base.capsLock;
+					base.showSet();
+					break;
+
+				case keyCodes.V:
+					// prevent ctrl-v/cmd-v
+					if (e.ctrlKey || e.metaKey) {
+						if (o.preventPaste) {
+							e.preventDefault();
+							return;
+						}
+						base.checkCombos(); // check pasted content
+					}
+					break;
+				}
+			})
+			.bind('mouseup touchend '.split(' ').join(namespace + ' '), function () {
+				base.last.virtual = true;
+				base.saveCaret();
+			});
+
+		// prevent keyboard event bubbling
+		base.$keyboard.bind('mousedown click touchstart '.split(' ').join(base.namespace + ' '), function (e) {
+			e.stopPropagation();
+			if (!base.isCurrent()) {
+				base.reveal();
+				$(base.el.ownerDocument).trigger('checkkeyboard' + base.namespace);
+			}
+			base.setFocus();
+		});
+
+		// If preventing paste, block context menu (right click)
+		if (o.preventPaste) {
+			base.$preview.bind('contextmenu' + base.namespace, function (e) {
+				e.preventDefault();
+			});
+			base.$el.bind('contextmenu' + base.namespace, function (e) {
+				e.preventDefault();
+			});
+		}
+
+	};
+
+	base.bindKeys = function () {
+		var kbcss = $keyboard.css;
+		base.$allKeys = base.$keyboard.find('button.' + kbcss.keyButton)
+			.unbind(base.namespace + ' ' + base.namespace + 'kb')
+			// Change hover class and tooltip - moved this touchstart before option.keyBinding touchstart
+			// to prevent mousewheel lag/duplication - Fixes #379 & #411
+			.bind('mouseenter mouseleave touchstart '.split(' ').join(base.namespace + ' '), function (e) {
+				if ((o.alwaysOpen || o.userClosed) && e.type !== 'mouseleave' && !base.isCurrent()) {
+					base.reveal();
+					base.setFocus();
+				}
+				if (!base.isCurrent() || this.disabled) {
+					return;
+				}
+				var $keys, txt,
+					last = base.last,
+					$this = $(this),
+					type = e.type;
+
+				if (o.useWheel && base.wheel) {
+					$keys = base.getLayers($this);
+					txt = ($keys.length ? $keys.map(function () {
+							return $(this).attr('data-value') || '';
+						})
+						.get() : '') || [$this.text()];
+					last.wheel_$Keys = $keys;
+					last.wheelLayers = txt;
+					last.wheelIndex = $.inArray($this.attr('data-value'), txt);
+				}
+
+				if ((type === 'mouseenter' || type === 'touchstart') && base.el.type !== 'password' &&
+					!$this.hasClass(o.css.buttonDisabled)) {
+					$this.addClass(o.css.buttonHover);
+					if (o.useWheel && base.wheel) {
+						$this.attr('title', function (i, t) {
+							// show mouse wheel message
+							return (base.wheel && t === '' && base.sets && txt.length > 1 && type !== 'touchstart') ?
+								o.wheelMessage : t;
+						});
+					}
+				}
+				if (type === 'mouseleave') {
+					// needed or IE flickers really bad
+					$this.removeClass((base.el.type === 'password') ? '' : o.css.buttonHover);
+					if (o.useWheel && base.wheel) {
+						last.wheelIndex = 0;
+						last.wheelLayers = [];
+						last.wheel_$Keys = null;
+						$this
+							.attr('title', function (i, t) {
+								return (t === o.wheelMessage) ? '' : t;
+							})
+							.html($this.attr('data-html')); // restore original button text
+					}
+				}
+			})
+			// keyBinding = 'mousedown touchstart' by default
+			.bind(o.keyBinding.split(' ').join(base.namespace + ' ') + base.namespace + ' ' +
+				$keyboard.events.kbRepeater, function (e) {
+				e.preventDefault();
+				// prevent errors when external triggers attempt to 'type' - see issue #158
+				if (!base.$keyboard.is(':visible') || this.disabled) {
+					return false;
+				}
+				var action, $keys,
+					last = base.last,
+					key = this,
+					$key = $(key),
+					// prevent mousedown & touchstart from both firing events at the same time - see #184
+					timer = new Date().getTime();
+
+				if (o.useWheel && base.wheel) {
+					// get keys from other layers/keysets (shift, alt, meta, etc) that line up by data-position
+					$keys = last.wheel_$Keys;
+					// target mousewheel selected key
+					$key = $keys && last.wheelIndex > -1 ? $keys.eq(last.wheelIndex) : $key;
+				}
+				action = $key.attr('data-action');
+				if (timer - (last.eventTime || 0) < o.preventDoubleEventTime) {
+					return;
+				}
+				last.eventTime = timer;
+				last.event = e;
+				last.virtual = true;
+				last.$key = $key;
+				last.key = $key.attr('data-value');
+				last.keyPress = "";
+				// Start caret in IE when not focused (happens with each virtual keyboard button click
+				base.setFocus();
+				if (/^meta/.test(action)) {
+					action = 'meta';
+				}
+				// keyaction is added as a string, override original action & text
+				if (action === last.key && typeof $keyboard.keyaction[action] === 'string') {
+					last.key = action = $keyboard.keyaction[action];
+				} else if (action in $keyboard.keyaction && $.isFunction($keyboard.keyaction[action])) {
+					// stop processing if action returns false (close & cancel)
+					if ($keyboard.keyaction[action](base, this, e) === false) {
+						return false;
+					}
+					action = null; // prevent inserting action name
+				}
+				// stop processing if keyboard closed and keyaction did not return false - see #536
+				if (!base.hasKeyboard()) {
+					return false;
+				}
+				if (typeof action !== 'undefined' && action !== null) {
+					last.key = $(this).hasClass(kbcss.keyAction) ? action : last.key;
+					base.insertText(last.key);
+					if (!base.capsLock && !o.stickyShift && !e.shiftKey) {
+						base.shiftActive = false;
+						base.showSet($key.attr('data-name'));
+					}
+				}
+				// set caret if caret moved by action function; also, attempt to fix issue #131
+				$keyboard.caret(base.$preview, last);
+				base.checkCombos();
+				e.type = $keyboard.events.kbChange;
+				e.action = last.key;
+				base.$el.trigger(e, [base, base.el]);
+				last.preVal = '' + last.val;
+				base.saveLastChange();
+
+				if ($.isFunction(o.change)) {
+					e.type = $keyboard.events.inputChange;
+					o.change(e, base, base.el);
+					// return false to prevent reopening keyboard if base.accept() was called
+					return false;
+				}
+
+			})
+			// using 'kb' namespace for mouse repeat functionality to keep it separate
+			// I need to trigger a 'repeater.keyboard' to make it work
+			.bind('mouseup' + base.namespace + ' ' + 'mouseleave touchend touchmove touchcancel '.split(' ')
+				.join(base.namespace + 'kb '), function (e) {
+				base.last.virtual = true;
+				var offset,
+					$this = $(this);
+				if (e.type === 'touchmove') {
+					// if moving within the same key, don't stop repeating
+					offset = $this.offset();
+					offset.right = offset.left + $this.outerWidth();
+					offset.bottom = offset.top + $this.outerHeight();
+					if (e.originalEvent.touches[0].pageX >= offset.left &&
+						e.originalEvent.touches[0].pageX < offset.right &&
+						e.originalEvent.touches[0].pageY >= offset.top &&
+						e.originalEvent.touches[0].pageY < offset.bottom) {
+						return true;
+					}
+				} else if (/(mouseleave|touchend|touchcancel)/i.test(e.type)) {
+					$this.removeClass(o.css.buttonHover); // needed for touch devices
+				} else {
+					if (!o.noFocus && base.isCurrent() && base.isVisible()) {
+						base.$preview.focus();
+					}
+					if (base.checkCaret) {
+						$keyboard.caret(base.$preview, base.last);
+					}
+				}
+				base.mouseRepeat = [false, ''];
+				clearTimeout(base.repeater); // make sure key repeat stops!
+				if (o.acceptValid && o.autoAcceptOnValid) {
+					if (
+						$.isFunction(o.validate) &&
+						o.validate(base, base.getValue())
+					) {
+						base.$preview.blur();
+						base.accept();
+					}
+				}
+				return false;
+			})
+			// prevent form submits when keyboard is bound locally - issue #64
+			.bind('click' + base.namespace, function () {
+				return false;
+			})
+			// no mouse repeat for action keys (shift, ctrl, alt, meta, etc)
+			.not('.' + kbcss.keyAction)
+			// Allow mousewheel to scroll through other keysets of the same (non-action) key
+			.bind('mousewheel' + base.namespace, function (e, delta) {
+				if (o.useWheel && base.wheel) {
+					// deltaY used by newer versions of mousewheel plugin
+					delta = delta || e.deltaY;
+					var n,
+						txt = base.last.wheelLayers || [];
+					if (txt.length > 1) {
+						n = base.last.wheelIndex + (delta > 0 ? -1 : 1);
+						if (n > txt.length - 1) {
+							n = 0;
+						}
+						if (n < 0) {
+							n = txt.length - 1;
+						}
+					} else {
+						n = 0;
+					}
+					base.last.wheelIndex = n;
+					$(this).html(txt[n]);
+					return false;
+				}
+			})
+			// mouse repeated action key exceptions
+			.add('.' + kbcss.keyPrefix + ('tab bksp space enter'.split(' ')
+				.join(',.' + kbcss.keyPrefix)), base.$keyboard)
+			.bind('mousedown touchstart '.split(' ').join(base.namespace + 'kb '), function () {
+				if (o.repeatRate !== 0) {
+					var key = $(this);
+					// save the key, make sure we are repeating the right one (fast typers)
+					base.mouseRepeat = [true, key];
+					setTimeout(function () {
+						// don't repeat keys if it is disabled - see #431
+						if (base && base.mouseRepeat[0] && base.mouseRepeat[1] === key && !key[0].disabled) {
+							base.repeatKey(key);
+						}
+					}, o.repeatDelay);
+				}
+				return false;
+			});
+	};
+
+	base.execCommand = function(cmd, str) {
+		base.el.ownerDocument.execCommand(cmd, false, str);
+		base.el.normalize();
+		if (o.reposition) {
+			base.reposition();
+		}
+	};
+
+	base.getValue = function ($el) {
+		$el = $el || base.$preview;
+		return $el[base.isContentEditable ? 'text' : 'val']();
+	};
+
+	base.setValue = function (txt, $el) {
+		$el = $el || base.$preview;
+		if (base.isContentEditable) {
+			if (txt !== $el.text()) {
+				$keyboard.replaceContent($el, txt);
+				base.saveCaret();
+			}
+		} else {
+			$el.val(txt);
+		}
+		return base;
+	};
+
+	// Insert text at caret/selection - thanks to Derek Wickwire for fixing this up!
+	base.insertText = function (txt) {
+		if (!base.$preview) { return base; }
+		if (typeof o.beforeInsert === 'function') {
+			txt = o.beforeInsert(base.last.event, base, base.el, txt);
+		}
+		if (typeof txt === 'undefined' || txt === false) {
+			base.last.key = '';
+			return base;
+		}
+		if (base.isContentEditable) {
+			return base.insertContentEditable(txt);
+		}
+		var t,
+			bksp = false,
+			isBksp = txt === '\b',
+			// use base.$preview.val() instead of base.preview.value (val.length includes carriage returns in IE).
+			val = base.getValue(),
+			pos = $keyboard.caret(base.$preview),
+			len = val.length; // save original content length
+
+		// silly IE caret hacks... it should work correctly, but navigating using arrow keys in a textarea
+		// is still difficult
+		// in IE, pos.end can be zero after input loses focus
+		if (pos.end < pos.start) {
+			pos.end = pos.start;
+		}
+		if (pos.start > len) {
+			pos.end = pos.start = len;
+		}
+
+		if (base.preview.nodeName === 'TEXTAREA') {
+			// This makes sure the caret moves to the next line after clicking on enter (manual typing works fine)
+			if ($keyboard.msie && val.substr(pos.start, 1) === '\n') {
+				pos.start += 1;
+				pos.end += 1;
+			}
+		}
+
+		t = pos.start;
+		if (txt === '{d}') {
+			txt = '';
+			pos.end += 1;
+		}
+
+		if (isBksp) {
+			txt = '';
+			bksp = isBksp && t === pos.end && t > 0;
+		}
+		val = val.substr(0, t - (bksp ? 1 : 0)) + txt + val.substr(pos.end);
+		t += bksp ? -1 : txt.length;
+
+		base.setValue(val);
+		base.saveCaret(t, t); // save caret in case of bksp
+		base.setScroll();
+		// see #506.. allow chaining of insertText
+		return base;
+	};
+
+	base.insertContentEditable = function (txt) {
+		base.$preview.focus();
+		base.execCommand('insertText', txt);
+		base.saveCaret();
+		return base;
+	};
+
+	// check max length
+	base.checkMaxLength = function () {
+		if (!base.$preview) { return; }
+		var start, caret,
+			val = base.getValue(),
+			len = base.isContentEditable ? $keyboard.getEditableLength(base.el) : val.length;
+		if (o.maxLength !== false && len > o.maxLength) {
+			start = $keyboard.caret(base.$preview).start;
+			caret = Math.min(start, o.maxLength);
+
+			// prevent inserting new characters when maxed #289
+			if (!o.maxInsert) {
+				val = base.last.val;
+				caret = start - 1; // move caret back one
+			}
+			base.setValue(val.substring(0, o.maxLength));
+			// restore caret on change, otherwise it ends up at the end.
+			base.saveCaret(caret, caret);
+		}
+		if (base.$decBtn.length) {
+			base.checkDecimal();
+		}
+		// allow chaining
+		return base;
+	};
+
+	// mousedown repeater
+	base.repeatKey = function (key) {
+		key.trigger($keyboard.events.kbRepeater);
+		if (base.mouseRepeat[0]) {
+			base.repeater = setTimeout(function () {
+				if (base){
+					base.repeatKey(key);
+				}
+			}, base.repeatTime);
+		}
+	};
+
+	base.getKeySet = function () {
+		var sets = [];
+		if (base.altActive) {
+			sets.push('alt');
+		}
+		if (base.shiftActive) {
+			sets.push('shift');
+		}
+		if (base.metaActive) {
+			// base.metaActive contains the string name of the
+			// current meta keyset
+			sets.push(base.metaActive);
+		}
+		return sets.length ? sets.join('+') : 'normal';
+	};
+
+	// make it easier to switch keysets via API
+	// showKeySet('shift+alt+meta1')
+	base.showKeySet = function (str) {
+		if (typeof str === 'string') {
+			base.last.keyset = [base.shiftActive, base.altActive, base.metaActive];
+			base.shiftActive = /shift/i.test(str);
+			base.altActive = /alt/i.test(str);
+			if (/\bmeta/.test(str)) {
+				base.metaActive = true;
+				base.showSet(str.match(/\bmeta[\w-]+/i)[0]);
+			} else {
+				base.metaActive = false;
+				base.showSet();
+			}
+		} else {
+			base.showSet(str);
+		}
+		// allow chaining
+		return base;
+	};
+
+	base.showSet = function (name) {
+		if (!base.hasKeyboard()) { return; }
+		o = base.options; // refresh options
+		var kbcss = $keyboard.css,
+			prefix = '.' + kbcss.keyPrefix,
+			active = o.css.buttonActive,
+			key = '',
+			toShow = (base.shiftActive ? 1 : 0) + (base.altActive ? 2 : 0);
+		if (!base.shiftActive) {
+			base.capsLock = false;
+		}
+		// check meta key set
+		if (base.metaActive) {
+			// remove "-shift" and "-alt" from meta name if it exists
+			if (base.shiftActive) {
+				name = (name || "").replace("-shift", "");
+			}
+			if (base.altActive) {
+				name = (name || "").replace("-alt", "");
+			}
+			// the name attribute contains the meta set name 'meta99'
+			key = (/^meta/i.test(name)) ? name : '';
+			// save active meta keyset name
+			if (key === '') {
+				key = (base.metaActive === true) ? '' : base.metaActive;
+			} else {
+				base.metaActive = key;
+			}
+			// if meta keyset doesn't have a shift or alt keyset, then show just the meta key set
+			if ((!o.stickyShift && base.last.keyset[2] !== base.metaActive) ||
+				((base.shiftActive || base.altActive) &&
+				!base.$keyboard.find('.' + kbcss.keySet + '-' + key + base.rows[toShow]).length)) {
+				base.shiftActive = base.altActive = false;
+			}
+		} else if (!o.stickyShift && base.last.keyset[2] !== base.metaActive && base.shiftActive) {
+			// switching from meta key set back to default, reset shift & alt if using stickyShift
+			base.shiftActive = base.altActive = false;
+		}
+		toShow = (base.shiftActive ? 1 : 0) + (base.altActive ? 2 : 0);
+		key = (toShow === 0 && !base.metaActive) ? '-normal' : (key === '') ? '' : '-' + key;
+		if (!base.$keyboard.find('.' + kbcss.keySet + key + base.rows[toShow]).length) {
+			// keyset doesn't exist, so restore last keyset settings
+			base.shiftActive = base.last.keyset[0];
+			base.altActive = base.last.keyset[1];
+			base.metaActive = base.last.keyset[2];
+			return;
+		}
+		base.$keyboard
+			.find(prefix + 'alt,' + prefix + 'shift,.' + kbcss.keyAction + '[class*=meta]')
+			.removeClass(active)
+			.end()
+			.find(prefix + 'alt')
+			.toggleClass(active, base.altActive)
+			.end()
+			.find(prefix + 'shift')
+			.toggleClass(active, base.shiftActive)
+			.end()
+			.find(prefix + 'lock')
+			.toggleClass(active, base.capsLock)
+			.end()
+			.find('.' + kbcss.keySet)
+			.hide()
+			.end()
+			.find('.' + (kbcss.keyAction + prefix + key).replace("--", "-"))
+			.addClass(active);
+
+		// show keyset using inline-block ( extender layout will then line up )
+		base.$keyboard.find('.' + kbcss.keySet + key + base.rows[toShow])[0].style.display = 'inline-block';
+		if (base.metaActive) {
+			base.$keyboard.find(prefix + base.metaActive)
+				// base.metaActive contains the string "meta#" or false
+				// without the !== false, jQuery UI tries to transition the classes
+				.toggleClass(active, base.metaActive !== false);
+		}
+		base.last.keyset = [base.shiftActive, base.altActive, base.metaActive];
+		base.$el.trigger($keyboard.events.kbKeysetChange, [base, base.el]);
+		if (o.reposition) {
+			base.reposition();
+		}
+	};
+
+	// check for key combos (dead keys)
+	base.checkCombos = function () {
+		// return val for close function
+		if ( !(
+			base.isVisible() || (
+				base.hasKeyboard() &&
+				base.$keyboard.hasClass( $keyboard.css.hasFocus )
+			)
+		) ) {
+			return base.getValue(base.$preview || base.$el);
+		}
+		var r, t, t2, repl,
+			// use base.$preview.val() instead of base.preview.value
+			// (val.length includes carriage returns in IE).
+			val = base.getValue(),
+			pos = $keyboard.caret(base.$preview),
+			layout = $keyboard.builtLayouts[base.layout],
+			max = base.isContentEditable ? $keyboard.getEditableLength(base.el) : val.length,
+			// save original content length
+			len = max;
+		// return if val is empty; fixes #352
+		if (val === '') {
+			// check valid on empty string - see #429
+			if (o.acceptValid) {
+				base.checkValid();
+			}
+			return val;
+		}
+
+		// silly IE caret hacks... it should work correctly, but navigating using arrow keys in a textarea
+		// is still difficult
+		// in IE, pos.end can be zero after input loses focus
+		if (pos.end < pos.start) {
+			pos.end = pos.start;
+		}
+		if (pos.start > len) {
+			pos.end = pos.start = len;
+		}
+		// This makes sure the caret moves to the next line after clicking on enter (manual typing works fine)
+		if ($keyboard.msie && val.substr(pos.start, 1) === '\n') {
+			pos.start += 1;
+			pos.end += 1;
+		}
+
+		if (o.useCombos) {
+			// keep 'a' and 'o' in the regex for ae and oe ligature (æ,œ)
+			// thanks to KennyTM: http://stackoverflow.com/q/4275077
+			// original regex /([`\'~\^\"ao])([a-z])/mig moved to $.keyboard.comboRegex
+			if ($keyboard.msie) {
+				// old IE may not have the caret positioned correctly, so just check the whole thing
+				val = val.replace(base.regex, function (s, accent, letter) {
+					return (o.combos.hasOwnProperty(accent)) ? o.combos[accent][letter] || s : s;
+				});
+				// prevent combo replace error, in case the keyboard closes - see issue #116
+			} else if (base.$preview.length) {
+				// Modern browsers - check for combos from last two characters left of the caret
+				t = pos.start - (pos.start - 2 >= 0 ? 2 : 0);
+				// target last two characters
+				$keyboard.caret(base.$preview, t, pos.end);
+				// do combo replace
+				t = $keyboard.caret(base.$preview);
+				repl = function (txt) {
+					return (txt || '').replace(base.regex, function (s, accent, letter) {
+						return (o.combos.hasOwnProperty(accent)) ? o.combos[accent][letter] || s : s;
+					});
+				};
+				t2 = repl(t.text);
+				// add combo back
+				// prevent error if caret doesn't return a function
+				if (t && t.replaceStr && t2 !== t.text) {
+					if (base.isContentEditable) {
+						$keyboard.replaceContent(el, repl);
+					} else {
+						base.setValue(t.replaceStr(t2));
+					}
+				}
+				val = base.getValue();
+			}
+		}
+
+		// check input restrictions - in case content was pasted
+		if (o.restrictInput && val !== '') {
+			t = layout.acceptedKeys.length;
+
+			r = layout.acceptedKeysRegex;
+			if (!r) {
+				t2 = $.map(layout.acceptedKeys, function (v) {
+					// escape any special characters
+					return v.replace(base.escapeRegex, '\\$&');
+				});
+				r = layout.acceptedKeysRegex = new RegExp('(' + t2.join('|') + ')', 'g');
+			}
+
+			// only save matching keys
+			t2 = val.match(r);
+			if (t2) {
+				val = t2.join('');
+			} else {
+				// no valid characters
+				val = '';
+				len = 0;
+			}
+		}
+
+		// save changes, then reposition caret
+		pos.start += max - len;
+		pos.end += max - len;
+
+		base.setValue(val);
+		base.saveCaret(pos.start, pos.end);
+		// set scroll to keep caret in view
+		base.setScroll();
+		base.checkMaxLength();
+
+		if (o.acceptValid) {
+			base.checkValid();
+		}
+		return val; // return text, used for keyboard closing section
+	};
+
+	// Toggle accept button classes, if validating
+	base.checkValid = function () {
+		var kbcss = $keyboard.css,
+			$accept = base.$keyboard.find('.' + kbcss.keyPrefix + 'accept'),
+			valid = true;
+		if ($.isFunction(o.validate)) {
+			valid = o.validate(base, base.getValue(), false);
+		}
+		// toggle accept button classes; defined in the css
+		$accept
+			.toggleClass(kbcss.inputInvalid, !valid)
+			.toggleClass(kbcss.inputValid, valid)
+			// update title to indicate that the entry is valid or invalid
+			.attr('title', $accept.attr('data-title') + ' (' + o.display[valid ? 'valid' : 'invalid'] + ')');
+	};
+
+	// Decimal button for num pad - only allow one (not used by default)
+	base.checkDecimal = function () {
+		// Check US '.' or European ',' format
+		if ((base.decimal && /\./g.test(base.preview.value)) ||
+			(!base.decimal && /\,/g.test(base.preview.value))) {
+			base.$decBtn
+				.attr({
+					'disabled': 'disabled',
+					'aria-disabled': 'true'
+				})
+				.removeClass(o.css.buttonHover)
+				.addClass(o.css.buttonDisabled);
+		} else {
+			base.$decBtn
+				.removeAttr('disabled')
+				.attr({
+					'aria-disabled': 'false'
+				})
+				.addClass(o.css.buttonDefault)
+				.removeClass(o.css.buttonDisabled);
+		}
+	};
+
+	// get other layer values for a specific key
+	base.getLayers = function ($el) {
+		var kbcss = $keyboard.css,
+			key = $el.attr('data-pos'),
+			$keys = $el.closest('.' + kbcss.keyboard)
+			.find('button[data-pos="' + key + '"]');
+		return $keys.filter(function () {
+			return $(this)
+				.find('.' + kbcss.keyText)
+				.text() !== '';
+		})
+		.add($el);
+	};
+
+	// Go to next or prev inputs
+	// goToNext = true, then go to next input; if false go to prev
+	// isAccepted is from autoAccept option or true if user presses shift+enter
+	base.switchInput = function (goToNext, isAccepted) {
+		if ($.isFunction(o.switchInput)) {
+			o.switchInput(base, goToNext, isAccepted);
+		} else {
+			// base.$keyboard may be an empty array - see #275 (apod42)
+			if (base.$keyboard.length) {
+				base.$keyboard.hide();
+			}
+			var kb,
+				stopped = false,
+				all = $('button, input, select, textarea, a, [contenteditable]')
+					.filter(':visible')
+					.not(':disabled'),
+				indx = all.index(base.$el) + (goToNext ? 1 : -1);
+			if (base.$keyboard.length) {
+				base.$keyboard.show();
+			}
+			if (indx > all.length - 1) {
+				stopped = o.stopAtEnd;
+				indx = 0; // go to first input
+			}
+			if (indx < 0) {
+				stopped = o.stopAtEnd;
+				indx = all.length - 1; // stop or go to last
+			}
+			if (!stopped) {
+				isAccepted = base.close(isAccepted);
+				if (!isAccepted) {
+					return;
+				}
+				kb = all.eq(indx).data('keyboard');
+				if (kb && kb.options.openOn.length) {
+					kb.focusOn();
+				} else {
+					all.eq(indx).focus();
+				}
+			}
+		}
+		return false;
+	};
+
+	// Close the keyboard, if visible. Pass a status of true, if the content was accepted
+	// (for the event trigger).
+	base.close = function (accepted) {
+		if (base.isOpen && base.$keyboard.length) {
+			clearTimeout(base.throttled);
+			var kbcss = $keyboard.css,
+				kbevents = $keyboard.events,
+				val = accepted ? base.checkCombos() : base.originalContent;
+			// validate input if accepted
+			if (accepted && $.isFunction(o.validate) && !o.validate(base, val, true)) {
+				val = base.originalContent;
+				accepted = false;
+				if (o.cancelClose) {
+					return;
+				}
+			}
+			base.isCurrent(false);
+			base.isOpen = o.alwaysOpen || o.userClosed;
+			if (base.isContentEditable && !accepted) {
+				// base.originalContent stores the HTML
+				base.$el.html(val);
+			} else {
+				base.setValue(val, base.$el);
+			}
+			base.$el
+				.removeClass(kbcss.isCurrent + ' ' + kbcss.inputAutoAccepted)
+				// add 'ui-keyboard-autoaccepted' to inputs - see issue #66
+				.addClass((accepted || false) ? accepted === true ? '' : kbcss.inputAutoAccepted : '')
+				// trigger default change event - see issue #146
+				.trigger(kbevents.inputChange);
+			// don't trigger an empty event - see issue #463
+			if (!o.alwaysOpen) {
+				// don't trigger beforeClose if keyboard is always open
+				base.$el.trigger(kbevents.kbBeforeClose, [base, base.el, (accepted || false)]);
+			}
+			// save caret after updating value (fixes userClosed issue with changing focus)
+			$keyboard.caret(base.$preview, base.last);
+
+			base.$el
+				.trigger(((accepted || false) ? kbevents.inputAccepted : kbevents.inputCanceled), [base, base.el])
+				.trigger((o.alwaysOpen) ? kbevents.kbInactive : kbevents.kbHidden, [base, base.el])
+				.blur();
+
+			// base is undefined if keyboard was destroyed - fixes #358
+			if (base) {
+				// add close event time
+				base.last.eventTime = new Date().getTime();
+				if (!(o.alwaysOpen || o.userClosed && accepted === 'true') && base.$keyboard.length) {
+					// free up memory
+					base.removeKeyboard();
+					// rebind input focus - delayed to fix IE issue #72
+					base.timer = setTimeout(function () {
+						if (base) {
+							base.bindFocus();
+						}
+					}, 500);
+				}
+				if (!base.watermark && base.el.value === '' && base.inPlaceholder !== '') {
+					base.$el.addClass(kbcss.placeholder);
+					base.setValue(base.inPlaceholder, base.$el);
+				}
+			}
+		}
+		return !!accepted;
+	};
+
+	base.accept = function () {
+		return base.close(true);
+	};
+
+	base.checkClose = function (e) {
+		if (base.opening) {
+			return;
+		}
+		var kbcss = $.keyboard.css,
+			name = e.target.nodeName,
+			$contenteditable = $(e.target).closest('[contenteditable]'),
+			$target = $contenteditable.length ?  $contenteditable : $(e.target);
+		base.escClose(e, $target);
+		// needed for IE to allow switching between keyboards smoothly
+		if ($target.hasClass(kbcss.input)) {
+			var kb = $target.data('keyboard');
+			// only trigger on self
+			if (
+				kb !== base &&
+				!kb.$el.hasClass(kbcss.isCurrent) &&
+				kb.options.openOn &&
+				e.type === o.openOn
+			) {
+				kb.focusOn();
+			}
+		}
+	};
+
+	// callback functions called to check if the keyboard needs to be closed
+	// e.g. on escape or clicking outside the keyboard
+	base.escCloseCallback = {
+		// keep keyboard open if alwaysOpen or stayOpen is true - fixes mutliple
+		// always open keyboards or single stay open keyboard
+		keepOpen: function($target) {
+			return !base.isOpen;
+		}
+	};
+
+	base.escClose = function (e, $el) {
+		if (e && e.type === 'keyup') {
+			return (e.which === $keyboard.keyCodes.escape && !o.ignoreEsc) ?
+				base.close(o.autoAccept && o.autoAcceptOnEsc ? 'true' : false) :
+				'';
+		}
+		var shouldStayOpen = false,
+			$target = $el || $(e.target);
+		$.each(base.escCloseCallback, function(i, callback) {
+			if (typeof callback === 'function') {
+				shouldStayOpen = shouldStayOpen || callback($target);
+			}
+		});
+		if (shouldStayOpen) {
+			return;
+		}
+		// ignore autoaccept if using escape - good idea?
+		if (!base.isCurrent() && base.isOpen || base.isOpen && $target[0] !== base.el) {
+			// don't close if stayOpen is set; but close if a different keyboard is being opened
+			if ((o.stayOpen || o.userClosed) && !$target.hasClass($keyboard.css.input)) {
+				return;
+			}
+			// stop propogation in IE - an input getting focus doesn't open a keyboard if one is already open
+			if ($keyboard.allie) {
+				e.preventDefault();
+			}
+			if (o.closeByClickEvent) {
+				// only close the keyboard if the user is clicking on an input or if they cause a click
+				// event (touchstart/mousedown will not force the close with this setting)
+				var name = $target[0] && $target[0].nodeName.toLowerCase();
+				if (name === 'input' || name === 'textarea' || e.type === 'click') {
+					base.close(o.autoAccept ? 'true' : false);
+				}
+			} else {
+				// send 'true' instead of a true (boolean), the input won't get a 'ui-keyboard-autoaccepted'
+				// class name - see issue #66
+				base.close(o.autoAccept ? 'true' : false);
+			}
+		}
+	};
+
+	// Build default button
+	base.keyBtn = $('<button />')
+		.attr({
+			'role': 'button',
+			'type': 'button',
+			'aria-disabled': 'false',
+			'tabindex': '-1'
+		})
+		.addClass($keyboard.css.keyButton);
+
+	// convert key names into a class name
+	base.processName = function (name) {
+		var index, n,
+			process = (name || '').replace(/[^a-z0-9-_]/gi, ''),
+			len = process.length,
+			newName = [];
+		if (len > 1 && name === process) {
+			// return name if basic text
+			return name;
+		}
+		// return character code sequence
+		len = name.length;
+		if (len) {
+			for (index = 0; index < len; index++) {
+				n = name[index];
+				// keep '-' and '_'... so for dash, we get two dashes in a row
+				newName.push(/[a-z0-9-_]/i.test(n) ?
+					(/[-_]/.test(n) && index !== 0 ? '' : n) :
+					(index === 0 ? '' : '-') + n.charCodeAt(0)
+				);
+			}
+			return newName.join('');
+		} else {
+			return name;
+		}
+	};
+
+	base.processKeys = function (name) {
+		var tmp,
+			parts = name.split(':'),
+			data = {
+				name: null,
+				map: '',
+				title: ''
+			};
+		/* map defined keys
+		format 'key(A):Label_for_key_(ignore_parentheses_here)'
+			'key' = key that is seen (can any character(s); but it might need to be escaped using '\'
+			or entered as unicode '\u####'
+			'(A)' = the actual key on the real keyboard to remap
+			':Label_for_key' ends up in the title/tooltip
+		Examples:
+			'\u0391(A):alpha', 'x(y):this_(might)_cause_problems
+			or edge cases of ':(x)', 'x(:)', 'x(()' or 'x())'
+		Enhancement (if I can get alt keys to work):
+			A mapped key will include the mod key, e.g. 'x(alt-x)' or 'x(alt-shift-x)'
+		*/
+		if (/\(.+\)/.test(parts[0]) || /^:\(.+\)/.test(name) || /\([(:)]\)/.test(name)) {
+			// edge cases 'x(:)', 'x(()' or 'x())'
+			if (/\([(:)]\)/.test(name)) {
+				tmp = parts[0].match(/([^(]+)\((.+)\)/);
+				if (tmp && tmp.length) {
+					data.name = tmp[1];
+					data.map = tmp[2];
+					data.title = parts.length > 1 ? parts.slice(1).join(':') : '';
+				} else {
+					// edge cases 'x(:)', ':(x)' or ':(:)'
+					data.name = name.match(/([^(]+)/)[0];
+					if (data.name === ':') {
+						// ':(:):test' => parts = [ '', '(', ')', 'title' ] need to slice 1
+						parts = parts.slice(1);
+					}
+					if (tmp === null) {
+						// 'x(:):test' => parts = [ 'x(', ')', 'title' ] need to slice 2
+						data.map = ':';
+						parts = parts.slice(2);
+					}
+					data.title = parts.length ? parts.join(':') : '';
+				}
+			} else {
+				// example: \u0391(A):alpha; extract 'A' from '(A)'
+				data.map = name.match(/\(([^()]+?)\)/)[1];
+				// remove '(A)', left with '\u0391:alpha'
+				name = name.replace(/\(([^()]+)\)/, '');
+				tmp = name.split(':');
+				// get '\u0391' from '\u0391:alpha'
+				if (tmp[0] === '') {
+					data.name = ':';
+					parts = parts.slice(1);
+				} else {
+					data.name = tmp[0];
+				}
+				data.title = parts.length > 1 ? parts.slice(1).join(':') : '';
+			}
+		} else {
+			// find key label
+			// corner case of '::;' reduced to ':;', split as ['', ';']
+			if (name !== '' && parts[0] === '') {
+				data.name = ':';
+				parts = parts.slice(1);
+			} else {
+				data.name = parts[0];
+			}
+			data.title = parts.length > 1 ? parts.slice(1).join(':') : '';
+		}
+		data.title = $.trim(data.title).replace(/_/g, ' ');
+		return data;
+	};
+
+	// Add key function
+	// keyName = the name of the function called in $.keyboard.keyaction when the button is clicked
+	// name = name added to key, or cross-referenced in the display options
+	// base.temp[0] = keyset to attach the new button
+	// regKey = true when it is not an action key
+	base.addKey = function (keyName, action, regKey) {
+		var keyClass, tmp, keys,
+			data = {},
+			txt = base.processKeys(regKey ? keyName : action),
+			kbcss = $keyboard.css;
+
+		if (!regKey && o.display[txt.name]) {
+			keys = base.processKeys(o.display[txt.name]);
+			// action contained in "keyName" (e.g. keyName = "accept",
+			// action = "a" (use checkmark instead of text))
+			keys.action = base.processKeys(keyName).name;
+		} else {
+			// when regKey is true, keyName is the same as action
+			keys = txt;
+			keys.action = txt.name;
+		}
+
+		data.name = base.processName(txt.name);
+		if (keys.name !== '') {
+			if (keys.map !== '') {
+				$keyboard.builtLayouts[base.layout].mappedKeys[keys.map] = keys.name;
+				$keyboard.builtLayouts[base.layout].acceptedKeys.push(keys.name);
+			} else if (regKey) {
+				$keyboard.builtLayouts[base.layout].acceptedKeys.push(keys.name);
+			}
+		}
+
+		if (regKey) {
+			keyClass = data.name === '' ? '' : kbcss.keyPrefix + data.name;
+		} else {
+			// Action keys will have the 'ui-keyboard-actionkey' class
+			keyClass = kbcss.keyAction + ' ' + kbcss.keyPrefix + keys.action;
+		}
+		// '\u2190'.length = 1 because the unicode is converted, so if more than one character,
+		// add the wide class
+		keyClass += (keys.name.length > 2 ? ' ' + kbcss.keyWide : '') + ' ' + o.css.buttonDefault;
+
+		data.html = '<span class="' + kbcss.keyText + '">' +
+			// this prevents HTML from being added to the key
+			keys.name.replace(/[\u00A0-\u9999]/gim, function (i) {
+				return '&#' + i.charCodeAt(0) + ';';
+			}) +
+			'</span>';
+
+		data.$key = base.keyBtn
+			.clone()
+			.attr({
+				'data-value': regKey ? keys.name : keys.action, // value
+				'data-name': keys.action,
+				'data-pos': base.temp[1] + ',' + base.temp[2],
+				'data-action': keys.action,
+				'data-html': data.html
+			})
+			// add 'ui-keyboard-' + data.name for all keys
+			//  (e.g. 'Bksp' will have 'ui-keyboard-bskp' class)
+			// any non-alphanumeric characters will be replaced with
+			//  their decimal unicode value
+			//  (e.g. '~' is a regular key, class = 'ui-keyboard-126'
+			//  (126 is the unicode decimal value - same as &#126;)
+			//  See https://en.wikipedia.org/wiki/List_of_Unicode_characters#Control_codes
+			.addClass(keyClass)
+			.html(data.html)
+			.appendTo(base.temp[0]);
+
+		if (keys.map) {
+			data.$key.attr('data-mapped', keys.map);
+		}
+		if (keys.title || txt.title) {
+			data.$key.attr({
+				'data-title': txt.title || keys.title, // used to allow adding content to title
+				'title': txt.title || keys.title
+			});
+		}
+
+		if (typeof o.buildKey === 'function') {
+			data = o.buildKey(base, data);
+			// copy html back to attributes
+			tmp = data.$key.html();
+			data.$key.attr('data-html', tmp);
+		}
+		return data.$key;
+	};
+
+	base.customHash = function (layout) {
+		/*jshint bitwise:false */
+		var i, array, hash, character, len,
+			arrays = [],
+			merged = [];
+		// pass layout to allow for testing
+		layout = typeof layout === 'undefined' ? o.customLayout : layout;
+		// get all layout arrays
+		for (array in layout) {
+			if (layout.hasOwnProperty(array)) {
+				arrays.push(layout[array]);
+			}
+		}
+		// flatten array
+		merged = merged.concat.apply(merged, arrays).join(' ');
+		// produce hash name - http://stackoverflow.com/a/7616484/145346
+		hash = 0;
+		len = merged.length;
+		if (len === 0) {
+			return hash;
+		}
+		for (i = 0; i < len; i++) {
+			character = merged.charCodeAt(i);
+			hash = ((hash << 5) - hash) + character;
+			hash = hash & hash; // Convert to 32bit integer
+		}
+		return hash;
+	};
+
+	base.buildKeyboard = function (name, internal) {
+		// o.display is empty when this is called from the scramble extension (when alwaysOpen:true)
+		if ($.isEmptyObject(o.display)) {
+			// set keyboard language
+			base.updateLanguage();
+		}
+		var index, row, $row, currentSet,
+			kbcss = $keyboard.css,
+			sets = 0,
+			layout = $keyboard.builtLayouts[name || base.layout || o.layout] = {
+				mappedKeys: {},
+				acceptedKeys: []
+			},
+			acceptedKeys = layout.acceptedKeys = o.restrictInclude ?
+				('' + o.restrictInclude).split(/\s+/) || [] :
+				[],
+			// using $layout temporarily to hold keyboard popup classnames
+			$layout = kbcss.keyboard + ' ' + o.css.popup + ' ' + o.css.container +
+				(o.alwaysOpen || o.userClosed ? ' ' + kbcss.alwaysOpen : ''),
+
+			container = $('<div />')
+				.addClass($layout)
+				.attr({
+					'role': 'textbox'
+				})
+				.hide();
+
+		// allow adding "{space}" as an accepted key - Fixes #627
+		index = $.inArray('{space}', acceptedKeys);
+		if (index > -1) {
+			acceptedKeys[index] = ' ';
+		}
+
+		// verify layout or setup custom keyboard
+		if ((internal && o.layout === 'custom') || !$keyboard.layouts.hasOwnProperty(o.layout)) {
+			o.layout = 'custom';
+			$layout = $keyboard.layouts.custom = o.customLayout || {
+				'normal': ['{cancel}']
+			};
+		} else {
+			$layout = $keyboard.layouts[internal ? o.layout : name || base.layout || o.layout];
+		}
+
+		// Main keyboard building loop
+		$.each($layout, function (set, keySet) {
+			// skip layout name & lang settings
+			if (set !== '' && !/^(name|lang|rtl)$/i.test(set)) {
+				// keep backwards compatibility for change from default to normal naming
+				if (set === 'default') {
+					set = 'normal';
+				}
+				sets++;
+				$row = $('<div />')
+					.attr('name', set) // added for typing extension
+					.addClass(kbcss.keySet + ' ' + kbcss.keySet + '-' + set)
+					.appendTo(container)
+					.toggle(set === 'normal');
+
+				for (row = 0; row < keySet.length; row++) {
+					// remove extra spaces before spliting (regex probably could be improved)
+					currentSet = $.trim(keySet[row]).replace(/\{(\.?)[\s+]?:[\s+]?(\.?)\}/g, '{$1:$2}');
+					base.buildRow($row, row, currentSet.split(/\s+/), acceptedKeys);
+					$row.find('.' + kbcss.keyButton + ',.' + kbcss.keySpacer)
+						.filter(':last')
+						.after('<br class="' + kbcss.endRow + '"/>');
+				}
+			}
+		});
+
+		if (sets > 1) {
+			base.sets = true;
+		}
+		layout.hasMappedKeys = !($.isEmptyObject(layout.mappedKeys));
+		layout.$keyboard = container;
+		return container;
+	};
+
+	base.buildRow = function ($row, row, keys, acceptedKeys) {
+		var t, txt, key, isAction, action, margin,
+			kbcss = $keyboard.css;
+		for (key = 0; key < keys.length; key++) {
+			// used by addKey function
+			base.temp = [$row, row, key];
+			isAction = false;
+
+			// ignore empty keys
+			if (keys[key].length === 0) {
+				continue;
+			}
+
+			// process here if it's an action key
+			if (/^\{\S+\}$/.test(keys[key])) {
+				action = keys[key].match(/^\{(\S+)\}$/)[1];
+				// add active class if there are double exclamation points in the name
+				if (/\!\!/.test(action)) {
+					action = action.replace('!!', '');
+					isAction = true;
+				}
+
+				// add empty space
+				if (/^sp:((\d+)?([\.|,]\d+)?)(em|px)?$/i.test(action)) {
+					// not perfect globalization, but allows you to use {sp:1,1em}, {sp:1.2em} or {sp:15px}
+					margin = parseFloat(action
+						.replace(/,/, '.')
+						.match(/^sp:((\d+)?([\.|,]\d+)?)(em|px)?$/i)[1] || 0
+					);
+					$('<span class="' + kbcss.keyText + '"></span>')
+						// previously {sp:1} would add 1em margin to each side of a 0 width span
+						// now Firefox doesn't seem to render 0px dimensions, so now we set the
+						// 1em margin x 2 for the width
+						.width((action.match(/px/i) ? margin + 'px' : (margin * 2) + 'em'))
+						.addClass(kbcss.keySpacer)
+						.appendTo($row);
+				}
+
+				// add empty button
+				if (/^empty(:((\d+)?([\.|,]\d+)?)(em|px)?)?$/i.test(action)) {
+					margin = (/:/.test(action)) ? parseFloat(action
+						.replace(/,/, '.')
+						.match(/^empty:((\d+)?([\.|,]\d+)?)(em|px)?$/i)[1] || 0
+					) : '';
+					base
+						.addKey('', ' ', true)
+						.addClass(o.css.buttonDisabled + ' ' + o.css.buttonEmpty)
+						.attr('aria-disabled', true)
+						.width(margin ? (action.match('px') ? margin + 'px' : (margin * 2) + 'em') : '');
+					continue;
+				}
+
+				// meta keys
+				if (/^meta[\w-]+\:?(\w+)?/i.test(action)) {
+					base
+						.addKey(action.split(':')[0], action)
+						.addClass(kbcss.keyHasActive);
+					continue;
+				}
+
+				// switch needed for action keys with multiple names/shortcuts or
+				// default will catch all others
+				txt = action.split(':');
+				switch (txt[0].toLowerCase()) {
+
+				case 'a':
+				case 'accept':
+					base
+						.addKey('accept', action)
+						.addClass(o.css.buttonAction + ' ' + kbcss.keyAction);
+					break;
+
+				case 'alt':
+				case 'altgr':
+					base
+						.addKey('alt', action)
+						.addClass(kbcss.keyHasActive);
+					break;
+
+				case 'b':
+				case 'bksp':
+					base.addKey('bksp', action);
+					break;
+
+				case 'c':
+				case 'cancel':
+					base
+						.addKey('cancel', action)
+						.addClass(o.css.buttonAction + ' ' + kbcss.keyAction);
+					break;
+
+					// toggle combo/diacritic key
+					/*jshint -W083 */
+				case 'combo':
+					base
+						.addKey('combo', action)
+						.addClass(kbcss.keyHasActive)
+						.attr('title', function (indx, title) {
+							// add combo key state to title
+							return title + ' ' + o.display[o.useCombos ? 'active' : 'disabled'];
+						})
+						.toggleClass(o.css.buttonActive, o.useCombos);
+					break;
+
+					// Decimal - unique decimal point (num pad layout)
+				case 'dec':
+					acceptedKeys.push((base.decimal) ? '.' : ',');
+					base.addKey('dec', action);
+					break;
+
+				case 'e':
+				case 'enter':
+					base
+						.addKey('enter', action)
+						.addClass(o.css.buttonAction + ' ' + kbcss.keyAction);
+					break;
+
+				case 'lock':
+					base
+						.addKey('lock', action)
+						.addClass(kbcss.keyHasActive);
+					break;
+
+				case 's':
+				case 'shift':
+					base
+						.addKey('shift', action)
+						.addClass(kbcss.keyHasActive);
+					break;
+
+					// Change sign (for num pad layout)
+				case 'sign':
+					acceptedKeys.push('-');
+					base.addKey('sign', action);
+					break;
+
+				case 'space':
+					acceptedKeys.push(' ');
+					base.addKey('space', action);
+					break;
+
+				case 't':
+				case 'tab':
+					base.addKey('tab', action);
+					break;
+
+				default:
+					if ($keyboard.keyaction.hasOwnProperty(txt[0])) {
+						base
+							.addKey(txt[0], action)
+							.toggleClass(o.css.buttonAction + ' ' + kbcss.keyAction, isAction);
+					}
+
+				}
+
+			} else {
+
+				// regular button (not an action key)
+				t = keys[key];
+				base.addKey(t, t, true);
+			}
+		}
+	};
+
+	base.removeBindings = function (namespace) {
+		$(document).unbind(namespace);
+		if (base.el.ownerDocument !== document) {
+			$(base.el.ownerDocument).unbind(namespace);
+		}
+		$(window).unbind(namespace);
+		base.$el.unbind(namespace);
+	};
+
+	base.removeKeyboard = function () {
+		base.$allKeys = [];
+		base.$decBtn = [];
+		// base.$preview === base.$el when o.usePreview is false - fixes #442
+		if (o.usePreview) {
+			base.$preview.removeData('keyboard');
+		}
+		base.$preview.unbind(base.namespace + 'keybindings');
+		base.preview = null;
+		base.$preview = null;
+		base.$previewCopy = null;
+		base.$keyboard.removeData('keyboard');
+		base.$keyboard.remove();
+		base.$keyboard = [];
+		base.isOpen = false;
+		base.isCurrent(false);
+	};
+
+	base.destroy = function (callback) {
+		var index,
+			kbcss = $keyboard.css,
+			len = base.extensionNamespace.length,
+			tmp = [
+				kbcss.input,
+				kbcss.locked,
+				kbcss.placeholder,
+				kbcss.noKeyboard,
+				kbcss.alwaysOpen,
+				o.css.input,
+				kbcss.isCurrent
+			].join(' ');
+		clearTimeout(base.timer);
+		clearTimeout(base.timer2);
+		clearTimeout(base.timer3);
+		if (base.$keyboard.length) {
+			base.removeKeyboard();
+		}
+		base.removeBindings(base.namespace);
+		base.removeBindings(base.namespace + 'callbacks');
+		for (index = 0; index < len; index++) {
+			base.removeBindings(base.extensionNamespace[index]);
+		}
+		base.el.active = false;
+
+		base.$el
+			.removeClass(tmp)
+			.removeAttr('aria-haspopup')
+			.removeAttr('role')
+			.removeData('keyboard');
+		base = null;
+
+		if (typeof callback === 'function') {
+			callback();
+		}
+	};
+
+	// Run initializer
+	base.init();
+
+	}; // end $.keyboard definition
+
+	// event.which & ASCII values
+	$keyboard.keyCodes = {
+		backSpace: 8,
+		tab: 9,
+		enter: 13,
+		capsLock: 20,
+		escape: 27,
+		space: 32,
+		pageUp: 33,
+		pageDown: 34,
+		end: 35,
+		home: 36,
+		left: 37,
+		up: 38,
+		right: 39,
+		down: 40,
+		insert: 45,
+		delete: 46,
+		// event.which keyCodes (uppercase letters)
+		A: 65,
+		Z: 90,
+		V: 86,
+		C: 67,
+		X: 88,
+
+		// ASCII lowercase a & z
+		a: 97,
+		z: 122
+	};
+
+	$keyboard.css = {
+		// keyboard id suffix
+		idSuffix: '_keyboard',
+		// class name to set initial focus
+		initialFocus: 'keyboard-init-focus',
+		// element class names
+		input: 'ui-keyboard-input',
+		inputClone: 'ui-keyboard-preview-clone',
+		wrapper: 'ui-keyboard-preview-wrapper',
+		preview: 'ui-keyboard-preview',
+		keyboard: 'ui-keyboard',
+		keySet: 'ui-keyboard-keyset',
+		keyButton: 'ui-keyboard-button',
+		keyWide: 'ui-keyboard-widekey',
+		keyPrefix: 'ui-keyboard-',
+		keyText: 'ui-keyboard-text', // span with button text
+		keyHasActive: 'ui-keyboard-hasactivestate',
+		keyAction: 'ui-keyboard-actionkey',
+		keySpacer: 'ui-keyboard-spacer', // empty keys
+		keyToggle: 'ui-keyboard-toggle',
+		keyDisabled: 'ui-keyboard-disabled',
+		// Class for BRs with a div wrapper inside of contenteditable
+		divWrapperCE: 'ui-keyboard-div-wrapper',
+		// states
+		locked: 'ui-keyboard-lockedinput',
+		alwaysOpen: 'ui-keyboard-always-open',
+		noKeyboard: 'ui-keyboard-nokeyboard',
+		placeholder: 'ui-keyboard-placeholder',
+		hasFocus: 'ui-keyboard-has-focus',
+		isCurrent: 'ui-keyboard-input-current',
+		// validation & autoaccept
+		inputValid: 'ui-keyboard-valid-input',
+		inputInvalid: 'ui-keyboard-invalid-input',
+		inputAutoAccepted: 'ui-keyboard-autoaccepted',
+		endRow: 'ui-keyboard-button-endrow' // class added to <br>
+	};
+
+	$keyboard.events = {
+		// keyboard events
+		kbChange: 'keyboardChange',
+		kbBeforeClose: 'beforeClose',
+		kbBeforeVisible: 'beforeVisible',
+		kbVisible: 'visible',
+		kbInit: 'initialized',
+		kbInactive: 'inactive',
+		kbHidden: 'hidden',
+		kbRepeater: 'repeater',
+		kbKeysetChange: 'keysetChange',
+		// input events
+		inputAccepted: 'accepted',
+		inputCanceled: 'canceled',
+		inputChange: 'change',
+		inputRestricted: 'restricted'
+	};
+
+	// Action key function list
+	$keyboard.keyaction = {
+		accept: function (base) {
+			base.close(true); // same as base.accept();
+			return false; // return false prevents further processing
+		},
+		alt: function (base) {
+			base.altActive = !base.altActive;
+			base.showSet();
+		},
+		bksp: function (base) {
+			if (base.isContentEditable) {
+				base.execCommand('delete');
+				// save new caret position
+				base.saveCaret();
+			} else {
+				// the script looks for the '\b' string and initiates a backspace
+				base.insertText('\b');
+			}
+		},
+		cancel: function (base) {
+			base.close();
+			return false; // return false prevents further processing
+		},
+		clear: function (base) {
+			base.$preview[base.isContentEditable ? 'text' : 'val']('');
+			if (base.$decBtn.length) {
+				base.checkDecimal();
+			}
+		},
+		combo: function (base) {
+			var o = base.options,
+				c = !o.useCombos,
+				$combo = base.$keyboard.find('.' + $keyboard.css.keyPrefix + 'combo');
+			o.useCombos = c;
+			$combo
+				.toggleClass(o.css.buttonActive, c)
+				// update combo key state
+				.attr('title', $combo.attr('data-title') + ' (' + o.display[c ? 'active' : 'disabled'] + ')');
+			if (c) {
+				base.checkCombos();
+			}
+			return false;
+		},
+		dec: function (base) {
+			base.insertText((base.decimal) ? '.' : ',');
+		},
+		del: function (base) {
+			if (base.isContentEditable) {
+				base.execCommand('forwardDelete');
+			} else {
+				// the script looks for the '{d}' string and initiates a delete
+				base.insertText('{d}');
+			}
+		},
+		// resets to base keyset (deprecated because "default" is a reserved word)
+		'default': function (base) {
+			base.shiftActive = base.altActive = base.metaActive = false;
+			base.showSet();
+		},
+		// el is the pressed key (button) object; it is null when the real keyboard enter is pressed
+		enter: function (base, el, e) {
+			var tag = base.el.nodeName,
+				o = base.options;
+			// shift+enter in textareas
+			if (e.shiftKey) {
+				// textarea, input & contenteditable - enterMod + shift + enter = accept,
+				//  then go to prev; base.switchInput(goToNext, autoAccept)
+				// textarea & input - shift + enter = accept (no navigation)
+				return (o.enterNavigation) ? base.switchInput(!e[o.enterMod], true) : base.close(true);
+			}
+			// input only - enterMod + enter to navigate
+			if (o.enterNavigation && (tag !== 'TEXTAREA' || e[o.enterMod])) {
+				return base.switchInput(!e[o.enterMod], o.autoAccept ? 'true' : false);
+			}
+			// pressing virtual enter button inside of a textarea - add a carriage return
+			// e.target is span when clicking on text and button at other times
+			if (tag === 'TEXTAREA' && $(e.target).closest('button').length) {
+				// IE8 fix (space + \n) - fixes #71 thanks Blookie!
+				base.insertText(($keyboard.msie ? ' ' : '') + '\n');
+			}
+			if (base.isContentEditable && !o.enterNavigation) {
+				base.execCommand('insertHTML', '<div><br class="' + $keyboard.css.divWrapperCE + '"></div>');
+				// Using backspace on wrapped BRs will now shift the textnode inside of the wrapped BR
+				// Although not ideal, the caret is moved after the block - see the wiki page for
+				// more details: https://github.com/Mottie/Keyboard/wiki/Contenteditable#limitations
+				// move caret after a delay to allow rendering of HTML
+				setTimeout(function() {
+					$keyboard.keyaction.right(base);
+					base.saveCaret();
+				}, 0);
+			}
+		},
+		// caps lock key
+		lock: function (base) {
+			base.last.keyset[0] = base.shiftActive = base.capsLock = !base.capsLock;
+			base.showSet();
+		},
+		left: function (base) {
+			var p = $keyboard.caret(base.$preview);
+			if (p.start - 1 >= 0) {
+				// move both start and end of caret (prevents text selection) & save caret position
+				base.last.start = base.last.end = p.start - 1;
+				$keyboard.caret(base.$preview, base.last);
+				base.setScroll();
+			}
+		},
+		meta: function (base, el) {
+			var $el = $(el);
+			base.metaActive = !$el.hasClass(base.options.css.buttonActive);
+			base.showSet($el.attr('data-name'));
+		},
+		next: function (base) {
+			base.switchInput(true, base.options.autoAccept);
+			return false;
+		},
+		// same as 'default' - resets to base keyset
+		normal: function (base) {
+			base.shiftActive = base.altActive = base.metaActive = false;
+			base.showSet();
+		},
+		prev: function (base) {
+			base.switchInput(false, base.options.autoAccept);
+			return false;
+		},
+		right: function (base) {
+			var p = $keyboard.caret(base.$preview),
+				len = base.isContentEditable ? $keyboard.getEditableLength(base.el) : base.getValue().length;
+			if (p.end + 1 <= len) {
+				// move both start and end of caret to end position
+				// (prevents text selection) && save caret position
+				base.last.start = base.last.end = p.end + 1;
+				$keyboard.caret(base.$preview, base.last);
+				base.setScroll();
+			}
+		},
+		shift: function (base) {
+			base.last.keyset[0] = base.shiftActive = !base.shiftActive;
+			base.showSet();
+		},
+		sign: function (base) {
+			if (/^[+-]?\d*\.?\d*$/.test(base.getValue())) {
+				var caret,
+					p = $keyboard.caret(base.$preview),
+					val = base.getValue(),
+					len = base.isContentEditable ? $keyboard.getEditableLength(base.el) : val.length;
+				base.setValue(val * -1);
+				caret = len - val.length;
+				base.last.start = p.start + caret;
+				base.last.end = p.end + caret;
+				$keyboard.caret(base.$preview, base.last);
+				base.setScroll();
+			}
+		},
+		space: function (base) {
+			base.insertText(' ');
+		},
+		tab: function (base) {
+			var tag = base.el.nodeName,
+				o = base.options;
+			if (tag !== 'TEXTAREA') {
+				if (o.tabNavigation) {
+					return base.switchInput(!base.shiftActive, true);
+				} else if (tag === 'INPUT') {
+					// ignore tab key in input
+					return false;
+				}
+			}
+			base.insertText('\t');
+		},
+		toggle: function (base) {
+			base.enabled = !base.enabled;
+			base.toggle();
+		},
+		// *** Special action keys: NBSP & zero-width characters ***
+		// Non-breaking space
+		NBSP: '\u00a0',
+		// zero width space
+		ZWSP: '\u200b',
+		// Zero width non-joiner
+		ZWNJ: '\u200c',
+		// Zero width joiner
+		ZWJ: '\u200d',
+		// Left-to-right Mark
+		LRM: '\u200e',
+		// Right-to-left Mark
+		RLM: '\u200f'
+	};
+
+	// Default keyboard layouts
+	$keyboard.builtLayouts = {};
+	$keyboard.layouts = {
+		'alpha': {
+			'normal': [
+				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+				'{tab} a b c d e f g h i j [ ] \\',
+				'k l m n o p q r s ; \' {enter}',
+				'{shift} t u v w x y z , . / {shift}',
+				'{accept} {space} {cancel}'
+			],
+			'shift': [
+				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
+				'{tab} A B C D E F G H I J { } |',
+				'K L M N O P Q R S : " {enter}',
+				'{shift} T U V W X Y Z < > ? {shift}',
+				'{accept} {space} {cancel}'
+			]
+		},
+		'qwerty': {
+			'normal': [
+				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+				'{tab} q w e r t y u i o p [ ] \\',
+				'a s d f g h j k l ; \' {enter}',
+				'{shift} z x c v b n m , . / {shift}',
+				'{accept} {space} {cancel}'
+			],
+			'shift': [
+				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
+				'{tab} Q W E R T Y U I O P { } |',
+				'A S D F G H J K L : " {enter}',
+				'{shift} Z X C V B N M < > ? {shift}',
+				'{accept} {space} {cancel}'
+			]
+		},
+		'international': {
+			'normal': [
+				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+				'{tab} q w e r t y u i o p [ ] \\',
+				'a s d f g h j k l ; \' {enter}',
+				'{shift} z x c v b n m , . / {shift}',
+				'{accept} {alt} {space} {alt} {cancel}'
+			],
+			'shift': [
+				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
+				'{tab} Q W E R T Y U I O P { } |',
+				'A S D F G H J K L : " {enter}',
+				'{shift} Z X C V B N M < > ? {shift}',
+				'{accept} {alt} {space} {alt} {cancel}'
+			],
+			'alt': [
+				'~ \u00a1 \u00b2 \u00b3 \u00a4 \u20ac \u00bc \u00bd \u00be \u2018 \u2019 \u00a5 \u00d7 {bksp}',
+				'{tab} \u00e4 \u00e5 \u00e9 \u00ae \u00fe \u00fc \u00fa \u00ed \u00f3 \u00f6 \u00ab \u00bb \u00ac',
+				'\u00e1 \u00df \u00f0 f g h j k \u00f8 \u00b6 \u00b4 {enter}',
+				'{shift} \u00e6 x \u00a9 v b \u00f1 \u00b5 \u00e7 > \u00bf {shift}',
+				'{accept} {alt} {space} {alt} {cancel}'
+			],
+			'alt-shift': [
+				'~ \u00b9 \u00b2 \u00b3 \u00a3 \u20ac \u00bc \u00bd \u00be \u2018 \u2019 \u00a5 \u00f7 {bksp}',
+				'{tab} \u00c4 \u00c5 \u00c9 \u00ae \u00de \u00dc \u00da \u00cd \u00d3 \u00d6 \u00ab \u00bb \u00a6',
+				'\u00c4 \u00a7 \u00d0 F G H J K \u00d8 \u00b0 \u00a8 {enter}',
+				'{shift} \u00c6 X \u00a2 V B \u00d1 \u00b5 \u00c7 . \u00bf {shift}',
+				'{accept} {alt} {space} {alt} {cancel}'
+			]
+		},
+		'colemak': {
+			'normal': [
+				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+				'{tab} q w f p g j l u y ; [ ] \\',
+				'{bksp} a r s t d h n e i o \' {enter}',
+				'{shift} z x c v b k m , . / {shift}',
+				'{accept} {space} {cancel}'
+			],
+			'shift': [
+				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
+				'{tab} Q W F P G J L U Y : { } |',
+				'{bksp} A R S T D H N E I O " {enter}',
+				'{shift} Z X C V B K M < > ? {shift}',
+				'{accept} {space} {cancel}'
+			]
+		},
+		'dvorak': {
+			'normal': [
+				'` 1 2 3 4 5 6 7 8 9 0 [ ] {bksp}',
+				'{tab} \' , . p y f g c r l / = \\',
+				'a o e u i d h t n s - {enter}',
+				'{shift} ; q j k x b m w v z {shift}',
+				'{accept} {space} {cancel}'
+			],
+			'shift': [
+				'~ ! @ # $ % ^ & * ( ) { } {bksp}',
+				'{tab} " < > P Y F G C R L ? + |',
+				'A O E U I D H T N S _ {enter}',
+				'{shift} : Q J K X B M W V Z {shift}',
+				'{accept} {space} {cancel}'
+			]
+		},
+		'num': {
+			'normal': [
+				'= ( ) {b}',
+				'{clear} / * -',
+				'7 8 9 +',
+				'4 5 6 {sign}',
+				'1 2 3 %',
+				'0 {dec} {a} {c}'
+			]
+		}
+	};
+
+	$keyboard.language = {
+		en: {
+			display: {
+				// check mark - same action as accept
+				'a': '\u2714:Accept (Shift+Enter)',
+				'accept': 'Accept:Accept (Shift+Enter)',
+				// other alternatives \u2311
+				'alt': 'Alt:\u2325 AltGr',
+				// Left arrow (same as &larr;)
+				'b': '\u232b:Backspace',
+				'bksp': 'Bksp:Backspace',
+				// big X, close - same action as cancel
+				'c': '\u2716:Cancel (Esc)',
+				'cancel': 'Cancel:Cancel (Esc)',
+				// clear num pad
+				'clear': 'C:Clear',
+				'combo': '\u00f6:Toggle Combo Keys',
+				// decimal point for num pad (optional), change '.' to ',' for European format
+				'dec': '.:Decimal',
+				// down, then left arrow - enter symbol
+				'e': '\u23ce:Enter',
+				'empty': '\u00a0',
+				'enter': 'Enter:Enter \u23ce',
+				// left arrow (move caret)
+				'left': '\u2190',
+				// caps lock
+				'lock': 'Lock:\u21ea Caps Lock',
+				'next': 'Next \u21e8',
+				'prev': '\u21e6 Prev',
+				// right arrow (move caret)
+				'right': '\u2192',
+				// thick hollow up arrow
+				's': '\u21e7:Shift',
+				'shift': 'Shift:Shift',
+				// +/- sign for num pad
+				'sign': '\u00b1:Change Sign',
+				'space': '\u00a0:Space',
+				// right arrow to bar (used since this virtual keyboard works with one directional tabs)
+				't': '\u21e5:Tab',
+				// \u21b9 is the true tab symbol (left & right arrows)
+				'tab': '\u21e5 Tab:Tab',
+				// replaced by an image
+				'toggle': ' ',
+
+				// added to titles of keys
+				// accept key status when acceptValid:true
+				'valid': 'valid',
+				'invalid': 'invalid',
+				// combo key states
+				'active': 'active',
+				'disabled': 'disabled'
+			},
+
+			// Message added to the key title while hovering, if the mousewheel plugin exists
+			wheelMessage: 'Use mousewheel to see other keys',
+
+			comboRegex: /([`\'~\^\"ao])([a-z])/mig,
+			combos: {
+				// grave
+				'`': { a: '\u00e0', A: '\u00c0', e: '\u00e8', E: '\u00c8', i: '\u00ec', I: '\u00cc', o: '\u00f2',
+						O: '\u00d2', u: '\u00f9', U: '\u00d9', y: '\u1ef3', Y: '\u1ef2' },
+				// acute & cedilla
+				"'": { a: '\u00e1', A: '\u00c1', e: '\u00e9', E: '\u00c9', i: '\u00ed', I: '\u00cd', o: '\u00f3',
+						O: '\u00d3', u: '\u00fa', U: '\u00da', y: '\u00fd', Y: '\u00dd' },
+				// umlaut/trema
+				'"': { a: '\u00e4', A: '\u00c4', e: '\u00eb', E: '\u00cb', i: '\u00ef', I: '\u00cf', o: '\u00f6',
+						O: '\u00d6', u: '\u00fc', U: '\u00dc', y: '\u00ff', Y: '\u0178' },
+				// circumflex
+				'^': { a: '\u00e2', A: '\u00c2', e: '\u00ea', E: '\u00ca', i: '\u00ee', I: '\u00ce', o: '\u00f4',
+						O: '\u00d4', u: '\u00fb', U: '\u00db', y: '\u0177', Y: '\u0176' },
+				// tilde
+				'~': { a: '\u00e3', A: '\u00c3', e: '\u1ebd', E: '\u1ebc', i: '\u0129', I: '\u0128', o: '\u00f5',
+						O: '\u00d5', u: '\u0169', U: '\u0168', y: '\u1ef9', Y: '\u1ef8', n: '\u00f1', N: '\u00d1' }
+			}
+		}
+	};
+
+	$keyboard.defaultOptions = {
+		// set this to ISO 639-1 language code to override language set by the layout
+		// http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+		// language defaults to 'en' if not found
+		language: null,
+		rtl: false,
+
+		// *** choose layout & positioning ***
+		layout: 'qwerty',
+		customLayout: null,
+
+		position: {
+			// optional - null (attach to input/textarea) or a jQuery object (attach elsewhere)
+			of: null,
+			my: 'center top',
+			at: 'center top',
+			// used when 'usePreview' is false (centers the keyboard at the bottom of the input/textarea)
+			at2: 'center bottom'
+		},
+
+		// allow jQuery position utility to reposition the keyboard on window resize
+		reposition: true,
+
+		// preview added above keyboard if true, original input/textarea used if false
+		usePreview: true,
+
+		// if true, the keyboard will always be visible
+		alwaysOpen: false,
+
+		// give the preview initial focus when the keyboard becomes visible
+		initialFocus: true,
+
+		// avoid changing the focus (hardware keyboard probably won't work)
+		noFocus: false,
+
+		// if true, keyboard will remain open even if the input loses focus, but closes on escape
+		// or when another keyboard opens.
+		stayOpen: false,
+
+		// Prevents the keyboard from closing when the user clicks or presses outside the keyboard
+		// the `autoAccept` option must also be set to true when this option is true or changes are lost
+		userClosed: false,
+
+		// if true, keyboard will not close if you press escape.
+		ignoreEsc: false,
+
+		// if true, keyboard will only closed on click event instead of mousedown and touchstart
+		closeByClickEvent: false,
+
+		css: {
+			// input & preview
+			input: 'ui-widget-content ui-corner-all',
+			// keyboard container
+			container: 'ui-widget-content ui-widget ui-corner-all ui-helper-clearfix',
+			// keyboard container extra class (same as container, but separate)
+			popup: '',
+			// default state
+			buttonDefault: 'ui-state-default ui-corner-all',
+			// hovered button
+			buttonHover: 'ui-state-hover',
+			// Action keys (e.g. Accept, Cancel, Tab, etc); this replaces 'actionClass' option
+			buttonAction: 'ui-state-active',
+			// Active keys (e.g. shift down, meta keyset active, combo keys active)
+			buttonActive: 'ui-state-active',
+			// used when disabling the decimal button {dec} when a decimal exists in the input area
+			buttonDisabled: 'ui-state-disabled',
+			buttonEmpty: 'ui-keyboard-empty'
+		},
+
+		// *** Useability ***
+		// Auto-accept content when clicking outside the keyboard (popup will close)
+		autoAccept: false,
+		// Auto-accept content even if the user presses escape (only works if `autoAccept` is `true`)
+		autoAcceptOnEsc: false,
+
+		// Prevents direct input in the preview window when true
+		lockInput: false,
+
+		// Prevent keys not in the displayed keyboard from being typed in
+		restrictInput: false,
+		// Additional allowed characters while restrictInput is true
+		restrictInclude: '', // e.g. 'a b foo \ud83d\ude38'
+
+		// Check input against validate function, if valid the accept button gets a class name of
+		// 'ui-keyboard-valid-input'. If invalid, the accept button gets a class name of
+		// 'ui-keyboard-invalid-input'
+		acceptValid: false,
+		// Auto-accept when input is valid; requires `acceptValid` set `true` & validate callback
+		autoAcceptOnValid: false,
+
+		// if acceptValid is true & the validate function returns a false, this option will cancel
+		// a keyboard close only after the accept button is pressed
+		cancelClose: true,
+
+		// tab to go to next, shift-tab for previous (default behavior)
+		tabNavigation: false,
+
+		// enter for next input; shift+enter accepts content & goes to next
+		// shift + 'enterMod' + enter ('enterMod' is the alt as set below) will accept content and go
+		// to previous in a textarea
+		enterNavigation: false,
+		// mod key options: 'ctrlKey', 'shiftKey', 'altKey', 'metaKey' (MAC only)
+		enterMod: 'altKey', // alt-enter to go to previous; shift-alt-enter to accept & go to previous
+
+		// if true, the next button will stop on the last keyboard input/textarea; prev button stops at first
+		// if false, the next button will wrap to target the first input/textarea; prev will go to the last
+		stopAtEnd: true,
+
+		// Set this to append the keyboard after the input/textarea (appended to the input/textarea parent).
+		// This option works best when the input container doesn't have a set width & when the 'tabNavigation'
+		// option is true.
+		appendLocally: false,
+		// When appendLocally is false, the keyboard will be appended to this object
+		appendTo: 'body',
+
+		// Wrap all <br>s inside of a contenteditable in a div; without wrapping, the caret
+		// position will not be accurate
+		wrapBRs: true,
+
+		// If false, the shift key will remain active until the next key is (mouse) clicked on; if true it will
+		// stay active until pressed again
+		stickyShift: true,
+
+		// Prevent pasting content into the area
+		preventPaste: false,
+
+		// caret placed at the end of any text when keyboard becomes visible
+		caretToEnd: false,
+
+		// caret stays this many pixels from the edge of the input while scrolling left/right;
+		// use "c" or "center" to center the caret while scrolling
+		scrollAdjustment: 10,
+
+		// Set the max number of characters allowed in the input, setting it to false disables this option
+		maxLength: false,
+		// allow inserting characters @ caret when maxLength is set
+		maxInsert: true,
+
+		// Mouse repeat delay - when clicking/touching a virtual keyboard key, after this delay the key will
+		// start repeating
+		repeatDelay: 500,
+
+		// Mouse repeat rate - after the repeatDelay, this is the rate (characters per second) at which the
+		// key is repeated Added to simulate holding down a real keyboard key and having it repeat. I haven't
+		// calculated the upper limit of this rate, but it is limited to how fast the javascript can process
+		// the keys. And for me, in Firefox, it's around 20.
+		repeatRate: 20,
+
+		// resets the keyboard to the default keyset when visible
+		resetDefault: true,
+
+		// Event (namespaced) on the input to reveal the keyboard. To disable it, just set it to ''.
+		openOn: 'focus',
+
+		// Event (namepaced) for when the character is added to the input (clicking on the keyboard)
+		keyBinding: 'mousedown touchstart',
+
+		// enable/disable mousewheel functionality
+		// enabling still depends on the mousewheel plugin
+		useWheel: true,
+
+		// combos (emulate dead keys : http://en.wikipedia.org/wiki/Keyboard_layout#US-International)
+		// if user inputs `a the script converts it to à, ^o becomes ô, etc.
+		useCombos: true,
+
+		/*
+			// *** Methods ***
+			// commenting these out to reduce the size of the minified version
+			// Callbacks - attach a function to any of these callbacks as desired
+			initialized   : function(e, keyboard, el) {},
+			beforeVisible : function(e, keyboard, el) {},
+			visible       : function(e, keyboard, el) {},
+			beforeInsert  : function(e, keyboard, el, textToAdd) { return textToAdd; },
+			change        : function(e, keyboard, el) {},
+			beforeClose   : function(e, keyboard, el, accepted) {},
+			accepted      : function(e, keyboard, el) {},
+			canceled      : function(e, keyboard, el) {},
+			restricted    : function(e, keyboard, el) {},
+			hidden        : function(e, keyboard, el) {},
+			// called instead of base.switchInput
+			switchInput   : function(keyboard, goToNext, isAccepted) {},
+			// used if you want to create a custom layout or modify the built-in keyboard
+			create        : function(keyboard) { return keyboard.buildKeyboard(); },
+
+			// build key callback
+			buildKey : function( keyboard, data ) {
+				/ *
+				data = {
+				// READ ONLY
+				isAction : [boolean] true if key is an action key
+				name     : [string]  key class name suffix ( prefix = 'ui-keyboard-' );
+														 may include decimal ascii value of character
+				value    : [string]  text inserted (non-action keys)
+				title    : [string]  title attribute of key
+				action   : [string]  keyaction name
+				html     : [string]  HTML of the key; it includes a <span> wrapping the text
+				// use to modify key HTML
+				$key     : [object]  jQuery selector of key which is already appended to keyboard
+				}
+				* /
+				return data;
+			},
+		*/
+
+		// this callback is called, if the acceptValid is true, and just before the 'beforeClose' to check
+		// the value if the value is valid, return true and the keyboard will continue as it should
+		// (close if not always open, etc). If the value is not valid, return false and clear the keyboard
+		// value ( like this "keyboard.$preview.val('');" ), if desired. The validate function is called after
+		// each input, the 'isClosing' value will be false; when the accept button is clicked,
+		// 'isClosing' is true
+		validate: function (keyboard, value, isClosing) {
+			return true;
+		}
+
+	};
+
+	// for checking combos
+	$keyboard.comboRegex = /([`\'~\^\"ao])([a-z])/mig;
+
+	// store current keyboard element; used by base.isCurrent()
+	$keyboard.currentKeyboard = '';
+
+	$('<!--[if lte IE 8]><script>jQuery("body").addClass("oldie");</script><![endif]--><!--[if IE]>' +
+			'<script>jQuery("body").addClass("ie");</script><![endif]-->')
+		.appendTo('body')
+		.remove();
+	$keyboard.msie = $('body').hasClass('oldie'); // Old IE flag, used for caret positioning
+	$keyboard.allie = $('body').hasClass('ie');
+
+	$keyboard.watermark = (typeof (document.createElement('input').placeholder) !== 'undefined');
+
+	$keyboard.checkCaretSupport = function () {
+		if (typeof $keyboard.checkCaret !== 'boolean') {
+			// Check if caret position is saved when input is hidden or loses focus
+			// (*cough* all versions of IE and I think Opera has/had an issue as well
+			var $temp = $('<div style="height:0px;width:0px;overflow:hidden;position:fixed;top:0;left:-100px;">' +
+				'<input type="text" value="testing"/></div>').prependTo('body'); // stop page scrolling
+			$keyboard.caret($temp.find('input'), 3, 3);
+			// Also save caret position of the input if it is locked
+			$keyboard.checkCaret = $keyboard.caret($temp.find('input').hide().show()).start !== 3;
+			$temp.remove();
+		}
+		return $keyboard.checkCaret;
+	};
+
+	$keyboard.caret = function($el, param1, param2) {
+		if (!$el.length || $el.is(':hidden') || $el.css('visibility') === 'hidden') {
+			return {};
+		}
+		var start, end, txt, pos,
+			kb = $el.data( 'keyboard' ),
+			noFocus = kb && kb.options.noFocus,
+			formEl = /(textarea|input)/i.test($el[0].nodeName);
+		if (!noFocus) { $el.focus(); }
+		// set caret position
+		if (typeof param1 !== 'undefined') {
+			// allow setting caret using ( $el, { start: x, end: y } )
+			if (typeof param1 === 'object' && 'start' in param1 && 'end' in param1) {
+				start = param1.start;
+				end = param1.end;
+			} else if (typeof param2 === 'undefined') {
+				param2 = param1; // set caret using start position
+			}
+			// set caret using ( $el, start, end );
+			if (typeof param1 === 'number' && typeof param2 === 'number') {
+				start = param1;
+				end = param2;
+			} else if ( param1 === 'start' ) {
+				start = end = 0;
+			} else if ( typeof param1 === 'string' ) {
+				// unknown string setting, move caret to end
+				start = end = 'end';
+			}
+
+			// *** SET CARET POSITION ***
+			// modify the line below to adapt to other caret plugins
+			return formEl ?
+				$el.caret( start, end, noFocus ) :
+				$keyboard.setEditableCaret( $el, start, end );
+		}
+		// *** GET CARET POSITION ***
+		// modify the line below to adapt to other caret plugins
+		if (formEl) {
+			// modify the line below to adapt to other caret plugins
+			pos = $el.caret();
+		} else {
+			// contenteditable
+			pos = $keyboard.getEditableCaret($el[0]);
+		}
+		start = pos.start;
+		end = pos.end;
+
+		// *** utilities ***
+		txt = formEl && $el[0].value || $el.text() || '';
+		return {
+			start : start,
+			end : end,
+			// return selected text
+			text : txt.substring( start, end ),
+			// return a replace selected string method
+			replaceStr : function( str ) {
+				return txt.substring( 0, start ) + str + txt.substring( end, txt.length );
+			}
+		};
+	};
+
+	$keyboard.isTextNode = function(el) {
+		return el && el.nodeType === 3;
+	};
+
+	$keyboard.isBlock = function(el, node) {
+		var win = el.ownerDocument.defaultView;
+		if (
+			node && node.nodeType === 1 && node !== el &&
+			win.getComputedStyle(node).display === 'block'
+		) {
+			return 1;
+		}
+		return 0;
+	};
+
+	// Wrap all BR's inside of contenteditable
+	$keyboard.wrapBRs = function(container) {
+		var $el = $(container).find('br:not(.' + $keyboard.css.divWrapperCE + ')');
+		if ($el.length) {
+			$.each($el, function(i, el) {
+				var len = el.parentNode.childNodes.length;
+				if (
+					// wrap BRs if not solo child
+					len !== 1 ||
+					// Or if BR is wrapped by a span
+					len === 1 && !$keyboard.isBlock(container, el.parentNode)
+				) {
+					$(el).addClass($keyboard.css.divWrapperCE).wrap('<div>');
+				}
+			});
+		}
+	};
+
+	$keyboard.getEditableCaret = function(container) {
+		container = $(container)[0];
+		if (!container.isContentEditable) { return {}; }
+		var end, text,
+			options = ($(container).data('keyboard') || {}).options,
+			doc = container.ownerDocument,
+			range = doc.getSelection().getRangeAt(0),
+			result = pathToNode(range.startContainer, range.startOffset),
+			start = result.position;
+		if (options.wrapBRs !== false) {
+			$keyboard.wrapBRs(container);
+		}
+		function pathToNode(endNode, offset) {
+			var node, adjust,
+				txt = '',
+				done = false,
+				position = 0,
+				nodes = $.makeArray(container.childNodes);
+
+			function checkBlock(val) {
+				if (val) {
+					position += val;
+					txt += options && options.replaceCR || '\n';
+				}
+			}
+
+			while (!done && nodes.length) {
+				node = nodes.shift();
+				if (node === endNode) {
+					done = true;
+				}
+
+				// Add one if previous sibling was a block node (div, p, etc)
+				adjust = $keyboard.isBlock(container, node.previousSibling);
+				checkBlock(adjust);
+
+				if ($keyboard.isTextNode(node)) {
+					position += done ? offset : node.length;
+					txt += node.textContent;
+					if (done) {
+						return {position: position, text: txt};
+					}
+				} else if (!done && node.childNodes) {
+					nodes = $.makeArray(node.childNodes).concat(nodes);
+				}
+				// Add one if we're inside a block node (div, p, etc)
+				// and previous sibling was a text node
+				adjust = $keyboard.isTextNode(node.previousSibling) && $keyboard.isBlock(container, node);
+				checkBlock(adjust);
+			}
+			return {position: position, text: txt};
+		}
+		// check of start and end are the same
+		if (range.endContainer === range.startContainer && range.endOffset === range.startOffset) {
+			end = start;
+			text = '';
+		} else {
+			result = pathToNode(range.endContainer, range.endOffset);
+			end = result.position;
+			text = result.text.substring(start, end);
+		}
+		return {
+			start: start,
+			end: end,
+			text: text
+		};
+	};
+
+	$keyboard.getEditableLength = function(container) {
+		var result = $keyboard.setEditableCaret(container, 'getMax');
+		// if not a number, the container is not a contenteditable element
+		return typeof result === 'number' ? result : null;
+	};
+
+	$keyboard.setEditableCaret = function(container, start, end) {
+		container = $(container)[0];
+		if (!container.isContentEditable) { return {}; }
+		var doc = container.ownerDocument,
+			range = doc.createRange(),
+			sel = doc.getSelection(),
+			options = ($(container).data('keyboard') || {}).options,
+			s = start,
+			e = end,
+			text = '',
+			result = findNode(start === 'getMax' ? 'end' : start);
+		function findNode(offset) {
+			if (offset === 'end') {
+				// Set some value > content length; but return max
+				offset = container.innerHTML.length;
+			} else if (offset < 0) {
+				offset = 0;
+			}
+			var node, check,
+				txt = '',
+				done = false,
+				position = 0,
+				last = 0,
+				max = 0,
+				nodes = $.makeArray(container.childNodes);
+			function updateText(val) {
+				txt += val ? options && options.replaceCR || "\n" : "";
+				return val > 0;
+			}
+			function checkDone(adj) {
+				var val = position + adj;
+				last = max;
+				max += adj;
+				if (offset - val >= 0) {
+					position = val;
+					return offset - position <= 0;
+				}
+				return offset - val <= 0;
+			}
+			while (!done && nodes.length) {
+				node = nodes.shift();
+				// Add one if the previous sibling was a block node (div, p, etc)
+				check = $keyboard.isBlock(container, node.previousSibling);
+				if (updateText(check) && checkDone(check)) {
+					done = true;
+				}
+				// Add one if we're inside a block node (div, p, etc)
+				check = $keyboard.isTextNode(node.previousSibling) && $keyboard.isBlock(container, node);
+				if (updateText(check) && checkDone(check)) {
+					done = true;
+				}
+				if ($keyboard.isTextNode(node)) {
+					txt += node.textContent;
+					if (checkDone(node.length)) {
+						check = offset - position === 0 && position - last >= 1 ? node.length : offset - position;
+						return {
+							node: node,
+							offset: check,
+							position: offset,
+							text: txt
+						};
+					}
+				} else if (!done && node.childNodes) {
+					nodes = $.makeArray(node.childNodes).concat(nodes);
+				}
+			}
+			return nodes.length ?
+				{node: node, offset: offset - position, position: offset, text: txt} :
+				// Offset is larger than content, return max
+				{node: node, offset: node && node.length || 0, position: max, text: txt};
+		}
+		if (result.node) {
+			s = result.position; // Adjust if start > content length
+			if (start === 'getMax') {
+				return s;
+			}
+			range.setStart(result.node, result.offset);
+			// Only find end if > start and is defined... this allows passing
+			// setEditableCaret(el, 'end') or setEditableCaret(el, 10, 'end');
+			if (typeof end !== "undefined" && end !== start) {
+				result = findNode(end);
+			}
+			if (result.node) {
+				e = result.position; // Adjust if end > content length
+				range.setEnd(result.node, result.offset);
+				text = s === e ? "" : result.text.substring(s, e);
+			}
+			sel.removeAllRanges();
+			sel.addRange(range);
+		}
+		return {
+			start: s,
+			end: e,
+			text: text
+		};
+	};
+
+	$keyboard.replaceContent = function (el, param) {
+		el = $(el)[0];
+		var node, i, str,
+			type = typeof param,
+			caret = $keyboard.getEditableCaret(el).start,
+			charIndex = 0,
+			nodeStack = [el];
+		while ((node = nodeStack.pop())) {
+			if ($keyboard.isTextNode(node)) {
+				if (type === 'function') {
+					if (caret >= charIndex && caret <= charIndex + node.length) {
+						node.textContent = param(node.textContent);
+					}
+				} else if (type === 'string') {
+					// maybe not the best method, but it works for simple changes
+					str = param.substring(charIndex, charIndex + node.length);
+					if (str !== node.textContent) {
+						node.textContent = str;
+					}
+				}
+				charIndex += node.length;
+			} else if (node && node.childNodes) {
+				i = node.childNodes.length;
+				while (i--) {
+					nodeStack.push(node.childNodes[i]);
+				}
+			}
+		}
+		i = $keyboard.getEditableCaret(el);
+		$keyboard.setEditableCaret(el, i.start, i.start);
+	};
+
+	$.fn.keyboard = function (options) {
+		return this.each(function () {
+			if (!$(this).data('keyboard')) {
+				/*jshint nonew:false */
+				(new $.keyboard(this, options));
+			}
+		});
+	};
+
+	$.fn.getkeyboard = function () {
+		return this.data('keyboard');
+	};
+
+	/* Copyright (c) 2010 C. F., Wong (<a href="http://cloudgen.w0ng.hk">Cloudgen Examplet Store</a>)
+	 * Licensed under the MIT License:
+	 * http://www.opensource.org/licenses/mit-license.php
+	 * Highly modified from the original
+	 */
+
+	$.fn.caret = function (start, end, noFocus) {
+		if (
+			typeof this[0] === 'undefined' ||
+			this.is(':hidden') ||
+			this.css('visibility') === 'hidden' ||
+			!/(INPUT|TEXTAREA)/.test(this[0].nodeName)
+		) {
+			return this;
+		}
+		var selRange, range, stored_range, txt, val,
+			$el = this,
+			el = $el[0],
+			selection = el.ownerDocument.selection,
+			sTop = el.scrollTop,
+			ss = false,
+			supportCaret = true;
+		try {
+			ss = 'selectionStart' in el;
+		} catch (err) {
+			supportCaret = false;
+		}
+		if (supportCaret && typeof start !== 'undefined') {
+			if (!/(email|number)/i.test(el.type)) {
+				if (ss) {
+					el.selectionStart = start;
+					el.selectionEnd = end;
+				} else {
+					selRange = el.createTextRange();
+					selRange.collapse(true);
+					selRange.moveStart('character', start);
+					selRange.moveEnd('character', end - start);
+					selRange.select();
+				}
+			}
+			// must be visible or IE8 crashes; IE9 in compatibility mode works fine - issue #56
+			if (!noFocus && ($el.is(':visible') || $el.css('visibility') !== 'hidden')) {
+				el.focus();
+			}
+			el.scrollTop = sTop;
+			return this;
+		} else {
+			if (/(email|number)/i.test(el.type)) {
+				// fix suggested by raduanastase (https://github.com/Mottie/Keyboard/issues/105#issuecomment-40456535)
+				start = end = $el.val().length;
+			} else if (ss) {
+				start = el.selectionStart;
+				end = el.selectionEnd;
+			} else if (selection) {
+				if (el.nodeName === 'TEXTAREA') {
+					val = $el.val();
+					range = selection.createRange();
+					stored_range = range.duplicate();
+					stored_range.moveToElementText(el);
+					stored_range.setEndPoint('EndToEnd', range);
+					// thanks to the awesome comments in the rangy plugin
+					start = stored_range.text.replace(/\r/g, '\n').length;
+					end = start + range.text.replace(/\r/g, '\n').length;
+				} else {
+					val = $el.val().replace(/\r/g, '\n');
+					range = selection.createRange().duplicate();
+					range.moveEnd('character', val.length);
+					start = (range.text === '' ? val.length : val.lastIndexOf(range.text));
+					range = selection.createRange().duplicate();
+					range.moveStart('character', -val.length);
+					end = range.text.length;
+				}
+			} else {
+				// caret positioning not supported
+				start = end = (el.value || '').length;
+			}
+			txt = (el.value || '');
+			return {
+				start: start,
+				end: end,
+				text: txt.substring(start, end),
+				replace: function (str) {
+					return txt.substring(0, start) + str + txt.substring(end, txt.length);
+				}
+			};
+		}
+	};
+
+	return $keyboard;
+
+}));
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(Promise) {(function(self) {
+  'use strict';
+
+  if (self.fetch) {
+    return
+  }
+
+  var support = {
+    searchParams: 'URLSearchParams' in self,
+    iterable: 'Symbol' in self && 'iterator' in Symbol,
+    blob: 'FileReader' in self && 'Blob' in self && (function() {
+      try {
+        new Blob()
+        return true
+      } catch(e) {
+        return false
+      }
+    })(),
+    formData: 'FormData' in self,
+    arrayBuffer: 'ArrayBuffer' in self
+  }
+
+  if (support.arrayBuffer) {
+    var viewClasses = [
+      '[object Int8Array]',
+      '[object Uint8Array]',
+      '[object Uint8ClampedArray]',
+      '[object Int16Array]',
+      '[object Uint16Array]',
+      '[object Int32Array]',
+      '[object Uint32Array]',
+      '[object Float32Array]',
+      '[object Float64Array]'
+    ]
+
+    var isDataView = function(obj) {
+      return obj && DataView.prototype.isPrototypeOf(obj)
+    }
+
+    var isArrayBufferView = ArrayBuffer.isView || function(obj) {
+      return obj && viewClasses.indexOf(Object.prototype.toString.call(obj)) > -1
+    }
+  }
+
+  function normalizeName(name) {
+    if (typeof name !== 'string') {
+      name = String(name)
+    }
+    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
+      throw new TypeError('Invalid character in header field name')
+    }
+    return name.toLowerCase()
+  }
+
+  function normalizeValue(value) {
+    if (typeof value !== 'string') {
+      value = String(value)
+    }
+    return value
+  }
+
+  // Build a destructive iterator for the value list
+  function iteratorFor(items) {
+    var iterator = {
+      next: function() {
+        var value = items.shift()
+        return {done: value === undefined, value: value}
+      }
+    }
+
+    if (support.iterable) {
+      iterator[Symbol.iterator] = function() {
+        return iterator
+      }
+    }
+
+    return iterator
+  }
+
+  function Headers(headers) {
+    this.map = {}
+
+    if (headers instanceof Headers) {
+      headers.forEach(function(value, name) {
+        this.append(name, value)
+      }, this)
+    } else if (Array.isArray(headers)) {
+      headers.forEach(function(header) {
+        this.append(header[0], header[1])
+      }, this)
+    } else if (headers) {
+      Object.getOwnPropertyNames(headers).forEach(function(name) {
+        this.append(name, headers[name])
+      }, this)
+    }
+  }
+
+  Headers.prototype.append = function(name, value) {
+    name = normalizeName(name)
+    value = normalizeValue(value)
+    var oldValue = this.map[name]
+    this.map[name] = oldValue ? oldValue+','+value : value
+  }
+
+  Headers.prototype['delete'] = function(name) {
+    delete this.map[normalizeName(name)]
+  }
+
+  Headers.prototype.get = function(name) {
+    name = normalizeName(name)
+    return this.has(name) ? this.map[name] : null
+  }
+
+  Headers.prototype.has = function(name) {
+    return this.map.hasOwnProperty(normalizeName(name))
+  }
+
+  Headers.prototype.set = function(name, value) {
+    this.map[normalizeName(name)] = normalizeValue(value)
+  }
+
+  Headers.prototype.forEach = function(callback, thisArg) {
+    for (var name in this.map) {
+      if (this.map.hasOwnProperty(name)) {
+        callback.call(thisArg, this.map[name], name, this)
+      }
+    }
+  }
+
+  Headers.prototype.keys = function() {
+    var items = []
+    this.forEach(function(value, name) { items.push(name) })
+    return iteratorFor(items)
+  }
+
+  Headers.prototype.values = function() {
+    var items = []
+    this.forEach(function(value) { items.push(value) })
+    return iteratorFor(items)
+  }
+
+  Headers.prototype.entries = function() {
+    var items = []
+    this.forEach(function(value, name) { items.push([name, value]) })
+    return iteratorFor(items)
+  }
+
+  if (support.iterable) {
+    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
+  }
+
+  function consumed(body) {
+    if (body.bodyUsed) {
+      return Promise.reject(new TypeError('Already read'))
+    }
+    body.bodyUsed = true
+  }
+
+  function fileReaderReady(reader) {
+    return new Promise(function(resolve, reject) {
+      reader.onload = function() {
+        resolve(reader.result)
+      }
+      reader.onerror = function() {
+        reject(reader.error)
+      }
+    })
+  }
+
+  function readBlobAsArrayBuffer(blob) {
+    var reader = new FileReader()
+    var promise = fileReaderReady(reader)
+    reader.readAsArrayBuffer(blob)
+    return promise
+  }
+
+  function readBlobAsText(blob) {
+    var reader = new FileReader()
+    var promise = fileReaderReady(reader)
+    reader.readAsText(blob)
+    return promise
+  }
+
+  function readArrayBufferAsText(buf) {
+    var view = new Uint8Array(buf)
+    var chars = new Array(view.length)
+
+    for (var i = 0; i < view.length; i++) {
+      chars[i] = String.fromCharCode(view[i])
+    }
+    return chars.join('')
+  }
+
+  function bufferClone(buf) {
+    if (buf.slice) {
+      return buf.slice(0)
+    } else {
+      var view = new Uint8Array(buf.byteLength)
+      view.set(new Uint8Array(buf))
+      return view.buffer
+    }
+  }
+
+  function Body() {
+    this.bodyUsed = false
+
+    this._initBody = function(body) {
+      this._bodyInit = body
+      if (!body) {
+        this._bodyText = ''
+      } else if (typeof body === 'string') {
+        this._bodyText = body
+      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
+        this._bodyBlob = body
+      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+        this._bodyFormData = body
+      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+        this._bodyText = body.toString()
+      } else if (support.arrayBuffer && support.blob && isDataView(body)) {
+        this._bodyArrayBuffer = bufferClone(body.buffer)
+        // IE 10-11 can't handle a DataView body.
+        this._bodyInit = new Blob([this._bodyArrayBuffer])
+      } else if (support.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(body) || isArrayBufferView(body))) {
+        this._bodyArrayBuffer = bufferClone(body)
+      } else {
+        throw new Error('unsupported BodyInit type')
+      }
+
+      if (!this.headers.get('content-type')) {
+        if (typeof body === 'string') {
+          this.headers.set('content-type', 'text/plain;charset=UTF-8')
+        } else if (this._bodyBlob && this._bodyBlob.type) {
+          this.headers.set('content-type', this._bodyBlob.type)
+        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
+        }
+      }
+    }
+
+    if (support.blob) {
+      this.blob = function() {
+        var rejected = consumed(this)
+        if (rejected) {
+          return rejected
+        }
+
+        if (this._bodyBlob) {
+          return Promise.resolve(this._bodyBlob)
+        } else if (this._bodyArrayBuffer) {
+          return Promise.resolve(new Blob([this._bodyArrayBuffer]))
+        } else if (this._bodyFormData) {
+          throw new Error('could not read FormData body as blob')
+        } else {
+          return Promise.resolve(new Blob([this._bodyText]))
+        }
+      }
+
+      this.arrayBuffer = function() {
+        if (this._bodyArrayBuffer) {
+          return consumed(this) || Promise.resolve(this._bodyArrayBuffer)
+        } else {
+          return this.blob().then(readBlobAsArrayBuffer)
+        }
+      }
+    }
+
+    this.text = function() {
+      var rejected = consumed(this)
+      if (rejected) {
+        return rejected
+      }
+
+      if (this._bodyBlob) {
+        return readBlobAsText(this._bodyBlob)
+      } else if (this._bodyArrayBuffer) {
+        return Promise.resolve(readArrayBufferAsText(this._bodyArrayBuffer))
+      } else if (this._bodyFormData) {
+        throw new Error('could not read FormData body as text')
+      } else {
+        return Promise.resolve(this._bodyText)
+      }
+    }
+
+    if (support.formData) {
+      this.formData = function() {
+        return this.text().then(decode)
+      }
+    }
+
+    this.json = function() {
+      return this.text().then(JSON.parse)
+    }
+
+    return this
+  }
+
+  // HTTP methods whose capitalization should be normalized
+  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+
+  function normalizeMethod(method) {
+    var upcased = method.toUpperCase()
+    return (methods.indexOf(upcased) > -1) ? upcased : method
+  }
+
+  function Request(input, options) {
+    options = options || {}
+    var body = options.body
+
+    if (input instanceof Request) {
+      if (input.bodyUsed) {
+        throw new TypeError('Already read')
+      }
+      this.url = input.url
+      this.credentials = input.credentials
+      if (!options.headers) {
+        this.headers = new Headers(input.headers)
+      }
+      this.method = input.method
+      this.mode = input.mode
+      if (!body && input._bodyInit != null) {
+        body = input._bodyInit
+        input.bodyUsed = true
+      }
+    } else {
+      this.url = String(input)
+    }
+
+    this.credentials = options.credentials || this.credentials || 'omit'
+    if (options.headers || !this.headers) {
+      this.headers = new Headers(options.headers)
+    }
+    this.method = normalizeMethod(options.method || this.method || 'GET')
+    this.mode = options.mode || this.mode || null
+    this.referrer = null
+
+    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+      throw new TypeError('Body not allowed for GET or HEAD requests')
+    }
+    this._initBody(body)
+  }
+
+  Request.prototype.clone = function() {
+    return new Request(this, { body: this._bodyInit })
+  }
+
+  function decode(body) {
+    var form = new FormData()
+    body.trim().split('&').forEach(function(bytes) {
+      if (bytes) {
+        var split = bytes.split('=')
+        var name = split.shift().replace(/\+/g, ' ')
+        var value = split.join('=').replace(/\+/g, ' ')
+        form.append(decodeURIComponent(name), decodeURIComponent(value))
+      }
+    })
+    return form
+  }
+
+  function parseHeaders(rawHeaders) {
+    var headers = new Headers()
+    rawHeaders.split(/\r?\n/).forEach(function(line) {
+      var parts = line.split(':')
+      var key = parts.shift().trim()
+      if (key) {
+        var value = parts.join(':').trim()
+        headers.append(key, value)
+      }
+    })
+    return headers
+  }
+
+  Body.call(Request.prototype)
+
+  function Response(bodyInit, options) {
+    if (!options) {
+      options = {}
+    }
+
+    this.type = 'default'
+    this.status = 'status' in options ? options.status : 200
+    this.ok = this.status >= 200 && this.status < 300
+    this.statusText = 'statusText' in options ? options.statusText : 'OK'
+    this.headers = new Headers(options.headers)
+    this.url = options.url || ''
+    this._initBody(bodyInit)
+  }
+
+  Body.call(Response.prototype)
+
+  Response.prototype.clone = function() {
+    return new Response(this._bodyInit, {
+      status: this.status,
+      statusText: this.statusText,
+      headers: new Headers(this.headers),
+      url: this.url
+    })
+  }
+
+  Response.error = function() {
+    var response = new Response(null, {status: 0, statusText: ''})
+    response.type = 'error'
+    return response
+  }
+
+  var redirectStatuses = [301, 302, 303, 307, 308]
+
+  Response.redirect = function(url, status) {
+    if (redirectStatuses.indexOf(status) === -1) {
+      throw new RangeError('Invalid status code')
+    }
+
+    return new Response(null, {status: status, headers: {location: url}})
+  }
+
+  self.Headers = Headers
+  self.Request = Request
+  self.Response = Response
+
+  self.fetch = function(input, init) {
+    return new Promise(function(resolve, reject) {
+      var request = new Request(input, init)
+      var xhr = new XMLHttpRequest()
+
+      xhr.onload = function() {
+        var options = {
+          status: xhr.status,
+          statusText: xhr.statusText,
+          headers: parseHeaders(xhr.getAllResponseHeaders() || '')
+        }
+        options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL')
+        var body = 'response' in xhr ? xhr.response : xhr.responseText
+        resolve(new Response(body, options))
+      }
+
+      xhr.onerror = function() {
+        reject(new TypeError('Network request failed'))
+      }
+
+      xhr.ontimeout = function() {
+        reject(new TypeError('Network request failed'))
+      }
+
+      xhr.open(request.method, request.url, true)
+
+      if (request.credentials === 'include') {
+        xhr.withCredentials = true
+      }
+
+      if ('responseType' in xhr && support.blob) {
+        xhr.responseType = 'blob'
+      }
+
+      request.headers.forEach(function(value, name) {
+        xhr.setRequestHeader(name, value)
+      })
+
+      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+    })
+  }
+  self.fetch.polyfill = true
+})(typeof self !== 'undefined' ? self : this);
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)))
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global, process) {/*** IMPORTS FROM imports-loader ***/
+(function() {
+
+/*!
+ * @overview es6-promise - a tiny implementation of Promises/A+.
+ * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
+ * @license   Licensed under MIT license
+ *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
+ * @version   v4.2.4+314e4831
+ */
+
+(function (global, factory) {
+	 true ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.ES6Promise = factory());
+}(this, (function () { 'use strict';
+
+function objectOrFunction(x) {
+  var type = typeof x;
+  return x !== null && (type === 'object' || type === 'function');
+}
+
+function isFunction(x) {
+  return typeof x === 'function';
+}
+
+
+
+var _isArray = void 0;
+if (Array.isArray) {
+  _isArray = Array.isArray;
+} else {
+  _isArray = function (x) {
+    return Object.prototype.toString.call(x) === '[object Array]';
+  };
+}
+
+var isArray = _isArray;
+
+var len = 0;
+var vertxNext = void 0;
+var customSchedulerFn = void 0;
+
+var asap = function asap(callback, arg) {
+  queue[len] = callback;
+  queue[len + 1] = arg;
+  len += 2;
+  if (len === 2) {
+    // If len is 2, that means that we need to schedule an async flush.
+    // If additional callbacks are queued before the queue is flushed, they
+    // will be processed by this flush that we are scheduling.
+    if (customSchedulerFn) {
+      customSchedulerFn(flush);
+    } else {
+      scheduleFlush();
+    }
+  }
+};
+
+function setScheduler(scheduleFn) {
+  customSchedulerFn = scheduleFn;
+}
+
+function setAsap(asapFn) {
+  asap = asapFn;
+}
+
+var browserWindow = typeof window !== 'undefined' ? window : undefined;
+var browserGlobal = browserWindow || {};
+var BrowserMutationObserver = browserGlobal.MutationObserver || browserGlobal.WebKitMutationObserver;
+var isNode = typeof self === 'undefined' && typeof process !== 'undefined' && {}.toString.call(process) === '[object process]';
+
+// test for web worker but not in IE10
+var isWorker = typeof Uint8ClampedArray !== 'undefined' && typeof importScripts !== 'undefined' && typeof MessageChannel !== 'undefined';
+
+// node
+function useNextTick() {
+  // node version 0.10.x displays a deprecation warning when nextTick is used recursively
+  // see https://github.com/cujojs/when/issues/410 for details
+  return function () {
+    return process.nextTick(flush);
+  };
+}
+
+// vertx
+function useVertxTimer() {
+  if (typeof vertxNext !== 'undefined') {
+    return function () {
+      vertxNext(flush);
+    };
+  }
+
+  return useSetTimeout();
+}
+
+function useMutationObserver() {
+  var iterations = 0;
+  var observer = new BrowserMutationObserver(flush);
+  var node = document.createTextNode('');
+  observer.observe(node, { characterData: true });
+
+  return function () {
+    node.data = iterations = ++iterations % 2;
+  };
+}
+
+// web worker
+function useMessageChannel() {
+  var channel = new MessageChannel();
+  channel.port1.onmessage = flush;
+  return function () {
+    return channel.port2.postMessage(0);
+  };
+}
+
+function useSetTimeout() {
+  // Store setTimeout reference so es6-promise will be unaffected by
+  // other code modifying setTimeout (like sinon.useFakeTimers())
+  var globalSetTimeout = setTimeout;
+  return function () {
+    return globalSetTimeout(flush, 1);
+  };
+}
+
+var queue = new Array(1000);
+function flush() {
+  for (var i = 0; i < len; i += 2) {
+    var callback = queue[i];
+    var arg = queue[i + 1];
+
+    callback(arg);
+
+    queue[i] = undefined;
+    queue[i + 1] = undefined;
+  }
+
+  len = 0;
+}
+
+function attemptVertx() {
+  try {
+    var vertx = Function('return this')().require('vertx');
+    vertxNext = vertx.runOnLoop || vertx.runOnContext;
+    return useVertxTimer();
+  } catch (e) {
+    return useSetTimeout();
+  }
+}
+
+var scheduleFlush = void 0;
+// Decide what async method to use to triggering processing of queued callbacks:
+if (isNode) {
+  scheduleFlush = useNextTick();
+} else if (BrowserMutationObserver) {
+  scheduleFlush = useMutationObserver();
+} else if (isWorker) {
+  scheduleFlush = useMessageChannel();
+} else if (browserWindow === undefined && "function" === 'function') {
+  scheduleFlush = attemptVertx();
+} else {
+  scheduleFlush = useSetTimeout();
+}
+
+function then(onFulfillment, onRejection) {
+  var parent = this;
+
+  var child = new this.constructor(noop);
+
+  if (child[PROMISE_ID] === undefined) {
+    makePromise(child);
+  }
+
+  var _state = parent._state;
+
+
+  if (_state) {
+    var callback = arguments[_state - 1];
+    asap(function () {
+      return invokeCallback(_state, child, callback, parent._result);
+    });
+  } else {
+    subscribe(parent, child, onFulfillment, onRejection);
+  }
+
+  return child;
+}
+
+/**
+  `Promise.resolve` returns a promise that will become resolved with the
+  passed `value`. It is shorthand for the following:
+
+  ```javascript
+  let promise = new Promise(function(resolve, reject){
+    resolve(1);
+  });
+
+  promise.then(function(value){
+    // value === 1
+  });
+  ```
+
+  Instead of writing the above, your code now simply becomes the following:
+
+  ```javascript
+  let promise = Promise.resolve(1);
+
+  promise.then(function(value){
+    // value === 1
+  });
+  ```
+
+  @method resolve
+  @static
+  @param {Any} value value that the returned promise will be resolved with
+  Useful for tooling.
+  @return {Promise} a promise that will become fulfilled with the given
+  `value`
+*/
+function resolve$1(object) {
+  /*jshint validthis:true */
+  var Constructor = this;
+
+  if (object && typeof object === 'object' && object.constructor === Constructor) {
+    return object;
+  }
+
+  var promise = new Constructor(noop);
+  resolve(promise, object);
+  return promise;
+}
+
+var PROMISE_ID = Math.random().toString(36).substring(2);
+
+function noop() {}
+
+var PENDING = void 0;
+var FULFILLED = 1;
+var REJECTED = 2;
+
+var TRY_CATCH_ERROR = { error: null };
+
+function selfFulfillment() {
+  return new TypeError("You cannot resolve a promise with itself");
+}
+
+function cannotReturnOwn() {
+  return new TypeError('A promises callback cannot return that same promise.');
+}
+
+function getThen(promise) {
+  try {
+    return promise.then;
+  } catch (error) {
+    TRY_CATCH_ERROR.error = error;
+    return TRY_CATCH_ERROR;
+  }
+}
+
+function tryThen(then$$1, value, fulfillmentHandler, rejectionHandler) {
+  try {
+    then$$1.call(value, fulfillmentHandler, rejectionHandler);
+  } catch (e) {
+    return e;
+  }
+}
+
+function handleForeignThenable(promise, thenable, then$$1) {
+  asap(function (promise) {
+    var sealed = false;
+    var error = tryThen(then$$1, thenable, function (value) {
+      if (sealed) {
+        return;
+      }
+      sealed = true;
+      if (thenable !== value) {
+        resolve(promise, value);
+      } else {
+        fulfill(promise, value);
+      }
+    }, function (reason) {
+      if (sealed) {
+        return;
+      }
+      sealed = true;
+
+      reject(promise, reason);
+    }, 'Settle: ' + (promise._label || ' unknown promise'));
+
+    if (!sealed && error) {
+      sealed = true;
+      reject(promise, error);
+    }
+  }, promise);
+}
+
+function handleOwnThenable(promise, thenable) {
+  if (thenable._state === FULFILLED) {
+    fulfill(promise, thenable._result);
+  } else if (thenable._state === REJECTED) {
+    reject(promise, thenable._result);
+  } else {
+    subscribe(thenable, undefined, function (value) {
+      return resolve(promise, value);
+    }, function (reason) {
+      return reject(promise, reason);
+    });
+  }
+}
+
+function handleMaybeThenable(promise, maybeThenable, then$$1) {
+  if (maybeThenable.constructor === promise.constructor && then$$1 === then && maybeThenable.constructor.resolve === resolve$1) {
+    handleOwnThenable(promise, maybeThenable);
+  } else {
+    if (then$$1 === TRY_CATCH_ERROR) {
+      reject(promise, TRY_CATCH_ERROR.error);
+      TRY_CATCH_ERROR.error = null;
+    } else if (then$$1 === undefined) {
+      fulfill(promise, maybeThenable);
+    } else if (isFunction(then$$1)) {
+      handleForeignThenable(promise, maybeThenable, then$$1);
+    } else {
+      fulfill(promise, maybeThenable);
+    }
+  }
+}
+
+function resolve(promise, value) {
+  if (promise === value) {
+    reject(promise, selfFulfillment());
+  } else if (objectOrFunction(value)) {
+    handleMaybeThenable(promise, value, getThen(value));
+  } else {
+    fulfill(promise, value);
+  }
+}
+
+function publishRejection(promise) {
+  if (promise._onerror) {
+    promise._onerror(promise._result);
+  }
+
+  publish(promise);
+}
+
+function fulfill(promise, value) {
+  if (promise._state !== PENDING) {
+    return;
+  }
+
+  promise._result = value;
+  promise._state = FULFILLED;
+
+  if (promise._subscribers.length !== 0) {
+    asap(publish, promise);
+  }
+}
+
+function reject(promise, reason) {
+  if (promise._state !== PENDING) {
+    return;
+  }
+  promise._state = REJECTED;
+  promise._result = reason;
+
+  asap(publishRejection, promise);
+}
+
+function subscribe(parent, child, onFulfillment, onRejection) {
+  var _subscribers = parent._subscribers;
+  var length = _subscribers.length;
+
+
+  parent._onerror = null;
+
+  _subscribers[length] = child;
+  _subscribers[length + FULFILLED] = onFulfillment;
+  _subscribers[length + REJECTED] = onRejection;
+
+  if (length === 0 && parent._state) {
+    asap(publish, parent);
+  }
+}
+
+function publish(promise) {
+  var subscribers = promise._subscribers;
+  var settled = promise._state;
+
+  if (subscribers.length === 0) {
+    return;
+  }
+
+  var child = void 0,
+      callback = void 0,
+      detail = promise._result;
+
+  for (var i = 0; i < subscribers.length; i += 3) {
+    child = subscribers[i];
+    callback = subscribers[i + settled];
+
+    if (child) {
+      invokeCallback(settled, child, callback, detail);
+    } else {
+      callback(detail);
+    }
+  }
+
+  promise._subscribers.length = 0;
+}
+
+function tryCatch(callback, detail) {
+  try {
+    return callback(detail);
+  } catch (e) {
+    TRY_CATCH_ERROR.error = e;
+    return TRY_CATCH_ERROR;
+  }
+}
+
+function invokeCallback(settled, promise, callback, detail) {
+  var hasCallback = isFunction(callback),
+      value = void 0,
+      error = void 0,
+      succeeded = void 0,
+      failed = void 0;
+
+  if (hasCallback) {
+    value = tryCatch(callback, detail);
+
+    if (value === TRY_CATCH_ERROR) {
+      failed = true;
+      error = value.error;
+      value.error = null;
+    } else {
+      succeeded = true;
+    }
+
+    if (promise === value) {
+      reject(promise, cannotReturnOwn());
+      return;
+    }
+  } else {
+    value = detail;
+    succeeded = true;
+  }
+
+  if (promise._state !== PENDING) {
+    // noop
+  } else if (hasCallback && succeeded) {
+    resolve(promise, value);
+  } else if (failed) {
+    reject(promise, error);
+  } else if (settled === FULFILLED) {
+    fulfill(promise, value);
+  } else if (settled === REJECTED) {
+    reject(promise, value);
+  }
+}
+
+function initializePromise(promise, resolver) {
+  try {
+    resolver(function resolvePromise(value) {
+      resolve(promise, value);
+    }, function rejectPromise(reason) {
+      reject(promise, reason);
+    });
+  } catch (e) {
+    reject(promise, e);
+  }
+}
+
+var id = 0;
+function nextId() {
+  return id++;
+}
+
+function makePromise(promise) {
+  promise[PROMISE_ID] = id++;
+  promise._state = undefined;
+  promise._result = undefined;
+  promise._subscribers = [];
+}
+
+function validationError() {
+  return new Error('Array Methods must be provided an Array');
+}
+
+var Enumerator = function () {
+  function Enumerator(Constructor, input) {
+    this._instanceConstructor = Constructor;
+    this.promise = new Constructor(noop);
+
+    if (!this.promise[PROMISE_ID]) {
+      makePromise(this.promise);
+    }
+
+    if (isArray(input)) {
+      this.length = input.length;
+      this._remaining = input.length;
+
+      this._result = new Array(this.length);
+
+      if (this.length === 0) {
+        fulfill(this.promise, this._result);
+      } else {
+        this.length = this.length || 0;
+        this._enumerate(input);
+        if (this._remaining === 0) {
+          fulfill(this.promise, this._result);
+        }
+      }
+    } else {
+      reject(this.promise, validationError());
+    }
+  }
+
+  Enumerator.prototype._enumerate = function _enumerate(input) {
+    for (var i = 0; this._state === PENDING && i < input.length; i++) {
+      this._eachEntry(input[i], i);
+    }
+  };
+
+  Enumerator.prototype._eachEntry = function _eachEntry(entry, i) {
+    var c = this._instanceConstructor;
+    var resolve$$1 = c.resolve;
+
+
+    if (resolve$$1 === resolve$1) {
+      var _then = getThen(entry);
+
+      if (_then === then && entry._state !== PENDING) {
+        this._settledAt(entry._state, i, entry._result);
+      } else if (typeof _then !== 'function') {
+        this._remaining--;
+        this._result[i] = entry;
+      } else if (c === Promise$1) {
+        var promise = new c(noop);
+        handleMaybeThenable(promise, entry, _then);
+        this._willSettleAt(promise, i);
+      } else {
+        this._willSettleAt(new c(function (resolve$$1) {
+          return resolve$$1(entry);
+        }), i);
+      }
+    } else {
+      this._willSettleAt(resolve$$1(entry), i);
+    }
+  };
+
+  Enumerator.prototype._settledAt = function _settledAt(state, i, value) {
+    var promise = this.promise;
+
+
+    if (promise._state === PENDING) {
+      this._remaining--;
+
+      if (state === REJECTED) {
+        reject(promise, value);
+      } else {
+        this._result[i] = value;
+      }
+    }
+
+    if (this._remaining === 0) {
+      fulfill(promise, this._result);
+    }
+  };
+
+  Enumerator.prototype._willSettleAt = function _willSettleAt(promise, i) {
+    var enumerator = this;
+
+    subscribe(promise, undefined, function (value) {
+      return enumerator._settledAt(FULFILLED, i, value);
+    }, function (reason) {
+      return enumerator._settledAt(REJECTED, i, reason);
+    });
+  };
+
+  return Enumerator;
+}();
+
+/**
+  `Promise.all` accepts an array of promises, and returns a new promise which
+  is fulfilled with an array of fulfillment values for the passed promises, or
+  rejected with the reason of the first passed promise to be rejected. It casts all
+  elements of the passed iterable to promises as it runs this algorithm.
+
+  Example:
+
+  ```javascript
+  let promise1 = resolve(1);
+  let promise2 = resolve(2);
+  let promise3 = resolve(3);
+  let promises = [ promise1, promise2, promise3 ];
+
+  Promise.all(promises).then(function(array){
+    // The array here would be [ 1, 2, 3 ];
+  });
+  ```
+
+  If any of the `promises` given to `all` are rejected, the first promise
+  that is rejected will be given as an argument to the returned promises's
+  rejection handler. For example:
+
+  Example:
+
+  ```javascript
+  let promise1 = resolve(1);
+  let promise2 = reject(new Error("2"));
+  let promise3 = reject(new Error("3"));
+  let promises = [ promise1, promise2, promise3 ];
+
+  Promise.all(promises).then(function(array){
+    // Code here never runs because there are rejected promises!
+  }, function(error) {
+    // error.message === "2"
+  });
+  ```
+
+  @method all
+  @static
+  @param {Array} entries array of promises
+  @param {String} label optional string for labeling the promise.
+  Useful for tooling.
+  @return {Promise} promise that is fulfilled when all `promises` have been
+  fulfilled, or rejected if any of them become rejected.
+  @static
+*/
+function all(entries) {
+  return new Enumerator(this, entries).promise;
+}
+
+/**
+  `Promise.race` returns a new promise which is settled in the same way as the
+  first passed promise to settle.
+
+  Example:
+
+  ```javascript
+  let promise1 = new Promise(function(resolve, reject){
+    setTimeout(function(){
+      resolve('promise 1');
+    }, 200);
+  });
+
+  let promise2 = new Promise(function(resolve, reject){
+    setTimeout(function(){
+      resolve('promise 2');
+    }, 100);
+  });
+
+  Promise.race([promise1, promise2]).then(function(result){
+    // result === 'promise 2' because it was resolved before promise1
+    // was resolved.
+  });
+  ```
+
+  `Promise.race` is deterministic in that only the state of the first
+  settled promise matters. For example, even if other promises given to the
+  `promises` array argument are resolved, but the first settled promise has
+  become rejected before the other promises became fulfilled, the returned
+  promise will become rejected:
+
+  ```javascript
+  let promise1 = new Promise(function(resolve, reject){
+    setTimeout(function(){
+      resolve('promise 1');
+    }, 200);
+  });
+
+  let promise2 = new Promise(function(resolve, reject){
+    setTimeout(function(){
+      reject(new Error('promise 2'));
+    }, 100);
+  });
+
+  Promise.race([promise1, promise2]).then(function(result){
+    // Code here never runs
+  }, function(reason){
+    // reason.message === 'promise 2' because promise 2 became rejected before
+    // promise 1 became fulfilled
+  });
+  ```
+
+  An example real-world use case is implementing timeouts:
+
+  ```javascript
+  Promise.race([ajax('foo.json'), timeout(5000)])
+  ```
+
+  @method race
+  @static
+  @param {Array} promises array of promises to observe
+  Useful for tooling.
+  @return {Promise} a promise which settles in the same way as the first passed
+  promise to settle.
+*/
+function race(entries) {
+  /*jshint validthis:true */
+  var Constructor = this;
+
+  if (!isArray(entries)) {
+    return new Constructor(function (_, reject) {
+      return reject(new TypeError('You must pass an array to race.'));
+    });
+  } else {
+    return new Constructor(function (resolve, reject) {
+      var length = entries.length;
+      for (var i = 0; i < length; i++) {
+        Constructor.resolve(entries[i]).then(resolve, reject);
+      }
+    });
+  }
+}
+
+/**
+  `Promise.reject` returns a promise rejected with the passed `reason`.
+  It is shorthand for the following:
+
+  ```javascript
+  let promise = new Promise(function(resolve, reject){
+    reject(new Error('WHOOPS'));
+  });
+
+  promise.then(function(value){
+    // Code here doesn't run because the promise is rejected!
+  }, function(reason){
+    // reason.message === 'WHOOPS'
+  });
+  ```
+
+  Instead of writing the above, your code now simply becomes the following:
+
+  ```javascript
+  let promise = Promise.reject(new Error('WHOOPS'));
+
+  promise.then(function(value){
+    // Code here doesn't run because the promise is rejected!
+  }, function(reason){
+    // reason.message === 'WHOOPS'
+  });
+  ```
+
+  @method reject
+  @static
+  @param {Any} reason value that the returned promise will be rejected with.
+  Useful for tooling.
+  @return {Promise} a promise rejected with the given `reason`.
+*/
+function reject$1(reason) {
+  /*jshint validthis:true */
+  var Constructor = this;
+  var promise = new Constructor(noop);
+  reject(promise, reason);
+  return promise;
+}
+
+function needsResolver() {
+  throw new TypeError('You must pass a resolver function as the first argument to the promise constructor');
+}
+
+function needsNew() {
+  throw new TypeError("Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.");
+}
+
+/**
+  Promise objects represent the eventual result of an asynchronous operation. The
+  primary way of interacting with a promise is through its `then` method, which
+  registers callbacks to receive either a promise's eventual value or the reason
+  why the promise cannot be fulfilled.
+
+  Terminology
+  -----------
+
+  - `promise` is an object or function with a `then` method whose behavior conforms to this specification.
+  - `thenable` is an object or function that defines a `then` method.
+  - `value` is any legal JavaScript value (including undefined, a thenable, or a promise).
+  - `exception` is a value that is thrown using the throw statement.
+  - `reason` is a value that indicates why a promise was rejected.
+  - `settled` the final resting state of a promise, fulfilled or rejected.
+
+  A promise can be in one of three states: pending, fulfilled, or rejected.
+
+  Promises that are fulfilled have a fulfillment value and are in the fulfilled
+  state.  Promises that are rejected have a rejection reason and are in the
+  rejected state.  A fulfillment value is never a thenable.
+
+  Promises can also be said to *resolve* a value.  If this value is also a
+  promise, then the original promise's settled state will match the value's
+  settled state.  So a promise that *resolves* a promise that rejects will
+  itself reject, and a promise that *resolves* a promise that fulfills will
+  itself fulfill.
+
+
+  Basic Usage:
+  ------------
+
+  ```js
+  let promise = new Promise(function(resolve, reject) {
+    // on success
+    resolve(value);
+
+    // on failure
+    reject(reason);
+  });
+
+  promise.then(function(value) {
+    // on fulfillment
+  }, function(reason) {
+    // on rejection
+  });
+  ```
+
+  Advanced Usage:
+  ---------------
+
+  Promises shine when abstracting away asynchronous interactions such as
+  `XMLHttpRequest`s.
+
+  ```js
+  function getJSON(url) {
+    return new Promise(function(resolve, reject){
+      let xhr = new XMLHttpRequest();
+
+      xhr.open('GET', url);
+      xhr.onreadystatechange = handler;
+      xhr.responseType = 'json';
+      xhr.setRequestHeader('Accept', 'application/json');
+      xhr.send();
+
+      function handler() {
+        if (this.readyState === this.DONE) {
+          if (this.status === 200) {
+            resolve(this.response);
+          } else {
+            reject(new Error('getJSON: `' + url + '` failed with status: [' + this.status + ']'));
+          }
+        }
+      };
+    });
+  }
+
+  getJSON('/posts.json').then(function(json) {
+    // on fulfillment
+  }, function(reason) {
+    // on rejection
+  });
+  ```
+
+  Unlike callbacks, promises are great composable primitives.
+
+  ```js
+  Promise.all([
+    getJSON('/posts'),
+    getJSON('/comments')
+  ]).then(function(values){
+    values[0] // => postsJSON
+    values[1] // => commentsJSON
+
+    return values;
+  });
+  ```
+
+  @class Promise
+  @param {Function} resolver
+  Useful for tooling.
+  @constructor
+*/
+
+var Promise$1 = function () {
+  function Promise(resolver) {
+    this[PROMISE_ID] = nextId();
+    this._result = this._state = undefined;
+    this._subscribers = [];
+
+    if (noop !== resolver) {
+      typeof resolver !== 'function' && needsResolver();
+      this instanceof Promise ? initializePromise(this, resolver) : needsNew();
+    }
+  }
+
+  /**
+  The primary way of interacting with a promise is through its `then` method,
+  which registers callbacks to receive either a promise's eventual value or the
+  reason why the promise cannot be fulfilled.
+   ```js
+  findUser().then(function(user){
+    // user is available
+  }, function(reason){
+    // user is unavailable, and you are given the reason why
+  });
+  ```
+   Chaining
+  --------
+   The return value of `then` is itself a promise.  This second, 'downstream'
+  promise is resolved with the return value of the first promise's fulfillment
+  or rejection handler, or rejected if the handler throws an exception.
+   ```js
+  findUser().then(function (user) {
+    return user.name;
+  }, function (reason) {
+    return 'default name';
+  }).then(function (userName) {
+    // If `findUser` fulfilled, `userName` will be the user's name, otherwise it
+    // will be `'default name'`
+  });
+   findUser().then(function (user) {
+    throw new Error('Found user, but still unhappy');
+  }, function (reason) {
+    throw new Error('`findUser` rejected and we're unhappy');
+  }).then(function (value) {
+    // never reached
+  }, function (reason) {
+    // if `findUser` fulfilled, `reason` will be 'Found user, but still unhappy'.
+    // If `findUser` rejected, `reason` will be '`findUser` rejected and we're unhappy'.
+  });
+  ```
+  If the downstream promise does not specify a rejection handler, rejection reasons will be propagated further downstream.
+   ```js
+  findUser().then(function (user) {
+    throw new PedagogicalException('Upstream error');
+  }).then(function (value) {
+    // never reached
+  }).then(function (value) {
+    // never reached
+  }, function (reason) {
+    // The `PedgagocialException` is propagated all the way down to here
+  });
+  ```
+   Assimilation
+  ------------
+   Sometimes the value you want to propagate to a downstream promise can only be
+  retrieved asynchronously. This can be achieved by returning a promise in the
+  fulfillment or rejection handler. The downstream promise will then be pending
+  until the returned promise is settled. This is called *assimilation*.
+   ```js
+  findUser().then(function (user) {
+    return findCommentsByAuthor(user);
+  }).then(function (comments) {
+    // The user's comments are now available
+  });
+  ```
+   If the assimliated promise rejects, then the downstream promise will also reject.
+   ```js
+  findUser().then(function (user) {
+    return findCommentsByAuthor(user);
+  }).then(function (comments) {
+    // If `findCommentsByAuthor` fulfills, we'll have the value here
+  }, function (reason) {
+    // If `findCommentsByAuthor` rejects, we'll have the reason here
+  });
+  ```
+   Simple Example
+  --------------
+   Synchronous Example
+   ```javascript
+  let result;
+   try {
+    result = findResult();
+    // success
+  } catch(reason) {
+    // failure
+  }
+  ```
+   Errback Example
+   ```js
+  findResult(function(result, err){
+    if (err) {
+      // failure
+    } else {
+      // success
+    }
+  });
+  ```
+   Promise Example;
+   ```javascript
+  findResult().then(function(result){
+    // success
+  }, function(reason){
+    // failure
+  });
+  ```
+   Advanced Example
+  --------------
+   Synchronous Example
+   ```javascript
+  let author, books;
+   try {
+    author = findAuthor();
+    books  = findBooksByAuthor(author);
+    // success
+  } catch(reason) {
+    // failure
+  }
+  ```
+   Errback Example
+   ```js
+   function foundBooks(books) {
+   }
+   function failure(reason) {
+   }
+   findAuthor(function(author, err){
+    if (err) {
+      failure(err);
+      // failure
+    } else {
+      try {
+        findBoooksByAuthor(author, function(books, err) {
+          if (err) {
+            failure(err);
+          } else {
+            try {
+              foundBooks(books);
+            } catch(reason) {
+              failure(reason);
+            }
+          }
+        });
+      } catch(error) {
+        failure(err);
+      }
+      // success
+    }
+  });
+  ```
+   Promise Example;
+   ```javascript
+  findAuthor().
+    then(findBooksByAuthor).
+    then(function(books){
+      // found books
+  }).catch(function(reason){
+    // something went wrong
+  });
+  ```
+   @method then
+  @param {Function} onFulfilled
+  @param {Function} onRejected
+  Useful for tooling.
+  @return {Promise}
+  */
+
+  /**
+  `catch` is simply sugar for `then(undefined, onRejection)` which makes it the same
+  as the catch block of a try/catch statement.
+  ```js
+  function findAuthor(){
+  throw new Error('couldn't find that author');
+  }
+  // synchronous
+  try {
+  findAuthor();
+  } catch(reason) {
+  // something went wrong
+  }
+  // async with promises
+  findAuthor().catch(function(reason){
+  // something went wrong
+  });
+  ```
+  @method catch
+  @param {Function} onRejection
+  Useful for tooling.
+  @return {Promise}
+  */
+
+
+  Promise.prototype.catch = function _catch(onRejection) {
+    return this.then(null, onRejection);
+  };
+
+  /**
+    `finally` will be invoked regardless of the promise's fate just as native
+    try/catch/finally behaves
+  
+    Synchronous example:
+  
+    ```js
+    findAuthor() {
+      if (Math.random() > 0.5) {
+        throw new Error();
+      }
+      return new Author();
+    }
+  
+    try {
+      return findAuthor(); // succeed or fail
+    } catch(error) {
+      return findOtherAuther();
+    } finally {
+      // always runs
+      // doesn't affect the return value
+    }
+    ```
+  
+    Asynchronous example:
+  
+    ```js
+    findAuthor().catch(function(reason){
+      return findOtherAuther();
+    }).finally(function(){
+      // author was either found, or not
+    });
+    ```
+  
+    @method finally
+    @param {Function} callback
+    @return {Promise}
+  */
+
+
+  Promise.prototype.finally = function _finally(callback) {
+    var promise = this;
+    var constructor = promise.constructor;
+
+    return promise.then(function (value) {
+      return constructor.resolve(callback()).then(function () {
+        return value;
+      });
+    }, function (reason) {
+      return constructor.resolve(callback()).then(function () {
+        throw reason;
+      });
+    });
+  };
+
+  return Promise;
+}();
+
+Promise$1.prototype.then = then;
+Promise$1.all = all;
+Promise$1.race = race;
+Promise$1.resolve = resolve$1;
+Promise$1.reject = reject$1;
+Promise$1._setScheduler = setScheduler;
+Promise$1._setAsap = setAsap;
+Promise$1._asap = asap;
+
+/*global self*/
+function polyfill() {
+  var local = void 0;
+
+  if (typeof global !== 'undefined') {
+    local = global;
+  } else if (typeof self !== 'undefined') {
+    local = self;
+  } else {
+    try {
+      local = Function('return this')();
+    } catch (e) {
+      throw new Error('polyfill failed because global object is unavailable in this environment');
+    }
+  }
+
+  var P = local.Promise;
+
+  if (P) {
+    var promiseToString = null;
+    try {
+      promiseToString = Object.prototype.toString.call(P.resolve());
+    } catch (e) {
+      // silently ignored
+    }
+
+    if (promiseToString === '[object Promise]' && !P.cast) {
+      return;
+    }
+  }
+
+  local.Promise = Promise$1;
+}
+
+// Strange compat..
+Promise$1.polyfill = polyfill;
+Promise$1.Promise = Promise$1;
+
+return Promise$1;
+
+})));
+
+
+
+//# sourceMappingURL=es6-promise.map
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = global.Promise;
+}.call(global));
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(4)))
+
+/***/ }),
+/* 38 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return RowForm; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_toggle_display__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_toggle_display___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_toggle_display__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__AssembledDiagnosisForm__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__AssembledDissectionForm__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__AssembledGeneticTestForm__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__AssembledHeartMeasurementForm__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__AssembledHospitalizationForm__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__AssembledMeasurementForm__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__AssembledMedicationForm__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__AssembledProcedureForm__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__AssembledVitalForm__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__FindRelated__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__PresAbsButtons__ = __webpack_require__(97);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var parameterizedPlurals = __webpack_require__(28);
+
+var RowForm = function (_Component) {
+  _inherits(RowForm, _Component);
+
+  function RowForm(props) {
+    _classCallCheck(this, RowForm);
+
+    var _this = _possibleConstructorReturn(this, (RowForm.__proto__ || Object.getPrototypeOf(RowForm)).call(this, props));
+
+    _this.handleShowChange = _this.handleShowChange.bind(_this);
+    _this.state = { show: false };
+    return _this;
+  }
+
+  _createClass(RowForm, [{
+    key: 'handleShowChange',
+    value: function handleShowChange(bool) {
+      this.setState({ show: bool === 'true' });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var form = void 0;
+      var toggleable = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_13__PresAbsButtons__["a" /* default */], {
+        onShowChange: this.handleShowChange,
+        topic: this.props.topic,
+        visit: this.props.visit
+      });
+      switch (this.props.topic.topic_type) {
+        case 'diagnosis':
+          form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__AssembledDiagnosisForm__["default"], {
+            topic: this.props.topic,
+            allTopics: this.props.unsortedTopics,
+            visit: this.props.visit,
+            rowID: this.props.rowID
+          });
+          break;
+        case 'dissection':
+          form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__AssembledDissectionForm__["default"], {
+            topic: this.props.topic,
+            unsortedTopics: this.props.unsortedTopics,
+            visit: this.props.visit,
+            rowID: this.props.topic.id
+          });
+          break;
+        // case 'family member':
+        //   form = 'FAMILY MEMBER FORM';
+        //   break;
+        case 'genetic test':
+          form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__AssembledGeneticTestForm__["a" /* default */], {
+            topic: this.props.topic,
+            rowID: this.props.rowID,
+            visit: this.props.visit
+          });
+          break;
+        case 'hospitalization':
+          form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__AssembledHospitalizationForm__["default"], {
+            topic: this.props.topic,
+            unsortedTopics: this.props.unsortedTopics,
+            visit: this.props.visit,
+            rowID: this.props.rowID
+          });
+          break;
+        case 'measurement':
+          form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__AssembledMeasurementForm__["default"], {
+            topic: this.props.topic,
+            unsortedTopics: this.props.unsortedTopics,
+            visit: this.props.visit,
+            rowID: this.props.rowID
+          });
+          break;
+        case 'medication':
+          form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__AssembledMedicationForm__["default"], {
+            topic: this.props.topic,
+            rowID: this.props.rowID,
+            visit: this.props.visit
+          });
+          break;
+        case 'procedure':
+          form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10__AssembledProcedureForm__["default"], {
+            topic: this.props.topic,
+            unsortedTopics: this.props.unsortedTopics,
+            visit: this.props.visit,
+            rowID: this.props.rowID
+          });
+          break;
+        // case 'vital':
+        //   form = (
+        //     <FindRelated
+        //       topic={this.props.topic}
+        //       unsortedTopics={this.props.unsortedTopics}
+        //     />
+        //   )
+        //   break;
+        // case 'heart_measurement':
+        //   form = (
+        //     <FindRelated
+        //       topic={this.props.topic}
+        //       unsortedTopics={this.props.unsortedTopics}
+        //     />
+        //   )
+        //   break;
+        default:
+      }
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'tbody',
+        null,
+        toggleable,
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          __WEBPACK_IMPORTED_MODULE_2_react_toggle_display___default.a,
+          { 'if': this.state.show, tag: 'section' },
+          form
+        )
+      );
+    }
+  }]);
+
+  return RowForm;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+RowForm.propTypes = {
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired,
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  unsortedTopics: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
+  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired
+};
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+	if (true) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(0), __webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if (typeof exports !== "undefined") {
+		factory(exports, require('react'), require('prop-types'));
+	} else {
+		var mod = {
+			exports: {}
+		};
+		factory(mod.exports, global.React, global.propTypes);
+		global.ToggleDisplay = mod.exports;
+	}
+})(this, function (exports, _react, _propTypes) {
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.default = ToggleDisplay;
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	function _interopRequireDefault(obj) {
+		return obj && obj.__esModule ? obj : {
+			default: obj
+		};
+	}
+
+	var _extends = Object.assign || function (target) {
+		for (var i = 1; i < arguments.length; i++) {
+			var source = arguments[i];
+
+			for (var key in source) {
+				if (Object.prototype.hasOwnProperty.call(source, key)) {
+					target[key] = source[key];
+				}
+			}
+		}
+
+		return target;
+	};
+
+	ToggleDisplay.propTypes = {
+		tag: _propTypes2.default.string,
+		hide: _propTypes2.default.bool,
+		show: _propTypes2.default.bool,
+		if: _propTypes2.default.bool
+	};
+
+	ToggleDisplay.defaultProps = {
+		tag: 'span'
+	};
+
+	var propsToRemove = Object.keys(ToggleDisplay.propTypes);
+
+	function isDefined(val) {
+		return val != null;
+	}
+
+	function shouldHide(props) {
+		if (isDefined(props.show)) {
+			return !props.show;
+		} else if (isDefined(props.hide)) {
+			return props.hide;
+		}
+		return false;
+	}
+
+	function pickProps(props) {
+		var newProps = Object.assign({}, props);
+		propsToRemove.forEach(function (prop) {
+			if (prop in newProps) {
+				delete newProps[prop];
+			}
+		});
+		return newProps;
+	}
+
+	function ToggleDisplay(props) {
+		if (props.if === false) {
+			return null;
+		}
+
+		var style = {};
+		if (shouldHide(props)) {
+			style.display = 'none';
+		}
+
+		var Tag = props.tag;
+		// prevent our props from being leaked down onto the children
+		var newProps = pickProps(props);
+
+		return _react2.default.createElement(Tag, _extends({ style: style }, newProps));
+	}
+});
+
+
+/***/ }),
+/* 40 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FrequencyField; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectConstructor__ = __webpack_require__(8);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+__webpack_require__(6);
+__webpack_require__(11);
+__webpack_require__(12);
+__webpack_require__(13);
+
+var FrequencyField = function (_Component) {
+  _inherits(FrequencyField, _Component);
+
+  function FrequencyField(props) {
+    _classCallCheck(this, FrequencyField);
+
+    var _this = _possibleConstructorReturn(this, (FrequencyField.__proto__ || Object.getPrototypeOf(FrequencyField)).call(this, props));
+
+    _this.state = {
+      frequencyAmount: _this.props.frequencyAmount,
+      frequencyUnit: _this.props.frequencyUnit
+    };
+    _this.keyboardize = _this.keyboardize.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(FrequencyField, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.$el = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this.el);
+      this.$el.addKeyboard();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.$el.addKeyboard('destroy');
+    }
+  }, {
+    key: 'keyboardize',
+    value: function keyboardize(e) {
+      e.preventDefault();
+      this.$el = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this.el);
+      var kb = this.$el.getkeyboard();
+      // close the keyboard if the keyboard is visible and the button is clicked a second time
+      if (kb.isOpen) {
+        kb.close();
+      } else {
+        kb.reveal();
+      }
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(event) {
+      this.props.onFrequencyChange(_defineProperty({}, event.target.name, event.target.value));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var options = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'form-inline' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+          type: 'number',
+          id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_frequency_amount',
+          className: 'form-control calculator',
+          placeholder: 'frequency',
+          ref: function ref(el) {
+            return _this2.el = el;
+          },
+          name: 'frequencyAmount',
+          value: this.state.frequencyAmount,
+          onChange: this.handleChange
+        }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'button',
+          {
+            className: 'btn btn-light calculator',
+            type: 'button',
+            id: this.props.parameterizedPlural + '_' + this.props.rowID + '_freq_calc_button',
+            onClick: this.keyboardize
+          },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-calculator' })
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__SelectConstructor__["a" /* default */], {
+          arr: options,
+          title: 'times per',
+          rowID: this.props.rowID,
+          parameterizedPlural: this.props.parameterizedPlural,
+          name: 'frequencyUnit',
+          value: this.state.frequencyUnit,
+          onUnitChange: this.handleChange
+        })
+      );
+    }
+  }]);
+
+  return FrequencyField;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+FrequencyField.propTypes = {
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
+};
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+
+/**
+ * Simple, lightweight module assisting with the detection and context of
+ * Worker. Helps avoid circular dependencies and allows code to reason about
+ * whether or not they are in a Worker, even if they never include the main
+ * `ReactWorker` dependency.
+ */
+var ExecutionEnvironment = {
+
+  canUseDOM: canUseDOM,
+
+  canUseWorkers: typeof Worker !== 'undefined',
+
+  canUseEventListeners: canUseDOM && !!(window.addEventListener || window.attachEvent),
+
+  canUseViewport: canUseDOM && !!window.screen,
+
+  isInWorker: !canUseDOM // For now, this is true - might change in the future.
+
+};
+
+module.exports = ExecutionEnvironment;
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ */
+
+var emptyFunction = __webpack_require__(7);
+
+/**
+ * Upstream version of event listener. Does not take into account specific
+ * nature of platform.
+ */
+var EventListener = {
+  /**
+   * Listen to DOM events during the bubble phase.
+   *
+   * @param {DOMEventTarget} target DOM element to register listener on.
+   * @param {string} eventType Event type, e.g. 'click' or 'mouseover'.
+   * @param {function} callback Callback function.
+   * @return {object} Object with a `remove` method.
+   */
+  listen: function listen(target, eventType, callback) {
+    if (target.addEventListener) {
+      target.addEventListener(eventType, callback, false);
+      return {
+        remove: function remove() {
+          target.removeEventListener(eventType, callback, false);
+        }
+      };
+    } else if (target.attachEvent) {
+      target.attachEvent('on' + eventType, callback);
+      return {
+        remove: function remove() {
+          target.detachEvent('on' + eventType, callback);
+        }
+      };
+    }
+  },
+
+  /**
+   * Listen to DOM events during the capture phase.
+   *
+   * @param {DOMEventTarget} target DOM element to register listener on.
+   * @param {string} eventType Event type, e.g. 'click' or 'mouseover'.
+   * @param {function} callback Callback function.
+   * @return {object} Object with a `remove` method.
+   */
+  capture: function capture(target, eventType, callback) {
+    if (target.addEventListener) {
+      target.addEventListener(eventType, callback, true);
+      return {
+        remove: function remove() {
+          target.removeEventListener(eventType, callback, true);
+        }
+      };
+    } else {
+      if (process.env.NODE_ENV !== 'production') {
+        console.error('Attempted to listen to events during the capture phase on a ' + 'browser that does not support the capture phase. Your application ' + 'will not receive some events.');
+      }
+      return {
+        remove: emptyFunction
+      };
+    }
+  },
+
+  registerDefault: function registerDefault() {}
+};
+
+module.exports = EventListener;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ */
+
+/* eslint-disable fb-www/typeof-undefined */
+
+/**
+ * Same as document.activeElement but wraps in a try-catch block. In IE it is
+ * not safe to call document.activeElement if there is nothing focused.
+ *
+ * The activeElement will be null only if the document or document body is not
+ * yet defined.
+ *
+ * @param {?DOMDocument} doc Defaults to current document.
+ * @return {?DOMElement}
+ */
+function getActiveElement(doc) /*?DOMElement*/{
+  doc = doc || (typeof document !== 'undefined' ? document : undefined);
+  if (typeof doc === 'undefined') {
+    return null;
+  }
+  try {
+    return doc.activeElement || doc.body;
+  } catch (e) {
+    return doc.body;
+  }
+}
+
+module.exports = getActiveElement;
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @typechecks
+ * 
+ */
+
+/*eslint-disable no-self-compare */
+
+
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+/**
+ * inlined Object.is polyfill to avoid requiring consumers ship their own
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
+ */
+function is(x, y) {
+  // SameValue algorithm
+  if (x === y) {
+    // Steps 1-5, 7-10
+    // Steps 6.b-6.e: +0 != -0
+    // Added the nonzero y check to make Flow happy, but it is redundant
+    return x !== 0 || y !== 0 || 1 / x === 1 / y;
+  } else {
+    // Step 6.a: NaN == NaN
+    return x !== x && y !== y;
+  }
+}
+
+/**
+ * Performs equality by iterating through keys on an object and returning false
+ * when any key has values which are not strictly equal between the arguments.
+ * Returns true when the values of all keys are strictly equal.
+ */
+function shallowEqual(objA, objB) {
+  if (is(objA, objB)) {
+    return true;
+  }
+
+  if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
+    return false;
+  }
+
+  var keysA = Object.keys(objA);
+  var keysB = Object.keys(objB);
+
+  if (keysA.length !== keysB.length) {
+    return false;
+  }
+
+  // Test for A's keys different from B.
+  for (var i = 0; i < keysA.length; i++) {
+    if (!hasOwnProperty.call(objB, keysA[i]) || !is(objA[keysA[i]], objB[keysA[i]])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+module.exports = shallowEqual;
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+var isTextNode = __webpack_require__(81);
+
+/*eslint-disable no-bitwise */
+
+/**
+ * Checks if a given DOM node contains or is another DOM node.
+ */
+function containsNode(outerNode, innerNode) {
+  if (!outerNode || !innerNode) {
+    return false;
+  } else if (outerNode === innerNode) {
+    return true;
+  } else if (isTextNode(outerNode)) {
+    return false;
+  } else if (isTextNode(innerNode)) {
+    return containsNode(outerNode, innerNode.parentNode);
+  } else if ('contains' in outerNode) {
+    return outerNode.contains(innerNode);
+  } else if (outerNode.compareDocumentPosition) {
+    return !!(outerNode.compareDocumentPosition(innerNode) & 16);
+  } else {
+    return false;
+  }
+}
+
+module.exports = containsNode;
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+/**
+ * @param {DOMElement} node input/textarea to focus
+ */
+
+function focusNode(node) {
+  // IE8 can throw "Can't move focus to the control because it is invisible,
+  // not enabled, or of a type that does not accept the focus." for all kinds of
+  // reasons that are too expensive and fragile to test.
+  try {
+    node.focus();
+  } catch (e) {}
+}
+
+module.exports = focusNode;
+
+/***/ }),
+/* 47 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AssembledGeneticTestForm; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NoteField__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__SelectConstructor__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__TimeAgoField__ = __webpack_require__(15);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+var AssembledGeneticTestForm = function (_Component) {
+  _inherits(AssembledGeneticTestForm, _Component);
+
+  function AssembledGeneticTestForm(props) {
+    _classCallCheck(this, AssembledGeneticTestForm);
+
+    var _this = _possibleConstructorReturn(this, (AssembledGeneticTestForm.__proto__ || Object.getPrototypeOf(AssembledGeneticTestForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      lab: null,
+      labClassification: null,
+      clinicalClassification: null,
+      predictiveTestingRecommended: null,
+      transcript: null,
+      protein: null,
+      variant: null,
+      exons: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(AssembledGeneticTestForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('genetic test form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        lab: value.lab || this.state.lab,
+        labClassification: value.labClassification || this.state.labClassification,
+        clinicalClassification: value.clinicalClassification || this.state.clinicalClassification,
+        predictiveTestingRecommended: value.predictiveTestingRecommended || this.state.predictiveTestingRecommended,
+        transcript: value.transcript || this.state.transcript,
+        protein: value.protein || this.state.protein,
+        variant: value.variant || this.state.variant,
+        exons: value.exons || this.state.exons,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var parameterizedPlural = 'genetic_tests';
+      var classifications = ['pathogenic', 'likely pathogenic', 'VUS likely disease-causing', 'VUS', 'VUS likely benign', 'likely benign', 'benign', 'consistent with clinical diagnosis'];
+
+      var locations = ['Ambry', 'Collagen Diagnostic Laboratory', 'Connective Tissue Gene Tests', 'GeneDX', 'Invitae', 'Laboratory for Molecular Medicine', 'Matrix', 'Tulane'];
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'tr',
+        { className: 'row_form', id: 'row_' + this.props.rowID },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'td',
+          { colSpan: 3 },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__HiddenFields__["a" /* default */], {
+            visit: this.props.visit,
+            topic: this.props.topic,
+            parameterizedPlural: parameterizedPlural,
+            rowID: this.props.rowID
+          }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-group row no-gutters' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-sm-3' },
+              'Lab',
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__SelectConstructor__["a" /* default */], {
+                arr: locations,
+                title: 'lab name',
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                name: 'labName',
+                value: this.state.labName,
+                onUnitChange: this.handleChange
+              })
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-sm-3' },
+              'Lab Classification',
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__SelectConstructor__["a" /* default */], {
+                arr: classifications,
+                title: 'lab classification',
+                parameterizedPlural: parameterizedPlural,
+                name: 'labClassification',
+                rowID: this.props.rowID,
+                value: this.state.labClassification,
+                onUnitChange: this.handleChange
+              })
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-sm-3' },
+              'Clinical Classification',
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__SelectConstructor__["a" /* default */], {
+                arr: classifications,
+                title: 'clinical classification',
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                name: 'clinicalClassification',
+                value: this.state.clinicalClassification,
+                onUnitChange: this.handleChange
+              })
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-sm-3' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'form-check' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'label',
+                  { className: 'form-check-label' },
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+                    type: 'checkbox',
+                    value: this.state.predictiveTestingRecommended,
+                    name: 'predictiveTestingRecommended',
+                    id: 'visit_genetic_tests_attributes_' + this.props.rowID + '_predictive_testing_recommended',
+                    className: 'form-check-input'
+                  }),
+                  'Recommend predictive testing'
+                )
+              )
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'form-group row no-gutters' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-sm-4' },
+              'Transcript',
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'input-group' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'span',
+                  { className: 'input-group-addon', id: 'transcript_' + this.props.rowID },
+                  'NM_'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+                  type: 'string',
+                  placeholder: '000138.4',
+                  name: 'transcript',
+                  id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_transcript',
+                  className: 'form-control',
+                  value: this.state.transcript,
+                  'aria-describedby': 'transcript_' + this.props.rowID
+                })
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-sm-4' },
+              'Protein',
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'input-group' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'span',
+                  {
+                    className: 'input-group-addon',
+                    id: 'protein_' + this.props.rowID
+                  },
+                  'p.'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+                  type: 'string',
+                  placeholder: 'Gly931fsX10',
+                  name: 'protein',
+                  id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_protein',
+                  className: 'form-control',
+                  value: this.state.protein,
+                  'aria-describedby': 'protein_' + this.props.rowID
+                })
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-sm-3' },
+              'Variant',
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'input-group' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'span',
+                  {
+                    className: 'input-group-addon',
+                    id: 'variant_' + this.props.rowID
+                  },
+                  'c.'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+                  type: 'string',
+                  placeholder: '2793delG',
+                  name: 'variant',
+                  id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_variant',
+                  className: 'form-control',
+                  value: this.state.variant,
+                  'aria-describedby': 'variant_' + this.props.rowID
+                })
+              )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'col-sm-1' },
+              'Exons',
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
+                type: 'number',
+                placeholder: '23',
+                min: '1',
+                max: '63',
+                name: 'exons',
+                id: 'visit_' + parameterizedPlural + '_attributes_' + this.propsrowID + '_exons',
+                className: 'form-control',
+                value: this.state.exons
+              })
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'row no-gutters' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'form-inline col-sm-8' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__TimeAgoField__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                timeAgoAmount: this.state.timeAgoAmount,
+                timeAgoUnit: this.state.timeAgoUnit,
+                absoluteDate: this.state.absoluteDate,
+                onDateChange: this.handleChange
+              })
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'div',
+              { className: 'form-inline col-sm-4' },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__NoteField__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                noteValue: this.state.note,
+                onNoteChange: this.handleChange
+              }),
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__["a" /* default */], {
+                topic: this.props.topic,
+                parameterizedPlural: parameterizedPlural,
+                rowID: this.props.rowID,
+                attachedFile: this.state.file,
+                onFileChange: this.handleChange
+              })
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return AssembledGeneticTestForm;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+AssembledGeneticTestForm.propTypes = {
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
+};
+
+/***/ }),
+/* 48 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AssembledHeartMeasurementForm; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__MeasurementField__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Keywords__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__NoteField__ = __webpack_require__(10);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+var AssembledHeartMeasurementForm = function (_Component) {
+  _inherits(AssembledHeartMeasurementForm, _Component);
+
+  function AssembledHeartMeasurementForm(props) {
+    _classCallCheck(this, AssembledHeartMeasurementForm);
+
+    var _this = _possibleConstructorReturn(this, (AssembledHeartMeasurementForm.__proto__ || Object.getPrototypeOf(AssembledHeartMeasurementForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      measurement: null,
+      units: null,
+      timeAgoAmount: null,
+      timeAgoUnit: null,
+      absoluteDate: null,
+      keywords: null,
+      note: null,
+      file: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(AssembledHeartMeasurementForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('heart measurement form unmounting');
+      debugger;
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
+        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
+        absoluteDate: value.absoluteDate || this.state.absoluteDate,
+        measurement: value.measurement || this.state.measurement,
+        units: value.units || this.state.units,
+        file: value.file || this.state.file,
+        note: value.note || this.state.note
+      });
+      if (this.props.topic.units_of_measurement.length === 1 && this.state.measurement) {
+        this.setState({
+          units: this.props.topic.units_of_measurement[0]
+        });
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var parameterizedPlural = 'heart_measurements';
+      var measFields = void 0;
+      var descriptors = void 0;
+      if (this.props.topic.units_of_measurement.length === 1 || !this.props.topic.name.includes('morphology')) {
+        measFields = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__MeasurementField__["a" /* default */], {
+          topic: this.props.topic,
+          parameterizedPlural: parameterizedPlural,
+          rowID: this.props.rowID,
+          title: 'severity',
+          measurementValue: this.state.measurement,
+          unitOfMeas: this.state.units,
+          onMeasChange: this.handleChange
+        });
+      } else {
+        measFields = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__MeasurementField__["a" /* default */], {
+          topic: this.props.topic,
+          parameterizedPlural: parameterizedPlural,
+          multiSelect: true,
+          rowID: this.props.rowID,
+          title: 'morphology',
+          measurementValue: this.state.measurement,
+          unitOfMeas: this.state.units,
+          onMeasChange: this.handleChange
+        });
+      }
+      if (this.props.topic.descriptors) {
+        descriptors = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Keywords__["a" /* default */], {
+          topic: this.props.topic,
+          parameterizedPlural: parameterizedPlural,
+          rowID: this.props.rowID,
+          keywordsValue: this.state.keywords,
+          onKeywordsChange: this.handleChange
+        });
+      }
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'form-group row' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col-3 col-form-label' },
+          this.props.topic.name
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'col-9 form-inline' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__HiddenFields__["a" /* default */], {
+            visit: this.props.visit,
+            topic: this.props.topic,
+            parameterizedPlural: parameterizedPlural,
+            rowID: this.props.rowID
+          }),
+          measFields,
+          descriptors,
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__NoteField__["a" /* default */], {
+            topic: this.props.topic,
+            parameterizedPlural: parameterizedPlural,
+            rowID: this.props.rowID,
+            noteValue: this.state.note,
+            onNoteChange: this.handleChange
+          }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__["a" /* default */], {
+            topic: this.props.topic,
+            parameterizedPlural: parameterizedPlural,
+            rowID: this.props.rowID,
+            attachedFile: this.state.file,
+            onFileChange: this.handleChange
+          })
+        )
+      );
+    }
+  }]);
+
+  return AssembledHeartMeasurementForm;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+AssembledHeartMeasurementForm.propTypes = {
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
+};
+
+/***/ }),
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(fetch) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AssembledVitalForm; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BloodPressureForm__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__MeasurementField__ = __webpack_require__(30);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+var AssembledVitalForm = function (_Component) {
+  _inherits(AssembledVitalForm, _Component);
+
+  function AssembledVitalForm(props) {
+    _classCallCheck(this, AssembledVitalForm);
+
+    var _this = _possibleConstructorReturn(this, (AssembledVitalForm.__proto__ || Object.getPrototypeOf(AssembledVitalForm)).call(this, props));
+
+    _this.state = {
+      topic: _this.props.topic.id,
+      patient: _this.props.visit.patient_id,
+      visit: _this.props.visit.id,
+      measurement: null,
+      units: null
+    };
+    _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleBPChange = _this.handleBPChange.bind(_this);
+    _this.ajaxData = _this.ajaxData.bind(_this);
+    return _this;
+  }
+
+  _createClass(AssembledVitalForm, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount(event) {
+      var data = JSON.stringify(this.ajaxData());
+      fetch('/visits/' + this.state.visit + '.json', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: data
+      }).then(function (response) {
+        console.log(response.json());
+      }).then(function (data) {
+        alert(JSON.stringify(data));
+      });
+    }
+  }, {
+    key: 'handleChange',
+    value: function handleChange(value) {
+      this.setState({
+        measurement: value.measurement || this.state.measurement,
+        units: value.units || this.state.units
+      });
+    }
+  }, {
+    key: 'handleBPChange',
+    value: function handleBPChange(value) {
+      this.setState({
+        measurement: this.state.measurement,
+        units: 'mmHG'
+      });
+    }
+  }, {
+    key: 'ajaxData',
+    value: function ajaxData() {
+      return {
+        visit: {
+          id: this.state.visit,
+          vitals_attributes: [{
+            visit_id: this.state.visit,
+            patient_id: this.state.patient,
+            topic_id: this.state.topic,
+            measurement: this.state.measurement + ' ' + this.state.units
+          }]
+        }
+      };
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var parameterizedPlural = 'vitals';
+      var form;
+      if (this.props.topic.name == 'blood pressure') {
+        form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__BloodPressureForm__["a" /* default */], {
+          visit: this.props.visit,
+          topic: this.props.topic,
+          parameterizedPlural: parameterizedPlural,
+          title: this.props.topic.name,
+          rowID: this.props.rowID,
+          measurementValue: this.state.measurement,
+          unitOfMeas: this.state.units,
+          onMeasChange: this.handleBPChange
+        });
+      } else {
+        form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'div',
+          { className: 'form-inline col-10' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__HiddenFields__["a" /* default */], {
+            visit: this.props.visit,
+            topic: this.props.topic,
+            parameterizedPlural: parameterizedPlural,
+            rowID: this.props.rowID
+          }),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__MeasurementField__["a" /* default */], {
+            topic: this.props.topic,
+            parameterizedPlural: parameterizedPlural,
+            title: this.props.topic.name,
+            rowID: this.props.rowID,
+            measurementValue: this.state.measurement,
+            unitOfMeas: this.state.units,
+            onMeasChange: this.handleChange
+          })
+        );
+      }
+
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'div',
+        { className: 'form-group row' },
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+          'label',
+          { className: 'col-2 col-form-label' },
+          this.props.topic.name
+        ),
+        form
+      );
+    }
+  }]);
+
+  return AssembledVitalForm;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+
+
+
+AssembledVitalForm.propTypes = {
+  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
+  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(89)))
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(2);
+__webpack_require__(51);
+__webpack_require__(125);
+__webpack_require__(126);
+module.exports = __webpack_require__(36);
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery_ujs__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery_ujs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery_ujs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery_ui_ui_core_js__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery_ui_ui_core_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jquery_ui_ui_core_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery_ui_ui_position_js__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery_ui_ui_position_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery_ui_ui_position_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery_ui_ui_widgets_tabs_js__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery_ui_ui_widgets_tabs_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_jquery_ui_ui_widgets_tabs_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_select2_dist_js_select2_full_js__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_select2_dist_js_select2_full_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_select2_dist_js_select2_full_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_tether__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_tether___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_tether__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_virtual_keyboard_dist_js_jquery_keyboard_js__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_virtual_keyboard_dist_js_jquery_keyboard_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_virtual_keyboard_dist_js_jquery_keyboard_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_whatwg_fetch__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_whatwg_fetch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_whatwg_fetch__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_bootstrap__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_bootstrap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_bootstrap__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_bootstrap_switch_dist_js_bootstrap_switch_js__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_bootstrap_switch_dist_js_bootstrap_switch_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_bootstrap_switch_dist_js_bootstrap_switch_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_font_awesome_webpack__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_font_awesome_webpack___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_font_awesome_webpack__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_epicMeds__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_medMapper__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_addKeyboard__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_row_form_pieces_RowForm__ = __webpack_require__(38);
+// require webpack-bundle
+
+/* eslint no-console:0 */
+// This file is automatically compiled by Webpack, along with any other files
+// present in this directory. You're encouraged to place your actual application logic in
+// a relevant structure within app/javascript and only use these pack files to reference
+// that code so it'll be compiled.
+//
+// layout file, like app/views/layouts/application.html.erb
+// import import React, { Component } from 'react'
+// import { render } from 'react-dom'
+// import ReactOne from '../components/react_one.jsx'
+// RWR.registerComponent('ReactOne', ReactOne);
+window.$ = __webpack_require__(2);
+
+
+
+
+
+
+
+global.Tether = __WEBPACK_IMPORTED_MODULE_5_tether___default.a;
+
+
+
+
+
+
+
+
+
+
+// import 'myscript/dist/myscript.js'
+
+__webpack_require__(99);
+
+// ROW FORM TYPES
+__webpack_require__(101);
+__webpack_require__(102);
+__webpack_require__(103);
+__webpack_require__(104);
+__webpack_require__(105);
+__webpack_require__(106);
+__webpack_require__(107);
+
+// EXPOSING JS TO BE USED IN RAILS
+// require('../../stylesheet/application.scss');
+__webpack_require__(111);
+__webpack_require__(112);
+__webpack_require__(114);
+__webpack_require__(116);
+__webpack_require__(117);
+__webpack_require__(118);
+__webpack_require__(119);
+__webpack_require__(121);
+
+// require('expose-loader?MyScript!myscript/dist/myscript.js');
+__webpack_require__(123);
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * jQuery UI Tabs 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+//>>label: Tabs
+//>>group: Widgets
+//>>description: Transforms a set of container elements into a tab structure.
+//>>docs: http://api.jqueryui.com/tabs/
+//>>demos: http://jqueryui.com/tabs/
+//>>css.structure: ../../themes/base/core.css
+//>>css.structure: ../../themes/base/tabs.css
+//>>css.theme: ../../themes/base/theme.css
+
+( function( factory ) {
+	if ( true ) {
+
+		// AMD. Register as an anonymous module.
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
+			__webpack_require__(2),
+			__webpack_require__(53),
+			__webpack_require__(54),
+			__webpack_require__(55),
+			__webpack_require__(56),
+			__webpack_require__(14),
+			__webpack_require__(57)
+		], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+}( function( $ ) {
+
+$.widget( "ui.tabs", {
+	version: "1.12.1",
+	delay: 300,
+	options: {
+		active: null,
+		classes: {
+			"ui-tabs": "ui-corner-all",
+			"ui-tabs-nav": "ui-corner-all",
+			"ui-tabs-panel": "ui-corner-bottom",
+			"ui-tabs-tab": "ui-corner-top"
+		},
+		collapsible: false,
+		event: "click",
+		heightStyle: "content",
+		hide: null,
+		show: null,
+
+		// Callbacks
+		activate: null,
+		beforeActivate: null,
+		beforeLoad: null,
+		load: null
+	},
+
+	_isLocal: ( function() {
+		var rhash = /#.*$/;
+
+		return function( anchor ) {
+			var anchorUrl, locationUrl;
+
+			anchorUrl = anchor.href.replace( rhash, "" );
+			locationUrl = location.href.replace( rhash, "" );
+
+			// Decoding may throw an error if the URL isn't UTF-8 (#9518)
+			try {
+				anchorUrl = decodeURIComponent( anchorUrl );
+			} catch ( error ) {}
+			try {
+				locationUrl = decodeURIComponent( locationUrl );
+			} catch ( error ) {}
+
+			return anchor.hash.length > 1 && anchorUrl === locationUrl;
+		};
+	} )(),
+
+	_create: function() {
+		var that = this,
+			options = this.options;
+
+		this.running = false;
+
+		this._addClass( "ui-tabs", "ui-widget ui-widget-content" );
+		this._toggleClass( "ui-tabs-collapsible", null, options.collapsible );
+
+		this._processTabs();
+		options.active = this._initialActive();
+
+		// Take disabling tabs via class attribute from HTML
+		// into account and update option properly.
+		if ( $.isArray( options.disabled ) ) {
+			options.disabled = $.unique( options.disabled.concat(
+				$.map( this.tabs.filter( ".ui-state-disabled" ), function( li ) {
+					return that.tabs.index( li );
+				} )
+			) ).sort();
+		}
+
+		// Check for length avoids error when initializing empty list
+		if ( this.options.active !== false && this.anchors.length ) {
+			this.active = this._findActive( options.active );
+		} else {
+			this.active = $();
+		}
+
+		this._refresh();
+
+		if ( this.active.length ) {
+			this.load( options.active );
+		}
+	},
+
+	_initialActive: function() {
+		var active = this.options.active,
+			collapsible = this.options.collapsible,
+			locationHash = location.hash.substring( 1 );
+
+		if ( active === null ) {
+
+			// check the fragment identifier in the URL
+			if ( locationHash ) {
+				this.tabs.each( function( i, tab ) {
+					if ( $( tab ).attr( "aria-controls" ) === locationHash ) {
+						active = i;
+						return false;
+					}
+				} );
+			}
+
+			// Check for a tab marked active via a class
+			if ( active === null ) {
+				active = this.tabs.index( this.tabs.filter( ".ui-tabs-active" ) );
+			}
+
+			// No active tab, set to false
+			if ( active === null || active === -1 ) {
+				active = this.tabs.length ? 0 : false;
+			}
+		}
+
+		// Handle numbers: negative, out of range
+		if ( active !== false ) {
+			active = this.tabs.index( this.tabs.eq( active ) );
+			if ( active === -1 ) {
+				active = collapsible ? false : 0;
+			}
+		}
+
+		// Don't allow collapsible: false and active: false
+		if ( !collapsible && active === false && this.anchors.length ) {
+			active = 0;
+		}
+
+		return active;
+	},
+
+	_getCreateEventData: function() {
+		return {
+			tab: this.active,
+			panel: !this.active.length ? $() : this._getPanelForTab( this.active )
+		};
+	},
+
+	_tabKeydown: function( event ) {
+		var focusedTab = $( $.ui.safeActiveElement( this.document[ 0 ] ) ).closest( "li" ),
+			selectedIndex = this.tabs.index( focusedTab ),
+			goingForward = true;
+
+		if ( this._handlePageNav( event ) ) {
+			return;
+		}
+
+		switch ( event.keyCode ) {
+		case $.ui.keyCode.RIGHT:
+		case $.ui.keyCode.DOWN:
+			selectedIndex++;
+			break;
+		case $.ui.keyCode.UP:
+		case $.ui.keyCode.LEFT:
+			goingForward = false;
+			selectedIndex--;
+			break;
+		case $.ui.keyCode.END:
+			selectedIndex = this.anchors.length - 1;
+			break;
+		case $.ui.keyCode.HOME:
+			selectedIndex = 0;
+			break;
+		case $.ui.keyCode.SPACE:
+
+			// Activate only, no collapsing
+			event.preventDefault();
+			clearTimeout( this.activating );
+			this._activate( selectedIndex );
+			return;
+		case $.ui.keyCode.ENTER:
+
+			// Toggle (cancel delayed activation, allow collapsing)
+			event.preventDefault();
+			clearTimeout( this.activating );
+
+			// Determine if we should collapse or activate
+			this._activate( selectedIndex === this.options.active ? false : selectedIndex );
+			return;
+		default:
+			return;
+		}
+
+		// Focus the appropriate tab, based on which key was pressed
+		event.preventDefault();
+		clearTimeout( this.activating );
+		selectedIndex = this._focusNextTab( selectedIndex, goingForward );
+
+		// Navigating with control/command key will prevent automatic activation
+		if ( !event.ctrlKey && !event.metaKey ) {
+
+			// Update aria-selected immediately so that AT think the tab is already selected.
+			// Otherwise AT may confuse the user by stating that they need to activate the tab,
+			// but the tab will already be activated by the time the announcement finishes.
+			focusedTab.attr( "aria-selected", "false" );
+			this.tabs.eq( selectedIndex ).attr( "aria-selected", "true" );
+
+			this.activating = this._delay( function() {
+				this.option( "active", selectedIndex );
+			}, this.delay );
+		}
+	},
+
+	_panelKeydown: function( event ) {
+		if ( this._handlePageNav( event ) ) {
+			return;
+		}
+
+		// Ctrl+up moves focus to the current tab
+		if ( event.ctrlKey && event.keyCode === $.ui.keyCode.UP ) {
+			event.preventDefault();
+			this.active.trigger( "focus" );
+		}
+	},
+
+	// Alt+page up/down moves focus to the previous/next tab (and activates)
+	_handlePageNav: function( event ) {
+		if ( event.altKey && event.keyCode === $.ui.keyCode.PAGE_UP ) {
+			this._activate( this._focusNextTab( this.options.active - 1, false ) );
+			return true;
+		}
+		if ( event.altKey && event.keyCode === $.ui.keyCode.PAGE_DOWN ) {
+			this._activate( this._focusNextTab( this.options.active + 1, true ) );
+			return true;
+		}
+	},
+
+	_findNextTab: function( index, goingForward ) {
+		var lastTabIndex = this.tabs.length - 1;
+
+		function constrain() {
+			if ( index > lastTabIndex ) {
+				index = 0;
+			}
+			if ( index < 0 ) {
+				index = lastTabIndex;
+			}
+			return index;
+		}
+
+		while ( $.inArray( constrain(), this.options.disabled ) !== -1 ) {
+			index = goingForward ? index + 1 : index - 1;
+		}
+
+		return index;
+	},
+
+	_focusNextTab: function( index, goingForward ) {
+		index = this._findNextTab( index, goingForward );
+		this.tabs.eq( index ).trigger( "focus" );
+		return index;
+	},
+
+	_setOption: function( key, value ) {
+		if ( key === "active" ) {
+
+			// _activate() will handle invalid values and update this.options
+			this._activate( value );
+			return;
+		}
+
+		this._super( key, value );
+
+		if ( key === "collapsible" ) {
+			this._toggleClass( "ui-tabs-collapsible", null, value );
+
+			// Setting collapsible: false while collapsed; open first panel
+			if ( !value && this.options.active === false ) {
+				this._activate( 0 );
+			}
+		}
+
+		if ( key === "event" ) {
+			this._setupEvents( value );
+		}
+
+		if ( key === "heightStyle" ) {
+			this._setupHeightStyle( value );
+		}
+	},
+
+	_sanitizeSelector: function( hash ) {
+		return hash ? hash.replace( /[!"$%&'()*+,.\/:;<=>?@\[\]\^`{|}~]/g, "\\$&" ) : "";
+	},
+
+	refresh: function() {
+		var options = this.options,
+			lis = this.tablist.children( ":has(a[href])" );
+
+		// Get disabled tabs from class attribute from HTML
+		// this will get converted to a boolean if needed in _refresh()
+		options.disabled = $.map( lis.filter( ".ui-state-disabled" ), function( tab ) {
+			return lis.index( tab );
+		} );
+
+		this._processTabs();
+
+		// Was collapsed or no tabs
+		if ( options.active === false || !this.anchors.length ) {
+			options.active = false;
+			this.active = $();
+
+		// was active, but active tab is gone
+		} else if ( this.active.length && !$.contains( this.tablist[ 0 ], this.active[ 0 ] ) ) {
+
+			// all remaining tabs are disabled
+			if ( this.tabs.length === options.disabled.length ) {
+				options.active = false;
+				this.active = $();
+
+			// activate previous tab
+			} else {
+				this._activate( this._findNextTab( Math.max( 0, options.active - 1 ), false ) );
+			}
+
+		// was active, active tab still exists
+		} else {
+
+			// make sure active index is correct
+			options.active = this.tabs.index( this.active );
+		}
+
+		this._refresh();
+	},
+
+	_refresh: function() {
+		this._setOptionDisabled( this.options.disabled );
+		this._setupEvents( this.options.event );
+		this._setupHeightStyle( this.options.heightStyle );
+
+		this.tabs.not( this.active ).attr( {
+			"aria-selected": "false",
+			"aria-expanded": "false",
+			tabIndex: -1
+		} );
+		this.panels.not( this._getPanelForTab( this.active ) )
+			.hide()
+			.attr( {
+				"aria-hidden": "true"
+			} );
+
+		// Make sure one tab is in the tab order
+		if ( !this.active.length ) {
+			this.tabs.eq( 0 ).attr( "tabIndex", 0 );
+		} else {
+			this.active
+				.attr( {
+					"aria-selected": "true",
+					"aria-expanded": "true",
+					tabIndex: 0
+				} );
+			this._addClass( this.active, "ui-tabs-active", "ui-state-active" );
+			this._getPanelForTab( this.active )
+				.show()
+				.attr( {
+					"aria-hidden": "false"
+				} );
+		}
+	},
+
+	_processTabs: function() {
+		var that = this,
+			prevTabs = this.tabs,
+			prevAnchors = this.anchors,
+			prevPanels = this.panels;
+
+		this.tablist = this._getList().attr( "role", "tablist" );
+		this._addClass( this.tablist, "ui-tabs-nav",
+			"ui-helper-reset ui-helper-clearfix ui-widget-header" );
+
+		// Prevent users from focusing disabled tabs via click
+		this.tablist
+			.on( "mousedown" + this.eventNamespace, "> li", function( event ) {
+				if ( $( this ).is( ".ui-state-disabled" ) ) {
+					event.preventDefault();
+				}
+			} )
+
+			// Support: IE <9
+			// Preventing the default action in mousedown doesn't prevent IE
+			// from focusing the element, so if the anchor gets focused, blur.
+			// We don't have to worry about focusing the previously focused
+			// element since clicking on a non-focusable element should focus
+			// the body anyway.
+			.on( "focus" + this.eventNamespace, ".ui-tabs-anchor", function() {
+				if ( $( this ).closest( "li" ).is( ".ui-state-disabled" ) ) {
+					this.blur();
+				}
+			} );
+
+		this.tabs = this.tablist.find( "> li:has(a[href])" )
+			.attr( {
+				role: "tab",
+				tabIndex: -1
+			} );
+		this._addClass( this.tabs, "ui-tabs-tab", "ui-state-default" );
+
+		this.anchors = this.tabs.map( function() {
+			return $( "a", this )[ 0 ];
+		} )
+			.attr( {
+				role: "presentation",
+				tabIndex: -1
+			} );
+		this._addClass( this.anchors, "ui-tabs-anchor" );
+
+		this.panels = $();
+
+		this.anchors.each( function( i, anchor ) {
+			var selector, panel, panelId,
+				anchorId = $( anchor ).uniqueId().attr( "id" ),
+				tab = $( anchor ).closest( "li" ),
+				originalAriaControls = tab.attr( "aria-controls" );
+
+			// Inline tab
+			if ( that._isLocal( anchor ) ) {
+				selector = anchor.hash;
+				panelId = selector.substring( 1 );
+				panel = that.element.find( that._sanitizeSelector( selector ) );
+
+			// remote tab
+			} else {
+
+				// If the tab doesn't already have aria-controls,
+				// generate an id by using a throw-away element
+				panelId = tab.attr( "aria-controls" ) || $( {} ).uniqueId()[ 0 ].id;
+				selector = "#" + panelId;
+				panel = that.element.find( selector );
+				if ( !panel.length ) {
+					panel = that._createPanel( panelId );
+					panel.insertAfter( that.panels[ i - 1 ] || that.tablist );
+				}
+				panel.attr( "aria-live", "polite" );
+			}
+
+			if ( panel.length ) {
+				that.panels = that.panels.add( panel );
+			}
+			if ( originalAriaControls ) {
+				tab.data( "ui-tabs-aria-controls", originalAriaControls );
+			}
+			tab.attr( {
+				"aria-controls": panelId,
+				"aria-labelledby": anchorId
+			} );
+			panel.attr( "aria-labelledby", anchorId );
+		} );
+
+		this.panels.attr( "role", "tabpanel" );
+		this._addClass( this.panels, "ui-tabs-panel", "ui-widget-content" );
+
+		// Avoid memory leaks (#10056)
+		if ( prevTabs ) {
+			this._off( prevTabs.not( this.tabs ) );
+			this._off( prevAnchors.not( this.anchors ) );
+			this._off( prevPanels.not( this.panels ) );
+		}
+	},
+
+	// Allow overriding how to find the list for rare usage scenarios (#7715)
+	_getList: function() {
+		return this.tablist || this.element.find( "ol, ul" ).eq( 0 );
+	},
+
+	_createPanel: function( id ) {
+		return $( "<div>" )
+			.attr( "id", id )
+			.data( "ui-tabs-destroy", true );
+	},
+
+	_setOptionDisabled: function( disabled ) {
+		var currentItem, li, i;
+
+		if ( $.isArray( disabled ) ) {
+			if ( !disabled.length ) {
+				disabled = false;
+			} else if ( disabled.length === this.anchors.length ) {
+				disabled = true;
+			}
+		}
+
+		// Disable tabs
+		for ( i = 0; ( li = this.tabs[ i ] ); i++ ) {
+			currentItem = $( li );
+			if ( disabled === true || $.inArray( i, disabled ) !== -1 ) {
+				currentItem.attr( "aria-disabled", "true" );
+				this._addClass( currentItem, null, "ui-state-disabled" );
+			} else {
+				currentItem.removeAttr( "aria-disabled" );
+				this._removeClass( currentItem, null, "ui-state-disabled" );
+			}
+		}
+
+		this.options.disabled = disabled;
+
+		this._toggleClass( this.widget(), this.widgetFullName + "-disabled", null,
+			disabled === true );
+	},
+
+	_setupEvents: function( event ) {
+		var events = {};
+		if ( event ) {
+			$.each( event.split( " " ), function( index, eventName ) {
+				events[ eventName ] = "_eventHandler";
+			} );
+		}
+
+		this._off( this.anchors.add( this.tabs ).add( this.panels ) );
+
+		// Always prevent the default action, even when disabled
+		this._on( true, this.anchors, {
+			click: function( event ) {
+				event.preventDefault();
+			}
+		} );
+		this._on( this.anchors, events );
+		this._on( this.tabs, { keydown: "_tabKeydown" } );
+		this._on( this.panels, { keydown: "_panelKeydown" } );
+
+		this._focusable( this.tabs );
+		this._hoverable( this.tabs );
+	},
+
+	_setupHeightStyle: function( heightStyle ) {
+		var maxHeight,
+			parent = this.element.parent();
+
+		if ( heightStyle === "fill" ) {
+			maxHeight = parent.height();
+			maxHeight -= this.element.outerHeight() - this.element.height();
+
+			this.element.siblings( ":visible" ).each( function() {
+				var elem = $( this ),
+					position = elem.css( "position" );
+
+				if ( position === "absolute" || position === "fixed" ) {
+					return;
+				}
+				maxHeight -= elem.outerHeight( true );
+			} );
+
+			this.element.children().not( this.panels ).each( function() {
+				maxHeight -= $( this ).outerHeight( true );
+			} );
+
+			this.panels.each( function() {
+				$( this ).height( Math.max( 0, maxHeight -
+					$( this ).innerHeight() + $( this ).height() ) );
+			} )
+				.css( "overflow", "auto" );
+		} else if ( heightStyle === "auto" ) {
+			maxHeight = 0;
+			this.panels.each( function() {
+				maxHeight = Math.max( maxHeight, $( this ).height( "" ).height() );
+			} ).height( maxHeight );
+		}
+	},
+
+	_eventHandler: function( event ) {
+		var options = this.options,
+			active = this.active,
+			anchor = $( event.currentTarget ),
+			tab = anchor.closest( "li" ),
+			clickedIsActive = tab[ 0 ] === active[ 0 ],
+			collapsing = clickedIsActive && options.collapsible,
+			toShow = collapsing ? $() : this._getPanelForTab( tab ),
+			toHide = !active.length ? $() : this._getPanelForTab( active ),
+			eventData = {
+				oldTab: active,
+				oldPanel: toHide,
+				newTab: collapsing ? $() : tab,
+				newPanel: toShow
+			};
+
+		event.preventDefault();
+
+		if ( tab.hasClass( "ui-state-disabled" ) ||
+
+				// tab is already loading
+				tab.hasClass( "ui-tabs-loading" ) ||
+
+				// can't switch durning an animation
+				this.running ||
+
+				// click on active header, but not collapsible
+				( clickedIsActive && !options.collapsible ) ||
+
+				// allow canceling activation
+				( this._trigger( "beforeActivate", event, eventData ) === false ) ) {
+			return;
+		}
+
+		options.active = collapsing ? false : this.tabs.index( tab );
+
+		this.active = clickedIsActive ? $() : tab;
+		if ( this.xhr ) {
+			this.xhr.abort();
+		}
+
+		if ( !toHide.length && !toShow.length ) {
+			$.error( "jQuery UI Tabs: Mismatching fragment identifier." );
+		}
+
+		if ( toShow.length ) {
+			this.load( this.tabs.index( tab ), event );
+		}
+		this._toggle( event, eventData );
+	},
+
+	// Handles show/hide for selecting tabs
+	_toggle: function( event, eventData ) {
+		var that = this,
+			toShow = eventData.newPanel,
+			toHide = eventData.oldPanel;
+
+		this.running = true;
+
+		function complete() {
+			that.running = false;
+			that._trigger( "activate", event, eventData );
+		}
+
+		function show() {
+			that._addClass( eventData.newTab.closest( "li" ), "ui-tabs-active", "ui-state-active" );
+
+			if ( toShow.length && that.options.show ) {
+				that._show( toShow, that.options.show, complete );
+			} else {
+				toShow.show();
+				complete();
+			}
+		}
+
+		// Start out by hiding, then showing, then completing
+		if ( toHide.length && this.options.hide ) {
+			this._hide( toHide, this.options.hide, function() {
+				that._removeClass( eventData.oldTab.closest( "li" ),
+					"ui-tabs-active", "ui-state-active" );
+				show();
+			} );
+		} else {
+			this._removeClass( eventData.oldTab.closest( "li" ),
+				"ui-tabs-active", "ui-state-active" );
+			toHide.hide();
+			show();
+		}
+
+		toHide.attr( "aria-hidden", "true" );
+		eventData.oldTab.attr( {
+			"aria-selected": "false",
+			"aria-expanded": "false"
+		} );
+
+		// If we're switching tabs, remove the old tab from the tab order.
+		// If we're opening from collapsed state, remove the previous tab from the tab order.
+		// If we're collapsing, then keep the collapsing tab in the tab order.
+		if ( toShow.length && toHide.length ) {
+			eventData.oldTab.attr( "tabIndex", -1 );
+		} else if ( toShow.length ) {
+			this.tabs.filter( function() {
+				return $( this ).attr( "tabIndex" ) === 0;
+			} )
+				.attr( "tabIndex", -1 );
+		}
+
+		toShow.attr( "aria-hidden", "false" );
+		eventData.newTab.attr( {
+			"aria-selected": "true",
+			"aria-expanded": "true",
+			tabIndex: 0
+		} );
+	},
+
+	_activate: function( index ) {
+		var anchor,
+			active = this._findActive( index );
+
+		// Trying to activate the already active panel
+		if ( active[ 0 ] === this.active[ 0 ] ) {
+			return;
+		}
+
+		// Trying to collapse, simulate a click on the current active header
+		if ( !active.length ) {
+			active = this.active;
+		}
+
+		anchor = active.find( ".ui-tabs-anchor" )[ 0 ];
+		this._eventHandler( {
+			target: anchor,
+			currentTarget: anchor,
+			preventDefault: $.noop
+		} );
+	},
+
+	_findActive: function( index ) {
+		return index === false ? $() : this.tabs.eq( index );
+	},
+
+	_getIndex: function( index ) {
+
+		// meta-function to give users option to provide a href string instead of a numerical index.
+		if ( typeof index === "string" ) {
+			index = this.anchors.index( this.anchors.filter( "[href$='" +
+				$.ui.escapeSelector( index ) + "']" ) );
+		}
+
+		return index;
+	},
+
+	_destroy: function() {
+		if ( this.xhr ) {
+			this.xhr.abort();
+		}
+
+		this.tablist
+			.removeAttr( "role" )
+			.off( this.eventNamespace );
+
+		this.anchors
+			.removeAttr( "role tabIndex" )
+			.removeUniqueId();
+
+		this.tabs.add( this.panels ).each( function() {
+			if ( $.data( this, "ui-tabs-destroy" ) ) {
+				$( this ).remove();
+			} else {
+				$( this ).removeAttr( "role tabIndex " +
+					"aria-live aria-busy aria-selected aria-labelledby aria-hidden aria-expanded" );
+			}
+		} );
+
+		this.tabs.each( function() {
+			var li = $( this ),
+				prev = li.data( "ui-tabs-aria-controls" );
+			if ( prev ) {
+				li
+					.attr( "aria-controls", prev )
+					.removeData( "ui-tabs-aria-controls" );
+			} else {
+				li.removeAttr( "aria-controls" );
+			}
+		} );
+
+		this.panels.show();
+
+		if ( this.options.heightStyle !== "content" ) {
+			this.panels.css( "height", "" );
+		}
+	},
+
+	enable: function( index ) {
+		var disabled = this.options.disabled;
+		if ( disabled === false ) {
+			return;
+		}
+
+		if ( index === undefined ) {
+			disabled = false;
+		} else {
+			index = this._getIndex( index );
+			if ( $.isArray( disabled ) ) {
+				disabled = $.map( disabled, function( num ) {
+					return num !== index ? num : null;
+				} );
+			} else {
+				disabled = $.map( this.tabs, function( li, num ) {
+					return num !== index ? num : null;
+				} );
+			}
+		}
+		this._setOptionDisabled( disabled );
+	},
+
+	disable: function( index ) {
+		var disabled = this.options.disabled;
+		if ( disabled === true ) {
+			return;
+		}
+
+		if ( index === undefined ) {
+			disabled = true;
+		} else {
+			index = this._getIndex( index );
+			if ( $.inArray( index, disabled ) !== -1 ) {
+				return;
+			}
+			if ( $.isArray( disabled ) ) {
+				disabled = $.merge( [ index ], disabled ).sort();
+			} else {
+				disabled = [ index ];
+			}
+		}
+		this._setOptionDisabled( disabled );
+	},
+
+	load: function( index, event ) {
+		index = this._getIndex( index );
+		var that = this,
+			tab = this.tabs.eq( index ),
+			anchor = tab.find( ".ui-tabs-anchor" ),
+			panel = this._getPanelForTab( tab ),
+			eventData = {
+				tab: tab,
+				panel: panel
+			},
+			complete = function( jqXHR, status ) {
+				if ( status === "abort" ) {
+					that.panels.stop( false, true );
+				}
+
+				that._removeClass( tab, "ui-tabs-loading" );
+				panel.removeAttr( "aria-busy" );
+
+				if ( jqXHR === that.xhr ) {
+					delete that.xhr;
+				}
+			};
+
+		// Not remote
+		if ( this._isLocal( anchor[ 0 ] ) ) {
+			return;
+		}
+
+		this.xhr = $.ajax( this._ajaxSettings( anchor, event, eventData ) );
+
+		// Support: jQuery <1.8
+		// jQuery <1.8 returns false if the request is canceled in beforeSend,
+		// but as of 1.8, $.ajax() always returns a jqXHR object.
+		if ( this.xhr && this.xhr.statusText !== "canceled" ) {
+			this._addClass( tab, "ui-tabs-loading" );
+			panel.attr( "aria-busy", "true" );
+
+			this.xhr
+				.done( function( response, status, jqXHR ) {
+
+					// support: jQuery <1.8
+					// http://bugs.jquery.com/ticket/11778
+					setTimeout( function() {
+						panel.html( response );
+						that._trigger( "load", event, eventData );
+
+						complete( jqXHR, status );
+					}, 1 );
+				} )
+				.fail( function( jqXHR, status ) {
+
+					// support: jQuery <1.8
+					// http://bugs.jquery.com/ticket/11778
+					setTimeout( function() {
+						complete( jqXHR, status );
+					}, 1 );
+				} );
+		}
+	},
+
+	_ajaxSettings: function( anchor, event, eventData ) {
+		var that = this;
+		return {
+
+			// Support: IE <11 only
+			// Strip any hash that exists to prevent errors with the Ajax request
+			url: anchor.attr( "href" ).replace( /#.*$/, "" ),
+			beforeSend: function( jqXHR, settings ) {
+				return that._trigger( "beforeLoad", event,
+					$.extend( { jqXHR: jqXHR, ajaxSettings: settings }, eventData ) );
+			}
+		};
+	},
+
+	_getPanelForTab: function( tab ) {
+		var id = $( tab ).attr( "aria-controls" );
+		return this.element.find( this._sanitizeSelector( "#" + id ) );
+	}
+} );
+
+// DEPRECATED
+// TODO: Switch return back to widget declaration at top of file when this is removed
+if ( $.uiBackCompat !== false ) {
+
+	// Backcompat for ui-tab class (now ui-tabs-tab)
+	$.widget( "ui.tabs", $.ui.tabs, {
+		_processTabs: function() {
+			this._superApply( arguments );
+			this._addClass( this.tabs, "ui-tab" );
+		}
+	} );
+}
+
+return $.ui.tabs;
+
+} ) );
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;( function( factory ) {
+	if ( true ) {
+
+		// AMD. Register as an anonymous module.
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+
+// Internal use only
+return $.ui.escapeSelector = ( function() {
+	var selectorEscape = /([!"#$%&'()*+,./:;<=>?@[\]^`{|}~])/g;
+	return function( selector ) {
+		return selector.replace( selectorEscape, "\\$1" );
+	};
+} )();
+
+} ) );
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * jQuery UI Keycode 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+//>>label: Keycode
+//>>group: Core
+//>>description: Provide keycodes as keynames
+//>>docs: http://api.jqueryui.com/jQuery.ui.keyCode/
+
+( function( factory ) {
+	if ( true ) {
+
+		// AMD. Register as an anonymous module.
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+return $.ui.keyCode = {
+	BACKSPACE: 8,
+	COMMA: 188,
+	DELETE: 46,
+	DOWN: 40,
+	END: 35,
+	ENTER: 13,
+	ESCAPE: 27,
+	HOME: 36,
+	LEFT: 37,
+	PAGE_DOWN: 34,
+	PAGE_UP: 33,
+	PERIOD: 190,
+	RIGHT: 39,
+	SPACE: 32,
+	TAB: 9,
+	UP: 38
+};
+
+} ) );
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;( function( factory ) {
+	if ( true ) {
+
+		// AMD. Register as an anonymous module.
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+return $.ui.safeActiveElement = function( document ) {
+	var activeElement;
+
+	// Support: IE 9 only
+	// IE9 throws an "Unspecified error" accessing document.activeElement from an <iframe>
+	try {
+		activeElement = document.activeElement;
+	} catch ( error ) {
+		activeElement = document.body;
+	}
+
+	// Support: IE 9 - 11 only
+	// IE may return null instead of an element
+	// Interestingly, this only seems to occur when NOT in an iframe
+	if ( !activeElement ) {
+		activeElement = document.body;
+	}
+
+	// Support: IE 11 only
+	// IE11 returns a seemingly empty object in some cases when accessing
+	// document.activeElement from an <iframe>
+	if ( !activeElement.nodeName ) {
+		activeElement = document.body;
+	}
+
+	return activeElement;
+};
+
+} ) );
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * jQuery UI Unique ID 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+//>>label: uniqueId
+//>>group: Core
+//>>description: Functions to generate and remove uniqueId's
+//>>docs: http://api.jqueryui.com/uniqueId/
+
+( function( factory ) {
+	if ( true ) {
+
+		// AMD. Register as an anonymous module.
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+} ( function( $ ) {
+
+return $.fn.extend( {
+	uniqueId: ( function() {
+		var uuid = 0;
+
+		return function() {
+			return this.each( function() {
+				if ( !this.id ) {
+					this.id = "ui-id-" + ( ++uuid );
+				}
+			} );
+		};
+	} )(),
+
+	removeUniqueId: function() {
+		return this.each( function() {
+			if ( /^ui-id-\d+$/.test( this.id ) ) {
+				$( this ).removeAttr( "id" );
+			}
+		} );
+	}
+} );
+
+} ) );
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * jQuery UI Widget 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ */
+
+//>>label: Widget
+//>>group: Core
+//>>description: Provides a factory for creating stateful widgets with a common API.
+//>>docs: http://api.jqueryui.com/jQuery.widget/
+//>>demos: http://jqueryui.com/widget/
+
+( function( factory ) {
+	if ( true ) {
+
+		// AMD. Register as an anonymous module.
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+
+		// Browser globals
+		factory( jQuery );
+	}
+}( function( $ ) {
+
+var widgetUuid = 0;
+var widgetSlice = Array.prototype.slice;
+
+$.cleanData = ( function( orig ) {
+	return function( elems ) {
+		var events, elem, i;
+		for ( i = 0; ( elem = elems[ i ] ) != null; i++ ) {
+			try {
+
+				// Only trigger remove when necessary to save time
+				events = $._data( elem, "events" );
+				if ( events && events.remove ) {
+					$( elem ).triggerHandler( "remove" );
+				}
+
+			// Http://bugs.jquery.com/ticket/8235
+			} catch ( e ) {}
+		}
+		orig( elems );
+	};
+} )( $.cleanData );
+
+$.widget = function( name, base, prototype ) {
+	var existingConstructor, constructor, basePrototype;
+
+	// ProxiedPrototype allows the provided prototype to remain unmodified
+	// so that it can be used as a mixin for multiple widgets (#8876)
+	var proxiedPrototype = {};
+
+	var namespace = name.split( "." )[ 0 ];
+	name = name.split( "." )[ 1 ];
+	var fullName = namespace + "-" + name;
+
+	if ( !prototype ) {
+		prototype = base;
+		base = $.Widget;
+	}
+
+	if ( $.isArray( prototype ) ) {
+		prototype = $.extend.apply( null, [ {} ].concat( prototype ) );
+	}
+
+	// Create selector for plugin
+	$.expr[ ":" ][ fullName.toLowerCase() ] = function( elem ) {
+		return !!$.data( elem, fullName );
+	};
+
+	$[ namespace ] = $[ namespace ] || {};
+	existingConstructor = $[ namespace ][ name ];
+	constructor = $[ namespace ][ name ] = function( options, element ) {
+
+		// Allow instantiation without "new" keyword
+		if ( !this._createWidget ) {
+			return new constructor( options, element );
+		}
+
+		// Allow instantiation without initializing for simple inheritance
+		// must use "new" keyword (the code above always passes args)
+		if ( arguments.length ) {
+			this._createWidget( options, element );
+		}
+	};
+
+	// Extend with the existing constructor to carry over any static properties
+	$.extend( constructor, existingConstructor, {
+		version: prototype.version,
+
+		// Copy the object used to create the prototype in case we need to
+		// redefine the widget later
+		_proto: $.extend( {}, prototype ),
+
+		// Track widgets that inherit from this widget in case this widget is
+		// redefined after a widget inherits from it
+		_childConstructors: []
+	} );
+
+	basePrototype = new base();
+
+	// We need to make the options hash a property directly on the new instance
+	// otherwise we'll modify the options hash on the prototype that we're
+	// inheriting from
+	basePrototype.options = $.widget.extend( {}, basePrototype.options );
+	$.each( prototype, function( prop, value ) {
+		if ( !$.isFunction( value ) ) {
+			proxiedPrototype[ prop ] = value;
+			return;
+		}
+		proxiedPrototype[ prop ] = ( function() {
+			function _super() {
+				return base.prototype[ prop ].apply( this, arguments );
+			}
+
+			function _superApply( args ) {
+				return base.prototype[ prop ].apply( this, args );
+			}
+
+			return function() {
+				var __super = this._super;
+				var __superApply = this._superApply;
+				var returnValue;
+
+				this._super = _super;
+				this._superApply = _superApply;
+
+				returnValue = value.apply( this, arguments );
+
+				this._super = __super;
+				this._superApply = __superApply;
+
+				return returnValue;
+			};
+		} )();
+	} );
+	constructor.prototype = $.widget.extend( basePrototype, {
+
+		// TODO: remove support for widgetEventPrefix
+		// always use the name + a colon as the prefix, e.g., draggable:start
+		// don't prefix for widgets that aren't DOM-based
+		widgetEventPrefix: existingConstructor ? ( basePrototype.widgetEventPrefix || name ) : name
+	}, proxiedPrototype, {
+		constructor: constructor,
+		namespace: namespace,
+		widgetName: name,
+		widgetFullName: fullName
+	} );
+
+	// If this widget is being redefined then we need to find all widgets that
+	// are inheriting from it and redefine all of them so that they inherit from
+	// the new version of this widget. We're essentially trying to replace one
+	// level in the prototype chain.
+	if ( existingConstructor ) {
+		$.each( existingConstructor._childConstructors, function( i, child ) {
+			var childPrototype = child.prototype;
+
+			// Redefine the child widget using the same prototype that was
+			// originally used, but inherit from the new version of the base
+			$.widget( childPrototype.namespace + "." + childPrototype.widgetName, constructor,
+				child._proto );
+		} );
+
+		// Remove the list of existing child constructors from the old constructor
+		// so the old child constructors can be garbage collected
+		delete existingConstructor._childConstructors;
+	} else {
+		base._childConstructors.push( constructor );
+	}
+
+	$.widget.bridge( name, constructor );
+
+	return constructor;
+};
+
+$.widget.extend = function( target ) {
+	var input = widgetSlice.call( arguments, 1 );
+	var inputIndex = 0;
+	var inputLength = input.length;
+	var key;
+	var value;
+
+	for ( ; inputIndex < inputLength; inputIndex++ ) {
+		for ( key in input[ inputIndex ] ) {
+			value = input[ inputIndex ][ key ];
+			if ( input[ inputIndex ].hasOwnProperty( key ) && value !== undefined ) {
+
+				// Clone objects
+				if ( $.isPlainObject( value ) ) {
+					target[ key ] = $.isPlainObject( target[ key ] ) ?
+						$.widget.extend( {}, target[ key ], value ) :
+
+						// Don't extend strings, arrays, etc. with objects
+						$.widget.extend( {}, value );
+
+				// Copy everything else by reference
+				} else {
+					target[ key ] = value;
+				}
+			}
+		}
+	}
+	return target;
+};
+
+$.widget.bridge = function( name, object ) {
+	var fullName = object.prototype.widgetFullName || name;
+	$.fn[ name ] = function( options ) {
+		var isMethodCall = typeof options === "string";
+		var args = widgetSlice.call( arguments, 1 );
+		var returnValue = this;
+
+		if ( isMethodCall ) {
+
+			// If this is an empty collection, we need to have the instance method
+			// return undefined instead of the jQuery instance
+			if ( !this.length && options === "instance" ) {
+				returnValue = undefined;
+			} else {
+				this.each( function() {
+					var methodValue;
+					var instance = $.data( this, fullName );
+
+					if ( options === "instance" ) {
+						returnValue = instance;
+						return false;
+					}
+
+					if ( !instance ) {
+						return $.error( "cannot call methods on " + name +
+							" prior to initialization; " +
+							"attempted to call method '" + options + "'" );
+					}
+
+					if ( !$.isFunction( instance[ options ] ) || options.charAt( 0 ) === "_" ) {
+						return $.error( "no such method '" + options + "' for " + name +
+							" widget instance" );
+					}
+
+					methodValue = instance[ options ].apply( instance, args );
+
+					if ( methodValue !== instance && methodValue !== undefined ) {
+						returnValue = methodValue && methodValue.jquery ?
+							returnValue.pushStack( methodValue.get() ) :
+							methodValue;
+						return false;
+					}
+				} );
+			}
+		} else {
+
+			// Allow multiple hashes to be passed on init
+			if ( args.length ) {
+				options = $.widget.extend.apply( null, [ options ].concat( args ) );
+			}
+
+			this.each( function() {
+				var instance = $.data( this, fullName );
+				if ( instance ) {
+					instance.option( options || {} );
+					if ( instance._init ) {
+						instance._init();
+					}
+				} else {
+					$.data( this, fullName, new object( options, this ) );
+				}
+			} );
+		}
+
+		return returnValue;
+	};
+};
+
+$.Widget = function( /* options, element */ ) {};
+$.Widget._childConstructors = [];
+
+$.Widget.prototype = {
+	widgetName: "widget",
+	widgetEventPrefix: "",
+	defaultElement: "<div>",
+
+	options: {
+		classes: {},
+		disabled: false,
+
+		// Callbacks
+		create: null
+	},
+
+	_createWidget: function( options, element ) {
+		element = $( element || this.defaultElement || this )[ 0 ];
+		this.element = $( element );
+		this.uuid = widgetUuid++;
+		this.eventNamespace = "." + this.widgetName + this.uuid;
+
+		this.bindings = $();
+		this.hoverable = $();
+		this.focusable = $();
+		this.classesElementLookup = {};
+
+		if ( element !== this ) {
+			$.data( element, this.widgetFullName, this );
+			this._on( true, this.element, {
+				remove: function( event ) {
+					if ( event.target === element ) {
+						this.destroy();
+					}
+				}
+			} );
+			this.document = $( element.style ?
+
+				// Element within the document
+				element.ownerDocument :
+
+				// Element is window or document
+				element.document || element );
+			this.window = $( this.document[ 0 ].defaultView || this.document[ 0 ].parentWindow );
+		}
+
+		this.options = $.widget.extend( {},
+			this.options,
+			this._getCreateOptions(),
+			options );
+
+		this._create();
+
+		if ( this.options.disabled ) {
+			this._setOptionDisabled( this.options.disabled );
+		}
+
+		this._trigger( "create", null, this._getCreateEventData() );
+		this._init();
+	},
+
+	_getCreateOptions: function() {
+		return {};
+	},
+
+	_getCreateEventData: $.noop,
+
+	_create: $.noop,
+
+	_init: $.noop,
+
+	destroy: function() {
+		var that = this;
+
+		this._destroy();
+		$.each( this.classesElementLookup, function( key, value ) {
+			that._removeClass( value, key );
+		} );
+
+		// We can probably remove the unbind calls in 2.0
+		// all event bindings should go through this._on()
+		this.element
+			.off( this.eventNamespace )
+			.removeData( this.widgetFullName );
+		this.widget()
+			.off( this.eventNamespace )
+			.removeAttr( "aria-disabled" );
+
+		// Clean up events and states
+		this.bindings.off( this.eventNamespace );
+	},
+
+	_destroy: $.noop,
+
+	widget: function() {
+		return this.element;
+	},
+
+	option: function( key, value ) {
+		var options = key;
+		var parts;
+		var curOption;
+		var i;
+
+		if ( arguments.length === 0 ) {
+
+			// Don't return a reference to the internal hash
+			return $.widget.extend( {}, this.options );
+		}
+
+		if ( typeof key === "string" ) {
+
+			// Handle nested keys, e.g., "foo.bar" => { foo: { bar: ___ } }
+			options = {};
+			parts = key.split( "." );
+			key = parts.shift();
+			if ( parts.length ) {
+				curOption = options[ key ] = $.widget.extend( {}, this.options[ key ] );
+				for ( i = 0; i < parts.length - 1; i++ ) {
+					curOption[ parts[ i ] ] = curOption[ parts[ i ] ] || {};
+					curOption = curOption[ parts[ i ] ];
+				}
+				key = parts.pop();
+				if ( arguments.length === 1 ) {
+					return curOption[ key ] === undefined ? null : curOption[ key ];
+				}
+				curOption[ key ] = value;
+			} else {
+				if ( arguments.length === 1 ) {
+					return this.options[ key ] === undefined ? null : this.options[ key ];
+				}
+				options[ key ] = value;
+			}
+		}
+
+		this._setOptions( options );
+
+		return this;
+	},
+
+	_setOptions: function( options ) {
+		var key;
+
+		for ( key in options ) {
+			this._setOption( key, options[ key ] );
+		}
+
+		return this;
+	},
+
+	_setOption: function( key, value ) {
+		if ( key === "classes" ) {
+			this._setOptionClasses( value );
+		}
+
+		this.options[ key ] = value;
+
+		if ( key === "disabled" ) {
+			this._setOptionDisabled( value );
+		}
+
+		return this;
+	},
+
+	_setOptionClasses: function( value ) {
+		var classKey, elements, currentElements;
+
+		for ( classKey in value ) {
+			currentElements = this.classesElementLookup[ classKey ];
+			if ( value[ classKey ] === this.options.classes[ classKey ] ||
+					!currentElements ||
+					!currentElements.length ) {
+				continue;
+			}
+
+			// We are doing this to create a new jQuery object because the _removeClass() call
+			// on the next line is going to destroy the reference to the current elements being
+			// tracked. We need to save a copy of this collection so that we can add the new classes
+			// below.
+			elements = $( currentElements.get() );
+			this._removeClass( currentElements, classKey );
+
+			// We don't use _addClass() here, because that uses this.options.classes
+			// for generating the string of classes. We want to use the value passed in from
+			// _setOption(), this is the new value of the classes option which was passed to
+			// _setOption(). We pass this value directly to _classes().
+			elements.addClass( this._classes( {
+				element: elements,
+				keys: classKey,
+				classes: value,
+				add: true
+			} ) );
+		}
+	},
+
+	_setOptionDisabled: function( value ) {
+		this._toggleClass( this.widget(), this.widgetFullName + "-disabled", null, !!value );
+
+		// If the widget is becoming disabled, then nothing is interactive
+		if ( value ) {
+			this._removeClass( this.hoverable, null, "ui-state-hover" );
+			this._removeClass( this.focusable, null, "ui-state-focus" );
+		}
+	},
+
+	enable: function() {
+		return this._setOptions( { disabled: false } );
+	},
+
+	disable: function() {
+		return this._setOptions( { disabled: true } );
+	},
+
+	_classes: function( options ) {
+		var full = [];
+		var that = this;
+
+		options = $.extend( {
+			element: this.element,
+			classes: this.options.classes || {}
+		}, options );
+
+		function processClassString( classes, checkOption ) {
+			var current, i;
+			for ( i = 0; i < classes.length; i++ ) {
+				current = that.classesElementLookup[ classes[ i ] ] || $();
+				if ( options.add ) {
+					current = $( $.unique( current.get().concat( options.element.get() ) ) );
+				} else {
+					current = $( current.not( options.element ).get() );
+				}
+				that.classesElementLookup[ classes[ i ] ] = current;
+				full.push( classes[ i ] );
+				if ( checkOption && options.classes[ classes[ i ] ] ) {
+					full.push( options.classes[ classes[ i ] ] );
+				}
+			}
+		}
+
+		this._on( options.element, {
+			"remove": "_untrackClassesElement"
+		} );
+
+		if ( options.keys ) {
+			processClassString( options.keys.match( /\S+/g ) || [], true );
+		}
+		if ( options.extra ) {
+			processClassString( options.extra.match( /\S+/g ) || [] );
+		}
+
+		return full.join( " " );
+	},
+
+	_untrackClassesElement: function( event ) {
+		var that = this;
+		$.each( that.classesElementLookup, function( key, value ) {
+			if ( $.inArray( event.target, value ) !== -1 ) {
+				that.classesElementLookup[ key ] = $( value.not( event.target ).get() );
+			}
+		} );
+	},
+
+	_removeClass: function( element, keys, extra ) {
+		return this._toggleClass( element, keys, extra, false );
+	},
+
+	_addClass: function( element, keys, extra ) {
+		return this._toggleClass( element, keys, extra, true );
+	},
+
+	_toggleClass: function( element, keys, extra, add ) {
+		add = ( typeof add === "boolean" ) ? add : extra;
+		var shift = ( typeof element === "string" || element === null ),
+			options = {
+				extra: shift ? keys : extra,
+				keys: shift ? element : keys,
+				element: shift ? this.element : element,
+				add: add
+			};
+		options.element.toggleClass( this._classes( options ), add );
+		return this;
+	},
+
+	_on: function( suppressDisabledCheck, element, handlers ) {
+		var delegateElement;
+		var instance = this;
+
+		// No suppressDisabledCheck flag, shuffle arguments
+		if ( typeof suppressDisabledCheck !== "boolean" ) {
+			handlers = element;
+			element = suppressDisabledCheck;
+			suppressDisabledCheck = false;
+		}
+
+		// No element argument, shuffle and use this.element
+		if ( !handlers ) {
+			handlers = element;
+			element = this.element;
+			delegateElement = this.widget();
+		} else {
+			element = delegateElement = $( element );
+			this.bindings = this.bindings.add( element );
+		}
+
+		$.each( handlers, function( event, handler ) {
+			function handlerProxy() {
+
+				// Allow widgets to customize the disabled handling
+				// - disabled as an array instead of boolean
+				// - disabled class as method for disabling individual parts
+				if ( !suppressDisabledCheck &&
+						( instance.options.disabled === true ||
+						$( this ).hasClass( "ui-state-disabled" ) ) ) {
+					return;
+				}
+				return ( typeof handler === "string" ? instance[ handler ] : handler )
+					.apply( instance, arguments );
+			}
+
+			// Copy the guid so direct unbinding works
+			if ( typeof handler !== "string" ) {
+				handlerProxy.guid = handler.guid =
+					handler.guid || handlerProxy.guid || $.guid++;
+			}
+
+			var match = event.match( /^([\w:-]*)\s*(.*)$/ );
+			var eventName = match[ 1 ] + instance.eventNamespace;
+			var selector = match[ 2 ];
+
+			if ( selector ) {
+				delegateElement.on( eventName, selector, handlerProxy );
+			} else {
+				element.on( eventName, handlerProxy );
+			}
+		} );
+	},
+
+	_off: function( element, eventName ) {
+		eventName = ( eventName || "" ).split( " " ).join( this.eventNamespace + " " ) +
+			this.eventNamespace;
+		element.off( eventName ).off( eventName );
+
+		// Clear the stack to avoid memory leaks (#10056)
+		this.bindings = $( this.bindings.not( element ).get() );
+		this.focusable = $( this.focusable.not( element ).get() );
+		this.hoverable = $( this.hoverable.not( element ).get() );
+	},
+
+	_delay: function( handler, delay ) {
+		function handlerProxy() {
+			return ( typeof handler === "string" ? instance[ handler ] : handler )
+				.apply( instance, arguments );
+		}
+		var instance = this;
+		return setTimeout( handlerProxy, delay || 0 );
+	},
+
+	_hoverable: function( element ) {
+		this.hoverable = this.hoverable.add( element );
+		this._on( element, {
+			mouseenter: function( event ) {
+				this._addClass( $( event.currentTarget ), null, "ui-state-hover" );
+			},
+			mouseleave: function( event ) {
+				this._removeClass( $( event.currentTarget ), null, "ui-state-hover" );
+			}
+		} );
+	},
+
+	_focusable: function( element ) {
+		this.focusable = this.focusable.add( element );
+		this._on( element, {
+			focusin: function( event ) {
+				this._addClass( $( event.currentTarget ), null, "ui-state-focus" );
+			},
+			focusout: function( event ) {
+				this._removeClass( $( event.currentTarget ), null, "ui-state-focus" );
+			}
+		} );
+	},
+
+	_trigger: function( type, event, data ) {
+		var prop, orig;
+		var callback = this.options[ type ];
+
+		data = data || {};
+		event = $.Event( event );
+		event.type = ( type === this.widgetEventPrefix ?
+			type :
+			this.widgetEventPrefix + type ).toLowerCase();
+
+		// The original event may come from any element
+		// so we need to reset the target on the new event
+		event.target = this.element[ 0 ];
+
+		// Copy original event properties over to the new event
+		orig = event.originalEvent;
+		if ( orig ) {
+			for ( prop in orig ) {
+				if ( !( prop in event ) ) {
+					event[ prop ] = orig[ prop ];
+				}
+			}
+		}
+
+		this.element.trigger( event, data );
+		return !( $.isFunction( callback ) &&
+			callback.apply( this.element[ 0 ], [ event ].concat( data ) ) === false ||
+			event.isDefaultPrevented() );
+	}
+};
+
+$.each( { show: "fadeIn", hide: "fadeOut" }, function( method, defaultEffect ) {
+	$.Widget.prototype[ "_" + method ] = function( element, options, callback ) {
+		if ( typeof options === "string" ) {
+			options = { effect: options };
+		}
+
+		var hasOptions;
+		var effectName = !options ?
+			method :
+			options === true || typeof options === "number" ?
+				defaultEffect :
+				options.effect || defaultEffect;
+
+		options = options || {};
+		if ( typeof options === "number" ) {
+			options = { duration: options };
+		}
+
+		hasOptions = !$.isEmptyObject( options );
+		options.complete = callback;
+
+		if ( options.delay ) {
+			element.delay( options.delay );
+		}
+
+		if ( hasOptions && $.effects && $.effects.effect[ effectName ] ) {
+			element[ method ]( options );
+		} else if ( effectName !== method && element[ effectName ] ) {
+			element[ effectName ]( options.duration, options.easing, callback );
+		} else {
+			element.queue( function( next ) {
+				$( this )[ method ]();
+				if ( callback ) {
+					callback.call( element[ 0 ] );
+				}
+				next();
+			} );
+		}
+	};
+} );
+
+return $.widget;
+
+} ) );
+
+
+/***/ }),
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var require;var require;/*!
@@ -21185,8502 +29681,6 @@ S2.define('jquery.select2',[
 }));
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
-
-/***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! jQuery UI Virtual Keyboard v1.27.4 *//*
-Author: Jeremy Satterfield
-Maintained: Rob Garrison (Mottie on github)
-Licensed under the MIT License
-
-An on-screen virtual keyboard embedded within the browser window which
-will popup when a specified entry field is focused. The user can then
-type and preview their input before Accepting or Canceling.
-
-This plugin adds default class names to match jQuery UI theme styling.
-Bootstrap & custom themes may also be applied - See
-https://github.com/Mottie/Keyboard#themes
-
-Requires:
-	jQuery v1.4.3+
-	Caret plugin (included)
-Optional:
-	jQuery UI (position utility only) & CSS theme
-	jQuery mousewheel
-
-Setup/Usage:
-	Please refer to https://github.com/Mottie/Keyboard/wiki
-
------------------------------------------
-Caret code modified from jquery.caret.1.02.js
-Licensed under the MIT License:
-http://www.opensource.org/licenses/mit-license.php
------------------------------------------
-*/
-/*jshint browser:true, jquery:true, unused:false */
-/*global require:false, define:false, module:false */
-;(function (factory) {
-	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(2)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else if (typeof module === 'object' && typeof module.exports === 'object') {
-		module.exports = factory(require('jquery'));
-	} else {
-		factory(jQuery);
-	}
-}(function ($) {
-	'use strict';
-	var $keyboard = $.keyboard = function (el, options) {
-	var o, base = this;
-
-	base.version = '1.27.4';
-
-	// Access to jQuery and DOM versions of element
-	base.$el = $(el);
-	base.el = el;
-
-	// Add a reverse reference to the DOM object
-	base.$el.data('keyboard', base);
-
-	base.init = function () {
-		base.initialized = false;
-		var k, position, tmp,
-			kbcss = $keyboard.css,
-			kbevents = $keyboard.events;
-		base.settings = options || {};
-		// shallow copy position to prevent performance issues; see #357
-		if (options && options.position) {
-			position = $.extend({}, options.position);
-			options.position = null;
-		}
-		base.options = o = $.extend(true, {}, $keyboard.defaultOptions, options);
-		if (position) {
-			o.position = position;
-			options.position = position;
-		}
-
-		// keyboard is active (not destroyed);
-		base.el.active = true;
-		// unique keyboard namespace
-		base.namespace = '.keyboard' + Math.random().toString(16).slice(2);
-		// extension namespaces added here (to unbind listeners on base.$el upon destroy)
-		base.extensionNamespace = [];
-		// Shift and Alt key toggles, sets is true if a layout has more than one keyset
-		// used for mousewheel message
-		base.shiftActive = base.altActive = base.metaActive = base.sets = base.capsLock = false;
-		// Class names of the basic key set - meta keysets are handled by the keyname
-		base.rows = ['', '-shift', '-alt', '-alt-shift'];
-
-		base.inPlaceholder = base.$el.attr('placeholder') || '';
-		// html 5 placeholder/watermark
-		base.watermark = $keyboard.watermark && base.inPlaceholder !== '';
-		// convert mouse repeater rate (characters per second) into a time in milliseconds.
-		base.repeatTime = 1000 / (o.repeatRate || 20);
-		// delay in ms to prevent mousedown & touchstart from both firing events at the same time
-		o.preventDoubleEventTime = o.preventDoubleEventTime || 100;
-		// flag indication that a keyboard is open
-		base.isOpen = false;
-		// is mousewheel plugin loaded?
-		base.wheel = $.isFunction($.fn.mousewheel);
-		// special character in regex that need to be escaped
-		base.escapeRegex = /[-\/\\^$*+?.()|[\]{}]/g;
-		// detect contenteditable
-		base.isContentEditable = !/(input|textarea)/i.test(base.el.nodeName) &&
-			base.el.isContentEditable;
-
-		// keyCode of keys always allowed to be typed
-		k = $keyboard.keyCodes;
-		// base.alwaysAllowed = [20,33,34,35,36,37,38,39,40,45,46];
-		base.alwaysAllowed = [
-			k.capsLock,
-			k.pageUp,
-			k.pageDown,
-			k.end,
-			k.home,
-			k.left,
-			k.up,
-			k.right,
-			k.down,
-			k.insert,
-			k.delete
-		];
-		base.$keyboard = [];
-		// keyboard enabled; set to false on destroy
-		base.enabled = true;
-
-		base.checkCaret = (o.lockInput || $keyboard.checkCaretSupport());
-
-		// disable problematic usePreview for contenteditable
-		if (base.isContentEditable) {
-			o.usePreview = false;
-		}
-
-		base.last = {
-			start: 0,
-			end: 0,
-			key: '',
-			val: '',
-			preVal: '',
-			layout: '',
-			virtual: true,
-			keyset: [false, false, false], // [shift, alt, meta]
-			wheel_$Keys: null,
-			wheelIndex: 0,
-			wheelLayers: []
-		};
-		// used when building the keyboard - [keyset element, row, index]
-		base.temp = ['', 0, 0];
-
-		// Callbacks
-		$.each([
-			kbevents.kbInit,
-			kbevents.kbBeforeVisible,
-			kbevents.kbVisible,
-			kbevents.kbHidden,
-			kbevents.inputCanceled,
-			kbevents.inputAccepted,
-			kbevents.kbBeforeClose,
-			kbevents.inputRestricted
-		], function (i, callback) {
-			if ($.isFunction(o[callback])) {
-				// bind callback functions within options to triggered events
-				base.$el.bind(callback + base.namespace + 'callbacks', o[callback]);
-			}
-		});
-
-		// Close with esc key & clicking outside
-		if (o.alwaysOpen) {
-			o.stayOpen = true;
-		}
-
-		tmp = $(document);
-		if (base.el.ownerDocument !== document) {
-			tmp = tmp.add(base.el.ownerDocument);
-		}
-
-		var bindings = 'keyup checkkeyboard mousedown touchstart ';
-		if (o.closeByClickEvent) {
-			bindings += 'click ';
-		}
-		// debounce bindings... see #542
-		tmp.bind(bindings.split(' ').join(base.namespace + ' '), function(e) {
-			clearTimeout(base.timer3);
-			base.timer3 = setTimeout(function() {
-				base.checkClose(e);
-			}, 1);
-		});
-
-		// Display keyboard on focus
-		base.$el
-			.addClass(kbcss.input + ' ' + o.css.input)
-			.attr({
-				'aria-haspopup': 'true',
-				'role': 'textbox'
-			});
-
-		// set lockInput if the element is readonly; or make the element readonly if lockInput is set
-		if (o.lockInput || base.el.readOnly) {
-			o.lockInput = true;
-			base.$el
-				.addClass(kbcss.locked)
-				.attr({
-					'readonly': 'readonly'
-				});
-		}
-		// add disabled/readonly class - dynamically updated on reveal
-		if (base.$el.is(':disabled') || (base.$el.attr('readonly') &&
-				!base.$el.hasClass(kbcss.locked))) {
-			base.$el.addClass(kbcss.noKeyboard);
-		}
-		if (o.openOn) {
-			base.bindFocus();
-		}
-
-		// Add placeholder if not supported by the browser
-		if (
-			!base.watermark &&
-			base.getValue(base.$el) === '' &&
-			base.inPlaceholder !== '' &&
-			base.$el.attr('placeholder') !== ''
-		) {
-			// css watermark style (darker text)
-			base.$el.addClass(kbcss.placeholder);
-			base.setValue(base.inPlaceholder, base.$el);
-		}
-
-		base.$el.trigger(kbevents.kbInit, [base, base.el]);
-
-		// initialized with keyboard open
-		if (o.alwaysOpen) {
-			base.reveal();
-		}
-		base.initialized = true;
-	};
-
-	base.toggle = function () {
-		if (!base.hasKeyboard()) { return; }
-		var $toggle = base.$keyboard.find('.' + $keyboard.css.keyToggle),
-			locked = !base.enabled;
-		// prevent physical keyboard from working
-		base.preview.readonly = locked || base.options.lockInput;
-		// disable all buttons
-		base.$keyboard
-			.toggleClass($keyboard.css.keyDisabled, locked)
-			.find('.' + $keyboard.css.keyButton)
-			.not($toggle)
-			.attr('aria-disabled', locked)
-			.each(function() {
-				this.disabled = locked;
-			});
-		$toggle.toggleClass($keyboard.css.keyDisabled, locked);
-		// stop auto typing
-		if (locked && base.typing_options) {
-			base.typing_options.text = '';
-		}
-		// allow chaining
-		return base;
-	};
-
-	base.setCurrent = function () {
-		var kbcss = $keyboard.css,
-			// close any "isCurrent" keyboard (just in case they are always open)
-			$current = $('.' + kbcss.isCurrent),
-			kb = $current.data('keyboard');
-		// close keyboard, if not self
-		if (!$.isEmptyObject(kb) && kb.el !== base.el) {
-			kb.close(kb.options.autoAccept ? 'true' : false);
-		}
-		$current.removeClass(kbcss.isCurrent);
-		// ui-keyboard-has-focus is applied in case multiple keyboards have
-		// alwaysOpen = true and are stacked
-		$('.' + kbcss.hasFocus).removeClass(kbcss.hasFocus);
-
-		base.$el.addClass(kbcss.isCurrent);
-		base.$keyboard.addClass(kbcss.hasFocus);
-		base.isCurrent(true);
-		base.isOpen = true;
-	};
-
-	base.isCurrent = function (set) {
-		var cur = $keyboard.currentKeyboard || false;
-		if (set) {
-			cur = $keyboard.currentKeyboard = base.el;
-		} else if (set === false && cur === base.el) {
-			cur = $keyboard.currentKeyboard = '';
-		}
-		return cur === base.el;
-	};
-
-	base.hasKeyboard = function () {
-		return base.$keyboard && base.$keyboard.length > 0;
-	};
-
-	base.isVisible = function () {
-		return base.hasKeyboard() ? base.$keyboard.is(':visible') : false;
-	};
-
-	base.setFocus = function () {
-		var $el = base.$preview || base.$el;
-		if (!o.noFocus) {
-			$el.focus();
-		}
-		if (base.isContentEditable) {
-			$keyboard.setEditableCaret($el, base.last.start, base.last.end);
-		} else {
-			$keyboard.caret($el, base.last);
-		}
-	};
-
-	base.focusOn = function () {
-		if (!base && base.el.active) {
-			// keyboard was destroyed
-			return;
-		}
-		if (!base.isVisible()) {
-			clearTimeout(base.timer);
-			base.reveal();
-		} else {
-			// keyboard already open, make it the current keyboard
-			base.setCurrent();
-		}
-	};
-
-	// add redraw method to make API more clear
-	base.redraw = function (layout) {
-		if (layout) {
-			// allow updating the layout by calling redraw
-			base.options.layout = layout;
-		}
-		// update keyboard after a layout change
-		if (base.$keyboard.length) {
-
-			base.last.preVal = '' + base.last.val;
-			base.saveLastChange();
-			base.setValue(base.last.val, base.$el);
-
-			base.removeKeyboard();
-			base.shiftActive = base.altActive = base.metaActive = false;
-		}
-		base.isOpen = o.alwaysOpen;
-		base.reveal(true);
-		return base;
-	};
-
-	base.reveal = function (redraw) {
-		var temp,
-			alreadyOpen = base.isOpen,
-			kbcss = $keyboard.css;
-		base.opening = !alreadyOpen;
-		// remove all 'extra' keyboards by calling close function
-		$('.' + kbcss.keyboard).not('.' + kbcss.alwaysOpen).each(function(){
-			var kb = $(this).data('keyboard');
-			if (!$.isEmptyObject(kb)) {
-				// this closes previous keyboard when clicking another input - see #515
-				kb.close(kb.options.autoAccept ? 'true' : false);
-			}
-		});
-
-		// Don't open if disabled
-		if (base.$el.is(':disabled') || (base.$el.attr('readonly') && !base.$el.hasClass(kbcss.locked))) {
-			base.$el.addClass(kbcss.noKeyboard);
-			return;
-		} else {
-			base.$el.removeClass(kbcss.noKeyboard);
-		}
-
-		// Unbind focus to prevent recursion - openOn may be empty if keyboard is opened externally
-		if (o.openOn) {
-			base.$el.unbind($.trim((o.openOn + ' ').split(/\s+/).join(base.namespace + ' ')));
-		}
-
-		// build keyboard if it doesn't exist; or attach keyboard if it was removed, but not cleared
-		if (!base.$keyboard || base.$keyboard &&
-			(!base.$keyboard.length || $.contains(base.el.ownerDocument.body, base.$keyboard[0]))) {
-			base.startup();
-		}
-
-		// clear watermark
-		if (!base.watermark && base.getValue() === base.inPlaceholder) {
-			base.$el.removeClass(kbcss.placeholder);
-			base.setValue('', base.$el);
-		}
-		// save starting content, in case we cancel
-		base.originalContent = base.isContentEditable ?
-			base.$el.html() :
-			base.getValue(base.$el);
-		if (base.el !== base.preview && !base.isContentEditable) {
-			base.setValue(base.originalContent);
-		}
-
-		// disable/enable accept button
-		if (o.acceptValid) {
-			base.checkValid();
-		}
-
-		if (o.resetDefault) {
-			base.shiftActive = base.altActive = base.metaActive = false;
-		}
-		base.showSet();
-
-		// beforeVisible event
-		if (!base.isVisible()) {
-			base.$el.trigger($keyboard.events.kbBeforeVisible, [base, base.el]);
-		}
-		if (
-			base.initialized ||
-			o.initialFocus ||
-			( !o.initialFocus && base.$el.hasClass($keyboard.css.initialFocus) )
-		) {
-			base.setCurrent();
-		}
-		// update keyboard - enabled or disabled?
-		base.toggle();
-
-		// show keyboard
-		base.$keyboard.show();
-
-		// adjust keyboard preview window width - save width so IE won't keep expanding (fix issue #6)
-		if (o.usePreview && $keyboard.msie) {
-			if (typeof base.width === 'undefined') {
-				base.$preview.hide(); // preview is 100% browser width in IE7, so hide the damn thing
-				base.width = Math.ceil(base.$keyboard.width()); // set input width to match the widest keyboard row
-				base.$preview.show();
-			}
-			base.$preview.width(base.width);
-		}
-
-		base.reposition();
-
-		base.checkDecimal();
-
-		// get preview area line height
-		// add roughly 4px to get line height from font height, works well for font-sizes from 14-36px
-		// needed for textareas
-		base.lineHeight = parseInt(base.$preview.css('lineHeight'), 10) ||
-			parseInt(base.$preview.css('font-size'), 10) + 4;
-
-		if (o.caretToEnd) {
-			temp = base.isContentEditable ? $keyboard.getEditableLength(base.el) : base.originalContent.length;
-			base.saveCaret(temp, temp);
-		}
-
-		// IE caret haxx0rs
-		if ($keyboard.allie) {
-			// sometimes end = 0 while start is > 0
-			if (base.last.end === 0 && base.last.start > 0) {
-				base.last.end = base.last.start;
-			}
-			// IE will have start -1, end of 0 when not focused (see demo: https://jsfiddle.net/Mottie/fgryQ/3/)
-			if (base.last.start < 0) {
-				// ensure caret is at the end of the text (needed for IE)
-				base.last.start = base.last.end = base.originalContent.length;
-			}
-		}
-
-		if (alreadyOpen || redraw) {
-			// restore caret position (userClosed)
-			$keyboard.caret(base.$preview, base.last);
-			return base;
-		}
-
-		// opening keyboard flag; delay allows switching between keyboards without immediately closing
-		// the keyboard
-		base.timer2 = setTimeout(function () {
-			var undef;
-			base.opening = false;
-			// Number inputs don't support selectionStart and selectionEnd
-			// Number/email inputs don't support selectionStart and selectionEnd
-			if (!/(number|email)/i.test(base.el.type) && !o.caretToEnd) {
-				// caret position is always 0,0 in webkit; and nothing is focused at this point... odd
-				// save caret position in the input to transfer it to the preview
-				// inside delay to get correct caret position
-				base.saveCaret(undef, undef, base.$el);
-			}
-			if (o.initialFocus || base.$el.hasClass($keyboard.css.initialFocus)) {
-				$keyboard.caret(base.$preview, base.last);
-			}
-			// save event time for keyboards with stayOpen: true
-			base.last.eventTime = new Date().getTime();
-			base.$el.trigger($keyboard.events.kbVisible, [base, base.el]);
-			base.timer = setTimeout(function () {
-				// get updated caret information after visible event - fixes #331
-				if (base) { // Check if base exists, this is a case when destroy is called, before timers fire
-					base.saveCaret();
-				}
-			}, 200);
-		}, 10);
-		// return base to allow chaining in typing extension
-		return base;
-	};
-
-	base.updateLanguage = function () {
-		// change language if layout is named something like 'french-azerty-1'
-		var layouts = $keyboard.layouts,
-			lang = o.language || layouts[o.layout] && layouts[o.layout].lang &&
-				layouts[o.layout].lang || [o.language || 'en'],
-			kblang = $keyboard.language;
-
-		// some languages include a dash, e.g. 'en-gb' or 'fr-ca'
-		// allow o.language to be a string or array...
-		// array is for future expansion where a layout can be set for multiple languages
-		lang = ($.isArray(lang) ? lang[0] : lang);
-		base.language = lang;
-		lang = lang.split('-')[0];
-
-		// set keyboard language
-		o.display = $.extend(true, {},
-			kblang.en.display,
-			kblang[lang] && kblang[lang].display || {},
-			base.settings.display
-		);
-		o.combos = $.extend(true, {},
-			kblang.en.combos,
-			kblang[lang] && kblang[lang].combos || {},
-			base.settings.combos
-		);
-		o.wheelMessage = kblang[lang] && kblang[lang].wheelMessage || kblang.en.wheelMessage;
-		// rtl can be in the layout or in the language definition; defaults to false
-		o.rtl = layouts[o.layout] && layouts[o.layout].rtl || kblang[lang] && kblang[lang].rtl || false;
-
-		// save default regex (in case loading another layout changes it)
-		base.regex = kblang[lang] && kblang[lang].comboRegex || $keyboard.comboRegex;
-		// determine if US '.' or European ',' system being used
-		base.decimal = /^\./.test(o.display.dec);
-		base.$el
-			.toggleClass('rtl', o.rtl)
-			.css('direction', o.rtl ? 'rtl' : '');
-	};
-
-	base.startup = function () {
-		var kbcss = $keyboard.css;
-		// ensure base.$preview is defined; but don't overwrite it if keyboard is always visible
-		if (!((o.alwaysOpen || o.userClosed) && base.$preview)) {
-			base.makePreview();
-		}
-		if (!base.hasKeyboard()) {
-			// custom layout - create a unique layout name based on the hash
-			if (o.layout === 'custom') {
-				o.layoutHash = 'custom' + base.customHash();
-			}
-			base.layout = o.layout === 'custom' ? o.layoutHash : o.layout;
-			base.last.layout = base.layout;
-
-			base.updateLanguage();
-			if (typeof $keyboard.builtLayouts[base.layout] === 'undefined') {
-				if ($.isFunction(o.create)) {
-					// create must call buildKeyboard() function; or create it's own keyboard
-					base.$keyboard = o.create(base);
-				} else if (!base.$keyboard.length) {
-					base.buildKeyboard(base.layout, true);
-				}
-			}
-			base.$keyboard = $keyboard.builtLayouts[base.layout].$keyboard.clone();
-			base.$keyboard.data('keyboard', base);
-			if ((base.el.id || '') !== '') {
-				// add ID to keyboard for styling purposes
-				base.$keyboard.attr('id', base.el.id + $keyboard.css.idSuffix);
-			}
-
-			base.makePreview();
-		}
-
-		// Add layout and laguage data-attibutes
-		base.$keyboard
-			.attr('data-' + kbcss.keyboard + '-layout', o.layout)
-			.attr('data-' + kbcss.keyboard + '-language', base.language);
-
-		base.$decBtn = base.$keyboard.find('.' + kbcss.keyPrefix + 'dec');
-		// add enter to allowed keys; fixes #190
-		if (o.enterNavigation || base.el.nodeName === 'TEXTAREA') {
-			base.alwaysAllowed.push(13);
-		}
-
-		base.bindKeyboard();
-
-		base.$keyboard.appendTo(o.appendLocally ? base.$el.parent() : o.appendTo || 'body');
-
-		base.bindKeys();
-
-		// reposition keyboard on window resize
-		if (o.reposition && $.ui && $.ui.position && o.appendTo == 'body') {
-			$(window).bind('resize' + base.namespace, function () {
-				base.reposition();
-			});
-		}
-
-	};
-
-	base.reposition = function () {
-		base.position = $.isEmptyObject(o.position) ? false : o.position;
-		// position after keyboard is visible (required for UI position utility)
-		// and appropriately sized
-		if ($.ui && $.ui.position && base.position) {
-			base.position.of =
-				// get single target position
-				base.position.of ||
-				// OR target stored in element data (multiple targets)
-				base.$el.data('keyboardPosition') ||
-				// OR default @ element
-				base.$el;
-			base.position.collision = base.position.collision || 'flipfit flipfit';
-			base.position.at = o.usePreview ? o.position.at : o.position.at2;
-			if (base.isVisible()) {
-				base.$keyboard.position(base.position);
-			}
-		}
-		// make chainable
-		return base;
-	};
-
-	base.makePreview = function () {
-		if (o.usePreview) {
-			var indx, attrs, attr, removedAttr,
-				kbcss = $keyboard.css;
-			base.$preview = base.$el.clone(false)
-				.data('keyboard', base)
-				.removeClass(kbcss.placeholder + ' ' + kbcss.input)
-				.addClass(kbcss.preview + ' ' + o.css.input)
-				.attr('tabindex', '-1')
-				.show(); // for hidden inputs
-			base.preview = base.$preview[0];
-
-			// Switch the number input field to text so the caret positioning will work again
-			if (base.preview.type === 'number') {
-				base.preview.type = 'text';
-			}
-
-			// remove extraneous attributes.
-			removedAttr = /^(data-|id|aria-haspopup)/i;
-			attrs = base.$preview.get(0).attributes;
-			for (indx = attrs.length - 1; indx >= 0; indx--) {
-				attr = attrs[indx] && attrs[indx].name;
-				if (removedAttr.test(attr)) {
-					// remove data-attributes - see #351
-					base.preview.removeAttribute(attr);
-				}
-			}
-			// build preview container and append preview display
-			$('<div />')
-				.addClass(kbcss.wrapper)
-				.append(base.$preview)
-				.prependTo(base.$keyboard);
-		} else {
-			base.$preview = base.$el;
-			base.preview = base.el;
-		}
-	};
-
-	// Added in v1.26.8 to allow chaining of the caret function, e.g.
-	// keyboard.reveal().caret(4,5).insertText('test').caret('end');
-	base.caret = function(param1, param2) {
-		var result = $keyboard.caret(base.$preview, param1, param2),
-			wasSetCaret = result instanceof $;
-		// Caret was set, save last position & make chainable
-		if (wasSetCaret) {
-			base.saveCaret(result.start, result.end);
-			return base;
-		}
-		// return caret position if using .caret()
-		return result;
-	};
-
-	base.saveCaret = function (start, end, $el) {
-		if (base.isCurrent()) {
-			var p;
-			if (typeof start === 'undefined') {
-				// grab & save current caret position
-				p = $keyboard.caret($el || base.$preview);
-			} else {
-				p = $keyboard.caret($el || base.$preview, start, end);
-			}
-			base.last.start = typeof start === 'undefined' ? p.start : start;
-			base.last.end = typeof end === 'undefined' ? p.end : end;
-		}
-	};
-
-	base.saveLastChange = function (val) {
-		base.last.val = val || base.getValue(base.$preview || base.$el);
-		if (base.isContentEditable) {
-			base.last.elms = base.el.cloneNode(true);
-		}
-	};
-
-	base.setScroll = function () {
-		// Set scroll so caret & current text is in view
-		// needed for virtual keyboard typing, NOT manual typing - fixes #23
-		if (!base.isContentEditable && base.last.virtual) {
-
-			var scrollWidth, clientWidth, adjustment, direction,
-				isTextarea = base.preview.nodeName === 'TEXTAREA',
-				value = base.last.val.substring(0, Math.max(base.last.start, base.last.end));
-
-			if (!base.$previewCopy) {
-				// clone preview
-				base.$previewCopy = base.$preview.clone()
-					.removeAttr('id') // fixes #334
-					.css({
-						position: 'absolute',
-						left: 0,
-						zIndex: -10,
-						visibility: 'hidden'
-					})
-					.addClass($keyboard.css.inputClone);
-				// prevent submitting content on form submission
-				base.$previewCopy[0].disabled = true;
-				if (!isTextarea) {
-					// make input zero-width because we need an accurate scrollWidth
-					base.$previewCopy.css({
-						'white-space': 'pre',
-						'width': 0
-					});
-				}
-				if (o.usePreview) {
-					// add clone inside of preview wrapper
-					base.$preview.after(base.$previewCopy);
-				} else {
-					// just slap that thing in there somewhere
-					base.$keyboard.prepend(base.$previewCopy);
-				}
-			}
-
-			if (isTextarea) {
-				// need the textarea scrollHeight, so set the clone textarea height to be the line height
-				base.$previewCopy
-					.height(base.lineHeight)
-					.val(value);
-				// set scrollTop for Textarea
-				base.preview.scrollTop = base.lineHeight *
-					(Math.floor(base.$previewCopy[0].scrollHeight / base.lineHeight) - 1);
-			} else {
-				// add non-breaking spaces
-				base.$previewCopy.val(value.replace(/\s/g, '\xa0'));
-
-				// if scrollAdjustment option is set to "c" or "center" then center the caret
-				adjustment = /c/i.test(o.scrollAdjustment) ? base.preview.clientWidth / 2 : o.scrollAdjustment;
-				scrollWidth = base.$previewCopy[0].scrollWidth - 1;
-
-				// set initial state as moving right
-				if (typeof base.last.scrollWidth === 'undefined') {
-					base.last.scrollWidth = scrollWidth;
-					base.last.direction = true;
-				}
-				// if direction = true; we're scrolling to the right
-				direction = base.last.scrollWidth === scrollWidth ?
-					base.last.direction :
-					base.last.scrollWidth < scrollWidth;
-				clientWidth = base.preview.clientWidth - adjustment;
-
-				// set scrollLeft for inputs; try to mimic the inherit caret positioning + scrolling:
-				// hug right while scrolling right...
-				if (direction) {
-					if (scrollWidth < clientWidth) {
-						base.preview.scrollLeft = 0;
-					} else {
-						base.preview.scrollLeft = scrollWidth - clientWidth;
-					}
-				} else {
-					// hug left while scrolling left...
-					if (scrollWidth >= base.preview.scrollWidth - clientWidth) {
-						base.preview.scrollLeft = base.preview.scrollWidth - adjustment;
-					} else if (scrollWidth - adjustment > 0) {
-						base.preview.scrollLeft = scrollWidth - adjustment;
-					} else {
-						base.preview.scrollLeft = 0;
-					}
-				}
-
-				base.last.scrollWidth = scrollWidth;
-				base.last.direction = direction;
-			}
-		}
-	};
-
-	base.bindFocus = function () {
-		if (o.openOn) {
-			// make sure keyboard isn't destroyed
-			// Check if base exists, this is a case when destroy is called, before timers have fired
-			if (base && base.el.active) {
-				base.$el.bind(o.openOn + base.namespace, function () {
-					base.focusOn();
-				});
-				// remove focus from element (needed for IE since blur doesn't seem to work)
-				if ($(':focus')[0] === base.el) {
-					base.$el.blur();
-				}
-			}
-		}
-	};
-
-	base.bindKeyboard = function () {
-		var evt,
-			keyCodes = $keyboard.keyCodes,
-			layout = $keyboard.builtLayouts[base.layout],
-			namespace = base.namespace + 'keybindings';
-		base.$preview
-			.unbind(base.namespace)
-			.bind('click' + namespace + ' touchstart' + namespace, function () {
-				if (o.alwaysOpen && !base.isCurrent()) {
-					base.reveal();
-				}
-				// update last caret position after user click, use at least 150ms or it doesn't work in IE
-				base.timer2 = setTimeout(function () {
-					if (base){
-						base.saveCaret();
-					}
-				}, 150);
-
-			})
-			.bind('keypress' + namespace, function (e) {
-				if (o.lockInput) {
-					return false;
-				}
-				if (!base.isCurrent()) {
-					return;
-				}
-
-				var k = e.charCode || e.which,
-					// capsLock can only be checked while typing a-z
-					k1 = k >= keyCodes.A && k <= keyCodes.Z,
-					k2 = k >= keyCodes.a && k <= keyCodes.z,
-					str = base.last.key = String.fromCharCode(k);
-				// check, that keypress wasn't rise by functional key
-				// space is first typing symbol in UTF8 table
-				if (k < keyCodes.space) { //see #549
-					return;
-				}
-				base.last.virtual = false;
-				base.last.event = e;
-				base.last.$key = []; // not a virtual keyboard key
-				if (base.checkCaret) {
-					base.saveCaret();
-				}
-
-				// update capsLock
-				if (k !== keyCodes.capsLock && (k1 || k2)) {
-					base.capsLock = (k1 && !e.shiftKey) || (k2 && e.shiftKey);
-					// if shifted keyset not visible, then show it
-					if (base.capsLock && !base.shiftActive) {
-						base.shiftActive = true;
-						base.showSet();
-					}
-				}
-
-				// restrict input - keyCode in keypress special keys:
-				// see http://www.asquare.net/javascript/tests/KeyCode.html
-				if (o.restrictInput) {
-					// allow navigation keys to work - Chrome doesn't fire a keypress event (8 = bksp)
-					if ((e.which === keyCodes.backSpace || e.which === 0) &&
-						$.inArray(e.keyCode, base.alwaysAllowed)) {
-						return;
-					}
-					// quick key check
-					if ($.inArray(str, layout.acceptedKeys) === -1) {
-						e.preventDefault();
-						// copy event object in case e.preventDefault() breaks when changing the type
-						evt = $.extend({}, e);
-						evt.type = $keyboard.events.inputRestricted;
-						base.$el.trigger(evt, [base, base.el]);
-					}
-				} else if ((e.ctrlKey || e.metaKey) &&
-					(e.which === keyCodes.A || e.which === keyCodes.C || e.which === keyCodes.V ||
-						(e.which >= keyCodes.X && e.which <= keyCodes.Z))) {
-					// Allow select all (ctrl-a), copy (ctrl-c), paste (ctrl-v) & cut (ctrl-x) &
-					// redo (ctrl-y)& undo (ctrl-z); meta key for mac
-					return;
-				}
-				// Mapped Keys - allows typing on a regular keyboard and the mapped key is entered
-				// Set up a key in the layout as follows: 'm(a):label'; m = key to map, (a) = actual keyboard key
-				// to map to (optional), ':label' = title/tooltip (optional)
-				// example: \u0391 or \u0391(A) or \u0391:alpha or \u0391(A):alpha
-				if (layout.hasMappedKeys && layout.mappedKeys.hasOwnProperty(str)) {
-					base.last.key = layout.mappedKeys[str];
-					base.insertText(base.last.key);
-					e.preventDefault();
-				}
-				if (typeof o.beforeInsert === 'function') {
-					base.insertText(base.last.key);
-					e.preventDefault();
-				}
-				base.checkMaxLength();
-
-			})
-			.bind('keyup' + namespace, function (e) {
-				if (!base.isCurrent()) { return; }
-				base.last.virtual = false;
-				switch (e.which) {
-					// Insert tab key
-				case keyCodes.tab:
-					// Added a flag to prevent from tabbing into an input, keyboard opening, then adding the tab
-					// to the keyboard preview area on keyup. Sadly it still happens if you don't release the tab
-					// key immediately because keydown event auto-repeats
-					if (base.tab && o.tabNavigation && !o.lockInput) {
-						base.shiftActive = e.shiftKey;
-						// when switching inputs, the tab keyaction returns false
-						var notSwitching = $keyboard.keyaction.tab(base);
-						base.tab = false;
-						if (!notSwitching) {
-							return false;
-						}
-					} else {
-						e.preventDefault();
-					}
-					break;
-
-					// Escape will hide the keyboard
-				case keyCodes.escape:
-					if (!o.ignoreEsc) {
-						base.close(o.autoAccept && o.autoAcceptOnEsc ? 'true' : false);
-					}
-					return false;
-				}
-
-				// throttle the check combo function because fast typers will have an incorrectly positioned caret
-				clearTimeout(base.throttled);
-				base.throttled = setTimeout(function () {
-					// fix error in OSX? see issue #102
-					if (base && base.isVisible()) {
-						base.checkCombos();
-					}
-				}, 100);
-
-				base.checkMaxLength();
-
-				base.last.preVal = '' + base.last.val;
-				base.saveLastChange();
-
-				// don't alter "e" or the "keyup" event never finishes processing; fixes #552
-				var event = $.Event( $keyboard.events.kbChange );
-				// base.last.key may be empty string (shift, enter, tab, etc) when keyboard is first visible
-				// use e.key instead, if browser supports it
-				event.action = base.last.key;
-				base.$el.trigger(event, [base, base.el]);
-
-				// change callback is no longer bound to the input element as the callback could be
-				// called during an external change event with all the necessary parameters (issue #157)
-				if ($.isFunction(o.change)) {
-					event.type = $keyboard.events.inputChange;
-					o.change(event, base, base.el);
-					return false;
-				}
-				if (o.acceptValid && o.autoAcceptOnValid) {
-					if (
-						$.isFunction(o.validate) &&
-						o.validate(base, base.getValue(base.$preview))
-					) {
-						base.$preview.blur();
-						base.accept();
-					}
-				}
-			})
-			.bind('keydown' + namespace, function (e) {
-				base.last.keyPress = e.which;
-				// ensure alwaysOpen keyboards are made active
-				if (o.alwaysOpen && !base.isCurrent()) {
-					base.reveal();
-				}
-				// prevent tab key from leaving the preview window
-				if (e.which === keyCodes.tab) {
-					// allow tab to pass through - tab to next input/shift-tab for prev
-					base.tab = true;
-					return false;
-				}
-
-				if (o.lockInput) {
-					return false;
-				}
-
-				base.last.virtual = false;
-				switch (e.which) {
-
-				case keyCodes.backSpace:
-					$keyboard.keyaction.bksp(base, null, e);
-					e.preventDefault();
-					break;
-
-				case keyCodes.enter:
-					$keyboard.keyaction.enter(base, null, e);
-					break;
-
-					// Show capsLock
-				case keyCodes.capsLock:
-					base.shiftActive = base.capsLock = !base.capsLock;
-					base.showSet();
-					break;
-
-				case keyCodes.V:
-					// prevent ctrl-v/cmd-v
-					if (e.ctrlKey || e.metaKey) {
-						if (o.preventPaste) {
-							e.preventDefault();
-							return;
-						}
-						base.checkCombos(); // check pasted content
-					}
-					break;
-				}
-			})
-			.bind('mouseup touchend '.split(' ').join(namespace + ' '), function () {
-				base.last.virtual = true;
-				base.saveCaret();
-			});
-
-		// prevent keyboard event bubbling
-		base.$keyboard.bind('mousedown click touchstart '.split(' ').join(base.namespace + ' '), function (e) {
-			e.stopPropagation();
-			if (!base.isCurrent()) {
-				base.reveal();
-				$(base.el.ownerDocument).trigger('checkkeyboard' + base.namespace);
-			}
-			base.setFocus();
-		});
-
-		// If preventing paste, block context menu (right click)
-		if (o.preventPaste) {
-			base.$preview.bind('contextmenu' + base.namespace, function (e) {
-				e.preventDefault();
-			});
-			base.$el.bind('contextmenu' + base.namespace, function (e) {
-				e.preventDefault();
-			});
-		}
-
-	};
-
-	base.bindKeys = function () {
-		var kbcss = $keyboard.css;
-		base.$allKeys = base.$keyboard.find('button.' + kbcss.keyButton)
-			.unbind(base.namespace + ' ' + base.namespace + 'kb')
-			// Change hover class and tooltip - moved this touchstart before option.keyBinding touchstart
-			// to prevent mousewheel lag/duplication - Fixes #379 & #411
-			.bind('mouseenter mouseleave touchstart '.split(' ').join(base.namespace + ' '), function (e) {
-				if ((o.alwaysOpen || o.userClosed) && e.type !== 'mouseleave' && !base.isCurrent()) {
-					base.reveal();
-					base.setFocus();
-				}
-				if (!base.isCurrent() || this.disabled) {
-					return;
-				}
-				var $keys, txt,
-					last = base.last,
-					$this = $(this),
-					type = e.type;
-
-				if (o.useWheel && base.wheel) {
-					$keys = base.getLayers($this);
-					txt = ($keys.length ? $keys.map(function () {
-							return $(this).attr('data-value') || '';
-						})
-						.get() : '') || [$this.text()];
-					last.wheel_$Keys = $keys;
-					last.wheelLayers = txt;
-					last.wheelIndex = $.inArray($this.attr('data-value'), txt);
-				}
-
-				if ((type === 'mouseenter' || type === 'touchstart') && base.el.type !== 'password' &&
-					!$this.hasClass(o.css.buttonDisabled)) {
-					$this.addClass(o.css.buttonHover);
-					if (o.useWheel && base.wheel) {
-						$this.attr('title', function (i, t) {
-							// show mouse wheel message
-							return (base.wheel && t === '' && base.sets && txt.length > 1 && type !== 'touchstart') ?
-								o.wheelMessage : t;
-						});
-					}
-				}
-				if (type === 'mouseleave') {
-					// needed or IE flickers really bad
-					$this.removeClass((base.el.type === 'password') ? '' : o.css.buttonHover);
-					if (o.useWheel && base.wheel) {
-						last.wheelIndex = 0;
-						last.wheelLayers = [];
-						last.wheel_$Keys = null;
-						$this
-							.attr('title', function (i, t) {
-								return (t === o.wheelMessage) ? '' : t;
-							})
-							.html($this.attr('data-html')); // restore original button text
-					}
-				}
-			})
-			// keyBinding = 'mousedown touchstart' by default
-			.bind(o.keyBinding.split(' ').join(base.namespace + ' ') + base.namespace + ' ' +
-				$keyboard.events.kbRepeater, function (e) {
-				e.preventDefault();
-				// prevent errors when external triggers attempt to 'type' - see issue #158
-				if (!base.$keyboard.is(':visible') || this.disabled) {
-					return false;
-				}
-				var action, $keys,
-					last = base.last,
-					key = this,
-					$key = $(key),
-					// prevent mousedown & touchstart from both firing events at the same time - see #184
-					timer = new Date().getTime();
-
-				if (o.useWheel && base.wheel) {
-					// get keys from other layers/keysets (shift, alt, meta, etc) that line up by data-position
-					$keys = last.wheel_$Keys;
-					// target mousewheel selected key
-					$key = $keys && last.wheelIndex > -1 ? $keys.eq(last.wheelIndex) : $key;
-				}
-				action = $key.attr('data-action');
-				if (timer - (last.eventTime || 0) < o.preventDoubleEventTime) {
-					return;
-				}
-				last.eventTime = timer;
-				last.event = e;
-				last.virtual = true;
-				last.$key = $key;
-				last.key = $key.attr('data-value');
-				last.keyPress = "";
-				// Start caret in IE when not focused (happens with each virtual keyboard button click
-				base.setFocus();
-				if (/^meta/.test(action)) {
-					action = 'meta';
-				}
-				// keyaction is added as a string, override original action & text
-				if (action === last.key && typeof $keyboard.keyaction[action] === 'string') {
-					last.key = action = $keyboard.keyaction[action];
-				} else if (action in $keyboard.keyaction && $.isFunction($keyboard.keyaction[action])) {
-					// stop processing if action returns false (close & cancel)
-					if ($keyboard.keyaction[action](base, this, e) === false) {
-						return false;
-					}
-					action = null; // prevent inserting action name
-				}
-				// stop processing if keyboard closed and keyaction did not return false - see #536
-				if (!base.hasKeyboard()) {
-					return false;
-				}
-				if (typeof action !== 'undefined' && action !== null) {
-					last.key = $(this).hasClass(kbcss.keyAction) ? action : last.key;
-					base.insertText(last.key);
-					if (!base.capsLock && !o.stickyShift && !e.shiftKey) {
-						base.shiftActive = false;
-						base.showSet($key.attr('data-name'));
-					}
-				}
-				// set caret if caret moved by action function; also, attempt to fix issue #131
-				$keyboard.caret(base.$preview, last);
-				base.checkCombos();
-				e.type = $keyboard.events.kbChange;
-				e.action = last.key;
-				base.$el.trigger(e, [base, base.el]);
-				last.preVal = '' + last.val;
-				base.saveLastChange();
-
-				if ($.isFunction(o.change)) {
-					e.type = $keyboard.events.inputChange;
-					o.change(e, base, base.el);
-					// return false to prevent reopening keyboard if base.accept() was called
-					return false;
-				}
-
-			})
-			// using 'kb' namespace for mouse repeat functionality to keep it separate
-			// I need to trigger a 'repeater.keyboard' to make it work
-			.bind('mouseup' + base.namespace + ' ' + 'mouseleave touchend touchmove touchcancel '.split(' ')
-				.join(base.namespace + 'kb '), function (e) {
-				base.last.virtual = true;
-				var offset,
-					$this = $(this);
-				if (e.type === 'touchmove') {
-					// if moving within the same key, don't stop repeating
-					offset = $this.offset();
-					offset.right = offset.left + $this.outerWidth();
-					offset.bottom = offset.top + $this.outerHeight();
-					if (e.originalEvent.touches[0].pageX >= offset.left &&
-						e.originalEvent.touches[0].pageX < offset.right &&
-						e.originalEvent.touches[0].pageY >= offset.top &&
-						e.originalEvent.touches[0].pageY < offset.bottom) {
-						return true;
-					}
-				} else if (/(mouseleave|touchend|touchcancel)/i.test(e.type)) {
-					$this.removeClass(o.css.buttonHover); // needed for touch devices
-				} else {
-					if (!o.noFocus && base.isCurrent() && base.isVisible()) {
-						base.$preview.focus();
-					}
-					if (base.checkCaret) {
-						$keyboard.caret(base.$preview, base.last);
-					}
-				}
-				base.mouseRepeat = [false, ''];
-				clearTimeout(base.repeater); // make sure key repeat stops!
-				if (o.acceptValid && o.autoAcceptOnValid) {
-					if (
-						$.isFunction(o.validate) &&
-						o.validate(base, base.getValue())
-					) {
-						base.$preview.blur();
-						base.accept();
-					}
-				}
-				return false;
-			})
-			// prevent form submits when keyboard is bound locally - issue #64
-			.bind('click' + base.namespace, function () {
-				return false;
-			})
-			// no mouse repeat for action keys (shift, ctrl, alt, meta, etc)
-			.not('.' + kbcss.keyAction)
-			// Allow mousewheel to scroll through other keysets of the same (non-action) key
-			.bind('mousewheel' + base.namespace, function (e, delta) {
-				if (o.useWheel && base.wheel) {
-					// deltaY used by newer versions of mousewheel plugin
-					delta = delta || e.deltaY;
-					var n,
-						txt = base.last.wheelLayers || [];
-					if (txt.length > 1) {
-						n = base.last.wheelIndex + (delta > 0 ? -1 : 1);
-						if (n > txt.length - 1) {
-							n = 0;
-						}
-						if (n < 0) {
-							n = txt.length - 1;
-						}
-					} else {
-						n = 0;
-					}
-					base.last.wheelIndex = n;
-					$(this).html(txt[n]);
-					return false;
-				}
-			})
-			// mouse repeated action key exceptions
-			.add('.' + kbcss.keyPrefix + ('tab bksp space enter'.split(' ')
-				.join(',.' + kbcss.keyPrefix)), base.$keyboard)
-			.bind('mousedown touchstart '.split(' ').join(base.namespace + 'kb '), function () {
-				if (o.repeatRate !== 0) {
-					var key = $(this);
-					// save the key, make sure we are repeating the right one (fast typers)
-					base.mouseRepeat = [true, key];
-					setTimeout(function () {
-						// don't repeat keys if it is disabled - see #431
-						if (base && base.mouseRepeat[0] && base.mouseRepeat[1] === key && !key[0].disabled) {
-							base.repeatKey(key);
-						}
-					}, o.repeatDelay);
-				}
-				return false;
-			});
-	};
-
-	base.execCommand = function(cmd, str) {
-		base.el.ownerDocument.execCommand(cmd, false, str);
-		base.el.normalize();
-		if (o.reposition) {
-			base.reposition();
-		}
-	};
-
-	base.getValue = function ($el) {
-		$el = $el || base.$preview;
-		return $el[base.isContentEditable ? 'text' : 'val']();
-	};
-
-	base.setValue = function (txt, $el) {
-		$el = $el || base.$preview;
-		if (base.isContentEditable) {
-			if (txt !== $el.text()) {
-				$keyboard.replaceContent($el, txt);
-				base.saveCaret();
-			}
-		} else {
-			$el.val(txt);
-		}
-		return base;
-	};
-
-	// Insert text at caret/selection - thanks to Derek Wickwire for fixing this up!
-	base.insertText = function (txt) {
-		if (!base.$preview) { return base; }
-		if (typeof o.beforeInsert === 'function') {
-			txt = o.beforeInsert(base.last.event, base, base.el, txt);
-		}
-		if (typeof txt === 'undefined' || txt === false) {
-			base.last.key = '';
-			return base;
-		}
-		if (base.isContentEditable) {
-			return base.insertContentEditable(txt);
-		}
-		var t,
-			bksp = false,
-			isBksp = txt === '\b',
-			// use base.$preview.val() instead of base.preview.value (val.length includes carriage returns in IE).
-			val = base.getValue(),
-			pos = $keyboard.caret(base.$preview),
-			len = val.length; // save original content length
-
-		// silly IE caret hacks... it should work correctly, but navigating using arrow keys in a textarea
-		// is still difficult
-		// in IE, pos.end can be zero after input loses focus
-		if (pos.end < pos.start) {
-			pos.end = pos.start;
-		}
-		if (pos.start > len) {
-			pos.end = pos.start = len;
-		}
-
-		if (base.preview.nodeName === 'TEXTAREA') {
-			// This makes sure the caret moves to the next line after clicking on enter (manual typing works fine)
-			if ($keyboard.msie && val.substr(pos.start, 1) === '\n') {
-				pos.start += 1;
-				pos.end += 1;
-			}
-		}
-
-		t = pos.start;
-		if (txt === '{d}') {
-			txt = '';
-			pos.end += 1;
-		}
-
-		if (isBksp) {
-			txt = '';
-			bksp = isBksp && t === pos.end && t > 0;
-		}
-		val = val.substr(0, t - (bksp ? 1 : 0)) + txt + val.substr(pos.end);
-		t += bksp ? -1 : txt.length;
-
-		base.setValue(val);
-		base.saveCaret(t, t); // save caret in case of bksp
-		base.setScroll();
-		// see #506.. allow chaining of insertText
-		return base;
-	};
-
-	base.insertContentEditable = function (txt) {
-		base.$preview.focus();
-		base.execCommand('insertText', txt);
-		base.saveCaret();
-		return base;
-	};
-
-	// check max length
-	base.checkMaxLength = function () {
-		if (!base.$preview) { return; }
-		var start, caret,
-			val = base.getValue(),
-			len = base.isContentEditable ? $keyboard.getEditableLength(base.el) : val.length;
-		if (o.maxLength !== false && len > o.maxLength) {
-			start = $keyboard.caret(base.$preview).start;
-			caret = Math.min(start, o.maxLength);
-
-			// prevent inserting new characters when maxed #289
-			if (!o.maxInsert) {
-				val = base.last.val;
-				caret = start - 1; // move caret back one
-			}
-			base.setValue(val.substring(0, o.maxLength));
-			// restore caret on change, otherwise it ends up at the end.
-			base.saveCaret(caret, caret);
-		}
-		if (base.$decBtn.length) {
-			base.checkDecimal();
-		}
-		// allow chaining
-		return base;
-	};
-
-	// mousedown repeater
-	base.repeatKey = function (key) {
-		key.trigger($keyboard.events.kbRepeater);
-		if (base.mouseRepeat[0]) {
-			base.repeater = setTimeout(function () {
-				if (base){
-					base.repeatKey(key);
-				}
-			}, base.repeatTime);
-		}
-	};
-
-	base.getKeySet = function () {
-		var sets = [];
-		if (base.altActive) {
-			sets.push('alt');
-		}
-		if (base.shiftActive) {
-			sets.push('shift');
-		}
-		if (base.metaActive) {
-			// base.metaActive contains the string name of the
-			// current meta keyset
-			sets.push(base.metaActive);
-		}
-		return sets.length ? sets.join('+') : 'normal';
-	};
-
-	// make it easier to switch keysets via API
-	// showKeySet('shift+alt+meta1')
-	base.showKeySet = function (str) {
-		if (typeof str === 'string') {
-			base.last.keyset = [base.shiftActive, base.altActive, base.metaActive];
-			base.shiftActive = /shift/i.test(str);
-			base.altActive = /alt/i.test(str);
-			if (/\bmeta/.test(str)) {
-				base.metaActive = true;
-				base.showSet(str.match(/\bmeta[\w-]+/i)[0]);
-			} else {
-				base.metaActive = false;
-				base.showSet();
-			}
-		} else {
-			base.showSet(str);
-		}
-		// allow chaining
-		return base;
-	};
-
-	base.showSet = function (name) {
-		if (!base.hasKeyboard()) { return; }
-		o = base.options; // refresh options
-		var kbcss = $keyboard.css,
-			prefix = '.' + kbcss.keyPrefix,
-			active = o.css.buttonActive,
-			key = '',
-			toShow = (base.shiftActive ? 1 : 0) + (base.altActive ? 2 : 0);
-		if (!base.shiftActive) {
-			base.capsLock = false;
-		}
-		// check meta key set
-		if (base.metaActive) {
-			// remove "-shift" and "-alt" from meta name if it exists
-			if (base.shiftActive) {
-				name = (name || "").replace("-shift", "");
-			}
-			if (base.altActive) {
-				name = (name || "").replace("-alt", "");
-			}
-			// the name attribute contains the meta set name 'meta99'
-			key = (/^meta/i.test(name)) ? name : '';
-			// save active meta keyset name
-			if (key === '') {
-				key = (base.metaActive === true) ? '' : base.metaActive;
-			} else {
-				base.metaActive = key;
-			}
-			// if meta keyset doesn't have a shift or alt keyset, then show just the meta key set
-			if ((!o.stickyShift && base.last.keyset[2] !== base.metaActive) ||
-				((base.shiftActive || base.altActive) &&
-				!base.$keyboard.find('.' + kbcss.keySet + '-' + key + base.rows[toShow]).length)) {
-				base.shiftActive = base.altActive = false;
-			}
-		} else if (!o.stickyShift && base.last.keyset[2] !== base.metaActive && base.shiftActive) {
-			// switching from meta key set back to default, reset shift & alt if using stickyShift
-			base.shiftActive = base.altActive = false;
-		}
-		toShow = (base.shiftActive ? 1 : 0) + (base.altActive ? 2 : 0);
-		key = (toShow === 0 && !base.metaActive) ? '-normal' : (key === '') ? '' : '-' + key;
-		if (!base.$keyboard.find('.' + kbcss.keySet + key + base.rows[toShow]).length) {
-			// keyset doesn't exist, so restore last keyset settings
-			base.shiftActive = base.last.keyset[0];
-			base.altActive = base.last.keyset[1];
-			base.metaActive = base.last.keyset[2];
-			return;
-		}
-		base.$keyboard
-			.find(prefix + 'alt,' + prefix + 'shift,.' + kbcss.keyAction + '[class*=meta]')
-			.removeClass(active)
-			.end()
-			.find(prefix + 'alt')
-			.toggleClass(active, base.altActive)
-			.end()
-			.find(prefix + 'shift')
-			.toggleClass(active, base.shiftActive)
-			.end()
-			.find(prefix + 'lock')
-			.toggleClass(active, base.capsLock)
-			.end()
-			.find('.' + kbcss.keySet)
-			.hide()
-			.end()
-			.find('.' + (kbcss.keyAction + prefix + key).replace("--", "-"))
-			.addClass(active);
-
-		// show keyset using inline-block ( extender layout will then line up )
-		base.$keyboard.find('.' + kbcss.keySet + key + base.rows[toShow])[0].style.display = 'inline-block';
-		if (base.metaActive) {
-			base.$keyboard.find(prefix + base.metaActive)
-				// base.metaActive contains the string "meta#" or false
-				// without the !== false, jQuery UI tries to transition the classes
-				.toggleClass(active, base.metaActive !== false);
-		}
-		base.last.keyset = [base.shiftActive, base.altActive, base.metaActive];
-		base.$el.trigger($keyboard.events.kbKeysetChange, [base, base.el]);
-		if (o.reposition) {
-			base.reposition();
-		}
-	};
-
-	// check for key combos (dead keys)
-	base.checkCombos = function () {
-		// return val for close function
-		if ( !(
-			base.isVisible() || (
-				base.hasKeyboard() &&
-				base.$keyboard.hasClass( $keyboard.css.hasFocus )
-			)
-		) ) {
-			return base.getValue(base.$preview || base.$el);
-		}
-		var r, t, t2, repl,
-			// use base.$preview.val() instead of base.preview.value
-			// (val.length includes carriage returns in IE).
-			val = base.getValue(),
-			pos = $keyboard.caret(base.$preview),
-			layout = $keyboard.builtLayouts[base.layout],
-			max = base.isContentEditable ? $keyboard.getEditableLength(base.el) : val.length,
-			// save original content length
-			len = max;
-		// return if val is empty; fixes #352
-		if (val === '') {
-			// check valid on empty string - see #429
-			if (o.acceptValid) {
-				base.checkValid();
-			}
-			return val;
-		}
-
-		// silly IE caret hacks... it should work correctly, but navigating using arrow keys in a textarea
-		// is still difficult
-		// in IE, pos.end can be zero after input loses focus
-		if (pos.end < pos.start) {
-			pos.end = pos.start;
-		}
-		if (pos.start > len) {
-			pos.end = pos.start = len;
-		}
-		// This makes sure the caret moves to the next line after clicking on enter (manual typing works fine)
-		if ($keyboard.msie && val.substr(pos.start, 1) === '\n') {
-			pos.start += 1;
-			pos.end += 1;
-		}
-
-		if (o.useCombos) {
-			// keep 'a' and 'o' in the regex for ae and oe ligature (æ,œ)
-			// thanks to KennyTM: http://stackoverflow.com/q/4275077
-			// original regex /([`\'~\^\"ao])([a-z])/mig moved to $.keyboard.comboRegex
-			if ($keyboard.msie) {
-				// old IE may not have the caret positioned correctly, so just check the whole thing
-				val = val.replace(base.regex, function (s, accent, letter) {
-					return (o.combos.hasOwnProperty(accent)) ? o.combos[accent][letter] || s : s;
-				});
-				// prevent combo replace error, in case the keyboard closes - see issue #116
-			} else if (base.$preview.length) {
-				// Modern browsers - check for combos from last two characters left of the caret
-				t = pos.start - (pos.start - 2 >= 0 ? 2 : 0);
-				// target last two characters
-				$keyboard.caret(base.$preview, t, pos.end);
-				// do combo replace
-				t = $keyboard.caret(base.$preview);
-				repl = function (txt) {
-					return (txt || '').replace(base.regex, function (s, accent, letter) {
-						return (o.combos.hasOwnProperty(accent)) ? o.combos[accent][letter] || s : s;
-					});
-				};
-				t2 = repl(t.text);
-				// add combo back
-				// prevent error if caret doesn't return a function
-				if (t && t.replaceStr && t2 !== t.text) {
-					if (base.isContentEditable) {
-						$keyboard.replaceContent(el, repl);
-					} else {
-						base.setValue(t.replaceStr(t2));
-					}
-				}
-				val = base.getValue();
-			}
-		}
-
-		// check input restrictions - in case content was pasted
-		if (o.restrictInput && val !== '') {
-			t = layout.acceptedKeys.length;
-
-			r = layout.acceptedKeysRegex;
-			if (!r) {
-				t2 = $.map(layout.acceptedKeys, function (v) {
-					// escape any special characters
-					return v.replace(base.escapeRegex, '\\$&');
-				});
-				r = layout.acceptedKeysRegex = new RegExp('(' + t2.join('|') + ')', 'g');
-			}
-
-			// only save matching keys
-			t2 = val.match(r);
-			if (t2) {
-				val = t2.join('');
-			} else {
-				// no valid characters
-				val = '';
-				len = 0;
-			}
-		}
-
-		// save changes, then reposition caret
-		pos.start += max - len;
-		pos.end += max - len;
-
-		base.setValue(val);
-		base.saveCaret(pos.start, pos.end);
-		// set scroll to keep caret in view
-		base.setScroll();
-		base.checkMaxLength();
-
-		if (o.acceptValid) {
-			base.checkValid();
-		}
-		return val; // return text, used for keyboard closing section
-	};
-
-	// Toggle accept button classes, if validating
-	base.checkValid = function () {
-		var kbcss = $keyboard.css,
-			$accept = base.$keyboard.find('.' + kbcss.keyPrefix + 'accept'),
-			valid = true;
-		if ($.isFunction(o.validate)) {
-			valid = o.validate(base, base.getValue(), false);
-		}
-		// toggle accept button classes; defined in the css
-		$accept
-			.toggleClass(kbcss.inputInvalid, !valid)
-			.toggleClass(kbcss.inputValid, valid)
-			// update title to indicate that the entry is valid or invalid
-			.attr('title', $accept.attr('data-title') + ' (' + o.display[valid ? 'valid' : 'invalid'] + ')');
-	};
-
-	// Decimal button for num pad - only allow one (not used by default)
-	base.checkDecimal = function () {
-		// Check US '.' or European ',' format
-		if ((base.decimal && /\./g.test(base.preview.value)) ||
-			(!base.decimal && /\,/g.test(base.preview.value))) {
-			base.$decBtn
-				.attr({
-					'disabled': 'disabled',
-					'aria-disabled': 'true'
-				})
-				.removeClass(o.css.buttonHover)
-				.addClass(o.css.buttonDisabled);
-		} else {
-			base.$decBtn
-				.removeAttr('disabled')
-				.attr({
-					'aria-disabled': 'false'
-				})
-				.addClass(o.css.buttonDefault)
-				.removeClass(o.css.buttonDisabled);
-		}
-	};
-
-	// get other layer values for a specific key
-	base.getLayers = function ($el) {
-		var kbcss = $keyboard.css,
-			key = $el.attr('data-pos'),
-			$keys = $el.closest('.' + kbcss.keyboard)
-			.find('button[data-pos="' + key + '"]');
-		return $keys.filter(function () {
-			return $(this)
-				.find('.' + kbcss.keyText)
-				.text() !== '';
-		})
-		.add($el);
-	};
-
-	// Go to next or prev inputs
-	// goToNext = true, then go to next input; if false go to prev
-	// isAccepted is from autoAccept option or true if user presses shift+enter
-	base.switchInput = function (goToNext, isAccepted) {
-		if ($.isFunction(o.switchInput)) {
-			o.switchInput(base, goToNext, isAccepted);
-		} else {
-			// base.$keyboard may be an empty array - see #275 (apod42)
-			if (base.$keyboard.length) {
-				base.$keyboard.hide();
-			}
-			var kb,
-				stopped = false,
-				all = $('button, input, select, textarea, a, [contenteditable]')
-					.filter(':visible')
-					.not(':disabled'),
-				indx = all.index(base.$el) + (goToNext ? 1 : -1);
-			if (base.$keyboard.length) {
-				base.$keyboard.show();
-			}
-			if (indx > all.length - 1) {
-				stopped = o.stopAtEnd;
-				indx = 0; // go to first input
-			}
-			if (indx < 0) {
-				stopped = o.stopAtEnd;
-				indx = all.length - 1; // stop or go to last
-			}
-			if (!stopped) {
-				isAccepted = base.close(isAccepted);
-				if (!isAccepted) {
-					return;
-				}
-				kb = all.eq(indx).data('keyboard');
-				if (kb && kb.options.openOn.length) {
-					kb.focusOn();
-				} else {
-					all.eq(indx).focus();
-				}
-			}
-		}
-		return false;
-	};
-
-	// Close the keyboard, if visible. Pass a status of true, if the content was accepted
-	// (for the event trigger).
-	base.close = function (accepted) {
-		if (base.isOpen && base.$keyboard.length) {
-			clearTimeout(base.throttled);
-			var kbcss = $keyboard.css,
-				kbevents = $keyboard.events,
-				val = accepted ? base.checkCombos() : base.originalContent;
-			// validate input if accepted
-			if (accepted && $.isFunction(o.validate) && !o.validate(base, val, true)) {
-				val = base.originalContent;
-				accepted = false;
-				if (o.cancelClose) {
-					return;
-				}
-			}
-			base.isCurrent(false);
-			base.isOpen = o.alwaysOpen || o.userClosed;
-			if (base.isContentEditable && !accepted) {
-				// base.originalContent stores the HTML
-				base.$el.html(val);
-			} else {
-				base.setValue(val, base.$el);
-			}
-			base.$el
-				.removeClass(kbcss.isCurrent + ' ' + kbcss.inputAutoAccepted)
-				// add 'ui-keyboard-autoaccepted' to inputs - see issue #66
-				.addClass((accepted || false) ? accepted === true ? '' : kbcss.inputAutoAccepted : '')
-				// trigger default change event - see issue #146
-				.trigger(kbevents.inputChange);
-			// don't trigger an empty event - see issue #463
-			if (!o.alwaysOpen) {
-				// don't trigger beforeClose if keyboard is always open
-				base.$el.trigger(kbevents.kbBeforeClose, [base, base.el, (accepted || false)]);
-			}
-			// save caret after updating value (fixes userClosed issue with changing focus)
-			$keyboard.caret(base.$preview, base.last);
-
-			base.$el
-				.trigger(((accepted || false) ? kbevents.inputAccepted : kbevents.inputCanceled), [base, base.el])
-				.trigger((o.alwaysOpen) ? kbevents.kbInactive : kbevents.kbHidden, [base, base.el])
-				.blur();
-
-			// base is undefined if keyboard was destroyed - fixes #358
-			if (base) {
-				// add close event time
-				base.last.eventTime = new Date().getTime();
-				if (!(o.alwaysOpen || o.userClosed && accepted === 'true') && base.$keyboard.length) {
-					// free up memory
-					base.removeKeyboard();
-					// rebind input focus - delayed to fix IE issue #72
-					base.timer = setTimeout(function () {
-						if (base) {
-							base.bindFocus();
-						}
-					}, 500);
-				}
-				if (!base.watermark && base.el.value === '' && base.inPlaceholder !== '') {
-					base.$el.addClass(kbcss.placeholder);
-					base.setValue(base.inPlaceholder, base.$el);
-				}
-			}
-		}
-		return !!accepted;
-	};
-
-	base.accept = function () {
-		return base.close(true);
-	};
-
-	base.checkClose = function (e) {
-		if (base.opening) {
-			return;
-		}
-		var kbcss = $.keyboard.css,
-			name = e.target.nodeName,
-			$contenteditable = $(e.target).closest('[contenteditable]'),
-			$target = $contenteditable.length ?  $contenteditable : $(e.target);
-		base.escClose(e, $target);
-		// needed for IE to allow switching between keyboards smoothly
-		if ($target.hasClass(kbcss.input)) {
-			var kb = $target.data('keyboard');
-			// only trigger on self
-			if (
-				kb !== base &&
-				!kb.$el.hasClass(kbcss.isCurrent) &&
-				kb.options.openOn &&
-				e.type === o.openOn
-			) {
-				kb.focusOn();
-			}
-		}
-	};
-
-	// callback functions called to check if the keyboard needs to be closed
-	// e.g. on escape or clicking outside the keyboard
-	base.escCloseCallback = {
-		// keep keyboard open if alwaysOpen or stayOpen is true - fixes mutliple
-		// always open keyboards or single stay open keyboard
-		keepOpen: function($target) {
-			return !base.isOpen;
-		}
-	};
-
-	base.escClose = function (e, $el) {
-		if (e && e.type === 'keyup') {
-			return (e.which === $keyboard.keyCodes.escape && !o.ignoreEsc) ?
-				base.close(o.autoAccept && o.autoAcceptOnEsc ? 'true' : false) :
-				'';
-		}
-		var shouldStayOpen = false,
-			$target = $el || $(e.target);
-		$.each(base.escCloseCallback, function(i, callback) {
-			if (typeof callback === 'function') {
-				shouldStayOpen = shouldStayOpen || callback($target);
-			}
-		});
-		if (shouldStayOpen) {
-			return;
-		}
-		// ignore autoaccept if using escape - good idea?
-		if (!base.isCurrent() && base.isOpen || base.isOpen && $target[0] !== base.el) {
-			// don't close if stayOpen is set; but close if a different keyboard is being opened
-			if ((o.stayOpen || o.userClosed) && !$target.hasClass($keyboard.css.input)) {
-				return;
-			}
-			// stop propogation in IE - an input getting focus doesn't open a keyboard if one is already open
-			if ($keyboard.allie) {
-				e.preventDefault();
-			}
-			if (o.closeByClickEvent) {
-				// only close the keyboard if the user is clicking on an input or if they cause a click
-				// event (touchstart/mousedown will not force the close with this setting)
-				var name = $target[0] && $target[0].nodeName.toLowerCase();
-				if (name === 'input' || name === 'textarea' || e.type === 'click') {
-					base.close(o.autoAccept ? 'true' : false);
-				}
-			} else {
-				// send 'true' instead of a true (boolean), the input won't get a 'ui-keyboard-autoaccepted'
-				// class name - see issue #66
-				base.close(o.autoAccept ? 'true' : false);
-			}
-		}
-	};
-
-	// Build default button
-	base.keyBtn = $('<button />')
-		.attr({
-			'role': 'button',
-			'type': 'button',
-			'aria-disabled': 'false',
-			'tabindex': '-1'
-		})
-		.addClass($keyboard.css.keyButton);
-
-	// convert key names into a class name
-	base.processName = function (name) {
-		var index, n,
-			process = (name || '').replace(/[^a-z0-9-_]/gi, ''),
-			len = process.length,
-			newName = [];
-		if (len > 1 && name === process) {
-			// return name if basic text
-			return name;
-		}
-		// return character code sequence
-		len = name.length;
-		if (len) {
-			for (index = 0; index < len; index++) {
-				n = name[index];
-				// keep '-' and '_'... so for dash, we get two dashes in a row
-				newName.push(/[a-z0-9-_]/i.test(n) ?
-					(/[-_]/.test(n) && index !== 0 ? '' : n) :
-					(index === 0 ? '' : '-') + n.charCodeAt(0)
-				);
-			}
-			return newName.join('');
-		} else {
-			return name;
-		}
-	};
-
-	base.processKeys = function (name) {
-		var tmp,
-			parts = name.split(':'),
-			data = {
-				name: null,
-				map: '',
-				title: ''
-			};
-		/* map defined keys
-		format 'key(A):Label_for_key_(ignore_parentheses_here)'
-			'key' = key that is seen (can any character(s); but it might need to be escaped using '\'
-			or entered as unicode '\u####'
-			'(A)' = the actual key on the real keyboard to remap
-			':Label_for_key' ends up in the title/tooltip
-		Examples:
-			'\u0391(A):alpha', 'x(y):this_(might)_cause_problems
-			or edge cases of ':(x)', 'x(:)', 'x(()' or 'x())'
-		Enhancement (if I can get alt keys to work):
-			A mapped key will include the mod key, e.g. 'x(alt-x)' or 'x(alt-shift-x)'
-		*/
-		if (/\(.+\)/.test(parts[0]) || /^:\(.+\)/.test(name) || /\([(:)]\)/.test(name)) {
-			// edge cases 'x(:)', 'x(()' or 'x())'
-			if (/\([(:)]\)/.test(name)) {
-				tmp = parts[0].match(/([^(]+)\((.+)\)/);
-				if (tmp && tmp.length) {
-					data.name = tmp[1];
-					data.map = tmp[2];
-					data.title = parts.length > 1 ? parts.slice(1).join(':') : '';
-				} else {
-					// edge cases 'x(:)', ':(x)' or ':(:)'
-					data.name = name.match(/([^(]+)/)[0];
-					if (data.name === ':') {
-						// ':(:):test' => parts = [ '', '(', ')', 'title' ] need to slice 1
-						parts = parts.slice(1);
-					}
-					if (tmp === null) {
-						// 'x(:):test' => parts = [ 'x(', ')', 'title' ] need to slice 2
-						data.map = ':';
-						parts = parts.slice(2);
-					}
-					data.title = parts.length ? parts.join(':') : '';
-				}
-			} else {
-				// example: \u0391(A):alpha; extract 'A' from '(A)'
-				data.map = name.match(/\(([^()]+?)\)/)[1];
-				// remove '(A)', left with '\u0391:alpha'
-				name = name.replace(/\(([^()]+)\)/, '');
-				tmp = name.split(':');
-				// get '\u0391' from '\u0391:alpha'
-				if (tmp[0] === '') {
-					data.name = ':';
-					parts = parts.slice(1);
-				} else {
-					data.name = tmp[0];
-				}
-				data.title = parts.length > 1 ? parts.slice(1).join(':') : '';
-			}
-		} else {
-			// find key label
-			// corner case of '::;' reduced to ':;', split as ['', ';']
-			if (name !== '' && parts[0] === '') {
-				data.name = ':';
-				parts = parts.slice(1);
-			} else {
-				data.name = parts[0];
-			}
-			data.title = parts.length > 1 ? parts.slice(1).join(':') : '';
-		}
-		data.title = $.trim(data.title).replace(/_/g, ' ');
-		return data;
-	};
-
-	// Add key function
-	// keyName = the name of the function called in $.keyboard.keyaction when the button is clicked
-	// name = name added to key, or cross-referenced in the display options
-	// base.temp[0] = keyset to attach the new button
-	// regKey = true when it is not an action key
-	base.addKey = function (keyName, action, regKey) {
-		var keyClass, tmp, keys,
-			data = {},
-			txt = base.processKeys(regKey ? keyName : action),
-			kbcss = $keyboard.css;
-
-		if (!regKey && o.display[txt.name]) {
-			keys = base.processKeys(o.display[txt.name]);
-			// action contained in "keyName" (e.g. keyName = "accept",
-			// action = "a" (use checkmark instead of text))
-			keys.action = base.processKeys(keyName).name;
-		} else {
-			// when regKey is true, keyName is the same as action
-			keys = txt;
-			keys.action = txt.name;
-		}
-
-		data.name = base.processName(txt.name);
-		if (keys.name !== '') {
-			if (keys.map !== '') {
-				$keyboard.builtLayouts[base.layout].mappedKeys[keys.map] = keys.name;
-				$keyboard.builtLayouts[base.layout].acceptedKeys.push(keys.name);
-			} else if (regKey) {
-				$keyboard.builtLayouts[base.layout].acceptedKeys.push(keys.name);
-			}
-		}
-
-		if (regKey) {
-			keyClass = data.name === '' ? '' : kbcss.keyPrefix + data.name;
-		} else {
-			// Action keys will have the 'ui-keyboard-actionkey' class
-			keyClass = kbcss.keyAction + ' ' + kbcss.keyPrefix + keys.action;
-		}
-		// '\u2190'.length = 1 because the unicode is converted, so if more than one character,
-		// add the wide class
-		keyClass += (keys.name.length > 2 ? ' ' + kbcss.keyWide : '') + ' ' + o.css.buttonDefault;
-
-		data.html = '<span class="' + kbcss.keyText + '">' +
-			// this prevents HTML from being added to the key
-			keys.name.replace(/[\u00A0-\u9999]/gim, function (i) {
-				return '&#' + i.charCodeAt(0) + ';';
-			}) +
-			'</span>';
-
-		data.$key = base.keyBtn
-			.clone()
-			.attr({
-				'data-value': regKey ? keys.name : keys.action, // value
-				'data-name': keys.action,
-				'data-pos': base.temp[1] + ',' + base.temp[2],
-				'data-action': keys.action,
-				'data-html': data.html
-			})
-			// add 'ui-keyboard-' + data.name for all keys
-			//  (e.g. 'Bksp' will have 'ui-keyboard-bskp' class)
-			// any non-alphanumeric characters will be replaced with
-			//  their decimal unicode value
-			//  (e.g. '~' is a regular key, class = 'ui-keyboard-126'
-			//  (126 is the unicode decimal value - same as &#126;)
-			//  See https://en.wikipedia.org/wiki/List_of_Unicode_characters#Control_codes
-			.addClass(keyClass)
-			.html(data.html)
-			.appendTo(base.temp[0]);
-
-		if (keys.map) {
-			data.$key.attr('data-mapped', keys.map);
-		}
-		if (keys.title || txt.title) {
-			data.$key.attr({
-				'data-title': txt.title || keys.title, // used to allow adding content to title
-				'title': txt.title || keys.title
-			});
-		}
-
-		if (typeof o.buildKey === 'function') {
-			data = o.buildKey(base, data);
-			// copy html back to attributes
-			tmp = data.$key.html();
-			data.$key.attr('data-html', tmp);
-		}
-		return data.$key;
-	};
-
-	base.customHash = function (layout) {
-		/*jshint bitwise:false */
-		var i, array, hash, character, len,
-			arrays = [],
-			merged = [];
-		// pass layout to allow for testing
-		layout = typeof layout === 'undefined' ? o.customLayout : layout;
-		// get all layout arrays
-		for (array in layout) {
-			if (layout.hasOwnProperty(array)) {
-				arrays.push(layout[array]);
-			}
-		}
-		// flatten array
-		merged = merged.concat.apply(merged, arrays).join(' ');
-		// produce hash name - http://stackoverflow.com/a/7616484/145346
-		hash = 0;
-		len = merged.length;
-		if (len === 0) {
-			return hash;
-		}
-		for (i = 0; i < len; i++) {
-			character = merged.charCodeAt(i);
-			hash = ((hash << 5) - hash) + character;
-			hash = hash & hash; // Convert to 32bit integer
-		}
-		return hash;
-	};
-
-	base.buildKeyboard = function (name, internal) {
-		// o.display is empty when this is called from the scramble extension (when alwaysOpen:true)
-		if ($.isEmptyObject(o.display)) {
-			// set keyboard language
-			base.updateLanguage();
-		}
-		var index, row, $row, currentSet,
-			kbcss = $keyboard.css,
-			sets = 0,
-			layout = $keyboard.builtLayouts[name || base.layout || o.layout] = {
-				mappedKeys: {},
-				acceptedKeys: []
-			},
-			acceptedKeys = layout.acceptedKeys = o.restrictInclude ?
-				('' + o.restrictInclude).split(/\s+/) || [] :
-				[],
-			// using $layout temporarily to hold keyboard popup classnames
-			$layout = kbcss.keyboard + ' ' + o.css.popup + ' ' + o.css.container +
-				(o.alwaysOpen || o.userClosed ? ' ' + kbcss.alwaysOpen : ''),
-
-			container = $('<div />')
-				.addClass($layout)
-				.attr({
-					'role': 'textbox'
-				})
-				.hide();
-
-		// allow adding "{space}" as an accepted key - Fixes #627
-		index = $.inArray('{space}', acceptedKeys);
-		if (index > -1) {
-			acceptedKeys[index] = ' ';
-		}
-
-		// verify layout or setup custom keyboard
-		if ((internal && o.layout === 'custom') || !$keyboard.layouts.hasOwnProperty(o.layout)) {
-			o.layout = 'custom';
-			$layout = $keyboard.layouts.custom = o.customLayout || {
-				'normal': ['{cancel}']
-			};
-		} else {
-			$layout = $keyboard.layouts[internal ? o.layout : name || base.layout || o.layout];
-		}
-
-		// Main keyboard building loop
-		$.each($layout, function (set, keySet) {
-			// skip layout name & lang settings
-			if (set !== '' && !/^(name|lang|rtl)$/i.test(set)) {
-				// keep backwards compatibility for change from default to normal naming
-				if (set === 'default') {
-					set = 'normal';
-				}
-				sets++;
-				$row = $('<div />')
-					.attr('name', set) // added for typing extension
-					.addClass(kbcss.keySet + ' ' + kbcss.keySet + '-' + set)
-					.appendTo(container)
-					.toggle(set === 'normal');
-
-				for (row = 0; row < keySet.length; row++) {
-					// remove extra spaces before spliting (regex probably could be improved)
-					currentSet = $.trim(keySet[row]).replace(/\{(\.?)[\s+]?:[\s+]?(\.?)\}/g, '{$1:$2}');
-					base.buildRow($row, row, currentSet.split(/\s+/), acceptedKeys);
-					$row.find('.' + kbcss.keyButton + ',.' + kbcss.keySpacer)
-						.filter(':last')
-						.after('<br class="' + kbcss.endRow + '"/>');
-				}
-			}
-		});
-
-		if (sets > 1) {
-			base.sets = true;
-		}
-		layout.hasMappedKeys = !($.isEmptyObject(layout.mappedKeys));
-		layout.$keyboard = container;
-		return container;
-	};
-
-	base.buildRow = function ($row, row, keys, acceptedKeys) {
-		var t, txt, key, isAction, action, margin,
-			kbcss = $keyboard.css;
-		for (key = 0; key < keys.length; key++) {
-			// used by addKey function
-			base.temp = [$row, row, key];
-			isAction = false;
-
-			// ignore empty keys
-			if (keys[key].length === 0) {
-				continue;
-			}
-
-			// process here if it's an action key
-			if (/^\{\S+\}$/.test(keys[key])) {
-				action = keys[key].match(/^\{(\S+)\}$/)[1];
-				// add active class if there are double exclamation points in the name
-				if (/\!\!/.test(action)) {
-					action = action.replace('!!', '');
-					isAction = true;
-				}
-
-				// add empty space
-				if (/^sp:((\d+)?([\.|,]\d+)?)(em|px)?$/i.test(action)) {
-					// not perfect globalization, but allows you to use {sp:1,1em}, {sp:1.2em} or {sp:15px}
-					margin = parseFloat(action
-						.replace(/,/, '.')
-						.match(/^sp:((\d+)?([\.|,]\d+)?)(em|px)?$/i)[1] || 0
-					);
-					$('<span class="' + kbcss.keyText + '"></span>')
-						// previously {sp:1} would add 1em margin to each side of a 0 width span
-						// now Firefox doesn't seem to render 0px dimensions, so now we set the
-						// 1em margin x 2 for the width
-						.width((action.match(/px/i) ? margin + 'px' : (margin * 2) + 'em'))
-						.addClass(kbcss.keySpacer)
-						.appendTo($row);
-				}
-
-				// add empty button
-				if (/^empty(:((\d+)?([\.|,]\d+)?)(em|px)?)?$/i.test(action)) {
-					margin = (/:/.test(action)) ? parseFloat(action
-						.replace(/,/, '.')
-						.match(/^empty:((\d+)?([\.|,]\d+)?)(em|px)?$/i)[1] || 0
-					) : '';
-					base
-						.addKey('', ' ', true)
-						.addClass(o.css.buttonDisabled + ' ' + o.css.buttonEmpty)
-						.attr('aria-disabled', true)
-						.width(margin ? (action.match('px') ? margin + 'px' : (margin * 2) + 'em') : '');
-					continue;
-				}
-
-				// meta keys
-				if (/^meta[\w-]+\:?(\w+)?/i.test(action)) {
-					base
-						.addKey(action.split(':')[0], action)
-						.addClass(kbcss.keyHasActive);
-					continue;
-				}
-
-				// switch needed for action keys with multiple names/shortcuts or
-				// default will catch all others
-				txt = action.split(':');
-				switch (txt[0].toLowerCase()) {
-
-				case 'a':
-				case 'accept':
-					base
-						.addKey('accept', action)
-						.addClass(o.css.buttonAction + ' ' + kbcss.keyAction);
-					break;
-
-				case 'alt':
-				case 'altgr':
-					base
-						.addKey('alt', action)
-						.addClass(kbcss.keyHasActive);
-					break;
-
-				case 'b':
-				case 'bksp':
-					base.addKey('bksp', action);
-					break;
-
-				case 'c':
-				case 'cancel':
-					base
-						.addKey('cancel', action)
-						.addClass(o.css.buttonAction + ' ' + kbcss.keyAction);
-					break;
-
-					// toggle combo/diacritic key
-					/*jshint -W083 */
-				case 'combo':
-					base
-						.addKey('combo', action)
-						.addClass(kbcss.keyHasActive)
-						.attr('title', function (indx, title) {
-							// add combo key state to title
-							return title + ' ' + o.display[o.useCombos ? 'active' : 'disabled'];
-						})
-						.toggleClass(o.css.buttonActive, o.useCombos);
-					break;
-
-					// Decimal - unique decimal point (num pad layout)
-				case 'dec':
-					acceptedKeys.push((base.decimal) ? '.' : ',');
-					base.addKey('dec', action);
-					break;
-
-				case 'e':
-				case 'enter':
-					base
-						.addKey('enter', action)
-						.addClass(o.css.buttonAction + ' ' + kbcss.keyAction);
-					break;
-
-				case 'lock':
-					base
-						.addKey('lock', action)
-						.addClass(kbcss.keyHasActive);
-					break;
-
-				case 's':
-				case 'shift':
-					base
-						.addKey('shift', action)
-						.addClass(kbcss.keyHasActive);
-					break;
-
-					// Change sign (for num pad layout)
-				case 'sign':
-					acceptedKeys.push('-');
-					base.addKey('sign', action);
-					break;
-
-				case 'space':
-					acceptedKeys.push(' ');
-					base.addKey('space', action);
-					break;
-
-				case 't':
-				case 'tab':
-					base.addKey('tab', action);
-					break;
-
-				default:
-					if ($keyboard.keyaction.hasOwnProperty(txt[0])) {
-						base
-							.addKey(txt[0], action)
-							.toggleClass(o.css.buttonAction + ' ' + kbcss.keyAction, isAction);
-					}
-
-				}
-
-			} else {
-
-				// regular button (not an action key)
-				t = keys[key];
-				base.addKey(t, t, true);
-			}
-		}
-	};
-
-	base.removeBindings = function (namespace) {
-		$(document).unbind(namespace);
-		if (base.el.ownerDocument !== document) {
-			$(base.el.ownerDocument).unbind(namespace);
-		}
-		$(window).unbind(namespace);
-		base.$el.unbind(namespace);
-	};
-
-	base.removeKeyboard = function () {
-		base.$allKeys = [];
-		base.$decBtn = [];
-		// base.$preview === base.$el when o.usePreview is false - fixes #442
-		if (o.usePreview) {
-			base.$preview.removeData('keyboard');
-		}
-		base.$preview.unbind(base.namespace + 'keybindings');
-		base.preview = null;
-		base.$preview = null;
-		base.$previewCopy = null;
-		base.$keyboard.removeData('keyboard');
-		base.$keyboard.remove();
-		base.$keyboard = [];
-		base.isOpen = false;
-		base.isCurrent(false);
-	};
-
-	base.destroy = function (callback) {
-		var index,
-			kbcss = $keyboard.css,
-			len = base.extensionNamespace.length,
-			tmp = [
-				kbcss.input,
-				kbcss.locked,
-				kbcss.placeholder,
-				kbcss.noKeyboard,
-				kbcss.alwaysOpen,
-				o.css.input,
-				kbcss.isCurrent
-			].join(' ');
-		clearTimeout(base.timer);
-		clearTimeout(base.timer2);
-		clearTimeout(base.timer3);
-		if (base.$keyboard.length) {
-			base.removeKeyboard();
-		}
-		base.removeBindings(base.namespace);
-		base.removeBindings(base.namespace + 'callbacks');
-		for (index = 0; index < len; index++) {
-			base.removeBindings(base.extensionNamespace[index]);
-		}
-		base.el.active = false;
-
-		base.$el
-			.removeClass(tmp)
-			.removeAttr('aria-haspopup')
-			.removeAttr('role')
-			.removeData('keyboard');
-		base = null;
-
-		if (typeof callback === 'function') {
-			callback();
-		}
-	};
-
-	// Run initializer
-	base.init();
-
-	}; // end $.keyboard definition
-
-	// event.which & ASCII values
-	$keyboard.keyCodes = {
-		backSpace: 8,
-		tab: 9,
-		enter: 13,
-		capsLock: 20,
-		escape: 27,
-		space: 32,
-		pageUp: 33,
-		pageDown: 34,
-		end: 35,
-		home: 36,
-		left: 37,
-		up: 38,
-		right: 39,
-		down: 40,
-		insert: 45,
-		delete: 46,
-		// event.which keyCodes (uppercase letters)
-		A: 65,
-		Z: 90,
-		V: 86,
-		C: 67,
-		X: 88,
-
-		// ASCII lowercase a & z
-		a: 97,
-		z: 122
-	};
-
-	$keyboard.css = {
-		// keyboard id suffix
-		idSuffix: '_keyboard',
-		// class name to set initial focus
-		initialFocus: 'keyboard-init-focus',
-		// element class names
-		input: 'ui-keyboard-input',
-		inputClone: 'ui-keyboard-preview-clone',
-		wrapper: 'ui-keyboard-preview-wrapper',
-		preview: 'ui-keyboard-preview',
-		keyboard: 'ui-keyboard',
-		keySet: 'ui-keyboard-keyset',
-		keyButton: 'ui-keyboard-button',
-		keyWide: 'ui-keyboard-widekey',
-		keyPrefix: 'ui-keyboard-',
-		keyText: 'ui-keyboard-text', // span with button text
-		keyHasActive: 'ui-keyboard-hasactivestate',
-		keyAction: 'ui-keyboard-actionkey',
-		keySpacer: 'ui-keyboard-spacer', // empty keys
-		keyToggle: 'ui-keyboard-toggle',
-		keyDisabled: 'ui-keyboard-disabled',
-		// Class for BRs with a div wrapper inside of contenteditable
-		divWrapperCE: 'ui-keyboard-div-wrapper',
-		// states
-		locked: 'ui-keyboard-lockedinput',
-		alwaysOpen: 'ui-keyboard-always-open',
-		noKeyboard: 'ui-keyboard-nokeyboard',
-		placeholder: 'ui-keyboard-placeholder',
-		hasFocus: 'ui-keyboard-has-focus',
-		isCurrent: 'ui-keyboard-input-current',
-		// validation & autoaccept
-		inputValid: 'ui-keyboard-valid-input',
-		inputInvalid: 'ui-keyboard-invalid-input',
-		inputAutoAccepted: 'ui-keyboard-autoaccepted',
-		endRow: 'ui-keyboard-button-endrow' // class added to <br>
-	};
-
-	$keyboard.events = {
-		// keyboard events
-		kbChange: 'keyboardChange',
-		kbBeforeClose: 'beforeClose',
-		kbBeforeVisible: 'beforeVisible',
-		kbVisible: 'visible',
-		kbInit: 'initialized',
-		kbInactive: 'inactive',
-		kbHidden: 'hidden',
-		kbRepeater: 'repeater',
-		kbKeysetChange: 'keysetChange',
-		// input events
-		inputAccepted: 'accepted',
-		inputCanceled: 'canceled',
-		inputChange: 'change',
-		inputRestricted: 'restricted'
-	};
-
-	// Action key function list
-	$keyboard.keyaction = {
-		accept: function (base) {
-			base.close(true); // same as base.accept();
-			return false; // return false prevents further processing
-		},
-		alt: function (base) {
-			base.altActive = !base.altActive;
-			base.showSet();
-		},
-		bksp: function (base) {
-			if (base.isContentEditable) {
-				base.execCommand('delete');
-				// save new caret position
-				base.saveCaret();
-			} else {
-				// the script looks for the '\b' string and initiates a backspace
-				base.insertText('\b');
-			}
-		},
-		cancel: function (base) {
-			base.close();
-			return false; // return false prevents further processing
-		},
-		clear: function (base) {
-			base.$preview[base.isContentEditable ? 'text' : 'val']('');
-			if (base.$decBtn.length) {
-				base.checkDecimal();
-			}
-		},
-		combo: function (base) {
-			var o = base.options,
-				c = !o.useCombos,
-				$combo = base.$keyboard.find('.' + $keyboard.css.keyPrefix + 'combo');
-			o.useCombos = c;
-			$combo
-				.toggleClass(o.css.buttonActive, c)
-				// update combo key state
-				.attr('title', $combo.attr('data-title') + ' (' + o.display[c ? 'active' : 'disabled'] + ')');
-			if (c) {
-				base.checkCombos();
-			}
-			return false;
-		},
-		dec: function (base) {
-			base.insertText((base.decimal) ? '.' : ',');
-		},
-		del: function (base) {
-			if (base.isContentEditable) {
-				base.execCommand('forwardDelete');
-			} else {
-				// the script looks for the '{d}' string and initiates a delete
-				base.insertText('{d}');
-			}
-		},
-		// resets to base keyset (deprecated because "default" is a reserved word)
-		'default': function (base) {
-			base.shiftActive = base.altActive = base.metaActive = false;
-			base.showSet();
-		},
-		// el is the pressed key (button) object; it is null when the real keyboard enter is pressed
-		enter: function (base, el, e) {
-			var tag = base.el.nodeName,
-				o = base.options;
-			// shift+enter in textareas
-			if (e.shiftKey) {
-				// textarea, input & contenteditable - enterMod + shift + enter = accept,
-				//  then go to prev; base.switchInput(goToNext, autoAccept)
-				// textarea & input - shift + enter = accept (no navigation)
-				return (o.enterNavigation) ? base.switchInput(!e[o.enterMod], true) : base.close(true);
-			}
-			// input only - enterMod + enter to navigate
-			if (o.enterNavigation && (tag !== 'TEXTAREA' || e[o.enterMod])) {
-				return base.switchInput(!e[o.enterMod], o.autoAccept ? 'true' : false);
-			}
-			// pressing virtual enter button inside of a textarea - add a carriage return
-			// e.target is span when clicking on text and button at other times
-			if (tag === 'TEXTAREA' && $(e.target).closest('button').length) {
-				// IE8 fix (space + \n) - fixes #71 thanks Blookie!
-				base.insertText(($keyboard.msie ? ' ' : '') + '\n');
-			}
-			if (base.isContentEditable && !o.enterNavigation) {
-				base.execCommand('insertHTML', '<div><br class="' + $keyboard.css.divWrapperCE + '"></div>');
-				// Using backspace on wrapped BRs will now shift the textnode inside of the wrapped BR
-				// Although not ideal, the caret is moved after the block - see the wiki page for
-				// more details: https://github.com/Mottie/Keyboard/wiki/Contenteditable#limitations
-				// move caret after a delay to allow rendering of HTML
-				setTimeout(function() {
-					$keyboard.keyaction.right(base);
-					base.saveCaret();
-				}, 0);
-			}
-		},
-		// caps lock key
-		lock: function (base) {
-			base.last.keyset[0] = base.shiftActive = base.capsLock = !base.capsLock;
-			base.showSet();
-		},
-		left: function (base) {
-			var p = $keyboard.caret(base.$preview);
-			if (p.start - 1 >= 0) {
-				// move both start and end of caret (prevents text selection) & save caret position
-				base.last.start = base.last.end = p.start - 1;
-				$keyboard.caret(base.$preview, base.last);
-				base.setScroll();
-			}
-		},
-		meta: function (base, el) {
-			var $el = $(el);
-			base.metaActive = !$el.hasClass(base.options.css.buttonActive);
-			base.showSet($el.attr('data-name'));
-		},
-		next: function (base) {
-			base.switchInput(true, base.options.autoAccept);
-			return false;
-		},
-		// same as 'default' - resets to base keyset
-		normal: function (base) {
-			base.shiftActive = base.altActive = base.metaActive = false;
-			base.showSet();
-		},
-		prev: function (base) {
-			base.switchInput(false, base.options.autoAccept);
-			return false;
-		},
-		right: function (base) {
-			var p = $keyboard.caret(base.$preview),
-				len = base.isContentEditable ? $keyboard.getEditableLength(base.el) : base.getValue().length;
-			if (p.end + 1 <= len) {
-				// move both start and end of caret to end position
-				// (prevents text selection) && save caret position
-				base.last.start = base.last.end = p.end + 1;
-				$keyboard.caret(base.$preview, base.last);
-				base.setScroll();
-			}
-		},
-		shift: function (base) {
-			base.last.keyset[0] = base.shiftActive = !base.shiftActive;
-			base.showSet();
-		},
-		sign: function (base) {
-			if (/^[+-]?\d*\.?\d*$/.test(base.getValue())) {
-				var caret,
-					p = $keyboard.caret(base.$preview),
-					val = base.getValue(),
-					len = base.isContentEditable ? $keyboard.getEditableLength(base.el) : val.length;
-				base.setValue(val * -1);
-				caret = len - val.length;
-				base.last.start = p.start + caret;
-				base.last.end = p.end + caret;
-				$keyboard.caret(base.$preview, base.last);
-				base.setScroll();
-			}
-		},
-		space: function (base) {
-			base.insertText(' ');
-		},
-		tab: function (base) {
-			var tag = base.el.nodeName,
-				o = base.options;
-			if (tag !== 'TEXTAREA') {
-				if (o.tabNavigation) {
-					return base.switchInput(!base.shiftActive, true);
-				} else if (tag === 'INPUT') {
-					// ignore tab key in input
-					return false;
-				}
-			}
-			base.insertText('\t');
-		},
-		toggle: function (base) {
-			base.enabled = !base.enabled;
-			base.toggle();
-		},
-		// *** Special action keys: NBSP & zero-width characters ***
-		// Non-breaking space
-		NBSP: '\u00a0',
-		// zero width space
-		ZWSP: '\u200b',
-		// Zero width non-joiner
-		ZWNJ: '\u200c',
-		// Zero width joiner
-		ZWJ: '\u200d',
-		// Left-to-right Mark
-		LRM: '\u200e',
-		// Right-to-left Mark
-		RLM: '\u200f'
-	};
-
-	// Default keyboard layouts
-	$keyboard.builtLayouts = {};
-	$keyboard.layouts = {
-		'alpha': {
-			'normal': [
-				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-				'{tab} a b c d e f g h i j [ ] \\',
-				'k l m n o p q r s ; \' {enter}',
-				'{shift} t u v w x y z , . / {shift}',
-				'{accept} {space} {cancel}'
-			],
-			'shift': [
-				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
-				'{tab} A B C D E F G H I J { } |',
-				'K L M N O P Q R S : " {enter}',
-				'{shift} T U V W X Y Z < > ? {shift}',
-				'{accept} {space} {cancel}'
-			]
-		},
-		'qwerty': {
-			'normal': [
-				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-				'{tab} q w e r t y u i o p [ ] \\',
-				'a s d f g h j k l ; \' {enter}',
-				'{shift} z x c v b n m , . / {shift}',
-				'{accept} {space} {cancel}'
-			],
-			'shift': [
-				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
-				'{tab} Q W E R T Y U I O P { } |',
-				'A S D F G H J K L : " {enter}',
-				'{shift} Z X C V B N M < > ? {shift}',
-				'{accept} {space} {cancel}'
-			]
-		},
-		'international': {
-			'normal': [
-				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-				'{tab} q w e r t y u i o p [ ] \\',
-				'a s d f g h j k l ; \' {enter}',
-				'{shift} z x c v b n m , . / {shift}',
-				'{accept} {alt} {space} {alt} {cancel}'
-			],
-			'shift': [
-				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
-				'{tab} Q W E R T Y U I O P { } |',
-				'A S D F G H J K L : " {enter}',
-				'{shift} Z X C V B N M < > ? {shift}',
-				'{accept} {alt} {space} {alt} {cancel}'
-			],
-			'alt': [
-				'~ \u00a1 \u00b2 \u00b3 \u00a4 \u20ac \u00bc \u00bd \u00be \u2018 \u2019 \u00a5 \u00d7 {bksp}',
-				'{tab} \u00e4 \u00e5 \u00e9 \u00ae \u00fe \u00fc \u00fa \u00ed \u00f3 \u00f6 \u00ab \u00bb \u00ac',
-				'\u00e1 \u00df \u00f0 f g h j k \u00f8 \u00b6 \u00b4 {enter}',
-				'{shift} \u00e6 x \u00a9 v b \u00f1 \u00b5 \u00e7 > \u00bf {shift}',
-				'{accept} {alt} {space} {alt} {cancel}'
-			],
-			'alt-shift': [
-				'~ \u00b9 \u00b2 \u00b3 \u00a3 \u20ac \u00bc \u00bd \u00be \u2018 \u2019 \u00a5 \u00f7 {bksp}',
-				'{tab} \u00c4 \u00c5 \u00c9 \u00ae \u00de \u00dc \u00da \u00cd \u00d3 \u00d6 \u00ab \u00bb \u00a6',
-				'\u00c4 \u00a7 \u00d0 F G H J K \u00d8 \u00b0 \u00a8 {enter}',
-				'{shift} \u00c6 X \u00a2 V B \u00d1 \u00b5 \u00c7 . \u00bf {shift}',
-				'{accept} {alt} {space} {alt} {cancel}'
-			]
-		},
-		'colemak': {
-			'normal': [
-				'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
-				'{tab} q w f p g j l u y ; [ ] \\',
-				'{bksp} a r s t d h n e i o \' {enter}',
-				'{shift} z x c v b k m , . / {shift}',
-				'{accept} {space} {cancel}'
-			],
-			'shift': [
-				'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
-				'{tab} Q W F P G J L U Y : { } |',
-				'{bksp} A R S T D H N E I O " {enter}',
-				'{shift} Z X C V B K M < > ? {shift}',
-				'{accept} {space} {cancel}'
-			]
-		},
-		'dvorak': {
-			'normal': [
-				'` 1 2 3 4 5 6 7 8 9 0 [ ] {bksp}',
-				'{tab} \' , . p y f g c r l / = \\',
-				'a o e u i d h t n s - {enter}',
-				'{shift} ; q j k x b m w v z {shift}',
-				'{accept} {space} {cancel}'
-			],
-			'shift': [
-				'~ ! @ # $ % ^ & * ( ) { } {bksp}',
-				'{tab} " < > P Y F G C R L ? + |',
-				'A O E U I D H T N S _ {enter}',
-				'{shift} : Q J K X B M W V Z {shift}',
-				'{accept} {space} {cancel}'
-			]
-		},
-		'num': {
-			'normal': [
-				'= ( ) {b}',
-				'{clear} / * -',
-				'7 8 9 +',
-				'4 5 6 {sign}',
-				'1 2 3 %',
-				'0 {dec} {a} {c}'
-			]
-		}
-	};
-
-	$keyboard.language = {
-		en: {
-			display: {
-				// check mark - same action as accept
-				'a': '\u2714:Accept (Shift+Enter)',
-				'accept': 'Accept:Accept (Shift+Enter)',
-				// other alternatives \u2311
-				'alt': 'Alt:\u2325 AltGr',
-				// Left arrow (same as &larr;)
-				'b': '\u232b:Backspace',
-				'bksp': 'Bksp:Backspace',
-				// big X, close - same action as cancel
-				'c': '\u2716:Cancel (Esc)',
-				'cancel': 'Cancel:Cancel (Esc)',
-				// clear num pad
-				'clear': 'C:Clear',
-				'combo': '\u00f6:Toggle Combo Keys',
-				// decimal point for num pad (optional), change '.' to ',' for European format
-				'dec': '.:Decimal',
-				// down, then left arrow - enter symbol
-				'e': '\u23ce:Enter',
-				'empty': '\u00a0',
-				'enter': 'Enter:Enter \u23ce',
-				// left arrow (move caret)
-				'left': '\u2190',
-				// caps lock
-				'lock': 'Lock:\u21ea Caps Lock',
-				'next': 'Next \u21e8',
-				'prev': '\u21e6 Prev',
-				// right arrow (move caret)
-				'right': '\u2192',
-				// thick hollow up arrow
-				's': '\u21e7:Shift',
-				'shift': 'Shift:Shift',
-				// +/- sign for num pad
-				'sign': '\u00b1:Change Sign',
-				'space': '\u00a0:Space',
-				// right arrow to bar (used since this virtual keyboard works with one directional tabs)
-				't': '\u21e5:Tab',
-				// \u21b9 is the true tab symbol (left & right arrows)
-				'tab': '\u21e5 Tab:Tab',
-				// replaced by an image
-				'toggle': ' ',
-
-				// added to titles of keys
-				// accept key status when acceptValid:true
-				'valid': 'valid',
-				'invalid': 'invalid',
-				// combo key states
-				'active': 'active',
-				'disabled': 'disabled'
-			},
-
-			// Message added to the key title while hovering, if the mousewheel plugin exists
-			wheelMessage: 'Use mousewheel to see other keys',
-
-			comboRegex: /([`\'~\^\"ao])([a-z])/mig,
-			combos: {
-				// grave
-				'`': { a: '\u00e0', A: '\u00c0', e: '\u00e8', E: '\u00c8', i: '\u00ec', I: '\u00cc', o: '\u00f2',
-						O: '\u00d2', u: '\u00f9', U: '\u00d9', y: '\u1ef3', Y: '\u1ef2' },
-				// acute & cedilla
-				"'": { a: '\u00e1', A: '\u00c1', e: '\u00e9', E: '\u00c9', i: '\u00ed', I: '\u00cd', o: '\u00f3',
-						O: '\u00d3', u: '\u00fa', U: '\u00da', y: '\u00fd', Y: '\u00dd' },
-				// umlaut/trema
-				'"': { a: '\u00e4', A: '\u00c4', e: '\u00eb', E: '\u00cb', i: '\u00ef', I: '\u00cf', o: '\u00f6',
-						O: '\u00d6', u: '\u00fc', U: '\u00dc', y: '\u00ff', Y: '\u0178' },
-				// circumflex
-				'^': { a: '\u00e2', A: '\u00c2', e: '\u00ea', E: '\u00ca', i: '\u00ee', I: '\u00ce', o: '\u00f4',
-						O: '\u00d4', u: '\u00fb', U: '\u00db', y: '\u0177', Y: '\u0176' },
-				// tilde
-				'~': { a: '\u00e3', A: '\u00c3', e: '\u1ebd', E: '\u1ebc', i: '\u0129', I: '\u0128', o: '\u00f5',
-						O: '\u00d5', u: '\u0169', U: '\u0168', y: '\u1ef9', Y: '\u1ef8', n: '\u00f1', N: '\u00d1' }
-			}
-		}
-	};
-
-	$keyboard.defaultOptions = {
-		// set this to ISO 639-1 language code to override language set by the layout
-		// http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-		// language defaults to 'en' if not found
-		language: null,
-		rtl: false,
-
-		// *** choose layout & positioning ***
-		layout: 'qwerty',
-		customLayout: null,
-
-		position: {
-			// optional - null (attach to input/textarea) or a jQuery object (attach elsewhere)
-			of: null,
-			my: 'center top',
-			at: 'center top',
-			// used when 'usePreview' is false (centers the keyboard at the bottom of the input/textarea)
-			at2: 'center bottom'
-		},
-
-		// allow jQuery position utility to reposition the keyboard on window resize
-		reposition: true,
-
-		// preview added above keyboard if true, original input/textarea used if false
-		usePreview: true,
-
-		// if true, the keyboard will always be visible
-		alwaysOpen: false,
-
-		// give the preview initial focus when the keyboard becomes visible
-		initialFocus: true,
-
-		// avoid changing the focus (hardware keyboard probably won't work)
-		noFocus: false,
-
-		// if true, keyboard will remain open even if the input loses focus, but closes on escape
-		// or when another keyboard opens.
-		stayOpen: false,
-
-		// Prevents the keyboard from closing when the user clicks or presses outside the keyboard
-		// the `autoAccept` option must also be set to true when this option is true or changes are lost
-		userClosed: false,
-
-		// if true, keyboard will not close if you press escape.
-		ignoreEsc: false,
-
-		// if true, keyboard will only closed on click event instead of mousedown and touchstart
-		closeByClickEvent: false,
-
-		css: {
-			// input & preview
-			input: 'ui-widget-content ui-corner-all',
-			// keyboard container
-			container: 'ui-widget-content ui-widget ui-corner-all ui-helper-clearfix',
-			// keyboard container extra class (same as container, but separate)
-			popup: '',
-			// default state
-			buttonDefault: 'ui-state-default ui-corner-all',
-			// hovered button
-			buttonHover: 'ui-state-hover',
-			// Action keys (e.g. Accept, Cancel, Tab, etc); this replaces 'actionClass' option
-			buttonAction: 'ui-state-active',
-			// Active keys (e.g. shift down, meta keyset active, combo keys active)
-			buttonActive: 'ui-state-active',
-			// used when disabling the decimal button {dec} when a decimal exists in the input area
-			buttonDisabled: 'ui-state-disabled',
-			buttonEmpty: 'ui-keyboard-empty'
-		},
-
-		// *** Useability ***
-		// Auto-accept content when clicking outside the keyboard (popup will close)
-		autoAccept: false,
-		// Auto-accept content even if the user presses escape (only works if `autoAccept` is `true`)
-		autoAcceptOnEsc: false,
-
-		// Prevents direct input in the preview window when true
-		lockInput: false,
-
-		// Prevent keys not in the displayed keyboard from being typed in
-		restrictInput: false,
-		// Additional allowed characters while restrictInput is true
-		restrictInclude: '', // e.g. 'a b foo \ud83d\ude38'
-
-		// Check input against validate function, if valid the accept button gets a class name of
-		// 'ui-keyboard-valid-input'. If invalid, the accept button gets a class name of
-		// 'ui-keyboard-invalid-input'
-		acceptValid: false,
-		// Auto-accept when input is valid; requires `acceptValid` set `true` & validate callback
-		autoAcceptOnValid: false,
-
-		// if acceptValid is true & the validate function returns a false, this option will cancel
-		// a keyboard close only after the accept button is pressed
-		cancelClose: true,
-
-		// tab to go to next, shift-tab for previous (default behavior)
-		tabNavigation: false,
-
-		// enter for next input; shift+enter accepts content & goes to next
-		// shift + 'enterMod' + enter ('enterMod' is the alt as set below) will accept content and go
-		// to previous in a textarea
-		enterNavigation: false,
-		// mod key options: 'ctrlKey', 'shiftKey', 'altKey', 'metaKey' (MAC only)
-		enterMod: 'altKey', // alt-enter to go to previous; shift-alt-enter to accept & go to previous
-
-		// if true, the next button will stop on the last keyboard input/textarea; prev button stops at first
-		// if false, the next button will wrap to target the first input/textarea; prev will go to the last
-		stopAtEnd: true,
-
-		// Set this to append the keyboard after the input/textarea (appended to the input/textarea parent).
-		// This option works best when the input container doesn't have a set width & when the 'tabNavigation'
-		// option is true.
-		appendLocally: false,
-		// When appendLocally is false, the keyboard will be appended to this object
-		appendTo: 'body',
-
-		// Wrap all <br>s inside of a contenteditable in a div; without wrapping, the caret
-		// position will not be accurate
-		wrapBRs: true,
-
-		// If false, the shift key will remain active until the next key is (mouse) clicked on; if true it will
-		// stay active until pressed again
-		stickyShift: true,
-
-		// Prevent pasting content into the area
-		preventPaste: false,
-
-		// caret placed at the end of any text when keyboard becomes visible
-		caretToEnd: false,
-
-		// caret stays this many pixels from the edge of the input while scrolling left/right;
-		// use "c" or "center" to center the caret while scrolling
-		scrollAdjustment: 10,
-
-		// Set the max number of characters allowed in the input, setting it to false disables this option
-		maxLength: false,
-		// allow inserting characters @ caret when maxLength is set
-		maxInsert: true,
-
-		// Mouse repeat delay - when clicking/touching a virtual keyboard key, after this delay the key will
-		// start repeating
-		repeatDelay: 500,
-
-		// Mouse repeat rate - after the repeatDelay, this is the rate (characters per second) at which the
-		// key is repeated Added to simulate holding down a real keyboard key and having it repeat. I haven't
-		// calculated the upper limit of this rate, but it is limited to how fast the javascript can process
-		// the keys. And for me, in Firefox, it's around 20.
-		repeatRate: 20,
-
-		// resets the keyboard to the default keyset when visible
-		resetDefault: true,
-
-		// Event (namespaced) on the input to reveal the keyboard. To disable it, just set it to ''.
-		openOn: 'focus',
-
-		// Event (namepaced) for when the character is added to the input (clicking on the keyboard)
-		keyBinding: 'mousedown touchstart',
-
-		// enable/disable mousewheel functionality
-		// enabling still depends on the mousewheel plugin
-		useWheel: true,
-
-		// combos (emulate dead keys : http://en.wikipedia.org/wiki/Keyboard_layout#US-International)
-		// if user inputs `a the script converts it to à, ^o becomes ô, etc.
-		useCombos: true,
-
-		/*
-			// *** Methods ***
-			// commenting these out to reduce the size of the minified version
-			// Callbacks - attach a function to any of these callbacks as desired
-			initialized   : function(e, keyboard, el) {},
-			beforeVisible : function(e, keyboard, el) {},
-			visible       : function(e, keyboard, el) {},
-			beforeInsert  : function(e, keyboard, el, textToAdd) { return textToAdd; },
-			change        : function(e, keyboard, el) {},
-			beforeClose   : function(e, keyboard, el, accepted) {},
-			accepted      : function(e, keyboard, el) {},
-			canceled      : function(e, keyboard, el) {},
-			restricted    : function(e, keyboard, el) {},
-			hidden        : function(e, keyboard, el) {},
-			// called instead of base.switchInput
-			switchInput   : function(keyboard, goToNext, isAccepted) {},
-			// used if you want to create a custom layout or modify the built-in keyboard
-			create        : function(keyboard) { return keyboard.buildKeyboard(); },
-
-			// build key callback
-			buildKey : function( keyboard, data ) {
-				/ *
-				data = {
-				// READ ONLY
-				isAction : [boolean] true if key is an action key
-				name     : [string]  key class name suffix ( prefix = 'ui-keyboard-' );
-														 may include decimal ascii value of character
-				value    : [string]  text inserted (non-action keys)
-				title    : [string]  title attribute of key
-				action   : [string]  keyaction name
-				html     : [string]  HTML of the key; it includes a <span> wrapping the text
-				// use to modify key HTML
-				$key     : [object]  jQuery selector of key which is already appended to keyboard
-				}
-				* /
-				return data;
-			},
-		*/
-
-		// this callback is called, if the acceptValid is true, and just before the 'beforeClose' to check
-		// the value if the value is valid, return true and the keyboard will continue as it should
-		// (close if not always open, etc). If the value is not valid, return false and clear the keyboard
-		// value ( like this "keyboard.$preview.val('');" ), if desired. The validate function is called after
-		// each input, the 'isClosing' value will be false; when the accept button is clicked,
-		// 'isClosing' is true
-		validate: function (keyboard, value, isClosing) {
-			return true;
-		}
-
-	};
-
-	// for checking combos
-	$keyboard.comboRegex = /([`\'~\^\"ao])([a-z])/mig;
-
-	// store current keyboard element; used by base.isCurrent()
-	$keyboard.currentKeyboard = '';
-
-	$('<!--[if lte IE 8]><script>jQuery("body").addClass("oldie");</script><![endif]--><!--[if IE]>' +
-			'<script>jQuery("body").addClass("ie");</script><![endif]-->')
-		.appendTo('body')
-		.remove();
-	$keyboard.msie = $('body').hasClass('oldie'); // Old IE flag, used for caret positioning
-	$keyboard.allie = $('body').hasClass('ie');
-
-	$keyboard.watermark = (typeof (document.createElement('input').placeholder) !== 'undefined');
-
-	$keyboard.checkCaretSupport = function () {
-		if (typeof $keyboard.checkCaret !== 'boolean') {
-			// Check if caret position is saved when input is hidden or loses focus
-			// (*cough* all versions of IE and I think Opera has/had an issue as well
-			var $temp = $('<div style="height:0px;width:0px;overflow:hidden;position:fixed;top:0;left:-100px;">' +
-				'<input type="text" value="testing"/></div>').prependTo('body'); // stop page scrolling
-			$keyboard.caret($temp.find('input'), 3, 3);
-			// Also save caret position of the input if it is locked
-			$keyboard.checkCaret = $keyboard.caret($temp.find('input').hide().show()).start !== 3;
-			$temp.remove();
-		}
-		return $keyboard.checkCaret;
-	};
-
-	$keyboard.caret = function($el, param1, param2) {
-		if (!$el.length || $el.is(':hidden') || $el.css('visibility') === 'hidden') {
-			return {};
-		}
-		var start, end, txt, pos,
-			kb = $el.data( 'keyboard' ),
-			noFocus = kb && kb.options.noFocus,
-			formEl = /(textarea|input)/i.test($el[0].nodeName);
-		if (!noFocus) { $el.focus(); }
-		// set caret position
-		if (typeof param1 !== 'undefined') {
-			// allow setting caret using ( $el, { start: x, end: y } )
-			if (typeof param1 === 'object' && 'start' in param1 && 'end' in param1) {
-				start = param1.start;
-				end = param1.end;
-			} else if (typeof param2 === 'undefined') {
-				param2 = param1; // set caret using start position
-			}
-			// set caret using ( $el, start, end );
-			if (typeof param1 === 'number' && typeof param2 === 'number') {
-				start = param1;
-				end = param2;
-			} else if ( param1 === 'start' ) {
-				start = end = 0;
-			} else if ( typeof param1 === 'string' ) {
-				// unknown string setting, move caret to end
-				start = end = 'end';
-			}
-
-			// *** SET CARET POSITION ***
-			// modify the line below to adapt to other caret plugins
-			return formEl ?
-				$el.caret( start, end, noFocus ) :
-				$keyboard.setEditableCaret( $el, start, end );
-		}
-		// *** GET CARET POSITION ***
-		// modify the line below to adapt to other caret plugins
-		if (formEl) {
-			// modify the line below to adapt to other caret plugins
-			pos = $el.caret();
-		} else {
-			// contenteditable
-			pos = $keyboard.getEditableCaret($el[0]);
-		}
-		start = pos.start;
-		end = pos.end;
-
-		// *** utilities ***
-		txt = formEl && $el[0].value || $el.text() || '';
-		return {
-			start : start,
-			end : end,
-			// return selected text
-			text : txt.substring( start, end ),
-			// return a replace selected string method
-			replaceStr : function( str ) {
-				return txt.substring( 0, start ) + str + txt.substring( end, txt.length );
-			}
-		};
-	};
-
-	$keyboard.isTextNode = function(el) {
-		return el && el.nodeType === 3;
-	};
-
-	$keyboard.isBlock = function(el, node) {
-		var win = el.ownerDocument.defaultView;
-		if (
-			node && node.nodeType === 1 && node !== el &&
-			win.getComputedStyle(node).display === 'block'
-		) {
-			return 1;
-		}
-		return 0;
-	};
-
-	// Wrap all BR's inside of contenteditable
-	$keyboard.wrapBRs = function(container) {
-		var $el = $(container).find('br:not(.' + $keyboard.css.divWrapperCE + ')');
-		if ($el.length) {
-			$.each($el, function(i, el) {
-				var len = el.parentNode.childNodes.length;
-				if (
-					// wrap BRs if not solo child
-					len !== 1 ||
-					// Or if BR is wrapped by a span
-					len === 1 && !$keyboard.isBlock(container, el.parentNode)
-				) {
-					$(el).addClass($keyboard.css.divWrapperCE).wrap('<div>');
-				}
-			});
-		}
-	};
-
-	$keyboard.getEditableCaret = function(container) {
-		container = $(container)[0];
-		if (!container.isContentEditable) { return {}; }
-		var end, text,
-			options = ($(container).data('keyboard') || {}).options,
-			doc = container.ownerDocument,
-			range = doc.getSelection().getRangeAt(0),
-			result = pathToNode(range.startContainer, range.startOffset),
-			start = result.position;
-		if (options.wrapBRs !== false) {
-			$keyboard.wrapBRs(container);
-		}
-		function pathToNode(endNode, offset) {
-			var node, adjust,
-				txt = '',
-				done = false,
-				position = 0,
-				nodes = $.makeArray(container.childNodes);
-
-			function checkBlock(val) {
-				if (val) {
-					position += val;
-					txt += options && options.replaceCR || '\n';
-				}
-			}
-
-			while (!done && nodes.length) {
-				node = nodes.shift();
-				if (node === endNode) {
-					done = true;
-				}
-
-				// Add one if previous sibling was a block node (div, p, etc)
-				adjust = $keyboard.isBlock(container, node.previousSibling);
-				checkBlock(adjust);
-
-				if ($keyboard.isTextNode(node)) {
-					position += done ? offset : node.length;
-					txt += node.textContent;
-					if (done) {
-						return {position: position, text: txt};
-					}
-				} else if (!done && node.childNodes) {
-					nodes = $.makeArray(node.childNodes).concat(nodes);
-				}
-				// Add one if we're inside a block node (div, p, etc)
-				// and previous sibling was a text node
-				adjust = $keyboard.isTextNode(node.previousSibling) && $keyboard.isBlock(container, node);
-				checkBlock(adjust);
-			}
-			return {position: position, text: txt};
-		}
-		// check of start and end are the same
-		if (range.endContainer === range.startContainer && range.endOffset === range.startOffset) {
-			end = start;
-			text = '';
-		} else {
-			result = pathToNode(range.endContainer, range.endOffset);
-			end = result.position;
-			text = result.text.substring(start, end);
-		}
-		return {
-			start: start,
-			end: end,
-			text: text
-		};
-	};
-
-	$keyboard.getEditableLength = function(container) {
-		var result = $keyboard.setEditableCaret(container, 'getMax');
-		// if not a number, the container is not a contenteditable element
-		return typeof result === 'number' ? result : null;
-	};
-
-	$keyboard.setEditableCaret = function(container, start, end) {
-		container = $(container)[0];
-		if (!container.isContentEditable) { return {}; }
-		var doc = container.ownerDocument,
-			range = doc.createRange(),
-			sel = doc.getSelection(),
-			options = ($(container).data('keyboard') || {}).options,
-			s = start,
-			e = end,
-			text = '',
-			result = findNode(start === 'getMax' ? 'end' : start);
-		function findNode(offset) {
-			if (offset === 'end') {
-				// Set some value > content length; but return max
-				offset = container.innerHTML.length;
-			} else if (offset < 0) {
-				offset = 0;
-			}
-			var node, check,
-				txt = '',
-				done = false,
-				position = 0,
-				last = 0,
-				max = 0,
-				nodes = $.makeArray(container.childNodes);
-			function updateText(val) {
-				txt += val ? options && options.replaceCR || "\n" : "";
-				return val > 0;
-			}
-			function checkDone(adj) {
-				var val = position + adj;
-				last = max;
-				max += adj;
-				if (offset - val >= 0) {
-					position = val;
-					return offset - position <= 0;
-				}
-				return offset - val <= 0;
-			}
-			while (!done && nodes.length) {
-				node = nodes.shift();
-				// Add one if the previous sibling was a block node (div, p, etc)
-				check = $keyboard.isBlock(container, node.previousSibling);
-				if (updateText(check) && checkDone(check)) {
-					done = true;
-				}
-				// Add one if we're inside a block node (div, p, etc)
-				check = $keyboard.isTextNode(node.previousSibling) && $keyboard.isBlock(container, node);
-				if (updateText(check) && checkDone(check)) {
-					done = true;
-				}
-				if ($keyboard.isTextNode(node)) {
-					txt += node.textContent;
-					if (checkDone(node.length)) {
-						check = offset - position === 0 && position - last >= 1 ? node.length : offset - position;
-						return {
-							node: node,
-							offset: check,
-							position: offset,
-							text: txt
-						};
-					}
-				} else if (!done && node.childNodes) {
-					nodes = $.makeArray(node.childNodes).concat(nodes);
-				}
-			}
-			return nodes.length ?
-				{node: node, offset: offset - position, position: offset, text: txt} :
-				// Offset is larger than content, return max
-				{node: node, offset: node && node.length || 0, position: max, text: txt};
-		}
-		if (result.node) {
-			s = result.position; // Adjust if start > content length
-			if (start === 'getMax') {
-				return s;
-			}
-			range.setStart(result.node, result.offset);
-			// Only find end if > start and is defined... this allows passing
-			// setEditableCaret(el, 'end') or setEditableCaret(el, 10, 'end');
-			if (typeof end !== "undefined" && end !== start) {
-				result = findNode(end);
-			}
-			if (result.node) {
-				e = result.position; // Adjust if end > content length
-				range.setEnd(result.node, result.offset);
-				text = s === e ? "" : result.text.substring(s, e);
-			}
-			sel.removeAllRanges();
-			sel.addRange(range);
-		}
-		return {
-			start: s,
-			end: e,
-			text: text
-		};
-	};
-
-	$keyboard.replaceContent = function (el, param) {
-		el = $(el)[0];
-		var node, i, str,
-			type = typeof param,
-			caret = $keyboard.getEditableCaret(el).start,
-			charIndex = 0,
-			nodeStack = [el];
-		while ((node = nodeStack.pop())) {
-			if ($keyboard.isTextNode(node)) {
-				if (type === 'function') {
-					if (caret >= charIndex && caret <= charIndex + node.length) {
-						node.textContent = param(node.textContent);
-					}
-				} else if (type === 'string') {
-					// maybe not the best method, but it works for simple changes
-					str = param.substring(charIndex, charIndex + node.length);
-					if (str !== node.textContent) {
-						node.textContent = str;
-					}
-				}
-				charIndex += node.length;
-			} else if (node && node.childNodes) {
-				i = node.childNodes.length;
-				while (i--) {
-					nodeStack.push(node.childNodes[i]);
-				}
-			}
-		}
-		i = $keyboard.getEditableCaret(el);
-		$keyboard.setEditableCaret(el, i.start, i.start);
-	};
-
-	$.fn.keyboard = function (options) {
-		return this.each(function () {
-			if (!$(this).data('keyboard')) {
-				/*jshint nonew:false */
-				(new $.keyboard(this, options));
-			}
-		});
-	};
-
-	$.fn.getkeyboard = function () {
-		return this.data('keyboard');
-	};
-
-	/* Copyright (c) 2010 C. F., Wong (<a href="http://cloudgen.w0ng.hk">Cloudgen Examplet Store</a>)
-	 * Licensed under the MIT License:
-	 * http://www.opensource.org/licenses/mit-license.php
-	 * Highly modified from the original
-	 */
-
-	$.fn.caret = function (start, end, noFocus) {
-		if (
-			typeof this[0] === 'undefined' ||
-			this.is(':hidden') ||
-			this.css('visibility') === 'hidden' ||
-			!/(INPUT|TEXTAREA)/.test(this[0].nodeName)
-		) {
-			return this;
-		}
-		var selRange, range, stored_range, txt, val,
-			$el = this,
-			el = $el[0],
-			selection = el.ownerDocument.selection,
-			sTop = el.scrollTop,
-			ss = false,
-			supportCaret = true;
-		try {
-			ss = 'selectionStart' in el;
-		} catch (err) {
-			supportCaret = false;
-		}
-		if (supportCaret && typeof start !== 'undefined') {
-			if (!/(email|number)/i.test(el.type)) {
-				if (ss) {
-					el.selectionStart = start;
-					el.selectionEnd = end;
-				} else {
-					selRange = el.createTextRange();
-					selRange.collapse(true);
-					selRange.moveStart('character', start);
-					selRange.moveEnd('character', end - start);
-					selRange.select();
-				}
-			}
-			// must be visible or IE8 crashes; IE9 in compatibility mode works fine - issue #56
-			if (!noFocus && ($el.is(':visible') || $el.css('visibility') !== 'hidden')) {
-				el.focus();
-			}
-			el.scrollTop = sTop;
-			return this;
-		} else {
-			if (/(email|number)/i.test(el.type)) {
-				// fix suggested by raduanastase (https://github.com/Mottie/Keyboard/issues/105#issuecomment-40456535)
-				start = end = $el.val().length;
-			} else if (ss) {
-				start = el.selectionStart;
-				end = el.selectionEnd;
-			} else if (selection) {
-				if (el.nodeName === 'TEXTAREA') {
-					val = $el.val();
-					range = selection.createRange();
-					stored_range = range.duplicate();
-					stored_range.moveToElementText(el);
-					stored_range.setEndPoint('EndToEnd', range);
-					// thanks to the awesome comments in the rangy plugin
-					start = stored_range.text.replace(/\r/g, '\n').length;
-					end = start + range.text.replace(/\r/g, '\n').length;
-				} else {
-					val = $el.val().replace(/\r/g, '\n');
-					range = selection.createRange().duplicate();
-					range.moveEnd('character', val.length);
-					start = (range.text === '' ? val.length : val.lastIndexOf(range.text));
-					range = selection.createRange().duplicate();
-					range.moveStart('character', -val.length);
-					end = range.text.length;
-				}
-			} else {
-				// caret positioning not supported
-				start = end = (el.value || '').length;
-			}
-			txt = (el.value || '');
-			return {
-				start: start,
-				end: end,
-				text: txt.substring(start, end),
-				replace: function (str) {
-					return txt.substring(0, start) + str + txt.substring(end, txt.length);
-				}
-			};
-		}
-	};
-
-	return $keyboard;
-
-}));
-
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(Promise) {(function(self) {
-  'use strict';
-
-  if (self.fetch) {
-    return
-  }
-
-  var support = {
-    searchParams: 'URLSearchParams' in self,
-    iterable: 'Symbol' in self && 'iterator' in Symbol,
-    blob: 'FileReader' in self && 'Blob' in self && (function() {
-      try {
-        new Blob()
-        return true
-      } catch(e) {
-        return false
-      }
-    })(),
-    formData: 'FormData' in self,
-    arrayBuffer: 'ArrayBuffer' in self
-  }
-
-  if (support.arrayBuffer) {
-    var viewClasses = [
-      '[object Int8Array]',
-      '[object Uint8Array]',
-      '[object Uint8ClampedArray]',
-      '[object Int16Array]',
-      '[object Uint16Array]',
-      '[object Int32Array]',
-      '[object Uint32Array]',
-      '[object Float32Array]',
-      '[object Float64Array]'
-    ]
-
-    var isDataView = function(obj) {
-      return obj && DataView.prototype.isPrototypeOf(obj)
-    }
-
-    var isArrayBufferView = ArrayBuffer.isView || function(obj) {
-      return obj && viewClasses.indexOf(Object.prototype.toString.call(obj)) > -1
-    }
-  }
-
-  function normalizeName(name) {
-    if (typeof name !== 'string') {
-      name = String(name)
-    }
-    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
-      throw new TypeError('Invalid character in header field name')
-    }
-    return name.toLowerCase()
-  }
-
-  function normalizeValue(value) {
-    if (typeof value !== 'string') {
-      value = String(value)
-    }
-    return value
-  }
-
-  // Build a destructive iterator for the value list
-  function iteratorFor(items) {
-    var iterator = {
-      next: function() {
-        var value = items.shift()
-        return {done: value === undefined, value: value}
-      }
-    }
-
-    if (support.iterable) {
-      iterator[Symbol.iterator] = function() {
-        return iterator
-      }
-    }
-
-    return iterator
-  }
-
-  function Headers(headers) {
-    this.map = {}
-
-    if (headers instanceof Headers) {
-      headers.forEach(function(value, name) {
-        this.append(name, value)
-      }, this)
-    } else if (Array.isArray(headers)) {
-      headers.forEach(function(header) {
-        this.append(header[0], header[1])
-      }, this)
-    } else if (headers) {
-      Object.getOwnPropertyNames(headers).forEach(function(name) {
-        this.append(name, headers[name])
-      }, this)
-    }
-  }
-
-  Headers.prototype.append = function(name, value) {
-    name = normalizeName(name)
-    value = normalizeValue(value)
-    var oldValue = this.map[name]
-    this.map[name] = oldValue ? oldValue+','+value : value
-  }
-
-  Headers.prototype['delete'] = function(name) {
-    delete this.map[normalizeName(name)]
-  }
-
-  Headers.prototype.get = function(name) {
-    name = normalizeName(name)
-    return this.has(name) ? this.map[name] : null
-  }
-
-  Headers.prototype.has = function(name) {
-    return this.map.hasOwnProperty(normalizeName(name))
-  }
-
-  Headers.prototype.set = function(name, value) {
-    this.map[normalizeName(name)] = normalizeValue(value)
-  }
-
-  Headers.prototype.forEach = function(callback, thisArg) {
-    for (var name in this.map) {
-      if (this.map.hasOwnProperty(name)) {
-        callback.call(thisArg, this.map[name], name, this)
-      }
-    }
-  }
-
-  Headers.prototype.keys = function() {
-    var items = []
-    this.forEach(function(value, name) { items.push(name) })
-    return iteratorFor(items)
-  }
-
-  Headers.prototype.values = function() {
-    var items = []
-    this.forEach(function(value) { items.push(value) })
-    return iteratorFor(items)
-  }
-
-  Headers.prototype.entries = function() {
-    var items = []
-    this.forEach(function(value, name) { items.push([name, value]) })
-    return iteratorFor(items)
-  }
-
-  if (support.iterable) {
-    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
-  }
-
-  function consumed(body) {
-    if (body.bodyUsed) {
-      return Promise.reject(new TypeError('Already read'))
-    }
-    body.bodyUsed = true
-  }
-
-  function fileReaderReady(reader) {
-    return new Promise(function(resolve, reject) {
-      reader.onload = function() {
-        resolve(reader.result)
-      }
-      reader.onerror = function() {
-        reject(reader.error)
-      }
-    })
-  }
-
-  function readBlobAsArrayBuffer(blob) {
-    var reader = new FileReader()
-    var promise = fileReaderReady(reader)
-    reader.readAsArrayBuffer(blob)
-    return promise
-  }
-
-  function readBlobAsText(blob) {
-    var reader = new FileReader()
-    var promise = fileReaderReady(reader)
-    reader.readAsText(blob)
-    return promise
-  }
-
-  function readArrayBufferAsText(buf) {
-    var view = new Uint8Array(buf)
-    var chars = new Array(view.length)
-
-    for (var i = 0; i < view.length; i++) {
-      chars[i] = String.fromCharCode(view[i])
-    }
-    return chars.join('')
-  }
-
-  function bufferClone(buf) {
-    if (buf.slice) {
-      return buf.slice(0)
-    } else {
-      var view = new Uint8Array(buf.byteLength)
-      view.set(new Uint8Array(buf))
-      return view.buffer
-    }
-  }
-
-  function Body() {
-    this.bodyUsed = false
-
-    this._initBody = function(body) {
-      this._bodyInit = body
-      if (!body) {
-        this._bodyText = ''
-      } else if (typeof body === 'string') {
-        this._bodyText = body
-      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
-        this._bodyBlob = body
-      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
-        this._bodyFormData = body
-      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-        this._bodyText = body.toString()
-      } else if (support.arrayBuffer && support.blob && isDataView(body)) {
-        this._bodyArrayBuffer = bufferClone(body.buffer)
-        // IE 10-11 can't handle a DataView body.
-        this._bodyInit = new Blob([this._bodyArrayBuffer])
-      } else if (support.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(body) || isArrayBufferView(body))) {
-        this._bodyArrayBuffer = bufferClone(body)
-      } else {
-        throw new Error('unsupported BodyInit type')
-      }
-
-      if (!this.headers.get('content-type')) {
-        if (typeof body === 'string') {
-          this.headers.set('content-type', 'text/plain;charset=UTF-8')
-        } else if (this._bodyBlob && this._bodyBlob.type) {
-          this.headers.set('content-type', this._bodyBlob.type)
-        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
-        }
-      }
-    }
-
-    if (support.blob) {
-      this.blob = function() {
-        var rejected = consumed(this)
-        if (rejected) {
-          return rejected
-        }
-
-        if (this._bodyBlob) {
-          return Promise.resolve(this._bodyBlob)
-        } else if (this._bodyArrayBuffer) {
-          return Promise.resolve(new Blob([this._bodyArrayBuffer]))
-        } else if (this._bodyFormData) {
-          throw new Error('could not read FormData body as blob')
-        } else {
-          return Promise.resolve(new Blob([this._bodyText]))
-        }
-      }
-
-      this.arrayBuffer = function() {
-        if (this._bodyArrayBuffer) {
-          return consumed(this) || Promise.resolve(this._bodyArrayBuffer)
-        } else {
-          return this.blob().then(readBlobAsArrayBuffer)
-        }
-      }
-    }
-
-    this.text = function() {
-      var rejected = consumed(this)
-      if (rejected) {
-        return rejected
-      }
-
-      if (this._bodyBlob) {
-        return readBlobAsText(this._bodyBlob)
-      } else if (this._bodyArrayBuffer) {
-        return Promise.resolve(readArrayBufferAsText(this._bodyArrayBuffer))
-      } else if (this._bodyFormData) {
-        throw new Error('could not read FormData body as text')
-      } else {
-        return Promise.resolve(this._bodyText)
-      }
-    }
-
-    if (support.formData) {
-      this.formData = function() {
-        return this.text().then(decode)
-      }
-    }
-
-    this.json = function() {
-      return this.text().then(JSON.parse)
-    }
-
-    return this
-  }
-
-  // HTTP methods whose capitalization should be normalized
-  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
-
-  function normalizeMethod(method) {
-    var upcased = method.toUpperCase()
-    return (methods.indexOf(upcased) > -1) ? upcased : method
-  }
-
-  function Request(input, options) {
-    options = options || {}
-    var body = options.body
-
-    if (input instanceof Request) {
-      if (input.bodyUsed) {
-        throw new TypeError('Already read')
-      }
-      this.url = input.url
-      this.credentials = input.credentials
-      if (!options.headers) {
-        this.headers = new Headers(input.headers)
-      }
-      this.method = input.method
-      this.mode = input.mode
-      if (!body && input._bodyInit != null) {
-        body = input._bodyInit
-        input.bodyUsed = true
-      }
-    } else {
-      this.url = String(input)
-    }
-
-    this.credentials = options.credentials || this.credentials || 'omit'
-    if (options.headers || !this.headers) {
-      this.headers = new Headers(options.headers)
-    }
-    this.method = normalizeMethod(options.method || this.method || 'GET')
-    this.mode = options.mode || this.mode || null
-    this.referrer = null
-
-    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
-      throw new TypeError('Body not allowed for GET or HEAD requests')
-    }
-    this._initBody(body)
-  }
-
-  Request.prototype.clone = function() {
-    return new Request(this, { body: this._bodyInit })
-  }
-
-  function decode(body) {
-    var form = new FormData()
-    body.trim().split('&').forEach(function(bytes) {
-      if (bytes) {
-        var split = bytes.split('=')
-        var name = split.shift().replace(/\+/g, ' ')
-        var value = split.join('=').replace(/\+/g, ' ')
-        form.append(decodeURIComponent(name), decodeURIComponent(value))
-      }
-    })
-    return form
-  }
-
-  function parseHeaders(rawHeaders) {
-    var headers = new Headers()
-    rawHeaders.split(/\r?\n/).forEach(function(line) {
-      var parts = line.split(':')
-      var key = parts.shift().trim()
-      if (key) {
-        var value = parts.join(':').trim()
-        headers.append(key, value)
-      }
-    })
-    return headers
-  }
-
-  Body.call(Request.prototype)
-
-  function Response(bodyInit, options) {
-    if (!options) {
-      options = {}
-    }
-
-    this.type = 'default'
-    this.status = 'status' in options ? options.status : 200
-    this.ok = this.status >= 200 && this.status < 300
-    this.statusText = 'statusText' in options ? options.statusText : 'OK'
-    this.headers = new Headers(options.headers)
-    this.url = options.url || ''
-    this._initBody(bodyInit)
-  }
-
-  Body.call(Response.prototype)
-
-  Response.prototype.clone = function() {
-    return new Response(this._bodyInit, {
-      status: this.status,
-      statusText: this.statusText,
-      headers: new Headers(this.headers),
-      url: this.url
-    })
-  }
-
-  Response.error = function() {
-    var response = new Response(null, {status: 0, statusText: ''})
-    response.type = 'error'
-    return response
-  }
-
-  var redirectStatuses = [301, 302, 303, 307, 308]
-
-  Response.redirect = function(url, status) {
-    if (redirectStatuses.indexOf(status) === -1) {
-      throw new RangeError('Invalid status code')
-    }
-
-    return new Response(null, {status: status, headers: {location: url}})
-  }
-
-  self.Headers = Headers
-  self.Request = Request
-  self.Response = Response
-
-  self.fetch = function(input, init) {
-    return new Promise(function(resolve, reject) {
-      var request = new Request(input, init)
-      var xhr = new XMLHttpRequest()
-
-      xhr.onload = function() {
-        var options = {
-          status: xhr.status,
-          statusText: xhr.statusText,
-          headers: parseHeaders(xhr.getAllResponseHeaders() || '')
-        }
-        options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL')
-        var body = 'response' in xhr ? xhr.response : xhr.responseText
-        resolve(new Response(body, options))
-      }
-
-      xhr.onerror = function() {
-        reject(new TypeError('Network request failed'))
-      }
-
-      xhr.ontimeout = function() {
-        reject(new TypeError('Network request failed'))
-      }
-
-      xhr.open(request.method, request.url, true)
-
-      if (request.credentials === 'include') {
-        xhr.withCredentials = true
-      }
-
-      if ('responseType' in xhr && support.blob) {
-        xhr.responseType = 'blob'
-      }
-
-      request.headers.forEach(function(value, name) {
-        xhr.setRequestHeader(name, value)
-      })
-
-      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
-    })
-  }
-  self.fetch.polyfill = true
-})(typeof self !== 'undefined' ? self : this);
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(38)))
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global, process) {/*** IMPORTS FROM imports-loader ***/
-(function() {
-
-/*!
- * @overview es6-promise - a tiny implementation of Promises/A+.
- * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
- * @license   Licensed under MIT license
- *            See https://raw.githubusercontent.com/stefanpenner/es6-promise/master/LICENSE
- * @version   v4.2.4+314e4831
- */
-
-(function (global, factory) {
-	 true ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.ES6Promise = factory());
-}(this, (function () { 'use strict';
-
-function objectOrFunction(x) {
-  var type = typeof x;
-  return x !== null && (type === 'object' || type === 'function');
-}
-
-function isFunction(x) {
-  return typeof x === 'function';
-}
-
-
-
-var _isArray = void 0;
-if (Array.isArray) {
-  _isArray = Array.isArray;
-} else {
-  _isArray = function (x) {
-    return Object.prototype.toString.call(x) === '[object Array]';
-  };
-}
-
-var isArray = _isArray;
-
-var len = 0;
-var vertxNext = void 0;
-var customSchedulerFn = void 0;
-
-var asap = function asap(callback, arg) {
-  queue[len] = callback;
-  queue[len + 1] = arg;
-  len += 2;
-  if (len === 2) {
-    // If len is 2, that means that we need to schedule an async flush.
-    // If additional callbacks are queued before the queue is flushed, they
-    // will be processed by this flush that we are scheduling.
-    if (customSchedulerFn) {
-      customSchedulerFn(flush);
-    } else {
-      scheduleFlush();
-    }
-  }
-};
-
-function setScheduler(scheduleFn) {
-  customSchedulerFn = scheduleFn;
-}
-
-function setAsap(asapFn) {
-  asap = asapFn;
-}
-
-var browserWindow = typeof window !== 'undefined' ? window : undefined;
-var browserGlobal = browserWindow || {};
-var BrowserMutationObserver = browserGlobal.MutationObserver || browserGlobal.WebKitMutationObserver;
-var isNode = typeof self === 'undefined' && typeof process !== 'undefined' && {}.toString.call(process) === '[object process]';
-
-// test for web worker but not in IE10
-var isWorker = typeof Uint8ClampedArray !== 'undefined' && typeof importScripts !== 'undefined' && typeof MessageChannel !== 'undefined';
-
-// node
-function useNextTick() {
-  // node version 0.10.x displays a deprecation warning when nextTick is used recursively
-  // see https://github.com/cujojs/when/issues/410 for details
-  return function () {
-    return process.nextTick(flush);
-  };
-}
-
-// vertx
-function useVertxTimer() {
-  if (typeof vertxNext !== 'undefined') {
-    return function () {
-      vertxNext(flush);
-    };
-  }
-
-  return useSetTimeout();
-}
-
-function useMutationObserver() {
-  var iterations = 0;
-  var observer = new BrowserMutationObserver(flush);
-  var node = document.createTextNode('');
-  observer.observe(node, { characterData: true });
-
-  return function () {
-    node.data = iterations = ++iterations % 2;
-  };
-}
-
-// web worker
-function useMessageChannel() {
-  var channel = new MessageChannel();
-  channel.port1.onmessage = flush;
-  return function () {
-    return channel.port2.postMessage(0);
-  };
-}
-
-function useSetTimeout() {
-  // Store setTimeout reference so es6-promise will be unaffected by
-  // other code modifying setTimeout (like sinon.useFakeTimers())
-  var globalSetTimeout = setTimeout;
-  return function () {
-    return globalSetTimeout(flush, 1);
-  };
-}
-
-var queue = new Array(1000);
-function flush() {
-  for (var i = 0; i < len; i += 2) {
-    var callback = queue[i];
-    var arg = queue[i + 1];
-
-    callback(arg);
-
-    queue[i] = undefined;
-    queue[i + 1] = undefined;
-  }
-
-  len = 0;
-}
-
-function attemptVertx() {
-  try {
-    var vertx = Function('return this')().require('vertx');
-    vertxNext = vertx.runOnLoop || vertx.runOnContext;
-    return useVertxTimer();
-  } catch (e) {
-    return useSetTimeout();
-  }
-}
-
-var scheduleFlush = void 0;
-// Decide what async method to use to triggering processing of queued callbacks:
-if (isNode) {
-  scheduleFlush = useNextTick();
-} else if (BrowserMutationObserver) {
-  scheduleFlush = useMutationObserver();
-} else if (isWorker) {
-  scheduleFlush = useMessageChannel();
-} else if (browserWindow === undefined && "function" === 'function') {
-  scheduleFlush = attemptVertx();
-} else {
-  scheduleFlush = useSetTimeout();
-}
-
-function then(onFulfillment, onRejection) {
-  var parent = this;
-
-  var child = new this.constructor(noop);
-
-  if (child[PROMISE_ID] === undefined) {
-    makePromise(child);
-  }
-
-  var _state = parent._state;
-
-
-  if (_state) {
-    var callback = arguments[_state - 1];
-    asap(function () {
-      return invokeCallback(_state, child, callback, parent._result);
-    });
-  } else {
-    subscribe(parent, child, onFulfillment, onRejection);
-  }
-
-  return child;
-}
-
-/**
-  `Promise.resolve` returns a promise that will become resolved with the
-  passed `value`. It is shorthand for the following:
-
-  ```javascript
-  let promise = new Promise(function(resolve, reject){
-    resolve(1);
-  });
-
-  promise.then(function(value){
-    // value === 1
-  });
-  ```
-
-  Instead of writing the above, your code now simply becomes the following:
-
-  ```javascript
-  let promise = Promise.resolve(1);
-
-  promise.then(function(value){
-    // value === 1
-  });
-  ```
-
-  @method resolve
-  @static
-  @param {Any} value value that the returned promise will be resolved with
-  Useful for tooling.
-  @return {Promise} a promise that will become fulfilled with the given
-  `value`
-*/
-function resolve$1(object) {
-  /*jshint validthis:true */
-  var Constructor = this;
-
-  if (object && typeof object === 'object' && object.constructor === Constructor) {
-    return object;
-  }
-
-  var promise = new Constructor(noop);
-  resolve(promise, object);
-  return promise;
-}
-
-var PROMISE_ID = Math.random().toString(36).substring(2);
-
-function noop() {}
-
-var PENDING = void 0;
-var FULFILLED = 1;
-var REJECTED = 2;
-
-var TRY_CATCH_ERROR = { error: null };
-
-function selfFulfillment() {
-  return new TypeError("You cannot resolve a promise with itself");
-}
-
-function cannotReturnOwn() {
-  return new TypeError('A promises callback cannot return that same promise.');
-}
-
-function getThen(promise) {
-  try {
-    return promise.then;
-  } catch (error) {
-    TRY_CATCH_ERROR.error = error;
-    return TRY_CATCH_ERROR;
-  }
-}
-
-function tryThen(then$$1, value, fulfillmentHandler, rejectionHandler) {
-  try {
-    then$$1.call(value, fulfillmentHandler, rejectionHandler);
-  } catch (e) {
-    return e;
-  }
-}
-
-function handleForeignThenable(promise, thenable, then$$1) {
-  asap(function (promise) {
-    var sealed = false;
-    var error = tryThen(then$$1, thenable, function (value) {
-      if (sealed) {
-        return;
-      }
-      sealed = true;
-      if (thenable !== value) {
-        resolve(promise, value);
-      } else {
-        fulfill(promise, value);
-      }
-    }, function (reason) {
-      if (sealed) {
-        return;
-      }
-      sealed = true;
-
-      reject(promise, reason);
-    }, 'Settle: ' + (promise._label || ' unknown promise'));
-
-    if (!sealed && error) {
-      sealed = true;
-      reject(promise, error);
-    }
-  }, promise);
-}
-
-function handleOwnThenable(promise, thenable) {
-  if (thenable._state === FULFILLED) {
-    fulfill(promise, thenable._result);
-  } else if (thenable._state === REJECTED) {
-    reject(promise, thenable._result);
-  } else {
-    subscribe(thenable, undefined, function (value) {
-      return resolve(promise, value);
-    }, function (reason) {
-      return reject(promise, reason);
-    });
-  }
-}
-
-function handleMaybeThenable(promise, maybeThenable, then$$1) {
-  if (maybeThenable.constructor === promise.constructor && then$$1 === then && maybeThenable.constructor.resolve === resolve$1) {
-    handleOwnThenable(promise, maybeThenable);
-  } else {
-    if (then$$1 === TRY_CATCH_ERROR) {
-      reject(promise, TRY_CATCH_ERROR.error);
-      TRY_CATCH_ERROR.error = null;
-    } else if (then$$1 === undefined) {
-      fulfill(promise, maybeThenable);
-    } else if (isFunction(then$$1)) {
-      handleForeignThenable(promise, maybeThenable, then$$1);
-    } else {
-      fulfill(promise, maybeThenable);
-    }
-  }
-}
-
-function resolve(promise, value) {
-  if (promise === value) {
-    reject(promise, selfFulfillment());
-  } else if (objectOrFunction(value)) {
-    handleMaybeThenable(promise, value, getThen(value));
-  } else {
-    fulfill(promise, value);
-  }
-}
-
-function publishRejection(promise) {
-  if (promise._onerror) {
-    promise._onerror(promise._result);
-  }
-
-  publish(promise);
-}
-
-function fulfill(promise, value) {
-  if (promise._state !== PENDING) {
-    return;
-  }
-
-  promise._result = value;
-  promise._state = FULFILLED;
-
-  if (promise._subscribers.length !== 0) {
-    asap(publish, promise);
-  }
-}
-
-function reject(promise, reason) {
-  if (promise._state !== PENDING) {
-    return;
-  }
-  promise._state = REJECTED;
-  promise._result = reason;
-
-  asap(publishRejection, promise);
-}
-
-function subscribe(parent, child, onFulfillment, onRejection) {
-  var _subscribers = parent._subscribers;
-  var length = _subscribers.length;
-
-
-  parent._onerror = null;
-
-  _subscribers[length] = child;
-  _subscribers[length + FULFILLED] = onFulfillment;
-  _subscribers[length + REJECTED] = onRejection;
-
-  if (length === 0 && parent._state) {
-    asap(publish, parent);
-  }
-}
-
-function publish(promise) {
-  var subscribers = promise._subscribers;
-  var settled = promise._state;
-
-  if (subscribers.length === 0) {
-    return;
-  }
-
-  var child = void 0,
-      callback = void 0,
-      detail = promise._result;
-
-  for (var i = 0; i < subscribers.length; i += 3) {
-    child = subscribers[i];
-    callback = subscribers[i + settled];
-
-    if (child) {
-      invokeCallback(settled, child, callback, detail);
-    } else {
-      callback(detail);
-    }
-  }
-
-  promise._subscribers.length = 0;
-}
-
-function tryCatch(callback, detail) {
-  try {
-    return callback(detail);
-  } catch (e) {
-    TRY_CATCH_ERROR.error = e;
-    return TRY_CATCH_ERROR;
-  }
-}
-
-function invokeCallback(settled, promise, callback, detail) {
-  var hasCallback = isFunction(callback),
-      value = void 0,
-      error = void 0,
-      succeeded = void 0,
-      failed = void 0;
-
-  if (hasCallback) {
-    value = tryCatch(callback, detail);
-
-    if (value === TRY_CATCH_ERROR) {
-      failed = true;
-      error = value.error;
-      value.error = null;
-    } else {
-      succeeded = true;
-    }
-
-    if (promise === value) {
-      reject(promise, cannotReturnOwn());
-      return;
-    }
-  } else {
-    value = detail;
-    succeeded = true;
-  }
-
-  if (promise._state !== PENDING) {
-    // noop
-  } else if (hasCallback && succeeded) {
-    resolve(promise, value);
-  } else if (failed) {
-    reject(promise, error);
-  } else if (settled === FULFILLED) {
-    fulfill(promise, value);
-  } else if (settled === REJECTED) {
-    reject(promise, value);
-  }
-}
-
-function initializePromise(promise, resolver) {
-  try {
-    resolver(function resolvePromise(value) {
-      resolve(promise, value);
-    }, function rejectPromise(reason) {
-      reject(promise, reason);
-    });
-  } catch (e) {
-    reject(promise, e);
-  }
-}
-
-var id = 0;
-function nextId() {
-  return id++;
-}
-
-function makePromise(promise) {
-  promise[PROMISE_ID] = id++;
-  promise._state = undefined;
-  promise._result = undefined;
-  promise._subscribers = [];
-}
-
-function validationError() {
-  return new Error('Array Methods must be provided an Array');
-}
-
-var Enumerator = function () {
-  function Enumerator(Constructor, input) {
-    this._instanceConstructor = Constructor;
-    this.promise = new Constructor(noop);
-
-    if (!this.promise[PROMISE_ID]) {
-      makePromise(this.promise);
-    }
-
-    if (isArray(input)) {
-      this.length = input.length;
-      this._remaining = input.length;
-
-      this._result = new Array(this.length);
-
-      if (this.length === 0) {
-        fulfill(this.promise, this._result);
-      } else {
-        this.length = this.length || 0;
-        this._enumerate(input);
-        if (this._remaining === 0) {
-          fulfill(this.promise, this._result);
-        }
-      }
-    } else {
-      reject(this.promise, validationError());
-    }
-  }
-
-  Enumerator.prototype._enumerate = function _enumerate(input) {
-    for (var i = 0; this._state === PENDING && i < input.length; i++) {
-      this._eachEntry(input[i], i);
-    }
-  };
-
-  Enumerator.prototype._eachEntry = function _eachEntry(entry, i) {
-    var c = this._instanceConstructor;
-    var resolve$$1 = c.resolve;
-
-
-    if (resolve$$1 === resolve$1) {
-      var _then = getThen(entry);
-
-      if (_then === then && entry._state !== PENDING) {
-        this._settledAt(entry._state, i, entry._result);
-      } else if (typeof _then !== 'function') {
-        this._remaining--;
-        this._result[i] = entry;
-      } else if (c === Promise$1) {
-        var promise = new c(noop);
-        handleMaybeThenable(promise, entry, _then);
-        this._willSettleAt(promise, i);
-      } else {
-        this._willSettleAt(new c(function (resolve$$1) {
-          return resolve$$1(entry);
-        }), i);
-      }
-    } else {
-      this._willSettleAt(resolve$$1(entry), i);
-    }
-  };
-
-  Enumerator.prototype._settledAt = function _settledAt(state, i, value) {
-    var promise = this.promise;
-
-
-    if (promise._state === PENDING) {
-      this._remaining--;
-
-      if (state === REJECTED) {
-        reject(promise, value);
-      } else {
-        this._result[i] = value;
-      }
-    }
-
-    if (this._remaining === 0) {
-      fulfill(promise, this._result);
-    }
-  };
-
-  Enumerator.prototype._willSettleAt = function _willSettleAt(promise, i) {
-    var enumerator = this;
-
-    subscribe(promise, undefined, function (value) {
-      return enumerator._settledAt(FULFILLED, i, value);
-    }, function (reason) {
-      return enumerator._settledAt(REJECTED, i, reason);
-    });
-  };
-
-  return Enumerator;
-}();
-
-/**
-  `Promise.all` accepts an array of promises, and returns a new promise which
-  is fulfilled with an array of fulfillment values for the passed promises, or
-  rejected with the reason of the first passed promise to be rejected. It casts all
-  elements of the passed iterable to promises as it runs this algorithm.
-
-  Example:
-
-  ```javascript
-  let promise1 = resolve(1);
-  let promise2 = resolve(2);
-  let promise3 = resolve(3);
-  let promises = [ promise1, promise2, promise3 ];
-
-  Promise.all(promises).then(function(array){
-    // The array here would be [ 1, 2, 3 ];
-  });
-  ```
-
-  If any of the `promises` given to `all` are rejected, the first promise
-  that is rejected will be given as an argument to the returned promises's
-  rejection handler. For example:
-
-  Example:
-
-  ```javascript
-  let promise1 = resolve(1);
-  let promise2 = reject(new Error("2"));
-  let promise3 = reject(new Error("3"));
-  let promises = [ promise1, promise2, promise3 ];
-
-  Promise.all(promises).then(function(array){
-    // Code here never runs because there are rejected promises!
-  }, function(error) {
-    // error.message === "2"
-  });
-  ```
-
-  @method all
-  @static
-  @param {Array} entries array of promises
-  @param {String} label optional string for labeling the promise.
-  Useful for tooling.
-  @return {Promise} promise that is fulfilled when all `promises` have been
-  fulfilled, or rejected if any of them become rejected.
-  @static
-*/
-function all(entries) {
-  return new Enumerator(this, entries).promise;
-}
-
-/**
-  `Promise.race` returns a new promise which is settled in the same way as the
-  first passed promise to settle.
-
-  Example:
-
-  ```javascript
-  let promise1 = new Promise(function(resolve, reject){
-    setTimeout(function(){
-      resolve('promise 1');
-    }, 200);
-  });
-
-  let promise2 = new Promise(function(resolve, reject){
-    setTimeout(function(){
-      resolve('promise 2');
-    }, 100);
-  });
-
-  Promise.race([promise1, promise2]).then(function(result){
-    // result === 'promise 2' because it was resolved before promise1
-    // was resolved.
-  });
-  ```
-
-  `Promise.race` is deterministic in that only the state of the first
-  settled promise matters. For example, even if other promises given to the
-  `promises` array argument are resolved, but the first settled promise has
-  become rejected before the other promises became fulfilled, the returned
-  promise will become rejected:
-
-  ```javascript
-  let promise1 = new Promise(function(resolve, reject){
-    setTimeout(function(){
-      resolve('promise 1');
-    }, 200);
-  });
-
-  let promise2 = new Promise(function(resolve, reject){
-    setTimeout(function(){
-      reject(new Error('promise 2'));
-    }, 100);
-  });
-
-  Promise.race([promise1, promise2]).then(function(result){
-    // Code here never runs
-  }, function(reason){
-    // reason.message === 'promise 2' because promise 2 became rejected before
-    // promise 1 became fulfilled
-  });
-  ```
-
-  An example real-world use case is implementing timeouts:
-
-  ```javascript
-  Promise.race([ajax('foo.json'), timeout(5000)])
-  ```
-
-  @method race
-  @static
-  @param {Array} promises array of promises to observe
-  Useful for tooling.
-  @return {Promise} a promise which settles in the same way as the first passed
-  promise to settle.
-*/
-function race(entries) {
-  /*jshint validthis:true */
-  var Constructor = this;
-
-  if (!isArray(entries)) {
-    return new Constructor(function (_, reject) {
-      return reject(new TypeError('You must pass an array to race.'));
-    });
-  } else {
-    return new Constructor(function (resolve, reject) {
-      var length = entries.length;
-      for (var i = 0; i < length; i++) {
-        Constructor.resolve(entries[i]).then(resolve, reject);
-      }
-    });
-  }
-}
-
-/**
-  `Promise.reject` returns a promise rejected with the passed `reason`.
-  It is shorthand for the following:
-
-  ```javascript
-  let promise = new Promise(function(resolve, reject){
-    reject(new Error('WHOOPS'));
-  });
-
-  promise.then(function(value){
-    // Code here doesn't run because the promise is rejected!
-  }, function(reason){
-    // reason.message === 'WHOOPS'
-  });
-  ```
-
-  Instead of writing the above, your code now simply becomes the following:
-
-  ```javascript
-  let promise = Promise.reject(new Error('WHOOPS'));
-
-  promise.then(function(value){
-    // Code here doesn't run because the promise is rejected!
-  }, function(reason){
-    // reason.message === 'WHOOPS'
-  });
-  ```
-
-  @method reject
-  @static
-  @param {Any} reason value that the returned promise will be rejected with.
-  Useful for tooling.
-  @return {Promise} a promise rejected with the given `reason`.
-*/
-function reject$1(reason) {
-  /*jshint validthis:true */
-  var Constructor = this;
-  var promise = new Constructor(noop);
-  reject(promise, reason);
-  return promise;
-}
-
-function needsResolver() {
-  throw new TypeError('You must pass a resolver function as the first argument to the promise constructor');
-}
-
-function needsNew() {
-  throw new TypeError("Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.");
-}
-
-/**
-  Promise objects represent the eventual result of an asynchronous operation. The
-  primary way of interacting with a promise is through its `then` method, which
-  registers callbacks to receive either a promise's eventual value or the reason
-  why the promise cannot be fulfilled.
-
-  Terminology
-  -----------
-
-  - `promise` is an object or function with a `then` method whose behavior conforms to this specification.
-  - `thenable` is an object or function that defines a `then` method.
-  - `value` is any legal JavaScript value (including undefined, a thenable, or a promise).
-  - `exception` is a value that is thrown using the throw statement.
-  - `reason` is a value that indicates why a promise was rejected.
-  - `settled` the final resting state of a promise, fulfilled or rejected.
-
-  A promise can be in one of three states: pending, fulfilled, or rejected.
-
-  Promises that are fulfilled have a fulfillment value and are in the fulfilled
-  state.  Promises that are rejected have a rejection reason and are in the
-  rejected state.  A fulfillment value is never a thenable.
-
-  Promises can also be said to *resolve* a value.  If this value is also a
-  promise, then the original promise's settled state will match the value's
-  settled state.  So a promise that *resolves* a promise that rejects will
-  itself reject, and a promise that *resolves* a promise that fulfills will
-  itself fulfill.
-
-
-  Basic Usage:
-  ------------
-
-  ```js
-  let promise = new Promise(function(resolve, reject) {
-    // on success
-    resolve(value);
-
-    // on failure
-    reject(reason);
-  });
-
-  promise.then(function(value) {
-    // on fulfillment
-  }, function(reason) {
-    // on rejection
-  });
-  ```
-
-  Advanced Usage:
-  ---------------
-
-  Promises shine when abstracting away asynchronous interactions such as
-  `XMLHttpRequest`s.
-
-  ```js
-  function getJSON(url) {
-    return new Promise(function(resolve, reject){
-      let xhr = new XMLHttpRequest();
-
-      xhr.open('GET', url);
-      xhr.onreadystatechange = handler;
-      xhr.responseType = 'json';
-      xhr.setRequestHeader('Accept', 'application/json');
-      xhr.send();
-
-      function handler() {
-        if (this.readyState === this.DONE) {
-          if (this.status === 200) {
-            resolve(this.response);
-          } else {
-            reject(new Error('getJSON: `' + url + '` failed with status: [' + this.status + ']'));
-          }
-        }
-      };
-    });
-  }
-
-  getJSON('/posts.json').then(function(json) {
-    // on fulfillment
-  }, function(reason) {
-    // on rejection
-  });
-  ```
-
-  Unlike callbacks, promises are great composable primitives.
-
-  ```js
-  Promise.all([
-    getJSON('/posts'),
-    getJSON('/comments')
-  ]).then(function(values){
-    values[0] // => postsJSON
-    values[1] // => commentsJSON
-
-    return values;
-  });
-  ```
-
-  @class Promise
-  @param {Function} resolver
-  Useful for tooling.
-  @constructor
-*/
-
-var Promise$1 = function () {
-  function Promise(resolver) {
-    this[PROMISE_ID] = nextId();
-    this._result = this._state = undefined;
-    this._subscribers = [];
-
-    if (noop !== resolver) {
-      typeof resolver !== 'function' && needsResolver();
-      this instanceof Promise ? initializePromise(this, resolver) : needsNew();
-    }
-  }
-
-  /**
-  The primary way of interacting with a promise is through its `then` method,
-  which registers callbacks to receive either a promise's eventual value or the
-  reason why the promise cannot be fulfilled.
-   ```js
-  findUser().then(function(user){
-    // user is available
-  }, function(reason){
-    // user is unavailable, and you are given the reason why
-  });
-  ```
-   Chaining
-  --------
-   The return value of `then` is itself a promise.  This second, 'downstream'
-  promise is resolved with the return value of the first promise's fulfillment
-  or rejection handler, or rejected if the handler throws an exception.
-   ```js
-  findUser().then(function (user) {
-    return user.name;
-  }, function (reason) {
-    return 'default name';
-  }).then(function (userName) {
-    // If `findUser` fulfilled, `userName` will be the user's name, otherwise it
-    // will be `'default name'`
-  });
-   findUser().then(function (user) {
-    throw new Error('Found user, but still unhappy');
-  }, function (reason) {
-    throw new Error('`findUser` rejected and we're unhappy');
-  }).then(function (value) {
-    // never reached
-  }, function (reason) {
-    // if `findUser` fulfilled, `reason` will be 'Found user, but still unhappy'.
-    // If `findUser` rejected, `reason` will be '`findUser` rejected and we're unhappy'.
-  });
-  ```
-  If the downstream promise does not specify a rejection handler, rejection reasons will be propagated further downstream.
-   ```js
-  findUser().then(function (user) {
-    throw new PedagogicalException('Upstream error');
-  }).then(function (value) {
-    // never reached
-  }).then(function (value) {
-    // never reached
-  }, function (reason) {
-    // The `PedgagocialException` is propagated all the way down to here
-  });
-  ```
-   Assimilation
-  ------------
-   Sometimes the value you want to propagate to a downstream promise can only be
-  retrieved asynchronously. This can be achieved by returning a promise in the
-  fulfillment or rejection handler. The downstream promise will then be pending
-  until the returned promise is settled. This is called *assimilation*.
-   ```js
-  findUser().then(function (user) {
-    return findCommentsByAuthor(user);
-  }).then(function (comments) {
-    // The user's comments are now available
-  });
-  ```
-   If the assimliated promise rejects, then the downstream promise will also reject.
-   ```js
-  findUser().then(function (user) {
-    return findCommentsByAuthor(user);
-  }).then(function (comments) {
-    // If `findCommentsByAuthor` fulfills, we'll have the value here
-  }, function (reason) {
-    // If `findCommentsByAuthor` rejects, we'll have the reason here
-  });
-  ```
-   Simple Example
-  --------------
-   Synchronous Example
-   ```javascript
-  let result;
-   try {
-    result = findResult();
-    // success
-  } catch(reason) {
-    // failure
-  }
-  ```
-   Errback Example
-   ```js
-  findResult(function(result, err){
-    if (err) {
-      // failure
-    } else {
-      // success
-    }
-  });
-  ```
-   Promise Example;
-   ```javascript
-  findResult().then(function(result){
-    // success
-  }, function(reason){
-    // failure
-  });
-  ```
-   Advanced Example
-  --------------
-   Synchronous Example
-   ```javascript
-  let author, books;
-   try {
-    author = findAuthor();
-    books  = findBooksByAuthor(author);
-    // success
-  } catch(reason) {
-    // failure
-  }
-  ```
-   Errback Example
-   ```js
-   function foundBooks(books) {
-   }
-   function failure(reason) {
-   }
-   findAuthor(function(author, err){
-    if (err) {
-      failure(err);
-      // failure
-    } else {
-      try {
-        findBoooksByAuthor(author, function(books, err) {
-          if (err) {
-            failure(err);
-          } else {
-            try {
-              foundBooks(books);
-            } catch(reason) {
-              failure(reason);
-            }
-          }
-        });
-      } catch(error) {
-        failure(err);
-      }
-      // success
-    }
-  });
-  ```
-   Promise Example;
-   ```javascript
-  findAuthor().
-    then(findBooksByAuthor).
-    then(function(books){
-      // found books
-  }).catch(function(reason){
-    // something went wrong
-  });
-  ```
-   @method then
-  @param {Function} onFulfilled
-  @param {Function} onRejected
-  Useful for tooling.
-  @return {Promise}
-  */
-
-  /**
-  `catch` is simply sugar for `then(undefined, onRejection)` which makes it the same
-  as the catch block of a try/catch statement.
-  ```js
-  function findAuthor(){
-  throw new Error('couldn't find that author');
-  }
-  // synchronous
-  try {
-  findAuthor();
-  } catch(reason) {
-  // something went wrong
-  }
-  // async with promises
-  findAuthor().catch(function(reason){
-  // something went wrong
-  });
-  ```
-  @method catch
-  @param {Function} onRejection
-  Useful for tooling.
-  @return {Promise}
-  */
-
-
-  Promise.prototype.catch = function _catch(onRejection) {
-    return this.then(null, onRejection);
-  };
-
-  /**
-    `finally` will be invoked regardless of the promise's fate just as native
-    try/catch/finally behaves
-  
-    Synchronous example:
-  
-    ```js
-    findAuthor() {
-      if (Math.random() > 0.5) {
-        throw new Error();
-      }
-      return new Author();
-    }
-  
-    try {
-      return findAuthor(); // succeed or fail
-    } catch(error) {
-      return findOtherAuther();
-    } finally {
-      // always runs
-      // doesn't affect the return value
-    }
-    ```
-  
-    Asynchronous example:
-  
-    ```js
-    findAuthor().catch(function(reason){
-      return findOtherAuther();
-    }).finally(function(){
-      // author was either found, or not
-    });
-    ```
-  
-    @method finally
-    @param {Function} callback
-    @return {Promise}
-  */
-
-
-  Promise.prototype.finally = function _finally(callback) {
-    var promise = this;
-    var constructor = promise.constructor;
-
-    return promise.then(function (value) {
-      return constructor.resolve(callback()).then(function () {
-        return value;
-      });
-    }, function (reason) {
-      return constructor.resolve(callback()).then(function () {
-        throw reason;
-      });
-    });
-  };
-
-  return Promise;
-}();
-
-Promise$1.prototype.then = then;
-Promise$1.all = all;
-Promise$1.race = race;
-Promise$1.resolve = resolve$1;
-Promise$1.reject = reject$1;
-Promise$1._setScheduler = setScheduler;
-Promise$1._setAsap = setAsap;
-Promise$1._asap = asap;
-
-/*global self*/
-function polyfill() {
-  var local = void 0;
-
-  if (typeof global !== 'undefined') {
-    local = global;
-  } else if (typeof self !== 'undefined') {
-    local = self;
-  } else {
-    try {
-      local = Function('return this')();
-    } catch (e) {
-      throw new Error('polyfill failed because global object is unavailable in this environment');
-    }
-  }
-
-  var P = local.Promise;
-
-  if (P) {
-    var promiseToString = null;
-    try {
-      promiseToString = Object.prototype.toString.call(P.resolve());
-    } catch (e) {
-      // silently ignored
-    }
-
-    if (promiseToString === '[object Promise]' && !P.cast) {
-      return;
-    }
-  }
-
-  local.Promise = Promise$1;
-}
-
-// Strange compat..
-Promise$1.polyfill = polyfill;
-Promise$1.Promise = Promise$1;
-
-return Promise$1;
-
-})));
-
-
-
-//# sourceMappingURL=es6-promise.map
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = global.Promise;
-}.call(global));
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(4)))
-
-/***/ }),
-/* 39 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return RowForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_toggle_display__ = __webpack_require__(40);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_toggle_display___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_toggle_display__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__AssembledDiagnosisForm__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__AssembledDissectionForm__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__AssembledGeneticTestForm__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__AssembledHeartMeasurementForm__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__AssembledHospitalizationForm__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__AssembledMeasurementForm__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__AssembledMedicationForm__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__AssembledProcedureForm__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__AssembledVitalForm__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__FindRelated__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__PresAbsButtons__ = __webpack_require__(97);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var parameterizedPlurals = __webpack_require__(28);
-
-var RowForm = function (_Component) {
-  _inherits(RowForm, _Component);
-
-  function RowForm(props) {
-    _classCallCheck(this, RowForm);
-
-    var _this = _possibleConstructorReturn(this, (RowForm.__proto__ || Object.getPrototypeOf(RowForm)).call(this, props));
-
-    _this.handleShowChange = _this.handleShowChange.bind(_this);
-    _this.state = { show: false };
-    return _this;
-  }
-
-  _createClass(RowForm, [{
-    key: 'handleShowChange',
-    value: function handleShowChange(bool) {
-      this.setState({ show: bool === 'true' });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var form = void 0;
-      var toggleable = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_13__PresAbsButtons__["a" /* default */], {
-        onShowChange: this.handleShowChange,
-        topic: this.props.topic,
-        visit: this.props.visit
-      });
-      switch (this.props.topic.topic_type) {
-        case 'diagnosis':
-          form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__AssembledDiagnosisForm__["default"], {
-            topic: this.props.topic,
-            allTopics: this.props.unsortedTopics,
-            visit: this.props.visit,
-            rowID: this.props.rowID
-          });
-          break;
-        case 'dissection':
-          form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__AssembledDissectionForm__["default"], {
-            topic: this.props.topic,
-            unsortedTopics: this.props.unsortedTopics,
-            visit: this.props.visit,
-            rowID: this.props.topic.id
-          });
-          break;
-        // case 'family member':
-        //   form = 'FAMILY MEMBER FORM';
-        //   break;
-        case 'genetic test':
-          form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__AssembledGeneticTestForm__["a" /* default */], {
-            topic: this.props.topic,
-            rowID: this.props.rowID,
-            visit: this.props.visit
-          });
-          break;
-        case 'hospitalization':
-          form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__AssembledHospitalizationForm__["default"], {
-            topic: this.props.topic,
-            unsortedTopics: this.props.unsortedTopics,
-            visit: this.props.visit,
-            rowID: this.props.rowID
-          });
-          break;
-        case 'measurement':
-          form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__AssembledMeasurementForm__["default"], {
-            topic: this.props.topic,
-            unsortedTopics: this.props.unsortedTopics,
-            visit: this.props.visit,
-            rowID: this.props.rowID
-          });
-          break;
-        case 'medication':
-          form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__AssembledMedicationForm__["default"], {
-            topic: this.props.topic,
-            rowID: this.props.rowID,
-            visit: this.props.visit
-          });
-          break;
-        case 'procedure':
-          form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10__AssembledProcedureForm__["default"], {
-            topic: this.props.topic,
-            unsortedTopics: this.props.unsortedTopics,
-            visit: this.props.visit,
-            rowID: this.props.rowID
-          });
-          break;
-        // case 'vital':
-        //   form = (
-        //     <FindRelated
-        //       topic={this.props.topic}
-        //       unsortedTopics={this.props.unsortedTopics}
-        //     />
-        //   )
-        //   break;
-        // case 'heart_measurement':
-        //   form = (
-        //     <FindRelated
-        //       topic={this.props.topic}
-        //       unsortedTopics={this.props.unsortedTopics}
-        //     />
-        //   )
-        //   break;
-        default:
-      }
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'tbody',
-        null,
-        toggleable,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          __WEBPACK_IMPORTED_MODULE_2_react_toggle_display___default.a,
-          { 'if': this.state.show, tag: 'section' },
-          form
-        )
-      );
-    }
-  }]);
-
-  return RowForm;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-RowForm.propTypes = {
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired,
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  unsortedTopics: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.array.isRequired,
-  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired
-};
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [exports, __webpack_require__(0), __webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else if (typeof exports !== "undefined") {
-		factory(exports, require('react'), require('prop-types'));
-	} else {
-		var mod = {
-			exports: {}
-		};
-		factory(mod.exports, global.React, global.propTypes);
-		global.ToggleDisplay = mod.exports;
-	}
-})(this, function (exports, _react, _propTypes) {
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	exports.default = ToggleDisplay;
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _propTypes2 = _interopRequireDefault(_propTypes);
-
-	function _interopRequireDefault(obj) {
-		return obj && obj.__esModule ? obj : {
-			default: obj
-		};
-	}
-
-	var _extends = Object.assign || function (target) {
-		for (var i = 1; i < arguments.length; i++) {
-			var source = arguments[i];
-
-			for (var key in source) {
-				if (Object.prototype.hasOwnProperty.call(source, key)) {
-					target[key] = source[key];
-				}
-			}
-		}
-
-		return target;
-	};
-
-	ToggleDisplay.propTypes = {
-		tag: _propTypes2.default.string,
-		hide: _propTypes2.default.bool,
-		show: _propTypes2.default.bool,
-		if: _propTypes2.default.bool
-	};
-
-	ToggleDisplay.defaultProps = {
-		tag: 'span'
-	};
-
-	var propsToRemove = Object.keys(ToggleDisplay.propTypes);
-
-	function isDefined(val) {
-		return val != null;
-	}
-
-	function shouldHide(props) {
-		if (isDefined(props.show)) {
-			return !props.show;
-		} else if (isDefined(props.hide)) {
-			return props.hide;
-		}
-		return false;
-	}
-
-	function pickProps(props) {
-		var newProps = Object.assign({}, props);
-		propsToRemove.forEach(function (prop) {
-			if (prop in newProps) {
-				delete newProps[prop];
-			}
-		});
-		return newProps;
-	}
-
-	function ToggleDisplay(props) {
-		if (props.if === false) {
-			return null;
-		}
-
-		var style = {};
-		if (shouldHide(props)) {
-			style.display = 'none';
-		}
-
-		var Tag = props.tag;
-		// prevent our props from being leaked down onto the children
-		var newProps = pickProps(props);
-
-		return _react2.default.createElement(Tag, _extends({ style: style }, newProps));
-	}
-});
-
-
-/***/ }),
-/* 41 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FrequencyField; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectConstructor__ = __webpack_require__(8);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-__webpack_require__(6);
-__webpack_require__(11);
-__webpack_require__(12);
-__webpack_require__(13);
-
-var FrequencyField = function (_Component) {
-  _inherits(FrequencyField, _Component);
-
-  function FrequencyField(props) {
-    _classCallCheck(this, FrequencyField);
-
-    var _this = _possibleConstructorReturn(this, (FrequencyField.__proto__ || Object.getPrototypeOf(FrequencyField)).call(this, props));
-
-    _this.state = {
-      frequencyAmount: _this.props.frequencyAmount,
-      frequencyUnit: _this.props.frequencyUnit
-    };
-    _this.keyboardize = _this.keyboardize.bind(_this);
-    _this.handleChange = _this.handleChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(FrequencyField, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.$el = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this.el);
-      this.$el.addKeyboard();
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this.$el.addKeyboard('destroy');
-    }
-  }, {
-    key: 'keyboardize',
-    value: function keyboardize(e) {
-      e.preventDefault();
-      this.$el = __WEBPACK_IMPORTED_MODULE_2_jquery___default()(this.el);
-      var kb = this.$el.getkeyboard();
-      // close the keyboard if the keyboard is visible and the button is clicked a second time
-      if (kb.isOpen) {
-        kb.close();
-      } else {
-        kb.reveal();
-      }
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(event) {
-      this.props.onFrequencyChange(_defineProperty({}, event.target.name, event.target.value));
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var options = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'form-inline' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-          type: 'number',
-          id: 'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_frequency_amount',
-          className: 'form-control calculator',
-          placeholder: 'frequency',
-          ref: function ref(el) {
-            return _this2.el = el;
-          },
-          name: 'frequencyAmount',
-          value: this.state.frequencyAmount,
-          onChange: this.handleChange
-        }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'button',
-          {
-            className: 'btn btn-light calculator',
-            type: 'button',
-            id: this.props.parameterizedPlural + '_' + this.props.rowID + '_freq_calc_button',
-            onClick: this.keyboardize
-          },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-calculator' })
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__SelectConstructor__["a" /* default */], {
-          arr: options,
-          title: 'times per',
-          rowID: this.props.rowID,
-          parameterizedPlural: this.props.parameterizedPlural,
-          name: 'frequencyUnit',
-          value: this.state.frequencyUnit,
-          onUnitChange: this.handleChange
-        })
-      );
-    }
-  }]);
-
-  return FrequencyField;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-FrequencyField.propTypes = {
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  parameterizedPlural: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
-};
-
-/***/ }),
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-
-
-var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
-
-/**
- * Simple, lightweight module assisting with the detection and context of
- * Worker. Helps avoid circular dependencies and allows code to reason about
- * whether or not they are in a Worker, even if they never include the main
- * `ReactWorker` dependency.
- */
-var ExecutionEnvironment = {
-
-  canUseDOM: canUseDOM,
-
-  canUseWorkers: typeof Worker !== 'undefined',
-
-  canUseEventListeners: canUseDOM && !!(window.addEventListener || window.attachEvent),
-
-  canUseViewport: canUseDOM && !!window.screen,
-
-  isInWorker: !canUseDOM // For now, this is true - might change in the future.
-
-};
-
-module.exports = ExecutionEnvironment;
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * @typechecks
- */
-
-var emptyFunction = __webpack_require__(7);
-
-/**
- * Upstream version of event listener. Does not take into account specific
- * nature of platform.
- */
-var EventListener = {
-  /**
-   * Listen to DOM events during the bubble phase.
-   *
-   * @param {DOMEventTarget} target DOM element to register listener on.
-   * @param {string} eventType Event type, e.g. 'click' or 'mouseover'.
-   * @param {function} callback Callback function.
-   * @return {object} Object with a `remove` method.
-   */
-  listen: function listen(target, eventType, callback) {
-    if (target.addEventListener) {
-      target.addEventListener(eventType, callback, false);
-      return {
-        remove: function remove() {
-          target.removeEventListener(eventType, callback, false);
-        }
-      };
-    } else if (target.attachEvent) {
-      target.attachEvent('on' + eventType, callback);
-      return {
-        remove: function remove() {
-          target.detachEvent('on' + eventType, callback);
-        }
-      };
-    }
-  },
-
-  /**
-   * Listen to DOM events during the capture phase.
-   *
-   * @param {DOMEventTarget} target DOM element to register listener on.
-   * @param {string} eventType Event type, e.g. 'click' or 'mouseover'.
-   * @param {function} callback Callback function.
-   * @return {object} Object with a `remove` method.
-   */
-  capture: function capture(target, eventType, callback) {
-    if (target.addEventListener) {
-      target.addEventListener(eventType, callback, true);
-      return {
-        remove: function remove() {
-          target.removeEventListener(eventType, callback, true);
-        }
-      };
-    } else {
-      if (process.env.NODE_ENV !== 'production') {
-        console.error('Attempted to listen to events during the capture phase on a ' + 'browser that does not support the capture phase. Your application ' + 'will not receive some events.');
-      }
-      return {
-        remove: emptyFunction
-      };
-    }
-  },
-
-  registerDefault: function registerDefault() {}
-};
-
-module.exports = EventListener;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * @typechecks
- */
-
-/* eslint-disable fb-www/typeof-undefined */
-
-/**
- * Same as document.activeElement but wraps in a try-catch block. In IE it is
- * not safe to call document.activeElement if there is nothing focused.
- *
- * The activeElement will be null only if the document or document body is not
- * yet defined.
- *
- * @param {?DOMDocument} doc Defaults to current document.
- * @return {?DOMElement}
- */
-function getActiveElement(doc) /*?DOMElement*/{
-  doc = doc || (typeof document !== 'undefined' ? document : undefined);
-  if (typeof doc === 'undefined') {
-    return null;
-  }
-  try {
-    return doc.activeElement || doc.body;
-  } catch (e) {
-    return doc.body;
-  }
-}
-
-module.exports = getActiveElement;
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * @typechecks
- * 
- */
-
-/*eslint-disable no-self-compare */
-
-
-
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-/**
- * inlined Object.is polyfill to avoid requiring consumers ship their own
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
- */
-function is(x, y) {
-  // SameValue algorithm
-  if (x === y) {
-    // Steps 1-5, 7-10
-    // Steps 6.b-6.e: +0 != -0
-    // Added the nonzero y check to make Flow happy, but it is redundant
-    return x !== 0 || y !== 0 || 1 / x === 1 / y;
-  } else {
-    // Step 6.a: NaN == NaN
-    return x !== x && y !== y;
-  }
-}
-
-/**
- * Performs equality by iterating through keys on an object and returning false
- * when any key has values which are not strictly equal between the arguments.
- * Returns true when the values of all keys are strictly equal.
- */
-function shallowEqual(objA, objB) {
-  if (is(objA, objB)) {
-    return true;
-  }
-
-  if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
-    return false;
-  }
-
-  var keysA = Object.keys(objA);
-  var keysB = Object.keys(objB);
-
-  if (keysA.length !== keysB.length) {
-    return false;
-  }
-
-  // Test for A's keys different from B.
-  for (var i = 0; i < keysA.length; i++) {
-    if (!hasOwnProperty.call(objB, keysA[i]) || !is(objA[keysA[i]], objB[keysA[i]])) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-module.exports = shallowEqual;
-
-/***/ }),
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * 
- */
-
-var isTextNode = __webpack_require__(81);
-
-/*eslint-disable no-bitwise */
-
-/**
- * Checks if a given DOM node contains or is another DOM node.
- */
-function containsNode(outerNode, innerNode) {
-  if (!outerNode || !innerNode) {
-    return false;
-  } else if (outerNode === innerNode) {
-    return true;
-  } else if (isTextNode(outerNode)) {
-    return false;
-  } else if (isTextNode(innerNode)) {
-    return containsNode(outerNode, innerNode.parentNode);
-  } else if ('contains' in outerNode) {
-    return outerNode.contains(innerNode);
-  } else if (outerNode.compareDocumentPosition) {
-    return !!(outerNode.compareDocumentPosition(innerNode) & 16);
-  } else {
-    return false;
-  }
-}
-
-module.exports = containsNode;
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-
-
-
-/**
- * @param {DOMElement} node input/textarea to focus
- */
-
-function focusNode(node) {
-  // IE8 can throw "Can't move focus to the control because it is invisible,
-  // not enabled, or of a type that does not accept the focus." for all kinds of
-  // reasons that are too expensive and fragile to test.
-  try {
-    node.focus();
-  } catch (e) {}
-}
-
-module.exports = focusNode;
-
-/***/ }),
-/* 48 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AssembledGeneticTestForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NoteField__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__SelectConstructor__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__TimeAgoField__ = __webpack_require__(15);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-
-
-
-
-var AssembledGeneticTestForm = function (_Component) {
-  _inherits(AssembledGeneticTestForm, _Component);
-
-  function AssembledGeneticTestForm(props) {
-    _classCallCheck(this, AssembledGeneticTestForm);
-
-    var _this = _possibleConstructorReturn(this, (AssembledGeneticTestForm.__proto__ || Object.getPrototypeOf(AssembledGeneticTestForm)).call(this, props));
-
-    _this.state = {
-      topic: _this.props.topic.id,
-      patient: _this.props.visit.patient_id,
-      visit: _this.props.visit.id,
-      timeAgoAmount: null,
-      timeAgoUnit: null,
-      absoluteDate: null,
-      lab: null,
-      labClassification: null,
-      clinicalClassification: null,
-      predictiveTestingRecommended: null,
-      transcript: null,
-      protein: null,
-      variant: null,
-      exons: null,
-      note: null,
-      file: null
-    };
-    _this.handleChange = _this.handleChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(AssembledGeneticTestForm, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      console.log('genetic test form unmounting');
-      debugger;
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(value) {
-      this.setState({
-        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
-        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
-        absoluteDate: value.absoluteDate || this.state.absoluteDate,
-        lab: value.lab || this.state.lab,
-        labClassification: value.labClassification || this.state.labClassification,
-        clinicalClassification: value.clinicalClassification || this.state.clinicalClassification,
-        predictiveTestingRecommended: value.predictiveTestingRecommended || this.state.predictiveTestingRecommended,
-        transcript: value.transcript || this.state.transcript,
-        protein: value.protein || this.state.protein,
-        variant: value.variant || this.state.variant,
-        exons: value.exons || this.state.exons,
-        file: value.file || this.state.file,
-        note: value.note || this.state.note
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var parameterizedPlural = 'genetic_tests';
-      var classifications = ['pathogenic', 'likely pathogenic', 'VUS likely disease-causing', 'VUS', 'VUS likely benign', 'likely benign', 'benign', 'consistent with clinical diagnosis'];
-
-      var locations = ['Ambry', 'Collagen Diagnostic Laboratory', 'Connective Tissue Gene Tests', 'GeneDX', 'Invitae', 'Laboratory for Molecular Medicine', 'Matrix', 'Tulane'];
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'tr',
-        { className: 'row_form', id: 'row_' + this.props.rowID },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'td',
-          { colSpan: 3 },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__HiddenFields__["a" /* default */], {
-            visit: this.props.visit,
-            topic: this.props.topic,
-            parameterizedPlural: parameterizedPlural,
-            rowID: this.props.rowID
-          }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-group row no-gutters' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'col-sm-3' },
-              'Lab',
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__SelectConstructor__["a" /* default */], {
-                arr: locations,
-                title: 'lab name',
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                name: 'labName',
-                value: this.state.labName,
-                onUnitChange: this.handleChange
-              })
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'col-sm-3' },
-              'Lab Classification',
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__SelectConstructor__["a" /* default */], {
-                arr: classifications,
-                title: 'lab classification',
-                parameterizedPlural: parameterizedPlural,
-                name: 'labClassification',
-                rowID: this.props.rowID,
-                value: this.state.labClassification,
-                onUnitChange: this.handleChange
-              })
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'col-sm-3' },
-              'Clinical Classification',
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__SelectConstructor__["a" /* default */], {
-                arr: classifications,
-                title: 'clinical classification',
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                name: 'clinicalClassification',
-                value: this.state.clinicalClassification,
-                onUnitChange: this.handleChange
-              })
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'col-sm-3' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'form-check' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'label',
-                  { className: 'form-check-label' },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-                    type: 'checkbox',
-                    value: this.state.predictiveTestingRecommended,
-                    name: 'predictiveTestingRecommended',
-                    id: 'visit_genetic_tests_attributes_' + this.props.rowID + '_predictive_testing_recommended',
-                    className: 'form-check-input'
-                  }),
-                  'Recommend predictive testing'
-                )
-              )
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'form-group row no-gutters' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'col-sm-4' },
-              'Transcript',
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'input-group' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'span',
-                  { className: 'input-group-addon', id: 'transcript_' + this.props.rowID },
-                  'NM_'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-                  type: 'string',
-                  placeholder: '000138.4',
-                  name: 'transcript',
-                  id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_transcript',
-                  className: 'form-control',
-                  value: this.state.transcript,
-                  'aria-describedby': 'transcript_' + this.props.rowID
-                })
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'col-sm-4' },
-              'Protein',
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'input-group' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'span',
-                  {
-                    className: 'input-group-addon',
-                    id: 'protein_' + this.props.rowID
-                  },
-                  'p.'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-                  type: 'string',
-                  placeholder: 'Gly931fsX10',
-                  name: 'protein',
-                  id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_protein',
-                  className: 'form-control',
-                  value: this.state.protein,
-                  'aria-describedby': 'protein_' + this.props.rowID
-                })
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'col-sm-3' },
-              'Variant',
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'input-group' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'span',
-                  {
-                    className: 'input-group-addon',
-                    id: 'variant_' + this.props.rowID
-                  },
-                  'c.'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-                  type: 'string',
-                  placeholder: '2793delG',
-                  name: 'variant',
-                  id: 'visit_' + parameterizedPlural + '_attributes_' + this.props.rowID + '_variant',
-                  className: 'form-control',
-                  value: this.state.variant,
-                  'aria-describedby': 'variant_' + this.props.rowID
-                })
-              )
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'col-sm-1' },
-              'Exons',
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', {
-                type: 'number',
-                placeholder: '23',
-                min: '1',
-                max: '63',
-                name: 'exons',
-                id: 'visit_' + parameterizedPlural + '_attributes_' + this.propsrowID + '_exons',
-                className: 'form-control',
-                value: this.state.exons
-              })
-            )
-          ),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'div',
-            { className: 'row no-gutters' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'form-inline col-sm-8' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__TimeAgoField__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                timeAgoAmount: this.state.timeAgoAmount,
-                timeAgoUnit: this.state.timeAgoUnit,
-                absoluteDate: this.state.absoluteDate,
-                onDateChange: this.handleChange
-              })
-            ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'div',
-              { className: 'form-inline col-sm-4' },
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__NoteField__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                noteValue: this.state.note,
-                onNoteChange: this.handleChange
-              }),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__["a" /* default */], {
-                topic: this.props.topic,
-                parameterizedPlural: parameterizedPlural,
-                rowID: this.props.rowID,
-                attachedFile: this.state.file,
-                onFileChange: this.handleChange
-              })
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return AssembledGeneticTestForm;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-AssembledGeneticTestForm.propTypes = {
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
-};
-
-/***/ }),
-/* 49 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AssembledHeartMeasurementForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__MeasurementField__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Keywords__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__NoteField__ = __webpack_require__(10);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-
-
-
-
-var AssembledHeartMeasurementForm = function (_Component) {
-  _inherits(AssembledHeartMeasurementForm, _Component);
-
-  function AssembledHeartMeasurementForm(props) {
-    _classCallCheck(this, AssembledHeartMeasurementForm);
-
-    var _this = _possibleConstructorReturn(this, (AssembledHeartMeasurementForm.__proto__ || Object.getPrototypeOf(AssembledHeartMeasurementForm)).call(this, props));
-
-    _this.state = {
-      topic: _this.props.topic.id,
-      patient: _this.props.visit.patient_id,
-      visit: _this.props.visit.id,
-      measurement: null,
-      units: null,
-      timeAgoAmount: null,
-      timeAgoUnit: null,
-      absoluteDate: null,
-      keywords: null,
-      note: null,
-      file: null
-    };
-    _this.handleChange = _this.handleChange.bind(_this);
-    return _this;
-  }
-
-  _createClass(AssembledHeartMeasurementForm, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      console.log('heart measurement form unmounting');
-      debugger;
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(value) {
-      this.setState({
-        timeAgoAmount: value.timeAgoAmount || this.state.timeAgoAmount,
-        timeAgoUnit: value.timeAgoUnit || this.state.timeAgoUnit,
-        absoluteDate: value.absoluteDate || this.state.absoluteDate,
-        measurement: value.measurement || this.state.measurement,
-        units: value.units || this.state.units,
-        file: value.file || this.state.file,
-        note: value.note || this.state.note
-      });
-      if (this.props.topic.units_of_measurement.length === 1 && this.state.measurement) {
-        this.setState({
-          units: this.props.topic.units_of_measurement[0]
-        });
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var parameterizedPlural = 'heart_measurements';
-      var measFields = void 0;
-      var descriptors = void 0;
-      if (this.props.topic.units_of_measurement.length === 1 || !this.props.topic.name.includes('morphology')) {
-        measFields = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__MeasurementField__["a" /* default */], {
-          topic: this.props.topic,
-          parameterizedPlural: parameterizedPlural,
-          rowID: this.props.rowID,
-          title: 'severity',
-          measurementValue: this.state.measurement,
-          unitOfMeas: this.state.units,
-          onMeasChange: this.handleChange
-        });
-      } else {
-        measFields = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__MeasurementField__["a" /* default */], {
-          topic: this.props.topic,
-          parameterizedPlural: parameterizedPlural,
-          multiSelect: true,
-          rowID: this.props.rowID,
-          title: 'morphology',
-          measurementValue: this.state.measurement,
-          unitOfMeas: this.state.units,
-          onMeasChange: this.handleChange
-        });
-      }
-      if (this.props.topic.descriptors) {
-        descriptors = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__Keywords__["a" /* default */], {
-          topic: this.props.topic,
-          parameterizedPlural: parameterizedPlural,
-          rowID: this.props.rowID,
-          keywordsValue: this.state.keywords,
-          onKeywordsChange: this.handleChange
-        });
-      }
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'form-group row' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'col-3 col-form-label' },
-          this.props.topic.name
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'col-9 form-inline' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__HiddenFields__["a" /* default */], {
-            visit: this.props.visit,
-            topic: this.props.topic,
-            parameterizedPlural: parameterizedPlural,
-            rowID: this.props.rowID
-          }),
-          measFields,
-          descriptors,
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__NoteField__["a" /* default */], {
-            topic: this.props.topic,
-            parameterizedPlural: parameterizedPlural,
-            rowID: this.props.rowID,
-            noteValue: this.state.note,
-            onNoteChange: this.handleChange
-          }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__FileAttachmentButton__["a" /* default */], {
-            topic: this.props.topic,
-            parameterizedPlural: parameterizedPlural,
-            rowID: this.props.rowID,
-            attachedFile: this.state.file,
-            onFileChange: this.handleChange
-          })
-        )
-      );
-    }
-  }]);
-
-  return AssembledHeartMeasurementForm;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-AssembledHeartMeasurementForm.propTypes = {
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
-};
-
-/***/ }),
-/* 50 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(fetch) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AssembledVitalForm; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__BloodPressureForm__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__HiddenFields__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__MeasurementField__ = __webpack_require__(30);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-
-
-var AssembledVitalForm = function (_Component) {
-  _inherits(AssembledVitalForm, _Component);
-
-  function AssembledVitalForm(props) {
-    _classCallCheck(this, AssembledVitalForm);
-
-    var _this = _possibleConstructorReturn(this, (AssembledVitalForm.__proto__ || Object.getPrototypeOf(AssembledVitalForm)).call(this, props));
-
-    _this.state = {
-      topic: _this.props.topic.id,
-      patient: _this.props.visit.patient_id,
-      visit: _this.props.visit.id,
-      measurement: null,
-      units: null
-    };
-    _this.handleChange = _this.handleChange.bind(_this);
-    _this.handleBPChange = _this.handleBPChange.bind(_this);
-    _this.ajaxData = _this.ajaxData.bind(_this);
-    return _this;
-  }
-
-  _createClass(AssembledVitalForm, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount(event) {
-      var data = JSON.stringify(this.ajaxData());
-      fetch('/visits/' + this.state.visit + '.json', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: data
-      }).then(function (response) {
-        console.log(response.json());
-      }).then(function (data) {
-        alert(JSON.stringify(data));
-      });
-    }
-  }, {
-    key: 'handleChange',
-    value: function handleChange(value) {
-      this.setState({
-        measurement: value.measurement || this.state.measurement,
-        units: value.units || this.state.units
-      });
-    }
-  }, {
-    key: 'handleBPChange',
-    value: function handleBPChange(value) {
-      this.setState({
-        measurement: this.state.measurement,
-        units: 'mmHG'
-      });
-    }
-  }, {
-    key: 'ajaxData',
-    value: function ajaxData() {
-      return {
-        visit: {
-          id: this.state.visit,
-          vitals_attributes: [{
-            visit_id: this.state.visit,
-            patient_id: this.state.patient,
-            topic_id: this.state.topic,
-            measurement: this.state.measurement + ' ' + this.state.units
-          }]
-        }
-      };
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var parameterizedPlural = 'vitals';
-      var form;
-      if (this.props.topic.name == 'blood pressure') {
-        form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__BloodPressureForm__["a" /* default */], {
-          visit: this.props.visit,
-          topic: this.props.topic,
-          parameterizedPlural: parameterizedPlural,
-          title: this.props.topic.name,
-          rowID: this.props.rowID,
-          measurementValue: this.state.measurement,
-          unitOfMeas: this.state.units,
-          onMeasChange: this.handleBPChange
-        });
-      } else {
-        form = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { className: 'form-inline col-10' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__HiddenFields__["a" /* default */], {
-            visit: this.props.visit,
-            topic: this.props.topic,
-            parameterizedPlural: parameterizedPlural,
-            rowID: this.props.rowID
-          }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__MeasurementField__["a" /* default */], {
-            topic: this.props.topic,
-            parameterizedPlural: parameterizedPlural,
-            title: this.props.topic.name,
-            rowID: this.props.rowID,
-            measurementValue: this.state.measurement,
-            unitOfMeas: this.state.units,
-            onMeasChange: this.handleChange
-          })
-        );
-      }
-
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'form-group row' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'label',
-          { className: 'col-2 col-form-label' },
-          this.props.topic.name
-        ),
-        form
-      );
-    }
-  }]);
-
-  return AssembledVitalForm;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-
-
-
-AssembledVitalForm.propTypes = {
-  topic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  visit: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object.isRequired,
-  rowID: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.number.isRequired
-};
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(89)))
-
-/***/ }),
-/* 51 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(2);
-__webpack_require__(52);
-__webpack_require__(127);
-__webpack_require__(128);
-module.exports = __webpack_require__(37);
-
-
-/***/ }),
-/* 52 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery_ujs__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery_ujs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery_ujs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery_ui_ui_core_js__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_jquery_ui_ui_core_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_jquery_ui_ui_core_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery_ui_ui_position_js__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery_ui_ui_position_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery_ui_ui_position_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery_ui_ui_widgets_tabs_js__ = __webpack_require__(53);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_jquery_ui_ui_widgets_tabs_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_jquery_ui_ui_widgets_tabs_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_select2_dist_js_select2_full_js__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_select2_dist_js_select2_full_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_select2_dist_js_select2_full_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_tether__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_tether___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_tether__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_virtual_keyboard_dist_js_jquery_keyboard_js__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_virtual_keyboard_dist_js_jquery_keyboard_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_virtual_keyboard_dist_js_jquery_keyboard_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_whatwg_fetch__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_whatwg_fetch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_whatwg_fetch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_bootstrap__ = __webpack_require__(60);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_bootstrap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_bootstrap__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_bootstrap_switch_dist_js_bootstrap_switch_js__ = __webpack_require__(62);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_bootstrap_switch_dist_js_bootstrap_switch_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_bootstrap_switch_dist_js_bootstrap_switch_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_font_awesome_webpack__ = __webpack_require__(63);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_font_awesome_webpack___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_font_awesome_webpack__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_epicMeds__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_medMapper__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_addKeyboard__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_row_form_pieces_RowForm__ = __webpack_require__(39);
-// require webpack-bundle
-
-/* eslint no-console:0 */
-// This file is automatically compiled by Webpack, along with any other files
-// present in this directory. You're encouraged to place your actual application logic in
-// a relevant structure within app/javascript and only use these pack files to reference
-// that code so it'll be compiled.
-//
-// layout file, like app/views/layouts/application.html.erb
-// import import React, { Component } from 'react'
-// import { render } from 'react-dom'
-// import ReactOne from '../components/react_one.jsx'
-// RWR.registerComponent('ReactOne', ReactOne);
-window.$ = __webpack_require__(2);
-
-
-
-
-
-
-
-global.Tether = __WEBPACK_IMPORTED_MODULE_5_tether___default.a;
-
-
-
-
-
-
-
-
-
-
-// import 'myscript/dist/myscript.js'
-
-__webpack_require__(99);
-
-// ROW FORM TYPES
-__webpack_require__(101);
-__webpack_require__(102);
-__webpack_require__(103);
-__webpack_require__(104);
-__webpack_require__(105);
-__webpack_require__(106);
-__webpack_require__(107);
-
-// EXPOSING JS TO BE USED IN RAILS
-// require('../../stylesheet/application.scss');
-__webpack_require__(111);
-__webpack_require__(112);
-__webpack_require__(114);
-__webpack_require__(116);
-__webpack_require__(117);
-__webpack_require__(118);
-__webpack_require__(119);
-__webpack_require__(121);
-
-// require('expose-loader?MyScript!myscript/dist/myscript.js');
-__webpack_require__(123);
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(3)))
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery UI Tabs 1.12.1
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- */
-
-//>>label: Tabs
-//>>group: Widgets
-//>>description: Transforms a set of container elements into a tab structure.
-//>>docs: http://api.jqueryui.com/tabs/
-//>>demos: http://jqueryui.com/tabs/
-//>>css.structure: ../../themes/base/core.css
-//>>css.structure: ../../themes/base/tabs.css
-//>>css.theme: ../../themes/base/theme.css
-
-( function( factory ) {
-	if ( true ) {
-
-		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-			__webpack_require__(2),
-			__webpack_require__(54),
-			__webpack_require__(55),
-			__webpack_require__(56),
-			__webpack_require__(57),
-			__webpack_require__(14),
-			__webpack_require__(58)
-		], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {
-
-		// Browser globals
-		factory( jQuery );
-	}
-}( function( $ ) {
-
-$.widget( "ui.tabs", {
-	version: "1.12.1",
-	delay: 300,
-	options: {
-		active: null,
-		classes: {
-			"ui-tabs": "ui-corner-all",
-			"ui-tabs-nav": "ui-corner-all",
-			"ui-tabs-panel": "ui-corner-bottom",
-			"ui-tabs-tab": "ui-corner-top"
-		},
-		collapsible: false,
-		event: "click",
-		heightStyle: "content",
-		hide: null,
-		show: null,
-
-		// Callbacks
-		activate: null,
-		beforeActivate: null,
-		beforeLoad: null,
-		load: null
-	},
-
-	_isLocal: ( function() {
-		var rhash = /#.*$/;
-
-		return function( anchor ) {
-			var anchorUrl, locationUrl;
-
-			anchorUrl = anchor.href.replace( rhash, "" );
-			locationUrl = location.href.replace( rhash, "" );
-
-			// Decoding may throw an error if the URL isn't UTF-8 (#9518)
-			try {
-				anchorUrl = decodeURIComponent( anchorUrl );
-			} catch ( error ) {}
-			try {
-				locationUrl = decodeURIComponent( locationUrl );
-			} catch ( error ) {}
-
-			return anchor.hash.length > 1 && anchorUrl === locationUrl;
-		};
-	} )(),
-
-	_create: function() {
-		var that = this,
-			options = this.options;
-
-		this.running = false;
-
-		this._addClass( "ui-tabs", "ui-widget ui-widget-content" );
-		this._toggleClass( "ui-tabs-collapsible", null, options.collapsible );
-
-		this._processTabs();
-		options.active = this._initialActive();
-
-		// Take disabling tabs via class attribute from HTML
-		// into account and update option properly.
-		if ( $.isArray( options.disabled ) ) {
-			options.disabled = $.unique( options.disabled.concat(
-				$.map( this.tabs.filter( ".ui-state-disabled" ), function( li ) {
-					return that.tabs.index( li );
-				} )
-			) ).sort();
-		}
-
-		// Check for length avoids error when initializing empty list
-		if ( this.options.active !== false && this.anchors.length ) {
-			this.active = this._findActive( options.active );
-		} else {
-			this.active = $();
-		}
-
-		this._refresh();
-
-		if ( this.active.length ) {
-			this.load( options.active );
-		}
-	},
-
-	_initialActive: function() {
-		var active = this.options.active,
-			collapsible = this.options.collapsible,
-			locationHash = location.hash.substring( 1 );
-
-		if ( active === null ) {
-
-			// check the fragment identifier in the URL
-			if ( locationHash ) {
-				this.tabs.each( function( i, tab ) {
-					if ( $( tab ).attr( "aria-controls" ) === locationHash ) {
-						active = i;
-						return false;
-					}
-				} );
-			}
-
-			// Check for a tab marked active via a class
-			if ( active === null ) {
-				active = this.tabs.index( this.tabs.filter( ".ui-tabs-active" ) );
-			}
-
-			// No active tab, set to false
-			if ( active === null || active === -1 ) {
-				active = this.tabs.length ? 0 : false;
-			}
-		}
-
-		// Handle numbers: negative, out of range
-		if ( active !== false ) {
-			active = this.tabs.index( this.tabs.eq( active ) );
-			if ( active === -1 ) {
-				active = collapsible ? false : 0;
-			}
-		}
-
-		// Don't allow collapsible: false and active: false
-		if ( !collapsible && active === false && this.anchors.length ) {
-			active = 0;
-		}
-
-		return active;
-	},
-
-	_getCreateEventData: function() {
-		return {
-			tab: this.active,
-			panel: !this.active.length ? $() : this._getPanelForTab( this.active )
-		};
-	},
-
-	_tabKeydown: function( event ) {
-		var focusedTab = $( $.ui.safeActiveElement( this.document[ 0 ] ) ).closest( "li" ),
-			selectedIndex = this.tabs.index( focusedTab ),
-			goingForward = true;
-
-		if ( this._handlePageNav( event ) ) {
-			return;
-		}
-
-		switch ( event.keyCode ) {
-		case $.ui.keyCode.RIGHT:
-		case $.ui.keyCode.DOWN:
-			selectedIndex++;
-			break;
-		case $.ui.keyCode.UP:
-		case $.ui.keyCode.LEFT:
-			goingForward = false;
-			selectedIndex--;
-			break;
-		case $.ui.keyCode.END:
-			selectedIndex = this.anchors.length - 1;
-			break;
-		case $.ui.keyCode.HOME:
-			selectedIndex = 0;
-			break;
-		case $.ui.keyCode.SPACE:
-
-			// Activate only, no collapsing
-			event.preventDefault();
-			clearTimeout( this.activating );
-			this._activate( selectedIndex );
-			return;
-		case $.ui.keyCode.ENTER:
-
-			// Toggle (cancel delayed activation, allow collapsing)
-			event.preventDefault();
-			clearTimeout( this.activating );
-
-			// Determine if we should collapse or activate
-			this._activate( selectedIndex === this.options.active ? false : selectedIndex );
-			return;
-		default:
-			return;
-		}
-
-		// Focus the appropriate tab, based on which key was pressed
-		event.preventDefault();
-		clearTimeout( this.activating );
-		selectedIndex = this._focusNextTab( selectedIndex, goingForward );
-
-		// Navigating with control/command key will prevent automatic activation
-		if ( !event.ctrlKey && !event.metaKey ) {
-
-			// Update aria-selected immediately so that AT think the tab is already selected.
-			// Otherwise AT may confuse the user by stating that they need to activate the tab,
-			// but the tab will already be activated by the time the announcement finishes.
-			focusedTab.attr( "aria-selected", "false" );
-			this.tabs.eq( selectedIndex ).attr( "aria-selected", "true" );
-
-			this.activating = this._delay( function() {
-				this.option( "active", selectedIndex );
-			}, this.delay );
-		}
-	},
-
-	_panelKeydown: function( event ) {
-		if ( this._handlePageNav( event ) ) {
-			return;
-		}
-
-		// Ctrl+up moves focus to the current tab
-		if ( event.ctrlKey && event.keyCode === $.ui.keyCode.UP ) {
-			event.preventDefault();
-			this.active.trigger( "focus" );
-		}
-	},
-
-	// Alt+page up/down moves focus to the previous/next tab (and activates)
-	_handlePageNav: function( event ) {
-		if ( event.altKey && event.keyCode === $.ui.keyCode.PAGE_UP ) {
-			this._activate( this._focusNextTab( this.options.active - 1, false ) );
-			return true;
-		}
-		if ( event.altKey && event.keyCode === $.ui.keyCode.PAGE_DOWN ) {
-			this._activate( this._focusNextTab( this.options.active + 1, true ) );
-			return true;
-		}
-	},
-
-	_findNextTab: function( index, goingForward ) {
-		var lastTabIndex = this.tabs.length - 1;
-
-		function constrain() {
-			if ( index > lastTabIndex ) {
-				index = 0;
-			}
-			if ( index < 0 ) {
-				index = lastTabIndex;
-			}
-			return index;
-		}
-
-		while ( $.inArray( constrain(), this.options.disabled ) !== -1 ) {
-			index = goingForward ? index + 1 : index - 1;
-		}
-
-		return index;
-	},
-
-	_focusNextTab: function( index, goingForward ) {
-		index = this._findNextTab( index, goingForward );
-		this.tabs.eq( index ).trigger( "focus" );
-		return index;
-	},
-
-	_setOption: function( key, value ) {
-		if ( key === "active" ) {
-
-			// _activate() will handle invalid values and update this.options
-			this._activate( value );
-			return;
-		}
-
-		this._super( key, value );
-
-		if ( key === "collapsible" ) {
-			this._toggleClass( "ui-tabs-collapsible", null, value );
-
-			// Setting collapsible: false while collapsed; open first panel
-			if ( !value && this.options.active === false ) {
-				this._activate( 0 );
-			}
-		}
-
-		if ( key === "event" ) {
-			this._setupEvents( value );
-		}
-
-		if ( key === "heightStyle" ) {
-			this._setupHeightStyle( value );
-		}
-	},
-
-	_sanitizeSelector: function( hash ) {
-		return hash ? hash.replace( /[!"$%&'()*+,.\/:;<=>?@\[\]\^`{|}~]/g, "\\$&" ) : "";
-	},
-
-	refresh: function() {
-		var options = this.options,
-			lis = this.tablist.children( ":has(a[href])" );
-
-		// Get disabled tabs from class attribute from HTML
-		// this will get converted to a boolean if needed in _refresh()
-		options.disabled = $.map( lis.filter( ".ui-state-disabled" ), function( tab ) {
-			return lis.index( tab );
-		} );
-
-		this._processTabs();
-
-		// Was collapsed or no tabs
-		if ( options.active === false || !this.anchors.length ) {
-			options.active = false;
-			this.active = $();
-
-		// was active, but active tab is gone
-		} else if ( this.active.length && !$.contains( this.tablist[ 0 ], this.active[ 0 ] ) ) {
-
-			// all remaining tabs are disabled
-			if ( this.tabs.length === options.disabled.length ) {
-				options.active = false;
-				this.active = $();
-
-			// activate previous tab
-			} else {
-				this._activate( this._findNextTab( Math.max( 0, options.active - 1 ), false ) );
-			}
-
-		// was active, active tab still exists
-		} else {
-
-			// make sure active index is correct
-			options.active = this.tabs.index( this.active );
-		}
-
-		this._refresh();
-	},
-
-	_refresh: function() {
-		this._setOptionDisabled( this.options.disabled );
-		this._setupEvents( this.options.event );
-		this._setupHeightStyle( this.options.heightStyle );
-
-		this.tabs.not( this.active ).attr( {
-			"aria-selected": "false",
-			"aria-expanded": "false",
-			tabIndex: -1
-		} );
-		this.panels.not( this._getPanelForTab( this.active ) )
-			.hide()
-			.attr( {
-				"aria-hidden": "true"
-			} );
-
-		// Make sure one tab is in the tab order
-		if ( !this.active.length ) {
-			this.tabs.eq( 0 ).attr( "tabIndex", 0 );
-		} else {
-			this.active
-				.attr( {
-					"aria-selected": "true",
-					"aria-expanded": "true",
-					tabIndex: 0
-				} );
-			this._addClass( this.active, "ui-tabs-active", "ui-state-active" );
-			this._getPanelForTab( this.active )
-				.show()
-				.attr( {
-					"aria-hidden": "false"
-				} );
-		}
-	},
-
-	_processTabs: function() {
-		var that = this,
-			prevTabs = this.tabs,
-			prevAnchors = this.anchors,
-			prevPanels = this.panels;
-
-		this.tablist = this._getList().attr( "role", "tablist" );
-		this._addClass( this.tablist, "ui-tabs-nav",
-			"ui-helper-reset ui-helper-clearfix ui-widget-header" );
-
-		// Prevent users from focusing disabled tabs via click
-		this.tablist
-			.on( "mousedown" + this.eventNamespace, "> li", function( event ) {
-				if ( $( this ).is( ".ui-state-disabled" ) ) {
-					event.preventDefault();
-				}
-			} )
-
-			// Support: IE <9
-			// Preventing the default action in mousedown doesn't prevent IE
-			// from focusing the element, so if the anchor gets focused, blur.
-			// We don't have to worry about focusing the previously focused
-			// element since clicking on a non-focusable element should focus
-			// the body anyway.
-			.on( "focus" + this.eventNamespace, ".ui-tabs-anchor", function() {
-				if ( $( this ).closest( "li" ).is( ".ui-state-disabled" ) ) {
-					this.blur();
-				}
-			} );
-
-		this.tabs = this.tablist.find( "> li:has(a[href])" )
-			.attr( {
-				role: "tab",
-				tabIndex: -1
-			} );
-		this._addClass( this.tabs, "ui-tabs-tab", "ui-state-default" );
-
-		this.anchors = this.tabs.map( function() {
-			return $( "a", this )[ 0 ];
-		} )
-			.attr( {
-				role: "presentation",
-				tabIndex: -1
-			} );
-		this._addClass( this.anchors, "ui-tabs-anchor" );
-
-		this.panels = $();
-
-		this.anchors.each( function( i, anchor ) {
-			var selector, panel, panelId,
-				anchorId = $( anchor ).uniqueId().attr( "id" ),
-				tab = $( anchor ).closest( "li" ),
-				originalAriaControls = tab.attr( "aria-controls" );
-
-			// Inline tab
-			if ( that._isLocal( anchor ) ) {
-				selector = anchor.hash;
-				panelId = selector.substring( 1 );
-				panel = that.element.find( that._sanitizeSelector( selector ) );
-
-			// remote tab
-			} else {
-
-				// If the tab doesn't already have aria-controls,
-				// generate an id by using a throw-away element
-				panelId = tab.attr( "aria-controls" ) || $( {} ).uniqueId()[ 0 ].id;
-				selector = "#" + panelId;
-				panel = that.element.find( selector );
-				if ( !panel.length ) {
-					panel = that._createPanel( panelId );
-					panel.insertAfter( that.panels[ i - 1 ] || that.tablist );
-				}
-				panel.attr( "aria-live", "polite" );
-			}
-
-			if ( panel.length ) {
-				that.panels = that.panels.add( panel );
-			}
-			if ( originalAriaControls ) {
-				tab.data( "ui-tabs-aria-controls", originalAriaControls );
-			}
-			tab.attr( {
-				"aria-controls": panelId,
-				"aria-labelledby": anchorId
-			} );
-			panel.attr( "aria-labelledby", anchorId );
-		} );
-
-		this.panels.attr( "role", "tabpanel" );
-		this._addClass( this.panels, "ui-tabs-panel", "ui-widget-content" );
-
-		// Avoid memory leaks (#10056)
-		if ( prevTabs ) {
-			this._off( prevTabs.not( this.tabs ) );
-			this._off( prevAnchors.not( this.anchors ) );
-			this._off( prevPanels.not( this.panels ) );
-		}
-	},
-
-	// Allow overriding how to find the list for rare usage scenarios (#7715)
-	_getList: function() {
-		return this.tablist || this.element.find( "ol, ul" ).eq( 0 );
-	},
-
-	_createPanel: function( id ) {
-		return $( "<div>" )
-			.attr( "id", id )
-			.data( "ui-tabs-destroy", true );
-	},
-
-	_setOptionDisabled: function( disabled ) {
-		var currentItem, li, i;
-
-		if ( $.isArray( disabled ) ) {
-			if ( !disabled.length ) {
-				disabled = false;
-			} else if ( disabled.length === this.anchors.length ) {
-				disabled = true;
-			}
-		}
-
-		// Disable tabs
-		for ( i = 0; ( li = this.tabs[ i ] ); i++ ) {
-			currentItem = $( li );
-			if ( disabled === true || $.inArray( i, disabled ) !== -1 ) {
-				currentItem.attr( "aria-disabled", "true" );
-				this._addClass( currentItem, null, "ui-state-disabled" );
-			} else {
-				currentItem.removeAttr( "aria-disabled" );
-				this._removeClass( currentItem, null, "ui-state-disabled" );
-			}
-		}
-
-		this.options.disabled = disabled;
-
-		this._toggleClass( this.widget(), this.widgetFullName + "-disabled", null,
-			disabled === true );
-	},
-
-	_setupEvents: function( event ) {
-		var events = {};
-		if ( event ) {
-			$.each( event.split( " " ), function( index, eventName ) {
-				events[ eventName ] = "_eventHandler";
-			} );
-		}
-
-		this._off( this.anchors.add( this.tabs ).add( this.panels ) );
-
-		// Always prevent the default action, even when disabled
-		this._on( true, this.anchors, {
-			click: function( event ) {
-				event.preventDefault();
-			}
-		} );
-		this._on( this.anchors, events );
-		this._on( this.tabs, { keydown: "_tabKeydown" } );
-		this._on( this.panels, { keydown: "_panelKeydown" } );
-
-		this._focusable( this.tabs );
-		this._hoverable( this.tabs );
-	},
-
-	_setupHeightStyle: function( heightStyle ) {
-		var maxHeight,
-			parent = this.element.parent();
-
-		if ( heightStyle === "fill" ) {
-			maxHeight = parent.height();
-			maxHeight -= this.element.outerHeight() - this.element.height();
-
-			this.element.siblings( ":visible" ).each( function() {
-				var elem = $( this ),
-					position = elem.css( "position" );
-
-				if ( position === "absolute" || position === "fixed" ) {
-					return;
-				}
-				maxHeight -= elem.outerHeight( true );
-			} );
-
-			this.element.children().not( this.panels ).each( function() {
-				maxHeight -= $( this ).outerHeight( true );
-			} );
-
-			this.panels.each( function() {
-				$( this ).height( Math.max( 0, maxHeight -
-					$( this ).innerHeight() + $( this ).height() ) );
-			} )
-				.css( "overflow", "auto" );
-		} else if ( heightStyle === "auto" ) {
-			maxHeight = 0;
-			this.panels.each( function() {
-				maxHeight = Math.max( maxHeight, $( this ).height( "" ).height() );
-			} ).height( maxHeight );
-		}
-	},
-
-	_eventHandler: function( event ) {
-		var options = this.options,
-			active = this.active,
-			anchor = $( event.currentTarget ),
-			tab = anchor.closest( "li" ),
-			clickedIsActive = tab[ 0 ] === active[ 0 ],
-			collapsing = clickedIsActive && options.collapsible,
-			toShow = collapsing ? $() : this._getPanelForTab( tab ),
-			toHide = !active.length ? $() : this._getPanelForTab( active ),
-			eventData = {
-				oldTab: active,
-				oldPanel: toHide,
-				newTab: collapsing ? $() : tab,
-				newPanel: toShow
-			};
-
-		event.preventDefault();
-
-		if ( tab.hasClass( "ui-state-disabled" ) ||
-
-				// tab is already loading
-				tab.hasClass( "ui-tabs-loading" ) ||
-
-				// can't switch durning an animation
-				this.running ||
-
-				// click on active header, but not collapsible
-				( clickedIsActive && !options.collapsible ) ||
-
-				// allow canceling activation
-				( this._trigger( "beforeActivate", event, eventData ) === false ) ) {
-			return;
-		}
-
-		options.active = collapsing ? false : this.tabs.index( tab );
-
-		this.active = clickedIsActive ? $() : tab;
-		if ( this.xhr ) {
-			this.xhr.abort();
-		}
-
-		if ( !toHide.length && !toShow.length ) {
-			$.error( "jQuery UI Tabs: Mismatching fragment identifier." );
-		}
-
-		if ( toShow.length ) {
-			this.load( this.tabs.index( tab ), event );
-		}
-		this._toggle( event, eventData );
-	},
-
-	// Handles show/hide for selecting tabs
-	_toggle: function( event, eventData ) {
-		var that = this,
-			toShow = eventData.newPanel,
-			toHide = eventData.oldPanel;
-
-		this.running = true;
-
-		function complete() {
-			that.running = false;
-			that._trigger( "activate", event, eventData );
-		}
-
-		function show() {
-			that._addClass( eventData.newTab.closest( "li" ), "ui-tabs-active", "ui-state-active" );
-
-			if ( toShow.length && that.options.show ) {
-				that._show( toShow, that.options.show, complete );
-			} else {
-				toShow.show();
-				complete();
-			}
-		}
-
-		// Start out by hiding, then showing, then completing
-		if ( toHide.length && this.options.hide ) {
-			this._hide( toHide, this.options.hide, function() {
-				that._removeClass( eventData.oldTab.closest( "li" ),
-					"ui-tabs-active", "ui-state-active" );
-				show();
-			} );
-		} else {
-			this._removeClass( eventData.oldTab.closest( "li" ),
-				"ui-tabs-active", "ui-state-active" );
-			toHide.hide();
-			show();
-		}
-
-		toHide.attr( "aria-hidden", "true" );
-		eventData.oldTab.attr( {
-			"aria-selected": "false",
-			"aria-expanded": "false"
-		} );
-
-		// If we're switching tabs, remove the old tab from the tab order.
-		// If we're opening from collapsed state, remove the previous tab from the tab order.
-		// If we're collapsing, then keep the collapsing tab in the tab order.
-		if ( toShow.length && toHide.length ) {
-			eventData.oldTab.attr( "tabIndex", -1 );
-		} else if ( toShow.length ) {
-			this.tabs.filter( function() {
-				return $( this ).attr( "tabIndex" ) === 0;
-			} )
-				.attr( "tabIndex", -1 );
-		}
-
-		toShow.attr( "aria-hidden", "false" );
-		eventData.newTab.attr( {
-			"aria-selected": "true",
-			"aria-expanded": "true",
-			tabIndex: 0
-		} );
-	},
-
-	_activate: function( index ) {
-		var anchor,
-			active = this._findActive( index );
-
-		// Trying to activate the already active panel
-		if ( active[ 0 ] === this.active[ 0 ] ) {
-			return;
-		}
-
-		// Trying to collapse, simulate a click on the current active header
-		if ( !active.length ) {
-			active = this.active;
-		}
-
-		anchor = active.find( ".ui-tabs-anchor" )[ 0 ];
-		this._eventHandler( {
-			target: anchor,
-			currentTarget: anchor,
-			preventDefault: $.noop
-		} );
-	},
-
-	_findActive: function( index ) {
-		return index === false ? $() : this.tabs.eq( index );
-	},
-
-	_getIndex: function( index ) {
-
-		// meta-function to give users option to provide a href string instead of a numerical index.
-		if ( typeof index === "string" ) {
-			index = this.anchors.index( this.anchors.filter( "[href$='" +
-				$.ui.escapeSelector( index ) + "']" ) );
-		}
-
-		return index;
-	},
-
-	_destroy: function() {
-		if ( this.xhr ) {
-			this.xhr.abort();
-		}
-
-		this.tablist
-			.removeAttr( "role" )
-			.off( this.eventNamespace );
-
-		this.anchors
-			.removeAttr( "role tabIndex" )
-			.removeUniqueId();
-
-		this.tabs.add( this.panels ).each( function() {
-			if ( $.data( this, "ui-tabs-destroy" ) ) {
-				$( this ).remove();
-			} else {
-				$( this ).removeAttr( "role tabIndex " +
-					"aria-live aria-busy aria-selected aria-labelledby aria-hidden aria-expanded" );
-			}
-		} );
-
-		this.tabs.each( function() {
-			var li = $( this ),
-				prev = li.data( "ui-tabs-aria-controls" );
-			if ( prev ) {
-				li
-					.attr( "aria-controls", prev )
-					.removeData( "ui-tabs-aria-controls" );
-			} else {
-				li.removeAttr( "aria-controls" );
-			}
-		} );
-
-		this.panels.show();
-
-		if ( this.options.heightStyle !== "content" ) {
-			this.panels.css( "height", "" );
-		}
-	},
-
-	enable: function( index ) {
-		var disabled = this.options.disabled;
-		if ( disabled === false ) {
-			return;
-		}
-
-		if ( index === undefined ) {
-			disabled = false;
-		} else {
-			index = this._getIndex( index );
-			if ( $.isArray( disabled ) ) {
-				disabled = $.map( disabled, function( num ) {
-					return num !== index ? num : null;
-				} );
-			} else {
-				disabled = $.map( this.tabs, function( li, num ) {
-					return num !== index ? num : null;
-				} );
-			}
-		}
-		this._setOptionDisabled( disabled );
-	},
-
-	disable: function( index ) {
-		var disabled = this.options.disabled;
-		if ( disabled === true ) {
-			return;
-		}
-
-		if ( index === undefined ) {
-			disabled = true;
-		} else {
-			index = this._getIndex( index );
-			if ( $.inArray( index, disabled ) !== -1 ) {
-				return;
-			}
-			if ( $.isArray( disabled ) ) {
-				disabled = $.merge( [ index ], disabled ).sort();
-			} else {
-				disabled = [ index ];
-			}
-		}
-		this._setOptionDisabled( disabled );
-	},
-
-	load: function( index, event ) {
-		index = this._getIndex( index );
-		var that = this,
-			tab = this.tabs.eq( index ),
-			anchor = tab.find( ".ui-tabs-anchor" ),
-			panel = this._getPanelForTab( tab ),
-			eventData = {
-				tab: tab,
-				panel: panel
-			},
-			complete = function( jqXHR, status ) {
-				if ( status === "abort" ) {
-					that.panels.stop( false, true );
-				}
-
-				that._removeClass( tab, "ui-tabs-loading" );
-				panel.removeAttr( "aria-busy" );
-
-				if ( jqXHR === that.xhr ) {
-					delete that.xhr;
-				}
-			};
-
-		// Not remote
-		if ( this._isLocal( anchor[ 0 ] ) ) {
-			return;
-		}
-
-		this.xhr = $.ajax( this._ajaxSettings( anchor, event, eventData ) );
-
-		// Support: jQuery <1.8
-		// jQuery <1.8 returns false if the request is canceled in beforeSend,
-		// but as of 1.8, $.ajax() always returns a jqXHR object.
-		if ( this.xhr && this.xhr.statusText !== "canceled" ) {
-			this._addClass( tab, "ui-tabs-loading" );
-			panel.attr( "aria-busy", "true" );
-
-			this.xhr
-				.done( function( response, status, jqXHR ) {
-
-					// support: jQuery <1.8
-					// http://bugs.jquery.com/ticket/11778
-					setTimeout( function() {
-						panel.html( response );
-						that._trigger( "load", event, eventData );
-
-						complete( jqXHR, status );
-					}, 1 );
-				} )
-				.fail( function( jqXHR, status ) {
-
-					// support: jQuery <1.8
-					// http://bugs.jquery.com/ticket/11778
-					setTimeout( function() {
-						complete( jqXHR, status );
-					}, 1 );
-				} );
-		}
-	},
-
-	_ajaxSettings: function( anchor, event, eventData ) {
-		var that = this;
-		return {
-
-			// Support: IE <11 only
-			// Strip any hash that exists to prevent errors with the Ajax request
-			url: anchor.attr( "href" ).replace( /#.*$/, "" ),
-			beforeSend: function( jqXHR, settings ) {
-				return that._trigger( "beforeLoad", event,
-					$.extend( { jqXHR: jqXHR, ajaxSettings: settings }, eventData ) );
-			}
-		};
-	},
-
-	_getPanelForTab: function( tab ) {
-		var id = $( tab ).attr( "aria-controls" );
-		return this.element.find( this._sanitizeSelector( "#" + id ) );
-	}
-} );
-
-// DEPRECATED
-// TODO: Switch return back to widget declaration at top of file when this is removed
-if ( $.uiBackCompat !== false ) {
-
-	// Backcompat for ui-tab class (now ui-tabs-tab)
-	$.widget( "ui.tabs", $.ui.tabs, {
-		_processTabs: function() {
-			this._superApply( arguments );
-			this._addClass( this.tabs, "ui-tab" );
-		}
-	} );
-}
-
-return $.ui.tabs;
-
-} ) );
-
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;( function( factory ) {
-	if ( true ) {
-
-		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {
-
-		// Browser globals
-		factory( jQuery );
-	}
-} ( function( $ ) {
-
-// Internal use only
-return $.ui.escapeSelector = ( function() {
-	var selectorEscape = /([!"#$%&'()*+,./:;<=>?@[\]^`{|}~])/g;
-	return function( selector ) {
-		return selector.replace( selectorEscape, "\\$1" );
-	};
-} )();
-
-} ) );
-
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery UI Keycode 1.12.1
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- */
-
-//>>label: Keycode
-//>>group: Core
-//>>description: Provide keycodes as keynames
-//>>docs: http://api.jqueryui.com/jQuery.ui.keyCode/
-
-( function( factory ) {
-	if ( true ) {
-
-		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {
-
-		// Browser globals
-		factory( jQuery );
-	}
-} ( function( $ ) {
-return $.ui.keyCode = {
-	BACKSPACE: 8,
-	COMMA: 188,
-	DELETE: 46,
-	DOWN: 40,
-	END: 35,
-	ENTER: 13,
-	ESCAPE: 27,
-	HOME: 36,
-	LEFT: 37,
-	PAGE_DOWN: 34,
-	PAGE_UP: 33,
-	PERIOD: 190,
-	RIGHT: 39,
-	SPACE: 32,
-	TAB: 9,
-	UP: 38
-};
-
-} ) );
-
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;( function( factory ) {
-	if ( true ) {
-
-		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {
-
-		// Browser globals
-		factory( jQuery );
-	}
-} ( function( $ ) {
-return $.ui.safeActiveElement = function( document ) {
-	var activeElement;
-
-	// Support: IE 9 only
-	// IE9 throws an "Unspecified error" accessing document.activeElement from an <iframe>
-	try {
-		activeElement = document.activeElement;
-	} catch ( error ) {
-		activeElement = document.body;
-	}
-
-	// Support: IE 9 - 11 only
-	// IE may return null instead of an element
-	// Interestingly, this only seems to occur when NOT in an iframe
-	if ( !activeElement ) {
-		activeElement = document.body;
-	}
-
-	// Support: IE 11 only
-	// IE11 returns a seemingly empty object in some cases when accessing
-	// document.activeElement from an <iframe>
-	if ( !activeElement.nodeName ) {
-		activeElement = document.body;
-	}
-
-	return activeElement;
-};
-
-} ) );
-
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery UI Unique ID 1.12.1
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- */
-
-//>>label: uniqueId
-//>>group: Core
-//>>description: Functions to generate and remove uniqueId's
-//>>docs: http://api.jqueryui.com/uniqueId/
-
-( function( factory ) {
-	if ( true ) {
-
-		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {
-
-		// Browser globals
-		factory( jQuery );
-	}
-} ( function( $ ) {
-
-return $.fn.extend( {
-	uniqueId: ( function() {
-		var uuid = 0;
-
-		return function() {
-			return this.each( function() {
-				if ( !this.id ) {
-					this.id = "ui-id-" + ( ++uuid );
-				}
-			} );
-		};
-	} )(),
-
-	removeUniqueId: function() {
-		return this.each( function() {
-			if ( /^ui-id-\d+$/.test( this.id ) ) {
-				$( this ).removeAttr( "id" );
-			}
-		} );
-	}
-} );
-
-} ) );
-
-
-/***/ }),
-/* 58 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
- * jQuery UI Widget 1.12.1
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- */
-
-//>>label: Widget
-//>>group: Core
-//>>description: Provides a factory for creating stateful widgets with a common API.
-//>>docs: http://api.jqueryui.com/jQuery.widget/
-//>>demos: http://jqueryui.com/widget/
-
-( function( factory ) {
-	if ( true ) {
-
-		// AMD. Register as an anonymous module.
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(2), __webpack_require__(14) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {
-
-		// Browser globals
-		factory( jQuery );
-	}
-}( function( $ ) {
-
-var widgetUuid = 0;
-var widgetSlice = Array.prototype.slice;
-
-$.cleanData = ( function( orig ) {
-	return function( elems ) {
-		var events, elem, i;
-		for ( i = 0; ( elem = elems[ i ] ) != null; i++ ) {
-			try {
-
-				// Only trigger remove when necessary to save time
-				events = $._data( elem, "events" );
-				if ( events && events.remove ) {
-					$( elem ).triggerHandler( "remove" );
-				}
-
-			// Http://bugs.jquery.com/ticket/8235
-			} catch ( e ) {}
-		}
-		orig( elems );
-	};
-} )( $.cleanData );
-
-$.widget = function( name, base, prototype ) {
-	var existingConstructor, constructor, basePrototype;
-
-	// ProxiedPrototype allows the provided prototype to remain unmodified
-	// so that it can be used as a mixin for multiple widgets (#8876)
-	var proxiedPrototype = {};
-
-	var namespace = name.split( "." )[ 0 ];
-	name = name.split( "." )[ 1 ];
-	var fullName = namespace + "-" + name;
-
-	if ( !prototype ) {
-		prototype = base;
-		base = $.Widget;
-	}
-
-	if ( $.isArray( prototype ) ) {
-		prototype = $.extend.apply( null, [ {} ].concat( prototype ) );
-	}
-
-	// Create selector for plugin
-	$.expr[ ":" ][ fullName.toLowerCase() ] = function( elem ) {
-		return !!$.data( elem, fullName );
-	};
-
-	$[ namespace ] = $[ namespace ] || {};
-	existingConstructor = $[ namespace ][ name ];
-	constructor = $[ namespace ][ name ] = function( options, element ) {
-
-		// Allow instantiation without "new" keyword
-		if ( !this._createWidget ) {
-			return new constructor( options, element );
-		}
-
-		// Allow instantiation without initializing for simple inheritance
-		// must use "new" keyword (the code above always passes args)
-		if ( arguments.length ) {
-			this._createWidget( options, element );
-		}
-	};
-
-	// Extend with the existing constructor to carry over any static properties
-	$.extend( constructor, existingConstructor, {
-		version: prototype.version,
-
-		// Copy the object used to create the prototype in case we need to
-		// redefine the widget later
-		_proto: $.extend( {}, prototype ),
-
-		// Track widgets that inherit from this widget in case this widget is
-		// redefined after a widget inherits from it
-		_childConstructors: []
-	} );
-
-	basePrototype = new base();
-
-	// We need to make the options hash a property directly on the new instance
-	// otherwise we'll modify the options hash on the prototype that we're
-	// inheriting from
-	basePrototype.options = $.widget.extend( {}, basePrototype.options );
-	$.each( prototype, function( prop, value ) {
-		if ( !$.isFunction( value ) ) {
-			proxiedPrototype[ prop ] = value;
-			return;
-		}
-		proxiedPrototype[ prop ] = ( function() {
-			function _super() {
-				return base.prototype[ prop ].apply( this, arguments );
-			}
-
-			function _superApply( args ) {
-				return base.prototype[ prop ].apply( this, args );
-			}
-
-			return function() {
-				var __super = this._super;
-				var __superApply = this._superApply;
-				var returnValue;
-
-				this._super = _super;
-				this._superApply = _superApply;
-
-				returnValue = value.apply( this, arguments );
-
-				this._super = __super;
-				this._superApply = __superApply;
-
-				return returnValue;
-			};
-		} )();
-	} );
-	constructor.prototype = $.widget.extend( basePrototype, {
-
-		// TODO: remove support for widgetEventPrefix
-		// always use the name + a colon as the prefix, e.g., draggable:start
-		// don't prefix for widgets that aren't DOM-based
-		widgetEventPrefix: existingConstructor ? ( basePrototype.widgetEventPrefix || name ) : name
-	}, proxiedPrototype, {
-		constructor: constructor,
-		namespace: namespace,
-		widgetName: name,
-		widgetFullName: fullName
-	} );
-
-	// If this widget is being redefined then we need to find all widgets that
-	// are inheriting from it and redefine all of them so that they inherit from
-	// the new version of this widget. We're essentially trying to replace one
-	// level in the prototype chain.
-	if ( existingConstructor ) {
-		$.each( existingConstructor._childConstructors, function( i, child ) {
-			var childPrototype = child.prototype;
-
-			// Redefine the child widget using the same prototype that was
-			// originally used, but inherit from the new version of the base
-			$.widget( childPrototype.namespace + "." + childPrototype.widgetName, constructor,
-				child._proto );
-		} );
-
-		// Remove the list of existing child constructors from the old constructor
-		// so the old child constructors can be garbage collected
-		delete existingConstructor._childConstructors;
-	} else {
-		base._childConstructors.push( constructor );
-	}
-
-	$.widget.bridge( name, constructor );
-
-	return constructor;
-};
-
-$.widget.extend = function( target ) {
-	var input = widgetSlice.call( arguments, 1 );
-	var inputIndex = 0;
-	var inputLength = input.length;
-	var key;
-	var value;
-
-	for ( ; inputIndex < inputLength; inputIndex++ ) {
-		for ( key in input[ inputIndex ] ) {
-			value = input[ inputIndex ][ key ];
-			if ( input[ inputIndex ].hasOwnProperty( key ) && value !== undefined ) {
-
-				// Clone objects
-				if ( $.isPlainObject( value ) ) {
-					target[ key ] = $.isPlainObject( target[ key ] ) ?
-						$.widget.extend( {}, target[ key ], value ) :
-
-						// Don't extend strings, arrays, etc. with objects
-						$.widget.extend( {}, value );
-
-				// Copy everything else by reference
-				} else {
-					target[ key ] = value;
-				}
-			}
-		}
-	}
-	return target;
-};
-
-$.widget.bridge = function( name, object ) {
-	var fullName = object.prototype.widgetFullName || name;
-	$.fn[ name ] = function( options ) {
-		var isMethodCall = typeof options === "string";
-		var args = widgetSlice.call( arguments, 1 );
-		var returnValue = this;
-
-		if ( isMethodCall ) {
-
-			// If this is an empty collection, we need to have the instance method
-			// return undefined instead of the jQuery instance
-			if ( !this.length && options === "instance" ) {
-				returnValue = undefined;
-			} else {
-				this.each( function() {
-					var methodValue;
-					var instance = $.data( this, fullName );
-
-					if ( options === "instance" ) {
-						returnValue = instance;
-						return false;
-					}
-
-					if ( !instance ) {
-						return $.error( "cannot call methods on " + name +
-							" prior to initialization; " +
-							"attempted to call method '" + options + "'" );
-					}
-
-					if ( !$.isFunction( instance[ options ] ) || options.charAt( 0 ) === "_" ) {
-						return $.error( "no such method '" + options + "' for " + name +
-							" widget instance" );
-					}
-
-					methodValue = instance[ options ].apply( instance, args );
-
-					if ( methodValue !== instance && methodValue !== undefined ) {
-						returnValue = methodValue && methodValue.jquery ?
-							returnValue.pushStack( methodValue.get() ) :
-							methodValue;
-						return false;
-					}
-				} );
-			}
-		} else {
-
-			// Allow multiple hashes to be passed on init
-			if ( args.length ) {
-				options = $.widget.extend.apply( null, [ options ].concat( args ) );
-			}
-
-			this.each( function() {
-				var instance = $.data( this, fullName );
-				if ( instance ) {
-					instance.option( options || {} );
-					if ( instance._init ) {
-						instance._init();
-					}
-				} else {
-					$.data( this, fullName, new object( options, this ) );
-				}
-			} );
-		}
-
-		return returnValue;
-	};
-};
-
-$.Widget = function( /* options, element */ ) {};
-$.Widget._childConstructors = [];
-
-$.Widget.prototype = {
-	widgetName: "widget",
-	widgetEventPrefix: "",
-	defaultElement: "<div>",
-
-	options: {
-		classes: {},
-		disabled: false,
-
-		// Callbacks
-		create: null
-	},
-
-	_createWidget: function( options, element ) {
-		element = $( element || this.defaultElement || this )[ 0 ];
-		this.element = $( element );
-		this.uuid = widgetUuid++;
-		this.eventNamespace = "." + this.widgetName + this.uuid;
-
-		this.bindings = $();
-		this.hoverable = $();
-		this.focusable = $();
-		this.classesElementLookup = {};
-
-		if ( element !== this ) {
-			$.data( element, this.widgetFullName, this );
-			this._on( true, this.element, {
-				remove: function( event ) {
-					if ( event.target === element ) {
-						this.destroy();
-					}
-				}
-			} );
-			this.document = $( element.style ?
-
-				// Element within the document
-				element.ownerDocument :
-
-				// Element is window or document
-				element.document || element );
-			this.window = $( this.document[ 0 ].defaultView || this.document[ 0 ].parentWindow );
-		}
-
-		this.options = $.widget.extend( {},
-			this.options,
-			this._getCreateOptions(),
-			options );
-
-		this._create();
-
-		if ( this.options.disabled ) {
-			this._setOptionDisabled( this.options.disabled );
-		}
-
-		this._trigger( "create", null, this._getCreateEventData() );
-		this._init();
-	},
-
-	_getCreateOptions: function() {
-		return {};
-	},
-
-	_getCreateEventData: $.noop,
-
-	_create: $.noop,
-
-	_init: $.noop,
-
-	destroy: function() {
-		var that = this;
-
-		this._destroy();
-		$.each( this.classesElementLookup, function( key, value ) {
-			that._removeClass( value, key );
-		} );
-
-		// We can probably remove the unbind calls in 2.0
-		// all event bindings should go through this._on()
-		this.element
-			.off( this.eventNamespace )
-			.removeData( this.widgetFullName );
-		this.widget()
-			.off( this.eventNamespace )
-			.removeAttr( "aria-disabled" );
-
-		// Clean up events and states
-		this.bindings.off( this.eventNamespace );
-	},
-
-	_destroy: $.noop,
-
-	widget: function() {
-		return this.element;
-	},
-
-	option: function( key, value ) {
-		var options = key;
-		var parts;
-		var curOption;
-		var i;
-
-		if ( arguments.length === 0 ) {
-
-			// Don't return a reference to the internal hash
-			return $.widget.extend( {}, this.options );
-		}
-
-		if ( typeof key === "string" ) {
-
-			// Handle nested keys, e.g., "foo.bar" => { foo: { bar: ___ } }
-			options = {};
-			parts = key.split( "." );
-			key = parts.shift();
-			if ( parts.length ) {
-				curOption = options[ key ] = $.widget.extend( {}, this.options[ key ] );
-				for ( i = 0; i < parts.length - 1; i++ ) {
-					curOption[ parts[ i ] ] = curOption[ parts[ i ] ] || {};
-					curOption = curOption[ parts[ i ] ];
-				}
-				key = parts.pop();
-				if ( arguments.length === 1 ) {
-					return curOption[ key ] === undefined ? null : curOption[ key ];
-				}
-				curOption[ key ] = value;
-			} else {
-				if ( arguments.length === 1 ) {
-					return this.options[ key ] === undefined ? null : this.options[ key ];
-				}
-				options[ key ] = value;
-			}
-		}
-
-		this._setOptions( options );
-
-		return this;
-	},
-
-	_setOptions: function( options ) {
-		var key;
-
-		for ( key in options ) {
-			this._setOption( key, options[ key ] );
-		}
-
-		return this;
-	},
-
-	_setOption: function( key, value ) {
-		if ( key === "classes" ) {
-			this._setOptionClasses( value );
-		}
-
-		this.options[ key ] = value;
-
-		if ( key === "disabled" ) {
-			this._setOptionDisabled( value );
-		}
-
-		return this;
-	},
-
-	_setOptionClasses: function( value ) {
-		var classKey, elements, currentElements;
-
-		for ( classKey in value ) {
-			currentElements = this.classesElementLookup[ classKey ];
-			if ( value[ classKey ] === this.options.classes[ classKey ] ||
-					!currentElements ||
-					!currentElements.length ) {
-				continue;
-			}
-
-			// We are doing this to create a new jQuery object because the _removeClass() call
-			// on the next line is going to destroy the reference to the current elements being
-			// tracked. We need to save a copy of this collection so that we can add the new classes
-			// below.
-			elements = $( currentElements.get() );
-			this._removeClass( currentElements, classKey );
-
-			// We don't use _addClass() here, because that uses this.options.classes
-			// for generating the string of classes. We want to use the value passed in from
-			// _setOption(), this is the new value of the classes option which was passed to
-			// _setOption(). We pass this value directly to _classes().
-			elements.addClass( this._classes( {
-				element: elements,
-				keys: classKey,
-				classes: value,
-				add: true
-			} ) );
-		}
-	},
-
-	_setOptionDisabled: function( value ) {
-		this._toggleClass( this.widget(), this.widgetFullName + "-disabled", null, !!value );
-
-		// If the widget is becoming disabled, then nothing is interactive
-		if ( value ) {
-			this._removeClass( this.hoverable, null, "ui-state-hover" );
-			this._removeClass( this.focusable, null, "ui-state-focus" );
-		}
-	},
-
-	enable: function() {
-		return this._setOptions( { disabled: false } );
-	},
-
-	disable: function() {
-		return this._setOptions( { disabled: true } );
-	},
-
-	_classes: function( options ) {
-		var full = [];
-		var that = this;
-
-		options = $.extend( {
-			element: this.element,
-			classes: this.options.classes || {}
-		}, options );
-
-		function processClassString( classes, checkOption ) {
-			var current, i;
-			for ( i = 0; i < classes.length; i++ ) {
-				current = that.classesElementLookup[ classes[ i ] ] || $();
-				if ( options.add ) {
-					current = $( $.unique( current.get().concat( options.element.get() ) ) );
-				} else {
-					current = $( current.not( options.element ).get() );
-				}
-				that.classesElementLookup[ classes[ i ] ] = current;
-				full.push( classes[ i ] );
-				if ( checkOption && options.classes[ classes[ i ] ] ) {
-					full.push( options.classes[ classes[ i ] ] );
-				}
-			}
-		}
-
-		this._on( options.element, {
-			"remove": "_untrackClassesElement"
-		} );
-
-		if ( options.keys ) {
-			processClassString( options.keys.match( /\S+/g ) || [], true );
-		}
-		if ( options.extra ) {
-			processClassString( options.extra.match( /\S+/g ) || [] );
-		}
-
-		return full.join( " " );
-	},
-
-	_untrackClassesElement: function( event ) {
-		var that = this;
-		$.each( that.classesElementLookup, function( key, value ) {
-			if ( $.inArray( event.target, value ) !== -1 ) {
-				that.classesElementLookup[ key ] = $( value.not( event.target ).get() );
-			}
-		} );
-	},
-
-	_removeClass: function( element, keys, extra ) {
-		return this._toggleClass( element, keys, extra, false );
-	},
-
-	_addClass: function( element, keys, extra ) {
-		return this._toggleClass( element, keys, extra, true );
-	},
-
-	_toggleClass: function( element, keys, extra, add ) {
-		add = ( typeof add === "boolean" ) ? add : extra;
-		var shift = ( typeof element === "string" || element === null ),
-			options = {
-				extra: shift ? keys : extra,
-				keys: shift ? element : keys,
-				element: shift ? this.element : element,
-				add: add
-			};
-		options.element.toggleClass( this._classes( options ), add );
-		return this;
-	},
-
-	_on: function( suppressDisabledCheck, element, handlers ) {
-		var delegateElement;
-		var instance = this;
-
-		// No suppressDisabledCheck flag, shuffle arguments
-		if ( typeof suppressDisabledCheck !== "boolean" ) {
-			handlers = element;
-			element = suppressDisabledCheck;
-			suppressDisabledCheck = false;
-		}
-
-		// No element argument, shuffle and use this.element
-		if ( !handlers ) {
-			handlers = element;
-			element = this.element;
-			delegateElement = this.widget();
-		} else {
-			element = delegateElement = $( element );
-			this.bindings = this.bindings.add( element );
-		}
-
-		$.each( handlers, function( event, handler ) {
-			function handlerProxy() {
-
-				// Allow widgets to customize the disabled handling
-				// - disabled as an array instead of boolean
-				// - disabled class as method for disabling individual parts
-				if ( !suppressDisabledCheck &&
-						( instance.options.disabled === true ||
-						$( this ).hasClass( "ui-state-disabled" ) ) ) {
-					return;
-				}
-				return ( typeof handler === "string" ? instance[ handler ] : handler )
-					.apply( instance, arguments );
-			}
-
-			// Copy the guid so direct unbinding works
-			if ( typeof handler !== "string" ) {
-				handlerProxy.guid = handler.guid =
-					handler.guid || handlerProxy.guid || $.guid++;
-			}
-
-			var match = event.match( /^([\w:-]*)\s*(.*)$/ );
-			var eventName = match[ 1 ] + instance.eventNamespace;
-			var selector = match[ 2 ];
-
-			if ( selector ) {
-				delegateElement.on( eventName, selector, handlerProxy );
-			} else {
-				element.on( eventName, handlerProxy );
-			}
-		} );
-	},
-
-	_off: function( element, eventName ) {
-		eventName = ( eventName || "" ).split( " " ).join( this.eventNamespace + " " ) +
-			this.eventNamespace;
-		element.off( eventName ).off( eventName );
-
-		// Clear the stack to avoid memory leaks (#10056)
-		this.bindings = $( this.bindings.not( element ).get() );
-		this.focusable = $( this.focusable.not( element ).get() );
-		this.hoverable = $( this.hoverable.not( element ).get() );
-	},
-
-	_delay: function( handler, delay ) {
-		function handlerProxy() {
-			return ( typeof handler === "string" ? instance[ handler ] : handler )
-				.apply( instance, arguments );
-		}
-		var instance = this;
-		return setTimeout( handlerProxy, delay || 0 );
-	},
-
-	_hoverable: function( element ) {
-		this.hoverable = this.hoverable.add( element );
-		this._on( element, {
-			mouseenter: function( event ) {
-				this._addClass( $( event.currentTarget ), null, "ui-state-hover" );
-			},
-			mouseleave: function( event ) {
-				this._removeClass( $( event.currentTarget ), null, "ui-state-hover" );
-			}
-		} );
-	},
-
-	_focusable: function( element ) {
-		this.focusable = this.focusable.add( element );
-		this._on( element, {
-			focusin: function( event ) {
-				this._addClass( $( event.currentTarget ), null, "ui-state-focus" );
-			},
-			focusout: function( event ) {
-				this._removeClass( $( event.currentTarget ), null, "ui-state-focus" );
-			}
-		} );
-	},
-
-	_trigger: function( type, event, data ) {
-		var prop, orig;
-		var callback = this.options[ type ];
-
-		data = data || {};
-		event = $.Event( event );
-		event.type = ( type === this.widgetEventPrefix ?
-			type :
-			this.widgetEventPrefix + type ).toLowerCase();
-
-		// The original event may come from any element
-		// so we need to reset the target on the new event
-		event.target = this.element[ 0 ];
-
-		// Copy original event properties over to the new event
-		orig = event.originalEvent;
-		if ( orig ) {
-			for ( prop in orig ) {
-				if ( !( prop in event ) ) {
-					event[ prop ] = orig[ prop ];
-				}
-			}
-		}
-
-		this.element.trigger( event, data );
-		return !( $.isFunction( callback ) &&
-			callback.apply( this.element[ 0 ], [ event ].concat( data ) ) === false ||
-			event.isDefaultPrevented() );
-	}
-};
-
-$.each( { show: "fadeIn", hide: "fadeOut" }, function( method, defaultEffect ) {
-	$.Widget.prototype[ "_" + method ] = function( element, options, callback ) {
-		if ( typeof options === "string" ) {
-			options = { effect: options };
-		}
-
-		var hasOptions;
-		var effectName = !options ?
-			method :
-			options === true || typeof options === "number" ?
-				defaultEffect :
-				options.effect || defaultEffect;
-
-		options = options || {};
-		if ( typeof options === "number" ) {
-			options = { duration: options };
-		}
-
-		hasOptions = !$.isEmptyObject( options );
-		options.complete = callback;
-
-		if ( options.delay ) {
-			element.delay( options.delay );
-		}
-
-		if ( hasOptions && $.effects && $.effects.effect[ effectName ] ) {
-			element[ method ]( options );
-		} else if ( effectName !== method && element[ effectName ] ) {
-			element[ effectName ]( options.duration, options.easing, callback );
-		} else {
-			element.queue( function( next ) {
-				$( this )[ method ]();
-				if ( callback ) {
-					callback.call( element[ 0 ] );
-				}
-				next();
-			} );
-		}
-	};
-} );
-
-return $.widget;
-
-} ) );
-
 
 /***/ }),
 /* 59 */
@@ -41684,7 +41684,7 @@ if (process.env.NODE_ENV === 'production') {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(0),l=__webpack_require__(42),B=__webpack_require__(17),C=__webpack_require__(7),ba=__webpack_require__(43),da=__webpack_require__(44),ea=__webpack_require__(45),fa=__webpack_require__(46),ia=__webpack_require__(47),D=__webpack_require__(20);
+var aa=__webpack_require__(0),l=__webpack_require__(41),B=__webpack_require__(17),C=__webpack_require__(7),ba=__webpack_require__(42),da=__webpack_require__(43),ea=__webpack_require__(44),fa=__webpack_require__(45),ia=__webpack_require__(46),D=__webpack_require__(20);
 function E(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:E("227");
 var oa={children:!0,dangerouslySetInnerHTML:!0,defaultValue:!0,defaultChecked:!0,innerHTML:!0,suppressContentEditableWarning:!0,suppressHydrationWarning:!0,style:!0};function pa(a,b){return(a&b)===b}
 var ta={MUST_USE_PROPERTY:1,HAS_BOOLEAN_VALUE:4,HAS_NUMERIC_VALUE:8,HAS_POSITIVE_NUMERIC_VALUE:24,HAS_OVERLOADED_BOOLEAN_VALUE:32,HAS_STRING_BOOLEAN_VALUE:64,injectDOMPropertyConfig:function(a){var b=ta,c=a.Properties||{},d=a.DOMAttributeNamespaces||{},e=a.DOMAttributeNames||{};a=a.DOMMutationMethods||{};for(var f in c){ua.hasOwnProperty(f)?E("48",f):void 0;var g=f.toLowerCase(),h=c[f];g={attributeName:g,attributeNamespace:null,propertyName:f,mutationMethod:null,mustUseProperty:pa(h,b.MUST_USE_PROPERTY),
@@ -41984,14 +41984,14 @@ if (process.env.NODE_ENV !== "production") {
 var React = __webpack_require__(0);
 var invariant = __webpack_require__(18);
 var warning = __webpack_require__(21);
-var ExecutionEnvironment = __webpack_require__(42);
+var ExecutionEnvironment = __webpack_require__(41);
 var _assign = __webpack_require__(17);
 var emptyFunction = __webpack_require__(7);
-var EventListener = __webpack_require__(43);
-var getActiveElement = __webpack_require__(44);
-var shallowEqual = __webpack_require__(45);
-var containsNode = __webpack_require__(46);
-var focusNode = __webpack_require__(47);
+var EventListener = __webpack_require__(42);
+var getActiveElement = __webpack_require__(43);
+var shallowEqual = __webpack_require__(44);
+var containsNode = __webpack_require__(45);
+var focusNode = __webpack_require__(46);
 var emptyObject = __webpack_require__(20);
 var checkPropTypes = __webpack_require__(24);
 var hyphenateStyleName = __webpack_require__(84);
@@ -57530,7 +57530,7 @@ module.exports = camelize;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__SelectConstructor__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__FrequencyField__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__FrequencyField__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__TimeAgoField__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__DurationField__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__NoteField__ = __webpack_require__(10);
@@ -58343,7 +58343,7 @@ MedFormFields.propTypes = {
 /*** EXPORTS FROM exports-loader ***/
 module.exports = global.fetch;
 }.call(global));
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(38)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(37)))
 
 /***/ }),
 /* 90 */
@@ -59861,13 +59861,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__row_form_pieces_AssembledDiagnosisForm__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__row_form_pieces_AssembledDissectionForm__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__row_form_pieces_AssembledFamilyMemberForm__ = __webpack_require__(109);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__row_form_pieces_AssembledGeneticTestForm__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__row_form_pieces_AssembledHeartMeasurementForm__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__row_form_pieces_AssembledGeneticTestForm__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__row_form_pieces_AssembledHeartMeasurementForm__ = __webpack_require__(48);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__row_form_pieces_AssembledHospitalizationForm__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__row_form_pieces_AssembledMeasurementForm__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__row_form_pieces_AssembledMedicationForm__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__row_form_pieces_AssembledProcedureForm__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__row_form_pieces_AssembledVitalForm__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__row_form_pieces_AssembledVitalForm__ = __webpack_require__(49);
 
 
 
@@ -60438,7 +60438,7 @@ ScribbleButton.propTypes = {
 /* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
-/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["RowForm"] = __webpack_require__(39);
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["RowForm"] = __webpack_require__(38);
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
@@ -60580,23 +60580,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 125 */,
-/* 126 */,
-/* 127 */
+/* 125 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 128 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // eslint-disable-next-line import/no-webpack-loader-syntax
-module.exports = __webpack_require__(129);
+module.exports = __webpack_require__(127);
 
 
 /***/ }),
-/* 129 */
+/* 127 */
 /***/ (function(module, exports) {
 
 
