@@ -7,7 +7,6 @@
           { "modules": false }
         ],
         "react",
-        "react-optimize",
         "stage-0"
       ],
       "plugins": [
@@ -40,8 +39,7 @@
     },
     "cli": {
       "presets": [
-        "es2016",
-        "es2015",
+        "env",
         "react",
         "stage-0"
       ],
