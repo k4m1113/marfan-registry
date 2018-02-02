@@ -43,6 +43,10 @@ const unsortedTopics = $('#unsortedtopics').data('unsorted')
    $('#row_999').show()
    $('#quickAddModal').modal('show')
  });
+$('button[type=submit]').click(function(){
+  console.log('submit button clicked')
+  $('form').submit()
+});
 
 // const mskey = $('#ms').data('mskey')
 // const mshmac = $('#ms').data('mshmac')

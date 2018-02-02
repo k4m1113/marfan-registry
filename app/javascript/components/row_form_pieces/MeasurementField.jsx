@@ -19,7 +19,7 @@ export default class MeasurementField extends Component {
     this.handleMeasurementChange = this.handleMeasurementChange.bind(this)
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.$el = $(this.el);
     this.$el.addKeyboard();
   }

@@ -94,6 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
       sortedConcerns={sortedConcerns}
       patient={patient}
     />,
-    document.body.appendChild(document.createElement('div')),
+    document.getElementById('nestedListHook'),
   )
 })
