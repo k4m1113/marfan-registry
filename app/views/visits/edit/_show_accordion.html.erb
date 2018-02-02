@@ -1,0 +1,67 @@
+<div class="summary-accordion">
+
+  <% if concerns.class == String %>
+    <%= concerns %>
+  <% elsif concerns.class == Hash %>
+    <div id="barsAccordion" role="tablist" aria-multiselectable="true">
+      <ul class="summary-bar list-unstyled">
+        <% concerns.each do |k,v| %>
+        <% if k != :vitals %>
+          <% key = keyify(k) %>
+        <% next if v.empty? %>
+        <div class="card summary-bar">
+          <div class="card-header summary-bar" role="tab" id="<%= key %>Heading">
+            <h6 class="m-2 summary-bar">
+              <li>
+                <a class="open-tab summary-bar" data-key="<%= key %>" data-toggle="tab" href="#<%= key %>" role="tab">
+                  <%= k.to_s %> - <%= list_constructor(v.map(&:generate_summary)) %>
+                </a>
+                <div class="summary-body" style="display:none" id="<%= key %>Summary">
+                  <hr />
+                  <p>
+                    <% @sorted_concerns[:"#{k}"].each do |k,v| %>
+                    <% if k.downcase == 'vitals' %>
+                      <%= render 'vitals/vitals_form', f: f, visit: @visit %>
+                    <% else %>
+                      <b>
+                        <%= k %>
+                      </b>
+                      <table class="table table-sm">
+                        <thead>
+                          <tr>
+                            <% v.first.class.table_headings.each do |col| %>
+                            <th>
+                              <%= col %>
+                            </th>
+                            <% end %>
+                          </tr>
+                        </thead>
+                        <% v.each do |item| %>
+                        <%= render 'layouts/table_row', item: item %>
+                        <% end %>
+                      </table>
+                      <% end %>
+                    <% end %>
+                  </p>
+                </div>
+              </li>
+            </h6>
+          </div>
+        </div>
+        <% end %>
+        <% end %>
+      </ul>
+    </div>
+
+    <script>
+    $(window).load(function() {
+      var kids = $('h6.summary-bar').find('a.open-tab')
+      kids.each( function(element) {
+        var reg = $(this).data('key')
+        var ind = $("div.tab-pane[id^=" + reg + "]").data('tab-index');
+        $(this).attr('data-tab-index', ind);
+      });
+    })
+    </script>
+  <% end %>
+</div>

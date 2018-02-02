@@ -1,0 +1,12 @@
+<div id="patientinfo" data="<%= @jpatient %>" ></div>
+<div id="alltopics" data="<%= @sorted_topics %>" ></div>
+<div id="unsortedtopics" data-unsorted="<%= @topics %>" ></div>
+<div id="visit" data="<%= @jvisit %>" ></div>
+<div id="concerns" data="<%= @jconcerns %>" ></div>
+<div id="sortedconcerns" data="<%= @jsorted_concerns %>" ></div>
+<div id="select2patients" data="<%= @select2_patients %>" ></div>
+<div id="allpatients" data="<%= @all_patients %>" ></div>
+<div id="mskey" data="<%= ENV['MYSCRIPT_KEY'] %>"></div>
+<div id="mshmac" data="<%= ENV['MYSCRIPT_HMAC'] %>"></div>
+
+<div id="medications" data="<%= @all_meds.map{|t| [t.name.downcase, t.id]}.to_h.to_json %>"></div>

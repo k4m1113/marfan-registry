@@ -18,35 +18,37 @@ $('button.paneTopicGroup').click(function() {
      kb.reveal();
    }
  });
-const unsortedTopics = $('#unsortedtopics').data('unsorted')
+// const unsortedTopics = $('#unsortedtopics').data('unsorted')
+//
+//  // initialize select2 for quick-add
+//  var select2Data = unsortedTopics.map(function(obj) {
+//     var rObj = {};
+//     rObj['id'] = obj.id;
+//     rObj['text'] = obj.name;
+//     return rObj;
+//  });
 
- // initialize select2 for quick-add
- var select2Data = unsortedTopics.map(function(obj) {
-    var rObj = {};
-    rObj['id'] = obj.id;
-    rObj['text'] = obj.name;
-    return rObj;
- });
- $('#quick-add').select2({
-   data: select2Data,
-   placeholder: "Quick Add",
-   theme: "bootstrap"
- })
 
- // open form when quick add selected
- $('select#quick-add').on('select2:select', function (evt) {
-   var topic = unsortedTopics.find(x => x.id == evt.params.data.id)
-   $('#quickAddHook')
-     .append(renderByTopicType(topic, allTopics, unsortedTopics, visit, 999))
-     .find('.present_or_not').val("true")
-     .initializeRow()
-   $('#row_999').show()
-   $('#quickAddModal').modal('show')
- });
-$('button[type=submit]').click(function(){
-  console.log('submit button clicked')
-  $('form').submit()
-});
+//  // open form when quick add selected
+//  $('select#quick-add').on('select2:select', function (evt) {
+//    var topic = unsortedTopics.find(x => x.id == evt.params.data.id)
+//    $('#quickAddHook')
+//      .append(renderByTopicType(topic, allTopics, unsortedTopics, visit, 999))
+//      .find('.present_or_not').val("true")
+//      .initializeRow()
+//    $('#row_999').show()
+//    $('#quickAddModal').modal('show')
+//  });
+// $('button[type=submit]').click(function(){
+//   console.log('submit button clicked')
+//   $('form').submit()
+// });
+
+// $('#quick-add').select2({
+//   data: select2Data,
+//   placeholder: "Quick Add",
+//   theme: "bootstrap"
+// })
 
 // const mskey = $('#ms').data('mskey')
 // const mshmac = $('#ms').data('mshmac')

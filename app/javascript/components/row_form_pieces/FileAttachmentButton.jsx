@@ -5,7 +5,7 @@ export default class FileAttachmentButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      file: null,
+      file: '',
     };
     this.handleFileChange = this.handleFileChange.bind(this);
   }
