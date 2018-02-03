@@ -26,7 +26,7 @@ enum DebugEvent {
 class V8_EXPORT Debug {
  public:
   /**
-   * A client object passed to the v8 debugger whose ownership will be taken by
+   * A client object passed to the v8 // debugger whose ownership will be taken by
    * it. v8 is always responsible for deleting the object.
    */
   class ClientData {
@@ -56,19 +56,19 @@ class V8_EXPORT Debug {
     /**
      * Access to execution state and event data. Don't store these cross
      * callbacks as their content becomes invalid. These objects are from the
-     * debugger event that started the debug message loop.
+     * // debugger event that started the debug message loop.
      */
     virtual Local<Object> GetExecutionState() const = 0;
     virtual Local<Object> GetEventData() const = 0;
 
     /**
-     * Get the debugger protocol JSON.
+     * Get the // debugger protocol JSON.
      */
     virtual Local<String> GetJSON() const = 0;
 
     /**
      * Get the context active when the debug event happened. Note this is not
-     * the current active context as the JavaScript part of the debugger is
+     * the current active context as the JavaScript part of the // debugger is
      * running in its own context which is entered at this point.
      */
     virtual Local<Context> GetEventContext() const = 0;
@@ -77,7 +77,7 @@ class V8_EXPORT Debug {
      * Client data passed with the corresponding request if any. This is the
      * client_data data value passed into Debug::SendCommand along with the
      * request that led to the message or NULL if the message is an event. The
-     * debugger takes ownership of the data and will delete it even if there is
+     * // debugger takes ownership of the data and will delete it even if there is
      * no message handler.
      */
     virtual ClientData* GetClientData() const = 0;
@@ -107,7 +107,7 @@ class V8_EXPORT Debug {
 
     /**
      * Get the context active when the debug event happened. Note this is not
-     * the current active context as the JavaScript part of the debugger is
+     * the current active context as the JavaScript part of the // debugger is
      * running in its own context which is entered at this point.
      */
     virtual Local<Context> GetEventContext() const = 0;
@@ -120,7 +120,7 @@ class V8_EXPORT Debug {
 
     /**
      * Client data passed to DebugBreakForCommand function. The
-     * debugger takes ownership of the data and will delete it even if
+     * // debugger takes ownership of the data and will delete it even if
      * there is no message handler.
      */
     virtual ClientData* GetClientData() const = 0;
@@ -161,15 +161,15 @@ class V8_EXPORT Debug {
                 static bool SetDebugEventListener(
                     EventCallback that, Local<Value> data = Local<Value>()));
 
-  // Schedule a debugger break to happen when JavaScript code is run
+  // Schedule a // debugger break to happen when JavaScript code is run
   // in the given isolate.
   static void DebugBreak(Isolate* isolate);
 
-  // Remove scheduled debugger break in given isolate if it has not
+  // Remove scheduled // debugger break in given isolate if it has not
   // happened yet.
   static void CancelDebugBreak(Isolate* isolate);
 
-  // Check if a debugger break is scheduled in the given isolate.
+  // Check if a // debugger break is scheduled in the given isolate.
   static bool CheckDebugBreak(Isolate* isolate);
 
   // Message based interface. The message protocol is JSON.
@@ -182,14 +182,14 @@ class V8_EXPORT Debug {
                           ClientData* client_data = NULL);
 
  /**
-  * Run a JavaScript function in the debugger.
+  * Run a JavaScript function in the // debugger.
   * \param fun the function to call
   * \param data passed as second argument to the function
-  * With this call the debugger is entered and the function specified is called
+  * With this call the // debugger is entered and the function specified is called
   * with the execution state as the first argument. This makes it possible to
   * get access to information otherwise not available during normal JavaScript
   * execution e.g. details on stack frames. Receiver of the function call will
-  * be the debugger context global object, however this is a subject to change.
+  * be the // debugger context global object, however this is a subject to change.
   * The following example shows a JavaScript function which when passed to
   * v8::Debug::Call will return the current line of JavaScript execution.
   *
@@ -219,7 +219,7 @@ class V8_EXPORT Debug {
    * Makes V8 process all pending debug messages.
    *
    * From V8 point of view all debug messages come asynchronously (e.g. from
-   * remote debugger) but they all must be handled synchronously: V8 cannot
+   * remote // debugger) but they all must be handled synchronously: V8 cannot
    * do 2 things at one time so normal script execution must be interrupted
    * for a while.
    *
@@ -251,10 +251,10 @@ class V8_EXPORT Debug {
                 static void ProcessDebugMessages());
 
   /**
-   * Debugger is running in its own context which is entered while debugger
+   * Debugger is running in its own context which is entered while // debugger
    * messages are being dispatched. This is an explicit getter for this
-   * debugger context. Note that the content of the debugger context is subject
-   * to change. The Context exists only when the debugger is active, i.e. at
+   * // debugger context. Note that the content of the // debugger context is subject
+   * to change. The Context exists only when the // debugger is active, i.e. at
    * least one DebugEventListener or MessageHandler is set.
    */
   static Local<Context> GetDebugContext(Isolate* isolate);

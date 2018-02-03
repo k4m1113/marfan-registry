@@ -13,7 +13,7 @@ module Scanners
       assert break case catch continue default do else
       finally for if instanceof import new package
       return switch throw try typeof while
-      debugger export
+      // debugger export
     ]  # :nodoc:
     RESERVED = %w[ const goto ]  # :nodoc:
     CONSTANTS = %w[ false null true ]  # :nodoc:

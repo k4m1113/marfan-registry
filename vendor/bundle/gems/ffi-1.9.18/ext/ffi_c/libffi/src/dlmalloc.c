@@ -5149,7 +5149,7 @@ History:
       * removed potential for odd address access in prev_chunk
       * removed dependency on getpagesize.h
       * misc cosmetics and a bit more internal documentation
-      * anticosmetics: mangled names in macros to evade debugger strangeness
+      * anticosmetics: mangled names in macros to evade // debugger strangeness
       * tested on sparc, hp-700, dec-mips, rs6000
           with gcc & native cc (hp, dec only) allowing
           Detlefs & Zorn comparison study (in SIGPLAN Notices.)

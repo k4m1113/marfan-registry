@@ -55,7 +55,7 @@ abide by its terms.
 
 ## Byebug as a C-extension
 
-Byebug is a gem developed as a C-extension. The debugger internal's
+Byebug is a gem developed as a C-extension. The // debugger internal's
 functionality is implemented in C (the interaction with the TracePoint API).
 The rest of the gem is implemented in Ruby. Normally you won't need to touch
 the C-extension, but it will obviously depended on the bug you're trying to fix

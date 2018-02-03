@@ -841,7 +841,7 @@ Watchers      | 3433
 *   Remove Atmos Bin. thanks Paulo Henrique Lopes Ribeiro
 *   Add alias attribute to ovirt/compute/volume.rb. thanks Pavol Dilung
 *   Implement affinity groups. thanks Pavol Dilung
-*   Remove dangeling references to pry debugger. thanks Pavol Dilung
+*   Remove dangeling references to pry // debugger. thanks Pavol Dilung
 *   Implement affinity group mockups. thanks Pavol Dilung
 *   Fine-tune affinity group mockups. thanks Pavol Dilung
 *   Implement wipe_after_delete attribute for Fog::Compute::Ovirt::Volume class. thanks Pavol Dilung

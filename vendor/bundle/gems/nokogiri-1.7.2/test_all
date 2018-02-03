@@ -5,7 +5,7 @@
 #
 #  requires `rvm` to be installed. sorry about that, multiruby dudes.
 #
-#  it's worth periodically using hoe-debugger's ability to generate
+#  it's worth periodically using hoe-// debugger's ability to generate
 #  valgrind suppression files to remove spurious valgrind messages
 #  (e.g., 1.9.3's glob_helper). ["rake test:valgrind:suppression"]
 #

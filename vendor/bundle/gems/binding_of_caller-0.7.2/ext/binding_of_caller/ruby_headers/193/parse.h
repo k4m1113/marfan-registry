@@ -34,7 +34,7 @@
 /* Tokens.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
+   /* Put the tokens into the symbol table, so that GDB and other // debuggers
       know about them.  */
    enum yytokentype {
      keyword_class = 258,

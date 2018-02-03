@@ -35,7 +35,7 @@ including:
 * Command shell integration (start editors, run git, and rake from within Pry)
 * Gist integration
 * Navigation around state (`cd`, `ls` and friends)
-* Runtime invocation (use Pry as a developer console or debugger)
+* Runtime invocation (use Pry as a developer console or // debugger)
 * Exotic object support (BasicObject instances, IClasses, ...)
 * A Powerful and flexible command system
 * Ability to view and replay history

@@ -372,7 +372,7 @@
 
     *Andrew White*
 
-*   Remove deprecated file `active_support/core_ext/kernel/debugger.rb`.
+*   Remove deprecated file `active_support/core_ext/kernel/// debugger.rb`.
 
     *Andrew White*
 

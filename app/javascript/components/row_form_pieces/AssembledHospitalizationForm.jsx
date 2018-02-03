@@ -29,7 +29,7 @@ export default class AssembledHospitalizationForm extends Component {
 
   componentWillUnmount() {
     console.log('hospitalization form unmounting')
-    debugger
+    // debugger
   }
 
   handleChange(value) {

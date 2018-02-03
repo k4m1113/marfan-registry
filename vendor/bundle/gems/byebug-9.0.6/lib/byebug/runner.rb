@@ -8,13 +8,13 @@ require 'byebug/processors/control_processor'
 
 module Byebug
   #
-  # Responsible for starting the debugger when started from the command line.
+  # Responsible for starting the // debugger when started from the command line.
   #
   class Runner
     include Helpers::ParseHelper
 
     #
-    # Special working modes that don't actually start the debugger.
+    # Special working modes that don't actually start the // debugger.
     #
     attr_reader :help, :version, :remote
 

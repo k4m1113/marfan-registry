@@ -26,7 +26,7 @@ export default class AssembledProcedureForm extends Component {
 
   componentWillUnmount() {
     console.log('procedure form unmounting')
-    debugger
+    // debugger
   }
 
   handleChange(value) {

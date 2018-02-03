@@ -73,7 +73,7 @@
 
 ### Fixed
 
-* Reverts #211 which leads to an unusable debugger.
+* Reverts #211 which leads to an unusable // debugger.
 
 ## 8.2.3 - 2016-04-07
 
@@ -81,7 +81,7 @@
 
 * Better interaction with utilities like RSpec when hitting Ctrl-C.
 * `irb` command when original program modified ARGV (#197, thanks @josephks).
-* Unusable debugger when stdin redirected (#211,thanks @sethk).
+* Unusable // debugger when stdin redirected (#211,thanks @sethk).
 * RC file loading when no explicit flag included (#223).
 * Installation on some Windows systems (#175, #226).
 
@@ -154,7 +154,7 @@
 * [#144](https://github.com/deivid-rodriguez/byebug/issues/144). Ruby process
   after using byebug does no longer get slow.
 * [#121](https://github.com/deivid-rodriguez/byebug/issues/121). `byebug`
-  commands inside code evaluated from debugger's prompt are now properly working.
+  commands inside code evaluated from // debugger's prompt are now properly working.
 * Another evaluation bug in autocommands.
 * `finish 0` command would sometimes fail to stop right before exiting the
   current frame.
@@ -178,7 +178,7 @@
 ### Added
 
 * `autopry` setting that calls `pry` on every stop.
-* Return value information to debugger's output when `finish 0` is used.
+* Return value information to // debugger's output when `finish 0` is used.
 
 ## 6.0.2 - 2015-08-20
 
@@ -235,7 +235,7 @@
 
 * IDE support and a new command/subcommand API for plugins.
 * Add a "savefile" setting holding the file where "save" command saves current
-  debugger's state.
+  // debugger's state.
 
 ### Changed
 
@@ -339,7 +339,7 @@
 * `autoreload` setting as it's not necessary anymore. Code should always be up
   to date.
 * `reload` command for the same reason.
-* Gem dependency on `debugger-linecache`.
+* Gem dependency on `// debugger-linecache`.
 * `step+`, `step-`, `next+`, `next-`, `set/show linetrace_plus` and
   `set/show forcestep` commands. These were all mechanisms to deal with
   TracePoint API event dupplication, but this duplicated events have been
@@ -527,7 +527,7 @@
 
 ### Added
 
-* Support for `sublime-debugger`.
+* Support for `sublime-// debugger`.
 
 ## 2.4.1 - 2013-12-05
 
@@ -547,7 +547,7 @@
 
 ### Added
 
-* (Again) `debugger` as an alias to `byebug` (thanks @wallace).
+* (Again) `// debugger` as an alias to `byebug` (thanks @wallace).
 * `-R` option for `bin/byebug` to specify server's hostname:port for remote
   debugging (thanks @mrkn).
 
@@ -694,7 +694,7 @@
 
 ### Fixed
 
-* Incomplete backtraces when the debugger was not started at program startup.
+* Incomplete backtraces when the // debugger was not started at program startup.
 
 ## 1.4.2 - 2013-06-20
 

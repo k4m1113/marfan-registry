@@ -21,12 +21,12 @@ export default class SelectConstructor extends Component {
         inputBegin = (
           <input
             type="text"
-            disabled="true"
             name={this.props.name}
             id={'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.name}
             className="form-control single-option"
             value={this.state.units}
             multiple
+            readOnly
             onChange={this.handleChange}
           />
         );
@@ -34,7 +34,7 @@ export default class SelectConstructor extends Component {
         inputBegin = (
           <input
             type="text"
-            disabled="true"
+            readOnly
             name={this.props.name}
             id={'visit_' + this.props.parameterizedPlural + '_attributes_' + this.props.rowID + '_' + this.props.attribute}
             className="form-control single-option"

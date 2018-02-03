@@ -325,7 +325,7 @@ Add this to your .travis.yml file:
 - Does not release global interpreter lock when executing JavaScript
 - Does not allow you to invoke Ruby code from JavaScript
 - Multi runtime support due to SWIG based bindings
-- Supports a JavaScript debugger
+- Supports a JavaScript // debugger
 - Does not support timeouts for JavaScript execution
 - No support for execjs (can not be used with Rails uglifier and coffeescript gems)
 

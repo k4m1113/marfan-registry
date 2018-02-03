@@ -956,7 +956,7 @@ Lint/ConditionPosition:
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#same-line-condition
   Enabled: false
 Lint/Debugger:
-  Description: Check for debugger calls.
+  Description: Check for // debugger calls.
   Enabled: true
 Lint/DeprecatedClassMethods:
   Description: Check for deprecated class method calls.

@@ -19,7 +19,7 @@ di_size(const void *dummy)
 }
 
 static const rb_data_type_t di_data_type = {
-    "simple_debugger",
+    "simple_// debugger",
     {0, 0, di_size,},
 };
 

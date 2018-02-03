@@ -5591,7 +5591,7 @@ function SwitchCase(node, print) {
  */
 
 function DebuggerStatement() {
-  this.push("debugger;");
+  this.push("// debugger;");
 }
 
 /**
@@ -28936,7 +28936,7 @@ exports["default"] = function (_ref) {
   var Plugin = _ref.Plugin;
   var t = _ref.types;
 
-  return new Plugin("remove-debugger", {
+  return new Plugin("remove-// debugger", {
     metadata: {
       group: "builtin-pre"
     },
@@ -33613,7 +33613,7 @@ function selectColor() {
 }
 
 /**
- * Create a debugger with the given `namespace`.
+ * Create a // debugger with the given `namespace`.
  *
  * @param {String} namespace
  * @return {Function}
@@ -34578,7 +34578,7 @@ module.exports = function (str) {
         case 7:
             return (id === 'default') || (id === 'finally') || (id === 'extends');
         case 8:
-            return (id === 'function') || (id === 'continue') || (id === 'debugger');
+            return (id === 'function') || (id === 'continue') || (id === '// debugger');
         case 10:
             return (id === 'instanceof');
         default:
@@ -50028,7 +50028,7 @@ function genericPrintNoParens(path, options, print) {
         return concat(parts);
 
     case "DebuggerStatement":
-        return fromString("debugger;");
+        return fromString("// debugger;");
 
     // JSX extensions below.
 
@@ -50525,7 +50525,7 @@ function genericPrintNoParens(path, options, print) {
     case "XMLComment":
     case "XMLProcessingInstruction":
     default:
-        debugger;
+        // debugger;
         throw new Error("unknown type: " + JSON.stringify(n.type));
     }
 
@@ -61862,7 +61862,7 @@ module.exports={
     "babel-plugin-react-constant-elements": "^1.0.3",
     "babel-plugin-react-display-name": "^1.0.3",
     "babel-plugin-remove-console": "^1.0.1",
-    "babel-plugin-remove-debugger": "^1.0.1",
+    "babel-plugin-remove-// debugger": "^1.0.1",
     "babel-plugin-runtime": "^1.0.7",
     "babel-plugin-undeclared-variables-check": "^1.0.2",
     "babel-plugin-undefined-to-void": "^1.1.6",
@@ -62097,7 +62097,7 @@ pp.processComment = function (node) {
       // https://github.com/eslint/espree/issues/2
       //
       // In special cases, such as return (without a value) and
-      // debugger, all comments will end up as leadingComments and
+      // // debugger, all comments will end up as leadingComments and
       // will otherwise be eliminated. This step runs when the
       // commentStack is empty and there are comments left
       // in leadingComments.
@@ -63481,7 +63481,7 @@ pp.parseStatement = function (declaration, topLevel) {
   switch (starttype) {
     case _tokenizerTypes.types._break:case _tokenizerTypes.types._continue:
       return this.parseBreakContinueStatement(node, starttype.keyword);
-    case _tokenizerTypes.types._debugger:
+    case _tokenizerTypes.types._// debugger:
       return this.parseDebuggerStatement(node);
     case _tokenizerTypes.types._do:
       return this.parseDoStatement(node);
@@ -67305,7 +67305,7 @@ kw("break");
 kw("case", beforeExpr);
 kw("catch");
 kw("continue");
-kw("debugger");
+kw("// debugger");
 kw("default", beforeExpr);
 kw("do", { isLoop: true });
 kw("else", beforeExpr);
@@ -67371,7 +67371,7 @@ var reservedWords = {
 exports.reservedWords = reservedWords;
 // And the keywords
 
-var isKeyword = makePredicate("break case catch continue debugger default do else finally for function if return switch throw try var while with null true false instanceof typeof void delete new in this let const class extends export import yield super");
+var isKeyword = makePredicate("break case catch continue // debugger default do else finally for function if return switch throw try var while with null true false instanceof typeof void delete new in this let const class extends export import yield super");
 
 exports.isKeyword = isKeyword;
 // ## Character categories

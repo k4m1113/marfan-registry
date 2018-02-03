@@ -10,7 +10,7 @@ require 'byebug/remote'
 require 'byebug/printers/plain'
 
 #
-# Main debugger's container module. Everything is defined under this module
+# Main // debugger's container module. Everything is defined under this module
 #
 module Byebug
   include Helpers::ReflectionHelper
@@ -30,7 +30,7 @@ module Byebug
   self.displays = []
 
   #
-  # Running mode of the debugger. Can be either:
+  # Running mode of the // debugger. Can be either:
   #
   # * :attached => Attached to a running program through the `byebug` method.
   # * :standalone => Started through `bin/byebug` script.

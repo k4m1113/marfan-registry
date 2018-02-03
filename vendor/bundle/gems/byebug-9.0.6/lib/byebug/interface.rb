@@ -47,7 +47,7 @@ module Byebug
     # Reads a new line from the interface's input stream, parses it into
     # commands and saves it to history.
     #
-    # @return [String] Representing something to be run by the debugger.
+    # @return [String] Representing something to be run by the // debugger.
     #
     def read_input(prompt, save_hist = true)
       line = prepare_input(prompt)

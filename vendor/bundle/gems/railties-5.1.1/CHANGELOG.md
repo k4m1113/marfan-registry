@@ -108,7 +108,7 @@
 
     *Rafael Mendonça França*
 
-*   Remove deprecated file `rails/rack/debugger`.
+*   Remove deprecated file `rails/rack/// debugger`.
 
     *Rafael Mendonça França*
 

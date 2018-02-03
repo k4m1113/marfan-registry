@@ -81,7 +81,7 @@ export default class BloodPressureForm extends Component {
           title={this.props.title}
           attribute={this.props.title}
           other={false}
-          name="units"
+          name="test_unit_of_meas"
           parameterizedPlural={this.props.parameterizedPlural}
           rowID={this.props.rowID}
           multiSelect={this.props.multiSelect}

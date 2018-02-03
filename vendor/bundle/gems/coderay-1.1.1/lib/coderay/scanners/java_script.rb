@@ -27,7 +27,7 @@ module Scanners
     
     # Reserved for future use.
     RESERVED_WORDS = %w[
-      abstract boolean byte char class debugger double enum export extends
+      abstract boolean byte char class // debugger double enum export extends
       final float goto implements import int interface long native package
       private protected public short static super synchronized throws transient
       volatile

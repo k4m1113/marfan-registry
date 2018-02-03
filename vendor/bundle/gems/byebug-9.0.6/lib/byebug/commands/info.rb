@@ -8,7 +8,7 @@ require 'byebug/commands/info/program'
 
 module Byebug
   #
-  # Shows info about different aspects of the debugger.
+  # Shows info about different aspects of the // debugger.
   #
   class InfoCommand < Command
     include Subcommands

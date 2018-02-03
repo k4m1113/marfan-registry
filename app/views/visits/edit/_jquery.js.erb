@@ -1,240 +1,241 @@
-$('button.paneTopicGroup').click(function() {
-  $('button.paneTopicGroup').removeClass('active')
-  $(this).addClass('active')
-  $target = $(this).data('target')
-  $('div.tabbable').hide()
-  $(`div.tabbable#${$target}`).show()
-})
-// calc button clicked
- $('button.calculator').click(function(e){
-   console.log('calculator button clicked')
-   $targetInput =  $(this).closest('.form-inline').children("input[type='number']")
-   e.stopImmediatePropagation();
-   var kb = $targetInput.getkeyboard();
-   // close the keyboard if the keyboard is visible and the button is clicked a second time
-   if ( kb.isOpen ) {
-     kb.close();
-   } else {
-     kb.reveal();
-   }
- });
-// const unsortedTopics = $('#unsortedtopics').data('unsorted')
-//
-//  // initialize select2 for quick-add
-//  var select2Data = unsortedTopics.map(function(obj) {
-//     var rObj = {};
-//     rObj['id'] = obj.id;
-//     rObj['text'] = obj.name;
-//     return rObj;
-//  });
-
-
-//  // open form when quick add selected
-//  $('select#quick-add').on('select2:select', function (evt) {
-//    var topic = unsortedTopics.find(x => x.id == evt.params.data.id)
-//    $('#quickAddHook')
-//      .append(renderByTopicType(topic, allTopics, unsortedTopics, visit, 999))
-//      .find('.present_or_not').val("true")
-//      .initializeRow()
-//    $('#row_999').show()
-//    $('#quickAddModal').modal('show')
-//  });
-// $('button[type=submit]').click(function(){
-//   console.log('submit button clicked')
-//   $('form').submit()
-// });
-
-// $('#quick-add').select2({
-//   data: select2Data,
-//   placeholder: "Quick Add",
-//   theme: "bootstrap"
+// $('button.paneTopicGroup').click(function() {
+//   $('button.paneTopicGroup').removeClass('active')
+//   $(this).addClass('active')
+//   $target = $(this).data('target')
+//   $('div.tabbable').hide()
+//   $(`div.tabbable#${$target}`).show()
 // })
-
-// const mskey = $('#ms').data('mskey')
-// const mshmac = $('#ms').data('mshmac')
+// // calc button clicked
+//  $('button.calculator').click(function(e){
+//    console.log('calculator button clicked')
+//    $targetInput =  $(this).closest('.form-inline').children("input[type='number']")
+//    e.stopImmediatePropagation();
+//    var kb = $targetInput.getkeyboard();
+//    // close the keyboard if the keyboard is visible and the button is clicked a second time
+//    if ( kb.isOpen ) {
+//      kb.close();
+//    } else {
+//      kb.reveal();
+//    }
+//  });
 //
-// // $('#diagnosisHeader').append(visitHeader(patient, visit))
-// // $('#reasonsForVisitHeader').append(reasonForVisitHeader(visit))
-// // $('#nestedListHook').append(nestedList(allTopics.sort(), unsortedTopics.sort(), visit, mskey, mshmac, sortedConcerns))
-//
-// $(function() {
-//   // initialize existingPatient select2 and knownConcerns select2
-//   $('.family.modal').on('show.bs.modal', function() {
-//     targ = $(this).attr('id')
-//     $(this).find('.existingPatient').select2({
-//       data: select2Patients,
-//       placeholder: "All Patients",
-//       theme: "bootstrap",
-//       dropdownParent: $(`#${targ}`)
-//     })
-//     $(this).find('.knownConcerns').select2({
-//       data: select2Data,
-//       placeholder: "Concerns",
-//       theme: "bootstrap",
-//       dropdownParent: $(`#${targ}`)
-//     })
-//   })
-//   // fill in family member form based on selected existing patient
-//   $('select.existingPatient').on('select2:select', function (evt) {
-//     patientID = parseInt($(this).val())
-//     existingPatient = allPatients.find(ob => ob.id == patientID)
-//     now = new Date
-//     born = new Date(Date.parse(existingPatient.date_of_birth))
-//     age = now.getUTCFullYear() - born.getUTCFullYear()
-//     $currentModal = $(this).parent().parent().parent()
-//     $currentModal.find('.claimed_patient_id').val(patientID)
-//     $currentModal.find('.first_name').val(existingPatient.first_name)
-//     $currentModal.find('.last_name').val(existingPatient.last_name)
-//     $currentModal.find('.age').val(age)
-//     $currentModal.find('.note').val(existingPatient.note)
-//   });
-//
-//   // toggle 'deceased' div visibility on checkbox value changes
-//   $('.deceased').on('change', function() {
-//     $deceased_form = $(this).parent().parent().parent().parent().find('.deceased_details')
-//     if ($(this).prop('checked') == true) {
-//       $deceased_form.show()
-//     } else {
-//       $deceased_form.hide()
-//     }
-//   })
-//
-
-//
-//   // body group pane topic type tabs
-
-//
-//   // select 'other' from list to append text input
-//   $('select').change(function() {
-//     var opt = $(this).find("option:selected").val()
-//     switch(opt) {
-//       case "other (please specify)":
-//   	$(this).parent().find('input[type="text"]').show()
-//   	break;
-//   } });
-//
-//   // click medParse button
-//   $('#medParse').click(function() {
-//     var table_rows = parseMed($('#epicMed').val(), visit, $('#invisible').data('rubyvar'))
-//     $('tbody#parsedMeds').append(table_rows)
-//   });
-//
-//   // click submit button
-//   $('.confirm-submit').click(function() {
-//     data = $(this).data('attr')
-//     humanData = data.replace(/_/ig, ' ')
-//     selected = $(`input[name*=${data}]:checked`).val()
-//     return confirm(`Update ${humanData} to ${selected}?`);
-//   })
-//   $('button[type=submit]').click(function(){
-//     $('form').submit()
-//   });
-//
-//   // toggle radio button label color
-//   $(function() {
-//     $("input[type='radio']").change(function() {
-//       $(this).parent().parent().find($("input[type='radio']")).parent().css('background-color', 'white')
-//       $(this).parent().css('background-color', 'rgba(0,0,0,0.3)')
-//     })
-//   });
-//
-//   // click 'related' button
-//   $('button.related').click(function(){
-//     var data = $(this).data('topic')
-//     $currentRow = $(this).parent().parent()
-//     var targetInd = data.id + 1000
-//     required = `<tr><td colspan="3">${data.name}</td></tr>`
-//     switch (data.topic_type) {
-//       case 'diagnosis':
-//         required += `${assembledDiagnosisForm(data, unsortedTopics, visit, targetInd)}`
-//         break;
-//       case 'dissection':
-//         required += `${assembledDissectionForm(data, unsortedTopics, visit, targetInd)}`
-//         break;
-//       case 'family_member':
-//         required += `${assembledFamilyForm(data, targetInd)}`
-//         break;
-//       case 'genetic test':
-//         required += `${assembledGeneticTestForm(data, unsortedTopics, visit, targetInd)}`
-//         break;
-//       case 'measurement':
-//         required += `${assembledMeasurementForm(data, unsortedTopics, visit, targetInd)}`
-//         break;
-//       case 'medication':
-//         required += `${assembledMedicationForm(data, visit, targetInd)}`
-//         break;
-//       case 'procedure':
-//         required += `${assembledProcedureForm(data, unsortedTopics, visit, targetInd)}`
-//       break;
-//       case 'vital':
-//         required += `${assembledVitalForm(data, visit, targetInd)}`
-//         break;
-//         case 'heart_measurement':
-//         'brian'
-//         break;
-//       default:
-//       'kat'
-//     }
-//     $currentRow.after(required)
-//     let $newRow = $('body').find("#row_" + (targetInd))
-//     console.log($newRow)
-//     $newRow.initializeRow()
-//     $newRow.show()
-//   })
-//
-//   // initialize vitals pane
-//   $('.tab-pane#vitals, .tab-pane#aortic_imaging').find("input[type='number']").addKeyboard()
-//   // convert between vitals units
-//   $('select[id^=visit_vitals_attributes]').on('change', function () {
-//     $targetField = $(this).parent().children('input[type=number]')
-//     result = unitConverter($(this).val(), $targetField.val())
-//     $targetField.val(result)
-//   })
-//
-//   // initialize cardiovascular pane
-//   $('.tab-pane#cardiovascular').find("input[type='number']").addKeyboard()
-//
-//   //initialize tooltips
-//   $('[data-toggle="tooltip"]').tooltip()
-//
-//   // click on either 'bar' or tab 'nav-link'
-//   $('a.open-tab').on("click", function(){
-//     // accordion-style collapse
-//     $("ul.summary-bar").find(".active").removeClass("active");
-//     $('.summary-body').hide();
-//     $(this).next(".summary-body").toggle();
-//     // scroll to new content
-//     $('html, body').animate({
-//       scrollTop: ($('.tab-pane.active').offset().top)
-//     }, 350);
-//   });
-//
-//   // click on tab 'nav-link'
-//   $('a.nav-link').on("click", function(){
-//     $(".nav").find(".active").removeClass("active");
-//     $(this).parent().addClass("active");
-//     index = $(this).data('tab-index')
-//     $targetPane = $(`.tab-pane[data-tab-index='${index}']`)
-//     $targetPane.find('.tabbable').first().show()
-//     $targetPane.find('button.paneTopicGroup').first().addClass('active')
-//   });
-//
-//   // toggle all negative on current pane
-//   $('h6.all-neg-toggler').click(function toggleAllAbsent() {
-//     $('.tab-pane.active').find('.tabbable:visible').find("input[value='false']").prop("checked", "checked")
-//   });
+//  // const unsortedTopics = $('#unsortedtopics').data('unsorted')
+// //
+// //  // initialize select2 for quick-add
+// //  var select2Data = unsortedTopics.map(function(obj) {
+// //     var rObj = {};
+// //     rObj['id'] = obj.id;
+// //     rObj['text'] = obj.name;
+// //     return rObj;
+// //  });
 //
 //
+// //  // open form when quick add selected
+// //  $('select#quick-add').on('select2:select', function (evt) {
+// //    var topic = unsortedTopics.find(x => x.id == evt.params.data.id)
+// //    $('#quickAddHook')
+// //      .append(renderByTopicType(topic, allTopics, unsortedTopics, visit, 999))
+// //      .find('.present_or_not').val("true")
+// //      .initializeRow()
+// //    $('#row_999').show()
+// //    $('#quickAddModal').modal('show')
+// //  });
+// // $('button[type=submit]').click(function(){
+// //   console.log('submit button clicked')
+// //   $('form').submit()
+// // });
 //
-//   // append file name to attachment button on change
-//   $("input[type='file']").on('change', function() {
-//     var file_name = $(this).val().split("\\").pop().split("/").pop()
-//     $(this).next('button').find('label').append(file_name)
-//   });
+// // $('#quick-add').select2({
+// //   data: select2Data,
+// //   placeholder: "Quick Add",
+// //   theme: "bootstrap"
+// // })
 //
-//   // hide or display row form based on 'present' or 'absent' checked
-//   $("input.pres_abs").change(function() {
-//     $('#floppy').addClass('text-primary')
-//     $(this).initializeRow();
-//   });
-// })
+// // const mskey = $('#ms').data('mskey')
+// // const mshmac = $('#ms').data('mshmac')
+// //
+// // // $('#diagnosisHeader').append(visitHeader(patient, visit))
+// // // $('#reasonsForVisitHeader').append(reasonForVisitHeader(visit))
+// // // $('#nestedListHook').append(nestedList(allTopics.sort(), unsortedTopics.sort(), visit, mskey, mshmac, sortedConcerns))
+// //
+// // $(function() {
+// //   // initialize existingPatient select2 and knownConcerns select2
+// //   $('.family.modal').on('show.bs.modal', function() {
+// //     targ = $(this).attr('id')
+// //     $(this).find('.existingPatient').select2({
+// //       data: select2Patients,
+// //       placeholder: "All Patients",
+// //       theme: "bootstrap",
+// //       dropdownParent: $(`#${targ}`)
+// //     })
+// //     $(this).find('.knownConcerns').select2({
+// //       data: select2Data,
+// //       placeholder: "Concerns",
+// //       theme: "bootstrap",
+// //       dropdownParent: $(`#${targ}`)
+// //     })
+// //   })
+// //   // fill in family member form based on selected existing patient
+// //   $('select.existingPatient').on('select2:select', function (evt) {
+// //     patientID = parseInt($(this).val())
+// //     existingPatient = allPatients.find(ob => ob.id == patientID)
+// //     now = new Date
+// //     born = new Date(Date.parse(existingPatient.date_of_birth))
+// //     age = now.getUTCFullYear() - born.getUTCFullYear()
+// //     $currentModal = $(this).parent().parent().parent()
+// //     $currentModal.find('.claimed_patient_id').val(patientID)
+// //     $currentModal.find('.first_name').val(existingPatient.first_name)
+// //     $currentModal.find('.last_name').val(existingPatient.last_name)
+// //     $currentModal.find('.age').val(age)
+// //     $currentModal.find('.note').val(existingPatient.note)
+// //   });
+// //
+// //   // toggle 'deceased' div visibility on checkbox value changes
+// //   $('.deceased').on('change', function() {
+// //     $deceased_form = $(this).parent().parent().parent().parent().find('.deceased_details')
+// //     if ($(this).prop('checked') == true) {
+// //       $deceased_form.show()
+// //     } else {
+// //       $deceased_form.hide()
+// //     }
+// //   })
+// //
+//
+// //
+// //   // body group pane topic type tabs
+//
+// //
+// //   // select 'other' from list to append text input
+// //   $('select').change(function() {
+// //     var opt = $(this).find("option:selected").val()
+// //     switch(opt) {
+// //       case "other (please specify)":
+// //   	$(this).parent().find('input[type="text"]').show()
+// //   	break;
+// //   } });
+// //
+// //   // click medParse button
+// //   $('#medParse').click(function() {
+// //     var table_rows = parseMed($('#epicMed').val(), visit, $('#invisible').data('rubyvar'))
+// //     $('tbody#parsedMeds').append(table_rows)
+// //   });
+// //
+// //   // click submit button
+// //   $('.confirm-submit').click(function() {
+// //     data = $(this).data('attr')
+// //     humanData = data.replace(/_/ig, ' ')
+// //     selected = $(`input[name*=${data}]:checked`).val()
+// //     return confirm(`Update ${humanData} to ${selected}?`);
+// //   })
+// //   $('button[type=submit]').click(function(){
+// //     $('form').submit()
+// //   });
+// //
+// //   // toggle radio button label color
+// //   $(function() {
+// //     $("input[type='radio']").change(function() {
+// //       $(this).parent().parent().find($("input[type='radio']")).parent().css('background-color', 'white')
+// //       $(this).parent().css('background-color', 'rgba(0,0,0,0.3)')
+// //     })
+// //   });
+// //
+// //   // click 'related' button
+// //   $('button.related').click(function(){
+// //     var data = $(this).data('topic')
+// //     $currentRow = $(this).parent().parent()
+// //     var targetInd = data.id + 1000
+// //     required = `<tr><td colspan="3">${data.name}</td></tr>`
+// //     switch (data.topic_type) {
+// //       case 'diagnosis':
+// //         required += `${assembledDiagnosisForm(data, unsortedTopics, visit, targetInd)}`
+// //         break;
+// //       case 'dissection':
+// //         required += `${assembledDissectionForm(data, unsortedTopics, visit, targetInd)}`
+// //         break;
+// //       case 'family_member':
+// //         required += `${assembledFamilyForm(data, targetInd)}`
+// //         break;
+// //       case 'genetic test':
+// //         required += `${assembledGeneticTestForm(data, unsortedTopics, visit, targetInd)}`
+// //         break;
+// //       case 'measurement':
+// //         required += `${assembledMeasurementForm(data, unsortedTopics, visit, targetInd)}`
+// //         break;
+// //       case 'medication':
+// //         required += `${assembledMedicationForm(data, visit, targetInd)}`
+// //         break;
+// //       case 'procedure':
+// //         required += `${assembledProcedureForm(data, unsortedTopics, visit, targetInd)}`
+// //       break;
+// //       case 'vital':
+// //         required += `${assembledVitalForm(data, visit, targetInd)}`
+// //         break;
+// //         case 'heart_measurement':
+// //         'brian'
+// //         break;
+// //       default:
+// //       'kat'
+// //     }
+// //     $currentRow.after(required)
+// //     let $newRow = $('body').find("#row_" + (targetInd))
+// //     console.log($newRow)
+// //     $newRow.initializeRow()
+// //     $newRow.show()
+// //   })
+// //
+// //   // initialize vitals pane
+// //   $('.tab-pane#vitals, .tab-pane#aortic_imaging').find("input[type='number']").addKeyboard()
+// //   // convert between vitals units
+// //   $('select[id^=visit_vitals_attributes]').on('change', function () {
+// //     $targetField = $(this).parent().children('input[type=number]')
+// //     result = unitConverter($(this).val(), $targetField.val())
+// //     $targetField.val(result)
+// //   })
+// //
+// //   // initialize cardiovascular pane
+// //   $('.tab-pane#cardiovascular').find("input[type='number']").addKeyboard()
+// //
+// //   //initialize tooltips
+// //   $('[data-toggle="tooltip"]').tooltip()
+// //
+// //   // click on either 'bar' or tab 'nav-link'
+// //   $('a.open-tab').on("click", function(){
+// //     // accordion-style collapse
+// //     $("ul.summary-bar").find(".active").removeClass("active");
+// //     $('.summary-body').hide();
+// //     $(this).next(".summary-body").toggle();
+// //     // scroll to new content
+// //     $('html, body').animate({
+// //       scrollTop: ($('.tab-pane.active').offset().top)
+// //     }, 350);
+// //   });
+// //
+// //   // click on tab 'nav-link'
+// //   $('a.nav-link').on("click", function(){
+// //     $(".nav").find(".active").removeClass("active");
+// //     $(this).parent().addClass("active");
+// //     index = $(this).data('tab-index')
+// //     $targetPane = $(`.tab-pane[data-tab-index='${index}']`)
+// //     $targetPane.find('.tabbable').first().show()
+// //     $targetPane.find('button.paneTopicGroup').first().addClass('active')
+// //   });
+// //
+// //   // toggle all negative on current pane
+// //   $('h6.all-neg-toggler').click(function toggleAllAbsent() {
+// //     $('.tab-pane.active').find('.tabbable:visible').find("input[value='false']").prop("checked", "checked")
+// //   });
+// //
+// //
+// //
+// //   // append file name to attachment button on change
+// //   $("input[type='file']").on('change', function() {
+// //     var file_name = $(this).val().split("\\").pop().split("/").pop()
+// //     $(this).next('button').find('label').append(file_name)
+// //   });
+// //
+// //   // hide or display row form based on 'present' or 'absent' checked
+// //   $("input.pres_abs").change(function() {
+// //     $('#floppy').addClass('text-primary')
+// //     $(this).initializeRow();
+// //   });
+// // })

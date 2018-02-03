@@ -35,6 +35,7 @@ export default class AssembledVitalForm extends Component {
   }
 
   handleChange(value) {
+    // debugger
     this.setState({
       measurement: value.measurement || this.state.measurement,
       units: value.units || this.state.units,
@@ -43,7 +44,7 @@ export default class AssembledVitalForm extends Component {
 
   handleBPChange(value) {
     this.setState({
-      measurement: this.state.measurement,
+      measurement: value.measurement || this.state.measurement,
       units: 'mmHG',
     });
   }
@@ -71,7 +72,7 @@ export default class AssembledVitalForm extends Component {
           visit={this.props.visit}
           topic={this.props.topic}
           parameterizedPlural={parameterizedPlural}
-          title={this.props.topic.name}
+          title="test_unit_of_meas"
           rowID={this.props.rowID}
           measurementValue={this.state.measurement}
           unitOfMeas={this.state.units}
@@ -91,7 +92,7 @@ export default class AssembledVitalForm extends Component {
           <MeasurementField
             topic={this.props.topic}
             parameterizedPlural={parameterizedPlural}
-            title={this.props.topic.name}
+            title='test_unit_of_meas'
             rowID={this.props.rowID}
             measurementValue={this.state.measurement}
             unitOfMeas={this.state.units}

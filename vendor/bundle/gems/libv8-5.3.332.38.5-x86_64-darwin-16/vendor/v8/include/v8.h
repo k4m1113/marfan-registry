@@ -1024,7 +1024,7 @@ class ScriptOrigin {
   V8_INLINE Local<Integer> ResourceLineOffset() const;
   V8_INLINE Local<Integer> ResourceColumnOffset() const;
   /**
-    * Returns true for embedder's debugger scripts
+    * Returns true for embedder's // debugger scripts
     */
   V8_INLINE Local<Integer> ScriptID() const;
   V8_INLINE Local<Value> SourceMapUrl() const;
@@ -7176,7 +7176,7 @@ class V8_EXPORT Context {
   v8::Isolate* GetIsolate();
 
   /**
-   * The field at kDebugIdIndex is reserved for V8 debugger implementation.
+   * The field at kDebugIdIndex is reserved for V8 // debugger implementation.
    * The value is propagated to the scripts compiled in given Context and
    * can be used for filtering scripts.
    */
@@ -7185,7 +7185,7 @@ class V8_EXPORT Context {
   /**
    * Gets the embedder data with the given index, which must have been set by a
    * previous call to SetEmbedderData with the same index. Note that index 0
-   * currently has a special meaning for Chrome's debugger.
+   * currently has a special meaning for Chrome's // debugger.
    */
   V8_INLINE Local<Value> GetEmbedderData(int index);
 
@@ -7200,7 +7200,7 @@ class V8_EXPORT Context {
   /**
    * Sets the embedder data with the given index, growing the data as
    * needed. Note that index 0 currently has a special meaning for Chrome's
-   * debugger.
+   * // debugger.
    */
   void SetEmbedderData(int index, Local<Value> value);
 
@@ -7208,14 +7208,14 @@ class V8_EXPORT Context {
    * Gets a 2-byte-aligned native pointer from the embedder data with the given
    * index, which must have bees set by a previous call to
    * SetAlignedPointerInEmbedderData with the same index. Note that index 0
-   * currently has a special meaning for Chrome's debugger.
+   * currently has a special meaning for Chrome's // debugger.
    */
   V8_INLINE void* GetAlignedPointerFromEmbedderData(int index);
 
   /**
    * Sets a 2-byte-aligned native pointer in the embedder data with the given
    * index, growing the data as needed. Note that index 0 currently has a
-   * special meaning for Chrome's debugger.
+   * special meaning for Chrome's // debugger.
    */
   void SetAlignedPointerInEmbedderData(int index, void* value);
 

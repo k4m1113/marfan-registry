@@ -23,7 +23,7 @@ class Poltergeist
     @connection.send(data)
     return true
 
-# This is necessary because the remote debugger will wrap the
+# This is necessary because the remote // debugger will wrap the
 # script in a function, causing the Poltergeist variable to
 # become local.
 window.Poltergeist = Poltergeist

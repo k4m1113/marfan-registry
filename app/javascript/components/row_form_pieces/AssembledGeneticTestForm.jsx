@@ -32,7 +32,7 @@ export default class AssembledGeneticTestForm extends Component {
 
   componentWillUnmount() {
     console.log('genetic test form unmounting')
-    debugger
+    // debugger
   }
 
   handleChange(value) {

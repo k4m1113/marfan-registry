@@ -29,7 +29,7 @@ export default class AssembledMeasurementForm extends Component {
 
   componentWillUnmount() {
     console.log('measurement form unmounting')
-    debugger
+    // debugger
   }
 
   handleChange(value) {

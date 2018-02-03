@@ -3,7 +3,7 @@ require 'byebug/helpers/eval'
 
 module Byebug
   #
-  # Custom expressions to be displayed every time the debugger stops.
+  # Custom expressions to be displayed every time the // debugger stops.
   #
   class DisplayCommand < Command
     include Helpers::EvalHelper
@@ -27,7 +27,7 @@ module Byebug
     end
 
     def self.short_description
-      'Evaluates expressions every time the debugger stops'
+      'Evaluates expressions every time the // debugger stops'
     end
 
     def execute

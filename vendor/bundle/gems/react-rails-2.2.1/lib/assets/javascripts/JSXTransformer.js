@@ -2763,7 +2763,7 @@ process.umask = function() { return 0; };
         case 7:
             return (id === 'default') || (id === 'finally') || (id === 'extends');
         case 8:
-            return (id === 'function') || (id === 'continue') || (id === 'debugger');
+            return (id === 'function') || (id === 'continue') || (id === '// debugger');
         case 10:
             return (id === 'instanceof');
         default:
@@ -7885,11 +7885,11 @@ process.umask = function() { return 0; };
         return markerApply(marker, delegate.createTryStatement(block, [], handlers, finalizer));
     }
 
-    // 12.15 The debugger statement
+    // 12.15 The // debugger statement
 
     function parseDebuggerStatement() {
         var marker = markerCreate();
-        expectKeyword('debugger');
+        expectKeyword('// debugger');
 
         consumeSemicolon();
 
@@ -7927,7 +7927,7 @@ process.umask = function() { return 0; };
                 return parseBreakStatement();
             case 'continue':
                 return parseContinueStatement();
-            case 'debugger':
+            case '// debugger':
                 return parseDebuggerStatement();
             case 'do':
                 return parseDoWhileStatement();
@@ -15007,7 +15007,7 @@ exports.visitorList = [
 var KEYWORDS = [
   'break', 'do', 'in', 'typeof', 'case', 'else', 'instanceof', 'var', 'catch',
   'export', 'new', 'void', 'class', 'extends', 'return', 'while', 'const',
-  'finally', 'super', 'with', 'continue', 'for', 'switch', 'yield', 'debugger',
+  'finally', 'super', 'with', 'continue', 'for', 'switch', 'yield', '// debugger',
   'function', 'this', 'default', 'if', 'throw', 'delete', 'import', 'try'
 ];
 

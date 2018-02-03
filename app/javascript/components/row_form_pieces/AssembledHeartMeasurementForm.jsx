@@ -27,7 +27,7 @@ export default class AssembledHeartMeasurementForm extends Component {
 
   componentWillUnmount() {
     console.log('heart measurement form unmounting')
-    debugger
+    // debugger
   }
 
   handleChange(value) {
@@ -51,13 +51,13 @@ export default class AssembledHeartMeasurementForm extends Component {
     const parameterizedPlural = 'heart_measurements';
     let measFields;
     let descriptors;
-    if (this.props.topic.units_of_measurement.length === 1 || !this.props.topic.name.includes('morphology')) {
+    if (!this.props.topic.name.includes('morphology')) {
       measFields = (
         <MeasurementField
           topic={this.props.topic}
           parameterizedPlural={parameterizedPlural}
           rowID={this.props.rowID}
-          title="severity"
+          title="test_unit_of_meas"
           measurementValue={this.state.measurement}
           unitOfMeas={this.state.units}
           onMeasChange={this.handleChange}

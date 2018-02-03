@@ -18,7 +18,7 @@
 [tip_url]: https://gratipay.com/byebug
 [irc_url]: https://gitter.im/deivid-rodriguez/byebug
 
-Byebug is a simple to use, feature rich debugger for Ruby 2. It uses the new
+Byebug is a simple to use, feature rich // debugger for Ruby 2. It uses the new
 TracePoint API for execution control and the new Debug Inspector API for call
 stack navigation, so it doesn't depend on internal core sources. It's developed
 as a C extension, so it's fast. And it has a full test suite so it's reliable.
@@ -49,7 +49,7 @@ Windows [![Vey][vey]][vey_url]
 ## Requirements
 
 * Required: MRI 2.0.0 or higher. For debugging ruby 1.9.3 or older, use
-  [debugger].
+  [// debugger].
 * Recommended:
   * MRI 2.1.8 or higher.
   * MRI 2.2.4 or higher.
@@ -144,7 +144,7 @@ started. Proper documentation will be eventually written.
 * [ruby-debug-passenger] adds a rake task that restarts Passenger with Byebug
   connected.
 * [minitest-byebug] starts a byebug session on minitest failures.
-* [sublime_debugger] provides a plugin for ruby debugging on Sublime Text.
+* [sublime_// debugger] provides a plugin for ruby debugging on Sublime Text.
 
 ## Contribute
 
@@ -156,15 +156,15 @@ Everybody who has ever contributed to this forked and reforked piece of
 software, especially:
 
 * @ko1, author of the awesome TracePoint API for Ruby.
-* @cldwalker, [debugger]'s maintainer.
+* @cldwalker, [// debugger]'s maintainer.
 * @denofevil, author of [debase], the starting point of this.
 * @kevjames3 for testing, bug reports and the interest in the project.
 * @FooBarWidget for working and helping with remote debugging.
 
-[debugger]: https://github.com/cldwalker/debugger
+[// debugger]: https://github.com/cldwalker/// debugger
 [pry]: https://github.com/pry/pry
 [debase]: https://github.com/denofevil/debase
 [pry-byebug]: https://github.com/deivid-rodriguez/pry-byebug
 [ruby-debug-passenger]: https://github.com/davejamesmiller/ruby-debug-passenger
 [minitest-byebug]: https://github.com/kaspth/minitest-byebug
-[sublime_debugger]: https://github.com/shuky19/sublime_debugger
+[sublime_// debugger]: https://github.com/shuky19/sublime_// debugger

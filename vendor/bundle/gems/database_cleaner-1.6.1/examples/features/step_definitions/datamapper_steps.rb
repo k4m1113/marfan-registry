@@ -19,7 +19,7 @@ When /^I create a widget in one db using datamapper$/ do
     DataMapperWidgetUsingDatabaseOne.create!
   rescue StandardError => e
     BREAK = e.backtrace
-    debugger
+    // debugger
     DataMapperWidgetUsingDatabaseOne.create!
   end
 end

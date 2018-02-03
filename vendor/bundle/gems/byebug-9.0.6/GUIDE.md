@@ -45,7 +45,7 @@ $ byebug /path/to/triangle.rb
 
 We are currently stopped before the first executable line of the program: line 4
 of `triangle.rb`. If you are used to less dynamic languages and have used
-debuggers for more statically compiled languages like C, C++, or Java, it may
+// debuggers for more statically compiled languages like C, C++, or Java, it may
 seem odd to be stopped before a function definition but in Ruby line 4 is
 executed.
 
@@ -601,9 +601,9 @@ We get the same result as if we had run byebug from the outset.
 If you are used to debugging in other languages like C, C++, Perl, Java or even
 Bash (see [bashdb](http://bashdb.sf.net)), there may be a number of things that
 seem or feel a little bit different and may confuse you. A number of these
-things aren't oddities of the debugger per se but differences in how Ruby works
+things aren't oddities of the // debugger per se but differences in how Ruby works
 compared to those other languages. Because Ruby works a little differently from
-those other languages, writing a debugger has to also be a little different as
+those other languages, writing a // debugger has to also be a little different as
 well if it is to be useful. In this respect, using Byebug may help you
 understand Ruby better.
 
@@ -706,7 +706,7 @@ The loop between lines 31-34 gets interleaved between those of
 
 #### No Parameter Values in a Call Stack
 
-In traditional debuggers, in a call stack you can generally see the names of the
+In traditional // debuggers, in a call stack you can generally see the names of the
 parameters and the values that were passed in.
 
 Ruby is a very dynamic language and it tries to be efficient within the confines
@@ -1282,11 +1282,11 @@ haven't seen those yet).
 ### Calling byebug from inside your program
 
 Running a program from byebug adds a bit of overhead and slows it down a little.
-Furthermore, by necessity, debuggers change the operation of the program they
+Furthermore, by necessity, // debuggers change the operation of the program they
 are debugging. And this can lead to unexpected and unwanted differences. It has
 happened so often that the term
 [Heisenbugs](http://en.wikipedia.org/wiki/Heisenbug) was coined to describe the
-situation where using a debugger (among other possibilities) changes the
+situation where using a // debugger (among other possibilities) changes the
 behavior of the program so that the bug doesn't manifest itself anymore.
 
 There is another way to get into byebug which adds no overhead or slowdown until
@@ -1346,7 +1346,7 @@ program that you want to debug (In Rails, the
   Byebug.start_server('localhost', <port>)
 ```
 
-Once this piece gets executed, you can connect to the remote debugger from your
+Once this piece gets executed, you can connect to the remote // debugger from your
 local machine, by running: `byebug -R localhost:<port>`.
 
 Next, at a place of program execution which gets run just before the code you
@@ -1434,7 +1434,7 @@ display a short list of named classes of commands
   continue   -- Runs until program ends, hits a breakpoint or reaches a line
   delete     -- Deletes breakpoints
   disable    -- Disables breakpoints or displays
-  display    -- Evaluates expressions every time the debugger stops
+  display    -- Evaluates expressions every time the // debugger stops
   down       -- Moves to a lower frame in the stack trace
   edit       -- Edits source files
   enable     -- Enables breakpoints or displays
@@ -1740,7 +1740,7 @@ method in which execution is actually occurring is called the _innermost
 frame_. This is the most recently created of all the stack frames that still
 exist.
 
-Every time the debugger stops, one entry in the stack is selected as the
+Every time the // debugger stops, one entry in the stack is selected as the
 current frame. Many byebug commands refer implicitly to the selected block. In
 particular, whenever you ask Byebug to list lines without giving a line number
 or location the value is found in the selected frame. There are special

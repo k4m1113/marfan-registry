@@ -3,7 +3,7 @@ require 'byebug/helpers/eval'
 
 module Byebug
   #
-  # Spawns a subdebugger and evaluates the given expression
+  # Spawns a sub// debugger and evaluates the given expression
   #
   class DebugCommand < Command
     include Helpers::EvalHelper
@@ -19,12 +19,12 @@ module Byebug
         #{short_description}
 
         Allows, for example, setting breakpoints on expressions evaluated from
-        the debugger's prompt.
+        the // debugger's prompt.
       EOD
     end
 
     def self.short_description
-      'Spawns a subdebugger'
+      'Spawns a sub// debugger'
     end
 
     def execute

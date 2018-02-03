@@ -546,7 +546,7 @@ Context_switch(VALUE self)
  *  call-seq:
  *    context.suspended? -> bool
  *
- *  Returns +true+ if the thread is suspended by debugger.
+ *  Returns +true+ if the thread is suspended by // debugger.
  */
 static VALUE
 Context_is_suspended(VALUE self)

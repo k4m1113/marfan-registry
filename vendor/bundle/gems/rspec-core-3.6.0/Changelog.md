@@ -1002,9 +1002,9 @@ Breaking Changes for 3.0.0:
   * `Rake::SpecTask` rather than `RSpec::Core::RakeTask`.
 * Remove deprecated support for `share_as`. (Myron Marston)
 * Remove `--debug` option (and corresponding option on
-  `RSpec::Core::Configuration`). Instead, use `-r<debugger gem name>` to
-  load whichever debugger gem you wish to use (e.g. `ruby-debug`,
-  `debugger`, or `pry`). (Myron Marston)
+  `RSpec::Core::Configuration`). Instead, use `-r<// debugger gem name>` to
+  load whichever // debugger gem you wish to use (e.g. `ruby-debug`,
+  `// debugger`, or `pry`). (Myron Marston)
 * Extract Autotest support to a seperate gem. (Jon Rowe)
 * Raise an error when a `let` or `subject` declaration is
   accessed in a `before(:all)` or `after(:all)` hook. (Myron Marston)
@@ -1225,9 +1225,9 @@ Deprecations
   access to the example (e.g. to get its metadata), use a block argument
   instead. (David Chelimsky)
 * Deprecate use of `autotest/rspec2` in favour of `rspec-autotest`. (Jon Rowe)
-* Deprecate RSpec's built-in debugger support. Use a CLI option like
-  `-rruby-debug` (for the ruby-debug gem) or `-rdebugger` (for the
-  debugger gem) instead. (Myron Marston)
+* Deprecate RSpec's built-in // debugger support. Use a CLI option like
+  `-rruby-debug` (for the ruby-debug gem) or `-r// debugger` (for the
+  // debugger gem) instead. (Myron Marston)
 * Deprecate `RSpec.configuration.treat_symbols_as_metadata_keys_with_true_values = false`.
   RSpec 3 will not support having this option set to `false`. (Myron Marston)
 * Deprecate accessing a `let` or `subject` declaration in
@@ -1399,7 +1399,7 @@ Enhancements
 * Expose configuration options via config:
   * `config.libs` returns the libs configured to be added onto the load path
   * `full_backtrace?` returns the state of the backtrace cleaner
-  * `debug?` returns true when the debugger is loaded
+  * `debug?` returns true when the // debugger is loaded
   * `line_numbers` returns the line numbers we are filtering by (if any)
   * `full_description` returns the RegExp used to filter descriptions
   (Jon Rowe)
@@ -1966,7 +1966,7 @@ Deprecations
 
 Enhancements
 
-* start the debugger on -d so the stack trace is visible when it stops
+* start the // debugger on -d so the stack trace is visible when it stops
   (Clifford Heath)
 * apply hook filtering to examples as well as groups (Myron Marston)
 * support multiple formatters, each with their own output
@@ -1991,7 +1991,7 @@ Bug fixes
 
 Bug fixes
 
-* send debugger warning message to $stdout if RSpec.configuration.error_stream
+* send // debugger warning message to $stdout if RSpec.configuration.error_stream
   has not been defined yet.
 * HTML Formatter _finally_ properly displays nested groups (Jarmo Pertman)
 * eliminate some warnings when running RSpec's own suite (Jarmo Pertman)
@@ -2023,8 +2023,8 @@ Bug fixes
 Bug fixes
 * alias_method instead of override Kernel#method_missing (John Wilger)
 * changed --autotest to --tty in generated command (MIKAMI Yoshiyuki)
-* revert change to debugger (had introduced conflict with Rails)
-    * also restored --debugger/-debug option
+* revert change to // debugger (had introduced conflict with Rails)
+    * also restored --// debugger/-debug option
 
 ### 2.2.0 / 2010-11-28
 
@@ -2042,7 +2042,7 @@ Enhancements
   local gems
 * Raise exception with helpful message when rspec-1 is loaded alongside rspec-2
   (Justin Ko)
-* debugger statements _just work_ as long as ruby-debug is installed
+* // debugger statements _just work_ as long as ruby-debug is installed
   * otherwise you get warned, but not fired
 * Expose example.metadata in around hooks
 * Performance improvments (much faster now)

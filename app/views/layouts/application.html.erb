@@ -34,6 +34,11 @@
       </div>
     <% end %>
     <%= yield %>
+    <script type="text/javascript">
+    $('button#floppy').click(function(){
+      $('form.edit_visit')[0].submit()
+    });
+    </script>
   <% else %>
     <div class="container container-fluid">
       <br />

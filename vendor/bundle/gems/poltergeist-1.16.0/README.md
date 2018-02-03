@@ -158,7 +158,7 @@ When this option is enabled, you can insert `page.driver.debug` into
 your tests to pause the test and launch a browser which gives you the
 WebKit inspector to view your test run with.
 
-You can register this debugger driver with a different name and set it
+You can register this // debugger driver with a different name and set it
 as the current javascript driver. By example, in your helper file:
 
 ```ruby

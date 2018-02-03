@@ -30,7 +30,7 @@ export default class AssembledDissectionForm extends Component {
 
   componentWillUnmount() {
     console.log('dissection form unmounting')
-    debugger
+    // debugger
   }
 
   handleChange(value) {
@@ -48,7 +48,7 @@ export default class AssembledDissectionForm extends Component {
     this.setState({
       [target.name]: target.value,
     });
-    debugger
+    // debugger
   }
 
   render() {

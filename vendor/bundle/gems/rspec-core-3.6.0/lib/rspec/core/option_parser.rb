@@ -270,7 +270,7 @@ FILTERING
         # prevent them from executing.
         #
         #   * --I is too similar to -I.
-        #   * -d was a shorthand for --debugger, which is removed, but now would
+        #   * -d was a shorthand for --// debugger, which is removed, but now would
         #     trigger --default-path.
         invalid_options = %w[-d --I]
 

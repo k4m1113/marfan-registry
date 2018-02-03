@@ -3,7 +3,7 @@ require 'byebug/setting'
 module Byebug
   #
   # Setting for automatically saving previously entered commands to history
-  # when exiting the debugger.
+  # when exiting the // debugger.
   #
   class AutosaveSetting < Setting
     DEFAULT = true

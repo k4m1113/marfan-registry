@@ -71,6 +71,7 @@ class VisitsController < ApplicationController
         format.json { render text: @visit.errors.full_messages.to_s }
       end
     end
+    # binding.pry
   end
 
   def destroy

@@ -30,7 +30,7 @@ end
 <%- end -%>
 <% if RUBY_ENGINE == 'ruby' -%>
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  # Call 'byebug' anywhere in the code to stop execution and get a // debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   <%- if depends_on_system_test? -%>
   # Adds support for Capybara system testing and selenium driver

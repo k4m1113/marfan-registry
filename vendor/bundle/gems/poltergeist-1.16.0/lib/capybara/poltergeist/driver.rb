@@ -57,7 +57,7 @@ module Capybara::Poltergeist
       # Braintree).
       list += ["--ignore-ssl-errors=yes"] unless list.grep(/ignore-ssl-errors/).any?
       list += ["--ssl-protocol=TLSv1"] unless list.grep(/ssl-protocol/).any?
-      list += ["--remote-debugger-port=#{inspector.port}", "--remote-debugger-autorun=yes"] if inspector
+      list += ["--remote-// debugger-port=#{inspector.port}", "--remote-// debugger-autorun=yes"] if inspector
       list
     end
 

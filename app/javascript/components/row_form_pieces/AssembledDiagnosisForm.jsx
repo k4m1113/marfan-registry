@@ -31,7 +31,7 @@ export default class AssembledDiagnosisForm extends Component {
 
   componentWillUnmount() {
     console.log('diagnosis form unmounting')
-    debugger
+    // debugger
   }
 
   handleChange(value) {
