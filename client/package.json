@@ -108,11 +108,11 @@
   },
   "description": "none",
   "main": "",
-  "repository": "git+https://github.com/kamillamagna/NMF_Tool.git",
+  "repository": "git+https://github.com/kamillamagna/marfan-registry.git",
   "author": "Kamille Delgardo <kamilledelgardo@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kamillamagna/NMF_Tool/issues"
+    "url": "https://github.com/kamillamagna/marfan-registry/issues"
   },
-  "homepage": "https://github.com/kamillamagna/NMF_Tool#readme"
+  "homepage": "https://github.com/kamillamagna/marfan-registry#readme"
 }

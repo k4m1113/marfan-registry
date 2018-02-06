@@ -6,7 +6,7 @@
     "Kamille Delgardo <kamilledelgardo@gmail.com>"
   ],
   "license": "ISC",
-  "homepage": "https://github.com/kamillamagna/NMF_Tool",
+  "homepage": "https://github.com/kamillamagna/marfan-registry",
   "ignore": [
     "**/.*",
     "node_modules",
